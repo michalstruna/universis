@@ -1,0 +1,21 @@
+{
+  "name": "universis",
+  "version": "1.0.0",
+  "description": "Simulator of universe.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/michal-struna/universis.git"
+  },
+  "keywords": [
+    "Universe",
+    "simulator",
+    "3D"
+  ],
+  "author": "Michal Struna",
+  "license": "UNLISENCED",
+  "homepage": "https://bitbucket.org/michal-struna/universis#readme"
+}
