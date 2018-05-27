@@ -1,4 +1,4 @@
-import Express = require('express')
+import * as Express from 'express'
 
 /**
  * @class Server Class for work with Express server.
@@ -19,9 +19,6 @@ class Server {
         this.express = Express()
         this.expressRouter = Express.Router()
         this.express.use('/', this.expressRouter)
-
-        // TODO: Fix.
-        //this.express.use(Express.static(Path.join(__dirname, '../client')))
     }
 
     /**
@@ -30,6 +27,14 @@ class Server {
      */
     public get router(): Express.Router {
         return this.expressRouter
+    }
+
+    /**
+     * Set path for static files.
+     * @param path Path of static files.
+     */
+    public set static(path: string) {
+        this.express.use(Express.static(path))
     }
 
     /**

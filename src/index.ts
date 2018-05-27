@@ -1,12 +1,12 @@
+import Config from './Config'
 import Server from './Server'
-
-// TODO: Move to config.
-const PORT = 3000
+import * as Path from 'path'
 
 const server = new Server()
+server.static = Path.join(__dirname, './client')
 
 server.router.get('/', (request, response) => {
 
 })
 
-server.run(PORT)
+server.run(Config.port)

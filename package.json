@@ -4,7 +4,8 @@
   "description": "Simulator of universe.",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-server": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://bitbucket.org/michal-struna/universis#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "path": "^0.12.7",
     "typescript": "^2.8.3"
   },
   "devDependencies": {
