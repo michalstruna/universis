@@ -10,6 +10,6 @@ import { Routes } from './Constants'
 const server = new Server()
 server.setStatic(Path.join(__dirname, './Client'))
 
-server.getRouter().use(Routes.API, ApiController(new ApiModel()))
+server.getRouter().use(Routes.API.PATH, ApiController(new ApiModel()))
 
 server.run(Config.port)

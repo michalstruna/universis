@@ -4,10 +4,6 @@ class UserModel implements IUserModel {
         return undefined
     }
 
-    getFriends(userId: string, token: string): Promise<IShortUser[]> {
-        return undefined
-    }
-
     getOnlineUsers(token: string): Promise<IShortUser[]> {
         return undefined
     }
@@ -20,7 +16,7 @@ class UserModel implements IUserModel {
         return undefined
     }
 
-    logInUser(email: string, password: string): Promise<IUser> {
+    logInUser(email: string, password: string): Promise<IUserIdentity> {
         return undefined
     }
 
@@ -29,6 +25,10 @@ class UserModel implements IUserModel {
     }
 
     updateUser(user: IUser, token: string): Promise<void> {
+        return undefined
+    }
+
+    getUnauthUserByEmail(email: string): Promise<IUnauthUser> {
         return undefined
     }
 

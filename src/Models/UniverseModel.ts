@@ -1,12 +1,17 @@
 import Model from './Model'
 
+const x = () => (x, y) => {
+
+}
+
 class UniverseModel extends Model implements IUniverseModel {
 
+    @x()
     addBody(body: IBody, token: string): Promise<void> {
         return undefined
     }
 
-    getBodies(): Promise<IShortBody[]> {
+    getBodies(token: string): Promise<IShortBody[]> {
         return undefined
     }
 

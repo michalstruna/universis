@@ -9,7 +9,7 @@ declare interface IUserModel {
      * @param password Password of user.
      * @returns Promise with user identity.
      */
-    logInUser(email: string, password: string): Promise<IUser>
+    logInUser(email: string, password: string): Promise<IUserIdentity>
 
     /**
      * Get all users.
@@ -56,5 +56,12 @@ declare interface IUserModel {
      * @returns Promise with count of removed users.
      */
     removeUserById(userId: string, token: string): Promise<number>
+
+    /**
+     *
+     * @param {string} email
+     * @returns {Promise<IUnauthUser>}
+     */
+    getUnauthUserByEmail(email: string): Promise<IUnauthUser>
 
 }
