@@ -10,7 +10,7 @@ import { Routes } from '../Constants'
 
 /**
  * Controller for API.
- * @param {IModel} model Model for ApiController.
+ * @param model Model for ApiController.
  */
 export default (model: IApiModel): Router => {
 

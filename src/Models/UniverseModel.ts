@@ -19,7 +19,7 @@ class UniverseModel extends Model implements IUniverseModel {
     }
 
     updateBody(body: IBody, token: string): Promise<void> {
-        return undefined
+        throw new Error()
     }
 
 }

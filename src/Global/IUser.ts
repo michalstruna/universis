@@ -47,7 +47,7 @@ declare interface IShortUser extends IBaseUser {
 
 /**
  * Interface for unauth user.
- * It contains only public data about user.
+ * It contains only Public data about user.
  */
 declare interface IUnauthUser extends IBaseUser {
 

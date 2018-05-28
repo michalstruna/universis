@@ -1,6 +1,10 @@
 import { Router } from 'express'
 
-import { Routes } from '../Constants'
+import {
+    RequestHeaders,
+    Routes,
+    Statuses
+} from '../Constants'
 
 const {
     ADD_BODY,
@@ -14,7 +18,7 @@ const router = Router()
 
 /**
  * Controller for API.
- * @param {IModel} model Model for ApiRouter.
+ * @param model Model for ApiRouter.
  */
 export default (model: IUniverseModel): Router => {
 
@@ -22,35 +26,69 @@ export default (model: IUniverseModel): Router => {
      * Route for add new body.
      */
     router.put(ADD_BODY.PATH, (request, response) => {
-        // TODO
+        model.addBody(
+            request.body.body,
+            request.header(RequestHeaders.TOKEN)
+        ).then(() => {
+            response.status(Statuses.OK).send()
+        }).catch(error => {
+            response.status(error).send()
+        })
     })
 
     /**
      * Route for get all bodies.
      */
     router.get(GET_BODIES.PATH, (request, response) => {
-        // TODO
+        model.getBodies(
+            request.header(RequestHeaders.TOKEN)
+        ).then(bodies => {
+            response.status(Statuses.OK).send({ bodies })
+        }).catch(error => {
+            response.status(error).send()
+        })
     })
 
     /**
      * Route for get body by ID.
      */
     router.get(GET_BODY_BY_ID.PATH, (request, response) => {
-        // TODO
+        model.getBodyById(
+            request.params.bodyId,
+            request.header(RequestHeaders.TOKEN)
+        ).then(body => {
+            response.status(Statuses.OK).send({ body })
+        }).catch(error => {
+            response.status(error).send()
+        })
     })
 
     /**
      * Route for remove body by ID.
      */
     router.delete(REMOVE_BODY_BY_ID.PATH, (request, response) => {
-        // TODO
+        model.removeBodyById(
+            request.params.bodyId,
+            request.header(RequestHeaders.TOKEN)
+        ).then(count => {
+            response.status(Statuses.OK).send()
+        }).catch(error => {
+            response.status(error).send()
+        })
     })
 
     /**
      * Route for update body by ID.
      */
     router.post(UPDATE_BODY.PATH, (request, response) => {
-        // TODO
+        model.updateBody(
+            request.body.body,
+            request.header(RequestHeaders.TOKEN)
+        ).then(() => {
+            response.status(Statuses.OK).send()
+        }).catch(error => {
+            response.status(error).send()
+        })
     })
 
     return router

@@ -1,4 +1,5 @@
 export default {
+    ALL: { PATH: '*' },
     API: {
         PATH: '/api',
         UNIVERSE: {

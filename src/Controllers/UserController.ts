@@ -16,7 +16,7 @@ const router = Router()
 
 /**
  * Controller for API.
- * @param {IModel} model Model for ApiRouter.
+ * @param model Model for ApiRouter.
  */
 export default (model: IUserModel): Router => {
 
