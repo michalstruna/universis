@@ -5,15 +5,40 @@ declare interface IUniverseModel {
 
     /**
      * Get all bodies.
-     * @returns List of all bodies.
+     * @returns Promise with list of all bodies.
      */
-    getBodies(): IShortBody[]
+    getBodies(): Promise<IShortBody[]>
 
     /**
-     * Get body by name.
-     * @param name Name of body.
-     * @returns Data about body.
+     * Get body by ID.
+     * @param bodyId ID of body.
+     * @param token Authentication token.
+     * @returns Promise with data about body.
      */
-    getBodyByName(name: string): IBody
+    getBodyById(bodyId: string, token: string): Promise<IBody>
+
+    /**
+     * Add body to DB.
+     * @param body New body.
+     * @param token Authentication token.
+     * @returns Empty promise.
+     */
+    addBody(body: IBody, token: string): Promise<void>
+
+    /**
+     * Update body in DB.
+     * @param body New body.
+     * @param token Authentication token.
+     * @returns Empty promise.
+     */
+    updateBody(body: IBody, token: string): Promise<void>
+
+    /**
+     * Delete body by id.
+     * @param bodyId ID of body.
+     * @param token Authentication token.
+     * @returns Promise with number of removed bodies.
+     */
+    removeBodyById(bodyId: string, token: string): Promise<number>
 
 }
