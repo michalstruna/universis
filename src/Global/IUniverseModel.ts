@@ -38,7 +38,7 @@ declare interface IUniverseModel {
      * Delete body by id.
      * @param bodyId ID of body.
      * @param token Authentication token.
-     * @returns Promise with number of removed bodies.
+     * @returns Promise with count of removed bodies.
      */
     removeBodyById(bodyId: string, token: string): Promise<number>
 
