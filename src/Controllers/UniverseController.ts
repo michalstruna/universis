@@ -1,9 +1,9 @@
 import { Router } from 'express'
+import { OK } from 'http-status-codes'
 
 import {
     RequestHeaders,
     Routes,
-    Statuses
 } from '../Constants'
 
 const {
@@ -30,7 +30,7 @@ export default (model: IUniverseModel): Router => {
             request.body.body,
             request.header(RequestHeaders.TOKEN)
         ).then(() => {
-            response.status(Statuses.OK).send()
+            response.status(OK).send()
         }).catch(error => {
             response.status(error).send()
         })
@@ -43,7 +43,7 @@ export default (model: IUniverseModel): Router => {
         model.getBodies(
             request.header(RequestHeaders.TOKEN)
         ).then(bodies => {
-            response.status(Statuses.OK).send({ bodies })
+            response.status(OK).send({ bodies })
         }).catch(error => {
             response.status(error).send()
         })
@@ -57,7 +57,7 @@ export default (model: IUniverseModel): Router => {
             request.params.bodyId,
             request.header(RequestHeaders.TOKEN)
         ).then(body => {
-            response.status(Statuses.OK).send({ body })
+            response.status(OK).send({ body })
         }).catch(error => {
             response.status(error).send()
         })
@@ -71,7 +71,7 @@ export default (model: IUniverseModel): Router => {
             request.params.bodyId,
             request.header(RequestHeaders.TOKEN)
         ).then(count => {
-            response.status(Statuses.OK).send()
+            response.status(OK).send()
         }).catch(error => {
             response.status(error).send()
         })
@@ -85,7 +85,7 @@ export default (model: IUniverseModel): Router => {
             request.body.body,
             request.header(RequestHeaders.TOKEN)
         ).then(() => {
-            response.status(Statuses.OK).send()
+            response.status(OK).send()
         }).catch(error => {
             response.status(error).send()
         })
