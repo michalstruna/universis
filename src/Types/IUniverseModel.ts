@@ -8,7 +8,7 @@ declare interface IUniverseModel {
      * @param token Authentication token.
      * @returns Promise with list of all bodies.
      */
-    getBodies(token: string): Promise<IShortBody[]>
+    getBodies(token: string): Promise<IBaseBody[]>
 
     /**
      * Get body by ID.
