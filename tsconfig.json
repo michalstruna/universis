@@ -4,10 +4,15 @@
     "lib": [
       "es5",
       "es6",
-      "dom"
+      "dom",
+      "es2017"
     ],
+    "experimentalDecorators": true,
     "module": "commonjs",
     "outDir": "./dist",
     "target": "es5"
-  }
+  },
+  "exclude": [
+    "Client"
+  ]
 }

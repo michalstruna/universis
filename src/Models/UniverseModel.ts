@@ -2,12 +2,24 @@ import Model from './Model'
 
 class UniverseModel extends Model implements IUniverseModel {
 
-    public getBodies(): IShortBody[] {
-        return null
+    addBody(body: IBody, token: string): Promise<void> {
+        return undefined
     }
 
-    public getBodyByName(name: string): IBody {
-        return null
+    getBodies(token: string): Promise<IShortBody[]> {
+        return undefined
+    }
+
+    getBodyById(bodyId: string, token: string): Promise<IBody> {
+        return undefined
+    }
+
+    removeBodyById(bodyId: string, token: string): Promise<number> {
+        return undefined
+    }
+
+    updateBody(body: IBody, token: string): Promise<void> {
+        throw new Error()
     }
 
 }

@@ -1,3 +1,4 @@
+import * as BodyParser from 'body-parser'
 import * as Express from 'express'
 
 class Server implements IServer {
@@ -9,6 +10,7 @@ class Server implements IServer {
 
     constructor() {
         this.express = Express()
+        this.express.use(BodyParser.json())
     }
 
     public getRouter(): Express.Express {
