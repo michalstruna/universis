@@ -7,7 +7,7 @@ declare interface IBaseBody {
     /**
      * Unique ID of body.
      */
-    _id: string
+    _id?: string
 
     /**
      * Name of body.
