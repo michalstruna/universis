@@ -1,15 +1,128 @@
 /**
- * Interface for body.
- * It contains all data about body.
+ * Interface for base body.
+ * This is parent of all another interfaces for bodies.
  */
-declare interface IBody {
+declare interface IBaseBody {
+
+    /**
+     * Unique ID of body.
+     */
+    _id: string
+
+    /**
+     * Name of body.
+     */
+    name: string
+
+    /**
+     * Size of body.
+     */
+    diameter: {
+
+        /**
+         * Equatorial diameter of body [km].
+         */
+        equatorial: number
+
+        /**
+         * Polar diameter of body [km].
+         */
+        polar: number
+
+    }
+
+    /**
+     * Data about body orbit.
+     */
+    orbit: {
+
+        /**
+         * Largest distance from parent body [km].
+         */
+        apocenter: number
+
+        /**
+         * Smallest distance from parent body [km].
+         */
+        pericenter: number
+
+        /**
+         * Eccentricity of orbit.
+         */
+        eccentricity: number
+
+        /**
+         * Inclination of orbit [deg].
+         */
+        inclination: number
+
+        /**
+         * Position of body on orbit at 1. 1. 2000 00.00:00,00 [deg].
+         */
+        startAngle: number
+
+        /**
+         * One year [Earth years].
+         */
+        period: number
+
+    }
+
+    /**
+     * Period of move around itself. [Earth days].
+     */
+    period: number
+
+    /**
+     * List of all rings of body.
+     */
+    rings: [{
+
+        /**
+         * Diameter of ring.
+         */
+        diameter: {
+
+            /**
+             * Min diameter of ring.
+             */
+            min: number
+
+            /**
+             * Max diameter of ring.
+             */
+            max: number
+
+        }
+
+        /**
+         * Name of ring texture.
+         */
+        texture: string
+
+    }]
+
+    /**
+     * Name of body texture.
+     */
+    texture: string
+
+    /**
+     * Axial tilt [°]
+     */
+    tilt: number
+
+    /**
+     * Type of body.
+     */
+    type: number
 
 }
 
 /**
- * Interface for short body.
- * It contains only necessary data about body.
+ * Interface for body.
+ * It contains all data about body.
  */
-declare interface IShortBody {
+declare interface IBody extends IBaseBody {
 
 }

@@ -1,24 +1,46 @@
+import { INTERNAL_SERVER_ERROR } from 'http-status-codes'
+
 import Model from './Model'
 
 class UniverseModel extends Model implements IUniverseModel {
 
-    addBody(body: IBody, token: string): Promise<void> {
-        return undefined
+    public addBody(body: IBody, token: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            new (this.db.getModel(this.dbModels.BODY))(body).save((error, body) => {
+                error ? reject(INTERNAL_SERVER_ERROR) : resolve()
+            })
+        })
     }
 
-    getBodies(token: string): Promise<IShortBody[]> {
-        return undefined
+    public getBodies(token: string): Promise<IBaseBody[]> {
+        return new Promise((resolve, reject) => {
+            this.db.getModel(this.dbModels.BODY).find({}, (error, bodies) => {
+                error ? reject(INTERNAL_SERVER_ERROR) : resolve(bodies)
+            })
+        })
     }
 
-    getBodyById(bodyId: string, token: string): Promise<IBody> {
-        return undefined
+    public getBodyById(bodyId: string, token: string): Promise<IBody> {
+        return new Promise((resolve, reject) => {
+            this.db.getModel(this.dbModels.BODY).find({
+                _id: bodyId
+            }, (error, body) => {
+                error ? reject(INTERNAL_SERVER_ERROR) : resolve(body)
+            })
+        })
     }
 
-    removeBodyById(bodyId: string, token: string): Promise<number> {
-        return undefined
+    public removeBodyById(bodyId: string, token: string): Promise<number> {
+        return new Promise((resolve, reject) => {
+            this.db.getModel(this.dbModels.BODY).remove({
+                _id: bodyId
+            }, (error, count) => {
+                error || !count ? reject(INTERNAL_SERVER_ERROR) : resolve(count)
+            })
+        })
     }
 
-    updateBody(body: IBody, token: string): Promise<void> {
+    public updateBody(body: IBody, token: string): Promise<void> {
         throw new Error()
     }
 
