@@ -32,11 +32,11 @@ module.exports = {
     },
     output: {
         filename: 'index.min.js',
-        path: Path.join(__dirname, 'Dist/JavaScript'),
+        path: Path.join(__dirname, 'dist/JavaScript'),
         publicPath: '/js/'
     },
     devServer: {
-        contentBase: Path.join(__dirname, 'Dist'),
+        contentBase: Path.join(__dirname, 'dist'),
         historyApiFallback: true,
         publicPath: 'http://localhost:8080/JavaScript'
     },
