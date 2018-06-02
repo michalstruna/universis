@@ -1,0 +1,113 @@
+/**
+ * Add font face.
+ * @param {String} $name Name of fontfile without extension. File must be in folder /fonts/.
+ * @param {String} $extension Format of fontfile. (optional, default ttf)
+ */
+@mixin font-face($name, $extension: ttf) {
+    @font-face {
+        font-family: $name;
+        src: url(/Fonts/#{$name}.#{$extension});
+    }
+}
+
+/**
+ * Set size of element.
+ * @param {Size} $width Width of element. (optional, default 100%)
+ * @param {Size} $height Height of element. (optional, default $width)
+ * @param {Boolean} $oneLine Element has only one line. (optinal, default false)
+ */
+@mixin size($width: 100%, $height: $width, $oneLine: false) {
+    height: $height;
+    width: $width;
+
+    @if $oneLine == true {
+        line-height: $height
+    }
+}
+
+/**
+ * Set absolute coordinations of element.
+ * @param {Size} $left Left. (optional, default $top)
+ * @param {Size} $top Top. (optional, default $left)
+ */
+@mixin absolute-position($left: 0, $top: $left) {
+    left: $left;
+    position: absolute;
+    top: $top;
+}
+
+/**
+ * Set content font to element.
+ */
+@mixin content-font {
+    font-family: MontserratHairline, Arial;
+}
+
+/**
+ * Set PNG image as background of element.
+ * @param {String} $path Path of image without extension.
+ * @param {Size} $size Background-size. (optional, default 100% auto)
+ * @param {Position} $position Background-position. (optional, default center center)
+ */
+@mixin png($path, $size: 100% auto, $position: center center) {
+    @include image("#{$path}.png", $size, $position);
+}
+
+/**
+ * Set SVG image as background of element.
+ * @param {String} $path Path of image without extension.
+ * @param {Size} $size Background-size. (optional, default 100% auto)
+ * @param {Position} $position Background-position. (optional, default center center)
+ */
+@mixin svg($path, $size: 100% auto, $position: center center) {
+    @include image("#{$path}.svg", $size, $position);
+}
+
+/**
+ * Set image as background of element.
+ * @param {String} $path Path of image with extension.
+ * @param {Size} $size Background-size.
+ * @param {Position} $position Background-position.
+ */
+@mixin image($path, $size, $position) {
+    background-image: url(/Images/#{$path});
+    background-size: $size;
+    background-position: $position;
+    background-repeat: no-repeat;
+}
+
+/**
+ * Center all children of element using flexbox.
+ */
+@mixin flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+/**
+ * Style element as title.
+ * @param {Size} $font-size Font-size.
+ * @param {Number|String} $font-weight Font-weight. (optional, default 100)
+ * @param {Size} $letter-spacing Letter-spacing. (optional, default 0.2em)
+ */
+@mixin title($font-size, $font-weight: 100, $letter-spacing: 0.2em) {
+    font-family: LatoHairline, Arial;
+    font-size: $font-size;
+    font-variant: small-caps;
+    font-weight: $font-weight;
+    letter-spacing: $letter-spacing;
+    text-align: center;
+}
+
+/**
+ * Set opacity hover effect to element.
+ */
+@mixin opacity-hover {
+    opacity: 0.5;
+    transition: opacity $medium-animation-duration;
+
+    &:hover {
+        opacity: 1;
+    }
+}

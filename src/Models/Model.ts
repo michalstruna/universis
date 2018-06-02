@@ -1,10 +1,7 @@
 import Database from '../Database/Database'
-import Config from '../Config'
+import Config from '../Constants/Config'
 
-import {
-    DatabaseConnections,
-    DatabaseModels
-} from '../Constants'
+import { DatabaseConnections, DatabaseModels } from '../Constants'
 
 import BodySchema from '../Database/Schemas/BodySchema'
 
@@ -27,7 +24,7 @@ abstract class Model implements IModel {
         this.db = Database.getConnection(DatabaseConnections.BASE)
 
         if(!this.db) {
-            this.createConnection()
+            this.createBaseConnection()
         }
     }
 
@@ -35,7 +32,7 @@ abstract class Model implements IModel {
      * Create connection to DB.
      * Only if connection is not already exists.
      */
-    private createConnection(): void {
+    private createBaseConnection(): void {
         this.db = new Database(
             DatabaseConnections.BASE,
             Config.database.username,

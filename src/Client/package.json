@@ -1,0 +1,50 @@
+{
+  "name": "universis-client",
+  "version": "1.0.0",
+  "description": "Simulator of universe.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack-dev-server --content-base ./Dist/ --inline --hot --host localhost --port 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/michal-struna/universis.git"
+  },
+  "keywords": [
+    "Universe",
+    "simulator",
+    "3D"
+  ],
+  "author": "Michal Struna",
+  "license": "UNLICENSED",
+  "homepage": "https://bitbucket.org/michal-struna/universis#readme",
+  "dependencies": {
+    "node-sass": "^4.7.2",
+    "path": "^0.12.7",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-markdown": "^3.2.1",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.38",
+    "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
+    "@types/react-router-dom": "^4.2.4",
+    "@types/react-transition-group": "^2.0.11",
+    "@types/webpack-dev-server": "^2.9.3",
+    "css-loader": "^0.28.9",
+    "postcss-loader": "^2.1.0",
+    "sass-loader": "^6.0.6",
+    "screenfull": "^3.3.2",
+    "style-loader": "^0.20.2",
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.7.1",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}

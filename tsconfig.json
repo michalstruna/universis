@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "jsx": "react",
     "lib": [
       "es5",
       "es6",
@@ -11,8 +12,5 @@
     "module": "commonjs",
     "outDir": "./dist",
     "target": "es5"
-  },
-  "exclude": [
-    "Client"
-  ]
+  }
 }
