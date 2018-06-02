@@ -1,3 +1,4 @@
+import Config from './Config'
 import DatabaseConnections from './DatabaseConnections'
 import DatabaseModels from './DatabaseModels'
 import OperationType from './OperationType'
@@ -6,6 +7,7 @@ import Routes  from './Routes'
 import UserRole from './UserRole'
 
 export {
+    Config,
     DatabaseConnections,
     DatabaseModels,
     OperationType,

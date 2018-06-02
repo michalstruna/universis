@@ -2,7 +2,7 @@ const Path = require('path')
 const Webpack = require('webpack')
 
 module.exports = {
-    entry: Path.join(__dirname, 'index.ts'),
+    entry: Path.join(__dirname, 'src/index.tsx'),
     module: {
         loaders: [
             {
@@ -33,7 +33,7 @@ module.exports = {
     output: {
         filename: 'index.min.js',
         path: Path.join(__dirname, 'dist/JavaScript'),
-        publicPath: '/js/'
+        publicPath: '/JavaScript/'
     },
     devServer: {
         contentBase: Path.join(__dirname, 'dist'),
