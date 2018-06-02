@@ -1,7 +1,4 @@
-import {
-    OperationType,
-    UserRole
-} from '../Constants'
+import { OperationType, UserRole } from '../Constants'
 
 /**
  * Acl for users.

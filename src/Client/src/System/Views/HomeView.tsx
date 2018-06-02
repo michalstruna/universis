@@ -1,21 +1,16 @@
 import * as React from 'react'
 
-import { Home } from '../'
+import Home from '../Components/Home'
 import { View } from '../../Utils'
-
-interface IProps {
-
-}
 
 /**
  * View for home page.
- * There is only menu.
  */
-class HomeView extends View<IProps> {
+class HomeView extends View {
 
     public render(): JSX.Element {
         return (
-            <section>
+            <section className={this.getClassName('home')}>
                 <Home />
             </section>
         )
@@ -23,4 +18,4 @@ class HomeView extends View<IProps> {
 
 }
 
-export default HomeView
+export default HomeView.connect()

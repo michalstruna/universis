@@ -4,12 +4,8 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
-import {
-    App,
-    HomeView,
-    Store,
-    Urls
-} from './System'
+import { App, HomeView, Store, } from './System'
+import { Urls } from './Utils'
 
 import './index.scss'
 

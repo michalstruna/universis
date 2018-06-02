@@ -1,15 +1,11 @@
 import * as React from 'react'
 
-import Component from './Component'
-
-interface IState {
-
-}
+import SimpleComponent from './SimpleComponent'
 
 /**
  * Base view for all another views.
  */
-abstract class View<IProps> extends Component<IProps, IState> {
+abstract class View extends SimpleComponent {
 
     /**
      * Render content of view.

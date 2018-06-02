@@ -1,0 +1,25 @@
+$width: 1920px;
+$height: 1080px;
+$duration: 7;
+
+@keyframes MoveBackground {
+    from { background-position: 50% $height; }
+    to { background-position: 50% 0; }
+}
+
+.animated-background {
+    @include size;
+
+    @for $i from 0 through 2 {
+        &--#{$i} {
+            @include png(AnimatedBackground/Stars#{$i}, $width $height);
+            animation: MoveBackground #{(($i + 1) * 3) * $duration}s infinite linear;
+        }
+    }
+
+    &--0, &--1, &--2 {
+        @include size(100%);
+        background-repeat: repeat;
+        position: absolute;
+    }
+}

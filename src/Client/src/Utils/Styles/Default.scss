@@ -1,0 +1,107 @@
+@include font-face(LatoHairline);
+@include font-face(MontserratHairline);
+
+html, body {
+    @include size;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    @include content-font;
+    background-color: $darkest-color;
+    background-image: radial-gradient(ellipse at top, $background-top-color, $background-bottom-color);
+    color: $lightest-color;
+    font-weight: 100;
+    letter-spacing: 0.1rem;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+    color: $lightest-color;
+    font-weight: 100;
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+input, textarea {
+    border: none;
+    outline: none;
+}
+
+#app, #app > div {
+    @include size;
+    overflow: hidden;
+}
+
+.app {
+    @include size;
+
+    &__body {
+        @include size(100%);
+    }
+
+    &__background {
+        @include absolute-position;
+        @include size;
+        z-index: 1;
+    }
+
+    &__foreground {
+        @include size;
+        position: relative;
+        z-index: 2;
+    }
+
+    &__transition-enter, &__transition-exit {
+        opacity: 0;
+        transition: opacity $medium-animation-duration;
+    }
+
+    &__transition-enter-active {
+        opacity: 1;
+    }
+}
+
+.view {
+    @include absolute-position;
+    @include size;
+    overflow: hidden;
+}
+
+/**
+ * Styles for scrollbar.
+ */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #333;
+
+    &:hover {
+        background-color: #222;
+    }
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #444;
+
+    &:hover {
+        background-color: #555;
+    }
+}

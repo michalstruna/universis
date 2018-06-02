@@ -1,10 +1,7 @@
 import Database from '../Database/Database'
 import Config from '../Constants/Config'
 
-import {
-    DatabaseConnections,
-    DatabaseModels
-} from '../Constants'
+import { DatabaseConnections, DatabaseModels } from '../Constants'
 
 import BodySchema from '../Database/Schemas/BodySchema'
 
