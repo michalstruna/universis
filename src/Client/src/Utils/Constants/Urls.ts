@@ -3,7 +3,9 @@
  */
 enum Urls {
 
-    HOME = '/'
+    HOME = '/',
+    UNIVERSE = '/universe',
+    IDENTITY = '/identity'
 
 }
 

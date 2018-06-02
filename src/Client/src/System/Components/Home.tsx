@@ -1,28 +1,34 @@
 import * as React from 'react'
 
-import { Component } from '../../Utils'
+import Menu from '../Components/Menu'
+import { StatelessComponent } from '../../Utils'
 
 interface IProps {
-
-}
-
-interface IState {
-
+    strings: {
+        title: string
+    }
 }
 
 /**
  * Components for rendering intro.
  */
-class Home extends Component<IProps, IState> {
+class Home extends StatelessComponent<IProps> {
 
     public render(): JSX.Element {
         return (
-            <section>
-
+            <section className='home__center'>
+                <h1 className='home__title'>
+                    {this.props.strings.title}
+                </h1>
+                <Menu />
             </section>
         )
     }
 
 }
 
-export default Home.connect()
+export default Home.connect(
+    ({ system }: any) => ({
+        strings: system.strings.home
+    })
+)
