@@ -1,0 +1,23 @@
+.context {
+    background-color: $dark-color;
+    box-shadow: $darkest-color 0 0 1em;
+    font-size: 90%;
+    position: absolute;
+    user-select: none;
+    width: 13rem;
+    z-index: 1000;
+
+    .control {
+        @include size(100%, 2.5em, true);
+        background-position: 0.5em center;
+        background-size: auto 1.5em;
+        box-sizing: border-box;
+        padding-left: 2.7em;
+        transition: background-color $medium-animation-duration;
+        width: 100%;
+
+        &:hover {
+            background-color: $medium-color;
+        }
+    }
+}

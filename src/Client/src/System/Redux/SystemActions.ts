@@ -23,6 +23,38 @@ class SystemActions {
         return { type: ACTION_TYPES.EXIT_FULL_SCREEN }
     }
 
+    /**
+     * Show context menu.
+     * @param x Horizontal coordination.
+     * @param y Vertical coordination.
+     */
+    static showContext = (x: number, y: number) => ({
+        type: ACTION_TYPES.SHOW_CONTEXT,
+        x,
+        y
+    })
+
+    /**
+     * Hide context menu.
+     */
+    static hideContext = () => ({
+        type: ACTION_TYPES.HIDE_CONTEXT
+    })
+
+    /**
+     * Show UI controls.
+     */
+    static showUI = () => ({
+        type: ACTION_TYPES.SHOW_UI
+    })
+
+    /**
+     * Hide UI controls.
+     */
+    static hideUI = () => ({
+        type: ACTION_TYPES.HIDE_UI
+    })
+
 }
 
 export default SystemActions

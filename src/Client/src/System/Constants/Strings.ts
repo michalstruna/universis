@@ -13,7 +13,10 @@ export default {
         minimize: 'Minimalizovat',
         home: 'Domů',
         help: 'Nápověda',
-        logIn: 'Přihlášení'
+        logIn: 'Přihlášení',
+        hideUI: 'Skrýt ovládání',
+        showUI: 'Zobrazit ovládání',
+        about: 'O Universis'
     }
 
 }
