@@ -20,7 +20,7 @@ interface IProps {
 class Context extends StatelessComponent<IProps> {
 
     componentDidUpdate(): void {
-        //this.fixCoordinates()
+        this.fixCoordinates()
     }
 
     /**
