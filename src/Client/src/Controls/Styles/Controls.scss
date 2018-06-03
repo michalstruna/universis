@@ -1,0 +1,37 @@
+.control {
+    cursor: pointer;
+
+    @each $item in (logout, language) {
+        &--#{$item} {
+            @include svg(#{$item}, controls);
+        }
+    }
+
+    &--help {
+        @include svg(Controls/Help);
+    }
+
+    &--home {
+        @include svg(Controls/Home);
+    }
+
+    &--login {
+        @include svg(Controls/Login);
+    }
+
+    &--maximalize {
+        @include svg(Controls/Maximalize);
+    }
+
+    &--minimize {
+        @include svg(Controls/Minimize);
+    }
+
+    &--show-ui {
+        @include svg(Controls/ShowUI);
+    }
+
+    &--hide-ui {
+        @include svg(Controls/HideUI);
+    }
+}

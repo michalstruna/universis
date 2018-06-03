@@ -1,19 +1,19 @@
-import { Urls } from '../../Utils'
-
 export default {
 
     home: {
         title: 'Universis',
-        menu: [
-            {
-                label: 'Do vesmíru',
-                target: Urls.UNIVERSE
-            },
-            {
-                label: 'Přihlášení',
-                target: Urls.IDENTITY
-            }
-        ]
+        menu: {
+            universe: 'Do vesmíru',
+            login: 'Přihlášení'
+        }
+    },
+
+    controls: {
+        maximize: 'Maximalizovat',
+        minimize: 'Minimalizovat',
+        home: 'Domů',
+        help: 'Nápověda',
+        logIn: 'Přihlášení'
     }
 
 }

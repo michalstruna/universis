@@ -21,6 +21,8 @@
   "license": "UNLICENSED",
   "homepage": "https://bitbucket.org/michal-struna/universis#readme",
   "dependencies": {
+    "@types/classnames": "^2.2.4",
+    "classnames": "^2.2.5",
     "node-sass": "^4.7.2",
     "path": "^0.12.7",
     "react": "^16.2.0",
@@ -36,6 +38,7 @@
     "@types/react-redux": "^5.0.15",
     "@types/react-router-dom": "^4.2.4",
     "@types/react-transition-group": "^2.0.11",
+    "@types/screenfull": "^3.3.1",
     "@types/webpack-dev-server": "^2.9.3",
     "css-loader": "^0.28.9",
     "postcss-loader": "^2.1.0",
