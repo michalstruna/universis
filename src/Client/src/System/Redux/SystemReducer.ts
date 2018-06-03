@@ -2,6 +2,12 @@ import ACTION_TYPES from './ActionTypes'
 import Strings from '../Constants/Strings'
 
 const initialState = {
+    alert: {
+        buttons: [] as ILinkButton[],
+        content: '',
+        isVisible: false,
+        title: '',
+    },
     context: {
         isVisible: false,
         x: 0,
@@ -57,6 +63,27 @@ export default function (state: any = initialState, action: any) {
             return {
                 ...state,
                 isUIVisible: false
+            }
+
+        case ACTION_TYPES.SHOW_ALERT:
+            return {
+                ...state,
+                alert: {
+                    ...state.alert,
+                    buttons: action.buttons,
+                    content: action.content,
+                    isVisible: true,
+                    title: action.title
+                }
+            }
+
+        case ACTION_TYPES.HIDE_ALERT:
+            return {
+                ...state,
+                alert: {
+                    ...state.alert,
+                    isVisible: false
+                }
             }
 
         default:

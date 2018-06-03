@@ -55,6 +55,26 @@ class SystemActions {
         type: ACTION_TYPES.HIDE_UI
     })
 
+    /**
+     * Show alert window.
+     * @param title Title of alert.
+     * @param content Message of alert.
+     * @param buttons List of all buttons.
+     */
+    static showAlert = (title: string, content: string, buttons: ILinkButton[]) => ({
+        type: ACTION_TYPES.SHOW_ALERT,
+        title,
+        content,
+        buttons
+    })
+
+    /**
+     * Hide alert window.
+     */
+    static hideAlert = () => ({
+        type: ACTION_TYPES.HIDE_ALERT
+    })
+
 }
 
 export default SystemActions
