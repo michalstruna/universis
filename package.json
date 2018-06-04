@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && tsc && cp -R src/Client/dist dist/Client/dist && rm -rf dist/Client/src",
     "start-server": "node dist/index.js"
   },
   "repository": {
