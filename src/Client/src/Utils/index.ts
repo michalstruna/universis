@@ -6,6 +6,7 @@ import Component from './Components/Component'
 import FadeLayout from './Components/FadeLayout'
 import Link from './Components/Link'
 import SimpleComponent from './Components/SimpleComponent'
+import SquareLoader from './Components/SquareLoader'
 import StatelessComponent from './Components/StatelessComponent'
 import View from './Components/View'
 
@@ -15,6 +16,7 @@ export {
     FadeLayout,
     Link,
     SimpleComponent,
+    SquareLoader,
     StatelessComponent,
     View
 }
