@@ -1,24 +1,22 @@
 /**
  * Root file of FormModule.
- * Form Module is used for form components like Form, TextInput, Submit, etc.
+ * Form Module is used for form components like Form, TextField, Submit, etc.
  */
-import Form, { IFormProps } from './Components/Form'
+import Form from './Components/Form'
 import FormActions from './Redux/FormActions'
 import FormReducer from './Redux/FormReducer'
-import EmailInput from './Components/EmailInput'
-import PasswordInput from './Components/PasswordInput'
+import EmailInput from './Components/EmailField'
+import PasswordField from './Components/PasswordField'
 import Submit from './Components/Submit'
-import TextInput from './Components/TextInput'
+import TextField from './Components/TextField'
 import Title from './Components/Title'
-import { IFieldInputProps } from './Components/FieldInput'
 
 export {
 
     Form,
-    IFieldInputProps,
-    TextInput,
+    TextField,
     EmailInput,
-    PasswordInput,
+    PasswordField,
     Submit,
     Title,
     FormActions,

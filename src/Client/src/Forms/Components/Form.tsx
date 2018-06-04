@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Component, SquareLoader } from '../../Utils'
 import FormActions from '../Redux/FormActions'
 
-export interface IFormProps {
+interface IFormProps {
     form: any,
     children: JSX.Element[],
     name: string
@@ -12,7 +12,7 @@ export interface IFormProps {
     send: (form: string) => void,
     fail: (form: string, error: string) => void,
     success: (form: string) => void,
-    setInput: (form: string, input: string, value: any) => void,
+    setInput: (form: string, input: string, value: any, isValid: boolean) => void,
     timeoutError: string
 }
 
@@ -26,52 +26,43 @@ export interface IFormState {
 class Form extends Component<IFormProps, IFormState> {
 
     /**
-     * Time, after which will be attempt to send storned unsuccessful [ms].
-     */
-    public static SEND_EXPIRATION = 2000
-
-    private timeout: number
-
-    constructor(props: IFormProps) {
-        super(props)
-        this.initializeValues()
-    }
-
-    /**
-     * Initialize state of values.
-     */
-    private initializeValues(): void {
-        const { children, setInput, name } = this.props
-
-        children.map(child => {
-            if (child.props.name) {
-                setInput(name, child.props.name, child.props.value)
-            }
-        })
-    }
-
-    /**
      * Callback after submit form.
      * @param event
      */
     private handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+        const { onSubmit, form, name, send } = this.props
         event.preventDefault()
-        const { onSubmit, form, name, send, fail, timeoutError } = this.props
         send(name)
         onSubmit(form[name], this.handleSuccess, this.handleFail)
-
-        this.timeout = window.setTimeout(() => {
-            fail(name, timeoutError)
-        }, Form.SEND_EXPIRATION)
     }
 
     /**
      * After change value of some input, update state of form.
      * @param name Name of input.
      * @param value Value of input.
+     * @param isValid Value is valid.
      */
-    private handleChange = (name: string, value: string): void => {
-        this.props.setInput(this.props.name, name, value)
+    private handleChange = (name: string, value: string, isValid: boolean): void => {
+        const { setInput, name: formName } = this.props
+        setInput(formName, name, value, isValid)
+    }
+
+    /**
+     * Check if all inputs in form are valid.
+     * @returns Form is valid.
+     */
+    private isValid(): boolean {
+        const { form, name } = this.props
+
+        let isValid = true
+
+        React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
+            if (form[name] && form[name][child.props.name] && !form[name][child.props.name].isValid) {
+                isValid = false
+            }
+        })
+
+        return isValid
     }
 
     /**
@@ -79,7 +70,6 @@ class Form extends Component<IFormProps, IFormState> {
      */
     private handleSuccess = (): void => {
         const { name, success } = this.props
-        window.clearInterval(this.timeout)
         success(name)
     }
 
@@ -88,8 +78,8 @@ class Form extends Component<IFormProps, IFormState> {
      * @param error Error message.
      */
     private handleFail = (error: string): void => {
-        window.clearInterval(this.timeout)
-        this.props.fail(this.props.name, error)
+        const { fail, name } = this.props
+        fail(name, error)
     }
 
     /**
@@ -99,20 +89,18 @@ class Form extends Component<IFormProps, IFormState> {
      */
     private renderChildren(): JSX.Element[] {
         const { form, children, name: formName } = this.props
-
-        if (!form || !form[formName]) {
-            return null
-        }
-
         return React.Children.map(children, (child: React.ReactElement<any>) => {
             const { name } = child.props
-            const value = form[formName][name]
 
-            if (name && value !== undefined) {
+            if (name) {
                 const newProps = {
                     ref: name,
-                    onChange: (value: string) => this.handleChange(name, value),
-                    value
+                    onChange: (value: string, isValid: boolean) => this.handleChange(name, value, isValid),
+                    value: ''
+                }
+
+                if(form && form[formName] && form[formName][name].value) {
+                    newProps.value = form[formName][name].value
                 }
 
                 return React.cloneElement(child, newProps)
@@ -127,7 +115,8 @@ class Form extends Component<IFormProps, IFormState> {
 
         const className = ClassNames(
             'form',
-            { 'form--send': form[name] && form[name].send }
+            { 'form--send': form[name] && form[name].send },
+            { 'form--invalid': !this.isValid() }
         )
 
         return (
@@ -144,14 +133,13 @@ class Form extends Component<IFormProps, IFormState> {
 }
 
 export default Form.connect(
-    ({ form, localization }: any) => ({
-        form,
-        timeoutError: '// TODO:'
+    ({ form }: any) => ({
+        form
     }),
     (dispatch: any) => ({
         send: (form: string) => dispatch(FormActions.send(form)),
         success: (form: string) => dispatch(FormActions.success(form)),
         fail: (form: string, error: string) => dispatch(FormActions.fail(form, error)),
-        setInput: (form: string, input: string, value: any) => dispatch(FormActions.setInput(form, input, value))
+        setInput: (form: string, input: string, value: any, isValid: boolean) => dispatch(FormActions.setInput(form, input, value, isValid))
     })
 )

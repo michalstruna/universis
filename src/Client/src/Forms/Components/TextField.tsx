@@ -1,12 +1,12 @@
 import * as React from 'react'
 
 import { StatelessComponent } from '../../Utils'
-import FieldInput, { IFieldInputProps } from './FieldInput'
+import FieldInput, { IFieldInputProps } from './Field'
 
 /**
  * Component for rendering text input in form.
  */
-class TextInput extends StatelessComponent<IFieldInputProps> {
+class TextField extends StatelessComponent<IFieldInputProps> {
 
     public render(): JSX.Element {
         return (
@@ -16,4 +16,4 @@ class TextInput extends StatelessComponent<IFieldInputProps> {
 
 }
 
-export default TextInput
+export default TextField

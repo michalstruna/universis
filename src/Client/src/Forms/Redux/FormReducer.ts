@@ -11,7 +11,10 @@ export default function (state: any = initialState, action: any) {
                 ...state,
                 [action.form]: {
                     ...state[action.form],
-                    [action.input]: action.value
+                    [action.input]: {
+                        value: action.value,
+                        isValid: action.isValid
+                    }
                 }
             }
 

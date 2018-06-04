@@ -10,13 +10,17 @@ class FormActions {
      * @param form Name of form.
      * @param input Name of input.
      * @param value Value of input.
+     * @param isValid Value is valid.
      */
-    public static setInput = (form: string, input: string, value: any) => ({
-        type: ACTION_TYPES.SET_INPUT,
-        form,
-        input,
-        value
-    })
+    public static setInput = (form: string, input: string, value: any, isValid: boolean) => {
+        return {
+            type: ACTION_TYPES.SET_INPUT,
+            form,
+            input,
+            value,
+            isValid
+        }
+    }
 
     /**
      * Form was sended.

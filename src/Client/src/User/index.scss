@@ -1,0 +1,10 @@
+.identity {
+    @include flex-center;
+
+    .form {
+        background-color: $semitransparent-medium-color;
+        box-shadow: 0 0 1em $darkest-color;
+        padding: 2em;
+        width: 20em;
+    }
+}

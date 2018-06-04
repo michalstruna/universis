@@ -12,7 +12,10 @@ class Submit extends SimpleComponent {
             <button
                 className='form__button form__button--submit'
                 type='submit'>
-                {this.props.children}
+                <section className='form__button__text'>
+                    {this.props.children}
+                </section>
+                <section className='form__button__icon' />
             </button>
         )
     }

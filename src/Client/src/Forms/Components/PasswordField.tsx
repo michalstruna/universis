@@ -1,12 +1,12 @@
 import * as React from 'react'
 
 import { StatelessComponent } from '../../Utils'
-import FieldInput, { IFieldInputProps } from './FieldInput'
+import FieldInput, { IFieldInputProps } from './Field'
 
 /**
  * Component for rendering password input in form.
  */
-class PasswordInput extends StatelessComponent<IFieldInputProps> {
+class PasswordField extends StatelessComponent<IFieldInputProps> {
 
     public render(): JSX.Element {
         return (
@@ -16,4 +16,4 @@ class PasswordInput extends StatelessComponent<IFieldInputProps> {
 
 }
 
-export default PasswordInput
+export default PasswordField

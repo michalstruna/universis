@@ -5,30 +5,42 @@ import { StatelessComponent } from '../../Utils'
 export interface IFieldInputProps {
     label: string,
     name: string,
-    onChange?: (value: string) => void,
+    onChange?: (value: string, isValid: boolean) => void,
     type?: string,
-    value: string
+    value?: string,
+    defaultValue?: string
+    isValid?: boolean,
+    pattern?: RegExp
 }
 
 /**
  * Component for rendering some field input (text, email, ...) in form.
  */
-class FieldInput extends StatelessComponent<IFieldInputProps> {
+class Field extends StatelessComponent<IFieldInputProps> {
 
     public static defaultProps = {
         type: 'text'
+    }
+
+    public componentDidMount(): void {
+        const { onChange, pattern, defaultValue } = this.props
+        const isValid = pattern ? pattern.test(defaultValue) : true
+        onChange(defaultValue, isValid)
     }
 
     /**
      * After change content of input, update state.
      * @param event
      */
-    private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.props.onChange(event.target.value)
+    private handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { onChange, pattern } = this.props
+        const { value } = event.target
+        const isValid = pattern ? pattern.test(value) : true
+        onChange(value, isValid)
     }
 
     /**
-     * Render <input /> element..
+     * Render <input /> element.
      * @return Input.
      */
     private renderInput(): JSX.Element {
@@ -70,4 +82,4 @@ class FieldInput extends StatelessComponent<IFieldInputProps> {
 
 }
 
-export default FieldInput.connect()
+export default Field.connect()

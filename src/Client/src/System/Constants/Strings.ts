@@ -30,6 +30,12 @@ export default {
                 { label: 'Nápověda', target: Urls.HELP }
             ]
         }
+    },
+
+    identity: {
+        title: 'Přihlašte se.',
+        email: 'Váš email',
+        button: 'Další'
     }
 
 }
