@@ -22,9 +22,7 @@ class Database implements IDatabase {
         this.connection = Mongoose.createConnection(Database.getConnectionString(username, password, cluster))
 
         if (onConnect) {
-            this.connection.on('open', () => {
-                console.log(this.connection.modelNames())
-            })
+            this.connection.on('open', onConnect)
         }
 
         if (onError) {
