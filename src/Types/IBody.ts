@@ -1,13 +1,8 @@
 /**
- * Interface for base body.
- * This is parent of all another interfaces for bodies.
+ * Interface for new body.
+ * There is no ID, because of ID was not generated yet.
  */
-declare interface IBaseBody {
-
-    /**
-     * Unique ID of body.
-     */
-    _id?: string
+declare interface INewBody {
 
     /**
      * Name of body.
@@ -116,6 +111,19 @@ declare interface IBaseBody {
      * Type of body.
      */
     type: number
+
+}
+
+/**
+ * Interface for base body.
+ * This is parent of all another interfaces for bodies.
+ */
+declare interface IBaseBody extends INewBody {
+
+    /**
+     * Unique ID of body.
+     */
+    _id: string
 
 }
 
