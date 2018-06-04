@@ -6,6 +6,10 @@ import { OperationType, UserRole } from '../Constants'
  */
 class Acl {
 
+    private constructor() {
+
+    }
+
     /**
      * Check if operation is permitted by the user.
      * @param operation Operation.

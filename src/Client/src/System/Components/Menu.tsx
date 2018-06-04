@@ -1,14 +1,14 @@
 import * as React from 'react'
 
-import { Link, StatelessComponent } from '../../Utils'
+import { Link, StatelessComponent, Urls } from '../../Utils'
 
 interface IProps {
     strings: {
         title: string,
-        menu: [{
-            label: string,
-            target: string
-        }]
+        menu: {
+            universe: string,
+            login: string
+        }
     }
 }
 
@@ -18,24 +18,28 @@ interface IProps {
 class Menu extends StatelessComponent<IProps> {
 
     /**
-     * Render all links in menu.
-     * @return Links.
+     * Render link in menu.
+     * @param target Target of link.
+     * @param label Label of link.
+     * @return Link.
      */
-    private renderLinks(): JSX.Element[] {
-        return this.props.strings.menu.map((link, key) => (
+    private renderLink(target: string, label: string): JSX.Element {
+        return  (
             <Link
                 className='home__link'
-                key={key}
-                target={link.target}>
-                {link.label}
+                target={target}>
+                {label}
             </Link>
-        ))
+        )
     }
 
     public render(): JSX.Element {
+        const { menu } = this.props.strings
+
         return (
             <section className='home__menu'>
-                {this.renderLinks()}
+                {this.renderLink(Urls.UNIVERSE, menu.universe)}
+                {this.renderLink(Urls.IDENTITY, menu.login)}
             </section>
         )
     }

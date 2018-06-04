@@ -1,0 +1,7 @@
+.blur-layout {
+    transition: opacity $medium-animation-duration;
+
+    &--blurred {
+        opacity: 0.3;
+    }
+}

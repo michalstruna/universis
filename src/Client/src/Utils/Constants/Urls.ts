@@ -4,8 +4,11 @@
 enum Urls {
 
     HOME = '/',
-    UNIVERSE = '/universe',
-    IDENTITY = '/identity'
+    UNIVERSE = '/vesmir',
+    IDENTITY = '/identita',
+    LOGIN = '/prihlaseni',
+    SIGN_UP = '/registrace',
+    HELP = '/napoveda'
 
 }
 

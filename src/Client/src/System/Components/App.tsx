@@ -1,20 +1,13 @@
 import * as React from 'react'
 
 import AnimatedBackground from './AnimatedBackground'
-import { Component } from '../../Utils'
-
-interface IProps {
-
-}
-
-interface IState {
-
-}
+import { BlurLayout, SimpleComponent } from '../../Utils'
+import { Alert, Context, ContextTrigger, ControlPanel } from '../../Controls'
 
 /**
  * Root component of application.
  */
-class App extends Component<IProps, IState> {
+class App extends SimpleComponent {
 
     /**
      * Render background of app.
@@ -22,9 +15,9 @@ class App extends Component<IProps, IState> {
      */
     private renderBackground(): JSX.Element {
         return (
-            <section className='app__background'>
+            <BlurLayout className='app__background' noHomePage>
                 <AnimatedBackground />
-            </section>
+            </BlurLayout>
         )
     }
 
@@ -36,16 +29,23 @@ class App extends Component<IProps, IState> {
         return (
             <section className='app__foreground'>
                 {this.props.children}
+                <ControlPanel />
             </section>
         )
     }
 
     public render(): JSX.Element {
         return (
-            <section className='app'>
-                {this.renderBackground()}
-                {this.renderForeground()}
-            </section>
+            <ContextTrigger className='app'>
+                <BlurLayout
+                    className='app__body'
+                    visibleAlert>
+                    {this.renderBackground()}
+                    {this.renderForeground()}
+                </BlurLayout>
+                <Alert />
+                <Context />
+            </ContextTrigger>
         )
     }
 

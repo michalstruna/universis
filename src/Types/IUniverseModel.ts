@@ -24,7 +24,7 @@ declare interface IUniverseModel {
      * @param token Authentication token.
      * @returns Empty promise.
      */
-    addBody(body: IBody, token: string): Promise<void>
+    addBody(body: INewBody, token: string): Promise<void>
 
     /**
      * Update body in DB.
