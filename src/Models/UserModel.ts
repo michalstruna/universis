@@ -1,34 +1,37 @@
+/**
+ * Model for user.
+ */
 class UserModel implements IUserModel {
 
-    addUser(user: IUser, token: string): Promise<void> {
+    public addUser(user: IUser, token: string): Promise<void> {
         return undefined
     }
 
-    getOnlineUsers(token: string): Promise<IShortUser[]> {
+    public getOnlineUsers(token: string): Promise<IShortUser[]> {
         return undefined
     }
 
-    getUserById(userId: string, token: string): Promise<IUser> {
+    public getUserById(userId: string, token: string): Promise<IUser> {
         return undefined
     }
 
-    getUsers(token: string): Promise<IShortUser[]> {
+    public getUsers(token: string): Promise<IShortUser[]> {
         return undefined
     }
 
-    logInUser(email: string, password: string): Promise<IUserIdentity> {
+    public logInUser(email: string, password: string): Promise<IUserIdentity> {
         return undefined
     }
 
-    removeUserById(userId: string, token: string): Promise<number> {
+    public removeUserById(userId: string, token: string): Promise<number> {
         return undefined
     }
 
-    updateUser(user: IUser, token: string): Promise<void> {
+    public updateUser(user: IUser, token: string): Promise<void> {
         return undefined
     }
 
-    getUnauthUserByEmail(email: string): Promise<IUnauthUser> {
+    public getUnauthUserByEmail(email: string): Promise<IUnauthUser> {
         return undefined
     }
 

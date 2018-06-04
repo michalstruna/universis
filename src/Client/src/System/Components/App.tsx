@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import AnimatedBackground from './AnimatedBackground'
 import { BlurLayout, SimpleComponent } from '../../Utils'
-import { ControlPanel } from '../../Controls'
+import { Alert, Context, ContextTrigger, ControlPanel } from '../../Controls'
 
 /**
  * Root component of application.
@@ -36,10 +36,16 @@ class App extends SimpleComponent {
 
     public render(): JSX.Element {
         return (
-            <section className='app'>
-                {this.renderBackground()}
-                {this.renderForeground()}
-            </section>
+            <ContextTrigger className='app'>
+                <BlurLayout
+                    className='app__body'
+                    visibleAlert>
+                    {this.renderBackground()}
+                    {this.renderForeground()}
+                </BlurLayout>
+                <Alert />
+                <Context />
+            </ContextTrigger>
         )
     }
 

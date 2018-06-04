@@ -6,7 +6,9 @@ import StatelessComponent from './StatelessComponent'
 
 interface IProps {
     className?: string
-    noHomePage?: boolean,
+    isAlertVisible: boolean
+    noHomePage?: boolean
+    visibleAlert?: boolean
 }
 
 /**
@@ -19,11 +21,15 @@ class BlurLayout extends StatelessComponent<IProps> {
      * @return Layout is blurred.
      */
     private get isBlurred(): boolean {
-        const { noHomePage } = this.props
+        const { isAlertVisible, noHomePage, visibleAlert } = this.props
 
         let isBlurred = false
 
         if (noHomePage && !Url.isMainPage(this.props.location.pathname)) {
+            isBlurred = true
+        }
+
+        if (visibleAlert && isAlertVisible) {
             isBlurred = true
         }
 
@@ -46,4 +52,8 @@ class BlurLayout extends StatelessComponent<IProps> {
 
 }
 
-export default BlurLayout.connect()
+export default BlurLayout.connect(
+    ({ system }: any) => ({
+        isAlertVisible: system.alert.isVisible
+    })
+)
