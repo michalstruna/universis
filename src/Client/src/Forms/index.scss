@@ -1,0 +1,120 @@
+.form {
+    box-sizing: border-box;
+    font-size: 120%;
+    display: block;
+    overflow: hidden;
+    padding: 1em;
+    position: relative;
+
+    & > label, & > section, & > button, & > legend {
+        transition: opacity $medium-animation-duration;
+    }
+
+    &__title {
+        @include title(160%, 100, 0.2em);
+        padding-bottom: 2em;
+    }
+
+    &__block {
+        display: block;
+        padding-bottom: 2em;
+        position: relative;
+    }
+
+    &__label {
+        @include content-font;
+        @include size(auto, 2em, true);
+        color: $light-color;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        transform-origin: left center;
+        transition: transform $medium-animation-duration;
+        user-select: none;
+    }
+
+    &__input {
+        @include content-font;
+        background-color: transparent;
+        border-bottom: 0.1em solid $light-color;
+        box-sizing: border-box;
+        display: block;
+        font-size: 100%;
+        color: $lightest-color;
+        padding: 0.5em 0;
+        transition: border-color $fast-animation-duration;
+        width: 100%;
+
+        &:focus {
+            border-color: $lightest-color;
+        }
+
+        &:not([value=""]), &:focus {
+            & + .form__label {
+                transform: translateY(-1.5em) scale(0.7);
+            }
+        }
+    }
+
+    &__button {
+        @include size(50%, 2rem, true);
+        @include title(130%, 900, 0.2em);
+        color: $lightest-color;
+        float: right;
+        padding: 0;
+        margin-right: 0.5em;
+        text-align: right;
+        transition: transform $medium-animation-duration;
+
+        &__text, &__icon {
+            display: inline-block;
+            transition: transform $medium-animation-duration;
+        }
+
+        &__icon {
+            @include size(2rem);
+            @include svg(Forms/Next, 100%);
+            margin-left: 0.5em;
+            vertical-align: bottom;
+        }
+
+        &:hover {
+            .form__button {
+                &__text {
+                    transform: translateX(-0.2em) translateZ(0);
+                }
+
+                &__icon {
+                    transform: scale(1.1) translateX(0.2em) translateZ(0);
+                }
+            }
+        }
+    }
+
+    .square-loader {
+        opacity: 0;
+    }
+
+    &--send {
+        cursor: wait;
+        pointer-events: none;
+
+        & > label, & > section, & > button, & > legend {
+            opacity: 0.1;
+        }
+
+        .square-loader {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    &--invalid {
+        .form__button {
+            opacity: 0.2;
+            pointer-events: none;
+        }
+    }
+
+}

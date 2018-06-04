@@ -92,7 +92,7 @@
  * @param {Size} $letter-spacing Letter-spacing. (optional, default 0.2em)
  */
 @mixin title($font-size, $font-weight: 100, $letter-spacing: 0.2em) {
-    font-family: LatoHairline, Arial;
+    font-family: MontserratHairline, Arial;
     font-size: $font-size;
     font-variant: small-caps;
     font-weight: $font-weight;

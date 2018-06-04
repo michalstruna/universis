@@ -44,8 +44,6 @@ class Alert extends StatelessComponent<IProps> {
     public render(): JSX.Element {
         const { hide, content, isVisible, title } = this.props
 
-        let x: React.MouseEvent<any>
-
         return (
             <FadeLayout
                 className='alert'
@@ -53,7 +51,7 @@ class Alert extends StatelessComponent<IProps> {
                 mounted={isVisible}>
                 <section
                     className='alert--inner'
-                    onClick={event => {event.stopPropagation(); console.log(event.currentTarget)}}>
+                    onClick={event => event.stopPropagation()}>
                     <button
                         className='alert__close'
                         onClick={hide} />
