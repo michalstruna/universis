@@ -6,7 +6,7 @@ declare interface IBaseUser {
     /**
      * User's ID.
      */
-    id: string
+    _id: string
 
     /**
      * User's email.

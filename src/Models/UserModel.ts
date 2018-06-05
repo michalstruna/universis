@@ -1,3 +1,7 @@
+import { NOT_ACCEPTABLE } from 'http-status-codes'
+
+import Strings from '../Utils/Strings'
+
 /**
  * Model for user.
  */
@@ -32,7 +36,22 @@ class UserModel implements IUserModel {
     }
 
     public getUnauthUserByEmail(email: string): Promise<IUnauthUser> {
-        return undefined
+        return new Promise((resolve, reject) => {
+            if (Strings.isEmail(email)) {
+                if (email === 'michal.l.struna@gmail.com') { // TODO: From DB.
+                    resolve({
+                        _id: 'iduser',
+                        email: email,
+                        avatar: 'avatarurl',
+                        roles: [1, 2]
+                    })
+                } else {
+                    resolve(null) // TODO: Return anonymous new user.
+                }
+            } else {
+                reject(NOT_ACCEPTABLE)
+            }
+        })
     }
 
 }

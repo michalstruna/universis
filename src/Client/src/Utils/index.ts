@@ -33,8 +33,10 @@ export {
 /**
  * Utils.
  */
+import Api from './Utils/Api'
 import Url from './Utils/Url'
 
 export {
+    Api,
     Url
 }
