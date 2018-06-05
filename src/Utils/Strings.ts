@@ -21,6 +21,15 @@ class Strings {
         return Strings.EMAIL_PATTERN.test(string)
     }
 
+    /**
+     * Convert thisText
+     * @param string TextInCamelCase.
+     * @returns TEXT_IN_UPPER_CASE.
+     */
+    public static camelToUpper(string: string): string {
+        return string.replace(/([A-Z])/g, '_$1').toUpperCase().replace(/^_/, '')
+    }
+
 }
 
 export default Strings
