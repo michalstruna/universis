@@ -121,6 +121,9 @@ export default (model: IUserModel): Router => {
         })
     })
 
+    /**
+     * Get unauth user by email.
+     */
     router.get(GET_UNAUTH_USER_BY_EMAIL.PATH, (request, response) => {
         model.getUnauthUserByEmail(
             request.params.email
