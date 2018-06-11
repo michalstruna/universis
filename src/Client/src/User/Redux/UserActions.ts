@@ -22,6 +22,17 @@ class UserActions {
         }
     )
 
+    /**
+     * Login user.
+     * @param email
+     * @param password
+     */
+    public static login = (email: string, password: string) => (
+        dispatch => {
+            // TODO: Login.
+        }
+    )
+
 }
 
 export default UserActions

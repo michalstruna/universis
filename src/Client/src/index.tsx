@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import { App, HomeView, Store, } from './System'
-import { IdentityView } from './User'
+import { IdentityView, LoginView } from './User'
 import { Urls } from './Utils'
 
 import './index.scss'
@@ -21,6 +21,7 @@ render(
                                 <Switch location={location}>
                                     <Route exact path={Urls.HOME} component={HomeView} />
                                     <Route exact path={Urls.IDENTITY} component={IdentityView} />
+                                    <Route exact path={Urls.LOGIN} component={LoginView} />
                                 </Switch>
                             </CSSTransition>
                         </TransitionGroup>

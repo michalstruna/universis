@@ -5,7 +5,8 @@
 import Form from './Components/Form'
 import FormActions from './Redux/FormActions'
 import FormReducer from './Redux/FormReducer'
-import EmailInput from './Components/EmailField'
+import EmailField from './Components/EmailField'
+import Note from './Components/Note'
 import PasswordField from './Components/PasswordField'
 import Submit from './Components/Submit'
 import TextField from './Components/TextField'
@@ -15,7 +16,8 @@ export {
 
     Form,
     TextField,
-    EmailInput,
+    EmailField,
+    Note,
     PasswordField,
     Submit,
     Title,

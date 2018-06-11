@@ -1,3 +1,4 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import { StatelessComponent } from '../../Utils'
@@ -44,12 +45,18 @@ class Field extends StatelessComponent<IFieldInputProps> {
      * @return Input.
      */
     private renderInput(): JSX.Element {
-        const { name, type, value } = this.props
+        const { name, pattern, type, value } = this.props
+
+        const className = ClassNames(
+            'form__input',
+            'form__input--' + type,
+            { 'form__input--invalid': pattern ? !pattern.test(value) : false }
+        )
 
         return (
             <input
                 autoComplete='off'
-                className={'form__input form__input--' + type}
+                className={className}
                 name={name}
                 onChange={this.handleChange}
                 type={type}

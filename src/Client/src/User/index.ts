@@ -2,9 +2,11 @@
  * Components.
  */
 import IdentityForm from './Components/IdentityForm'
+import LoginForm from './Components/LoginForm'
 
 export {
     IdentityForm,
+    LoginForm
 }
 
 /**
@@ -22,7 +24,9 @@ export {
  * Views.
  */
 import IdentityView from './Views/IdentityView'
+import LoginView from './Views/LoginView'
 
 export {
-    IdentityView
+    IdentityView,
+    LoginView
 }
