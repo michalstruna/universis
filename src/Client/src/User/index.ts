@@ -3,10 +3,12 @@
  */
 import IdentityForm from './Components/IdentityForm'
 import LoginForm from './Components/LoginForm'
+import SignUpForm from './Components/SignUpForm'
 
 export {
     IdentityForm,
-    LoginForm
+    LoginForm,
+    SignUpForm
 }
 
 /**
@@ -25,8 +27,10 @@ export {
  */
 import IdentityView from './Views/IdentityView'
 import LoginView from './Views/LoginView'
+import SignUpView from './Views/SignUpForm'
 
 export {
     IdentityView,
-    LoginView
+    LoginView,
+    SignUpView
 }

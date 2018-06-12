@@ -42,6 +42,12 @@ export default {
         password: 'Vaše heslo',
         button: 'Hotovo',
         forgot: 'Zapomenuté heslo?'
+    },
+    signUp: {
+        title: 'Registrujte se.',
+        password: 'Nové heslo',
+        passwordAgain: 'Heslo znovu',
+        button: 'Hotovo'
     }
 
 }

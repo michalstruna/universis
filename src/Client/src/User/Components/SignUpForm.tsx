@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { Link, StatelessComponent } from '../../Utils'
-import { PasswordField, Form, Note, Submit, Title } from '../../Forms'
+import { StatelessComponent, Urls } from '../../Utils'
+import { PasswordField, Form, Submit, Title } from '../../Forms'
 import UserActions from '../Redux/UserActions'
 import UnauthIdentity from './UnauthIdentity'
 
@@ -9,17 +9,16 @@ interface IProps {
     strings: {
         title: string,
         password: string,
-        button: string,
-        forgot: string
-    },
-    login: (email: string, password: string) => void
+        passwordAgain: string,
+        button: string
+    }
+    getUnauthIdentityByEmail: (email: string) => Promise<IUnauthUser>
 }
 
 /**
- * Form for login user.
- * There is only password input.
+ * Form for create new user.
  */
-class LoginForm extends StatelessComponent<IProps> {
+class SignUpForm extends StatelessComponent<IProps> {
 
     /**
      * After submit send request to server.
@@ -28,17 +27,15 @@ class LoginForm extends StatelessComponent<IProps> {
      * @param fail Fail of form.
      */
     private handleSubmit = (values: { email: string }, success: () => void, fail: () => void): void => {
-        // TODO: Fix types like () => void.
-        // TODO: Login.
-        // TODO: Forgot password. Alert? Link?
+        // TODO
     }
 
     public render(): JSX.Element {
-        const { title, password, button, forgot } = this.props.strings
+        const { title, password, passwordAgain, button } = this.props.strings
 
         return (
             <Form
-                name='login'
+                name='signUp'
                 onSubmit={this.handleSubmit}>
                 <Title>
                     {title}
@@ -47,11 +44,9 @@ class LoginForm extends StatelessComponent<IProps> {
                 <PasswordField
                     label={password}
                     name='password' />
-                <Note>
-                    <Link target={Link.URLS.HOME}>
-                        {forgot}
-                    </Link>
-                </Note>
+                <PasswordField
+                    label={passwordAgain}
+                    name='passwordAgain' />
                 <Submit>
                     {button}
                 </Submit>
@@ -61,11 +56,11 @@ class LoginForm extends StatelessComponent<IProps> {
 
 }
 
-export default LoginForm.connect(
+export default SignUpForm.connect(
     ({ form, system }: any) => ({
-        strings: system.strings.login
+        strings: system.strings.signUp
     }),
     (dispatch: any) => ({
-        login: (email: string, password: string) => dispatch(UserActions.login(email, password))
+        getUnauthIdentityByEmail: (email: string) => dispatch(UserActions.getUnauthUserByEmail(email))
     })
 )
