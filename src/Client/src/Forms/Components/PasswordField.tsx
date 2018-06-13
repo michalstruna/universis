@@ -9,12 +9,16 @@ import Strings from '../../../../Utils/Strings'
  */
 class PasswordField extends StatelessComponent<IFieldInputProps> {
 
+    public static defaultProps = {
+        pattern: Strings.PASSWORD_PATTERN
+    }
+
     public render(): JSX.Element {
         return (
             <FieldInput
                 { ...this.props}
                 type='password'
-                pattern={Strings.PASSWORD_PATTERN} />
+                pattern={this.props.pattern} />
         )
     }
 
