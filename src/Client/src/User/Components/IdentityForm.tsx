@@ -11,6 +11,12 @@ interface IProps {
         button: string
     }
     getUnauthIdentityByEmail: IFunction<string, Promise<IUnauthUser>>
+    unauthUser: IUnauthUser
+    error: Error
+}
+
+interface IValues {
+    email: string
 }
 
 /**
@@ -20,6 +26,26 @@ interface IProps {
 class IdentityForm extends StatelessComponent<IProps> {
 
     /**
+     * Callback for success.
+     */
+    private onSuccess: IRunnable
+
+    /**
+     * Callback for fail.
+     */
+    private onFail: IRunnable
+
+    public componentDidUpdate(): void {
+        this.handleReceiveResponse()
+    }
+
+    public shouldComponentUpdate(nextProps: IProps): boolean {
+        const isSuccess = !this.props.unauthUser && !!nextProps.unauthUser
+        const isFail = !this.props.error && !!nextProps.error
+        return isSuccess || isFail
+    }
+
+    /**
      * After submit send request to server.
      * If user exists, redirect to login view.
      * If user don't exists, redirect to register view.
@@ -27,13 +53,21 @@ class IdentityForm extends StatelessComponent<IProps> {
      * @param success Success of form.
      * @param fail Fail of form.
      */
-    private handleSubmit = (values: { email: string }, success: IRunnable, fail: IRunnable): void => {
-        this.props.getUnauthIdentityByEmail(values.email).then(user => {
-            success()
-            this.props.history.push(user.isSignedUp ? Urls.LOGIN : Urls.SIGN_UP)
-        }).catch(error => {
-            fail()
-        })
+    private handleSubmit = (values: IValues, success: IRunnable, fail: IRunnable): void => {
+        this.onSuccess = success
+        this.onFail = fail
+        this.props.getUnauthIdentityByEmail(values.email)
+    }
+
+    private handleReceiveResponse = (): void => {
+        const { history, unauthUser, error } = this.props
+
+        if (error) {
+            this.onFail()
+        } else {
+            this.onSuccess()
+            history.push(unauthUser.isSignedUp ? Urls.LOGIN : Urls.SIGN_UP)
+        }
     }
 
     public render(): JSX.Element {
@@ -59,8 +93,10 @@ class IdentityForm extends StatelessComponent<IProps> {
 }
 
 export default IdentityForm.connect(
-    ({ form, system }: any) => ({
-        strings: system.strings.identity
+    ({ form, system, user }: any) => ({
+        strings: system.strings.identity,
+        unauthUser: user.unauthUser,
+        error: user.getUnauthUserError
     }),
     (dispatch: any) => ({
         getUnauthIdentityByEmail: (email: string) => dispatch(UserActions.getUnauthUserByEmail(email))

@@ -18,7 +18,11 @@ class Api {
      * @param email Email of user.
      */
     public static getUnauthUser(email: string): Promise<IUnauthUser> {
-        return Axios.get(API_URL + 'user/unauth/' + email)
+        return new Promise((resolve, reject) => {
+            Axios.get(API_URL + 'user/unauth/' + email).then(response => {
+                resolve(response.data.user)
+            }).catch(error => reject(error))
+        })
     }
 
 }
