@@ -2,37 +2,37 @@ import ACTION_TYPES from './ActionTypes'
 
 const initialState = {
 
-    getUnauthIdentitySent: false,
-    getUnauthIdentityError: null,
-    unauthIdentity: null
+    getUnauthUserSent: false,
+    getUnauthUserError: null,
+    unauthUser: null
 
 }
 
 export default function (state = initialState, action: any) {
     switch (action.type) {
 
-        case ACTION_TYPES.GET_UNAUTH_IDENTITY_SENT:
+        case ACTION_TYPES.GET_UNAUTH_USER_SENT:
             return {
                 ...state,
-                getUnauthIdentitySent: true,
-                getUnauthIdentityError: null,
-                unauthIdentity: null,
+                getUnauthUserSent: true,
+                getUnauthUserError: null,
+                unauthUser: null,
             }
 
-        case ACTION_TYPES.GET_UNAUTH_IDENTITY_SUCCESS:
+        case ACTION_TYPES.GET_UNAUTH_USER_SUCCESS:
             return {
                 ...state,
-                getUnauthIdentitySent: false,
-                getUnauthIdentityError: null,
-                unauthIdentity: action.user
+                getUnauthUserSent: false,
+                getUnauthUserError: null,
+                unauthUser: action.user
             }
 
-        case ACTION_TYPES.GET_UNAUTH_IDENTITY_FAIL:
+        case ACTION_TYPES.GET_UNAUTH_USER_FAIL:
             return {
                 ...state,
-                getUnauthIdentitySent: false,
-                getUnauthIdentityError: action.error,
-                unauthIdentity: null
+                getUnauthUserSent: false,
+                getUnauthUserError: action.error,
+                unauthUser: null
             }
 
         default:

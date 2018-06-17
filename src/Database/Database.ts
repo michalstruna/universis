@@ -17,7 +17,7 @@ class Database implements IDatabase {
      */
     private connection: Mongoose.Connection
 
-    public constructor(name: number, username: string, password: string, cluster: string, onConnect?: () => void, onError?: () => void) {
+    public constructor(name: number, username: string, password: string, cluster: string, onConnect?: IRunnable, onError?: IRunnable) {
         Database.connections[name] = this
         this.connection = Mongoose.createConnection(Database.getConnectionString(username, password, cluster))
 

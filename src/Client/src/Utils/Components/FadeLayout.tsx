@@ -6,8 +6,8 @@ interface IProps {
     className?: string,
     duration?: number,
     mounted: boolean,
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void,
-    onContextMenu?: (event: React.MouseEvent<HTMLElement>) => void
+    onClick?: IConsumer<React.MouseEvent<HTMLElement>>,
+    onContextMenu?: IConsumer<React.MouseEvent<HTMLElement>>
 }
 
 interface IState {

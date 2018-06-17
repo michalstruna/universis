@@ -8,9 +8,9 @@ import { SystemActions } from '../../System'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
-    isVisible: boolean,
-    show: (x: number, y: number) => void
-    x: number,
+    isVisible: boolean
+    show: IDoubleConsumer<number, number>
+    x: number
     y: number
 }
 

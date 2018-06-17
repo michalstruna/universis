@@ -9,8 +9,8 @@ interface IProps {
         title: string,
         email: string,
         button: string
-    },
-    getUnauthIdentityByEmail: (email: string) => Promise<IUnauthUser>
+    }
+    getUnauthIdentityByEmail: IFunction<string, Promise<IUnauthUser>>
 }
 
 /**
@@ -27,12 +27,10 @@ class IdentityForm extends StatelessComponent<IProps> {
      * @param success Success of form.
      * @param fail Fail of form.
      */
-    private handleSubmit = (values: { email: string }, success: () => void, fail: () => void): void => {
-        // TODO: Fix types like () => void.
-        // TODO: If user not exists, go to sign up.
+    private handleSubmit = (values: { email: string }, success: IRunnable, fail: IRunnable): void => {
         this.props.getUnauthIdentityByEmail(values.email).then(user => {
             success()
-            this.props.history.push(Urls.LOGIN)
+            this.props.history.push(user.isSignedUp ? Urls.LOGIN : Urls.SIGN_UP)
         }).catch(error => {
             fail()
         })

@@ -86,8 +86,8 @@ export default (model: IUserModel): Router => {
         model.logInUser(
             request.body.email,
             request.body.password
-        ).then(users => {
-            response.status(OK).send({ users })
+        ).then(user => {
+            response.status(OK).send({ user })
         }).catch(error => {
             response.status(error).send()
         })

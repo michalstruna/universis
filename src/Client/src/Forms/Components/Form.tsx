@@ -5,14 +5,14 @@ import { Component, SquareLoader } from '../../Utils'
 import FormActions from '../Redux/FormActions'
 
 interface IFormProps {
-    form: any,
-    children: JSX.Element[],
+    form: any
+    children: JSX.Element[]
     name: string
-    onSubmit: (values: any, success: () => void, fail: (error: string) => void) => void,
-    send: (form: string) => void,
-    fail: (form: string, error: string) => void,
-    success: (form: string) => void,
-    setInput: (form: string, input: string, value: any, isValid: boolean) => void,
+    onSubmit: ITripleConsumer<any, IRunnable, IConsumer<string>>
+    send: IConsumer<string>
+    fail: IDoubleConsumer<string, string>
+    success: IConsumer<string>
+    setInput: IQuadraConsumer<string, string, any, boolean>
     timeoutError: string
 }
 

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { StatelessComponent, Urls } from '../../Utils'
 import { PasswordField, Form, Submit, Title } from '../../Forms'
 import UserActions from '../Redux/UserActions'
-import UnauthIdentity from './UnauthIdentity'
+import UnauthIdentity from './UnauthUser'
 import Strings from '../../../../Utils/Strings'
 
 interface IProps {
@@ -12,9 +12,9 @@ interface IProps {
         password: string,
         passwordAgain: string,
         button: string
-    },
-    form: any,
-    getUnauthIdentityByEmail: (email: string) => Promise<IUnauthUser>
+    }
+    form: any
+    getUnauthIdentityByEmail: IFunction<string, Promise<IUnauthUser>>
 }
 
 /**
@@ -28,7 +28,7 @@ class SignUpForm extends StatelessComponent<IProps> {
      * @param success Success of form.
      * @param fail Fail of form.
      */
-    private handleSubmit = (values: { email: string }, success: () => void, fail: () => void): void => {
+    private handleSubmit = (values: { email: string }, success: IRunnable, fail: IRunnable): void => {
         // TODO
     }
 

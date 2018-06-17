@@ -1,6 +1,7 @@
 import { NOT_ACCEPTABLE } from 'http-status-codes'
 
 import Strings from '../Utils/Strings'
+import { UserRole } from '../Constants'
 
 /**
  * Model for user.
@@ -41,12 +42,21 @@ class UserModel implements IUserModel {
                 if (email === 'michal.l.struna@gmail.com') { // TODO: From DB.
                     resolve({
                         _id: 'iduser',
-                        email: email,
+                        email,
                         avatar: 'avatarurl',
-                        roles: [1, 2]
+                        roles: [UserRole.EVERYBODY],
+                        firstName: 'Michal',
+                        isSignedUp: true
                     })
                 } else {
-                    resolve(null) // TODO: Return anonymous new user.
+                    resolve({
+                        _id: 'iduser',
+                        email,
+                        avatar: 'http://i372.photobucket.com/albums/oo170/Emperortopaz/Headshots/Esdeath_zpsz4aexby6.jpg',
+                        roles: [UserRole.EVERYBODY],
+                        firstName: 'Michal',
+                        isSignedUp: true
+                    }) // TODO: Return anonymous new user.
                 }
             } else {
                 reject(NOT_ACCEPTABLE)

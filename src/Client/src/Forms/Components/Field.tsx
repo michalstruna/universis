@@ -4,13 +4,13 @@ import * as React from 'react'
 import { StatelessComponent } from '../../Utils'
 
 export interface IFieldInputProps {
-    label: string,
-    name: string,
-    onChange?: (value: string, isValid: boolean) => void,
-    type?: string,
-    value?: string,
+    label: string
+    name: string
+    onChange?: IDoubleConsumer<string, boolean>
+    type?: string
+    value?: string
     defaultValue?: string
-    isValid?: boolean,
+    isValid?: boolean
     pattern?: RegExp
 }
 

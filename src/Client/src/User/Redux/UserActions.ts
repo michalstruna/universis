@@ -12,12 +12,12 @@ class UserActions {
      */
     public static getUnauthUserByEmail = (email: string) => (
         dispatch => {
-            dispatch({ type: ACTION_TYPES.GET_UNAUTH_IDENTITY_SENT })
+            dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_SENT })
 
             return Api.getUnauthUser(email).then(user => {
-                dispatch({ type: ACTION_TYPES.GET_UNAUTH_IDENTITY_SUCCESS, user })
+                dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_SUCCESS, user })
             }).catch(error => {
-                dispatch({ type: ACTION_TYPES.GET_UNAUTH_IDENTITY_FAIL, error })
+                dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_FAIL, error })
             })
         }
     )

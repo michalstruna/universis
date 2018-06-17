@@ -46,14 +46,6 @@ declare interface IShortUser extends IBaseUser {
 }
 
 /**
- * Interface for unauth user.
- * It contains only Public data about user.
- */
-declare interface IUnauthUser extends IBaseUser {
-
-}
-
-/**
  * interface for user identity.
  * This is only for owner user.
  * Nobody else shouldn't know user's token.

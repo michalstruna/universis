@@ -3,10 +3,10 @@ import * as React from 'react'
 import { StatelessComponent } from '../../Utils'
 
 export interface IProps {
-    name: string,
-    label: string,
-    isVisible: boolean,
-    onClick: (event: React.MouseEvent<HTMLElement>) => void
+    name: string
+    label: string
+    isVisible: boolean
+    onClick: IConsumer<React.MouseEvent<HTMLElement>>
 }
 
 /**

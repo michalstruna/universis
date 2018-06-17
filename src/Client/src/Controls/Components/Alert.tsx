@@ -4,10 +4,10 @@ import { StatelessComponent, FadeLayout, Link } from '../../Utils'
 import { SystemActions } from '../../System'
 
 interface IProps {
-    buttons: ILinkButton[],
-    content: string,
-    hide: () => void,
-    isVisible: boolean,
+    buttons: ILinkButton[]
+    content: string
+    hide: IRunnable
+    isVisible: boolean
     title: string
 }
 
