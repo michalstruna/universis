@@ -18,7 +18,8 @@ export default {
             GET_USERS: { PATH: '/users' },
             LOG_IN_USER: { PATH: '/log-in' },
             REMOVE_USER_BY_ID: { PATH: '/user/:userId' },
-            UPDATE_USER: { PATH: '/user' }
+            UPDATE_USER: { PATH: '/user' },
+            GET_UNAUTH_USER_BY_EMAIL: { PATH: '/unauth/:email' }
         }
     }
 }

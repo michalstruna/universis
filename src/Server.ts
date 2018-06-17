@@ -1,5 +1,7 @@
 import * as BodyParser from 'body-parser'
+import * as Compression from 'compression'
 import * as Express from 'express'
+import { Z_DEFAULT_COMPRESSION } from 'zlib'
 
 class Server implements IServer {
 
@@ -11,6 +13,7 @@ class Server implements IServer {
     constructor() {
         this.express = Express()
         this.express.use(BodyParser.json())
+        this.express.use(Compression(Z_DEFAULT_COMPRESSION))
     }
 
     public getRouter(): Express.Express {

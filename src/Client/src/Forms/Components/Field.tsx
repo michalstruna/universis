@@ -1,3 +1,4 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import { StatelessComponent } from '../../Utils'
@@ -23,9 +24,26 @@ class Field extends StatelessComponent<IFieldInputProps> {
     }
 
     public componentDidMount(): void {
-        const { onChange, pattern, defaultValue } = this.props
-        const isValid = pattern ? pattern.test(defaultValue) : true
-        onChange(defaultValue, isValid)
+        const { onChange, defaultValue } = this.props
+        onChange(defaultValue, this.isValid(defaultValue))
+    }
+
+    public componentDidUpdate(prevProps): void {
+        const { pattern, onChange, value } = this.props
+
+        if (prevProps.pattern.toString() !== pattern.toString()) {
+            onChange(value, this.isValid(value))
+        }
+    }
+
+    /**
+     * Check if content of field is valid.
+     * @param text
+     * @returns Text is valid.
+     */
+    private isValid(text: string): boolean {
+        const { pattern } = this.props
+        return pattern ? pattern.test(text) : true
     }
 
     /**
@@ -33,10 +51,8 @@ class Field extends StatelessComponent<IFieldInputProps> {
      * @param event
      */
     private handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const { onChange, pattern } = this.props
         const { value } = event.target
-        const isValid = pattern ? pattern.test(value) : true
-        onChange(value, isValid)
+        this.props.onChange(value, this.isValid(value))
     }
 
     /**
@@ -46,14 +62,21 @@ class Field extends StatelessComponent<IFieldInputProps> {
     private renderInput(): JSX.Element {
         const { name, type, value } = this.props
 
+        const className = ClassNames(
+            'form__input',
+            'form__input--' + type,
+            { 'form__input--invalid': !this.isValid(value) }
+        )
+
         return (
             <input
                 autoComplete='off'
-                className={'form__input form__input--' + type}
+                className={className}
                 name={name}
                 onChange={this.handleChange}
                 type={type}
-                value={value} />
+                value={value}
+                ref='input' />
         )
     }
 

@@ -4,8 +4,8 @@ import { View }  from '../../Utils'
 import { IdentityForm } from '../../User'
 
 /**
- * View for home page.
- * There is only menu.
+ * View for identity page.
+ * There is identity form.
  */
 class IdentityView extends View {
 

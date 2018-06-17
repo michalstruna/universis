@@ -1,14 +1,18 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux'
-import Thunk from 'redux-thunk'
+import thunk from 'redux-thunk'
 
 import SystemReducer from './SystemReducer'
 import { FormReducer } from '../../Forms'
+import { UserReducer } from '../../User'
 
 const rootReducer = combineReducers({
     form: FormReducer,
-    system: SystemReducer
+    system: SystemReducer,
+    user: UserReducer
 })
 
-const store = createStore(rootReducer, applyMiddleware(Thunk))
+const middleware = applyMiddleware(thunk)
+
+const store = createStore(rootReducer, middleware)
 
 export default store
