@@ -17,7 +17,7 @@ interface IFormProps {
 }
 
 export interface IFormState {
-    values: { [name: string]: string }
+    values: { [name: string]: { value: string, isValid: boolean } }
 }
 
 /**
@@ -33,7 +33,14 @@ class Form extends Component<IFormProps, IFormState> {
         const { onSubmit, form, name, send } = this.props
         event.preventDefault()
         send(name)
-        onSubmit(form[name], this.handleSuccess, this.handleFail)
+
+        const values = {}
+
+        for (const field in form[name]) {
+            values[field] = form[name][field].value
+        }
+
+        onSubmit(values, this.handleSuccess, this.handleFail)
     }
 
     /**
@@ -99,7 +106,7 @@ class Form extends Component<IFormProps, IFormState> {
                     value: ''
                 }
 
-                if(form && form[formName] && form[formName][name].value) {
+                if (form && form[formName] && form[formName][name].value) {
                     newProps.value = form[formName][name].value
                 }
 

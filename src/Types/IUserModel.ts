@@ -58,9 +58,11 @@ declare interface IUserModel {
     removeUserById(userId: string, token: string): Promise<number>
 
     /**
-     *
-     * @param {string} email
-     * @returns {Promise<IUnauthUser>}
+     * Get unauth user by email.
+     * @param email Email of user.
+     * @returns Promise with unauth user, if user exists.
+     * @returns Promise with null, if user is not exists.
+     * @returns Promise with 406 code (not accepted), if email is not in RegExp for email.
      */
     getUnauthUserByEmail(email: string): Promise<IUnauthUser>
 

@@ -36,6 +36,18 @@ export default {
         title: 'Přihlašte se.',
         email: 'Váš email',
         button: 'Další'
+    },
+    login: {
+        title: 'Přihlašte se.',
+        password: 'Vaše heslo',
+        button: 'Hotovo',
+        forgot: 'Zapomenuté heslo?'
+    },
+    signUp: {
+        title: 'Registrujte se.',
+        password: 'Nové heslo',
+        passwordAgain: 'Heslo znovu',
+        button: 'Hotovo'
     }
 
 }

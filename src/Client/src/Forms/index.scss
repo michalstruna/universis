@@ -15,6 +15,12 @@
         padding-bottom: 2em;
     }
 
+    &__note {
+        @include opacity-hover;
+        font-size: 70%;
+        padding-bottom: 2em;
+    }
+
     &__block {
         display: block;
         padding-bottom: 2em;
@@ -46,6 +52,14 @@
         transition: border-color $fast-animation-duration;
         width: 100%;
 
+        &--password {
+            @include svg(Forms/Password, auto 50%, 95% center);
+
+            &.form__input--invalid {
+                @include svg(Forms/InvalidPassword, auto 50%, 95% center);
+            }
+        }
+
         &:focus {
             border-color: $lightest-color;
         }
@@ -58,7 +72,7 @@
     }
 
     &__button {
-        @include size(50%, 2rem, true);
+        @include size(auto, 2rem, true);
         @include title(130%, 900, 0.2em);
         color: $lightest-color;
         float: right;

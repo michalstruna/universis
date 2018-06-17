@@ -13,7 +13,8 @@ const {
     GET_USERS,
     LOG_IN_USER,
     REMOVE_USER_BY_ID,
-    UPDATE_USER
+    UPDATE_USER,
+    GET_UNAUTH_USER_BY_EMAIL
 } = Routes.API.USER
 
 const router = Router()
@@ -115,6 +116,19 @@ export default (model: IUserModel): Router => {
             request.header(RequestHeaders.TOKEN)
         ).then(users => {
             response.status(OK).send()
+        }).catch(error => {
+            response.status(error).send()
+        })
+    })
+
+    /**
+     * Get unauth user by email.
+     */
+    router.get(GET_UNAUTH_USER_BY_EMAIL.PATH, (request, response) => {
+        model.getUnauthUserByEmail(
+            request.params.email
+        ).then(user => {
+            response.status(OK).send({ user })
         }).catch(error => {
             response.status(error).send()
         })

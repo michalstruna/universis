@@ -1,4 +1,6 @@
-.identity {
+@import "./Styles/UnauthIdentity";
+
+.identity, .login, .sign-up {
     @include flex-center;
 
     .form {
