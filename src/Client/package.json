@@ -4,9 +4,7 @@
   "description": "Simulator of universe.",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "dev": "webpack-dev-server --content-base ./Dist/ --inline --hot --host localhost --port 8080"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
