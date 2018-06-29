@@ -5,9 +5,11 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd src/Client && webpack -p --optimize-minimize && cd ../.. && rm -rf dist && tsc && cp -R src/Client/dist dist/Client/dist && rm -rf dist/Client/src",
+    "build": "cd src/Client && webpack -p --optimize-minimize && cd ../.. && tsc",
     "run": "node dist/index.js",
-    "dev": "nodemon dist/index.js & cd src/Client && webpack-dev-server --content-base ./Dist/ --inline --hot --host localhost --port 8080"
+    "dev": "npm-run-all --parallel dev-server dev-client",
+    "dev-server": "nodemon dist/index.js",
+    "dev-client": "cd src/Client && webpack-dev-server --content-base ./Dist/ --inline --hot --host localhost --port 8080"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,7 @@
   "devDependencies": {
     "@types/express": "^4.11.1",
     "@types/mongoose": "^5.0.15",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "npm-run-all": "^4.1.3"
   }
 }
