@@ -1,5 +1,6 @@
 import * as Mongoose from 'mongoose'
 
+import DatabaseModel from './DatabaseModel'
 import { DatabaseModels } from '../Constants'
 
 /**
@@ -43,12 +44,16 @@ class Database implements IDatabase {
         return null
     }
 
-    public createModel(name: string, schema: Mongoose.Schema): Mongoose.Model<Mongoose.Document> {
-        return this.connection.model(name, schema)
+    public createModel(name: string, schema: Mongoose.Schema): IDatabaseModel {
+        return new DatabaseModel(this.connection.model(name, schema))
     }
 
     public getModel(name: DatabaseModels) {
-        return this.connection.models[name]
+        return new DatabaseModel(this.connection.models[name])
+    }
+
+    public getModelNames(): string[] {
+        return this.connection.modelNames()
     }
 
     /**

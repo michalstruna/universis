@@ -14,7 +14,7 @@ interface IProps {
         button: string
     }
     form: any
-    getUnauthIdentityByEmail: IFunction<string, Promise<IUnauthUser>>
+    getUnauthIdentityByEmail: IFunction<string, Promise<IBaseUser>>
 }
 
 /**

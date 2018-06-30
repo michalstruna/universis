@@ -16,11 +16,8 @@ class Acl {
      * @param user Current user.
      * @returns Operation is permitted.
      */
-    public static isPermitted(operation: OperationType, user: IUser | IShortUser | IUnauthUser | IUserIdentity): boolean {
+    public static isPermitted(operation: OperationType, user: IUser | IBaseUser | IUserIdentity): boolean {
         switch (operation) {
-
-            case OperationType.LOG_IN_USER:
-                return !user.roles.includes(UserRole.LOGGED_IN)
 
             case OperationType.GET_USERS:
                 return user.roles.includes(UserRole.LOGGED_IN)

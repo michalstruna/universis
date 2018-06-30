@@ -10,8 +10,8 @@ interface IProps {
         email: string,
         button: string
     }
-    getUnauthIdentityByEmail: IFunction<string, Promise<IUnauthUser>>
-    unauthUser: IUnauthUser
+    getUnauthIdentityByEmail: IFunction<string, Promise<IBaseUser>>
+    unauthUser: IBaseUser
     error: Error
 }
 
@@ -66,7 +66,7 @@ class IdentityForm extends StatelessComponent<IProps> {
             this.onFail()
         } else {
             this.onSuccess()
-            history.push(unauthUser.isSignedUp ? Urls.LOGIN : Urls.SIGN_UP)
+            history.push(unauthUser._id ? Urls.LOGIN : Urls.SIGN_UP)
         }
     }
 

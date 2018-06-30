@@ -1,66 +1,104 @@
-import { NOT_ACCEPTABLE } from 'http-status-codes'
+import { INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, NOT_FOUND, UNAUTHORIZED } from 'http-status-codes'
 
 import Strings from '../Utils/Strings'
+import Secret from '../Utils/Secret'
+import Model from './Model'
 import { UserRole } from '../Constants'
 
 /**
  * Model for user.
  */
-class UserModel implements IUserModel {
+class UserModel extends Model implements IUserModel {
 
-    public addUser(user: IUser, token: string): Promise<void> {
+    /**
+     * Database model for users.
+     */
+    private model: IDatabaseModel
+
+    public constructor() {
+        super()
+        this.model = this.db.getModel(this.dbModels.USER)
+    }
+
+    public addUser(user: INewUser): Promise<void> {
+        return new Promise((resolve, reject) => {
+            Secret.hash(user.password).then(hash => {
+                user.password = hash
+
+                this.model.add(user).then(() => {
+                    resolve()
+                }).catch(error => reject(INTERNAL_SERVER_ERROR))
+
+            })
+        })
+    }
+
+    public getOnlineUsers(token: string): Promise<IBaseUser[]> {
         return undefined
     }
 
-    public getOnlineUsers(token: string): Promise<IShortUser[]> {
-        return undefined
+    public getUserById(userId: string, token: string): Promise<IUser> { // TODO: Token authorization.
+        return new Promise((resolve, reject) => {
+            this.model.findById(userId).then(user => {
+                resolve(user)
+            }).catch(error => reject(INTERNAL_SERVER_ERROR))
+        })
     }
 
-    public getUserById(userId: string, token: string): Promise<IUser> {
-        return undefined
-    }
-
-    public getUsers(token: string): Promise<IShortUser[]> {
+    public getUsers(token: string): Promise<IBaseUser[]> {
         return undefined
     }
 
     public logInUser(email: string, password: string): Promise<IUserIdentity> {
-        return undefined
-    }
-
-    public removeUserById(userId: string, token: string): Promise<number> {
-        return undefined
-    }
-
-    public updateUser(user: IUser, token: string): Promise<void> {
-        return undefined
-    }
-
-    public getUnauthUserByEmail(email: string): Promise<IUnauthUser> {
         return new Promise((resolve, reject) => {
-            if (Strings.isEmail(email)) {
-                if (email === 'michal.l.struna@gmail.com') { // TODO: From DB.
-                    resolve({
-                        _id: 'iduser',
-                        email,
-                        avatar: 'avatarurl',
-                        roles: [UserRole.EVERYBODY],
-                        firstName: 'Michal',
-                        isSignedUp: true
+            this.model.findOne({ email }).then(user => {
+                if (user) {
+                    Secret.compare(password, user.password).then(isCorrect => {
+                        // TODO: Add token to user.
+                        isCorrect ? resolve(user) : reject(UNAUTHORIZED)
                     })
                 } else {
-                    resolve({
-                        _id: 'iduser',
-                        email,
-                        avatar: 'http://i372.photobucket.com/albums/oo170/Emperortopaz/Headshots/Esdeath_zpsz4aexby6.jpg',
-                        roles: [UserRole.EVERYBODY],
-                        firstName: 'Michal',
-                        isSignedUp: true
-                    }) // TODO: Return anonymous new user.
+                    reject(NOT_FOUND)
                 }
+            }).catch(error => reject(INTERNAL_SERVER_ERROR))
+        })
+    }
+
+    public removeUserById(userId: string, token: string): Promise<IUser> { // TODO: Token authorization.
+        return new Promise((resolve, reject) => {
+            this.model.removeById(userId).then(user => {
+                resolve(user)
+            }).catch(error => reject(INTERNAL_SERVER_ERROR))
+        })
+    }
+
+    public updateUser(user: IUser, token: string): Promise<void> { // TODO: Token authorization.
+        return undefined
+    }
+
+    public getUnauthUserByEmail(email: string): Promise<IBaseUser> {
+        return new Promise((resolve, reject) => {
+            if (Strings.isEmail(email)) {
+                this.model.findOne({ email }).then(user => {
+                    resolve(user ? user : UserModel.getNewUser(email))
+                }).catch(error => reject(INTERNAL_SERVER_ERROR))
             } else {
                 reject(NOT_ACCEPTABLE)
             }
+        })
+    }
+
+    /**
+     * Get data for new user by his email.
+     * @param email Email of user.
+     * @returns {IBaseUser}
+     */
+    private static getNewUser(email: string): IBaseUser {
+        return ({
+            email,
+            avatar: 'http://i372.photobucket.com/albums/oo170/Emperortopaz/Headshots/Esdeath_zpsz4aexby6.jpg', // TODO: Default avatar.
+            roles: [UserRole.EVERYBODY],
+            name: email
         })
     }
 

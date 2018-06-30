@@ -6,7 +6,7 @@ import { StatelessComponent, Link } from '../../Utils'
  * Render unauth identity block about user.
  * There is avatar and first name.
  */
-class UnauthUser extends StatelessComponent<IUnauthUser> {
+class UnauthUser extends StatelessComponent<IBaseUser> {
 
     /**
      * Render avatar of user.
@@ -27,7 +27,7 @@ class UnauthUser extends StatelessComponent<IUnauthUser> {
     private renderFirstName(): JSX.Element {
         return (
             <p className='unauth-identity__first-name'>
-                {this.props.firstName}
+                {this.props.name}
             </p>
         )
     }
@@ -45,7 +45,9 @@ class UnauthUser extends StatelessComponent<IUnauthUser> {
     }
 
     public render(): JSX.Element {
-        if (!this.props.avatar || !this.props.firstName) {
+        console.log(this.props)
+
+        if (!this.props.avatar || !this.props.name) {
             return null
         }
 

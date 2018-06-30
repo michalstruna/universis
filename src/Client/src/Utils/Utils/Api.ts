@@ -17,11 +17,24 @@ class Api {
      * Get unauth user by email.
      * @param email Email of user.
      */
-    public static getUnauthUser(email: string): Promise<IUnauthUser> {
+    public static getUnauthUser(email: string): Promise<IBaseUser> {
         return new Promise((resolve, reject) => {
             Axios.get(API_URL + 'user/unauth/' + email).then(response => {
                 resolve(response.data.user)
-            }).catch(error => reject(error))
+            })
+        })
+    }
+
+    /**
+     * Register new user.
+     * @param email Email of user.
+     * @param password Password of user.
+     */
+    public static signUp(email: string, password: string): Promise<IUser> {
+        return new Promise((resolve, reject) => {
+            Axios.post(API_URL + 'user/sign-up', { email, password }).then(response => {
+                resolve(response.data.user)
+            })
         })
     }
 

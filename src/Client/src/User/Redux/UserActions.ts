@@ -23,6 +23,24 @@ class UserActions {
     )
 
     /**
+     * Register new user.
+     * @param {string} email
+     * @param {string} password
+     * @returns {(dispatch) => Promise<void>}
+     */
+    public static signUp = (email: string, password: string) => (
+        dispatch => {
+            dispatch({ type: ACTION_TYPES.SIGN_UP_SENT })
+
+            return Api.signUp(email, password).then(user => {
+                dispatch({ type: ACTION_TYPES.SIGN_UP_SUCCESS, user })
+            }).catch(error => {
+                dispatch({ type: ACTION_TYPES.SIGN_UP_FAIL, error })
+            })
+        }
+    )
+
+    /**
      * Login user.
      * @param email
      * @param password
