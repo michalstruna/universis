@@ -3,10 +3,14 @@ import * as React from 'react'
 import Home from '../Components/Home'
 import { View } from '../../Utils'
 
+interface IProps {
+
+}
+
 /**
  * View for home page.
  */
-class HomeView extends View {
+class HomeView extends View<IProps> {
 
     public render(): JSX.Element {
         return (

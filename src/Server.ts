@@ -14,6 +14,15 @@ class Server implements IServer {
         this.express = Express()
         this.express.use(BodyParser.json())
         this.express.use(Compression(Z_DEFAULT_COMPRESSION))
+
+        this.express.all('*', (request, response, next) => {
+            response.header('Access-Control-Allow-Origin', '*')
+            response.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
+            response.header('Access-Control-Allow-Headers', 'Content-Type')
+            // TODO: Cache.
+            //response.header('Cache-Control', 'public, max-age=3600')
+            next()
+        })
     }
 
     public getRouter(): Express.Express {

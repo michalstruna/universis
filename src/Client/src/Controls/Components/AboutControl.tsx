@@ -7,11 +7,11 @@ import { StatelessComponent } from '../../Utils'
 
 export interface IProps {
     alert: {
-        title: string,
-        content: string,
+        title: string
+        content: string
         buttons: ILinkButton[]
-    },
-    showAlert: (title: string, content: string, buttons: ILinkButton[]) => void,
+    }
+    showAlert: ITripleConsumer<string, string, ILinkButton[]>
     strings: {
         about: string
     }

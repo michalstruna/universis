@@ -11,14 +11,9 @@ export default {
             UPDATE_BODY: { PATH: '/body' }
         },
         USER: {
-            PATH: '/user',
-            ADD_USER: { PATH: '/user' },
-            GET_ONLINE_USERS: { PATH: '/online' },
-            GET_USER_BY_ID: { PATH: '/user/:userId' },
-            GET_USERS: { PATH: '/users' },
-            LOG_IN_USER: { PATH: '/log-in' },
-            REMOVE_USER_BY_ID: { PATH: '/user/:userId' },
-            UPDATE_USER: { PATH: '/user' },
+            PATH: '/users',
+            ADD_USER: { PATH: '/add' },
+            GET_USERS: { PATH: '/' },
             GET_UNAUTH_USER_BY_EMAIL: { PATH: '/unauth/:email' }
         }
     }

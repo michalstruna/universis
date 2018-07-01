@@ -1,13 +1,13 @@
 import * as React from 'react'
 
-import SimpleComponent from './SimpleComponent'
+import StatelessComponent from './StatelessComponent'
 import Titles from '../Constants/Titles'
 import Strings from '../../../../Utils/Strings'
 
 /**
  * Base view for all another views.
  */
-abstract class View extends SimpleComponent {
+abstract class View<IProps> extends StatelessComponent<IProps> {
 
     /**
      * Set document title.

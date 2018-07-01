@@ -8,6 +8,9 @@ declare interface IUserModel {
      * @param email Email of user.
      * @param password Password of user.
      * @returns Promise with user identity.
+     * @returns Promise with 500 code (internal server error), if there is error in DB.
+     * @returns Promise with 404 code (not found), if there is no user with the email.
+     * @returns Promise with 401 code (unauthorized), if password is incorrect.
      */
     logInUser(email: string, password: string): Promise<IUserIdentity>
 
@@ -16,14 +19,14 @@ declare interface IUserModel {
      * @param token Authentication token.
      * @returns Promise with list of users.
      */
-    getUsers(token: string): Promise<IShortUser[]>
+    getUsers(token: string): Promise<IBaseUser[]>
 
     /**
      * Get all online users.
      * @param token Authentication token.
      * @returns Promise with list of users.
      */
-    getOnlineUsers(token: string): Promise<IShortUser[]>
+    getOnlineUsers(token: string): Promise<IBaseUser[]>
 
     /**
      * Get user by his ID.
@@ -35,11 +38,12 @@ declare interface IUserModel {
 
     /**
      * Register user.
-     * @param user New user.
-     * @param token Authentication token.
+     * @param email Email of user.
+     * @param password Password of user.
      * @return Empty promise.
+     * @returns Promise with 500 code (internal server error), if there is error in DB.
      */
-    addUser(user: IUser, token: string): Promise<void>
+    addUser(email: string, password: string): Promise<void>
 
     /**
      * Update user.
@@ -53,9 +57,9 @@ declare interface IUserModel {
      * Remove user by his ID.
      * @param userId User's ID
      * @param token Authentication token.
-     * @returns Promise with count of removed users.
+     * @returns Promise with removed user.
      */
-    removeUserById(userId: string, token: string): Promise<number>
+    removeUserById(userId: string, token: string): Promise<IUser>
 
     /**
      * Get unauth user by email.
@@ -63,7 +67,8 @@ declare interface IUserModel {
      * @returns Promise with unauth user, if user exists.
      * @returns Promise with null, if user is not exists.
      * @returns Promise with 406 code (not accepted), if email is not in RegExp for email.
+     * @returns Promise with 500 code (internal server error), if there is error in DB.
      */
-    getUnauthUserByEmail(email: string): Promise<IUnauthUser>
+    getUnauthUserByEmail(email: string): Promise<IBaseUser>
 
 }

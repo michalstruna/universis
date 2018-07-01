@@ -4,10 +4,9 @@ import { SystemActions } from '../../System'
 import { Component } from '../../Utils'
 
 interface IProps {
-    hideContext: () => void
+    hideContext: IRunnable,
     isContextVisible: boolean
-    showContext: (x: number, y: number) => void
-
+    showContext: IDoubleConsumer<number, number>
     className?: string
 }
 

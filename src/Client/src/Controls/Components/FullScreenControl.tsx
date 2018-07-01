@@ -6,9 +6,9 @@ import { StatelessComponent } from '../../Utils'
 
 
 export interface IProps {
-    exitFullScreen: () => void,
+    exitFullScreen: IRunnable,
     isFullScreen: boolean,
-    openFullScreen: () => void,
+    openFullScreen: IRunnable,
     strings: {
         maximize: string,
         minimize: string

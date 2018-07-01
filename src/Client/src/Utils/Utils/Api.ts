@@ -17,8 +17,25 @@ class Api {
      * Get unauth user by email.
      * @param email Email of user.
      */
-    public static getUnauthUser(email: string): Promise<IUnauthUser> {
-        return Axios.get(API_URL + 'user/unauth/' + email)
+    public static getUnauthUser(email: string): Promise<IBaseUser> {
+        return new Promise((resolve, reject) => {
+            Axios.get(API_URL + 'users/unauth/' + email).then(response => {
+                resolve(response.data.user)
+            })
+        })
+    }
+
+    /**
+     * Register new user.
+     * @param email Email of user.
+     * @param password Password of user.
+     */
+    public static signUp(email: string, password: string): Promise<IUser> {
+        return new Promise((resolve, reject) => {
+            Axios.post(API_URL + 'users/add', { email, password }).then(response => {
+                resolve(response.data.user)
+            })
+        })
     }
 
 }

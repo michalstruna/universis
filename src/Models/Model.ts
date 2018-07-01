@@ -4,6 +4,7 @@ import Config from '../Constants/Config'
 import { DatabaseConnections, DatabaseModels } from '../Constants'
 
 import BodySchema from '../Database/Schemas/BodySchema'
+import UserSchema from '../Database/Schemas/UserSchema'
 
 /**
  * Base model. This is parent of each another model.
@@ -23,9 +24,10 @@ abstract class Model implements IModel {
     public constructor() {
         this.db = Database.getConnection(DatabaseConnections.BASE)
 
-        if(!this.db) {
+        if (!this.db) {
             this.createBaseConnection()
         }
+
     }
 
     /**
@@ -41,6 +43,7 @@ abstract class Model implements IModel {
         )
 
         this.db.createModel(this.dbModels.BODY, BodySchema)
+        this.db.createModel(this.dbModels.USER, UserSchema)
     }
 
 }

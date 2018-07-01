@@ -2,16 +2,11 @@ import * as React from 'react'
 
 import { StatelessComponent, Link } from '../../Utils'
 
-export interface IProps {
-    avatar: string,
-    firstName: string
-}
-
 /**
  * Render unauth identity block about user.
  * There is avatar and first name.
  */
-class UnauthIdentity extends StatelessComponent<IProps> {
+class UnauthUser extends StatelessComponent<IBaseUser> {
 
     /**
      * Render avatar of user.
@@ -32,7 +27,7 @@ class UnauthIdentity extends StatelessComponent<IProps> {
     private renderFirstName(): JSX.Element {
         return (
             <p className='unauth-identity__first-name'>
-                {this.props.firstName}
+                {this.props.name}
             </p>
         )
     }
@@ -50,7 +45,7 @@ class UnauthIdentity extends StatelessComponent<IProps> {
     }
 
     public render(): JSX.Element {
-        if (!this.props.avatar || !this.props.firstName) {
+        if (!this.props.avatar || !this.props.name) {
             return null
         }
 
@@ -65,9 +60,8 @@ class UnauthIdentity extends StatelessComponent<IProps> {
 
 }
 
-export default UnauthIdentity.connect(
-    ({ }: any) => ({
-        avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSutibWvQM8vtCnmte5CGFdDt2szJJqAvD-WVqbNHGE809ZuMPkTg',
-        firstName: 'Michal'
+export default UnauthUser.connect(
+    ({ user }: any) => ({
+        ...user.unauthUser
     })
 )

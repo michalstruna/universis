@@ -6,9 +6,9 @@ import { StatelessComponent } from '../../Utils'
 
 
 export interface IProps {
-    hideUI: () => void,
+    hideUI: IRunnable,
     isUIVisible: boolean,
-    showUI: () => void,
+    showUI: IRunnable,
     strings: {
         hideUI: string,
         showUI: string

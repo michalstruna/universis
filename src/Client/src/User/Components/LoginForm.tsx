@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Link, StatelessComponent } from '../../Utils'
 import { PasswordField, Form, Note, Submit, Title } from '../../Forms'
 import UserActions from '../Redux/UserActions'
-import UnauthIdentity from './UnauthIdentity'
+import UnauthIdentity from './UnauthUser'
 
 interface IProps {
     strings: {
@@ -11,8 +11,8 @@ interface IProps {
         password: string,
         button: string,
         forgot: string
-    },
-    login: (email: string, password: string) => void
+    }
+    login: IDoubleConsumer<string, string>
 }
 
 /**
@@ -27,8 +27,7 @@ class LoginForm extends StatelessComponent<IProps> {
      * @param success Success of form.
      * @param fail Fail of form.
      */
-    private handleSubmit = (values: { email: string }, success: () => void, fail: () => void): void => {
-        // TODO: Fix types like () => void.
+    private handleSubmit = (values: { email: string }, success: IRunnable, fail: IRunnable): void => {
         // TODO: Login.
         // TODO: Forgot password. Alert? Link?
     }

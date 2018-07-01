@@ -7,7 +7,7 @@ import Urls from '../Constants/Urls'
 interface IProps {
     target: string,
     className?: string,
-    onClick: () => void
+    onClick: IRunnable
 }
 
 /**
@@ -26,7 +26,7 @@ class Link extends StatelessComponent<IProps> {
      * @param event Event.
      * @param callback Callback.
      */
-    private handleClick = (event: React.MouseEvent<HTMLElement>, callback: () => void) => {
+    private handleClick = (event: React.MouseEvent<HTMLElement>, callback: IRunnable) => {
         event.preventDefault()
         callback()
     }

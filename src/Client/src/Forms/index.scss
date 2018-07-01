@@ -52,14 +52,6 @@
         transition: border-color $fast-animation-duration;
         width: 100%;
 
-        &--password {
-            @include svg(Forms/Password, auto 50%, 95% center);
-
-            &.form__input--invalid {
-                @include svg(Forms/InvalidPassword, auto 50%, 95% center);
-            }
-        }
-
         &:focus {
             border-color: $lightest-color;
         }

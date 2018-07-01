@@ -5,9 +5,11 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd src/Client && webpack -p --optimize-minimize && cd ../.. && rm -rf dist && tsc && cp -R src/Client/dist dist/Client/dist && rm -rf dist/Client/src",
+    "build": "cd src/Client && webpack -p --optimize-minimize && cd ../.. && tsc",
     "run": "node dist/index.js",
-    "dev": "nodemon dist/index.js & cd src/Client && webpack-dev-server --content-base ./Dist/ --inline --hot --host localhost --port 8080"
+    "dev": "npm-run-all --parallel dev-server dev-client",
+    "dev-server": "nodemon dist/index.js",
+    "dev-client": "cd src/Client && webpack-dev-server --content-base ./Dist/ --inline --hot --host localhost --port 8080"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
   "license": "UNLICENSED",
   "homepage": "https://bitbucket.org/michal-struna/universis#readme",
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
     "express": "^4.16.3",
@@ -31,8 +34,10 @@
     "typescript": "^2.8.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^2.0.0",
     "@types/express": "^4.11.1",
     "@types/mongoose": "^5.0.15",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "npm-run-all": "^4.1.3"
   }
 }

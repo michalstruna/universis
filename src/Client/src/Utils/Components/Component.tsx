@@ -4,7 +4,7 @@ import { withRouter, RouteProps } from 'react-router-dom'
 
 interface IComponentProps {
     history?: {
-        push: (url: string) => void
+        push: IConsumer<string>
     }
     location?: {
         pathname: string

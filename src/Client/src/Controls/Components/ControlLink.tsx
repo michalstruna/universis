@@ -7,7 +7,7 @@ export interface IProps {
     label: string,
     name: string,
     target: string,
-    isVisible?: () => boolean
+    isVisible?: ISupplier<boolean>
 }
 
 abstract class ControlLink extends StatelessComponent<IProps> {

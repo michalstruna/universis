@@ -10,3 +10,15 @@
         width: 20em;
     }
 }
+
+.sign-up {
+
+    .form__input--password {
+        @include svg(Forms/Password, auto 50%, 95% center);
+
+        &.form__input--invalid {
+            @include svg(Forms/InvalidPassword, auto 50%, 95% center);
+        }
+    }
+
+}

@@ -6,12 +6,17 @@ declare interface IBaseUser {
     /**
      * User's ID.
      */
-    _id: string
+    _id?: string
 
     /**
      * User's email.
      */
     email: string
+
+    /**
+     * Name of user. Default is email.
+     */
+    name: string
 
     /**
      * User's image's url.
@@ -28,6 +33,17 @@ declare interface IBaseUser {
 
 }
 
+/**
+ * Interface for ew user.
+ */
+declare interface INewUser extends IBaseUser {
+
+    /**
+     * Password of user.
+     */
+    password: string
+
+}
 
 /**
  * Interface for user.
@@ -38,27 +54,11 @@ declare interface IUser extends IBaseUser {
 }
 
 /**
- * Interface for short user.
- * It contains only necessary data about user.
- */
-declare interface IShortUser extends IBaseUser {
-
-}
-
-/**
- * Interface for unauth user.
- * It contains only Public data about user.
- */
-declare interface IUnauthUser extends IBaseUser {
-
-}
-
-/**
  * interface for user identity.
  * This is only for owner user.
  * Nobody else shouldn't know user's token.
  */
-declare interface IUserIdentity extends IShortUser {
+declare interface IUserIdentity extends IBaseUser {
 
     /**
      * Temporally access token of user.
