@@ -18,8 +18,14 @@ class DatabaseModel implements IDatabaseModel {
         return new this.model(data).save()
     }
 
-    find(condition: Object): Promise<Document[]> {
-        return this.model.find(condition).exec()
+    find(condition: Object, refs: String[] = []): Promise<Document[]> {
+        const query = this.model.find(condition)
+
+        for (const ref of refs) {
+            query.populate(ref)
+        }
+
+        return query.exec()
     }
 
     findById(id: string): Promise<Document | null> {

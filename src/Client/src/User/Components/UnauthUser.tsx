@@ -45,8 +45,6 @@ class UnauthUser extends StatelessComponent<IBaseUser> {
     }
 
     public render(): JSX.Element {
-        console.log(this.props)
-
         if (!this.props.avatar || !this.props.name) {
             return null
         }

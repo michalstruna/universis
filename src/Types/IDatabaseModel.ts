@@ -8,9 +8,10 @@ declare interface IDatabaseModel {
     /**
      * Find all documents with condition.
      * @param condition Object, keys are properties, values are required values.
+     * @param refs List of populated properties of document. (optional)
      * @returns Promise with array of found documents or empty array.
      */
-    find(condition: Object): Promise<IMongooseDocument[]>
+    find(condition: Object, refs?: String[]): Promise<IMongooseDocument[]>
 
     /**
      * Find one document by its ID.

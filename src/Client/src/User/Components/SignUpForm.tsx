@@ -14,7 +14,8 @@ interface IProps {
         button: string
     }
     form: any
-    getUnauthIdentityByEmail: IFunction<string, Promise<IBaseUser>>
+    signUp: IDoubleConsumer<string, string>,
+    user: IBaseUser
 }
 
 /**
@@ -24,12 +25,13 @@ class SignUpForm extends StatelessComponent<IProps> {
 
     /**
      * After submit send request to server.
-     * @param values Values of form. There is only email.
+     * @param values Values of form. There is only password.
      * @param success Success of form.
      * @param fail Fail of form.
      */
-    private handleSubmit = (values: { email: string }, success: IRunnable, fail: IRunnable): void => {
-        // TODO
+    private handleSubmit = (values: { password: string }, success: IRunnable, fail: IRunnable): void => {
+        const { user, signUp } = this.props
+        signUp(user.email, values.password)
     }
 
     /**
@@ -80,11 +82,12 @@ class SignUpForm extends StatelessComponent<IProps> {
 }
 
 export default SignUpForm.connect(
-    ({ form, system }: any) => ({
+    ({ form, system, user }: any) => ({
         strings: system.strings.signUp,
-        form
+        form,
+        user: user.unauthUser
     }),
     (dispatch: any) => ({
-        getUnauthIdentityByEmail: (email: string) => dispatch(UserActions.getUnauthUserByEmail(email))
+        signUp: (email: string, password: string) => dispatch(UserActions.signUp(email, password))
     })
 )

@@ -18,7 +18,7 @@ const UserSchema = new Schema({
         }
     },
 
-    passwordHash: {
+    password: {
         type: String,
         required: [true, 'Password hash is required.']
     },
@@ -38,7 +38,8 @@ const UserSchema = new Schema({
 
     avatar: {
         type: String,
-        required: false
+        required: [true, 'Avatar is required.'],
+        default: 'http://i372.photobucket.com/albums/oo170/Emperortopaz/Headshots/Esdeath_zpsz4aexby6.jpg' // TODO: Default avatar.
     }
 
 })

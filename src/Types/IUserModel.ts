@@ -38,12 +38,12 @@ declare interface IUserModel {
 
     /**
      * Register user.
-     * @param user New user.
-     * @param token Authentication token.
+     * @param email Email of user.
+     * @param password Password of user.
      * @return Empty promise.
      * @returns Promise with 500 code (internal server error), if there is error in DB.
      */
-    addUser(user: IUser, token: string): Promise<void>
+    addUser(email: string, password: string): Promise<void>
 
     /**
      * Update user.

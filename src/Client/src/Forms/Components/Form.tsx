@@ -37,7 +37,9 @@ class Form extends Component<IFormProps, IFormState> {
         const values = {}
 
         for (const field in form[name]) {
-            values[field] = form[name][field].value
+            if (field !== 'send' && field !== 'error') { // TODO: Constants?
+                values[field] = form[name][field].value
+            }
         }
 
         onSubmit(values, this.handleSuccess, this.handleFail)

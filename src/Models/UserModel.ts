@@ -20,14 +20,14 @@ class UserModel extends Model implements IUserModel {
         this.model = this.db.getModel(this.dbModels.USER)
     }
 
-    public addUser(user: INewUser): Promise<void> {
+    public addUser(email: string, password: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            Secret.hash(user.password).then(hash => {
-                user.password = hash
+            Secret.hash(password).then(hash => {
+                password = hash
 
-                this.model.add(user).then(() => {
-                    resolve()
-                }).catch(error => reject(INTERNAL_SERVER_ERROR))
+                this.model
+                    .add({ email, password }).then(() => resolve())
+                    .catch(error => reject(INTERNAL_SERVER_ERROR))
 
             })
         })
@@ -39,36 +39,46 @@ class UserModel extends Model implements IUserModel {
 
     public getUserById(userId: string, token: string): Promise<IUser> { // TODO: Token authorization.
         return new Promise((resolve, reject) => {
-            this.model.findById(userId).then(user => {
-                resolve(user)
-            }).catch(error => reject(INTERNAL_SERVER_ERROR))
+            this.model
+                .findById(userId)
+                .then(user => resolve(user))
+                .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
     }
 
     public getUsers(token: string): Promise<IBaseUser[]> {
-        return undefined
+        return new Promise((resolve, reject) => {
+            this.model
+                .find({})
+                .then(users => resolve(users))
+                .catch(error => reject(INTERNAL_SERVER_ERROR))
+        })
     }
 
     public logInUser(email: string, password: string): Promise<IUserIdentity> {
         return new Promise((resolve, reject) => {
-            this.model.findOne({ email }).then(user => {
-                if (user) {
-                    Secret.compare(password, user.password).then(isCorrect => {
-                        // TODO: Add token to user.
-                        isCorrect ? resolve(user) : reject(UNAUTHORIZED)
-                    })
-                } else {
-                    reject(NOT_FOUND)
-                }
-            }).catch(error => reject(INTERNAL_SERVER_ERROR))
+            this.model
+                .findOne({ email })
+                .then(user => {
+                    if (user) {
+                        Secret.compare(password, user.password).then(isCorrect => {
+                            // TODO: Add token to user.
+                            isCorrect ? resolve(user) : reject(UNAUTHORIZED)
+                        })
+                    } else {
+                        reject(NOT_FOUND)
+                    }
+                })
+                .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
     }
 
     public removeUserById(userId: string, token: string): Promise<IUser> { // TODO: Token authorization.
         return new Promise((resolve, reject) => {
-            this.model.removeById(userId).then(user => {
-                resolve(user)
-            }).catch(error => reject(INTERNAL_SERVER_ERROR))
+            this.model
+                .removeById(userId)
+                .then(user => resolve(user))
+                .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
     }
 
@@ -79,9 +89,10 @@ class UserModel extends Model implements IUserModel {
     public getUnauthUserByEmail(email: string): Promise<IBaseUser> {
         return new Promise((resolve, reject) => {
             if (Strings.isEmail(email)) {
-                this.model.findOne({ email }).then(user => {
-                    resolve(user ? user : UserModel.getNewUser(email))
-                }).catch(error => reject(INTERNAL_SERVER_ERROR))
+                this.model
+                    .findOne({ email })
+                    .then(user => resolve(user ? user : UserModel.getNewUser(email)))
+                    .catch(error => reject(INTERNAL_SERVER_ERROR))
             } else {
                 reject(NOT_ACCEPTABLE)
             }

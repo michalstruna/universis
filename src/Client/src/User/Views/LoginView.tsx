@@ -1,13 +1,28 @@
 import * as React from 'react'
 
-import { View }  from '../../Utils'
+import { Urls, View } from '../../Utils'
 import { LoginForm } from '../../User'
+
+interface IProps {
+    unauthUser: IBaseUser,
+    isLoggedIn: boolean
+}
 
 /**
  * View for login page.
  * There is login form.
  */
-class LoginView extends View {
+class LoginView extends View<IProps> {
+
+    componentWillMount() {
+        const { unauthUser, history, isLoggedIn } = this.props
+
+        if (isLoggedIn) {
+            history.push(Urls.HOME)
+        } else if (!unauthUser) {
+            history.push(Urls.IDENTITY)
+        }
+    }
 
     public render(): JSX.Element {
         return (
@@ -19,4 +34,9 @@ class LoginView extends View {
 
 }
 
-export default LoginView
+export default LoginView.connect(
+    ({ user }: any) => ({
+        unauthUser: user.unauthUser,
+        isLoggedIn: user.isLoggedIn
+    })
+)

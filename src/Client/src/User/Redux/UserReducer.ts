@@ -4,7 +4,10 @@ const initialState = {
 
     getUnauthUserSent: false,
     getUnauthUserError: null,
-    unauthUser: null
+    unauthUser: null,
+
+    signUpSent:false,
+    signUpError: null
 
 }
 
@@ -34,6 +37,29 @@ export default function (state = initialState, action: any) {
                 getUnauthUserError: action.error,
                 unauthUser: null
             }
+
+        case ACTION_TYPES.SIGN_UP_SENT: {
+            return {
+                ...state,
+                signUpSent: true
+            }
+        }
+
+        case ACTION_TYPES.SIGN_UP_SUCCESS: {
+            return {
+                ...state,
+                signUpSent: false,
+                signUpError: null
+            }
+        }
+
+        case ACTION_TYPES.SIGN_UP_FAIL: {
+            return {
+                ...state,
+                signUpSent: false,
+                signUpError: action.error
+            }
+        }
 
         default:
             return state

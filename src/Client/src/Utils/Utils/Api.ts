@@ -19,7 +19,7 @@ class Api {
      */
     public static getUnauthUser(email: string): Promise<IBaseUser> {
         return new Promise((resolve, reject) => {
-            Axios.get(API_URL + 'user/unauth/' + email).then(response => {
+            Axios.get(API_URL + 'users/unauth/' + email).then(response => {
                 resolve(response.data.user)
             })
         })
@@ -32,7 +32,7 @@ class Api {
      */
     public static signUp(email: string, password: string): Promise<IUser> {
         return new Promise((resolve, reject) => {
-            Axios.post(API_URL + 'user/sign-up', { email, password }).then(response => {
+            Axios.post(API_URL + 'users/add', { email, password }).then(response => {
                 resolve(response.data.user)
             })
         })
