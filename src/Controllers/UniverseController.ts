@@ -25,12 +25,12 @@ export default (model: IUniverseModel): Router => {
     /**
      * Route for add new body.
      */
-    router.put(ADD_BODY.PATH, (request, response) => {
+    router.post(ADD_BODY.PATH, (request, response) => {
         model.addBody(
-            request.body.body,
+            request.body,
             request.header(RequestHeaders.TOKEN)
-        ).then(() => {
-            response.status(OK).send()
+        ).then(body => {
+            response.status(OK).send(body)
         }).catch(error => {
             response.status(error).send()
         })

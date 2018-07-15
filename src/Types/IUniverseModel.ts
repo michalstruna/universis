@@ -22,9 +22,9 @@ declare interface IUniverseModel {
      * Add body to DB.
      * @param body New body.
      * @param token Authentication token.
-     * @returns Empty promise.
+     * @returns Promise with new body.
      */
-    addBody(body: INewBody, token: string): Promise<void>
+    addBody(body: INewBody, token: string): Promise<IBaseBody>
 
     /**
      * Update body in DB.

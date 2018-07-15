@@ -4,19 +4,31 @@ import Model from './Model'
 
 class UniverseModel extends Model implements IUniverseModel {
 
-    public addBody(body: IBody, token: string): Promise<void> {
+    /**
+     * Database model for users.
+     */
+    private bodyModel: IDatabaseModel
+
+    public constructor() {
+        super()
+        this.bodyModel = this.db.getModel(this.dbModels.BODY)
+    }
+
+    public addBody(body: IBody, token: string): Promise<IBaseBody> {
         return new Promise((resolve, reject) => {
-           /* new (this.db.getModel(this.dbModels.BODY))(body).save((error, body) => {
-                error ? reject(INTERNAL_SERVER_ERROR) : resolve()
-            })*/
+            this.bodyModel
+                .add(body)
+                .then(resolve)
+                .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
     }
 
     public getBodies(token: string): Promise<IBaseBody[]> {
         return new Promise((resolve, reject) => {
-            /*this.db.getModel(this.dbModels.BODY).find({}, (error, bodies) => {
-                error ? reject(INTERNAL_SERVER_ERROR) : resolve(bodies)
-            })*/
+            this.bodyModel
+                .find({})
+                .then(resolve)
+                .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
     }
 

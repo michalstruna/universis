@@ -1,7 +1,7 @@
 enum DatabaseModels {
 
-    BODY = 'BODY',
-    USER = 'USER'
+    BODY = 'Body',
+    USER = 'User'
 
 }
 
