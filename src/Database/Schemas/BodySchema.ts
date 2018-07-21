@@ -1,5 +1,7 @@
 import { Schema } from 'mongoose'
 
+import { Errors } from '../../Constants'
+
 /**
  * DB schema for short body.
  */
@@ -8,7 +10,7 @@ const BodySchema = new Schema({
         type: String,
         required: true,
         minlength: 1,
-        unique: true
+        unique: [true, 'Duplicate name.']
     },
     diameter: {
         equatorial: {

@@ -19,7 +19,10 @@ class UniverseModel extends Model implements IUniverseModel {
             this.bodyModel
                 .add(body)
                 .then(resolve)
-                .catch(error => reject(INTERNAL_SERVER_ERROR))
+                .catch(err => {
+                    console.log(err)
+                    reject(INTERNAL_SERVER_ERROR)
+                })
         })
     }
 
