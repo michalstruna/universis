@@ -96,7 +96,12 @@ export default {
                         'content': {
                             'application/json': {
                                 'schema': {
-                                    '$ref': '#/components/schemas/NewBody'
+                                    'type': 'object',
+                                    'properties': {
+                                        '_id': {
+                                            '$ref': '#/components/schemas/Id'
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -106,6 +111,32 @@ export default {
                     },
                     '409': {
                         'description': 'Body with this name already exists.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Bodies'],
+                'summary': 'Delete all bodies.',
+                'description': 'Delete all bodies and return count of deleted bodies.',
+                'responses': {
+                    '200': {
+                        'description': 'Bodies was successful deleted.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'object',
+                                    'properties': {
+                                        'count': {
+                                            'type': 'number',
+                                            'example': 7
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'There is no body to remove.'
                     }
                 }
             }
@@ -156,15 +187,8 @@ export default {
                     }
                 },
                 'responses': {
-                    '200': {
-                        'description': 'Body was successful updated.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    '$ref': '#/components/schemas/Body'
-                                }
-                            }
-                        }
+                    '204': {
+                        'description': 'Body was successful updated.'
                     },
                     '400': {
                         'description': 'Invalid values.'
@@ -248,20 +272,26 @@ export default {
                 },
                 'responses': {
                     '200': {
-                        'description': 'Body type was successful created.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    '$ref': '#/components/schemas/BodyType'
-                                }
-                            }
-                        }
+                        'description': 'Body type was successful created.'
                     },
                     '400': {
                         'description': 'Invalid name.'
                     },
                     '409': {
                         'description': 'Body type with this name already exists.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Body types'],
+                'summary': 'Delete all body types.',
+                'description': 'Delete all body types.',
+                'responses': {
+                    '204': {
+                        'description': 'Body types was successful deleted.'
+                    },
+                    '409': {
+                        'description': 'There are bodies with any body types.'
                     }
                 }
             }

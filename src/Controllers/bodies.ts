@@ -14,6 +14,10 @@ export default {
 
     post: process(({ body }) => (
         BodyModel.addBody(body)
-    ))
+    ), _id => ({ _id })),
+
+    delete: process(() => (
+        BodyModel.removeBodies()
+    ), count => ({ count }))
 
 }

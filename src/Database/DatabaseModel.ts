@@ -38,11 +38,11 @@ class DatabaseModel implements IDatabaseModel {
         return mapMongooseErrorToStatus[error.code] || Errors.INVALID
     }
 
-    public add<T>(data: Object): Promise<T> {
+    public add(data: Object): Promise<string> {
         return new Promise((resolve, reject) => (
             this.model
                 .create(data)
-                .then(body => resolve(body.toObject()))
+                .then(body => resolve(body.toObject()._id))
                 .catch(error => reject(this.getErrorStatusCode(error)))
         ))
     }
@@ -83,25 +83,31 @@ class DatabaseModel implements IDatabaseModel {
         return this
     }
 
-    public remove<T>(condition: Object): Promise<T> {
-        return this.model
-            .remove(condition)
-            .lean()
-            .exec()
+    public remove(condition: Object): Promise<number> {
+        return new Promise((resolve, reject) => (
+            this.model
+                .remove(condition)
+                .then(removed => removed.n > 0 ? resolve(removed.n) : reject(Errors.NOT_FOUND))
+                .catch(error => reject(this.getErrorStatusCode(error)))
+        ))
     }
 
-    public removeById<T>(id: string): Promise<T> {
-        return this.model
-            .findByIdAndRemove(id)
-            .lean()
-            .exec()
+    public removeById(id: string): Promise<void> {
+        return new Promise((resolve, reject) => (
+            this.model
+                .findByIdAndRemove(id)
+                .then(removed => removed ? resolve() : reject(Errors.NOT_FOUND))
+                .catch(error => reject(this.getErrorStatusCode(error)))
+        ))
     }
 
-    public removeOne<T>(condition: Object): Promise<T> {
-        return this.model
-            .findOneAndRemove(condition)
-            .lean()
-            .exec()
+    public removeOne(condition: Object): Promise<void> {
+        return new Promise((resolve, reject) => (
+            this.model
+                .findOneAndRemove(condition)
+                .then(removed => removed ? resolve() : reject(Errors.NOT_FOUND))
+                .catch(error => reject(this.getErrorStatusCode(error)))
+        ))
     }
 
     public run<T>(): Promise<T> {
@@ -118,25 +124,31 @@ class DatabaseModel implements IDatabaseModel {
         return this
     }
 
-    public update<T>(condition: Object, newValues: Object): Promise<T> {
-        return this.model
-            .updateMany(condition, newValues, { new: true })
-            .lean()
-            .exec()
+    public update(condition: Object, newValues: Object): Promise<number> {
+        return new Promise((resolve, reject) => (
+            this.model
+                .updateMany(condition, newValues, { new: true })
+                .then(updated => updated.length > 0 ? resolve(updated.length) : reject(Errors.NOT_FOUND))
+                .catch(error => reject(this.getErrorStatusCode(error)))
+        ))
     }
 
-    public updateById<T>(id: string, newValues: Object): Promise<T> {
-        return this.model
-            .findByIdAndUpdate(id, newValues, { new: true })
-            .lean()
-            .exec()
+    public updateById(id: string, newValues: Object): Promise<void> {
+        return new Promise((resolve, reject) => (
+            this.model
+                .findByIdAndUpdate(id, newValues)
+                .then(updated => updated ? resolve() : reject(Errors.NOT_FOUND))
+                .catch(error => reject(this.getErrorStatusCode(error)))
+        ))
     }
 
-    public updateOne<T>(condition: Object, newValues: Object): Promise<T> {
-        return this.model
-            .updateOne(condition, newValues, { new: true })
-            .lean()
-            .exec()
+    public updateOne(condition: Object, newValues: Object): Promise<void> {
+        return new Promise((resolve, reject) => (
+            this.model
+                .updateOne(condition, newValues, { new: true })
+                .then(updated => updated ? resolve() : reject(Errors.NOT_FOUND))
+                .catch(error => reject(this.getErrorStatusCode(error)))
+        ))
     }
 }
 

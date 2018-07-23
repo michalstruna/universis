@@ -27,54 +27,66 @@ declare interface IDatabaseModel {
     /**
      * Remove all documents with condition.
      * @param condition Object, keys are properties, values are required values.
-     * @returns Promise with removed documents.
+     * @returns Promise with count of removed documents.
      */
-    remove<T>(condition: Object): Promise<T>
+    remove(condition: Object): Promise<number>
 
     /**
      * Remove one document with ID.
      * @param id ID of document.
-     * @returns Promise with removed document.
+     * @returns Empty promise.
+     * @returns Promise with error 404, if there is no document with ID.
      */
-    removeById<T>(id: string): Promise<T>
+    removeById(id: string): Promise<void>
 
     /**
      * Remove one document with condition.
      * @param condition Object, keys are properties, values are required values.
-     * @returns Promise with removed document.
+     * @returns Empty promise.
+     * @returns Promise with error 404, if there is no document to remove.
      */
-    removeOne<T>(condition: Object): Promise<T>
+    removeOne(condition: Object): Promise<void>
 
     /**
      * Update all documents with condition.
      * @param condition Object, keys are properties, values are required values.
      * @param newValues Updated values of document. Keys are properties, values are updated values.
-     * @returns Updated documents.
+     * @returns Promise with count of updated documents.
+     * @returns Promise with error 400, if there is invalid value.
+     * @returns Promise with error 409, if there is duplicate unique value.
      */
-    update<T>(condition: Object, newValues: Object): Promise<T>
+    update(condition: Object, newValues: Object): Promise<number>
 
     /**
      * Update one document with ID.
      * @param id ID of document.
      * @param newValues Updated values of document. Keys are properties, values are updated values.
-     * @returns Updated document.
+     * @returns Empty promise.
+     * @returns Promise with error 400, if there is invalid value.
+     * @returns Promise with error 404, if there is no document with ID.
+     * @returns Promise with error 409, if there is duplicate unique value.
      */
-    updateById<T>(id: string, newValues: Object): Promise<T>
+    updateById(id: string, newValues: Object): Promise<void>
 
     /**
      * Update one document with condition.
      * @param condition Object, keys are properties, values are required values.
      * @param newValues Updated values of document. Keys are properties, values are updated values.
-     * @returns Updated document.
+     * @returns Empty promise.
+     * @returns Promise with error 400, if there is invalid value.
+     * @returns Promise with error 404, if there is no document to update.
+     * @returns Promise with error 409, if there is duplicate unique value.
      */
-    updateOne<T>(condition: Object, newValues: Object): Promise<T>
+    updateOne(condition: Object, newValues: Object): Promise<void>
 
     /**
      * Add new document to collection.
      * @param data Data of new document. There must be all required properties.
-     * @returns Created document.
+     * @returns Promise with ID of created document.
+     * @returns Promise with error 400, if there is invalid value.
+     * @returns Promise with error 409, if there is duplicate unique value.
      */
-    add<T>(data: Object): Promise<T>
+    add(data: Object): Promise<string>
 
     /**
      * Set max count of result documents.

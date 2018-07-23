@@ -1,5 +1,5 @@
 import BodyModel from '../../Models/BodyModel'
-import { process } from '../../Utils/Response'
+import { process, processWithoutResponse } from '../../Utils/Response'
 
 export default {
 
@@ -7,12 +7,12 @@ export default {
         BodyModel.getBody(params.bodyId)
     )),
 
-    put: process(({ params, body }) => (
+    put: processWithoutResponse(({ params, body }) => (
         BodyModel.updateBody(params.bodyId, body)
     )),
 
-    delete: process(({ params }) => (
-        BodyModel.removeBody(params.bodyId))
-    )
+    delete: processWithoutResponse(({ params }) => (
+        BodyModel.removeBody(params.bodyId)
+    ))
 
 }

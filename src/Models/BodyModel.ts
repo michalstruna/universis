@@ -16,16 +16,16 @@ class BodyModel extends Model implements IBodyModel {
         this.bodyModel = this.db.getModel(this.dbModels.BODY)
     }
 
-    public addBody(data: INewBody): Promise<ISimpleBody> {
+    public addBody(data: INewBody): Promise<string> {
         return new Promise((resolve, reject) => (
             this.bodyModel
-                .add<ISimpleBody>(data)
-                .then(body => resolve(body))
+                .add(data)
+                .then(id => resolve(id))
                 .catch(error => reject(error === CONFLICT ? CONFLICT : BAD_REQUEST))
         ))
     }
 
-    public getBodies(order: SortOrder, criterion: BodiesOrderCriterion, limit: number, offset: number): Promise<ISimpleBody[]> {
+    public getBodies(order: SortOrder, criterion: string, limit: number, offset: number): Promise<ISimpleBody[]> {
         return this.bodyModel
             .get({})
             .limit(limit)
@@ -44,7 +44,11 @@ class BodyModel extends Model implements IBodyModel {
         ))
     }
 
-    public removeBody(id: string, force: boolean = false): Promise<IBody> {
+    public removeBodies(): Promise<number> {
+        return this.bodyModel.remove({})
+    }
+
+    public removeBody(id: string, force: boolean = false): Promise<void> {
         return new Promise((resolve, reject) => {
             if (force) {
                 // TODO: Remove sub-tree.
@@ -57,19 +61,21 @@ class BodyModel extends Model implements IBodyModel {
                             reject(BAD_REQUEST)
                         } else {
                             return this.bodyModel
-                                .removeById<IBody>(id)
-                                .then(body => body ? resolve(body) : reject(NOT_FOUND))
+                                .removeById(id)
+                                .then(() => resolve())
+                                .catch(error => reject(error))
                         }
                     })
             }
         })
     }
 
-    public updateBody(id: string, updatedBody: IBody | ISimpleBody): Promise<IBody> {
+    public updateBody(id: string, updatedBody: IBody | ISimpleBody): Promise<void> {
         return new Promise((resolve, reject) => (
             this.bodyModel
-                .updateById<IBody | ISimpleBody>(id, updatedBody)
-                .then(body => body ? resolve(body) : reject(NOT_FOUND))
+                .updateById(id, updatedBody)
+                .then(() => resolve())
+                .catch(error => reject(error))
         ))
     }
 
