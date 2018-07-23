@@ -65,7 +65,7 @@ class Database implements IDatabase {
      * @returns Connection string.
      */
     private static getConnectionString(username: string, password: string, cluster: string, database: string): string {
-        return `mongodb+srv://${username}:${password}@${cluster}-yasip.mongodb.net/${database}?retryWrites=false` // TODO: dbName to config.
+        return `mongodb+srv://${username}:${password}@${cluster}-yasip.mongodb.net/${database}?retryWrites=false`
     }
 
 }

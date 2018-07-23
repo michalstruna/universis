@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-import { Errors } from '../../Constants'
+import { DatabaseModels } from '../../Constants'
 
 /**
  * DB schema for short body.
@@ -9,8 +9,7 @@ const BodySchema = new Schema({
     name: {
         type: String,
         required: true,
-        minlength: 1,
-        unique: [true, 'Duplicate name.']
+        unique: true
     },
     diameter: {
         equatorial: {
@@ -79,9 +78,8 @@ const BodySchema = new Schema({
                     }
                 },
                 texture: {
-                    type: Number,
-                    required: true,
-                    minlength: 1
+                    type: String,
+                    required: true
                 }
 
             }
@@ -89,8 +87,8 @@ const BodySchema = new Schema({
         required: true
     },
     texture: {
-        type: String, required: true,
-        minlength: 1
+        type: String,
+        required: true
     },
     tilt: {
         type: Number,
@@ -98,8 +96,9 @@ const BodySchema = new Schema({
         min: -360,
         max: 360
     },
-    type: {
-        type: Number,
+    typeId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.BODY_TYPE,
         required: true
     }
 })

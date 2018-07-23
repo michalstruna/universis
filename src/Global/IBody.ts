@@ -2,7 +2,7 @@
  * Interface for new body.
  * There is no ID, because of ID was not generated yet.
  */
-declare interface INewBody {
+declare interface INewSimpleBody {
 
     /**
      * Name of body.
@@ -114,11 +114,15 @@ declare interface INewBody {
 
 }
 
+declare interface INewBody extends INewSimpleBody {
+
+}
+
 /**
  * Interface for base body.
  * This is parent of all another interfaces for bodies.
  */
-declare interface IBaseBody extends INewBody {
+declare interface ISimpleBody extends INewSimpleBody {
 
     /**
      * Unique ID of body.
@@ -131,6 +135,6 @@ declare interface IBaseBody extends INewBody {
  * Interface for body.
  * It contains all data about body.
  */
-declare interface IBody extends IBaseBody {
+declare interface IBody extends INewBody, ISimpleBody {
 
 }

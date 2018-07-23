@@ -26,7 +26,8 @@ class UserModel extends Model implements IUserModel {
                 password = hash
 
                 this.model
-                    .add({ email, password }).then(() => resolve())
+                    .add({ email, password })
+                    .then(() => resolve())
                     .catch(error => reject(INTERNAL_SERVER_ERROR))
 
             })
@@ -40,7 +41,8 @@ class UserModel extends Model implements IUserModel {
     public getUserById(userId: string, token: string): Promise<IUser> { // TODO: Token authorization.
         return new Promise((resolve, reject) => {
             this.model
-                .findById(userId)
+                .getById(userId)
+                .run<IUser>()
                 .then(user => resolve(user))
                 .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
@@ -49,7 +51,8 @@ class UserModel extends Model implements IUserModel {
     public getUsers(token: string): Promise<IBaseUser[]> {
         return new Promise((resolve, reject) => {
             this.model
-                .find({})
+                .get({})
+                .run<IBaseUser[]>()
                 .then(users => resolve(users))
                 .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
@@ -58,11 +61,11 @@ class UserModel extends Model implements IUserModel {
     public logInUser(email: string, password: string): Promise<IUserIdentity> {
         return new Promise((resolve, reject) => {
             this.model
-                .findOne({ email })
+                .getOne({ email })
+                .run<any>() // TODO
                 .then(user => {
                     if (user) {
                         Secret.compare(password, user.password).then(isCorrect => {
-                            // TODO: Add token to user.
                             isCorrect ? resolve(user) : reject(UNAUTHORIZED)
                         })
                     } else {
@@ -73,16 +76,16 @@ class UserModel extends Model implements IUserModel {
         })
     }
 
-    public removeUserById(userId: string, token: string): Promise<IUser> { // TODO: Token authorization.
+    public removeUserById(userId: string): Promise<IUser> {
         return new Promise((resolve, reject) => {
             this.model
-                .removeById(userId)
+                .removeById<IUser>(userId)
                 .then(user => resolve(user))
                 .catch(error => reject(INTERNAL_SERVER_ERROR))
         })
     }
 
-    public updateUser(user: IUser, token: string): Promise<void> { // TODO: Token authorization.
+    public updateUser(user: IUser): Promise<void> {
         return undefined
     }
 
@@ -90,7 +93,8 @@ class UserModel extends Model implements IUserModel {
         return new Promise((resolve, reject) => {
             if (Strings.isEmail(email)) {
                 this.model
-                    .findOne({ email })
+                    .getOne({ email })
+                    .run<IBaseUser>()
                     .then(user => resolve(user ? user : UserModel.getNewUser(email)))
                     .catch(error => reject(INTERNAL_SERVER_ERROR))
             } else {
