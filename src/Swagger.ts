@@ -290,6 +290,9 @@ export default {
                     '204': {
                         'description': 'Body types was successful deleted.'
                     },
+                    '404': {
+                        'description': 'There is no body type to remove.'
+                    },
                     '409': {
                         'description': 'There are bodies with any body types.'
                     }
@@ -336,8 +339,8 @@ export default {
                     'content': {
                         'application/json': {
                             'schema': {
-                                '$ref': '#/components/schemas/BodyType'
-                            },
+                                '$ref': '#/components/schemas/NewBodyType'
+                            }
                         }
                     }
                 },
@@ -509,18 +512,30 @@ export default {
                 'example': '87ac4247acf457229c9aa7ae',
                 'description': 'Unique identifier.'
             },
-            'BodyType': {
+            'NewBodyType': {
                 'type': 'object',
                 'properties': {
-                    '_id': {
-                        '$ref': '#/components/schemas/Id'
-                    },
                     'name': {
                         'type': 'string',
                         'example': 'Terestrická planeta',
                         'description': 'Name of body type.'
                     }
                 }
+            },
+            'BodyType': {
+                'allOf': [
+                    {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            }
+                        }
+                    },
+                    {
+                        '$ref': '#/components/schemas/NewBodyType'
+                    }
+                ]
             }
         }
     }

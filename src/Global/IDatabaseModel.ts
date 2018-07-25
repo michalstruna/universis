@@ -25,6 +25,49 @@ declare interface IDatabaseModel {
     getOne(condition: Object): IDatabaseModel
 
     /**
+     * Set max count of result documents.
+     * @param limit Max count of result documents.
+     * @returns Current instance of database model.
+     */
+    limit(limit: number): IDatabaseModel
+
+    /**
+     * Set index of first result document.
+     * @param offset Index of first result document.
+     * @returns Current instance of database model.
+     */
+    offset(offset: number): IDatabaseModel
+
+    /**
+     * Select only some fields from documents.
+     * @param fields List of arguments.
+     * @returns Current instance of database model.
+     */
+    select(...fields: string[]): IDatabaseModel
+
+    /**
+     * Sort documents by field.
+     * @param field Name of field to sort.
+     * @param order Direction of sort.
+     * @returns Current instance of database model.
+     */
+    sort(field: string, order: string): IDatabaseModel
+
+    /**
+     * Replace foreign key to targeted document.
+     * @param field Name of foreign key.
+     * @param targetField Name of field with joined document. (optional, default field)
+     * @returns Current instance of database model.
+     */
+    join(field: string, targetField?: string): IDatabaseModel
+
+    /**
+     * Run current query.
+     * @returns Promise with all changed documents.
+     */
+    run<T>(): Promise<T>
+
+    /**
      * Remove all documents with condition.
      * @param condition Object, keys are properties, values are required values.
      * @returns Promise with count of removed documents.
@@ -87,49 +130,6 @@ declare interface IDatabaseModel {
      * @returns Promise with error 409, if there is duplicate unique value.
      */
     add(data: Object): Promise<string>
-
-    /**
-     * Set max count of result documents.
-     * @param limit Max count of result documents.
-     * @returns Current instance of database model.
-     */
-    limit(limit: number): IDatabaseModel
-
-    /**
-     * Set index of first result document.
-     * @param offset Index of first result document.
-     * @returns Current instance of database model.
-     */
-    offset(offset: number): IDatabaseModel
-
-    /**
-     * Select only some fields from documents.
-     * @param fields List of arguments.
-     * @returns Current instance of database model.
-     */
-    select(...fields: string[]): IDatabaseModel
-
-    /**
-     * Sort documents by field.
-     * @param field Name of field to sort.
-     * @param order Direction of sort.
-     * @returns Current instance of database model.
-     */
-    sort(field: string, order: string): IDatabaseModel
-
-    /**
-     * Replace foreign key to targeted document.
-     * @param field Name of foreign key.
-     * @param targetField Name of field with joined document. (optional, default field)
-     * @returns Current instance of database model.
-     */
-    join(field: string, targetField?: string): IDatabaseModel
-
-    /**
-     * Run current query.
-     * @returns Promise with all changed documents.
-     */
-    run<T>(): Promise<T>
 
     /**
      * Get count of documents.

@@ -31,6 +31,7 @@ class BodyModel extends Model implements IBodyModel {
             .limit(limit)
             .offset(offset)
             .sort(criterion, order)
+            .join('typeId')
             .select('_id', 'name', 'diameter', 'orbit', 'period', 'rings', 'texture', 'tilt', 'type')
             .run<ISimpleBody[]>()
     }
@@ -39,6 +40,7 @@ class BodyModel extends Model implements IBodyModel {
         return new Promise((resolve, reject) => (
             this.bodyModel
                 .getById(id)
+                .join('typeId')
                 .run<IBody>()
                 .then(body => body ? resolve(body) : reject(NOT_FOUND))
         ))

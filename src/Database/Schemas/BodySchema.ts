@@ -6,11 +6,13 @@ import { DatabaseModels } from '../../Constants'
  * DB schema for short body.
  */
 const BodySchema = new Schema({
+
     name: {
         type: String,
         required: true,
         unique: true
     },
+
     diameter: {
         equatorial: {
             type: Number,
@@ -23,6 +25,7 @@ const BodySchema = new Schema({
             min: 0
         }
     },
+
     orbit: {
         apocenter: {
             type: Number,
@@ -57,11 +60,13 @@ const BodySchema = new Schema({
             min: 0
         }
     },
+
     period: {
         type: Number,
         required: true,
         min: 0
     },
+
     rings: {
         type: [
             {
@@ -86,21 +91,30 @@ const BodySchema = new Schema({
         ],
         required: true
     },
+
     texture: {
         type: String,
         required: true
     },
+
     tilt: {
         type: Number,
         required: true,
         min: -360,
         max: 360
     },
+
     typeId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY_TYPE,
         required: true
+    },
+
+    __v: {
+        type: Number,
+        select: false
     }
+
 })
 
 export default BodySchema

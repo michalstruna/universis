@@ -25,6 +25,11 @@ class DatabaseModel implements IDatabaseModel {
      */
     private query: DocumentQuery<Document | Document[], Document>
 
+    /**
+     * List of joined fields in current query.
+     */
+    private joinList: string[]
+
     public constructor(model: Model<Document>) {
         this.model = model
     }
@@ -36,6 +41,11 @@ class DatabaseModel implements IDatabaseModel {
      */
     private getErrorStatusCode(error: { code: number }): number {
         return mapMongooseErrorToStatus[error.code] || Errors.INVALID
+    }
+
+    private createQuery(query: DocumentQuery<Document | Document[], Document>): void {
+        this.query = query
+        this.joinList = []
     }
 
     public add(data: Object): Promise<string> {
@@ -52,17 +62,17 @@ class DatabaseModel implements IDatabaseModel {
     }
 
     public get(condition: Object): IDatabaseModel {
-        this.query = this.model.find(condition)
+        this.createQuery(this.model.find(condition))
         return this
     }
 
     public getById(id: string): IDatabaseModel {
-        this.query = this.model.findById(id)
+        this.createQuery(this.model.findById(id))
         return this
     }
 
     public getOne(condition: Object): IDatabaseModel {
-        this.query = this.model.find(condition)
+        this.createQuery(this.model.find(condition))
         return this
     }
 
@@ -70,6 +80,7 @@ class DatabaseModel implements IDatabaseModel {
         // TODO: Nested populate.
         // TODO: Rename target.
         this.query = this.query.populate(field)
+        this.joinList.push(field)
         return this
     }
 
@@ -110,10 +121,6 @@ class DatabaseModel implements IDatabaseModel {
         ))
     }
 
-    public run<T>(): Promise<T> {
-        return this.query.lean().exec()
-    }
-
     public select(...fields: string[]): IDatabaseModel {
         this.query = this.query.select(fields.join(' '))
         return this
@@ -122,6 +129,29 @@ class DatabaseModel implements IDatabaseModel {
     public sort(field: string, order: SortOrder): IDatabaseModel {
         this.query = this.query.sort([[field, order === SortOrder.ASC ? 1 : -1]])
         return this
+    }
+
+    public run<T>(): Promise<T> {
+        return this.query
+            .lean()
+            .exec()
+            .then(result => {
+                if (result.length) {
+                    for (const join of this.joinList) {
+                        for (const i in result) {
+                            result[i][join.replace(/Id$/, '')] = result[i][join]
+                            delete result[i][join]
+                        }
+                    }
+                } else {
+                    for (const join of this.joinList) {
+                        result[join.replace(/Id$/, '')] = result[join]
+                        delete result[join]
+                    }
+                }
+
+                return result
+            })
     }
 
     public update(condition: Object, newValues: Object): Promise<number> {
