@@ -1,19 +1,5 @@
 import ActionTypes from '../../Universe/Redux/ActionTypes'
 
-type IState = any
-
-type IAction<T> = {
-    type: ActionTypes,
-    payload?: T
-    error?: string
-}
-
-type IActionResult<T> = IFunction<IConsumer<IAction<T>>, Promise<void>>
-
-type IStoreValue = any
-
-type IReducer = any
-
 /**
  * Utils for redux.
  */
@@ -87,7 +73,7 @@ class Redux {
      * @param error Error value.
      * @returns Value of entity.
      */
-    private static setEntity<T>(actionType: string, payload: T, isSent: boolean, error: string): IStoreValue {
+    private static setEntity<T>(actionType: string, payload: T, isSent: boolean, error: string): IReducerEntity {
         return {
             [`${actionType}`]: payload,
             [`${actionType}Sent`]: isSent,
