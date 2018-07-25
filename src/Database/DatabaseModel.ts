@@ -136,17 +136,19 @@ class DatabaseModel implements IDatabaseModel {
             .lean()
             .exec()
             .then(result => {
-                if (result.length) {
-                    for (const join of this.joinList) {
-                        for (const i in result) {
-                            result[i][join.replace(/Id$/, '')] = result[i][join]
-                            delete result[i][join]
+                if (result) {
+                    if (result.length) {
+                        for (const join of this.joinList) {
+                            for (const i in result) {
+                                result[i][join.replace(/Id$/, '')] = result[i][join]
+                                delete result[i][join]
+                            }
                         }
-                    }
-                } else {
-                    for (const join of this.joinList) {
-                        result[join.replace(/Id$/, '')] = result[join]
-                        delete result[join]
+                    } else {
+                        for (const join of this.joinList) {
+                            result[join.replace(/Id$/, '')] = result[join]
+                            delete result[join]
+                        }
                     }
                 }
 

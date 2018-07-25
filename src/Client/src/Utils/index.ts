@@ -34,9 +34,11 @@ export {
  * Utils.
  */
 import Api from './Utils/Api'
+import Redux from './Utils/Redux'
 import Url from './Utils/Url'
 
 export {
     Api,
+    Redux,
     Url
 }

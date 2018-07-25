@@ -1,5 +1,5 @@
 /**
- * Action types for form.
+ * action types for form.
  */
 enum ActionTypes {
 
