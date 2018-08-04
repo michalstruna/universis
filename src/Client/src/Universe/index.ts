@@ -8,6 +8,15 @@ export {
 }
 
 /**
+ * Constants.
+ */
+import Physics from './Constants/Config'
+
+export {
+    Physics
+}
+
+/**
  * Redux.
  */
 import UniverseActions from './Redux/UniverseActions'

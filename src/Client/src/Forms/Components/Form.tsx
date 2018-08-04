@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { Component, SquareLoader } from '../../Utils'
+import { Component, Loader } from '../../Utils'
 import FormActions from '../Redux/FormActions'
 
 interface IFormProps {
@@ -134,7 +134,7 @@ class Form extends Component<IFormProps, IFormState> {
                 onSubmit={this.handleSubmit}
                 noValidate>
                 {this.renderChildren()}
-                <SquareLoader />
+                <Loader />
             </form>
         )
     }

@@ -1,7 +1,8 @@
 import * as React from 'react'
 
+import { Loader, View, FadeLayout } from '../../Utils'
 import UniverseActions from '../Redux/UniverseActions'
-import { View } from '../../Utils'
+import UniverseCanvas from '../Components/UniverseCanvas'
 
 interface IProps {
     bodies: ISimpleBody[],
@@ -10,14 +11,18 @@ interface IProps {
 
 class UniverseView extends View<IProps> {
 
-    componentWillMount(): void {
+    public componentWillMount() {
         this.props.getBodies()
     }
 
     public render(): JSX.Element {
+        const { bodies } = this.props
+
+        // TODO: Show loader if bodies are not exist.
+
         return (
             <section className={this.getClassName('universe')}>
-                {this.props.bodies ? JSON.stringify(this.props.bodies) : 'Loading...'}
+                <UniverseCanvas />
             </section>
         )
     }

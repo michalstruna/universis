@@ -32,7 +32,7 @@ class BodyModel extends Model implements IBodyModel {
             .offset(offset)
             .sort(criterion, order)
             .join('typeId')
-            .select('_id', 'name', 'diameter', 'orbit', 'period', 'rings', 'texture', 'tilt', 'type')
+            .select('_id', 'name', 'diameter', 'orbit', 'period', 'rings', 'texture', 'tilt', 'type', 'parentId', 'emissiveColor')
             .run<ISimpleBody[]>()
     }
 
