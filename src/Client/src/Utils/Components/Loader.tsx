@@ -3,9 +3,9 @@ import * as React from 'react'
 import SimpleComponent from './SimpleComponent'
 
 /**
- * Component for animated square loader.
+ * Component for animated loader.
  */
-class SquareLoader extends SimpleComponent {
+class Loader extends SimpleComponent {
 
     public render(): JSX.Element {
         return (
@@ -16,11 +16,10 @@ class SquareLoader extends SimpleComponent {
                     </section>
                     <section className='square-loader__shadow' />
                 </section>
-                <section className='square-loader__reflect' />
             </section>
         )
     }
 
 }
 
-export default SquareLoader
+export default Loader

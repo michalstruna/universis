@@ -1,5 +1,5 @@
 /**
- * Action types for SystemModule.
+ * action types for SystemModule.
  */
 enum ActionTypes {
 

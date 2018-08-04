@@ -11,7 +11,8 @@ export default {
     database: {
         username: 'michal',
         password: 'mathrandom97',
-        cluster: 'universis'
+        cluster: 'universis',
+        name: 'universis'
     }
 
 }

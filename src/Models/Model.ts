@@ -4,6 +4,7 @@ import Config from '../Constants/Config'
 import { DatabaseConnections, DatabaseModels } from '../Constants'
 
 import BodySchema from '../Database/Schemas/BodySchema'
+import BodyTypeSchema from '../Database/Schemas/BodyTypeSchema'
 import UserSchema from '../Database/Schemas/UserSchema'
 
 /**
@@ -39,10 +40,12 @@ abstract class Model implements IModel {
             DatabaseConnections.BASE,
             Config.database.username,
             Config.database.password,
-            Config.database.cluster
+            Config.database.cluster,
+            Config.database.name
         )
 
         this.db.createModel(this.dbModels.BODY, BodySchema)
+        this.db.createModel(this.dbModels.BODY_TYPE, BodyTypeSchema)
         this.db.createModel(this.dbModels.USER, UserSchema)
     }
 

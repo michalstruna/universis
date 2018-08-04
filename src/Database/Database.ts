@@ -18,9 +18,9 @@ class Database implements IDatabase {
      */
     private connection: Mongoose.Connection
 
-    public constructor(name: number, username: string, password: string, cluster: string, onConnect?: IRunnable, onError?: IRunnable) {
+    public constructor(name: number, username: string, password: string, cluster: string, database, onConnect?: IRunnable, onError?: IRunnable) {
         Database.connections[name] = this
-        this.connection = Mongoose.createConnection(Database.getConnectionString(username, password, cluster))
+        this.connection = Mongoose.createConnection(Database.getConnectionString(username, password, cluster, database))
 
         if (onConnect) {
             this.connection.on('open', onConnect)
@@ -61,10 +61,11 @@ class Database implements IDatabase {
      * @param username Name of user.
      * @param password Password of user.
      * @param cluster Name of cluster.
+     * @param database Name of database.
      * @returns Connection string.
      */
-    private static getConnectionString(username: string, password: string, cluster: string): string {
-        return `mongodb+srv://${username}:${password}@${cluster}-yasip.mongodb.net/test?retryWrites=false`
+    private static getConnectionString(username: string, password: string, cluster: string, database: string): string {
+        return `mongodb+srv://${username}:${password}@${cluster}-yasip.mongodb.net/${database}?retryWrites=false`
     }
 
 }
