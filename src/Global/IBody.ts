@@ -61,6 +61,11 @@ declare interface INewSimpleBody {
          */
         period: number
 
+        /**
+         * Rotation of orbit.
+         */
+        rotation: number
+
     }
 
     /**
@@ -71,31 +76,7 @@ declare interface INewSimpleBody {
     /**
      * List of all rings of body.
      */
-    rings: [{
-
-        /**
-         * Diameter of ring.
-         */
-        diameter: {
-
-            /**
-             * Min diameter of ring.
-             */
-            min: number
-
-            /**
-             * Max diameter of ring.
-             */
-            max: number
-
-        }
-
-        /**
-         * Name of ring texture.
-         */
-        texture: string
-
-    }]
+    rings: IBodyRing[]
 
     /**
      * Name of body texture.
@@ -111,6 +92,42 @@ declare interface INewSimpleBody {
      * Type of body.
      */
     type: number
+
+    /**
+     * ID of parent body. If null, body is child of universe.
+     */
+    parentId?: string
+
+    /**
+     * Color of body light.
+     */
+    emissiveColor?: number
+
+}
+
+declare interface IBodyRing {
+
+    /**
+     * Diameter of ring.
+     */
+    diameter: {
+
+        /**
+         * Min diameter of ring.
+         */
+        min: number
+
+        /**
+         * Max diameter of ring.
+         */
+        max: number
+
+    }
+
+    /**
+     * Name of ring texture.
+     */
+    texture: string
 
 }
 

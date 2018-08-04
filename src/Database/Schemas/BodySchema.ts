@@ -58,6 +58,12 @@ const BodySchema = new Schema({
             type: Number,
             required: true,
             min: 0
+        },
+        rotation: {
+            type: Number,
+            required: true,
+            min: 0,
+            max: 360
         }
     },
 
@@ -108,6 +114,16 @@ const BodySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY_TYPE,
         required: true
+    },
+
+    parentId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.BODY,
+        required: true
+    },
+
+    emissiveColor: {
+        type: Number
     },
 
     __v: {

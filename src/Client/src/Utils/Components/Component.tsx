@@ -17,6 +17,11 @@ interface IComponentProps {
 class Component<IProps, IState> extends React.Component<IProps & RouteProps & IComponentProps, IState> {
 
     /**
+     * Callback after resize window.
+     */
+    private handleResize: IRunnable
+
+    /**
      * Connect component with store and router.
      * @param mapStateToProps
      * @param mapDispatchToProps
@@ -27,6 +32,24 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
             mapStateToProps,
             mapDispatchToProps
         )(this) as any)
+    }
+
+    /**
+     * Unbind all window events.
+     */
+    public componentWillUnmount(): void {
+        if (this.handleResize) {
+            window.removeEventListener('resize', this.handleResize)
+        }
+    }
+
+    /**
+     * Set resize handler.
+     * @param callback Handler.
+     */
+    protected setOnResize(callback: IRunnable): void {
+        this.handleResize = callback
+        window.addEventListener('resize', this.handleResize)
     }
 
 }
