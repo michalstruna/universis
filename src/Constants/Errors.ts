@@ -1,8 +1,10 @@
-import { CONFLICT } from 'http-status-codes'
+import { BAD_REQUEST, CONFLICT, NOT_FOUND as _NOT_FOUND } from 'http-status-codes'
 
 enum Errors {
 
-    DUPLICATE = CONFLICT
+    INVALID = BAD_REQUEST,
+    DUPLICATE = CONFLICT,
+    NOT_FOUND = _NOT_FOUND
 
 }
 

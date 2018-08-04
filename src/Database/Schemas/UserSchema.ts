@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: [true, 'Email is required.'],
-        unique: [true, 'Email must be unique.'],
+        unique: true,
         validate: {
             validator: Strings.isEmail,
             message: 'Email must be in name@domain form.'
@@ -26,7 +26,7 @@ const UserSchema = new Schema({
     name: {
         type: String,
         required: [true, 'Name is required.'],
-        unique: [true, 'Name must be unique.'],
+        unique: true,
         default: 'No Name' // TODO: Equals this.email.
     },
 
@@ -40,6 +40,11 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'Avatar is required.'],
         default: 'http://i372.photobucket.com/albums/oo170/Emperortopaz/Headshots/Esdeath_zpsz4aexby6.jpg' // TODO: Default avatar.
+    },
+
+    __v: {
+        type: Number,
+        select: false
     }
 
 })

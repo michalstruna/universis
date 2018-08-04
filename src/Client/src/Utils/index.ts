@@ -6,7 +6,7 @@ import Component from './Components/Component'
 import FadeLayout from './Components/FadeLayout'
 import Link from './Components/Link'
 import SimpleComponent from './Components/SimpleComponent'
-import SquareLoader from './Components/SquareLoader'
+import Loader from './Components/Loader'
 import StatelessComponent from './Components/StatelessComponent'
 import View from './Components/View'
 
@@ -16,7 +16,7 @@ export {
     FadeLayout,
     Link,
     SimpleComponent,
-    SquareLoader,
+    Loader,
     StatelessComponent,
     View
 }
@@ -34,9 +34,11 @@ export {
  * Utils.
  */
 import Api from './Utils/Api'
+import Redux from './Utils/Redux'
 import Url from './Utils/Url'
 
 export {
     Api,
+    Redux,
     Url
 }

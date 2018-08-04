@@ -23,6 +23,11 @@ const TokenSchema = new Schema({
     date: {
         type: Date,
         required: [true, 'Date is required.']
+    },
+
+    __v: {
+        type: Number,
+        select: false
     }
 
 })

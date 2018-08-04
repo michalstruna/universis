@@ -40,13 +40,6 @@ $size: 2rem;
     100% { top: 50%; }
 }
 
-@keyframes square-loader-reflect {
-    0% { left: -50rem }
-    30% { left: 50rem; }
-    70% { left: 50rem; }
-    100% { left: 50rem; }
-}
-
 .square-loader {
     @include size(100%);
     left: 0;

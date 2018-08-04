@@ -6,6 +6,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import { App, HomeView, Store, } from './System'
 import { IdentityView, LoginView, SignUpView } from './User'
+import { UniverseView } from './Universe'
 import { Urls } from './Utils'
 
 import './index.scss'
@@ -23,6 +24,7 @@ render(
                                     <Route path={Urls.IDENTITY} component={IdentityView} />
                                     <Route path={Urls.LOGIN} component={LoginView} />
                                     <Route path={Urls.SIGN_UP} component={SignUpView} />
+                                    <Route path={Urls.UNIVERSE} component={UniverseView} />
                                 </Switch>
                             </CSSTransition>
                         </TransitionGroup>

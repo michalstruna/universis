@@ -1,6 +1,7 @@
 import Axios, { AxiosPromise as Promise } from 'axios'
 
 import Config from '../Constants/Config'
+import { NOT_FOUND } from 'http-status-codes'
 
 const API_URL = Config.API_URL
 
@@ -35,6 +36,23 @@ class Api {
             Axios.post(API_URL + 'users/add', { email, password }).then(response => {
                 resolve(response.data.user)
             })
+        })
+    }
+
+    public static getBodies(): Promise<ISimpleBody[]> {
+        return new Promise(resolve => {
+            Axios
+                .get(API_URL + 'bodies')
+                .then(response => resolve(response.data))
+        })
+    }
+
+    public static getBody(id: string): Promise<IBody> {
+        return new Promise((resolve, reject) => {
+            Axios
+                .get(`${API_URL}bodies/${id}`)
+                .then(response => resolve(response.data))
+                .catch(error => reject('NOT_FOUND'))
         })
     }
 

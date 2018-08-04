@@ -1,17 +1,18 @@
 import { Schema } from 'mongoose'
 
-import { Errors } from '../../Constants'
+import { DatabaseModels } from '../../Constants'
 
 /**
  * DB schema for short body.
  */
 const BodySchema = new Schema({
+
     name: {
         type: String,
         required: true,
-        minlength: 1,
-        unique: [true, 'Duplicate name.']
+        unique: true
     },
+
     diameter: {
         equatorial: {
             type: Number,
@@ -24,6 +25,7 @@ const BodySchema = new Schema({
             min: 0
         }
     },
+
     orbit: {
         apocenter: {
             type: Number,
@@ -56,13 +58,21 @@ const BodySchema = new Schema({
             type: Number,
             required: true,
             min: 0
+        },
+        rotation: {
+            type: Number,
+            required: true,
+            min: 0,
+            max: 360
         }
     },
+
     period: {
         type: Number,
         required: true,
         min: 0
     },
+
     rings: {
         type: [
             {
@@ -79,29 +89,48 @@ const BodySchema = new Schema({
                     }
                 },
                 texture: {
-                    type: Number,
-                    required: true,
-                    minlength: 1
+                    type: String,
+                    required: true
                 }
 
             }
         ],
         required: true
     },
+
     texture: {
-        type: String, required: true,
-        minlength: 1
+        type: String,
+        required: true
     },
+
     tilt: {
         type: Number,
         required: true,
         min: -360,
         max: 360
     },
-    type: {
-        type: Number,
+
+    typeId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.BODY_TYPE,
         required: true
+    },
+
+    parentId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.BODY,
+        required: true
+    },
+
+    emissiveColor: {
+        type: Number
+    },
+
+    __v: {
+        type: Number,
+        select: false
     }
+
 })
 
 export default BodySchema

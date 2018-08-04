@@ -2,7 +2,7 @@
  * Interface for new body.
  * There is no ID, because of ID was not generated yet.
  */
-declare interface INewBody {
+declare interface INewSimpleBody {
 
     /**
      * Name of body.
@@ -61,6 +61,11 @@ declare interface INewBody {
          */
         period: number
 
+        /**
+         * Rotation of orbit.
+         */
+        rotation: number
+
     }
 
     /**
@@ -71,31 +76,7 @@ declare interface INewBody {
     /**
      * List of all rings of body.
      */
-    rings: [{
-
-        /**
-         * Diameter of ring.
-         */
-        diameter: {
-
-            /**
-             * Min diameter of ring.
-             */
-            min: number
-
-            /**
-             * Max diameter of ring.
-             */
-            max: number
-
-        }
-
-        /**
-         * Name of ring texture.
-         */
-        texture: string
-
-    }]
+    rings: IBodyRing[]
 
     /**
      * Name of body texture.
@@ -112,13 +93,53 @@ declare interface INewBody {
      */
     type: number
 
+    /**
+     * ID of parent body. If null, body is child of universe.
+     */
+    parentId?: string
+
+    /**
+     * Color of body light.
+     */
+    emissiveColor?: number
+
+}
+
+declare interface IBodyRing {
+
+    /**
+     * Diameter of ring.
+     */
+    diameter: {
+
+        /**
+         * Min diameter of ring.
+         */
+        min: number
+
+        /**
+         * Max diameter of ring.
+         */
+        max: number
+
+    }
+
+    /**
+     * Name of ring texture.
+     */
+    texture: string
+
+}
+
+declare interface INewBody extends INewSimpleBody {
+
 }
 
 /**
  * Interface for base body.
  * This is parent of all another interfaces for bodies.
  */
-declare interface IBaseBody extends INewBody {
+declare interface ISimpleBody extends INewSimpleBody {
 
     /**
      * Unique ID of body.
@@ -131,6 +152,6 @@ declare interface IBaseBody extends INewBody {
  * Interface for body.
  * It contains all data about body.
  */
-declare interface IBody extends IBaseBody {
+declare interface IBody extends INewBody, ISimpleBody {
 
 }
