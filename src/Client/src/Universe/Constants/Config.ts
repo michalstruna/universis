@@ -16,9 +16,14 @@ export default {
     ORBIT_COLOR: 0x555555,
 
     /**
+     * Color of semi-visible orbit.
+     */
+    ORBIT_COLOR_SEMI_VISIBLE: 0x222222,
+
+    /**
      * Color of orbit when body is invisible.
      */
-    COLOR_ORBIT_INVISIBLE: 0x222222,
+    ORBIT_COLOR_INVISIBLE: 0x000000,
 
     /**
      * Count of segments of body.
@@ -61,11 +66,12 @@ export default {
     TEXTURES_PATH: '/Images/Universe/Textures/',
 
     /**
-     * Lets edgeOfVisibility = 20.
+     * Lets SEMI_VISIBILITY_EDGE = 20.
      * Labels and orbits of bodies will be visible only
      * when orbit of body will be bigger than 1 / 20 of screen
      * and smaller than 20× of screen.
      */
-    VISIBILITY_EDGE: 40,
+    SEMI_VISIBILITY_EDGE: 40,
+    INVISIBILITY_EDGE: 100,
 
 }

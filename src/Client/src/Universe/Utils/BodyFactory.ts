@@ -42,7 +42,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createGeometry(body: ISimpleBody): THREE.SphereGeometry {
         const geometry = new THREE.SphereGeometry(
-            body.diameter.equatorial * Config.SIZE_RATIO,
+            body.diameter.equatorial,
             Config.BODY_SEGMENTS,
             Config.BODY_SEGMENTS
         )
@@ -90,13 +90,13 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createOrbit(body: ISimpleBody): THREE.Object3D {
         const outerOrbitMesh = new THREE.Object3D()
-        const a = this.calculateA(body) * Config.SIZE_RATIO
+        const a = this.calculateA(body)
         const b = this.calculateB(body, a)
         const path = new THREE.EllipseCurve(0, 0, a, b, 0, 2 * Math.PI, false, 0)
         const geometry = new THREE.BufferGeometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
         const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
         const orbitMesh = new THREE.Line(geometry, material)
-        orbitMesh.position.x = ((body.orbit.apocenter - body.orbit.pericenter) / 2) * Config.SIZE_RATIO
+        orbitMesh.position.x = ((body.orbit.apocenter - body.orbit.pericenter) / 2)
         outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), THREE.Math.degToRad(body.orbit.rotation || 0))
         outerOrbitMesh.add(orbitMesh)
 
@@ -163,8 +163,8 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createRing(ring: IBodyRing): THREE.Mesh {
         const geometry = new THREE.RingBufferGeometry(
-            ring.diameter.min * Config.SIZE_RATIO,
-            ring.diameter.max * Config.SIZE_RATIO,
+            ring.diameter.min,
+            ring.diameter.max,
             Config.RING_SEGMENTS
         )
 
