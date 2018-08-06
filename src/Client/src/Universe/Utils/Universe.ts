@@ -34,6 +34,11 @@ class Universe implements IUniverse {
     private selectedBody: THREE.Mesh
 
     /**
+     * Scale of scene.
+     */
+    private scale: number
+
+    /**
      * THREE.js entities.
      */
     private scene: THREE.Scene
@@ -48,6 +53,7 @@ class Universe implements IUniverse {
      */
     public constructor(element: HTMLElement, bodies: ISimpleBody[]) {
         const initializer = new UniverseInitializer(element, bodies)
+        this.scale = 1
 
         this.scene = initializer.scene
         this.renderer = initializer.renderer
@@ -104,7 +110,7 @@ class Universe implements IUniverse {
         } else if (isBehindCamera) {
             return Visibility.INVISIBLE
         } else {
-            const min = fromCenter / apocenter
+            const min = fromCenter / (apocenter * this.scale)
 
             const distance = meshPosition.distanceTo(cameraPosition)
             const max = fromCenter / distance
@@ -128,6 +134,8 @@ class Universe implements IUniverse {
         this.camera.getWorldPosition(cameraPosition)
         this.camera.parent.getWorldPosition(bodyPosition)
         const fromCenter = bodyPosition.distanceTo(cameraPosition)
+
+        this.setScale(fromCenter)
 
         for (const i in this.bodies) {
             const body = this.bodies[i]
@@ -155,18 +163,18 @@ class Universe implements IUniverse {
             }
 
             const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-            body.orbit.userData.angle += 0.001 / body.data.orbit.period
+            body.orbit.userData.angle += 0.0001 / body.data.orbit.period
 
             body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
 
-            body.mesh.rotateOnAxis(rotationVector, 0.01) // TODO: Only if rotate difference is bigger than 0.0001.
-            body.childrenContainer.rotateOnAxis(rotationVector, -0.01)
+            body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
+            body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
         }
     }
 
     /**
      * Select body by coordinates.
-     * @param  event Mouse event.
+     * @param event Mouse event.
      */
     private handleClick = (event: MouseEvent): void => {
         const mesh = this.bodySelector.select(event.pageX, event.pageY)
@@ -187,6 +195,21 @@ class Universe implements IUniverse {
         mesh.children[0].add(this.camera)
         this.selectedBody = mesh
         this.controls.minDistance = (mesh.geometry as THREE.SphereGeometry).parameters.radius * 2
+    }
+
+    /**
+     * Universe is split into chunks, because of precision of numbers in JavaScript.
+     * If scene is too small or too large, scale it.
+     * @param fromCenter Distance camera from centered body.
+     */
+    private setScale(fromCenter: number): void {
+        if (fromCenter > 1000000) {
+            this.scale /= 1000
+            this.scene.scale.setScalar(this.scale)
+        } else if (fromCenter < 1000) {
+            this.scale *= 1000
+            this.scene.scale.setScalar(this.scale)
+        }
     }
 
 }

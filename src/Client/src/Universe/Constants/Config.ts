@@ -33,7 +33,7 @@ export default {
     /**
      * Count of segments of orbits.
      */
-    ORBIT_SEGMENTS: 512,
+    ORBIT_SEGMENTS: 1024,
 
     /**
      * Count of segments of body ring.
@@ -72,6 +72,6 @@ export default {
      * and smaller than 20× of screen.
      */
     SEMI_VISIBILITY_EDGE: 40,
-    INVISIBILITY_EDGE: 100,
+    INVISIBILITY_EDGE: 1000,
 
 }
