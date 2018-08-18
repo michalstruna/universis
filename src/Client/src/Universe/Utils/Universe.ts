@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import Config from '../Constants/Config'
 import UniverseInitializer from './UniverseInitializer'
 import Visibility from '../Constants/Visibility'
+import Store from '../../System/Redux/Store'
 
 /**
  * Temp variables.
@@ -45,6 +46,11 @@ class Universe implements IUniverse {
     private scale: number
 
     /**
+     * Function, that runs in render loop.
+     */
+    private handleRender: IConsumer<{ cameraZoom: number }>
+
+    /**
      * THREE.js entities.
      */
     private scene: THREE.Scene
@@ -57,8 +63,9 @@ class Universe implements IUniverse {
      * @param element Target. There will be canvas with universe.
      * @param bodies List of all bodies.
      */
-    public constructor(element: HTMLElement, bodies: ISimpleBody[]) {
+    public constructor(element: HTMLElement, bodies: ISimpleBody[], handleRender: IConsumer<{ cameraZoom: number }>) {
         const initializer = new UniverseInitializer(element, bodies)
+        this.handleRender = handleRender
         this.scale = 1
 
         this.scene = initializer.scene
@@ -136,6 +143,7 @@ class Universe implements IUniverse {
         this.camera.getWorldPosition(cameraPosition)
         this.selectedBody.getWorldPosition(bodyPosition)
         const fromCenter = bodyPosition.distanceTo(cameraPosition)
+        this.handleRender({ cameraZoom: fromCenter })
 
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
@@ -163,9 +171,9 @@ class Universe implements IUniverse {
             orbitColor.setHex(visibility)
 
             const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-            body.orbit.userData.angle += (0.001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
+            body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
 
-            if(visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
+            if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
                 body.mesh.position.set(0, 0, 0)
             } else {
                 body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
