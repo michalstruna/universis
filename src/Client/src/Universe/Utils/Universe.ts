@@ -12,6 +12,7 @@ const cameraPosition = new THREE.Vector3()
 const bodyPosition = new THREE.Vector3()
 const meshPosition = new THREE.Vector3()
 const rotationVector = new THREE.Vector3(0, 0, 1)
+const cameraViewProjectionMatrix = new THREE.Matrix4()
 
 /**
  * Utils for universe.
@@ -19,9 +20,9 @@ const rotationVector = new THREE.Vector3(0, 0, 1)
 class Universe implements IUniverse {
 
     /**
-     * List of all bodies in universe. Keys are ID of body.
+     * List of all bodies in universe.
      */
-    private bodies: IObject<IBodyContainer>
+    private bodies: IBodyContainer[]
 
     /**
      * Instance of class for select bodies by coordinates.
@@ -32,6 +33,11 @@ class Universe implements IUniverse {
      * Current selected body.
      */
     private selectedBody: THREE.Mesh
+
+    /**
+     * Helper for decide if body is on camera or not.
+     */
+    private frustum: THREE.Frustum
 
     /**
      * Scale of scene.
@@ -59,17 +65,17 @@ class Universe implements IUniverse {
         this.renderer = initializer.renderer
         this.camera = initializer.camera
         this.controls = initializer.controls
+        this.frustum = initializer.frustum
         this.bodies = initializer.bodies
         this.bodySelector = initializer.bodySelector
 
-        for (const i in this.bodies) {
-            const body = this.bodies[i]
+        this.bodies.forEach(body => {
             body.label.onclick = () => this.selectBody(body.mesh)
-        }
+        })
 
         element.addEventListener('mousedown', this.handleClick)
 
-        this.selectBody(this.bodies['5b5db6c44ca9f558f163f2c7'].mesh)
+        this.selectBody(this.bodies[3].mesh)
 
         this.resize()
         this.render()
@@ -79,6 +85,15 @@ class Universe implements IUniverse {
         this.camera.aspect = window.innerWidth / window.innerHeight
         this.camera.updateProjectionMatrix()
         this.renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+
+    /**
+     * Get body from collection.
+     * @param bodyId ID of body.
+     * @returns Body container with this ID.
+     */
+    private getBodyById(bodyId: string): IBodyContainer {
+        return this.bodies.filter(body => body.data._id === bodyId)[0]
     }
 
     /**
@@ -101,30 +116,17 @@ class Universe implements IUniverse {
         const apocenter = body.data.orbit.apocenter
         body.mesh.getWorldPosition(meshPosition)
 
-        const isBehindCamera = Math.floor(tempVector.z) === 1
-        const isSelectedBody = this.selectedBody.name === body.mesh.name
+        const min = fromCenter / apocenter
+        const distance = meshPosition.distanceTo(cameraPosition)
+        const max = fromCenter / distance
 
-
-        if (isSelectedBody) {
-            return Visibility.VISIBLE
-        } else if (isBehindCamera) {
+        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
             return Visibility.INVISIBLE
+        } else if (min > Config.SEMI_VISIBILITY_EDGE || Math.min(max, min) < (1 / Config.SEMI_VISIBILITY_EDGE)) {
+            return Visibility.SEMI_VISIBLE
         } else {
-            const min = fromCenter / (apocenter * this.scale)
-
-            const distance = meshPosition.distanceTo(cameraPosition)
-            const max = fromCenter / distance
-
-            if (min > Config.INVISIBILITY_EDGE || max < (1 / Config.INVISIBILITY_EDGE)) {
-                return Visibility.INVISIBLE
-            } else if (min > Config.SEMI_VISIBILITY_EDGE || max < (1 / Config.SEMI_VISIBILITY_EDGE)) {
-                return Visibility.SEMI_VISIBLE
-            } else {
-                return Visibility.VISIBLE
-            }
+            return Visibility.VISIBLE
         }
-
-
     }
 
     /**
@@ -132,40 +134,42 @@ class Universe implements IUniverse {
      */
     private updateBodies(): void {
         this.camera.getWorldPosition(cameraPosition)
-        this.camera.parent.getWorldPosition(bodyPosition)
+        this.selectedBody.getWorldPosition(bodyPosition)
         const fromCenter = bodyPosition.distanceTo(cameraPosition)
 
-        this.setScale(fromCenter)
+        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
+        cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
+        this.frustum.setFromMatrix(cameraViewProjectionMatrix)
 
-        for (const i in this.bodies) {
-            const body = this.bodies[i]
+        this.setScale(fromCenter * this.scale)
 
+        for (const body of  this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = tempVector.project(this.camera)
-
+            const isBehindCamera = !this.frustum.intersectsObject(body.mesh)
             const orbitColor = (body.orbit.children[0] as any).material.color
-
             const visibility = this.getVisibility(body, fromCenter)
+            const isSelectedBody = body.data._id === this.selectedBody.name
 
-            if (visibility === Visibility.VISIBLE) {
-                orbitColor.setHex(Config.ORBIT_COLOR)
-
+            if (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
                 body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-            } else if (visibility === Visibility.SEMI_VISIBLE) {
-                orbitColor.setHex(Config.ORBIT_COLOR_SEMI_VISIBLE)
-                body.label.style.transform = 'translateX(-1000px)'
             } else {
-                orbitColor.setHex(Config.ORBIT_COLOR_INVISIBLE)
                 body.label.style.transform = 'translateX(-1000px)'
             }
 
-            const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-            body.orbit.userData.angle += 0.0001 / body.data.orbit.period
+            orbitColor.setHex(visibility)
 
-            body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
+            const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
+            body.orbit.userData.angle += (0.001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
+
+            if(visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
+                body.mesh.position.set(0, 0, 0)
+            } else {
+                body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
+            }
 
             body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
             body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
@@ -189,12 +193,11 @@ class Universe implements IUniverse {
      * @param mesh THREE body.
      */
     private selectBody(mesh: THREE.Mesh): void {
-        let position = new THREE.Vector3()
-        position.setFromMatrixPosition(mesh.matrixWorld)
-        this.controls.target.set(0, 0, 0)
-        mesh.children[0].add(this.camera)
         this.selectedBody = mesh
         this.controls.minDistance = (mesh.geometry as THREE.SphereGeometry).parameters.radius * 2
+
+        mesh.children[0].add(this.camera)
+        this.controls.target.set(0, 0, 0)
     }
 
     /**
@@ -205,10 +208,8 @@ class Universe implements IUniverse {
     private setScale(fromCenter: number): void {
         if (fromCenter > 1000000) {
             this.scale /= 1000
-            this.scene.scale.setScalar(this.scale)
         } else if (fromCenter < 1000) {
             this.scale *= 1000
-            this.scene.scale.setScalar(this.scale)
         }
     }
 

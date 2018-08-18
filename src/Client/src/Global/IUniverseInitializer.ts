@@ -11,7 +11,7 @@ declare interface IUniverseInitializer {
     /**
      * List of all bodies in universe. Keys are ID of body.
      */
-    bodies: IObject<IBodyContainer>
+    bodies: IBodyContainer[]
 
     /**
      * Instance of factory for creating bodies.
@@ -30,5 +30,6 @@ declare interface IUniverseInitializer {
     renderer: THREE.WebGLRenderer
     camera: THREE.PerspectiveCamera
     controls: THREE.TrackballControls
+    frustum: THREE.Frustum
 
 }

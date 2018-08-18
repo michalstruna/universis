@@ -11,21 +11,6 @@ export default {
     UNIVERSE_COLOR: 0x222222,
 
     /**
-     * Color of orbits.
-     */
-    ORBIT_COLOR: 0x555555,
-
-    /**
-     * Color of semi-visible orbit.
-     */
-    ORBIT_COLOR_SEMI_VISIBLE: 0x222222,
-
-    /**
-     * Color of orbit when body is invisible.
-     */
-    ORBIT_COLOR_INVISIBLE: 0x000000,
-
-    /**
      * Count of segments of body.
      */
     BODY_SEGMENTS: 126,
@@ -33,7 +18,7 @@ export default {
     /**
      * Count of segments of orbits.
      */
-    ORBIT_SEGMENTS: 1024,
+    ORBIT_SEGMENTS: 2048,
 
     /**
      * Count of segments of body ring.
@@ -48,7 +33,7 @@ export default {
     /**
      * Max camera distance.
      */
-    CAMERA_MAX_DISTANCE: 1000000000,
+    CAMERA_MAX_DISTANCE: 1e22,
 
     /**
      * Field of visibility.

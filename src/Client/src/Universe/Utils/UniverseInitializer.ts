@@ -11,15 +11,16 @@ import BodySelector from './BodySelector'
  */
 class UniverseInitializer implements IUniverseInitializer {
 
-    private _element: HTMLElement
-    private _bodies: IObject<IBodyContainer>
-    private _bodyFactory: IFactory<ISimpleBody, IBodyContainer>
-    private _bodySelector: IBodySelector
+    public readonly element: HTMLElement
+    public readonly bodies: IBodyContainer[]
+    public readonly bodyFactory: IFactory<ISimpleBody, IBodyContainer>
+    public readonly bodySelector: IBodySelector
 
-    private _scene: THREE.Scene
-    private _renderer: THREE.WebGLRenderer
-    private _camera: THREE.PerspectiveCamera
-    private _controls: THREE.TrackballControls
+    public readonly scene: THREE.Scene
+    public readonly renderer: THREE.WebGLRenderer
+    public readonly camera: THREE.PerspectiveCamera
+    public readonly controls: THREE.TrackballControls
+    public readonly frustum: THREE.Frustum
 
     /**
      * Create universe.
@@ -27,75 +28,41 @@ class UniverseInitializer implements IUniverseInitializer {
      * @param bodies List of all bodies.
      */
     public constructor(element: HTMLElement, bodies: ISimpleBody[]) {
-        this._element = element
-        this._scene = this.createScene()
-        this._renderer = this.createRenderer()
-        this._camera = this.createCamera()
-        this._controls = this.createControls()
-        this._bodyFactory = new BodyFactory()
-
-        this._scene.add(this._camera)
-        element.appendChild(this._renderer.domElement)
-
-        this.createBodies(bodies)
-
-        this._bodySelector = new BodySelector(Object.values(this._bodies).map(body => body.mesh), this._camera)
-    }
-
-    public get element(): HTMLElement {
-        return this._element
-    }
-
-    public get bodies(): IObject<IBodyContainer> {
-        return this._bodies
-    }
-
-    public get bodyFactory(): IFactory<ISimpleBody, IBodyContainer> {
-        return this._bodyFactory
-    }
-
-    public get bodySelector(): IBodySelector {
-        return this._bodySelector
-    }
-
-    public get scene(): THREE.Scene {
-        return this._scene
-    }
-
-    public get renderer(): THREE.WebGLRenderer {
-        return this._renderer
-    }
-
-    public get camera(): THREE.PerspectiveCamera {
-        return this._camera
-    }
-
-    public get controls(): THREE.TrackballControls {
-        return this._controls
+        this.element = element
+        this.scene = this.createScene()
+        this.renderer = this.createRenderer()
+        this.camera = this.createCamera()
+        this.controls = this.createControls()
+        this.bodyFactory = new BodyFactory()
+        this.scene.add(this.camera)
+        element.appendChild(this.renderer.domElement)
+        this.bodies = this.createBodies(bodies)
+        this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera)
+        this.frustum = this.createFrustum()
     }
 
     /**
      * Create bodies in universe and assign them to parents.
      * @param bodies List of all bodies.
      */
-    private createBodies(bodies: ISimpleBody[]): void {
-        this._bodies = {}
+    private createBodies(bodies: ISimpleBody[]): IBodyContainer[] {
+        const bodyContainers = []
 
-        for (const i in bodies) {
-            const data = bodies[i]
-
+        for (const data of bodies) {
             this.setScale(data)
 
-            const body = this._bodyFactory.create(data)
-            this._bodies[data._id] = body
-            this._element.appendChild(body.label)
+            const body = this.bodyFactory.create(data)
+            bodyContainers.push(body)
+            this.element.appendChild(body.label)
 
             if (data.parentId) {
-                this._scene.getObjectByName(data.parentId).children[0].add(body.orbit)
+                this.scene.getObjectByName(data.parentId).children[0].add(body.orbit)
             } else {
-                this._scene.add(body.orbit)
+                this.scene.add(body.orbit)
             }
         }
+
+        return bodyContainers
     }
 
     /**
@@ -130,6 +97,7 @@ class UniverseInitializer implements IUniverseInitializer {
      */
     private createRenderer(): THREE.WebGLRenderer {
         const renderer = new THREE.WebGLRenderer({
+            antialias: true,
             logarithmicDepthBuffer: true
         })
 
@@ -150,7 +118,7 @@ class UniverseInitializer implements IUniverseInitializer {
             Config.CAMERA_MAX_DISTANCE
         )
 
-        camera.position.z = 5
+        camera.position.z = 1
 
         return camera
     }
@@ -160,9 +128,17 @@ class UniverseInitializer implements IUniverseInitializer {
      * @returns Trackball controls.
      */
     private createControls(): THREE.TrackballControls {
-        const controls = new TrackballControls(this._camera)
+        const controls = new TrackballControls(this.camera)
         controls.maxDistance = Config.CAMERA_MAX_DISTANCE
         return controls
+    }
+
+    /**
+     * Create frustum.
+     * @returns THREE Frustum.
+     */
+    private createFrustum(): THREE.Frustum {
+        return new THREE.Frustum()
     }
 }
 
