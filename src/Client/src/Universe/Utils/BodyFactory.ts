@@ -69,7 +69,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
     private createMaterial(body: ISimpleBody): THREE.MeshBasicMaterial {
         const texture = TextureStore.get(body.texture)
 
-        if (body.type.emissiveColor) {
+        if (typeof body.type.emissiveColor === 'number') {
             return new THREE.MeshBasicMaterial({
                 map: texture
             })
