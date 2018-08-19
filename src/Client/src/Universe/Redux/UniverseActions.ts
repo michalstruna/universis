@@ -22,11 +22,11 @@ class UniverseActions {
     )
 
     /**
-     * Change zoom of camera.
-     * @param cameraZoom New zoom.
+     * Change view size of camera.
+     * @param viewSize New view size.
      */
-    public static changeCameraZoom = (cameraZoom: number) => ({
-        type: ActionTypes.CHANGE_CAMERA_ZOOM, cameraZoom
+    public static changeViewSize = (viewSize: number) => ({
+        type: ActionTypes.CHANGE_VIEW_SIZE, viewSize
     })
 
 }

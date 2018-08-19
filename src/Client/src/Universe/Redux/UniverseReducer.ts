@@ -3,14 +3,14 @@ import { Redux } from '../../Utils'
 
 export default Redux.createReducer(
     {
-        cameraZoom: 1
+        viewSize: 1
     },
     (state, action) => {
         switch (action.type) {
-            case ActionTypes.CHANGE_CAMERA_ZOOM:
+            case ActionTypes.CHANGE_VIEW_SIZE:
                 return {
                     ...state,
-                    cameraZoom: action.cameraZoom
+                    viewSize: action.viewSize
                 }
         }
     }

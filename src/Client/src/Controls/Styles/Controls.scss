@@ -35,7 +35,7 @@
         @include svg(Controls/HideUI);
     }
 
-    &--zoom-slider {
+    &--view-size {
         cursor: default;
         height: calc(100vh - 16rem) !important;
         margin-top: 2rem;

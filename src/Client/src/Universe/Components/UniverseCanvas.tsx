@@ -2,15 +2,15 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import Universe from '../Utils/Universe'
-
-
 import { Component } from '../../Utils'
 import UniverseActions from '../Redux/UniverseActions'
+import Units from '../Utils/Units'
 
 interface IProps {
-    bodies: ISimpleBody[],
-    getBodies: IRunnable,
-    changeCameraZoom: IConsumer<number>
+    bodies: ISimpleBody[]
+    getBodies: IRunnable
+    changeViewSize: IConsumer<number>
+    viewSize: number
 }
 
 interface IState {
@@ -28,9 +28,13 @@ class UniverseCanvas extends Component<IProps, IState> {
         this.initializeUniverse()
     }
 
-    public componentDidUpdate(prevProps): void {
+    public componentDidUpdate(prevProps: IProps): void {
         if (!prevProps.bodies) {
             this.initializeUniverse()
+        }
+
+        if (Units.isDifferent(prevProps.viewSize, this.props.viewSize) ) {
+            this.universe.setViewSize(this.props.viewSize)
         }
     }
 
@@ -40,13 +44,14 @@ class UniverseCanvas extends Component<IProps, IState> {
     private initializeUniverse(): void {
         if (this.props.bodies && !this.universe) {
             const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement
-
-            this.universe = new Universe(element, this.props.bodies, data => {
-                this.props.changeCameraZoom(Math.log10(data.cameraZoom * 1000000))
-            })
-
+            this.universe = new Universe(element, this.props.bodies)
+            this.universe.setOnChangeViewSize(this.handleChangeViewSize)
             this.setOnResize(this.universe.resize)
         }
+    }
+
+    private handleChangeViewSize = (viewSize: number) => {
+        this.props.changeViewSize(viewSize)
     }
 
     public render(): JSX.Element {
@@ -59,9 +64,10 @@ class UniverseCanvas extends Component<IProps, IState> {
 
 export default UniverseCanvas.connect(
     ({ universe }: any) => ({
-        bodies: universe.bodies
+        bodies: universe.bodies,
+        viewSize: universe.viewSize
     }),
     (dispatch: any) => ({
-        changeCameraZoom: (zoom: number) => dispatch(UniverseActions.changeCameraZoom(zoom))
+        changeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom))
     })
 )

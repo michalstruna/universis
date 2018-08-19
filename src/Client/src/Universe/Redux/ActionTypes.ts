@@ -2,7 +2,7 @@ enum ActionTypes {
 
     GET_BODIES = 'bodies',
     GET_BODY = 'body',
-    CHANGE_CAMERA_ZOOM = 'CHANGE_CAMERA_ZOOM'
+    CHANGE_VIEW_SIZE = 'CHANGE_VIEW_SIZE'
 }
 
 export default ActionTypes

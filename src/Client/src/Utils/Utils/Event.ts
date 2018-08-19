@@ -3,6 +3,8 @@
  */
 class Event {
 
+    // TODO: Fix.
+
     private constructor() {
 
     }

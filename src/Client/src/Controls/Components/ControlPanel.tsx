@@ -4,7 +4,7 @@ import AuthenticationControl from './AuthenticationControl'
 import FullScreenControl from './FullScreenControl'
 import HelpControl from './HelpControl'
 import HomeControl from './HomeControl'
-import ZoomSliderControl from './ZoomSliderControl'
+import ViewSizeControl from './ViewSizeControl'
 import { FadeLayout, StatelessComponent } from '../../Utils'
 
 export interface IProps {
@@ -26,7 +26,7 @@ class ControlPanel extends StatelessComponent<IProps> {
                 <HelpControl />
                 <HomeControl />
                 <AuthenticationControl />
-                <ZoomSliderControl />
+                <ViewSizeControl />
             </FadeLayout>
         )
     }
