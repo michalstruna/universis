@@ -122,10 +122,6 @@ const BodySchema = new Schema({
         required: true
     },
 
-    emissiveColor: {
-        type: Number
-    },
-
     __v: {
         type: Number,
         select: false

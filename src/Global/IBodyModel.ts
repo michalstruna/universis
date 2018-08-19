@@ -5,7 +5,7 @@ declare interface IBodyModel {
 
     /**
      * Create new body.
-     * @param  data Body data.
+     * @param data Body data.
      * @returns Promise with ID of created body.
      * @returns Promise with error 400, if values are invalid.
      * @returns Promise with error 409, if there is already body with this name.

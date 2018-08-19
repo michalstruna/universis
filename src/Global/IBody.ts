@@ -91,17 +91,12 @@ declare interface INewSimpleBody {
     /**
      * Type of body.
      */
-    type: number
+    type: IBodyType
 
     /**
      * ID of parent body. If null, body is child of universe.
      */
     parentId?: string
-
-    /**
-     * Color of body light.
-     */
-    emissiveColor?: number
 
 }
 

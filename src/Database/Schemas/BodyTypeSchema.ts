@@ -11,6 +11,10 @@ const BodyTypeSchema = new Schema({
         unique: true
     },
 
+    emissiveColor: {
+        type: Number
+    },
+
     __v: {
         type: Number,
         select: false

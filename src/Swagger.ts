@@ -465,8 +465,19 @@ export default {
                         'type': 'number',
                         'example': 2.29
                     },
-                    'typeId': {
-                        '$ref': '#/components/schemas/Id'
+                    'type': {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            },
+                            'name': {
+                                'type': 'string'
+                            },
+                            'emissiveColor': {
+                                'type': 'number'
+                            }
+                        }
                     },
                     'parentId': {
                         '$ref': '#/components/schemas/Id'

@@ -95,8 +95,11 @@ class Universe implements IUniverse {
     }
 
     public setViewSize(viewSize: number): void {
-        this.camera.position.set(0, 0, viewSize * Config.SIZE_RATIO) // TODO: Easing and direction.
+        viewSize *= Config.SIZE_RATIO
+        this.controls.minDistance = Math.max(viewSize, this.controls.minDistance)
+        this.controls.maxDistance = viewSize
         lastViewSize = viewSize
+        this.camera.updateProjectionMatrix()
     }
 
     public setOnChangeViewSize(callback: IConsumer<number>): void {
@@ -195,6 +198,9 @@ class Universe implements IUniverse {
             body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
             body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
         }
+
+        this.controls.minDistance = (this.selectedBody.geometry as THREE.SphereGeometry).parameters.radius * 2
+        this.controls.maxDistance = Infinity
     }
 
     /**

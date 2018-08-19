@@ -13,4 +13,9 @@ declare interface IBodyType {
      */
     name: string
 
+    /**
+     * Color of body light.
+     */
+    emissiveColor?: number
+
 }

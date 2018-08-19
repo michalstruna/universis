@@ -69,7 +69,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
     private createMaterial(body: ISimpleBody): THREE.MeshBasicMaterial {
         const texture = TextureStore.get(body.texture)
 
-        if (typeof body.emissiveColor === 'number') {
+        if (body.type.emissiveColor) {
             return new THREE.MeshBasicMaterial({
                 map: texture
             })
@@ -134,8 +134,8 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
         const mesh = new THREE.Mesh(geometry, material)
         mesh.name = body._id
 
-        if (body.emissiveColor) {
-            mesh.add(new THREE.PointLight(body.emissiveColor, 0.7, 1000000000)) // TODO: Calc distance from size of body.
+        if (body.type.emissiveColor) {
+            mesh.add(new THREE.PointLight(body.type.emissiveColor, 0.7, 1000000000)) // TODO: Calc distance from size of body.
         }
 
         mesh.position.set(0, 0, 0)
