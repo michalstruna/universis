@@ -58,4 +58,10 @@ declare interface IBodyModel {
      */
     updateBody(id: string, updatedBody: IBody | ISimpleBody): Promise<void>
 
+    /**
+     * Get count of all bodies.
+     * @returns Promise with count of all bodies.
+     */
+    getBodiesCount(): Promise<any>
+
 }

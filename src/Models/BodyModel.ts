@@ -6,19 +6,14 @@ import Model from './Model'
 
 class BodyModel extends Model implements IBodyModel {
 
-    /**
-     * Database model for bodies.
-     */
-    private bodyModel: IDatabaseModel
-
     public constructor() {
         super()
-        this.bodyModel = this.db.getModel(this.dbModels.BODY)
+        this.dbModel = this.db.getModel(this.dbModels.BODY)
     }
 
     public addBody(data: INewBody): Promise<string> {
         return new Promise((resolve, reject) => (
-            this.bodyModel
+            this.dbModel
                 .add(data)
                 .then(id => resolve(id))
                 .catch(error => reject(error === CONFLICT ? CONFLICT : BAD_REQUEST))
@@ -26,7 +21,7 @@ class BodyModel extends Model implements IBodyModel {
     }
 
     public getBodies(order: SortOrder, criterion: string, limit: number, offset: number): Promise<ISimpleBody[]> {
-        return this.bodyModel
+        return this.dbModel
             .get({})
             .limit(limit)
             .offset(offset)
@@ -38,7 +33,7 @@ class BodyModel extends Model implements IBodyModel {
 
     public getBody(id: string): Promise<IBody> {
         return new Promise((resolve, reject) => (
-            this.bodyModel
+            this.dbModel
                 .getById(id)
                 .join('typeId')
                 .run<IBody>()
@@ -47,7 +42,7 @@ class BodyModel extends Model implements IBodyModel {
     }
 
     public removeBodies(): Promise<number> {
-        return this.bodyModel.remove({})
+        return this.dbModel.remove({})
     }
 
     public removeBody(id: string, force: boolean = false): Promise<void> {
@@ -56,13 +51,13 @@ class BodyModel extends Model implements IBodyModel {
                 // TODO: Remove sub-tree.
                 return reject(NOT_IMPLEMENTED)
             } else {
-                return this.bodyModel
+                return this.dbModel
                     .count({ parentId: id })
                     .then(count => {
                         if (count > 0) {
                             reject(BAD_REQUEST)
                         } else {
-                            return this.bodyModel
+                            return this.dbModel
                                 .removeById(id)
                                 .then(() => resolve())
                                 .catch(error => reject(error))
@@ -74,11 +69,15 @@ class BodyModel extends Model implements IBodyModel {
 
     public updateBody(id: string, updatedBody: IBody | ISimpleBody): Promise<void> {
         return new Promise((resolve, reject) => (
-            this.bodyModel
+            this.dbModel
                 .updateById(id, updatedBody)
                 .then(() => resolve())
                 .catch(error => reject(error))
         ))
+    }
+
+    public getBodiesCount(): Promise<any> {
+        return this.dbModel.count({})
     }
 
 }

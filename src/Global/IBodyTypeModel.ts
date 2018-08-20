@@ -4,7 +4,7 @@
 declare interface IBodyTypeModel {
 
     /**
-     * Create new body.
+     * Create new body type.
      * @param  name Name of body type.
      * @returns Promise with ID of created body type.
      * @returns Promise with error 400, if name is invalid.
@@ -53,5 +53,11 @@ declare interface IBodyTypeModel {
      * @returns Promise with error 409, if there is already body type with this name.
      */
     updateBodyType(id: string, name: string): Promise<void>
+
+    /**
+     * Get count of all body types.
+     * @returns Promise with count of all body types.
+     */
+    getBodyTypesCount(): Promise<number>
 
 }

@@ -230,6 +230,25 @@ export default {
                 }
             }
         },
+        '/bodies/count': {
+            'get': {
+                'tags': ['Bodies'],
+                'summary': 'Get count of all bodies.',
+                'description': 'Get count of all bodies.',
+                'responses': {
+                    '200': {
+                        'description': 'Get bodies count is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         '/bodyTypes': {
             'get': {
                 'tags': ['Body types'],
@@ -376,6 +395,25 @@ export default {
                 }
             }
         },
+        '/bodyTypes/count': {
+            'get': {
+                'tags': ['Body types'],
+                'summary': 'Get count of all body types.',
+                'description': 'Get count of all body types.',
+                'responses': {
+                    '200': {
+                        'description': 'Get body types count is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    },
+                }
+            }
+        }
     },
     'components': {
         'schemas': {
@@ -530,6 +568,11 @@ export default {
                         'type': 'string',
                         'example': 'Terestrická planeta',
                         'description': 'Name of body type.'
+                    },
+                    'emissiveColor': {
+                        'type': 'number',
+                        'example': '0xaabbcc',
+                        'description': 'Emissive color of bodies with this type.'
                     }
                 }
             },

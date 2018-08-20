@@ -12,7 +12,7 @@ class Response {
     public static process(action: IFunction<any, Promise<any>>, resultMap: IFunction<any, any> = result => result): IDoubleConsumer<any, any> {
         return (request, response) => (
             action(request)
-                .then(result => response.status(OK).send(resultMap(result)))
+                .then(result => response.status(OK).send(resultMap(result.toString())))
                 .catch(error => response.sendStatus(error))
         )
     }
