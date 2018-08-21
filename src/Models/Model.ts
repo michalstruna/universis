@@ -33,7 +33,6 @@ abstract class Model implements IModel {
         if (!this.db) {
             this.createBaseConnection()
         }
-
     }
 
     /**

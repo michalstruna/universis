@@ -1,7 +1,7 @@
 /**
  * Interface for entity model.
  */
-declare interface IEntityModel<INewEntity, ISimpleEntity, IEntity> {
+declare interface IEntityModel<IGetOne, IGetAll, INew> {
 
     /**
      * Create new entity.
@@ -10,7 +10,7 @@ declare interface IEntityModel<INewEntity, ISimpleEntity, IEntity> {
      * @returns Promise with error 400, if values are invalid.
      * @returns Promise with error 409, if there is duplicate unique value.
      */
-    add(data: INewEntity): Promise<string>
+    add(data: INew): Promise<string>
 
     /**
      * Get entity by its ID.
@@ -18,7 +18,7 @@ declare interface IEntityModel<INewEntity, ISimpleEntity, IEntity> {
      * @returns Promise with entity.
      * @returns Promise with error 404, if entity with this ID was not found.
      */
-    get(id: string): Promise<IEntity>
+    get(id: string): Promise<IGetOne>
 
     /**
      * Get all entities.
@@ -28,7 +28,7 @@ declare interface IEntityModel<INewEntity, ISimpleEntity, IEntity> {
      * @param offset Index of first entity.
      * @returns Promise with list of entities.
      */
-    getAll(order: string, criterion: string, limit: number, offset: number): Promise<ISimpleEntity[]>
+    getAll(order: string, criterion: string, limit: number, offset: number): Promise<IGetAll[]>
 
     /**
      * Remove entity by its ID.
@@ -56,7 +56,7 @@ declare interface IEntityModel<INewEntity, ISimpleEntity, IEntity> {
      * @returns Promise with error 404, if entity with this ID was not found.
      * @returns Promise with error 409, if there is duplicate unique value.
      */
-    update(id: string, updatedEntity: INewEntity | ISimpleEntity | IEntity): Promise<void>
+    update(id: string, updatedEntity: INew): Promise<void>
 
     /**
      * Update all entities.
@@ -65,7 +65,7 @@ declare interface IEntityModel<INewEntity, ISimpleEntity, IEntity> {
      * @returns Promise with error 400, if values are invalid.
      * @returns Promise with error 409, if there is duplicate unique value.
      */
-    updateAll( updatedEntity: INewEntity | ISimpleEntity | IEntity): Promise<number>
+    updateAll( updatedEntity: INew): Promise<number>
 
     /**
      * Get count of all entities.

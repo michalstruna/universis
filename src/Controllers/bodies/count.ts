@@ -1,8 +1,4 @@
 import BodyModel from '../../Models/BodyModel'
-import { process } from '../../Utils/Response'
+import Route from '../../Utils/Route'
 
-export default {
-
-    get: process(() => BodyModel.getBodiesCount())
-
-}
+export default Route.getRouteGroupForCount(BodyModel)

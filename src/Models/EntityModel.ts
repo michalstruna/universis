@@ -1,46 +1,59 @@
-import { BAD_REQUEST, NOT_FOUND, CONFLICT, NOT_IMPLEMENTED } from 'http-status-codes'
-
-import { SortOrder } from '../Constants'
-
+import { SortOrder, Errors } from '../Constants'
 import Model from './Model'
 import DatabaseModels from '../Constants/DatabaseModels'
 
+// TODO: Add integrity check - if false, entity can be deleted.
 
-class EntityModel<INewEntity, ISimpleEntity, IEntity> extends Model implements IEntityModel<INewEntity, ISimpleEntity, IEntity> {
+class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<IGetOne, IGetAll, INew> {
 
-    public constructor(dbModel: DatabaseModels) {
+    private select: string[]
+    private join: string[]
+
+    public constructor(dbModel: DatabaseModels, select?: string[], join?: string[]) {
         super()
         this.dbModel = this.db.getModel(dbModel)
+        this.select = select
+        this.join = join
     }
 
-    public add(data: INewEntity): Promise<string> {
+    public add(data: INew): Promise<string> {
         return new Promise((resolve, reject) => (
             this.dbModel
                 .add(data)
                 .then(id => resolve(id))
-                .catch(error => reject(error === CONFLICT ? CONFLICT : BAD_REQUEST))
+                .catch(error => reject(error === Errors.DUPLICATE ? Errors.DUPLICATE : Errors.INVALID))
         ))
     }
 
-    public getAll(order: SortOrder, criterion: string, limit: number, offset: number): Promise<ISimpleEntity[]> {
-        return this.dbModel
+    public getAll(order: SortOrder, criterion: string, limit: number, offset: number): Promise<IGetAll[]> {
+        let query = this.dbModel
             .get({})
             .limit(limit)
             .offset(offset)
             .sort(criterion, order)
-            .join('typeId')
-            .select('_id', 'name', 'diameter', 'orbit', 'period', 'rings', 'texture', 'tilt', 'type', 'parentId')
-            .run<ISimpleEntity[]>()
+
+        for (const join of this.join) {
+            query = query.join(join)
+        }
+
+        if (this.select) {
+            query = query.select(...this.select)
+        }
+
+        return query.run<IGetAll[]>()
     }
 
-    public get(id: string): Promise<IBody> {
-        return new Promise((resolve, reject) => (
-            this.dbModel
-                .getById(id)
-                .join('typeId')
-                .run<IBody>()
-                .then(body => body ? resolve(body) : reject(NOT_FOUND))
-        ))
+    public get(id: string): Promise<IGetOne> {
+        return new Promise((resolve, reject) => {
+            let query = this.dbModel.getById(id)
+
+            for (const join of this.join) {
+                query = query.join(join)
+            }
+
+            return query.run<IGetOne>()
+                .then(entity => entity ? resolve(entity) : reject(Errors.NOT_FOUND))
+        })
     }
 
     public removeAll(): Promise<number> {
@@ -51,13 +64,13 @@ class EntityModel<INewEntity, ISimpleEntity, IEntity> extends Model implements I
         return new Promise((resolve, reject) => {
             if (force) {
                 // TODO: Remove sub-tree.
-                return reject(NOT_IMPLEMENTED)
+                return reject(null)
             } else {
                 return this.dbModel
                     .count({ parentId: id })
                     .then(count => {
                         if (count > 0) {
-                            reject(BAD_REQUEST)
+                            reject(Errors.INVALID)
                         } else {
                             return this.dbModel
                                 .removeById(id)
@@ -69,20 +82,20 @@ class EntityModel<INewEntity, ISimpleEntity, IEntity> extends Model implements I
         })
     }
 
-    public update(id: string, updatedBody: IBody | ISimpleBody): Promise<void> {
+    public update(id: string, updatedEntity: INew): Promise<void> {
         return new Promise((resolve, reject) => (
             this.dbModel
-                .updateById(id, updatedBody)
+                .updateById(id, updatedEntity)
                 .then(() => resolve())
                 .catch(error => reject(error))
         ))
     }
 
-    public updateAll(id: string, updatedBody: IBody | ISimpleBody): Promise<void> {
+    public updateAll(updatedEntity: INew): Promise<number> {
         return new Promise((resolve, reject) => (
             this.dbModel
-                .updateById(id, updatedBody)
-                .then(() => resolve())
+                .update({}, updatedEntity)
+                .then(count => resolve(count))
                 .catch(error => reject(error))
         ))
     }

@@ -76,9 +76,8 @@ class DatabaseModel implements IDatabaseModel {
         return this
     }
 
-    public join(field: string, targetField?: string): IDatabaseModel {
+    public join(field: string): IDatabaseModel {
         // TODO: Nested populate.
-        // TODO: Rename target.
         this.query = this.query.populate(field)
         this.joinList.push(field)
         return this

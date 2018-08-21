@@ -1,18 +1,4 @@
 import BodyModel from '../../Models/BodyModel'
-import { process, processWithoutResponse } from '../../Utils/Response'
+import Route from '../../Utils/Route'
 
-export default {
-
-    get: process(({ params }) => (
-        BodyModel.getBody(params.bodyId)
-    )),
-
-    put: processWithoutResponse(({ params, body }) => (
-        BodyModel.updateBody(params.bodyId, body)
-    )),
-
-    delete: processWithoutResponse(({ params }) => (
-        BodyModel.removeBody(params.bodyId)
-    ))
-
-}
+export default Route.getRouteGroupForOne(BodyModel)
