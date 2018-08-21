@@ -32,8 +32,10 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
             .offset(offset)
             .sort(criterion, order)
 
-        for (const join of this.join) {
-            query = query.join(join)
+        if (this.join) {
+            for (const join of this.join) {
+                query = query.join(join)
+            }
         }
 
         if (this.select) {
