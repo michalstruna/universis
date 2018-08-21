@@ -65,7 +65,7 @@ declare interface IEntityModel<IGetOne, IGetAll, INew> {
      * @returns Promise with error 400, if values are invalid.
      * @returns Promise with error 409, if there is duplicate unique value.
      */
-    updateAll( updatedEntity: INew): Promise<number>
+    updateAll(updatedEntity: INew): Promise<number>
 
     /**
      * Get count of all entities.
