@@ -34,4 +34,55 @@
     &--hide-ui {
         @include svg(Controls/HideUI);
     }
+
+    &--view-size {
+        cursor: default;
+        height: calc(100vh - 16rem) !important;
+        margin-top: 2rem;
+
+        .rangeslider {
+            background-color: $medium-color;
+            height: 100%;
+            margin: 0 auto;
+            width: 0.3rem;
+
+            &__handle {
+                @include size(1.5rem);
+                border-radius: 100%;
+                color: $darkest-color;
+                margin-left: -0.01rem;
+                outline: none;
+                text-align: center;
+                user-select: none;
+            }
+
+            &__labels {
+                margin-left: -4.5rem;
+                pointer-events: none;
+                opacity: 1;
+                text-align: right;
+                transition: opacity $medium-animation-duration;
+                width: 3rem;
+            }
+
+            &__label-item {
+                right: 0;
+                transform: none !important;
+
+                &:before {
+                    display: none;
+                }
+            }
+
+            &__fill {
+                background-color: $light-color;
+            }
+        }
+
+        &:hover, &:active {
+            &, .rangeslider__labels {
+                opacity: 1;
+            }
+        }
+    }
 }

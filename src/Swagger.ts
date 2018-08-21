@@ -230,6 +230,185 @@ export default {
                 }
             }
         },
+        '/bodies/count': {
+            'get': {
+                'tags': ['Bodies'],
+                'summary': 'Get count of all bodies.',
+                'description': 'Get count of all bodies.',
+                'responses': {
+                    '200': {
+                        'description': 'Get bodies count is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        '/bodies/{bodyId}/events': {
+            'get': {
+                'tags': ['Body events'],
+                'summary': 'Get all events of body.',
+                'description': 'Get all events of body.',
+                'responses': {
+                    '200': {
+                        'description': 'Succesful get events.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'array',
+                                    'items': {
+                                        '$ref': '#/components/schemas/BodyEvent'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'Body with this ID not found.'
+                    }
+                }
+            },
+            'post': {
+                'tags': ['Body events'],
+                'summary': 'Add event to body.',
+                'description': 'Add event to body',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                '$ref': '#/components/schemas/NewBodyEvent'
+                            }
+                        }
+                    }
+                },
+                'responses': {
+                    '200': {
+                        'description': 'Successful add event.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'object',
+                                    'properties': {
+                                        '_id': {
+                                            '$ref': '#/components/schemas/Id'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    '400': {
+                        'description': 'Invalid values.'
+                    },
+                    '404': {
+                        'description': 'Body with this ID not found.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Body events'],
+                'summary': 'Delete all events of body.',
+                'description': 'Delete all events of body',
+                'responses': {
+                    '204': {
+                        'description': 'Successful delete events.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'object',
+                                    'properties': {
+                                        'count': {
+                                            'type': 'number'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'Body with this ID not found or there is no events for remove.'
+                    }
+                }
+            }
+        },
+        '/bodies/{bodyId}/events/{eventId}': {
+            'get': {
+                'tags': ['Body events'],
+                'summary': 'Get body event.',
+                'description': 'Get body event.',
+                'responses': {
+                    '200': {
+                        'description': 'Successful get event.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    '$ref': '#/components/schemas/BodyEvent'
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'Body or event with this ID not found.'
+                    }
+                }
+            },
+            'put': {
+                'tags': ['Body events'],
+                'summary': 'Edit event of body.',
+                'description': 'Edit event of body',
+                'responses': {
+                    '204': {
+                        'description': 'Successful edit event.'
+                    },
+                    '400': {
+                        'description': 'Invalid values.'
+                    },
+                    '404': {
+                        'description': 'Body or event with this ID not found.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Body events'],
+                'summary': 'Delete event of body.',
+                'description': 'Delete event of body',
+                'responses': {
+                    '204': {
+                        'description': 'Successful delete event.'
+                    },
+                    '404': {
+                        'description': 'Body or event with this ID not found.'
+                    }
+                }
+            }
+        },
+        '/bodies/{bodyId}/events/count': {
+            'get': {
+                'tags': ['Body events'],
+                'summary': 'Get body events count.',
+                'description': 'Get body events count.',
+                'responses': {
+                    '200': {
+                        'description': 'Successful get count.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'Body with this ID not found.'
+                    }
+                }
+            }
+        },
         '/bodyTypes': {
             'get': {
                 'tags': ['Body types'],
@@ -376,6 +555,25 @@ export default {
                 }
             }
         },
+        '/bodyTypes/count': {
+            'get': {
+                'tags': ['Body types'],
+                'summary': 'Get count of all body types.',
+                'description': 'Get count of all body types.',
+                'responses': {
+                    '200': {
+                        'description': 'Get body types count is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    },
+                }
+            }
+        }
     },
     'components': {
         'schemas': {
@@ -465,8 +663,19 @@ export default {
                         'type': 'number',
                         'example': 2.29
                     },
-                    'typeId': {
-                        '$ref': '#/components/schemas/Id'
+                    'type': {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            },
+                            'name': {
+                                'type': 'string'
+                            },
+                            'emissiveColor': {
+                                'type': 'number'
+                            }
+                        }
                     },
                     'parentId': {
                         '$ref': '#/components/schemas/Id'
@@ -519,6 +728,11 @@ export default {
                         'type': 'string',
                         'example': 'Terestrická planeta',
                         'description': 'Name of body type.'
+                    },
+                    'emissiveColor': {
+                        'type': 'number',
+                        'example': '0xaabbcc',
+                        'description': 'Emissive color of bodies with this type.'
                     }
                 }
             },
@@ -534,6 +748,38 @@ export default {
                     },
                     {
                         '$ref': '#/components/schemas/NewBodyType'
+                    }
+                ]
+            },
+            'NewBodyEvent': {
+                'type': 'object',
+                'properties': {
+                    'title': {
+                        'type': 'string'
+                    },
+                    'content': {
+                        'type': 'string'
+                    },
+                    'year': {
+                        'type': 'number'
+                    }
+                }
+            },
+            'BodyEvent': {
+                'allOf': [
+                    {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            },
+                            'bodyId': {
+                                '$ref': '#/components/schemas/Id'
+                            }
+                        }
+                    },
+                    {
+                        '$ref': '#/components/schemas/NewBodyEvent'
                     }
                 ]
             }

@@ -18,6 +18,11 @@ abstract class Model implements IModel {
     protected db: IDatabase
 
     /**
+     * Primary database model.
+     */
+    protected dbModel: IDatabaseModel
+
+    /**
      * List of all database models.
      */
     protected dbModels = DatabaseModels
@@ -28,7 +33,6 @@ abstract class Model implements IModel {
         if (!this.db) {
             this.createBaseConnection()
         }
-
     }
 
     /**

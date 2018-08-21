@@ -29,7 +29,7 @@
     }
 
     &:hover {
-        .control--inner {
+        .control--inner, .rangeslider__labels {
             opacity: 1;
         }
     }

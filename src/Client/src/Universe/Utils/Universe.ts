@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import Config from '../Constants/Config'
 import UniverseInitializer from './UniverseInitializer'
 import Visibility from '../Constants/Visibility'
+import Units from './Units'
 
 /**
  * Temp variables.
@@ -13,6 +14,7 @@ const bodyPosition = new THREE.Vector3()
 const meshPosition = new THREE.Vector3()
 const rotationVector = new THREE.Vector3(0, 0, 1)
 const cameraViewProjectionMatrix = new THREE.Matrix4()
+let lastViewSize = null
 
 /**
  * Utils for universe.
@@ -43,6 +45,11 @@ class Universe implements IUniverse {
      * Scale of scene.
      */
     private scale: number
+
+    /**
+     * Handlers.
+     */
+    private onChangeViewSize: IConsumer<number>
 
     /**
      * THREE.js entities.
@@ -87,6 +94,18 @@ class Universe implements IUniverse {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
+    public setViewSize(viewSize: number): void {
+        viewSize *= Config.SIZE_RATIO
+        this.controls.minDistance = Math.max(viewSize, this.controls.minDistance)
+        this.controls.maxDistance = viewSize
+        lastViewSize = viewSize
+        this.camera.updateProjectionMatrix()
+    }
+
+    public setOnChangeViewSize(callback: IConsumer<number>): void {
+        this.onChangeViewSize = callback
+    }
+
     /**
      * Get body from collection.
      * @param bodyId ID of body.
@@ -109,16 +128,16 @@ class Universe implements IUniverse {
     /**
      * Check if body is visible.
      * @param body Body.
-     * @param fromCenter Current camera zoom.
+     * @param viewSize Current camera zoom.
      * @returns Body visibility.
      */
-    private getVisibility(body: IBodyContainer, fromCenter: number): Visibility {
+    private getVisibility(body: IBodyContainer, viewSize: number): Visibility {
         const apocenter = body.data.orbit.apocenter
         body.mesh.getWorldPosition(meshPosition)
 
-        const min = fromCenter / apocenter
+        const min = viewSize / apocenter
         const distance = meshPosition.distanceTo(cameraPosition)
-        const max = fromCenter / distance
+        const max = viewSize / distance
 
         if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
             return Visibility.INVISIBLE
@@ -135,20 +154,25 @@ class Universe implements IUniverse {
     private updateBodies(): void {
         this.camera.getWorldPosition(cameraPosition)
         this.selectedBody.getWorldPosition(bodyPosition)
-        const fromCenter = bodyPosition.distanceTo(cameraPosition)
+        const viewSize = bodyPosition.distanceTo(cameraPosition)
+
+        if (Units.isDifferent(viewSize, lastViewSize) && this.onChangeViewSize) {
+            lastViewSize = viewSize
+            this.onChangeViewSize(viewSize / Config.SIZE_RATIO)
+        }
 
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
         this.frustum.setFromMatrix(cameraViewProjectionMatrix)
 
-        this.setScale(fromCenter * this.scale)
+        this.setScale(viewSize * this.scale)
 
         for (const body of  this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = tempVector.project(this.camera)
             const isBehindCamera = !this.frustum.intersectsObject(body.mesh)
             const orbitColor = (body.orbit.children[0] as any).material.color
-            const visibility = this.getVisibility(body, fromCenter)
+            const visibility = this.getVisibility(body, viewSize)
             const isSelectedBody = body.data._id === this.selectedBody.name
 
             if (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody) {
@@ -163,9 +187,9 @@ class Universe implements IUniverse {
             orbitColor.setHex(visibility)
 
             const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-            body.orbit.userData.angle += (0.001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
+            body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
 
-            if(visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
+            if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
                 body.mesh.position.set(0, 0, 0)
             } else {
                 body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
@@ -174,6 +198,9 @@ class Universe implements IUniverse {
             body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
             body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
         }
+
+        this.controls.minDistance = (this.selectedBody.geometry as THREE.SphereGeometry).parameters.radius * 2
+        this.controls.maxDistance = Infinity
     }
 
     /**
@@ -203,12 +230,12 @@ class Universe implements IUniverse {
     /**
      * Universe is split into chunks, because of precision of numbers in JavaScript.
      * If scene is too small or too large, scale it.
-     * @param fromCenter Distance camera from centered body.
+     * @param viewSize Distance camera from centered body.
      */
-    private setScale(fromCenter: number): void {
-        if (fromCenter > 1000000) {
+    private setScale(viewSize: number): void {
+        if (viewSize > 1000000) {
             this.scale /= 1000
-        } else if (fromCenter < 1000) {
+        } else if (viewSize < 1000) {
             this.scale *= 1000
         }
     }
