@@ -18,7 +18,7 @@ export interface IProps {
 }
 
 /**
- * Component for toggle full screen.
+ * Component for show alert about project.
  */
 class AboutControl extends StatelessComponent<IProps> {
 

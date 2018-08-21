@@ -18,7 +18,17 @@ export default {
         logIn: 'Přihlášení',
         hideUI: 'Skrýt ovládání',
         showUI: 'Zobrazit ovládání',
-        about: 'O Universis'
+        about: 'O Universis',
+        viewSize: {
+            0: 'Tly',
+            [27.98 - 24.98]: 'Gly',
+            [27.98 - 21.98]: 'Mly',
+            [27.98 - 18.98]: 'kly',
+            [27.98 - 15.98]: 'ly',
+            [27.98 - 11.17]: 'AU',
+            [27.98 - 3]: 'km',
+            27.98: 'm'
+        }
     },
 
     alert: {
@@ -37,12 +47,14 @@ export default {
         email: 'Váš email',
         button: 'Další'
     },
+
     login: {
         title: 'Přihlašte se.',
         password: 'Vaše heslo',
         button: 'Hotovo',
         forgot: 'Zapomenuté heslo?'
     },
+
     signUp: {
         title: 'Registrujte se.',
         password: 'Nové heslo',

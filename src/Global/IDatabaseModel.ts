@@ -56,10 +56,9 @@ declare interface IDatabaseModel {
     /**
      * Replace foreign key to targeted document.
      * @param field Name of foreign key.
-     * @param targetField Name of field with joined document. (optional, default field)
      * @returns Current instance of database model.
      */
-    join(field: string, targetField?: string): IDatabaseModel
+    join(field: string): IDatabaseModel
 
     /**
      * Run current query.

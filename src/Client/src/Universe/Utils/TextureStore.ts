@@ -11,9 +11,8 @@ class TextureStore {
 
     /**
      * List of all already loaded textures.
-     * @type {{}}
      */
-    private static textures: IObject<Texture> = {}
+    private static textures: Map<string, Texture> = new Map()
 
     private constructor() {
 
@@ -25,11 +24,11 @@ class TextureStore {
      * @return THREE texture.
      */
     public static get(name: string): Texture {
-        if (!TextureStore.textures[name]) {
-            TextureStore.textures[name] = TextureStore.load(name)
+        if (!TextureStore.textures.get(name)) {
+            TextureStore.textures.set(name, TextureStore.load(name))
         }
 
-        return TextureStore.textures[name]
+        return TextureStore.textures.get(name)
     }
 
     /**
