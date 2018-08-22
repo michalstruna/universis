@@ -27,7 +27,7 @@ class Request {
      * @returns Promise with response body.
      */
     public static get<T>(path: string, query: IRequestQuery = {}): Promise<T> {
-        return Request.process(
+        return Request.process<T>(
             Axios.get(
                 API_URL + path,
                 { params: query, ...Request.getHeader() }
@@ -42,7 +42,7 @@ class Request {
      * @returns Promise with response body.
      */
     public static post<T>(path: string, body: IRequestBody = {}, query: IRequestQuery = {}): Promise<T> {
-        return Request.process(
+        return Request.process<T>(
             Axios.post(
                 API_URL + path,
                 body,
@@ -58,7 +58,7 @@ class Request {
      * @returns Promise with response body.
      */
     public static put<T>(path: string, body: IRequestBody = {}, query: IRequestQuery = {}): Promise<T> {
-        return Request.process(
+        return Request.process<T>(
             Axios.put(
                 API_URL + path,
                 body,
@@ -73,7 +73,7 @@ class Request {
      * @returns Promise with response body.
      */
     public static delete<T>(path: string, query: IRequestQuery = {}): Promise<T> {
-        return Request.process(
+        return Request.process<T>(
             Axios.delete(
                 API_URL + path,
                 { params: query, ...Request.getHeader() }
