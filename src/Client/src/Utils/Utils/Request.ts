@@ -31,7 +31,8 @@ class Request {
             Axios.get(
                 API_URL + path,
                 { params: query, ...Request.getHeader() }
-            ))
+            )
+        )
     }
 
     /**
@@ -47,7 +48,8 @@ class Request {
                 API_URL + path,
                 body,
                 { params: query, ...Request.getHeader() }
-            ))
+            )
+        )
     }
 
     /**
@@ -63,7 +65,8 @@ class Request {
                 API_URL + path,
                 body,
                 { params: query, ...Request.getHeader() }
-            ))
+            )
+        )
     }
 
     /**
@@ -77,7 +80,8 @@ class Request {
             Axios.delete(
                 API_URL + path,
                 { params: query, ...Request.getHeader() }
-            ))
+            )
+        )
     }
 
     /**
