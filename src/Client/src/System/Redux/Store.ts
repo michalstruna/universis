@@ -15,6 +15,6 @@ const rootReducer = combineReducers({
 
 const middleware = applyMiddleware(thunk)
 
-const store = createStore(rootReducer, middleware)
+const store = createStore<IState>(rootReducer, middleware)
 
 export default store

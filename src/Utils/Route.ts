@@ -1,14 +1,9 @@
 import { OK, NO_CONTENT } from 'http-status-codes'
-import BodyModel from '../Models/BodyModel'
 
-type IAction = IFunction<any, Promise<any>>
-type IResultMap = boolean | IFunction<any, any>
+import { UserRole } from '../Constants'
 
 const defaultResultMap = result => result
-
-enum Permission {
-
-}
+const defaultIsAuthorized = user => true
 
 /**
  * Utils for express route.
@@ -19,7 +14,7 @@ class Route {
 
     }
 
-    private static process(action: IAction, resultMap: IResultMap = defaultResultMap): IRequestHandler {
+    private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorized: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
         return (request, response) => (
             action(request)
                 .then(result => {
@@ -37,7 +32,7 @@ class Route {
      * @param action Request action.
      * @param resultMap Convert model result to response data.
      */
-    public static all(action: IAction, resultMap?: IResultMap): IRequestHandler {
+    public static all(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
         return this.process(action, resultMap)
     }
 
@@ -47,29 +42,29 @@ class Route {
      * @param action Request action.
      * @param resultMap Convert model result to response data.
      */
-    public static onlyWithId(userId: string, action: IAction, resultMap?: IResultMap): IRequestHandler {
-        return null
+    public static onlyWithId(userId: string, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
+        return this.process(action, resultMap)
     }
 
     /**
      * Run route handler only if author of request has this permission.
-     * @param permission Required user's permission.
+     * @param role Required user's role.
      * @param action Request action.
      * @param resultMap Convert model result to response data.
      */
-    public static onlyWithPermission(permission: Permission, action: IAction, resultMap?: IResultMap): IRequestHandler {
-        return null
+    public static onlyWithRole(role: UserRole, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
+        return this.process(action, resultMap)
     }
 
     /**
      * Run route handler only if author of request has this ID or permission.
      * @param userId Required user' s ID.
-     * @param permission Required user's permission.
+     * @param role Required user's role.
      * @param action Request action.
      * @param resultMap Convert model result to response data.
      */
-    public static staticOnlyWithIdOrPermission(userId: string, permission: Permission, action: IAction, resultMap?: IResultMap): IRequestHandler {
-        return null
+    public static staticOnlyWithIdOrROle(userId: string, role: UserRole, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
+        return this.process(action, resultMap)
     }
 
     /**
@@ -104,13 +99,13 @@ class Route {
     public static getRouteGroupForOne(model: IEntityModel<any, any, any>): IRouteGroupForOne {
         return {
             get: Route.all(({ params }) => (
-                BodyModel.get(params.bodyId)
+                model.get(params.bodyId)
             )),
             put: Route.all(({ params, body }) => (
-                BodyModel.update(params.bodyId, body)
+                model.update(params.bodyId, body)
             )),
             delete: Route.all(({ params }) => (
-                BodyModel.remove(params.bodyId)
+                model.remove(params.bodyId, false)
             ))
         }
     }

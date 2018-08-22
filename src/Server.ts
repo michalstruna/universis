@@ -3,6 +3,8 @@ import * as Compression from 'compression'
 import * as Express from 'express'
 import { Z_DEFAULT_COMPRESSION } from 'zlib'
 
+import { Config } from './Constants'
+
 class Server implements IServer {
 
     /**
@@ -16,11 +18,10 @@ class Server implements IServer {
         this.express.use(Compression(Z_DEFAULT_COMPRESSION))
 
         this.express.all('*', (request, response, next) => {
-            response.header('Access-Control-Allow-Origin', '*')
-            response.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
-            response.header('Access-Control-Allow-Headers', 'Content-Type')
-            // TODO: Cache.
-            //response.header('Cache-Control', 'public, max-age=3600')
+            for (const i in Config.headers) {
+                response.header(i, Config.headers[i])
+            }
+
             next()
         })
     }

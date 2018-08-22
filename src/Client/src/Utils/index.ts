@@ -36,11 +36,13 @@ export {
 import Api from './Utils/Api'
 import Event from './Utils/Event'
 import Redux from './Utils/Redux'
+import Request from './Utils/Request'
 import Url from './Utils/Url'
 
 export {
     Api,
     Event,
     Redux,
+    Request,
     Url
 }
