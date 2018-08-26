@@ -13,6 +13,11 @@ declare interface INewBodyType {
      */
     emissiveColor?: number
 
+    /**
+     * If true, there will be two same textures on two sides.
+     */
+    halfTexture?: boolean
+
 }
 
 

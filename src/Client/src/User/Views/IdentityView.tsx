@@ -33,7 +33,7 @@ class IdentityView extends View<IProps> {
 }
 
 export default IdentityView.connect(
-    ({ user }: any) => ({
+    ({ user }: IStoreState) => ({
         isLoggedIn: user.isLoggedIn
     })
 )

@@ -8,6 +8,7 @@ import Link from './Components/Link'
 import SimpleComponent from './Components/SimpleComponent'
 import Loader from './Components/Loader'
 import StatelessComponent from './Components/StatelessComponent'
+import UILayout from './Components/UILayout'
 import View from './Components/View'
 
 export {
@@ -18,6 +19,7 @@ export {
     SimpleComponent,
     Loader,
     StatelessComponent,
+    UILayout,
     View
 }
 
@@ -25,9 +27,11 @@ export {
  * Constants.
  */
 import Urls from './Constants/Urls'
+import Queries from './Constants/Queries'
 
 export {
-    Urls
+    Urls,
+    Queries
 }
 
 /**

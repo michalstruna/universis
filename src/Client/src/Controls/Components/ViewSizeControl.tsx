@@ -48,9 +48,9 @@ class ViewSizeControl extends StatelessComponent<IProps> {
     }
 }
 
-export default ViewSizeControl.connect(({ universe, system }: any) => ({
+export default ViewSizeControl.connect(({ universe, system }: IStoreState) => ({
     viewSize: universe.viewSize,
     labels: system.strings.controls.viewSize
-}), (dispatch: any) => ({
+}), (dispatch: IDispatch) => ({
     changeViewSize: (viewSize: number) => dispatch(UniverseActions.changeViewSize(viewSize))
 }))

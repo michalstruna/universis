@@ -44,6 +44,6 @@ class AuthentificationControl extends StatelessComponent<IProps> {
 
 }
 
-export default AuthentificationControl.connect(({ system }: any) => ({
+export default AuthentificationControl.connect(({ system }: IStoreState) => ({
     strings: system.strings.controls
 }))

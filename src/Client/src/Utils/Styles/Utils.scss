@@ -105,7 +105,7 @@
  */
 @mixin opacity-hover {
     opacity: 0.5;
-    transition: opacity $medium-animation-duration;
+    transition: opacity $fast-animation-duration;
 
     &:hover {
         opacity: 1;

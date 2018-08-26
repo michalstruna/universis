@@ -6,13 +6,9 @@ import { StatelessComponent } from '../../Utils'
 
 
 export interface IProps {
-    hideUI: IRunnable,
     isUIVisible: boolean,
-    showUI: IRunnable,
-    strings: {
-        hideUI: string,
-        showUI: string
-    }
+    strings: IStrings,
+    toggleUI: IRunnable
 }
 
 /**
@@ -20,34 +16,22 @@ export interface IProps {
  */
 class UIControl extends StatelessComponent<IProps> {
 
-    /**
-     * After click, toggle UI.
-     */
-    private handleClick = (event: React.MouseEvent<HTMLElement>): void => {
-        if (this.props.isUIVisible) {
-            this.props.hideUI()
-        } else {
-            this.props.showUI()
-        }
-    }
-
     public render(): JSX.Element {
-        const { isUIVisible, strings } = this.props
+        const { isUIVisible, strings, toggleUI } = this.props
 
         return (
             <Control
                 isVisible={true}
-                onClick={this.handleClick}
+                onClick={toggleUI}
                 name={isUIVisible ? 'hide-ui' : 'show-ui'}
                 label={isUIVisible ? strings.hideUI : strings.showUI} />
         )
     }
 }
 
-export default UIControl.connect(({ system }: any) => ({
+export default UIControl.connect(({ system }: IStoreState) => ({
     isUIVisible: system.isUIVisible,
     strings: system.strings.controls
-}), (dispatch: any) => ({
-    showUI: () => dispatch(SystemActions.showUI()),
-    hideUI: () => dispatch(SystemActions.hideUI())
+}), (dispatch: IDispatch) => ({
+    toggleUI: () => dispatch(SystemActions.toggleUI()),
 }))

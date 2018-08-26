@@ -4,7 +4,8 @@ import { withRouter, RouteProps } from 'react-router-dom'
 
 interface IComponentProps {
     history?: {
-        push: IConsumer<string>
+        push: IConsumer<string | { pathname?: string, search?: string }>,
+        replace: IConsumer<string | { pathname?: string, search?: string }>
     }
     location?: {
         pathname: string

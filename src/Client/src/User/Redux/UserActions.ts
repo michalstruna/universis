@@ -1,7 +1,5 @@
 import { Api } from '../../Utils'
 import ACTION_TYPES from './ActionTypes'
-import { AxiosPromise as Promise } from 'axios'
-import Axios from 'axios'
 
 /**
  * Actions for users.

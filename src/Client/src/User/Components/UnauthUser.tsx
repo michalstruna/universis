@@ -61,7 +61,7 @@ class UnauthUser extends StatelessComponent<IBaseUser> {
 }
 
 export default UnauthUser.connect(
-    ({ user }: any) => ({
+    ({ user }: IStoreState) => ({
         ...user.unauthUser
     })
 )

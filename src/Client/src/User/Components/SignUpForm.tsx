@@ -82,12 +82,12 @@ class SignUpForm extends StatelessComponent<IProps> {
 }
 
 export default SignUpForm.connect(
-    ({ form, system, user }: any) => ({
+    ({ form, system, user }: IStoreState) => ({
         strings: system.strings.signUp,
         form,
         user: user.unauthUser
     }),
-    (dispatch: any) => ({
+    (dispatch: IDispatch) => ({
         signUp: (email: string, password: string) => dispatch(UserActions.signUp(email, password))
     })
 )

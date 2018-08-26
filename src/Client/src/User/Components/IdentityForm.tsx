@@ -93,12 +93,12 @@ class IdentityForm extends StatelessComponent<IProps> {
 }
 
 export default IdentityForm.connect(
-    ({ form, system, user }: any) => ({
+    ({ form, system, user }: IStoreState) => ({
         strings: system.strings.identity,
         unauthUser: user.unauthUser,
         error: user.getUnauthUserError
     }),
-    (dispatch: any) => ({
+    (dispatch: IDispatch) => ({
         getUnauthIdentityByEmail: (email: string) => dispatch(UserActions.getUnauthUserByEmail(email))
     })
 )

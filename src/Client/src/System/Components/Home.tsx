@@ -28,7 +28,7 @@ class Home extends StatelessComponent<IProps> {
 }
 
 export default Home.connect(
-    ({ system }: any) => ({
+    ({ system }: IStoreState) => ({
         strings: system.strings.home
     })
 )

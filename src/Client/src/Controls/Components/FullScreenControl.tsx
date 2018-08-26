@@ -9,10 +9,7 @@ export interface IProps {
     exitFullScreen: IRunnable,
     isFullScreen: boolean,
     openFullScreen: IRunnable,
-    strings: {
-        maximize: string,
-        minimize: string
-    }
+    strings: IStrings
 }
 
 /**
@@ -42,10 +39,10 @@ class FullScreenControl extends StatelessComponent<IProps> {
     }
 }
 
-export default FullScreenControl.connect(({ system }: any) => ({
+export default FullScreenControl.connect(({ system }: IStoreState) => ({
     isFullScreen: system.isFullScreen,
     strings: system.strings.controls
-}), (dispatch: any) => ({
+}), (dispatch: IDispatch) => ({
     exitFullScreen: () => dispatch(SystemActions.exitFullScreen()),
     openFullScreen: () => dispatch(SystemActions.openFullScreen())
 }))

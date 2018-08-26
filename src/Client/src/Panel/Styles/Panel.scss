@@ -1,0 +1,63 @@
+.panel {
+    @include absolute-position;
+    @include size(#{$panel-width}, 100vh);
+    background-color: rgba(51, 51, 51, 0.1);
+    left: -$panel-width;
+    transition: left $medium-animation-duration;
+    z-index: 1000;
+
+    &--visible {
+        left: 0;
+    }
+
+    &--inner {
+        @include size(100%);
+    }
+
+    &--toggle {
+        @include absolute-position(100%, 50%);
+        @include opacity-hover;
+        @include size(2.5rem, 5rem);
+        @include svg("Panel/Toggle");
+        transform: translateY(-50%);
+        transition: opacity $medium-animation-duration, transform $medium-animation-duration;
+    }
+
+    &__tabs {
+        @include size(100%, 3rem);
+        display: flex;
+
+        &__tab {
+            @include size;
+            color: $lightest-color;
+            font-size: 100%;
+            line-height: 3rem;
+            text-align: center;
+            transition: background-color $medium-animation-duration;
+            user-select: none;
+
+            &--selected {
+                cursor: default;
+                pointer-events: none;
+            }
+
+            &--selected, &:hover {
+                background-color: rgba(51, 51, 51, 0.5);
+            }
+        }
+    }
+
+    &__body {
+        @include size(100%, calc(100% - 3rem));
+    }
+}
+
+.app--divided {
+    .panel {
+        left: 0;
+
+        &--toggle {
+            transform: rotate(180deg) translateY(50%);
+        }
+    }
+}

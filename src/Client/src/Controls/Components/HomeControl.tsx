@@ -25,6 +25,6 @@ class HomeControl extends StatelessComponent<IProps> {
 
 }
 
-export default HomeControl.connect(({ system }: any) => ({
+export default HomeControl.connect(({ system }: IStoreState) => ({
     strings: system.strings.controls
 }))

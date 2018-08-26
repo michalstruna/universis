@@ -60,6 +60,19 @@ export default {
         password: 'Nové heslo',
         passwordAgain: 'Heslo znovu',
         button: 'Hotovo'
+    },
+
+    universe: {
+        controls: {
+            name: 'Jméno',
+            size: 'Size',
+            orbits: 'Orbity',
+            labels: 'Popisky',
+            panel: 'Panel',
+            free: 'Uvolnit',
+            now: 'Teď',
+            move: 'Pohyb'
+        }
     }
 
 }

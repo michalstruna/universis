@@ -53,7 +53,7 @@ class BlurLayout extends StatelessComponent<IProps> {
 }
 
 export default BlurLayout.connect(
-    ({ system }: any) => ({
+    ({ system }: IStoreState) => ({
         isAlertVisible: system.alert.isVisible
     })
 )

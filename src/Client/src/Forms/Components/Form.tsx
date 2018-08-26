@@ -142,10 +142,10 @@ class Form extends Component<IFormProps, IFormState> {
 }
 
 export default Form.connect(
-    ({ form }: any) => ({
+    ({ form }: IStoreState) => ({
         form
     }),
-    (dispatch: any) => ({
+    (dispatch: IDispatch) => ({
         send: (form: string) => dispatch(FormActions.send(form)),
         success: (form: string) => dispatch(FormActions.success(form)),
         fail: (form: string, error: string) => dispatch(FormActions.fail(form, error)),

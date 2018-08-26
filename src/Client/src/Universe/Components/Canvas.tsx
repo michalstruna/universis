@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import Universe from '../Utils/Universe'
-import { Component } from '../../Utils'
+import { StatelessComponent } from '../../Utils'
 import UniverseActions from '../Redux/UniverseActions'
 import Units from '../Utils/Units'
 
@@ -13,11 +13,7 @@ interface IProps {
     viewSize: number
 }
 
-interface IState {
-
-}
-
-class UniverseCanvas extends Component<IProps, IState> {
+class Canvas extends StatelessComponent<IProps> {
 
     /**
      * Instance of universe.
@@ -33,7 +29,7 @@ class UniverseCanvas extends Component<IProps, IState> {
             this.initializeUniverse()
         }
 
-        if (Units.isDifferent(prevProps.viewSize, this.props.viewSize) ) {
+        if (this.universe && Units.isDifferent(prevProps.viewSize, this.props.viewSize) ) {
             this.universe.setViewSize(this.props.viewSize)
         }
     }
@@ -62,12 +58,12 @@ class UniverseCanvas extends Component<IProps, IState> {
 
 }
 
-export default UniverseCanvas.connect(
-    ({ universe }: any) => ({
+export default Canvas.connect(
+    ({ universe  }: IStoreState) => ({
         bodies: universe.bodies,
         viewSize: universe.viewSize
     }),
-    (dispatch: any) => ({
+    (dispatch: IDispatch) => ({
         changeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom))
     })
 )

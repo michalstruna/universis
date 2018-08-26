@@ -5,16 +5,18 @@ import SystemReducer from './SystemReducer'
 import { FormReducer } from '../../Forms'
 import { UserReducer } from '../../User'
 import { UniverseReducer } from '../../Universe'
+import { PanelReducer } from '../../Panel'
 
 const rootReducer = combineReducers({
     form: FormReducer,
     system: SystemReducer,
     user: UserReducer,
-    universe: UniverseReducer
+    universe: UniverseReducer,
+    panel: PanelReducer
 })
 
 const middleware = applyMiddleware(thunk)
 
-const store = createStore<IState>(rootReducer, middleware)
+const store = createStore<IStoreState>(rootReducer, middleware)
 
 export default store

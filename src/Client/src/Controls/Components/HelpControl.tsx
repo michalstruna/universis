@@ -25,6 +25,6 @@ class HelpControl extends StatelessComponent<IProps> {
 
 }
 
-export default HelpControl.connect(({ system }: any) => ({
+export default HelpControl.connect(({ system }: IStoreState) => ({
     strings: system.strings.controls
 }))

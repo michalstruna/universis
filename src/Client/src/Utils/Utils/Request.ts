@@ -13,6 +13,12 @@ interface IRequestQuery {
     [name: string]: string | number
 }
 
+interface IRequestHeader {
+    headers: {
+        [name: string]: string
+    }
+}
+
 /**
  * Class for create requests to server.
  * Access-Token will be added to each request automatically.
@@ -101,9 +107,9 @@ class Request {
      * Get header with token of currently logged user.
      * @returns Header object.
      */
-    private static getHeader(): { headers: { token: string } } {
+    private static getHeader(): IRequestHeader {
         const identity = Store.getState().user.identity
-        return { headers: { token: identity ? identity.token : null } }
+        return { headers: { 'Access-Token': identity ? identity.token : null } }
     }
 
 }

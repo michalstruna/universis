@@ -35,7 +35,7 @@ class SignUpView extends View<IProps> {
 }
 
 export default SignUpView.connect(
-    ({ user }: any) => ({
+    ({ user }: IStoreState) => ({
         unauthUser: user.unauthUser,
         isLoggedIn: user.isLoggedIn
     })

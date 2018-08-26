@@ -61,10 +61,10 @@ class LoginForm extends StatelessComponent<IProps> {
 }
 
 export default LoginForm.connect(
-    ({ form, system }: any) => ({
+    ({ form, system }: IStoreState) => ({
         strings: system.strings.login
     }),
-    (dispatch: any) => ({
+    (dispatch: IDispatch) => ({
         login: (email: string, password: string) => dispatch(UserActions.login(email, password))
     })
 )

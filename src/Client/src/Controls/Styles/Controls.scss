@@ -59,9 +59,9 @@
             &__labels {
                 margin-left: -4.5rem;
                 pointer-events: none;
-                opacity: 1;
                 text-align: right;
                 transition: opacity $medium-animation-duration;
+                user-select: none;
                 width: 3rem;
             }
 
@@ -76,12 +76,6 @@
 
             &__fill {
                 background-color: $light-color;
-            }
-        }
-
-        &:hover, &:active {
-            &, .rangeslider__labels {
-                opacity: 1;
             }
         }
     }

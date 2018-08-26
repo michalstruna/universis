@@ -82,6 +82,53 @@ class Url {
         return Url.equalsPage(Urls.HOME, url)
     }
 
+    /**
+     * Get query parameter from query string.
+     * @param queryString Query string.
+     * @param key Name of parameter.
+     * @returns Value of parameter from query string.
+     */
+    public static getQuery(queryString: string, key: string): string {
+        const utils = new URLSearchParams(queryString)
+        return utils.get(key)
+    }
+
+    /**
+     * Remove query parameter from query string.
+     * @param queryString Query string.
+     * @param  key Name of parameter to remove.
+     * @returns New query string.
+     */
+    public static removeQuery(queryString: string, key: string): string {
+        const utils = new URLSearchParams(queryString)
+        utils.delete(key)
+        return utils.toString()
+    }
+
+    /**
+     * Add query parameter to query string.
+     * @param queryString Current query string.
+     * @param key Name of new parameter.
+     * @param  value Value of new parameter.
+     * @returns New query string.
+     */
+    public static setQuery(queryString: string, key: string, value: string): string {
+        const utils = new URLSearchParams(queryString)
+        utils.set(key, value)
+        return utils.toString()
+    }
+
+    /**
+     * Check, if query parameter is in query string.
+     * @param queryString Query string.
+     * @param key Name of parameter.
+     * @returns Parameter is in query string.
+     */
+    public static hasQuery(queryString: string, key: string): boolean {
+        const utils = new URLSearchParams(queryString)
+        return utils.has(key)
+    }
+
 }
 
 export default Url

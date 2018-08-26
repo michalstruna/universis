@@ -76,12 +76,12 @@ class Context extends StatelessComponent<IProps> {
 }
 
 export default Context.connect(
-    ({ system: { context } }: any) => ({
+    ({ system: { context } }: IStoreState) => ({
         isVisible: context.isVisible,
         x: context.x,
         y: context.y
     }),
-    (dispatch: any) => ({
+    (dispatch: IDispatch) => ({
         show: (x: number, y: number) => dispatch(SystemActions.showContext(x, y))
     })
 )
