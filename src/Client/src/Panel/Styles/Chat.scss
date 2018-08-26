@@ -74,12 +74,30 @@
         margin-right: 1rem;
     }
 
+    &__info {
+        @include absolute-position(50%);
+        background-color: $darkest-color;
+        font-size: 80%;
+        opacity: 0;
+        padding: 0.3rem 0.5rem;
+        transform: translateY(-50%);
+        transition: opacity $medium-animation-duration;
+        white-space: nowrap;
+    }
+
     &__avatar {
         @include size(3rem);
         background-color: $medium-color;
         border-radius: 100%;
         float: left;
         margin-right: 1rem;
+        position: relative;
+
+        &:hover {
+            .panel__chat__info {
+                opacity: 1;
+            }
+        }
     }
 
 }

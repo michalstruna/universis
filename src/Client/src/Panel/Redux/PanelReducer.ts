@@ -1,5 +1,5 @@
-import { Redux, Queries } from '../../Utils'
+import { Redux, Queries, Url } from '../../Utils'
 
 export default Redux.createReducer({
-    panelTab: Queries.OVERVIEW
+    panelTab: Url.getQuery(window.location.search, Queries.PANEL) || Queries.OVERVIEW
 })

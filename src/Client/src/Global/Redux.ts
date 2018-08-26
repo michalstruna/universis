@@ -18,9 +18,9 @@ declare interface IToggleAction {
 /**
  * Interface for set action.
  */
-declare interface ISetAction<T> {
+declare interface ISetAction {
     type: string,
-    value: T
+    value: any
 }
 
 /**

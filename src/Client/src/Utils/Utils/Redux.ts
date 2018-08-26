@@ -38,7 +38,7 @@ class Redux {
      * @param value Value.
      * @returns Action.
      */
-    public static setAction<T>(type: string, value: T): ISetAction<T> {
+    public static setAction(type: string, value: any): ISetAction {
         return { type, value }
     }
 
@@ -49,7 +49,7 @@ class Redux {
      * @returns Reducer.
      */
     public static createReducer(initialState: IStoreState, specificReducer?: IReducer): IReducer {
-        return <T>(state: IStoreState = initialState, action: IAsyncAction<T> | IToggleAction | ISetAction<T>) => {
+        return <T>(state: IStoreState = initialState, action: IAsyncAction<T> | IToggleAction | ISetAction) => {
             const specificReducerResult = specificReducer ? specificReducer(state, action) : null
             return specificReducerResult || Redux.reducer(state, action)
         }
@@ -61,7 +61,7 @@ class Redux {
      * @param action action.
      * @returns New state of store.
      */
-    private static reducer<T>(state: IStoreState, action: IAsyncAction<T> | IToggleAction | ISetAction<T>): IStoreState {
+    private static reducer<T>(state: IStoreState, action: IAsyncAction<T> | IToggleAction | ISetAction): IStoreState {
         if ('toggle' in action) {
             return {
                 ...state,

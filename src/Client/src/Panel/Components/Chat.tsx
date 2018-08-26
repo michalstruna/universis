@@ -15,7 +15,11 @@ class Chat extends SimpleComponent {
                              onWheel={event => event.stopPropagation()}>
                         <section className='panel__chat__body--inner'>
                             <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
+                                <section className='panel__chat__avatar'>
+                                    <section className='panel__chat__info'>
+                                        Michal Struna 23.05
+                                    </section>
+                                </section>
                                 <section className='panel__chat__message--inner'>
                                     Ahoj! Toto je první zpráva.
                                 </section>
