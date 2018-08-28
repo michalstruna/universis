@@ -1,0 +1,6 @@
+.panel__overview {
+    @include size;
+    background-color: $top-layer-color;
+    box-sizing: border-box;
+    padding: 1rem;
+}

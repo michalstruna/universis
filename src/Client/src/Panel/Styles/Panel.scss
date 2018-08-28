@@ -1,7 +1,7 @@
 .panel {
     @include absolute-position;
     @include size(#{$panel-width}, 100vh);
-    background-color: rgba(51, 51, 51, 0.1);
+    background-color: $bottom-layer-color;
     left: -$panel-width;
     transition: left $medium-animation-duration;
     z-index: 1000;
@@ -42,7 +42,7 @@
             }
 
             &--selected, &:hover {
-                background-color: rgba(51, 51, 51, 0.5);
+                background-color: $top-layer-color
             }
         }
     }

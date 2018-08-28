@@ -1,4 +1,5 @@
 import SizeUnit from '../Constants/SizeUnit'
+import { Numbers } from '../../Utils'
 
 /**
  * Utils for universe.
@@ -36,26 +37,6 @@ class Units {
     }
 
     /**
-     * Add spaces to number (1000000 to 1 000 000).
-     * @param value Number without spaces.
-     * @returns Number with spaces.
-     */
-    public static addSpaces(value: number): string {
-        let oldValue = Math.floor(value).toString()
-        let newValue = ''
-
-        for (let i = oldValue.length - 1; i >= 0; i--) {
-            newValue = oldValue[i] + newValue
-
-            if ((oldValue.length - i) % 3 === 0) {
-                newValue = ' ' + newValue
-            }
-        }
-
-        return newValue
-    }
-
-    /**
      * Format number to unit (1 000 000 to 1 km).
      * @param  value Value.
      * @returns Value with unit.
@@ -89,7 +70,7 @@ class Units {
             newValue /= SizeUnit.TLY
         }
 
-        return Units.addSpaces(newValue) + ' ' + unit
+        return Numbers.toReadable(newValue) + ' ' + unit
     }
 
 }

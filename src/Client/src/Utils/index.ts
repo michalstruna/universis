@@ -42,11 +42,13 @@ import Event from './Utils/Event'
 import Redux from './Utils/Redux'
 import Request from './Utils/Request'
 import Url from './Utils/Url'
+import Numbers from './Utils/Numbers'
 
 export {
     Api,
     Event,
     Redux,
     Request,
-    Url
+    Url,
+    Numbers
 }

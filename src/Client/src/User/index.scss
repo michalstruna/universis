@@ -1,4 +1,6 @@
 @import "./Styles/UnauthIdentity";
+@import "./Styles/UserInfo";
+@import "./Styles/UserScore";
 
 .identity, .login, .sign-up {
     @include flex-center;

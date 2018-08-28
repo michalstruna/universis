@@ -4,11 +4,15 @@
 import IdentityForm from './Components/IdentityForm'
 import LoginForm from './Components/LoginForm'
 import SignUpForm from './Components/SignUpForm'
+import UserScore from './Components/UserScore'
+import UserInfo from './Components/UserInfo'
 
 export {
     IdentityForm,
     LoginForm,
-    SignUpForm
+    SignUpForm,
+    UserScore,
+    UserInfo
 }
 
 /**

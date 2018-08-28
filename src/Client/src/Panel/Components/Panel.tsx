@@ -3,6 +3,7 @@ import * as React from 'react'
 
 import { StatelessComponent, UILayout, Link, Url, Queries } from '../../Utils'
 import Chat from './Chat'
+import Overview from './Overview'
 import PanelActions from '../Redux/PanelActions'
 
 interface IProps {
@@ -86,6 +87,8 @@ class Panel extends StatelessComponent<IProps> {
         switch (currentTab) {
             case Queries.CHAT:
                 return <Chat />
+            case Queries.OVERVIEW:
+                return <Overview />
             default:
                 return null
         }

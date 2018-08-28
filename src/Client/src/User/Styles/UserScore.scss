@@ -1,0 +1,60 @@
+.user-score {
+    width: 100%;
+
+    &--list {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    &__reputation {
+        font-size: 80%;
+        padding: 1rem 0;
+        text-align: center;
+        width: 100%;
+
+        &--value {
+            font-size: 150%;
+            font-weight: 900;
+        }
+    }
+
+    &__gold, &__silver, &__bronze {
+        box-sizing: border-box;
+        font-size: 90%;
+        height: 2rem;
+        padding: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        text-align: center;
+        white-space: nowrap;
+        min-width: 3.5rem;
+
+        &:after {
+            @include absolute-position(0.5rem, 50%);
+            @include size(0.7rem);
+            background-color: red;
+            border-radius: 100%;
+            content: "";
+            transform: translateY(-50%);
+        }
+    }
+
+    &__gold {
+        &:after {
+            background-color: gold;
+        }
+    }
+
+    &__silver {
+        &:after {
+            background-color: silver;
+        }
+    }
+
+    &__bronze {
+        &:after {
+            background-color: #cd7f32;
+        }
+    }
+}
