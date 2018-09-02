@@ -92,26 +92,31 @@ $user-info-height: 5rem;
         }
 
         &--gold {
-            // background-color: darken(gold, 30%);
-
             &:after {
                 background-color: gold;
             }
         }
 
         &--silver {
-            //  background-color: darken(silver, 40%);
-
             &:after {
                 background-color: silver;
             }
         }
 
         &--bronze {
-            //  background-color: darken(#cd7f32, 30%);
-
             &:after {
                 background-color: #cd7f32;
+            }
+        }
+    }
+
+    &--small {
+        @include size(3rem);
+        margin: 0;
+
+        .user-info {
+            &__avatar {
+                @include size(3rem);
             }
         }
     }
@@ -137,8 +142,9 @@ $user-info-height: 5rem;
                 padding-left: 0.75rem;
             }
 
-            &__badge {
-                display: none;
+            &__reputation {
+                display: block;
+                font-size: 80%;
             }
 
             &__last-online {

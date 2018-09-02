@@ -2,6 +2,16 @@ import * as React from 'react'
 
 import { StatelessComponent, Link, Numbers } from '../../Utils'
 
+const avatarUrl = 'https://vignette.wikia.nocookie.net/evilbabes/images/2/2b/Esdeath_Quote_%28Akame_ga_Kill_Ep_10%29.png/revision/latest?cb=20160212175749' // TODO: Remove
+
+const score = {
+    gold: 999,
+    silver: 999,
+    bronze: 999,
+    karma: 56,
+    reputation: 999
+} // TODO: Remove
+
 interface IProps {
     type: UserInfoTypes
 }
@@ -36,38 +46,29 @@ class UserInfo extends StatelessComponent<IProps> {
         }
     }
 
-    private renderScore(): JSX.Element {
-        const score = {
-            gold: 999,
-            silver: 999,
-            bronze: 999,
-            karma: 56,
-            reputation: 999
+    private renderType(): JSX.Element {
+        switch (this.props.type) {
+            case UserInfoTypes.SMALL:
+                return this.renderSmall()
+            case UserInfoTypes.MEDIUM:
+                return this.renderMedium()
+            case UserInfoTypes.LARGE:
+                return this.renderLarge()
         }
+    }
 
+    private renderSmall(): JSX.Element {
         return (
-            <section className='user-info__score'>
-                <section className='user-info__reputation'>
-                    {Numbers.toShort(score.reputation)}
-                </section>
-                <section className='user-info__badge user-info__badge--gold'>
-                    {Numbers.toShort(score.gold)}
-                </section>
-                <section className='user-info__badge user-info__badge--silver'>
-                    {Numbers.toShort(score.silver)}
-                </section>
-                <section className='user-info__badge user-info__badge--bronze'>
-                    {Numbers.toShort(score.bronze)}
-                </section>
-            </section>
+            <Link
+                className='user-info__avatar'
+                target={Link.URLS.HOME}
+                style={{ backgroundImage: `url(${avatarUrl}})` }} />
         )
     }
 
-    public render(): JSX.Element {
-        const avatarUrl = 'https://vignette.wikia.nocookie.net/evilbabes/images/2/2b/Esdeath_Quote_%28Akame_ga_Kill_Ep_10%29.png/revision/latest?cb=20160212175749'
-
+    private renderMedium(): JSX.Element {
         return (
-            <section className={'user-info user-info--' + this.props.type}>
+            <React.Fragment>
                 <Link
                     className='user-info__avatar'
                     target={Link.URLS.HOME}
@@ -79,11 +80,57 @@ class UserInfo extends StatelessComponent<IProps> {
                         style={{ color: this.getColorFromKarma() }}>
                         Michal Struna
                     </Link>
-                    {this.renderScore()}
+                    <section className='user-info__reputation'>
+                        {Numbers.toShort(score.reputation)}
+                    </section>
                     <section className='user-info__last-online'>
                         11 měs.
                     </section>
                 </section>
+            </React.Fragment>
+        )
+    }
+
+    private renderLarge(): JSX.Element {
+        return (
+            <React.Fragment>
+                <Link
+                    className='user-info__avatar'
+                    target={Link.URLS.HOME}
+                    style={{ backgroundImage: `url(${avatarUrl}})` }} />
+                <section className='user-info--right'>
+                    <Link
+                        className='user-info__name'
+                        target={Link.URLS.HOME}
+                        style={{ color: this.getColorFromKarma() }}>
+                        Michal Struna
+                    </Link>
+                    <section className='user-info__score'>
+                        <section className='user-info__reputation'>
+                            {Numbers.toShort(score.reputation)}
+                        </section>
+                        <section className='user-info__badge user-info__badge--gold'>
+                            {Numbers.toShort(score.gold)}
+                        </section>
+                        <section className='user-info__badge user-info__badge--silver'>
+                            {Numbers.toShort(score.silver)}
+                        </section>
+                        <section className='user-info__badge user-info__badge--bronze'>
+                            {Numbers.toShort(score.bronze)}
+                        </section>
+                    </section>
+                    <section className='user-info__last-online'>
+                        11 měs.
+                    </section>
+                </section>
+            </React.Fragment>
+        )
+    }
+
+    public render(): JSX.Element {
+        return (
+            <section className={'user-info user-info--' + this.props.type}>
+                {this.renderType()}
             </section>
         )
     }

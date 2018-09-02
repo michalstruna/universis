@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { UserInfo } from '../../User'
+import { ContextInfo } from '../../Controls'
 import { SimpleComponent } from '../../Utils'
 
 /**
@@ -20,9 +21,11 @@ class Chat extends SimpleComponent {
                 <section
                     className={'panel__chat__message' + (Math.random() < 0.5 ? ' panel__chat__message--own' : '')}
                     key={i}>
-                    <section className='panel__chat__avatar'>
-                        <UserInfo type={UserInfo.TYPES.LARGE} />
-                    </section>
+                    <ContextInfo
+                        className='panel__chat__avatar'
+                        content={<UserInfo type={UserInfo.TYPES.LARGE} />}>
+                        <UserInfo type={UserInfo.TYPES.SMALL} />
+                    </ContextInfo>
                     <section className='panel__chat__message--inner'>
                         Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
                         je druhá

@@ -4,7 +4,7 @@ import * as React from 'react'
 import AnimatedBackground from './AnimatedBackground'
 import { Panel } from '../../Panel'
 import { BlurLayout, StatelessComponent } from '../../Utils'
-import { Alert, Context, ContextTrigger, ControlPanel } from '../../Controls'
+import { Alert, ContextMenu, ContextTrigger, ControlPanel, ContextInfo } from '../../Controls'
 
 interface IProps {
     isPanelVisible: boolean
@@ -53,7 +53,8 @@ class App extends StatelessComponent<IProps> {
                     {this.renderForeground()}
                 </BlurLayout>
                 <Alert />
-                <Context />
+                <ContextMenu />
+                <ContextInfo />
             </ContextTrigger>
         )
     }
