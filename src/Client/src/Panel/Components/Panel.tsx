@@ -4,6 +4,7 @@ import * as React from 'react'
 import { StatelessComponent, UILayout, Link, Url, Queries } from '../../Utils'
 import Chat from './Chat'
 import Overview from './Overview'
+import People from './People'
 import PanelActions from '../Redux/PanelActions'
 
 interface IProps {
@@ -59,9 +60,9 @@ class Panel extends StatelessComponent<IProps> {
         const { location } = this.props
 
         const tabs = [
-            { label: 'Přehled', target: Queries.OVERVIEW },
+            { label: 'Aktuality', target: Queries.OVERVIEW },
             { label: 'Chat', target: Queries.CHAT },
-            { label: 'Nápověda', target: Queries.HELP }
+            { label: 'Lidé', target: Queries.PEOPLE }
         ]
 
         const currentTab = Url.getQuery(location.search, Queries.PANEL)
@@ -89,6 +90,8 @@ class Panel extends StatelessComponent<IProps> {
                 return <Chat />
             case Queries.OVERVIEW:
                 return <Overview />
+            case Queries.PEOPLE:
+                return <People />
             default:
                 return null
         }

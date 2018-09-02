@@ -7,7 +7,8 @@ import Urls from '../Constants/Urls'
 interface IProps {
     target: string,
     className?: string,
-    onClick: IRunnable
+    onClick: IRunnable,
+    style: { [property: string]: string | number }
 }
 
 /**
@@ -32,13 +33,16 @@ class Link extends StatelessComponent<IProps> {
     }
 
     public render(): JSX.Element {
-        const { className, onClick, target } = this.props
+        const { className, onClick, target, style } = this.props
+
+        // TODO: Refactor.
 
         if (onClick) {
             return (
                 <a
                     className={className}
                     onClick={event => this.handleClick(event, onClick)}
+                    style={style}
                     href={target}>
                     {this.props.children}
                 </a>
@@ -48,6 +52,7 @@ class Link extends StatelessComponent<IProps> {
                 <NavLink
                     activeClassName={className + '--active'}
                     className={className}
+                    style={style}
                     exact
                     to={target}>
                     {this.props.children}

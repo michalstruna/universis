@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { UserInfo } from '../../User'
 import { SimpleComponent } from '../../Utils'
 
 /**
@@ -7,123 +8,44 @@ import { SimpleComponent } from '../../Utils'
  */
 class Chat extends SimpleComponent {
 
+    /**
+     * Render messages.
+     * @returns Messages.
+     */
+    private renderMessages(): JSX.Element[] {
+        const messages = []
+
+        for (let i = 0; i < 50; i++) {
+            messages.push(
+                <section
+                    className={'panel__chat__message' + (Math.random() < 0.5 ? ' panel__chat__message--own' : '')}
+                    key={i}>
+                    <section className='panel__chat__avatar'>
+                        <UserInfo type={UserInfo.TYPES.LARGE} />
+                    </section>
+                    <section className='panel__chat__message--inner'>
+                        Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
+                        je druhá
+                        zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
+                    </section>
+                </section>
+            )
+        }
+
+        return messages
+    }
+
     public render(): JSX.Element {
         return (
-            <section className='panel__chat'>
+            <section className='panel__chat panel__window'>
                 <section className='panel__chat__body'>
                     <section className='panel__chat__body--scroll'
                              onWheel={event => event.stopPropagation()}>
                         <section className='panel__chat__body--inner'>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar'>
-                                    <section className='panel__chat__info'>
-                                        Michal Struna 23.05
-                                    </section>
-                                </section>
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je první zpráva.
-                                </section>
+                            <section className='panel__chat__start'>
+                                Toto je počátek konverzace.
                             </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj!
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message panel__chat__message--own'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
-                                    je druhá
-                                    zpráva.
-                                </section>
-                            </section>
-                            <section className='panel__chat__message'>
-                                <section className='panel__chat__avatar' />
-                                <section className='panel__chat__message--inner'>
-                                    Ahoj! Toto je zpráva.
-                                </section>
-                            </section>
+                            {this.renderMessages()}
                         </section>
                     </section>
                     <section className='panel__chat__new-message'>

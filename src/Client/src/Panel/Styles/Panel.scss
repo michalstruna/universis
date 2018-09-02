@@ -20,7 +20,7 @@
         @include size(2.5rem, 5rem);
         @include svg("Panel/Toggle");
         transform: translateY(-50%);
-        transition: opacity $medium-animation-duration, transform $medium-animation-duration;
+        transition: opacity $fast-animation-duration, transform $medium-animation-duration;
     }
 
     &__tabs {
@@ -33,7 +33,7 @@
             font-size: 100%;
             line-height: 3rem;
             text-align: center;
-            transition: background-color $medium-animation-duration;
+            transition: background-color $fast-animation-duration;
             user-select: none;
 
             &--selected {
@@ -47,9 +47,10 @@
         }
     }
 
-    &__body {
+    &__window {
         @include size(100%, calc(100% - 3rem));
     }
+
 }
 
 .app--divided {

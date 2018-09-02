@@ -1,6 +1,34 @@
 .panel__overview {
-    @include size;
     background-color: $top-layer-color;
     box-sizing: border-box;
-    padding: 1rem;
+    overflow: hidden;
+    padding: 0 0.1rem;
+    padding-top: 0.4rem;
+
+    .user-info {
+        margin: 0.2rem;
+    }
+
+    &__controls {
+        display: flex;
+    }
+
+    &__button {
+        @include size(5.3rem, 5rem);
+        background-color: $dark-color;
+        box-sizing: border-box;
+        color: $lightest-color;
+        margin: 0.2rem 0.4rem;
+        padding: 0;
+        transition: background-color $fast-animation-duration;
+
+        &:hover {
+            background-color: #443333;
+        }
+
+        &--clean {
+            @include svg("Panel/Overview/Clean", 60%);
+        }
+    }
+
 }

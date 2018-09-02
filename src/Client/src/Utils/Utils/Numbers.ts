@@ -32,6 +32,21 @@ class Numbers {
         return newValue
     }
 
+    /**
+     * Convert number to short string (1000 to 1k).
+     * @param number Number.
+     * @returns Short number.
+     */
+    public static toShort(number: number): string {
+        if (number < 1e3) { // TODO: Universal numbers in for loop.
+            return number.toString()
+        } else if (number < 1e6) {
+            return Math.floor(number / 1e3) + 'k'
+        } else {
+            return Math.floor(number / 1e6) + 'M'
+        }
+    }
+
 }
 
 export default Numbers

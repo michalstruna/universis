@@ -1,0 +1,12 @@
+.panel__people {
+    background-color: $top-layer-color;
+    overflow-y: scroll;
+
+    &--inner {
+        width: 100%;
+    }
+
+    .users-list {
+        width: 100%;
+    }
+}

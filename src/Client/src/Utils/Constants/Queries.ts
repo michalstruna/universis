@@ -6,7 +6,7 @@ enum Queries {
     PANEL = 'panel',
     CHAT = 'chat',
     OVERVIEW = 'prehled',
-    HELP = 'napoveda'
+    PEOPLE = 'lide'
 
 }
 
