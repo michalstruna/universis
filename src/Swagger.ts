@@ -573,6 +573,177 @@ export default {
                     },
                 }
             }
+        },
+        '/users': {
+            'get': {
+                'tags': ['Users'],
+                'summary': 'Get all users.',
+                'description': 'Get all users.',
+                'responses': {
+                    '200': {
+                        'description': 'Get users is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'array',
+                                    'items': {
+                                        '$ref': '#/components/schemas/User'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            'post': {
+                'tags': ['Users'],
+                'summary': 'Create new user.',
+                'description': 'Create new user and return created user\'s id.',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                '$ref': '#/components/schemas/NewUser',
+                            }
+                        }
+                    }
+                },
+                'responses': {
+                    '200': {
+                        'description': 'User was successful created.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'object',
+                                    'properties': {
+                                        '_id': {
+                                            '$ref': '#/components/schemas/Id'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    '400': {
+                        'description': 'Invalid values.'
+                    },
+                    '409': {
+                        'description': 'User with this email already exists.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Users'],
+                'summary': 'Delete all users.',
+                'description': 'Delete all users.',
+                'responses': {
+                    '204': {
+                        'description': 'Users was successful deleted.'
+                    },
+                    '404': {
+                        'description': 'There is no users to remove.'
+                    },
+                    '409': {
+                        'description': 'There are users with dependents.'
+                    }
+                }
+            }
+        },
+        '/users/{userId}': {
+            'parameters': [
+                {
+                    'in': 'path',
+                    'name': 'userId',
+                    'required': true,
+                    'schema': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'description': 'Unique identifier of user.'
+                }
+            ],
+            'get': {
+                'tags': ['Users'],
+                'summary': 'Get user by ID.',
+                'description': 'Get user by ID.',
+                'responses': {
+                    '200': {
+                        'description': 'Get user is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    '$ref': '#/components/schemas/User'
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'User with ID was not found.'
+                    }
+                }
+            },
+            'put': {
+                'tags': ['Users'],
+                'summary': 'Update already existing user.',
+                'description': 'Update already existing user.',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                '$ref': '#/components/schemas/NewBodyType' // TODO
+                            }
+                        }
+                    }
+                },
+                'responses': {
+                    '204': {
+                        'description': 'User was successful updated.'
+                    },
+                    '400': {
+                        'description': 'Invalid values.'
+                    },
+                    '404': {
+                        'description': 'User with ID was not found.'
+                    },
+                    '409': {
+                        'description': 'User with this email already exists.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Users'],
+                'summary': 'Delete user by ID.',
+                'description': 'Delete user by ID.',
+                'responses': {
+                    '204': {
+                        'description': 'User was successful deleted.'
+                    },
+                    '400': {
+                        'description': 'User cannot be deleted, because of existing dependents.'
+                    },
+                    '404': {
+                        'description': 'User with ID was not found.'
+                    }
+                }
+            }
+        },
+        '/users/count': {
+            'get': {
+                'tags': ['Users'],
+                'summary': 'Get count of all users.',
+                'description': 'Get count of all users.',
+                'responses': {
+                    '200': {
+                        'description': 'Get users count is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    },
+                }
+            }
         }
     },
     'components': {
@@ -782,7 +953,27 @@ export default {
                         '$ref': '#/components/schemas/NewBodyEvent'
                     }
                 ]
-            }
+            },
+            'NewUser': {
+                'type': 'object',
+                'properties': {
+                    'email': {
+                        'type': 'string',
+                        'example': 'universis@gmail.com'
+                    },
+                    'password': {
+                        'type': 'string',
+                        'example': 'p4SSw0r!d'
+                    }
+                }
+            },
+            'User': {
+                'allOf': [
+                    {
+                        '$ref': '#/components/schemas/NewSimpleBody'
+                    }
+                ]
+            },
         }
     }
 }
