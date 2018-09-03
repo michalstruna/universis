@@ -74,3 +74,45 @@ declare interface IEntityModel<IGetOne, IGetAll, INew> {
     getCount(): Promise<any>
 
 }
+
+/**
+ * Options for entity model.
+ */
+declare interface IEntityModelOptions<IGetOne, IGetAll, INew> {
+
+    /**
+     * List of fields, that will be selected after get().
+     */
+    selectOne?: string[]
+
+    /**
+     * List of fields, that will be selected after getAll().
+     */
+    selectAll?: string[]
+
+    /**
+     * List of fields, that will be populated after get().
+     */
+    joinOne?: string[]
+
+    /**
+     * List of fields, that fill be populated after getAll().
+     */
+    joinAll?: string[]
+
+    /**
+     * Function, that converts old entity to new entity before add().
+     */
+    mapNew?: IFunction<INew, INew>
+
+    /**
+     * Function, that converts old entity to new entity after get().
+     */
+    mapOne?: IFunction<IGetOne, IGetOne>
+
+    /**
+     * Function, that converts old entity to new entity after getAll().
+     */
+    mapAll?: IFunction<IGetAll, IGetAll>
+
+}

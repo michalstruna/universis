@@ -6,15 +6,23 @@ import DatabaseModels from '../Constants/DatabaseModels'
 
 class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<IGetOne, IGetAll, INew> {
 
-    private select: string[]
-    private join: string[]
+    private selectOne: string[]
+    private selectAll: string[]
 
-    public constructor(dbModel: DatabaseModels, select?: string[], join?: string[]) {
+    private joinOne: string[]
+    private joinAll: string[]
+
+    public constructor(dbModel: DatabaseModels, options: IEntityModelOptions<IGetOne, IGetAll, INew> = {}) {
         super()
         this.dbModel = this.db.getModel(dbModel)
-        this.select = select
-        this.join = join
+
+        this.selectOne = options.selectOne || null
+        this.selectAll = options.selectAll || null
+
+        this.joinOne = options.joinOne || []
+        this.joinAll = options.joinAll || []
     }
+
 
     public add(data: INew): Promise<string> {
         return new Promise((resolve, reject) => (
@@ -32,25 +40,27 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
             .offset(offset)
             .sort(criterion, order)
 
-        if (this.join) {
-            for (const join of this.join) {
-                query = query.join(join)
-            }
+        for (const join of this.joinAll) {
+            query = query.join(join)
         }
 
-        if (this.select) {
-            query = query.select(...this.select)
+        if (this.selectAll) {
+            query = query.select(...this.selectAll)
         }
 
-        return query.run<IGetAll[]>()
+        return query.run<IGetAll[]>().then(result => result.map(item => item))
     }
 
     public get(id: string): Promise<IGetOne> {
         return new Promise((resolve, reject) => {
             let query = this.dbModel.getById(id)
 
-            for (const join of this.join) {
+            for (const join of this.joinOne) {
                 query = query.join(join)
+            }
+
+            if (this.selectOne) {
+                query = query.select(...this.selectOne)
             }
 
             return query.run<IGetOne>()

@@ -34,9 +34,14 @@ declare interface IBaseUser {
 }
 
 /**
- * Interface for ew user.
+ * Interface for new user.
  */
-declare interface INewUser extends IBaseUser {
+declare interface INewUser {
+
+    /**
+     * Email of user.
+     */
+    email: string
 
     /**
      * Password of user.

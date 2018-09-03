@@ -44,6 +44,25 @@ class Strings {
         return string.replace(/([A-Z])/g, '_$1').toUpperCase().replace(/^_/, '')
     }
 
+    /**
+     * Set first character of string upper case.
+     * @param string Source string.
+     * @returns Capitalized string.
+     */
+    public static capitalize(string: string): string {
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+
+    /**
+     * Return part of string before first occurrence of char.
+     * @param string Source string.
+     * @param char Delimiter of prefix.
+     * @returns String before delimiter.
+     */
+    public static getPrefix(string: string, char: string): string {
+        return string.split(char)[0]
+    }
+
 }
 
 export default Strings

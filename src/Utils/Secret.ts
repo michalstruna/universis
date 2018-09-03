@@ -10,12 +10,12 @@ class Secret {
     }
 
     /**
-     * Apply hash function to string.
+     * Apply async hash function to string.
      * @param text Source string.
      * @param saltOrRounds Salt or count of hash functions. (optional, default 10)
      * @returns Hash.
      */
-    public static hash(text: string, saltOrRounds: string | number = 10): Promise<string> {
+    public static async hash(text: string, saltOrRounds: string | number = 10): Promise<string> {
         return Bcrypt.hash(text, saltOrRounds)
     }
 

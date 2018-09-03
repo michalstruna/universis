@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 
 import Strings from '../../Utils/Strings'
-import UserRole from '../../Constants/UserRole'
+import Secret from '../../Utils/Secret'
 
 /**
  * DB schema for user.
@@ -24,16 +24,7 @@ const UserSchema = new Schema({
     },
 
     name: {
-        type: String,
-        required: [true, 'Name is required.'],
-        unique: true,
-        default: 'No Name' // TODO: Equals this.email.
-    },
-
-    roles: {
-        type: [Number],
-        required: [true, 'Roles are required.'],
-        default: [UserRole.EVERYBODY]
+        type: String
     },
 
     avatar: {
@@ -47,6 +38,11 @@ const UserSchema = new Schema({
         select: false
     }
 
+})
+
+UserSchema.pre<any>('save', async function () {
+    this.password = await Secret.hash(this.password)
+    this.name = Strings.capitalize(Strings.getPrefix(this.email, '@'))
 })
 
 export default UserSchema

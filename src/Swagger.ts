@@ -689,7 +689,7 @@ export default {
                     'content': {
                         'application/json': {
                             'schema': {
-                                '$ref': '#/components/schemas/NewBodyType' // TODO
+                                '$ref': '#/components/schemas/NewUser'
                             }
                         }
                     }
@@ -970,7 +970,7 @@ export default {
             'User': {
                 'allOf': [
                     {
-                        '$ref': '#/components/schemas/NewSimpleBody'
+                        '$ref': '#/components/schemas/NewUser'
                     }
                 ]
             },

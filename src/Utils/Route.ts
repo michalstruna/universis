@@ -1,7 +1,5 @@
 import { OK, NO_CONTENT } from 'http-status-codes'
 
-import { UserRole } from '../Constants'
-
 const defaultResultMap = result => result
 const defaultIsAuthorized = user => true
 
@@ -43,27 +41,6 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static onlyWithId(userId: string, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return this.process(action, resultMap)
-    }
-
-    /**
-     * Run route handler only if author of request has this permission.
-     * @param role Required user's role.
-     * @param action Request action.
-     * @param resultMap Convert model result to response data.
-     */
-    public static onlyWithRole(role: UserRole, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return this.process(action, resultMap)
-    }
-
-    /**
-     * Run route handler only if author of request has this ID or permission.
-     * @param userId Required user' s ID.
-     * @param role Required user's role.
-     * @param action Request action.
-     * @param resultMap Convert model result to response data.
-     */
-    public static staticOnlyWithIdOrROle(userId: string, role: UserRole, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
         return this.process(action, resultMap)
     }
 
