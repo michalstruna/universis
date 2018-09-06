@@ -80,10 +80,10 @@ class Route {
             )),
             put: Route.all(({ params, body }) => (
                 model.update(params.bodyId, body)
-            )),
+            ), false),
             delete: Route.all(({ params }) => (
                 model.remove(params.bodyId, false)
-            ))
+            ), false)
         }
     }
 

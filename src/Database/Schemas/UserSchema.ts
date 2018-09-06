@@ -1,7 +1,8 @@
 import { Schema } from 'mongoose'
 
 import Strings from '../../Utils/Strings'
-import Secret from '../../Utils/Secret'
+import HashPlugin from '../Plugins/HashPlugin'
+import ModifyPlugin from '../Plugins/ModifyPlugin'
 
 /**
  * DB schema for user.
@@ -20,7 +21,8 @@ const UserSchema = new Schema({
 
     password: {
         type: String,
-        required: [true, 'Password hash is required.']
+        required: [true, 'Password hash is required.'], // TODO: Remove messages?
+        select: false
     },
 
     name: {
@@ -40,9 +42,10 @@ const UserSchema = new Schema({
 
 })
 
-UserSchema.pre<any>('save', async function () {
-    this.password = await Secret.hash(this.password)
-    this.name = Strings.capitalize(Strings.getPrefix(this.email, '@'))
+UserSchema.plugin(HashPlugin, { field: 'password' })
+
+UserSchema.plugin(ModifyPlugin, {
+    field: 'name', function: user => Strings.capitalize(Strings.getPrefix(user.email, '@'))
 })
 
 export default UserSchema

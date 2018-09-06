@@ -637,8 +637,8 @@ export default {
                 'summary': 'Delete all users.',
                 'description': 'Delete all users.',
                 'responses': {
-                    '204': {
-                        'description': 'Users was successful deleted.'
+                    '200': {
+                        'description': 'Users were successful deleted.'
                     },
                     '404': {
                         'description': 'There is no users to remove.'
@@ -964,15 +964,36 @@ export default {
                     'password': {
                         'type': 'string',
                         'example': 'p4SSw0r!d'
+                    },
+                    'avatar': {
+                        'type': 'string',
+                        'example': 'https://avatar.com'
+                    },
+                    'name': {
+                        'type': 'string',
+                        'example': 'Universis'
                     }
                 }
             },
             'User': {
-                'allOf': [
-                    {
-                        '$ref': '#/components/schemas/NewUser'
+                'type': 'object',
+                'properties': {
+                    '_id': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'email': {
+                        'type': 'string',
+                        'example': 'universis@gmail.com'
+                    },
+                    'avatar': {
+                        'type': 'string',
+                        'example': 'https://avatar.com'
+                    },
+                    'name': {
+                        'type': 'string',
+                        'example': 'Universis'
                     }
-                ]
+                }
             },
         }
     }

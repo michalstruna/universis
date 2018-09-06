@@ -23,7 +23,6 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
         this.joinAll = options.joinAll || []
     }
 
-
     public add(data: INew): Promise<string> {
         return new Promise((resolve, reject) => (
             this.dbModel
