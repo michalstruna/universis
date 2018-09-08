@@ -1,105 +1,61 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
+import { Field as ReduxField } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
 
-export interface IFieldInputProps {
+export interface ICustomFieldProps {
     label: string
     name: string
-    onChange?: IDoubleConsumer<string, boolean>
-    type?: string
-    value?: string
-    defaultValue?: string
-    isValid?: boolean
-    pattern?: RegExp
+
+    required?: string
+    invalid?: string
+
+    validate?: IFunction<string, string | undefined>
+}
+
+interface IProps {
+    label: string
+    name: string
+    validate: IFunction<string, string | undefined>
+    type: string
 }
 
 /**
  * Component for rendering some field input (text, email, ...) in form.
  */
-class Field extends StatelessComponent<IFieldInputProps> {
+class Field extends StatelessComponent<IProps> {
 
-    public static defaultProps = {
-        type: 'text'
-    }
-
-    public componentDidMount(): void {
-        const { onChange, defaultValue } = this.props
-        onChange(defaultValue, this.isValid(defaultValue))
-    }
-
-    public componentDidUpdate(prevProps): void {
-        const { pattern, onChange, value } = this.props
-
-        if (prevProps.pattern.toString() !== pattern.toString()) {
-            onChange(value, this.isValid(value))
-        }
-    }
-
-    /**
-     * Check if content of field is valid.
-     * @param text
-     * @returns Text is valid.
-     */
-    private isValid(text: string): boolean {
-        const { pattern } = this.props
-        return pattern ? pattern.test(text) : true
-    }
-
-    /**
-     * After change content of input, update state.
-     * @param event
-     */
-    private handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const { value } = event.target
-        this.props.onChange(value, this.isValid(value))
-    }
-
-    /**
-     * Render <input /> element.
-     * @return Input.
-     */
-    private renderInput(): JSX.Element {
-        const { name, type, value } = this.props
-
-        const className = ClassNames(
-            'form__input',
-            'form__input--' + type,
-            { 'form__input--invalid': !this.isValid(value) }
-        )
+    private renderComponent = (data): JSX.Element => {
+        const { label, type } = this.props
+        const { touched, error } = data.meta
 
         return (
-            <input
-                autoComplete='off'
-                className={className}
-                name={name}
-                onChange={this.handleChange}
-                type={type}
-                value={value}
-                ref='input' />
-        )
-    }
-
-    /**
-     * Render <p>element  with label.
-     * @return Label.
-     */
-    private renderLabel(): JSX.Element {
-        return (
-            <p className='form__label'>
-                {this.props.label}
-            </p>
+            <label className={ClassNames('form__block', { 'form__block--error': touched && !!error })}>
+                <input
+                    {...data.input}
+                    autoComplete='off'
+                    className={'form__field form__field--' + type}
+                    type={type}
+                />
+                <p className='form__label'>
+                    {touched && error ? error : label}
+                </p>
+            </label>
         )
     }
 
     public render(): JSX.Element {
+        const { label, name, type, validate } = this.props
+
         return (
-            <label
-                className='form__block'
-                key={this.props.name}>
-                {this.renderInput()}
-                {this.renderLabel()}
-            </label>
+            <ReduxField
+                component={this.renderComponent}
+                label={label}
+                name={name}
+                validate={validate}
+                type={type}
+            />
         )
     }
 

@@ -3,8 +3,6 @@
  * Form Module is used for form components like Form, TextField, Submit, etc.
  */
 import Form from './Components/Form'
-import FormActions from './Redux/FormActions'
-import FormReducer from './Redux/FormReducer'
 import EmailField from './Components/EmailField'
 import Note from './Components/Note'
 import PasswordField from './Components/PasswordField'
@@ -20,8 +18,6 @@ export {
     Note,
     PasswordField,
     Submit,
-    Title,
-    FormActions,
-    FormReducer
+    Title
 
 }

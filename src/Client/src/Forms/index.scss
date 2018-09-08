@@ -21,26 +21,22 @@
         padding-bottom: 2em;
     }
 
-    &__block {
-        display: block;
-        padding-bottom: 2em;
-        position: relative;
-    }
-
     &__label {
         @include content-font;
         @include size(auto, 2em, true);
         color: $light-color;
+        font-weight: bold;
         left: 0;
         pointer-events: none;
         position: absolute;
         top: 0;
+        transform: translateZ(0);
         transform-origin: left center;
-        transition: transform $medium-animation-duration;
+        transition: transform $medium-animation-duration, color $medium-animation-duration;
         user-select: none;
     }
 
-    &__input {
+    &__field {
         @include content-font;
         background-color: transparent;
         border-bottom: 0.1em solid $light-color;
@@ -49,7 +45,7 @@
         font-size: 100%;
         color: $lightest-color;
         padding: 0.5em 0;
-        transition: border-color $fast-animation-duration;
+        transition: border-color $medium-animation-duration;
         width: 100%;
 
         &:focus {
@@ -58,7 +54,7 @@
 
         &:not([value=""]), &:focus {
             & + .form__label {
-                transform: translateY(-1.5em) scale(0.7);
+                transform: translateY(-1.5em) scale(0.7) translateZ(0);
             }
         }
     }
@@ -98,11 +94,29 @@
         }
     }
 
-    .square-loader {
+    &__block {
+        display: block;
+        padding-bottom: 2em;
+        position: relative;
+
+        &--error {
+            .form {
+                &__label {
+                    color: $red-color
+                }
+
+                &__field {
+                    border-color: $red-color;
+                }
+            }
+        }
+    }
+
+    .loader {
         opacity: 0;
     }
 
-    &--send {
+    &--sending {
         cursor: wait;
         pointer-events: none;
 
@@ -110,8 +124,8 @@
             opacity: 0.1;
         }
 
-        .square-loader {
-            opacity: 1;
+        .loader {
+            opacity: 0.5;
             pointer-events: all;
         }
     }

@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { Urls, View } from '../../Utils'
-import { LoginForm } from '../../User'
 
 interface IProps {
     unauthUser: IBaseUser,
@@ -27,7 +26,7 @@ class LoginView extends View<IProps> {
     public render(): JSX.Element {
         return (
             <section className={this.getClassName('login')}>
-                <LoginForm />
+
             </section>
         )
     }

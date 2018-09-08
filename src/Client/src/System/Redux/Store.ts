@@ -1,8 +1,8 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
+import { reducer as FormReducer } from 'redux-form'
 
 import SystemReducer from './SystemReducer'
-import { FormReducer } from '../../Forms'
 import { UserReducer } from '../../User'
 import { UniverseReducer } from '../../Universe'
 import { PanelReducer } from '../../Panel'
