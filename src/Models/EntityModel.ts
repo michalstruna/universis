@@ -32,9 +32,9 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
         ))
     }
 
-    public getAll(order: SortOrder, criterion: string, limit: number, offset: number): Promise<IGetAll[]> {
+    public getAll(order: SortOrder, criterion: string, limit: number, offset: number, filter: any): Promise<IGetAll[]> {
         let query = this.dbModel
-            .get({})
+            .get(filter)
             .limit(limit)
             .offset(offset)
             .sort(criterion, order)

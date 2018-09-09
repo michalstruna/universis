@@ -11,15 +11,20 @@ class Redux {
      * Process redux action.
      * @param request Async request to API.
      * @param type Type of action. There is no suffix like _SENT, _SUCCESS or _FAIL.
+     * @param onResolve Callback after resolve request. (optional)
+     * @param onReject Callback after reject request. (optional)
      * @return Runnable dispatch.
      */
-    public static asyncAction<T>(request: Promise<T>, type: string): IActionResult<T> {
+    public static asyncAction<T>(request: Promise<T>, type: string, onResolve?: IResolveAsyncAction<T>, onReject?: IRejectAsyncAction): IActionResult<T> {
         return dispatch => {
+            const resolve = onResolve || ((dispatch, payload) => dispatch({ type, payload }))
+            const reject = onReject || ((dispatch, error) => dispatch({ type, error }))
+
             dispatch({ type })
 
             return request
-                .then(payload => dispatch({ type, payload }))
-                .catch(error => dispatch({ type, error }))
+                .then(payload => resolve(dispatch, payload))
+                .catch(error => reject(dispatch, error))
         }
     }
 
@@ -67,7 +72,7 @@ class Redux {
                 ...state,
                 [action.type]: !state[action.type]
             }
-        } else if('value' in action) {
+        } else if ('value' in action) {
             return {
                 ...state,
                 [action.type]: action.value

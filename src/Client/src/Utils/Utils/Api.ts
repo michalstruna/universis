@@ -14,18 +14,6 @@ class Api {
     }
 
     /**
-     * Get unauth user by email.
-     * @param email Email of user.
-     */
-    public static getUnauthUser(email: string): Promise<IBaseUser> {
-        return new Promise((resolve, reject) => {
-            Axios.get(API_URL + 'users/unauth/' + email).then(response => {
-                resolve(response.data.user)
-            })
-        })
-    }
-
-    /**
      * Register new user.
      * @param email Email of user.
      * @param password Password of user.

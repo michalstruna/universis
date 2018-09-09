@@ -47,3 +47,13 @@ declare type IReducer = (IState, IAction) => IStoreState
  * Type of dispatch action function.
  */
 declare type IDispatch = IConsumer<any>
+
+/**
+ * Type of then promise after async action.
+ */
+declare type IResolveAsyncAction<T> = IDoubleConsumer<IDispatch, T>
+
+/**
+ * Type of catch promise after async action.
+ */
+declare type IRejectAsyncAction = IDoubleConsumer<IDispatch, number>

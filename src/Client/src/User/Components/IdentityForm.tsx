@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { reduxForm, InjectedFormProps, SubmissionError } from 'redux-form'
+import { reduxForm, InjectedFormProps } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
 import { EmailField, Form, Submit, Title } from '../../Forms'
@@ -7,7 +7,7 @@ import UserActions from '../Redux/UserActions'
 
 interface IProps {
     strings: IStrings
-    getUnauthIdentityByEmail: IFunction<string, Promise<IBaseUser>>
+    getUnauthIdentity: IFunction<string, Promise<IBaseUser>>
     unauthUser: IBaseUser
     error: Error
 }
@@ -23,9 +23,7 @@ interface IValues {
 class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
     private handleSubmit = (data: IValues) => {
-        throw new SubmissionError({
-            email: 'Test error' // TODO: Remove.
-        })
+        this.props.getUnauthIdentity(data.email)
     }
 
     public render(): JSX.Element {
@@ -62,6 +60,6 @@ export default reduxForm({
         error: user.getUnauthUserError
     }),
     (dispatch: IDispatch) => ({
-        getUnauthIdentityByEmail: (email: string) => dispatch(UserActions.getUnauthUserByEmail(email))
+        getUnauthIdentity: (email: string) => dispatch(UserActions.getUnauthUser(email))
     })
 ))

@@ -1,25 +1,19 @@
-import { Api } from '../../Utils'
-import ACTION_TYPES from './ActionTypes'
+import { Api, Redux, Request } from '../../Utils'
+import ActionTypes from './ActionTypes'
 
 /**
  * Actions for users.
  */
 class UserActions {
 
-    /**
-     * Get unauth user by email.
-     * @param email Email of user.
-     */
-    public static getUnauthUserByEmail = (email: string) => (
-        dispatch => {
-            dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_SENT })
-
-            return Api.getUnauthUser(email).then(user => {
-                dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_SUCCESS, user })
-            }).catch(error => {
-                dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_FAIL, error })
-            })
-        }
+    public static getUnauthUser = (email: string) => (
+        Redux.asyncAction(
+            Request.get<any>('users', { email }),
+            ActionTypes.GET_UNAUTH_USER,
+            (dispatch, users) => {
+                dispatch({ [ActionTypes.GET_UNAUTH_USER]: users[0] })
+            }
+        )
     )
 
     /**
@@ -30,12 +24,12 @@ class UserActions {
      */
     public static signUp = (email: string, password: string) => (
         dispatch => {
-            dispatch({ type: ACTION_TYPES.SIGN_UP_SENT })
+            dispatch({ type: ActionTypes.SIGN_UP_SENT })
 
             return Api.signUp(email, password).then(user => {
-                dispatch({ type: ACTION_TYPES.SIGN_UP_SUCCESS, user })
+                dispatch({ type: ActionTypes.SIGN_UP_SUCCESS, user })
             }).catch(error => {
-                dispatch({ type: ACTION_TYPES.SIGN_UP_FAIL, error })
+                dispatch({ type: ActionTypes.SIGN_UP_FAIL, error })
             })
         }
     )

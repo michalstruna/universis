@@ -6,7 +6,9 @@ enum ActionTypes {
 
     SIGN_UP_SENT = 'SIGN_UP_SENT',
     SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS',
-    SIGN_UP_FAIL = 'SIGN_UP_FAIL'
+    SIGN_UP_FAIL = 'SIGN_UP_FAIL',
+
+    GET_UNAUTH_USER = 'unauthUser'
 
 }
 
