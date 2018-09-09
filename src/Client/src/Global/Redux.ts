@@ -2,25 +2,27 @@
  * Interface for async action.
  */
 declare interface IAsyncAction<T> {
-    type: string,
+    type: string
     payload?: T
     error?: string
+    _async: boolean
 }
 
 /**
  * Interface for action.
  */
 declare interface IToggleAction {
-    type: string,
-    toggle: boolean
+    type: string
+    _toggle: boolean
 }
 
 /**
  * Interface for set action.
  */
 declare interface ISetAction {
-    type: string,
+    type: string
     value: any
+    _set: boolean
 }
 
 /**
@@ -49,11 +51,10 @@ declare type IReducer = (IState, IAction) => IStoreState
 declare type IDispatch = IConsumer<any>
 
 /**
- * Type of then promise after async action.
+ * Interface for async data container.
  */
-declare type IResolveAsyncAction<T> = IDoubleConsumer<IDispatch, T>
-
-/**
- * Type of catch promise after async action.
- */
-declare type IRejectAsyncAction = IDoubleConsumer<IDispatch, number>
+declare interface IAsyncData<T> {
+    payload: T
+    isSent: boolean
+    error: number
+}

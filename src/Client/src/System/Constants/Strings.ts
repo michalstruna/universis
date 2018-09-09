@@ -45,8 +45,8 @@ export default {
     identity: {
         title: 'Přihlašte se.',
         email: 'Váš email',
-        missingEmail: 'Chybějící email.',
-        invalidEmail: 'Neplatný email.',
+        missingEmail: 'Zadejte email.',
+        invalidEmail: 'Zadejte platný email.',
         submit: 'Další'
     },
 

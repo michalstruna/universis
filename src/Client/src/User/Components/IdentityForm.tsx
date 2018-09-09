@@ -8,7 +8,7 @@ import UserActions from '../Redux/UserActions'
 interface IProps {
     strings: IStrings
     getUnauthIdentity: IFunction<string, Promise<IBaseUser>>
-    unauthUser: IBaseUser
+    unauthUser: IAsyncData<any> // TODO: ISimpleUser.
     error: Error
 }
 
@@ -27,7 +27,7 @@ class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues
     }
 
     public render(): JSX.Element {
-        const { strings, handleSubmit, invalid, submitting } = this.props
+        const { strings, handleSubmit, invalid, submitting} = this.props
 
         return (
             <Form
@@ -56,8 +56,7 @@ export default reduxForm({
 })(IdentityForm.connect(
     ({ form, system, user }: IStoreState) => ({
         strings: system.strings.identity,
-        unauthUser: user.unauthUser,
-        error: user.getUnauthUserError
+        unauthUser: user.unauthUser
     }),
     (dispatch: IDispatch) => ({
         getUnauthIdentity: (email: string) => dispatch(UserActions.getUnauthUser(email))

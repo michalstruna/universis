@@ -11,20 +11,16 @@ class Redux {
      * Process redux action.
      * @param request Async request to API.
      * @param type Type of action. There is no suffix like _SENT, _SUCCESS or _FAIL.
-     * @param onResolve Callback after resolve request. (optional)
-     * @param onReject Callback after reject request. (optional)
+     * @param map Map result in resolve request.. (optional)
      * @return Runnable dispatch.
      */
-    public static asyncAction<T>(request: Promise<T>, type: string, onResolve?: IResolveAsyncAction<T>, onReject?: IRejectAsyncAction): IActionResult<T> {
+    public static asyncAction<T>(request: Promise<T>, type: string, map: IFunction<any, any> = payload => payload): IActionResult<T> {
         return dispatch => {
-            const resolve = onResolve || ((dispatch, payload) => dispatch({ type, payload }))
-            const reject = onReject || ((dispatch, error) => dispatch({ type, error }))
-
-            dispatch({ type })
+            dispatch({ type, _async: true })
 
             return request
-                .then(payload => resolve(dispatch, payload))
-                .catch(error => reject(dispatch, error))
+                .then(payload => dispatch({ type, payload: map(payload), _async: true }))
+                .catch(error => dispatch({ type, error, _async: true }))
         }
     }
 
@@ -34,7 +30,7 @@ class Redux {
      * @returns Action.
      */
     public static toggleAction(type: string): IToggleAction {
-        return { type, toggle: true }
+        return { type, _toggle: true }
     }
 
     /**
@@ -44,7 +40,7 @@ class Redux {
      * @returns Action.
      */
     public static setAction(type: string, value: any): ISetAction {
-        return { type, value }
+        return { type, value, _set: true }
     }
 
     /**
@@ -53,7 +49,7 @@ class Redux {
      * @param specificReducer This is probably function, that contains switch of action types.
      * @returns Reducer.
      */
-    public static createReducer(initialState: IStoreState, specificReducer?: IReducer): IReducer {
+    public static createReducer(initialState: IStoreState = {}, specificReducer?: IReducer): IReducer {
         return <T>(state: IStoreState = initialState, action: IAsyncAction<T> | IToggleAction | ISetAction) => {
             const specificReducerResult = specificReducer ? specificReducer(state, action) : null
             return specificReducerResult || Redux.reducer(state, action)
@@ -67,35 +63,35 @@ class Redux {
      * @returns New state of store.
      */
     private static reducer<T>(state: IStoreState, action: IAsyncAction<T> | IToggleAction | ISetAction): IStoreState {
-        if ('toggle' in action) {
+        if ('_toggle' in action) {
             return {
                 ...state,
                 [action.type]: !state[action.type]
             }
-        } else if ('value' in action) {
+        } else if ('_set' in action) {
             return {
                 ...state,
                 [action.type]: action.value
             }
-        } else {
-            if (state[`${action.type}Sent`]) {
-                if (action.error) {
-                    return {
-                        ...state,
-                        ...Redux.setEntity<T>(action.type, null, false, action.error)
-                    }
-                } else {
-                    return {
-                        ...state,
-                        ...Redux.setEntity<T>(action.type, action.payload, false, null)
-                    }
-                }
-            } else {
+        } else if ('_async' in action) {
+            if (!state[action.type] || !state[action.type].isSent) {
                 return {
                     ...state,
                     ...Redux.setEntity<T>(action.type, null, true, null)
                 }
+            } else if (action.error) {
+                return {
+                    ...state,
+                    ...Redux.setEntity<T>(action.type, null, false, action.error)
+                }
+            } else {
+                return {
+                    ...state,
+                    ...Redux.setEntity<T>(action.type, action.payload, false, null)
+                }
             }
+        } else {
+            return state
         }
     }
 
@@ -109,9 +105,7 @@ class Redux {
      */
     private static setEntity<T>(actionType: string, payload: T, isSent: boolean, error: string): IReducerEntity {
         return {
-            [`${actionType}`]: payload,
-            [`${actionType}Sent`]: isSent,
-            [`${actionType}Error`]: error
+            [actionType]: { payload, isSent, error }
         }
     }
 
