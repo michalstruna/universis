@@ -27,9 +27,9 @@ declare interface IEntityModel<IGetOne, IGetAll, INew> {
      * @param limit Max count of entities.
      * @param offset Index of first entity.
      * @param filter Mongoose filter.
-     * @returns Promise with list of entities.
+     * @returns Promise with list of entities. If there is limit 1, return entity without array.
      */
-    getAll(order: string, criterion: string, limit: number, offset: number, filter: any): Promise<IGetAll[]>
+    getAll(order: string, criterion: string, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll>
 
     /**
      * Remove entity by its ID.

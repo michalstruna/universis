@@ -14,12 +14,12 @@ class Redux {
      * @param map Map result in resolve request.. (optional)
      * @return Runnable dispatch.
      */
-    public static asyncAction<T>(request: Promise<T>, type: string, map: IFunction<any, any> = payload => payload): IActionResult<T> {
+    public static asyncAction<T>(request: Promise<T>, type: string): IActionResult<T> {
         return dispatch => {
             dispatch({ type, _async: true })
 
             return request
-                .then(payload => dispatch({ type, payload: map(payload), _async: true }))
+                .then(payload => dispatch({ type, payload, _async: true }))
                 .catch(error => dispatch({ type, error, _async: true }))
         }
     }

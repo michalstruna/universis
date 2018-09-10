@@ -6,7 +6,8 @@
       "es5",
       "es6",
       "dom",
-      "es2017"
+      "es2017",
+      "es2015.promise"
     ],
     "experimentalDecorators": true,
     "module": "commonjs",

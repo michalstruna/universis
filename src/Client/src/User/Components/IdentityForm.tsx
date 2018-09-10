@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { reduxForm, InjectedFormProps } from 'redux-form'
+import { reduxForm, InjectedFormProps, SubmissionError } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
 import { EmailField, Form, Submit, Title } from '../../Forms'
@@ -7,7 +7,7 @@ import UserActions from '../Redux/UserActions'
 
 interface IProps {
     strings: IStrings
-    getUnauthIdentity: IFunction<string, Promise<IBaseUser>>
+    getUnauthIdentity: IFunction<string, Promise<IAsyncData<IBaseUser>>>
     unauthUser: IAsyncData<any> // TODO: ISimpleUser.
     error: Error
 }
@@ -22,12 +22,27 @@ interface IValues {
  */
 class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
-    private handleSubmit = (data: IValues) => {
-        this.props.getUnauthIdentity(data.email)
+    /**
+     * Get user by email. If exists, redirect to
+     * @param {IValues} data
+     * @returns {Promise<void>}
+     */
+    private handleSubmit = async (data: IValues) => {
+        const unauthUser = await this.props.getUnauthIdentity(data.email)
+
+        if (unauthUser.error) {
+            throw new SubmissionError({ email: 'Zkontrolujte email.' }) // TODO: Move to strings.
+        } else {
+            if(unauthUser.payload) {
+                alert('FOUND')
+            } else {
+                alert('NOT FOUNT')
+            }
+        }
     }
 
     public render(): JSX.Element {
-        const { strings, handleSubmit, invalid, submitting} = this.props
+        const { strings, handleSubmit, invalid, submitting } = this.props
 
         return (
             <Form

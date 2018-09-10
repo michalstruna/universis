@@ -8,9 +8,8 @@ class UserActions {
 
     public static getUnauthUser = (email: string) => (
         Redux.asyncAction(
-            Request.get<any>('users', { email }), // TODO: ISimpleUser[].
-            ActionTypes.GET_UNAUTH_USER,
-            users => users[0]
+            Request.get<any>('users', { email, limit: 1 }), // TODO: ISimpleUser[].
+            ActionTypes.GET_UNAUTH_USER
         )
     )
 

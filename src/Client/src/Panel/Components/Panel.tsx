@@ -37,17 +37,13 @@ class Panel extends StatelessComponent<IProps> {
     private renderToggle(): JSX.Element {
         const { location, tab } = this.props
 
-        let newSearch
-
-        if (Url.hasQuery(location.search, Queries.PANEL)) {
-            newSearch = Url.removeQuery(location.search, Queries.PANEL)
-        } else {
-            newSearch = Url.setQuery(location.search, Queries.PANEL, tab)
-        }
+        const isOpened = Url.hasQuery(location.search, Queries.PANEL)
 
         return (
             <UILayout>
-                <Link className='panel--toggle' target={{ search: newSearch }} />
+                <Link
+                    className='panel--toggle'
+                    query={{ [Link.QUERIES.PANEL]: isOpened ? null : tab }} />
             </UILayout>
         )
     }
@@ -70,7 +66,7 @@ class Panel extends StatelessComponent<IProps> {
         return tabs.map((tab, key) => (
             <Link
                 key={key}
-                target={{ search: Url.setQuery(location.search, Queries.PANEL, tab.target) }}
+                query={{ [Link.QUERIES.PANEL]: tab.target }}
                 className={ClassNames('panel__tabs__tab', { 'panel__tabs__tab--selected': currentTab === tab.target })}>
                 {tab.label}
             </Link>

@@ -71,8 +71,8 @@ class Route {
                     parseInt(query.limit),
                     parseInt(query.offset),
                     Route.getFilterFromQuery(query)
-                )
-            )),
+                ))
+            ),
             post: Route.all(({ body }) => (
                 model.add(body)
             ), _id => ({ _id })),

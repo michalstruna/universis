@@ -32,7 +32,7 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
         ))
     }
 
-    public getAll(order: SortOrder, criterion: string, limit: number, offset: number, filter: any): Promise<IGetAll[]> {
+    public getAll(order: SortOrder, criterion: string, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll> {
         let query = this.dbModel
             .get(filter)
             .limit(limit)
@@ -47,7 +47,8 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
             query = query.select(...this.selectAll)
         }
 
-        return query.run<IGetAll[]>().then(result => result.map(item => item))
+        const result = query.run<IGetAll[]>()
+        return limit === 1 ? result.then(items => items[0]) : result
     }
 
     public get(id: string): Promise<IGetOne> {
