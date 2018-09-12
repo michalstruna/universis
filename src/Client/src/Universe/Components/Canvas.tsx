@@ -41,9 +41,6 @@ class Canvas extends StatelessComponent<IProps> {
         const { bodies } = this.props
 
         if (bodies.payload && !this.universe) {
-
-            console.log(bodies)
-
             const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement
             this.universe = new Universe(element, bodies.payload)
             this.universe.setOnChangeViewSize(this.handleChangeViewSize)
