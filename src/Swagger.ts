@@ -153,7 +153,7 @@ export default {
                     },
                     {
                         'in': 'query',
-                        'name': 'criterion',
+                        'name': 'sort',
                         'schema': {
                             'type': 'string',
                             'example': '_id'

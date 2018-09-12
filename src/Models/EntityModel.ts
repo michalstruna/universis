@@ -32,12 +32,27 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
         ))
     }
 
-    public getAll(order: SortOrder, criterion: string, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll> {
-        let query = this.dbModel
-            .get(filter)
-            .limit(limit)
-            .offset(offset)
-            .sort(criterion, order)
+    public getAll(sort: string, order: SortOrder, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll> {
+        console.log('sort', sort)
+        console.log('order', order)
+        console.log('limit', limit)
+        console.log('offset', offset)
+        console.log('filter', filter)
+
+
+        let query = this.dbModel.get(filter)
+
+        if (sort) {
+            query = query.sort(sort, order || SortOrder.ASC)
+        }
+
+        if (limit) {
+            query = query.limit(limit)
+        }
+
+        if (offset) {
+            query = query.offset(offset)
+        }
 
         for (const join of this.joinAll) {
             query = query.join(join)

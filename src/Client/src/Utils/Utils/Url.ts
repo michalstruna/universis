@@ -114,7 +114,13 @@ class Url {
      */
     public static setQuery(queryString: string, key: string, value: string): string {
         const utils = new URLSearchParams(queryString)
-        utils.set(key, value)
+
+        if (value === null) {
+            utils.delete(key)
+        } else {
+            utils.set(key, value)
+        }
+
         return utils.toString()
     }
 
@@ -127,6 +133,25 @@ class Url {
     public static hasQuery(queryString: string, key: string): boolean {
         const utils = new URLSearchParams(queryString)
         return utils.has(key)
+    }
+
+    /**
+     * Change current location.
+     * @param location Current location.
+     * @param target Object with optional pathname and query parameters.
+     * @returns New location.
+     */
+    public static link(location: Location, target: { pathname?: string, query?: { [key: string]: string } }): string {
+        const pathname = target.pathname || location.pathname
+        let query = location.search || ''
+
+        if (target.query) {
+            for (const key in target.query) {
+                query = Url.setQuery(query, key, target.query[key])
+            }
+        }
+
+        return pathname + query
     }
 
 }

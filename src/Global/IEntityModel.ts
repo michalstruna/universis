@@ -22,14 +22,14 @@ declare interface IEntityModel<IGetOne, IGetAll, INew> {
 
     /**
      * Get all entities.
-     * @param order Order of entities.
-     * @param criterion Order criterion.
+     * @param sort Order of entities.
+     * @param order Order criterion.
      * @param limit Max count of entities.
      * @param offset Index of first entity.
      * @param filter Mongoose filter.
      * @returns Promise with list of entities. If there is limit 1, return entity without array.
      */
-    getAll(order: string, criterion: string, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll>
+    getAll(sort: string, order: string, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll>
 
     /**
      * Remove entity by its ID.

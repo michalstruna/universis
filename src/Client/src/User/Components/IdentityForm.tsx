@@ -27,6 +27,7 @@ class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues
      * @returns {Promise<void>}
      */
     private handleSubmit = async (data: IValues) => {
+
         const unauthUser = await this.props.getUnauthUser(data.email)
 
         if (unauthUser.error) {

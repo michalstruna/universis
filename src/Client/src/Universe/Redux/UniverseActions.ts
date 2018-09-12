@@ -11,7 +11,7 @@ class UniverseActions {
      */
     public static getBodies = () => (
         Redux.asyncAction(
-            Request.get(`bodies`),
+            Request.get(`bodies`, { sort: '_id' }),
             ActionTypes.GET_BODIES
         )
     )

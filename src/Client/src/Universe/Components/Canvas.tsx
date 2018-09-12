@@ -7,7 +7,7 @@ import UniverseActions from '../Redux/UniverseActions'
 import Units from '../Utils/Units'
 
 interface IProps {
-    bodies: ISimpleBody[]
+    bodies: IAsyncData<ISimpleBody[]>
     getBodies: IRunnable
     changeViewSize: IConsumer<number>
     viewSize: number
@@ -25,7 +25,7 @@ class Canvas extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        if (!prevProps.bodies) {
+        if (!prevProps.bodies.payload) {
             this.initializeUniverse()
         }
 
@@ -38,9 +38,14 @@ class Canvas extends StatelessComponent<IProps> {
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        if (this.props.bodies && !this.universe) {
+        const { bodies } = this.props
+
+        if (bodies.payload && !this.universe) {
+
+            console.log(bodies)
+
             const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement
-            this.universe = new Universe(element, this.props.bodies)
+            this.universe = new Universe(element, bodies.payload)
             this.universe.setOnChangeViewSize(this.handleChangeViewSize)
             this.setOnResize(this.universe.resize)
         }

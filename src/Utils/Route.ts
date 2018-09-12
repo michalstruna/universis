@@ -46,7 +46,7 @@ class Route {
 
     private static getFilterFromQuery(query: any): any {
         const filter = {}
-        const reservedQueries = ['order', 'criterion', 'limit', 'offset']
+        const reservedQueries = ['sort', 'order', 'limit', 'offset']
 
         for (let name in query) {
             if (!reservedQueries.includes(name)) {
@@ -66,8 +66,8 @@ class Route {
         return {
             get: Route.all(({ query }) => (
                 model.getAll(
+                    query.sort,
                     query.order,
-                    query.criterion,
                     parseInt(query.limit),
                     parseInt(query.offset),
                     Route.getFilterFromQuery(query)
@@ -116,25 +116,7 @@ class Route {
                 'parameters': [
                     {
                         'in': 'query',
-                        'name': 'limit',
-                        'schema': {
-                            'type': 'number',
-                            'example': 7
-                        },
-                        'description': 'Max count of items.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'offset',
-                        'schema': {
-                            'type': 'number',
-                            'example': 353
-                        },
-                        'description': 'Index of first item.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'criterion',
+                        'name': 'sort',
                         'schema': {
                             'type': 'string',
                             'example': '_id'
@@ -150,6 +132,24 @@ class Route {
                             'enum': ['asc', 'desc']
                         },
                         'description': 'Order of items. Default is asc. Desc is reverse order.'
+                    },
+                    {
+                        'in': 'query',
+                        'name': 'limit',
+                        'schema': {
+                            'type': 'number',
+                            'example': 7
+                        },
+                        'description': 'Max count of items.'
+                    },
+                    {
+                        'in': 'query',
+                        'name': 'offset',
+                        'schema': {
+                            'type': 'number',
+                            'example': 353
+                        },
+                        'description': 'Index of first item.'
                     },
                     {
                         'in': 'query',
