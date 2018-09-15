@@ -72,7 +72,7 @@ class DatabaseModel implements IDatabaseModel {
     }
 
     public getOne(condition: Object): IDatabaseModel {
-        this.createQuery(this.model.find(condition))
+        this.createQuery(this.model.findOne(condition))
         return this
     }
 

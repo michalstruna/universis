@@ -5,11 +5,11 @@ declare interface ISecurityModel {
 
     /**
      * Authenticate user a get its identity.
-     * @param username Username.
+     * @param email Email of user.
      * @param secret Security string like password.
      * @returns User's identity.
      */
-    authenticate(username: string, secret: string): Promise<IUserIdentity>
+    authenticate(email: string, secret: string): Promise<IUserIdentity>
 
     /**
      * Apply hash to text.
@@ -31,7 +31,7 @@ declare interface ISecurityModel {
      * @param payload Any data.
      * @returns Promise with token.
      */
-    sign(payload: any): Promise<string>
+    sign(payload: IObject<any>): Promise<string>
 
     /**
      * Get data from token.

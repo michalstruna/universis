@@ -5,6 +5,7 @@ import Model from './Model'
 import { Config, Errors } from '../Constants'
 import DatabaseModels from '../Constants/DatabaseModels'
 import UserModel from './UserModel'
+import Security from '../Utils/Security'
 
 class SecurityModel extends Model implements ISecurityModel {
 
@@ -16,27 +17,39 @@ class SecurityModel extends Model implements ISecurityModel {
         this.userDbModel = this.db.getModel(DatabaseModels.USER)
     }
 
-    public authenticate(username: string, secret: string): Promise<IUserIdentity> {
+    public authenticate(email: string, secret: string): Promise<IUserIdentity> {
         return new Promise(async (resolve, reject) => {
             const userPassword = await this.userDbModel
-                .getOne({ email: username })
+                .getOne({ email })
+                .select('password')
                 .run<{ password: string }>()
 
             if (!userPassword) {
-                reject(Errors.NOT_FOUND) // User not found.
+                return reject(Errors.NOT_FOUND) // User not found.
             }
 
             if (!await this.isAuthenticated(secret, userPassword.password)) {
-                reject(Errors.INVALID) // Invalid password.
+                return reject(Errors.INVALID) // Invalid password.
             }
 
-            const user = await UserModel.getOne({ email: username })
-            const token = await this.sign(user._id)
+            const user = await UserModel.getOne({ email })
+            const token = await this.sign({ _id: user._id })
+
             await this.dbModel.add({ token })
-            return { ...user, token }
+            return resolve({ ...user, token })
         })
+    }
 
+    public hash(text: string): Promise<string> {
+        return Security.hash(text)
+    }
 
+    public isAuthenticated(secret: string, hashedSecret: string): Promise<boolean> {
+        return Security.isAuthenticated(secret, hashedSecret)
+    }
+
+    public sign(payload: IObject<any>): Promise<string> {
+        return Security.sign(payload)
     }
 
     public unsign(token: string): Promise<string> {
@@ -49,22 +62,6 @@ class SecurityModel extends Model implements ISecurityModel {
                 return Promise.reject(Errors.NOT_FOUND)
             }
         })
-    }
-
-    public hash(text: string): Promise<string> {
-        return Bcrypt.hash(text, Config.security.hash.rounds)
-    }
-
-    public isAuthenticated(secret: string, hashedSecret: string): Promise<boolean> {
-        return Bcrypt.compare(secret, hashedSecret)
-    }
-
-    public sign(payload: any): Promise<string> {
-        return new Promise((resolve, reject) => (
-            JWT.sign(payload, Config.security.token.secret, {
-                expiresIn: Config.security.token.expiration
-            }, (error, token) => error ? reject(error) : resolve(token))
-        ))
     }
 
 }

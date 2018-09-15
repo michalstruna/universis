@@ -439,7 +439,7 @@ export default {
                 }
             }
         },
-        '/users/login': {
+        '/login': {
             'post': {
                 'tags': ['Users'],
                 'summary': 'Login user with credentials.',
@@ -759,7 +759,7 @@ export default {
                         'properties': {
                             'token': {
                                 'type': 'string',
-                                'example': 'eyJ1c2VySWQiOiJiMDhmODZhZi0zNWRhLTQ4ZjItOGZhYi1jZWYzOTA0NjYwYmQifQ'
+                                'example': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjlkN2M0NzUyODgyOTJkNjQ2OWEwYmYiLCJpYXQiOjE1MzcwNDc5NTcsImV4cCI6MTUzNzA0OTc1N30.cGTu3XyU3bstQpkC32GAXDBgr3dFjIIVyJ4-Ocm2tXQ'
                             }
                         }
                     }
