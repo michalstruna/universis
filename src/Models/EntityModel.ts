@@ -1,10 +1,11 @@
 import { SortOrder, Errors } from '../Constants'
 import Model from './Model'
-import DatabaseModels from '../Constants/DatabaseModels'
 
 // TODO: Add integrity check - if false, entity can be deleted.
 
 class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<IGetOne, IGetAll, INew> {
+
+    private unapprovedDbModel: IDatabaseModel
 
     private selectOne: string[]
     private selectAll: string[]
@@ -12,9 +13,11 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
     private joinOne: string[]
     private joinAll: string[]
 
-    public constructor(dbModel: DatabaseModels, options: IEntityModelOptions<IGetOne, IGetAll, INew> = {}) {
+    public constructor(options: IEntityModelOptions<IGetOne, IGetAll, INew>) {
         super()
-        this.dbModel = this.db.getModel(dbModel)
+
+        this.dbModel = this.db.getModel(options.dbModel)
+        this.unapprovedDbModel = options.unapprovedDbModel ? this.db.getModel(options.unapprovedDbModel) : null
 
         this.selectOne = options.selectOne || null
         this.selectAll = options.selectAll || null
@@ -32,14 +35,7 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
         ))
     }
 
-    public getAll(sort: string, order: SortOrder, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll> {
-        console.log('sort', sort)
-        console.log('order', order)
-        console.log('limit', limit)
-        console.log('offset', offset)
-        console.log('filter', filter)
-
-
+    public getAll(filter: any, sort?: string, order?: SortOrder, limit?: number, offset?: number): Promise<IGetAll[]> {
         let query = this.dbModel.get(filter)
 
         if (sort) {
@@ -62,8 +58,11 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
             query = query.select(...this.selectAll)
         }
 
-        const result = query.run<IGetAll[]>()
-        return limit === 1 ? result.then(items => items[0]) : result
+        return query.run<IGetAll[]>()
+    }
+
+    public getOne(filter: any, sort?: string, order?: SortOrder, offset?: number): Promise<IGetAll> {
+        return this.getAll(filter, sort, order, 1, offset).then(items => items[0])
     }
 
     public get(id: string): Promise<IGetOne> {
@@ -130,6 +129,7 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
     public getCount(): Promise<any> {
         return this.dbModel.count({})
     }
+
 
 }
 

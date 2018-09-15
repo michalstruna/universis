@@ -21,15 +21,25 @@ declare interface IEntityModel<IGetOne, IGetAll, INew> {
     get(id: string): Promise<IGetOne>
 
     /**
-     * Get all entities.
-     * @param sort Order of entities.
-     * @param order Order criterion.
-     * @param limit Max count of entities.
-     * @param offset Index of first entity.
+     * Get one entity.
      * @param filter Mongoose filter.
-     * @returns Promise with list of entities. If there is limit 1, return entity without array.
+     * @param sort Order of entities. (optional)
+     * @param order Order criterion. (optional)
+     * @param offset Index of first entity. (optional)
+     * @returns Promise with entity.
      */
-    getAll(sort: string, order: string, limit: number, offset: number, filter: any): Promise<IGetAll[] | IGetAll>
+    getOne(filter: IObject<any>, sort?: string, order?: string, offset?: number): Promise<IGetAll>
+
+    /**
+     * Get all entities.
+     * @param filter Mongoose filter.
+     * @param sort Order of entities. (optional)
+     * @param order Order criterion. (optional)
+     * @param limit Max count of entities. (optional)
+     * @param offset Index of first entity. (optional)
+     * @returns Promise with list of entities.
+     */
+    getAll(filter: IObject<any>, sort?: string, order?: string, limit?: number, offset?: number): Promise<IGetAll[]>
 
     /**
      * Remove entity by its ID.
@@ -80,6 +90,16 @@ declare interface IEntityModel<IGetOne, IGetAll, INew> {
  * Options for entity model.
  */
 declare interface IEntityModelOptions<IGetOne, IGetAll, INew> {
+
+    /**
+     * Name of database model.
+     */
+    dbModel: string
+
+    /**
+     * Name of database model for unapproved items (on save or edit).
+     */
+    unapprovedDbModel?: string
 
     /**
      * List of fields, that will be selected after get().

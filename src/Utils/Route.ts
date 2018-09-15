@@ -35,6 +35,15 @@ class Route {
     }
 
     /**
+     * Run route handler in authenticated cases.
+     * @param action Request action.
+     * @param resultMap Convert model result to response data.
+     */
+    public static onlyAuthenticated(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
+        return null
+    }
+
+    /**
      * Run route handler only if author of user has this ID.
      * @param userId Required user's ID.
      * @param action Request action.
@@ -66,11 +75,11 @@ class Route {
         return {
             get: Route.all(({ query }) => (
                 model.getAll(
+                    Route.getFilterFromQuery(query),
                     query.sort,
                     query.order,
                     parseInt(query.limit),
-                    parseInt(query.offset),
-                    Route.getFilterFromQuery(query)
+                    parseInt(query.offset)
                 ))
             ),
             post: Route.all(({ body }) => (

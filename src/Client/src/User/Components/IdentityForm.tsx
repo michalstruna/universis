@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { reduxForm, InjectedFormProps, SubmissionError } from 'redux-form'
 
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, Url } from '../../Utils'
 import { EmailField, Form, Submit, Title } from '../../Forms'
 import UserActions from '../Redux/UserActions'
 
@@ -22,22 +22,18 @@ interface IValues {
 class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
     /**
-     * Get user by email. If exists, redirect to
-     * @param {IValues} data
-     * @returns {Promise<void>}
+     * Get user by email. If exists, redirect to login, else to sign up.
+     * @param data
      */
     private handleSubmit = async (data: IValues) => {
-
-        const unauthUser = await this.props.getUnauthUser(data.email)
+        const { strings, getUnauthUser, history, location } = this.props
+        const unauthUser = await getUnauthUser(data.email)
 
         if (unauthUser.error) {
-            throw new SubmissionError({ email: 'Zkontrolujte email.' }) // TODO: Move to strings.
+            throw new SubmissionError({ email: strings.invalidEmail })
         } else {
-            if(unauthUser.payload) {
-                alert('FOUND')
-            } else {
-                alert('NOT FOUNT')
-            }
+            const pathname = unauthUser.payload ? Url.URLS.LOGIN : Url.URLS.SIGN_UP
+            history.push(Url.link(location, { pathname }))
         }
     }
 

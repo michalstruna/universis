@@ -1,4 +1,4 @@
-import Secret from '../../Utils/Secret'
+import SecurityModel from '../../Models/SecurityModel'
 
 /**
  * Plugin that hash field of schema before insert to DB.
@@ -8,15 +8,15 @@ import Secret from '../../Utils/Secret'
 const HashPlugin = (schema, options) => {
 
     schema.pre('save', async function () {
-        this[options.field] = await Secret.hash(this[options.field])
+        this[options.field] = await SecurityModel.hash(this[options.field])
     })
 
     schema.pre('findOneAndUpdate', async function () {
-        this._update[options.field] = await Secret.hash(this._update[options.field])
+        this._update[options.field] = await SecurityModel.hash(this._update[options.field])
     })
 
     schema.pre('update', async function () {
-        this._update[options.field] = await Secret.hash(this._update[options.field])
+        this._update[options.field] = await SecurityModel.hash(this._update[options.field])
     })
 
 }

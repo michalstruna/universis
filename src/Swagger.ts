@@ -438,6 +438,42 @@ export default {
                     },
                 }
             }
+        },
+        '/users/login': {
+            'post': {
+                'tags': ['Users'],
+                'summary': 'Login user with credentials.',
+                'description': 'Login user with credentials.',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                'type': 'object',
+                                'properties': {
+                                    'email': {
+                                        'type': 'string'
+                                    },
+                                    'password': {
+                                        'type': 'string'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'responses': {
+                    '200': {
+                        'description': 'Successful login.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    '$ref': '#/components/schemas/UserIdentity'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     'components': {
@@ -713,6 +749,22 @@ export default {
                     }
                 }
             },
+            'UserIdentity': {
+                'allOf': [
+                    {
+                        '$ref': '#/components/schemas/User'
+                    },
+                    {
+                        'type': 'object',
+                        'properties': {
+                            'token': {
+                                'type': 'string',
+                                'example': 'eyJ1c2VySWQiOiJiMDhmODZhZi0zNWRhLTQ4ZjItOGZhYi1jZWYzOTA0NjYwYmQifQ'
+                            }
+                        }
+                    }
+                ]
+            }
         }
     }
 }

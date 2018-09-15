@@ -7,9 +7,7 @@ interface IComponentProps {
         push: IConsumer<string | { pathname?: string, search?: string }>,
         replace: IConsumer<string | { pathname?: string, search?: string }>
     }
-    location?: {
-        pathname: string
-    }
+    location?: Location
 }
 
 /**
