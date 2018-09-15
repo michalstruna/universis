@@ -4,6 +4,7 @@ $user-info-height: 5rem;
     @include size(20rem, $user-info-height);
     background-color: $dark-color;
     box-sizing: border-box;
+    font-size: 1rem;
     margin: 1rem auto;
     overflow: hidden;
 

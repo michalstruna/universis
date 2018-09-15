@@ -8,7 +8,8 @@ enum Urls {
     IDENTITY = '/identita',
     LOGIN = '/prihlaseni',
     SIGN_UP = '/registrace',
-    HELP = '/napoveda'
+    HELP = '/napoveda',
+    FORGOT_PASSWORD = '/zapomenute-heslo'
 
 }
 

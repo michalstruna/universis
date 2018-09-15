@@ -3,7 +3,7 @@ import * as React from 'react'
 import { View, Urls } from '../../Utils'
 
 interface IProps {
-    unauthUser: IBaseUser,
+    unauthUser: IAsyncData<IBaseUser>
     isLoggedIn: boolean
 }
 
@@ -17,9 +17,9 @@ class SignUpView extends View<IProps> {
         const { unauthUser, history, isLoggedIn } = this.props
 
         if (isLoggedIn) {
-            history.push(Urls.HOME)
-        } else if (!unauthUser) {
-            history.push(Urls.IDENTITY)
+            history.replace(Urls.HOME)
+        } else if (!unauthUser.payload) {
+            history.replace(Urls.IDENTITY)
         }
     }
 

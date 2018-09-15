@@ -6,10 +6,27 @@ import ActionTypes from './ActionTypes'
  */
 class UserActions {
 
+    /**
+     * Get unauth user.
+     * @param email Email of user.
+     */
     public static getUnauthUser = (email: string) => (
         Redux.asyncAction(
-            Request.get<any>('users', { email, limit: 1 }), // TODO: ISimpleUser[].
+            Request.get<IBaseUser>('users', { email, limit: 1 }), // TODO: ISimpleUser[].
             ActionTypes.GET_UNAUTH_USER
+        )
+    )
+
+
+    /**
+     * Login user.
+     * @param email Email of user.
+     * @param password Password of user.
+     */
+    public static login = (email: string, password: string) => (
+        Redux.asyncAction(
+            Request.post<IUserIdentity>('login', { email, password }),
+            ActionTypes.LOGIN
         )
     )
 
@@ -28,17 +45,6 @@ class UserActions {
             }).catch(error => {
                 dispatch({ type: ActionTypes.SIGN_UP_FAIL, error })
             })
-        }
-    )
-
-    /**
-     * Login user.
-     * @param email
-     * @param password
-     */
-    public static login = (email: string, password: string) => (
-        dispatch => {
-            // TODO: Login.
         }
     )
 

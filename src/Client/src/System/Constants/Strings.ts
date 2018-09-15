@@ -44,16 +44,18 @@ export default {
 
     identity: {
         title: 'Přihlašte se.',
-        email: 'Váš email',
+        email: 'Zadejte email',
         missingEmail: 'Zadejte email.',
         invalidEmail: 'Zadejte platný email.',
         submit: 'Další'
     },
 
     login: {
-        title: 'Přihlašte se.',
-        password: 'Vaše heslo',
-        button: 'Hotovo',
+        title: 'Vítejte.',
+        password: 'Zadejte heslo',
+        missingPassword: 'Zadejte heslo.',
+        invalidPassword: 'Zadejte správné heslo.',
+        submit: 'Hotovo',
         forgot: 'Zapomenuté heslo?'
     },
 

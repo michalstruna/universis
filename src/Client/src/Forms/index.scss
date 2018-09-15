@@ -1,6 +1,6 @@
 .form {
     box-sizing: border-box;
-    font-size: 120%;
+    font-size: 110%;
     display: block;
     overflow: hidden;
     padding: 1em;
@@ -61,7 +61,7 @@
 
     &__button {
         @include size(auto, 2rem, true);
-        @include title(130%, 900, 0.2em);
+        @include title(100%, 900, 0.2em);
         color: $lightest-color;
         float: right;
         padding: 0;

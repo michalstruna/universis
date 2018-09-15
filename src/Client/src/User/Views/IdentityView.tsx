@@ -18,7 +18,7 @@ class IdentityView extends View<IProps> {
         const { history, isLoggedIn } = this.props
 
         if (isLoggedIn) {
-            history.push(Urls.HOME)
+            history.replace(Urls.HOME)
         }
     }
 

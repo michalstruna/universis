@@ -65,7 +65,7 @@ class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues
 export default reduxForm({
     form: 'identity'
 })(IdentityForm.connect(
-    ({ form, system, user }: IStoreState) => ({
+    ({ system, user }: IStoreState) => ({
         strings: system.strings.identity,
         unauthUser: user.unauthUser
     }),
