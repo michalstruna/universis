@@ -33,8 +33,12 @@ class Url {
      * @param url
      * @return List of parts of path.
      */
-    private static parse(url: string): string[] {
-        return Url.trim(url).split(Url.SEPARATOR)
+    private static parse(url: string | Location): string[] {
+        if (typeof url === 'string') {
+            return Url.trim(url).split(Url.SEPARATOR)
+        } else {
+            return Url.trim(url.pathname).split(Url.SEPARATOR)
+        }
     }
 
     /**
@@ -42,7 +46,7 @@ class Url {
      * @param url
      * @return Page url.
      */
-    private static getPage(url: string): string {
+    public static getPage(url: string | Location): string {
         return Url.parse(url)[0]
     }
 
