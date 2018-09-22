@@ -1,5 +1,6 @@
-import { Redux } from '../../Utils'
+import { Cookies, Redux } from '../../Utils'
 
 export default Redux.createReducer({
-    unauthUser: {}
+    unauthUser: {},
+    identity: Cookies.getJson(Cookies.KEYS.IDENTITY) || null
 })

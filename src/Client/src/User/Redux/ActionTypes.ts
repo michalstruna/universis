@@ -9,7 +9,8 @@ enum ActionTypes {
     SIGN_UP_FAIL = 'SIGN_UP_FAIL',
 
     GET_UNAUTH_USER = 'unauthUser',
-    LOGIN = 'identity'
+    LOGIN = 'identity',
+    LOGOUT = 'identity'
 
 }
 

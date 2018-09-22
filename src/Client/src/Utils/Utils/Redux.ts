@@ -11,16 +11,33 @@ class Redux {
      * Process redux action.
      * @param request Async request to API.
      * @param type Type of action. There is no suffix like _SENT, _SUCCESS or _FAIL.
-     * @param map Map result in resolve request.. (optional)
+     * @param onSuccess Callback after success.
+     * @param onFail Callback after fail.
      * @return Runnable dispatch.
      */
-    public static asyncAction<T>(request: Promise<T>, type: string): IActionResult<T> {
+    public static asyncAction<T>(request: Promise<T>, type: string, onSuccess?: IConsumer<T>, onFail?: IConsumer<Error>): IActionResult<T> {
         return dispatch => {
             dispatch({ type, _async: true })
 
             return request
-                .then(payload => dispatch({ type, payload, _async: true }))
-                .catch(error => dispatch({ type, error, _async: true }))
+                .then(payload => {
+                    dispatch({ type, payload, _async: true })
+
+                    if (onSuccess) {
+                        onSuccess(payload)
+                    }
+
+                    return Promise.resolve(payload)
+                })
+                .catch(error => {
+                    dispatch({ type, error, _async: true })
+
+                    if (onFail) {
+                        onFail(error)
+                    }
+
+                    return Promise.reject(error)
+                })
         }
     }
 
@@ -56,6 +73,8 @@ class Redux {
         }
     }
 
+    // TODO: createReducer(actionTypes: string[], initialState: IStoreState = {}, specificReducer?: IReducer)
+
     /**
      * Apply redux action and modify store.
      * @param state Current state of store.
@@ -69,9 +88,19 @@ class Redux {
                 [action.type]: !state[action.type]
             }
         } else if ('_set' in action) {
-            return {
-                ...state,
-                [action.type]: action.value
+            if (typeof action.value === 'object') {
+                return {
+                    ...state,
+                    [action.type]: {
+                        ...state[action.type],
+                        ...action.value
+                    }
+                }
+            } else {
+                return {
+                    ...state,
+                    [action.type]: action.value
+                }
             }
         } else if ('_async' in action) {
             if (!state[action.type] || !state[action.type].isSent) {

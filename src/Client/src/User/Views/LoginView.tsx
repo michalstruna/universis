@@ -1,11 +1,11 @@
 import * as React from 'react'
 
 import LoginForm from '../Components/LoginForm'
-import { Urls, View } from '../../Utils'
+import { Url, View } from '../../Utils'
 
 interface IProps {
     unauthUser: IAsyncData<IBaseUser>
-    isLoggedIn: boolean
+    identity: IUserIdentity
 }
 
 /**
@@ -15,12 +15,12 @@ interface IProps {
 class LoginView extends View<IProps> {
 
     componentWillMount() {
-        const { unauthUser, history, isLoggedIn } = this.props
+        const { unauthUser, identity } = this.props
 
-        if (isLoggedIn) {
-            history.replace(Urls.HOME)
+        if (identity) {
+            Url.replace({ pathname: Url.URLS.HOME })
         } else if (!unauthUser.payload) {
-            history.replace(Urls.IDENTITY)
+            Url.replace({ pathname: Url.URLS.IDENTITY })
         }
     }
 
@@ -37,6 +37,6 @@ class LoginView extends View<IProps> {
 export default LoginView.connect(
     ({ user }: IStoreState) => ({
         unauthUser: user.unauthUser,
-        isLoggedIn: user.isLoggedIn
+        identity: user.identity
     })
 )

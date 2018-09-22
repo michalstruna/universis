@@ -1,4 +1,4 @@
-import { Api, Redux, Request } from '../../Utils'
+import { Api, Redux, Request, Url, Cookies } from '../../Utils'
 import ActionTypes from './ActionTypes'
 
 /**
@@ -12,8 +12,9 @@ class UserActions {
      */
     public static getUnauthUser = (email: string) => (
         Redux.asyncAction(
-            Request.get<IBaseUser>('users', { email, limit: 1 }), // TODO: ISimpleUser[].
-            ActionTypes.GET_UNAUTH_USER
+            Request.get<IBaseUser[]>('users', { email, limit: 1 }).then(Request.unwind),
+            ActionTypes.GET_UNAUTH_USER,
+            userIdentity => Url.push({ pathname: userIdentity ? Url.URLS.LOGIN : Url.URLS.SIGN_UP })
         )
     )
 
@@ -26,9 +27,23 @@ class UserActions {
     public static login = (email: string, password: string) => (
         Redux.asyncAction(
             Request.post<IUserIdentity>('login', { email, password }),
-            ActionTypes.LOGIN
+            ActionTypes.LOGIN,
+            identity => {
+                Cookies.set(Cookies.KEYS.IDENTITY, identity, Cookies.EXPIRATIONS.IDENTITY)
+                Url.push({ pathname: Url.URLS.HOME })
+            }
         )
     )
+
+    /**
+     * Logout user.
+     */
+    public static logout = () => {
+        Cookies.remove(Cookies.KEYS.IDENTITY)
+        Url.push({ pathname: Url.URLS.LOGIN })
+
+        return { type: ActionTypes.LOGOUT, _set: { identity: null } }
+    }
 
     /**
      * Register new user.

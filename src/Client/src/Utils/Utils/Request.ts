@@ -91,6 +91,15 @@ class Request {
     }
 
     /**
+     * Unwind first item from array.
+     * @param data Any array data.
+     * @returns Promise with first item of array.
+     */
+    public static unwind<T>(data: T[]): Promise<T> {
+        return new Promise(resolve => (resolve(data[0])))
+    }
+
+    /**
      * Process Axios promise and convert it to promise.
      * @param request Request Axios promise.
      * @returns Promise.

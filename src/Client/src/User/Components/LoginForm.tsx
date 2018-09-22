@@ -4,16 +4,15 @@ import { reduxForm, InjectedFormProps, SubmissionError } from 'redux-form'
 import UserActions from '../Redux/UserActions'
 import UserInfo from './UserInfo'
 import { StatelessComponent, Url, Link } from '../../Utils'
-import { PasswordField, Form, Submit, Title } from '../../Forms'
+import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
 
 interface IProps {
     strings: IStrings
-    login: IFunction<string, Promise<IAsyncData<IUserIdentity>>>
+    login: IFunction2<string, string, Promise<IAsyncData<IUserIdentity>>>
     unauthUser: IAsyncData<IBaseUser>
 }
 
 interface IValues {
-    email: string
     password: string
 }
 
@@ -28,13 +27,12 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { strings, login, history, location } = this.props
-        const identity = await login(data.email)
+        const { strings, login, unauthUser } = this.props
 
-        if (identity.error) {
-            throw new SubmissionError({ email: strings.invalidEmail })
-        } else {
-            history.push(Url.link(location, { pathname: Url.URLS.HOME }))
+        try {
+            await login(unauthUser.payload.email, data.password)
+        } catch (error) {
+            throw new SubmissionError({ password: strings.invalidPassword })
         }
     }
 
@@ -55,9 +53,11 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}
                     name='password' />
-                <Link target={Link.URLS.FORGOT_PASSWORD}>
-                    {strings.forgotPassword}
-                </Link>
+                <Back
+                    className='form__button form__button--back'
+                    to={Link.URLS.IDENTITY}>
+                    {strings.back}
+                </Back>
                 <Submit>
                     {strings.submit}
                 </Submit>

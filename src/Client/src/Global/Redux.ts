@@ -28,7 +28,7 @@ declare interface ISetAction {
 /**
  * Type for async action result.
  */
-declare type IActionResult<T> = IFunction<IConsumer<IAsyncAction<T>>, Promise<void>>
+declare type IActionResult<T> = IFunction<IConsumer<IAsyncAction<T>>, Promise<T>>
 
 /**
  * Type for reducer entity (isSent, payload, fail).
@@ -57,4 +57,21 @@ declare interface IAsyncData<T> {
     payload: T
     isSent: boolean
     error: number
+}
+
+/**
+ * Interface for router location.
+ */
+declare interface ILocation {
+    hash: string
+    pathname: string
+    search: string
+}
+
+/**
+ * Interface for location target.
+ */
+declare interface ILocationTarget {
+    pathname?: string
+    query?: IObject<string>
 }

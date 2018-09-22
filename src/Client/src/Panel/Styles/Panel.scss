@@ -3,7 +3,7 @@
     @include size(#{$panel-width}, 100vh);
     background-color: $bottom-layer-color;
     left: -$panel-width;
-    transition: left $medium-animation-duration;
+    transition: left $medium-animation-duration, opacity $medium-animation-duration;
     z-index: 1000;
 
     &--visible {

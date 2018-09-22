@@ -13,7 +13,7 @@ class SystemActions {
      */
     static openFullScreen = () => {
         request()
-        return { type: ActionTypes.OPEN_FULL_SCREEN }
+        return Redux.setAction(ActionTypes.SET_FULL_SCREEN, true)
     }
 
     /**
@@ -21,7 +21,7 @@ class SystemActions {
      */
     static exitFullScreen = () => {
         exit()
-        return { type: ActionTypes.EXIT_FULL_SCREEN }
+        return Redux.setAction(ActionTypes.SET_FULL_SCREEN, false)
     }
 
     /**
@@ -29,18 +29,22 @@ class SystemActions {
      * @param x Horizontal coordination.
      * @param y Vertical coordination.
      */
-    static showContextMenu = (x: number, y: number) => ({
-        type: ActionTypes.SHOW_CONTEXT_MENU,
-        x,
-        y
-    })
+    static showContextMenu = (x: number, y: number) => (
+        Redux.setAction(
+            ActionTypes.SET_CONTEXT_MENU,
+            { isVisible: true, x, y }
+        )
+    )
 
     /**
      * Hide context menu.
      */
-    static hideContextMenu = () => ({
-        type: ActionTypes.HIDE_CONTEXT_MENU
-    })
+    static hideContextMenu = () => (
+        Redux.setAction(
+            ActionTypes.SET_CONTEXT_MENU,
+            { isVisible: false }
+        )
+    )
 
     /**
      * Show alert window.
@@ -48,19 +52,22 @@ class SystemActions {
      * @param content Message of alert.
      * @param buttons List of all buttons.
      */
-    static showAlert = (title: string, content: string, buttons: ILinkButton[]) => ({
-        type: ActionTypes.SHOW_ALERT,
-        title,
-        content,
-        buttons
-    })
+    static showAlert = (title: string, content: string, buttons: ILinkButton[]) => (
+        Redux.setAction(
+            ActionTypes.SET_ALERT,
+            { isVisible: true, title, content, buttons }
+        )
+    )
 
     /**
      * Hide alert window.
      */
-    static hideAlert = () => ({
-        type: ActionTypes.HIDE_ALERT
-    })
+    static hideAlert = () => (
+        Redux.setAction(
+            ActionTypes.SET_ALERT,
+            { isVisible: false }
+        )
+    )
 
     /**
      * Toggle UI.

@@ -11,8 +11,10 @@
     }
 
     &__title {
-        @include title(160%, 100, 0.2em);
+        font-size: 130%;
+        letter-spacing: 0.15em;
         padding-bottom: 2em;
+        text-align: center;
     }
 
     &__note {
@@ -71,6 +73,7 @@
 
         &__text, &__icon {
             display: inline-block;
+            font-weight: bold !important;
             transition: transform $medium-animation-duration;
         }
 
@@ -90,6 +93,28 @@
                 &__icon {
                     transform: scale(1.1) translateX(0.2em) translateZ(0);
                 }
+            }
+        }
+
+        &--back {
+            float: left;
+
+            &:hover {
+                .form__button {
+                    &__text {
+                        transform: translateX(0.2em) translateZ(0);
+                    }
+
+                    &__icon {
+                        transform: scale(1.1) translateX(-0.2em) translateZ(0);
+                    }
+                }
+            }
+
+            .form__button__icon {
+                @include svg(Forms/Back, 100%);
+                margin-left: 0;
+                margin-right: 0.5rem;
             }
         }
     }
@@ -120,7 +145,7 @@
         cursor: wait;
         pointer-events: none;
 
-        & > label, & > section, & > button, & > legend {
+        & > label, & > section, & > button, & > legend, & > a {
             opacity: 0.1;
         }
 
