@@ -8,7 +8,7 @@ import { StatelessComponent } from '../../Utils'
 export interface IProps {
     isUIVisible: boolean,
     strings: IStrings,
-    toggleUI: IRunnable
+    toggleUI: IConsumer<boolean>
 }
 
 /**
@@ -22,7 +22,7 @@ class UIControl extends StatelessComponent<IProps> {
         return (
             <Control
                 isVisible={true}
-                onClick={toggleUI}
+                onClick={() => toggleUI(!isUIVisible)}
                 name={isUIVisible ? 'hide-ui' : 'show-ui'}
                 label={isUIVisible ? strings.hideUI : strings.showUI} />
         )
@@ -33,5 +33,5 @@ export default UIControl.connect(({ system }: IStoreState) => ({
     isUIVisible: system.isUIVisible,
     strings: system.strings.controls
 }), (dispatch: IDispatch) => ({
-    toggleUI: () => dispatch(SystemActions.toggleUI()),
+    toggleUI: isUIVisible => dispatch(SystemActions.toggleUI(isUIVisible)),
 }))

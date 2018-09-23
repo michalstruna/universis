@@ -114,7 +114,7 @@ class Panel extends StatelessComponent<IProps> {
 export default Panel.connect(
     ({ system, panel }: IStoreState) => ({
         strings: system.strings.home,
-        tab: panel.panelTab
+        tab: panel.tab
     }),
     (dispatch: IDispatch) => ({
         setTab: (tab: string) => dispatch(PanelActions.setTab(tab))

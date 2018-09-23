@@ -1,7 +1,9 @@
 import { Redux } from '../../Utils'
 import Strings from '../Constants/Strings'
+import ActionTypes from './ActionTypes'
 
 export default Redux.createReducer(
+    Object.values(ActionTypes),
     {
         alert: {
             isVisible: false,

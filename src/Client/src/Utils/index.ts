@@ -37,7 +37,6 @@ export {
 /**
  * Utils.
  */
-import Api from './Utils/Api'
 import Cookies from './Utils/Cookies'
 import Event from './Utils/Event'
 import Redux from './Utils/Redux'
@@ -46,7 +45,6 @@ import Url from './Utils/Url'
 import Numbers from './Utils/Numbers'
 
 export {
-    Api,
     Cookies,
     Event,
     Redux,

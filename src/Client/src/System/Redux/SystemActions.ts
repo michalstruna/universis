@@ -9,70 +9,58 @@ import { Redux } from '../../Utils'
 class SystemActions {
 
     /**
-     * Open full screen.
+     * Toggle full screen.
+     * @param isFullScreen
      */
-    static openFullScreen = () => {
-        request()
-        return Redux.setAction(ActionTypes.SET_FULL_SCREEN, true)
-    }
-
-    /**
-     * Exit full screen.
-     */
-    static exitFullScreen = () => {
-        exit()
-        return Redux.setAction(ActionTypes.SET_FULL_SCREEN, false)
-    }
+    public static toggleFullScreen = (isFullScreen: boolean) => (
+        Redux.toggleAction(
+            ActionTypes.TOGGLE_FULL_SCREEN,
+            { isFullScreen },
+            undefined,
+            () => isFullScreen ? request() : exit()
+        )
+    )
 
     /**
      * Show context menu.
      * @param x Horizontal coordination.
      * @param y Vertical coordination.
      */
-    static showContextMenu = (x: number, y: number) => (
+    public static showContextMenu = (x: number, y: number) => (
         Redux.setAction(
             ActionTypes.SET_CONTEXT_MENU,
-            { isVisible: true, x, y }
+            { contextMenu: { isVisible: true, x, y } }
         )
     )
 
     /**
      * Hide context menu.
      */
-    static hideContextMenu = () => (
+    public static hideContextMenu = () => (
         Redux.setAction(
             ActionTypes.SET_CONTEXT_MENU,
-            { isVisible: false }
+            { contextMenu: { isVisible: false } }
         )
     )
 
     /**
-     * Show alert window.
+     * Toggle alert window.
+     * @param isAlertVisible
      * @param title Title of alert.
      * @param content Message of alert.
      * @param buttons List of all buttons.
      */
-    static showAlert = (title: string, content: string, buttons: ILinkButton[]) => (
-        Redux.setAction(
-            ActionTypes.SET_ALERT,
-            { isVisible: true, title, content, buttons }
-        )
-    )
-
-    /**
-     * Hide alert window.
-     */
-    static hideAlert = () => (
-        Redux.setAction(
-            ActionTypes.SET_ALERT,
-            { isVisible: false }
+    public static toggleAlert = (isAlertVisible: boolean, title?: string, content?: string, buttons?: ILinkButton[]) => (
+        Redux.toggleAction(
+            ActionTypes.TOGGLE_ALERT,
+            { isAlertVisible, alert: { title, content, buttons } }
         )
     )
 
     /**
      * Toggle UI.
      */
-    static toggleUI = () => Redux.toggleAction(ActionTypes.TOGGLE_UI)
+    public static toggleUI = (isUIVisible: boolean) => Redux.toggleAction(ActionTypes.TOGGLE_UI, { isUIVisible })
 
 }
 

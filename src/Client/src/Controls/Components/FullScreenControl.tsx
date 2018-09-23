@@ -6,9 +6,8 @@ import { StatelessComponent } from '../../Utils'
 
 
 export interface IProps {
-    exitFullScreen: IRunnable,
-    isFullScreen: boolean,
-    openFullScreen: IRunnable,
+    toggleFullScreen: IConsumer<boolean>
+    isFullScreen: boolean
     strings: IStrings
 }
 
@@ -17,24 +16,15 @@ export interface IProps {
  */
 class FullScreenControl extends StatelessComponent<IProps> {
 
-    /**
-     * After click, toggle full screen.
-     */
-    private handleClick = (event: React.MouseEvent<HTMLElement>): void => {
-        if (this.props.isFullScreen) {
-            this.props.exitFullScreen()
-        } else {
-            this.props.openFullScreen()
-        }
-    }
-
     public render(): JSX.Element {
+        const { toggleFullScreen, isFullScreen, strings } = this.props
+
         return (
             <Control
                 isVisible={true}
-                onClick={this.handleClick}
-                name={this.props.isFullScreen ? 'minimize' : 'maximalize'}
-                label={this.props.isFullScreen ? this.props.strings.minimize : this.props.strings.maximize} />
+                onClick={() => toggleFullScreen(!isFullScreen)}
+                name={isFullScreen ? 'minimize' : 'maximalize'}
+                label={isFullScreen ? strings.minimize : strings.maximize} />
         )
     }
 }
@@ -43,6 +33,5 @@ export default FullScreenControl.connect(({ system }: IStoreState) => ({
     isFullScreen: system.isFullScreen,
     strings: system.strings.controls
 }), (dispatch: IDispatch) => ({
-    exitFullScreen: () => dispatch(SystemActions.exitFullScreen()),
-    openFullScreen: () => dispatch(SystemActions.openFullScreen())
+    toggleFullScreen: (isFullScreen: boolean) => dispatch(SystemActions.toggleFullScreen(isFullScreen))
 }))

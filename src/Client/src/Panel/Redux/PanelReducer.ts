@@ -1,5 +1,9 @@
+import ActionTypes from './ActionTypes'
 import { Redux, Queries, Url } from '../../Utils'
 
-export default Redux.createReducer({
-    panelTab: Url.getQuery(window.location.search, Queries.PANEL) || Queries.OVERVIEW
-})
+export default Redux.createReducer(
+    Object.values(ActionTypes),
+    {
+        tab: Url.getQuery(window.location.search, Queries.PANEL) || Queries.OVERVIEW
+    }
+)
