@@ -11,8 +11,8 @@ class UniverseActions {
      */
     public static getBodies = () => (
         Redux.asyncAction(
-            Request.get(`bodies`, { sort: '_id' }),
-            ActionTypes.GET_BODIES
+            ActionTypes.GET_BODIES,
+            { bodies: Request.get(`bodies`, { sort: '_id' }) }
         )
     )
 
@@ -22,8 +22,8 @@ class UniverseActions {
      */
     public static getBody = (bodyId: string) => (
         Redux.asyncAction(
-            Request.get<IBody>(`bodies/${bodyId}`),
-            ActionTypes.GET_BODY
+            ActionTypes.GET_BODY,
+            { body: Request.get<IBody>(`bodies/${bodyId}`) }
         )
     )
 
@@ -31,9 +31,9 @@ class UniverseActions {
      * Change view size of camera.
      * @param viewSize New view size.
      */
-    public static changeViewSize = (viewSize: number) => ({
-        type: ActionTypes.CHANGE_VIEW_SIZE, viewSize
-    })
+    public static changeViewSize = (viewSize: number) => (
+        Redux.setAction(ActionTypes.CHANGE_VIEW_SIZE, { viewSize })
+    )
 
 }
 

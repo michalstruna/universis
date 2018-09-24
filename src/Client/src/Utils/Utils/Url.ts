@@ -1,4 +1,5 @@
 import Urls from '../Constants/Urls'
+import { history } from '../../index'
 
 /**
  * Utils for url.
@@ -145,7 +146,7 @@ class Url {
      * @param target Object with optional pathname and query parameters.
      * @returns New location.
      */
-    public static link(location: Location, target: { pathname?: string, query?: { [key: string]: string } }): string {
+    public static link(location: ILocation, target: ILocationTarget): string {
         const pathname = target.pathname || location.pathname
         let query = location.search || ''
 
@@ -156,6 +157,23 @@ class Url {
         }
 
         return pathname + query
+    }
+
+    /**
+     * Push new location to history.
+     * @param target New location.
+     */
+    public static push(target: ILocationTarget): void {
+        history.push(Url.link(history.location, target))
+    }
+
+
+    /**
+     * Replace last location to new location in history.
+     * @param target New location.
+     */
+    public static replace(target: ILocationTarget): void {
+        history.replace(Url.link(history.location, target))
     }
 
 }

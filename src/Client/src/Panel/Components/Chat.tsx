@@ -61,10 +61,10 @@ class Chat extends SimpleComponent {
                         Veřejný
                     </button>
                     <button className='panel__chat__menu__button'>
-                        cygne14
+                        user1
                     </button>
                     <button className='panel__chat__menu__button'>
-                        matejmik
+                        user2
                     </button>
                 </section>
             </section>

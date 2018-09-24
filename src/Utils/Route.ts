@@ -21,7 +21,9 @@ class Route {
                     } else {
                         response.status(OK).send(resultMap(typeof result === 'number' ? result.toString() : result))
                     }
-                }).catch(error => response.sendStatus(error))
+                }).catch(error => {
+                    response.sendStatus(error)
+            })
         )
     }
 

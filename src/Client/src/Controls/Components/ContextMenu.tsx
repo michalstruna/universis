@@ -76,10 +76,10 @@ class ContextMenu extends StatelessComponent<IProps> {
 }
 
 export default ContextMenu.connect(
-    ({ system: { context } }: IStoreState) => ({
-        isVisible: context.isVisible,
-        x: context.x,
-        y: context.y
+    ({ system: { contextMenu } }: IStoreState) => ({
+        isVisible: contextMenu.isVisible,
+        x: contextMenu.x,
+        y: contextMenu.y
     }),
     (dispatch: IDispatch) => ({
         show: (x: number, y: number) => dispatch(SystemActions.showContextMenu(x, y))

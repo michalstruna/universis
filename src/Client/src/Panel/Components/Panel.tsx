@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { StatelessComponent, UILayout, Link, Url, Queries } from '../../Utils'
+import { StatelessComponent, UILayout, Link, Url, Queries, BlurLayout } from '../../Utils'
 import Chat from './Chat'
 import Overview from './Overview'
 import People from './People'
@@ -95,7 +95,9 @@ class Panel extends StatelessComponent<IProps> {
 
     public render(): JSX.Element {
         return (
-            <section className='panel'>
+            <BlurLayout
+                className='panel'
+                visibleAlert>
                 <section className='panel--inner'>
                     <section className='panel__tabs'>
                         {this.renderTabs()}
@@ -103,7 +105,7 @@ class Panel extends StatelessComponent<IProps> {
                     {this.renderContent()}
                 </section>
                 {this.renderToggle()}
-            </section>
+            </BlurLayout>
         )
     }
 
@@ -112,7 +114,7 @@ class Panel extends StatelessComponent<IProps> {
 export default Panel.connect(
     ({ system, panel }: IStoreState) => ({
         strings: system.strings.home,
-        tab: panel.panelTab
+        tab: panel.tab
     }),
     (dispatch: IDispatch) => ({
         setTab: (tab: string) => dispatch(PanelActions.setTab(tab))

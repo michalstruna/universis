@@ -1,12 +1,6 @@
 .control {
     cursor: pointer;
 
-    @each $item in (logout, language) {
-        &--#{$item} {
-            @include svg(#{$item}, controls);
-        }
-    }
-
     &--help {
         @include svg(Controls/Help);
     }
@@ -17,6 +11,10 @@
 
     &--login {
         @include svg(Controls/Login);
+    }
+
+    &--logout {
+        @include svg(Controls/Logout);
     }
 
     &--maximalize {

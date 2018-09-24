@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import { Urls, View } from '../../Utils'
+import { Url, View } from '../../Utils'
 import { IdentityForm } from '../../User'
 
 interface IProps {
-    isLoggedIn: boolean
+    identity: IUserIdentity
 }
 
 /**
@@ -15,10 +15,8 @@ class IdentityView extends View<IProps> {
 
 
     componentWillMount() {
-        const { history, isLoggedIn } = this.props
-
-        if (isLoggedIn) {
-            history.replace(Urls.HOME)
+        if (this.props.identity) {
+            Url.replace({ pathname: Url.URLS.HOME})
         }
     }
 
@@ -34,6 +32,6 @@ class IdentityView extends View<IProps> {
 
 export default IdentityView.connect(
     ({ user }: IStoreState) => ({
-        isLoggedIn: user.isLoggedIn
+        identity: user.identity
     })
 )

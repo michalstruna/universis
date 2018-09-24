@@ -25,16 +25,8 @@ class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues
      * Get user by email. If exists, redirect to login, else to sign up.
      * @param data
      */
-    private handleSubmit = async (data: IValues) => {
-        const { strings, getUnauthUser, history, location } = this.props
-        const unauthUser = await getUnauthUser(data.email)
-
-        if (unauthUser.error) {
-            throw new SubmissionError({ email: strings.invalidEmail })
-        } else {
-            const pathname = unauthUser.payload ? Url.URLS.LOGIN : Url.URLS.SIGN_UP
-            history.push(Url.link(location, { pathname }))
-        }
+    private handleSubmit = (data: IValues) => {
+        this.props.getUnauthUser(data.email)
     }
 
     public render(): JSX.Element {
