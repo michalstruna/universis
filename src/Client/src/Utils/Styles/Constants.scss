@@ -10,8 +10,12 @@ $light-color: #aaa;
 $medium-color: #666;
 $dark-color: #333;
 $darkest-color: #111;
-$semitransparent-medium-color: rgba(60, 60, 60, 0.5);
+$semitransparent-medium-color: rgba(55, 55, 55, 0.6);
 $semitransparent-dark-color: rgba(0, 0, 0, 0.5);
+$bottom-layer-color: rgba(51, 51, 51, 0.1);
+$top-layer-color: rgba(51, 51, 51, 0.5);
+$red-color: #f44;
+$green-color: #0f0;
 
 /**
  * Colors for gradient background.
@@ -25,3 +29,8 @@ $background-bottom-color: #111;
 $fast-animation-duration: 0.2s;
 $medium-animation-duration: 0.5s;
 $slow-animation-duration: 1s;
+
+/**
+ * Size units.
+ */
+$panel-width: 33rem;

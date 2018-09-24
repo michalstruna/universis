@@ -1,3 +1,5 @@
+import Route from './Utils/Route'
+
 export default {
     'openapi': '3.0.0',
     'info': {
@@ -16,131 +18,7 @@ export default {
         }
     ],
     'paths': {
-        '/bodies': {
-            'get': {
-                'tags': ['Bodies'],
-                'summary': 'Get all bodies.',
-                'description': 'Get basic objects of all bodies.',
-                'parameters': [
-                    {
-                        'in': 'query',
-                        'name': 'limit',
-                        'schema': {
-                            'type': 'number',
-                            'example': 7
-                        },
-                        'description': 'Max count of bodies.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'offset',
-                        'schema': {
-                            'type': 'number',
-                            'example': 353
-                        },
-                        'description': 'Index of first body.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'criterion',
-                        'schema': {
-                            'type': 'string',
-                            'example': 'diameter',
-                            'enum': ['name', 'diameter']
-                        },
-                        'description': 'Order criterion. Default is name.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'order',
-                        'schema': {
-                            'type': 'string',
-                            'example': 'desc',
-                            'enum': ['asc', 'desc']
-                        },
-                        'description': 'Order of bodies. Default is asc. Desc is reverse order.'
-                    },
-                ],
-                'responses': {
-                    '200': {
-                        'description': 'Get bodies is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'array',
-                                    'items': {
-                                        '$ref': '#/components/schemas/SimpleBody'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            'post': {
-                'tags': ['Bodies'],
-                'summary': 'Create new body.',
-                'description': 'Create new body and return ID of created body.',
-                'requestBody': {
-                    'content': {
-                        'application/json': {
-                            'schema': {
-                                '$ref': '#/components/schemas/NewBody'
-                            }
-                        }
-                    }
-                },
-                'responses': {
-                    '200': {
-                        'description': 'Body was successful created.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'object',
-                                    'properties': {
-                                        '_id': {
-                                            '$ref': '#/components/schemas/Id'
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    '400': {
-                        'description': 'Invalid values.'
-                    },
-                    '409': {
-                        'description': 'Body with this name already exists.'
-                    }
-                }
-            },
-            'delete': {
-                'tags': ['Bodies'],
-                'summary': 'Delete all bodies.',
-                'description': 'Delete all bodies and return count of deleted bodies.',
-                'responses': {
-                    '200': {
-                        'description': 'Bodies was successful deleted.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'object',
-                                    'properties': {
-                                        'count': {
-                                            'type': 'number',
-                                            'example': 7
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'There is no body to remove.'
-                    }
-                }
-            }
-        },
+        '/bodies': Route.getSwaggerRouteGroupForAll(['Bodies'], 'SimpleBody', 'NewBody'),
         '/bodies/{bodyId}': {
             'parameters': [
                 {
@@ -249,171 +127,61 @@ export default {
                 }
             }
         },
-        '/bodies/{bodyId}/events': {
-            'get': {
-                'tags': ['Body events'],
-                'summary': 'Get all events of body.',
-                'description': 'Get all events of body.',
-                'responses': {
-                    '200': {
-                        'description': 'Succesful get events.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'array',
-                                    'items': {
-                                        '$ref': '#/components/schemas/BodyEvent'
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'Body with this ID not found.'
-                    }
-                }
-            },
-            'post': {
-                'tags': ['Body events'],
-                'summary': 'Add event to body.',
-                'description': 'Add event to body',
-                'requestBody': {
-                    'content': {
-                        'application/json': {
-                            'schema': {
-                                '$ref': '#/components/schemas/NewBodyEvent'
-                            }
-                        }
-                    }
-                },
-                'responses': {
-                    '200': {
-                        'description': 'Successful add event.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'object',
-                                    'properties': {
-                                        '_id': {
-                                            '$ref': '#/components/schemas/Id'
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    '400': {
-                        'description': 'Invalid values.'
-                    },
-                    '404': {
-                        'description': 'Body with this ID not found.'
-                    }
-                }
-            },
-            'delete': {
-                'tags': ['Body events'],
-                'summary': 'Delete all events of body.',
-                'description': 'Delete all events of body',
-                'responses': {
-                    '204': {
-                        'description': 'Successful delete events.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'object',
-                                    'properties': {
-                                        'count': {
-                                            'type': 'number'
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'Body with this ID not found or there is no events for remove.'
-                    }
-                }
-            }
-        },
-        '/bodies/{bodyId}/events/{eventId}': {
-            'get': {
-                'tags': ['Body events'],
-                'summary': 'Get body event.',
-                'description': 'Get body event.',
-                'responses': {
-                    '200': {
-                        'description': 'Successful get event.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    '$ref': '#/components/schemas/BodyEvent'
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'Body or event with this ID not found.'
-                    }
-                }
-            },
-            'put': {
-                'tags': ['Body events'],
-                'summary': 'Edit event of body.',
-                'description': 'Edit event of body',
-                'responses': {
-                    '204': {
-                        'description': 'Successful edit event.'
-                    },
-                    '400': {
-                        'description': 'Invalid values.'
-                    },
-                    '404': {
-                        'description': 'Body or event with this ID not found.'
-                    }
-                }
-            },
-            'delete': {
-                'tags': ['Body events'],
-                'summary': 'Delete event of body.',
-                'description': 'Delete event of body',
-                'responses': {
-                    '204': {
-                        'description': 'Successful delete event.'
-                    },
-                    '404': {
-                        'description': 'Body or event with this ID not found.'
-                    }
-                }
-            }
-        },
-        '/bodies/{bodyId}/events/count': {
-            'get': {
-                'tags': ['Body events'],
-                'summary': 'Get body events count.',
-                'description': 'Get body events count.',
-                'responses': {
-                    '200': {
-                        'description': 'Successful get count.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'number'
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'Body with this ID not found.'
-                    }
-                }
-            }
-        },
         '/bodyTypes': {
             'get': {
                 'tags': ['Body types'],
                 'summary': 'Get all body types.',
                 'description': 'Get all body types.',
+                'parameters': [
+                    {
+                        'in': 'query',
+                        'name': 'limit',
+                        'schema': {
+                            'type': 'number',
+                            'example': 7
+                        },
+                        'description': 'Max count of body types.'
+                    },
+                    {
+                        'in': 'query',
+                        'name': 'offset',
+                        'schema': {
+                            'type': 'number',
+                            'example': 353
+                        },
+                        'description': 'Index of first body type.'
+                    },
+                    {
+                        'in': 'query',
+                        'name': 'sort',
+                        'schema': {
+                            'type': 'string',
+                            'example': '_id'
+                        },
+                        'description': 'Name of some property.'
+                    },
+                    {
+                        'in': 'query',
+                        'name': 'order',
+                        'schema': {
+                            'type': 'string',
+                            'example': 'desc',
+                            'enum': ['asc', 'desc']
+                        },
+                        'description': 'Order of body types. Default is asc. Desc is reverse order.'
+                    },
+                    {
+                        'in': 'query',
+                        'name': 'params',
+                        'schema': {
+                            'type': 'object',
+                            'additionalProperties': {
+                                'type': 'string'
+                            }
+                        },
+                        'description': 'Filter bodies by its any property.'
+                    }
+                ],
                 'responses': {
                     '200': {
                         'description': 'Get body types is successful.',
@@ -571,6 +339,139 @@ export default {
                             }
                         }
                     },
+                }
+            }
+        },
+        '/users': Route.getSwaggerRouteGroupForAll(['Users'], 'SimpleUser', 'NewUser'),
+        '/users/{userId}': {
+            'parameters': [
+                {
+                    'in': 'path',
+                    'name': 'userId',
+                    'required': true,
+                    'schema': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'description': 'Unique identifier of user.'
+                }
+            ],
+            'get': {
+                'tags': ['Users'],
+                'summary': 'Get user by ID.',
+                'description': 'Get user by ID.',
+                'responses': {
+                    '200': {
+                        'description': 'Get user is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    '$ref': '#/components/schemas/User'
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'User with ID was not found.'
+                    }
+                }
+            },
+            'put': {
+                'tags': ['Users'],
+                'summary': 'Update already existing user.',
+                'description': 'Update already existing user.',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                '$ref': '#/components/schemas/NewUser'
+                            }
+                        }
+                    }
+                },
+                'responses': {
+                    '204': {
+                        'description': 'User was successful updated.'
+                    },
+                    '400': {
+                        'description': 'Invalid values.'
+                    },
+                    '404': {
+                        'description': 'User with ID was not found.'
+                    },
+                    '409': {
+                        'description': 'User with this email already exists.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Users'],
+                'summary': 'Delete user by ID.',
+                'description': 'Delete user by ID.',
+                'responses': {
+                    '204': {
+                        'description': 'User was successful deleted.'
+                    },
+                    '400': {
+                        'description': 'User cannot be deleted, because of existing dependents.'
+                    },
+                    '404': {
+                        'description': 'User with ID was not found.'
+                    }
+                }
+            }
+        },
+        '/users/count': {
+            'get': {
+                'tags': ['Users'],
+                'summary': 'Get count of all users.',
+                'description': 'Get count of all users.',
+                'responses': {
+                    '200': {
+                        'description': 'Get users count is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    },
+                }
+            }
+        },
+        '/login': {
+            'post': {
+                'tags': ['Users'],
+                'summary': 'Login user with credentials.',
+                'description': 'Login user with credentials.',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                'type': 'object',
+                                'properties': {
+                                    'email': {
+                                        'type': 'string'
+                                    },
+                                    'password': {
+                                        'type': 'string'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'responses': {
+                    '200': {
+                        'description': 'Successful login.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    '$ref': '#/components/schemas/UserIdentity'
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -780,6 +681,87 @@ export default {
                     },
                     {
                         '$ref': '#/components/schemas/NewBodyEvent'
+                    }
+                ]
+            },
+            'SimpleUser': {
+                'type': 'object',
+                'properties': {
+                    '_id': {
+                        '$ref': '#components/schemas/Id'
+                    },
+                    'email': {
+                        'type': 'string',
+                        'example': 'universis@gmail.com'
+                    },
+                    'password': {
+                        'type': 'string',
+                        'example': 'p4SSw0r!d'
+                    },
+                    'avatar': {
+                        'type': 'string',
+                        'example': 'https://avatar.com'
+                    },
+                    'name': {
+                        'type': 'string',
+                        'example': 'Universis'
+                    }
+                }
+            },
+            'NewUser': {
+                'type': 'object',
+                'properties': {
+                    'email': {
+                        'type': 'string',
+                        'example': 'universis@gmail.com'
+                    },
+                    'password': {
+                        'type': 'string',
+                        'example': 'p4SSw0r!d'
+                    },
+                    'avatar': {
+                        'type': 'string',
+                        'example': 'https://avatar.com'
+                    },
+                    'name': {
+                        'type': 'string',
+                        'example': 'Universis'
+                    }
+                }
+            },
+            'User': {
+                'type': 'object',
+                'properties': {
+                    '_id': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'email': {
+                        'type': 'string',
+                        'example': 'universis@gmail.com'
+                    },
+                    'avatar': {
+                        'type': 'string',
+                        'example': 'https://avatar.com'
+                    },
+                    'name': {
+                        'type': 'string',
+                        'example': 'Universis'
+                    }
+                }
+            },
+            'UserIdentity': {
+                'allOf': [
+                    {
+                        '$ref': '#/components/schemas/User'
+                    },
+                    {
+                        'type': 'object',
+                        'properties': {
+                            'token': {
+                                'type': 'string',
+                                'example': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjlkN2M0NzUyODgyOTJkNjQ2OWEwYmYiLCJpYXQiOjE1MzcwNDc5NTcsImV4cCI6MTUzNzA0OTc1N30.cGTu3XyU3bstQpkC32GAXDBgr3dFjIIVyJ4-Ocm2tXQ'
+                            }
+                        }
                     }
                 ]
             }

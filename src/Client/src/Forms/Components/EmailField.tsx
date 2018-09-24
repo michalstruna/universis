@@ -1,23 +1,38 @@
 import * as React from 'react'
 
-import FieldInput, { IFieldInputProps } from './Field'
+import Field, { ICustomFieldProps } from './Field'
 import Strings from '../../../../Utils/Strings'
 import { StatelessComponent } from '../../Utils'
 
 /**
  * Component for rendering email input in form.
  */
-class EmailInput extends StatelessComponent<IFieldInputProps> {
+class EmailField extends StatelessComponent<ICustomFieldProps> {
+
+    private validate = value => {
+        const { validate, required, invalid } = this.props
+
+        if (validate) {
+            return validate(value)
+        } else if (required && !value) {
+            return required
+        } else if (!Strings.isEmail(value)) {
+            return invalid
+        }
+    }
 
     public render(): JSX.Element {
+        const { name, label } = this.props
+
         return (
-            <FieldInput
-                { ...this.props}
+            <Field
+                name={name}
+                label={label}
                 type='email'
-                pattern={Strings.EMAIL_PATTERN}  />
+                validate={this.validate} />
         )
     }
 
 }
 
-export default EmailInput
+export default EmailField

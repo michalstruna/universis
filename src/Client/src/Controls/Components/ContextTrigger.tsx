@@ -54,11 +54,11 @@ class ContextTrigger extends Component<IProps, IState> {
 }
 
 export default ContextTrigger.connect(
-    ({ system }: any) => ({
-        isContextVisible: system.context.isVisible
+    ({ system }: IStoreState) => ({
+        isContextVisible: system.contextMenu.isVisible
     }),
-    (dispatch: any) => ({
-        hideContext: () => dispatch(SystemActions.hideContext()),
-        showContext: (x: number, y: number) => dispatch(SystemActions.showContext(x, y))
+    (dispatch: IDispatch) => ({
+        hideContext: () => dispatch(SystemActions.hideContextMenu()),
+        showContext: (x: number, y: number) => dispatch(SystemActions.showContextMenu(x, y))
     })
 )

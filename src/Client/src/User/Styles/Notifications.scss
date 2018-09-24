@@ -1,0 +1,68 @@
+.notifications {
+
+    &__front, &__back {
+        align-items: center;
+        backface-visibility: hidden;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+        transition: transform $medium-animation-duration;
+    }
+
+    &__front {
+        min-height: 5rem;
+
+        &--inner {
+
+        }
+    }
+
+    &__back {
+        @include absolute-position;
+        @include size;
+        transform: rotateY(180deg);
+    }
+
+    &__notification {
+        box-sizing: border-box;
+        font-size: 90%;
+        margin: 0.3rem;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+        width: 10.25rem;
+
+        &--high {
+            & > section {
+                background-color: #443333;
+            }
+        }
+
+        &--normal {
+            & > section {
+                background-color: $dark-color;
+            }
+        }
+
+        &:hover {
+            .notifications {
+                &__front {
+                    transform: rotateY(180deg);
+                }
+
+                &__back {
+                    transform: rotateY(0);
+                }
+            }
+        }
+    }
+
+    &__age {
+        font-size: 90%;
+        position: absolute;
+        right: 0.5rem;
+        top: 0.5rem;
+    }
+
+}

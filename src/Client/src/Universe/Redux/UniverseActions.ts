@@ -1,4 +1,4 @@
-import { Api, Redux } from '../../Utils'
+import { Request, Redux } from '../../Utils'
 import ActionTypes from './ActionTypes'
 
 /**
@@ -10,7 +10,10 @@ class UniverseActions {
      * Get all bodies.
      */
     public static getBodies = () => (
-        Redux.asyncAction(Api.getBodies(), ActionTypes.GET_BODIES)
+        Redux.asyncAction(
+            ActionTypes.GET_BODIES,
+            { bodies: Request.get(`bodies`, { sort: '_id' }) }
+        )
     )
 
     /**
@@ -18,17 +21,22 @@ class UniverseActions {
      * @param bodyId ID of body.
      */
     public static getBody = (bodyId: string) => (
-        Redux.asyncAction(Api.getBody(bodyId), ActionTypes.GET_BODY)
+        Redux.asyncAction(
+            ActionTypes.GET_BODY,
+            { body: Request.get<IBody>(`bodies/${bodyId}`) }
+        )
     )
 
     /**
      * Change view size of camera.
      * @param viewSize New view size.
      */
-    public static changeViewSize = (viewSize: number) => ({
-        type: ActionTypes.CHANGE_VIEW_SIZE, viewSize
-    })
+    public static changeViewSize = (viewSize: number) => (
+        Redux.setAction(ActionTypes.CHANGE_VIEW_SIZE, { viewSize })
+    )
 
 }
 
 export default UniverseActions
+
+

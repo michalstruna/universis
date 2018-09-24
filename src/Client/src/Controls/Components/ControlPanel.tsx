@@ -5,21 +5,16 @@ import FullScreenControl from './FullScreenControl'
 import HelpControl from './HelpControl'
 import HomeControl from './HomeControl'
 import ViewSizeControl from './ViewSizeControl'
-import { FadeLayout, StatelessComponent } from '../../Utils'
-
-export interface IProps {
-    isUIVisible: boolean
-}
+import { UILayout, SimpleComponent } from '../../Utils'
 
 /**
  * Component for control panel.
  */
-class ControlPanel extends StatelessComponent<IProps> {
+class ControlPanel extends SimpleComponent {
 
     public render(): JSX.Element {
         return (
-            <FadeLayout
-                mounted={this.props.isUIVisible}
+            <UILayout
                 onClick={event => event.stopPropagation()}
                 className='control-panel'>
                 <FullScreenControl />
@@ -27,14 +22,10 @@ class ControlPanel extends StatelessComponent<IProps> {
                 <HomeControl />
                 <AuthenticationControl />
                 <ViewSizeControl />
-            </FadeLayout>
+            </UILayout>
         )
     }
 
 }
 
-export default ControlPanel.connect(
-    ({ system }: any) => ({
-        isUIVisible: system.isUIVisible
-    })
-)
+export default ControlPanel.connect()

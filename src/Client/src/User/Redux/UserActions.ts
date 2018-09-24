@@ -1,7 +1,5 @@
-import { Api } from '../../Utils'
-import ACTION_TYPES from './ActionTypes'
-import { AxiosPromise as Promise } from 'axios'
-import Axios from 'axios'
+import { Redux, Request, Url, Cookies } from '../../Utils'
+import ActionTypes from './ActionTypes'
 
 /**
  * Actions for users.
@@ -9,20 +7,45 @@ import Axios from 'axios'
 class UserActions {
 
     /**
-     * Get unauth user by email.
+     * Get unauth user.
      * @param email Email of user.
      */
-    public static getUnauthUserByEmail = (email: string) => (
-        dispatch => {
-            dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_SENT })
-
-            return Api.getUnauthUser(email).then(user => {
-                dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_SUCCESS, user })
-            }).catch(error => {
-                dispatch({ type: ACTION_TYPES.GET_UNAUTH_USER_FAIL, error })
-            })
-        }
+    public static getUnauthUser = (email: string) => (
+        Redux.asyncAction(
+            ActionTypes.GET_UNAUTH_USER,
+            { unauthUser: Request.get<IBaseUser[]>('users', { email, limit: 1 }).then(Request.unwind) },
+            userIdentity => Url.push({ pathname: userIdentity ? Url.URLS.LOGIN : Url.URLS.SIGN_UP })
+        )
     )
+
+    /**
+     * Login user.
+     * @param email Email of user.
+     * @param password Password of user.
+     */
+    public static login = (email: string, password: string) => (
+        Redux.asyncAction(
+            ActionTypes.LOGIN,
+            { identity: Request.post<IUserIdentity>('login', { email, password }) },
+            identity => {
+                Cookies.set(Cookies.KEYS.IDENTITY, identity, Cookies.EXPIRATIONS.IDENTITY)
+                Url.push({ pathname: Url.URLS.HOME })
+            }
+        )
+    )
+
+    /**
+     * Logout user.
+     */
+    public static logout = () => {
+        Cookies.remove(Cookies.KEYS.IDENTITY)
+
+        return Redux.setAction(
+            ActionTypes.LOGOUT,
+            { identity: null },
+            () => Url.push({ pathname: Url.URLS.LOGIN })
+        )
+    }
 
     /**
      * Register new user.
@@ -31,26 +54,10 @@ class UserActions {
      * @returns {(dispatch) => Promise<void>}
      */
     public static signUp = (email: string, password: string) => (
-        dispatch => {
-            dispatch({ type: ACTION_TYPES.SIGN_UP_SENT })
-
-            return Api.signUp(email, password).then(user => {
-                dispatch({ type: ACTION_TYPES.SIGN_UP_SUCCESS, user })
-            }).catch(error => {
-                dispatch({ type: ACTION_TYPES.SIGN_UP_FAIL, error })
-            })
-        }
-    )
-
-    /**
-     * Login user.
-     * @param email
-     * @param password
-     */
-    public static login = (email: string, password: string) => (
-        dispatch => {
-            // TODO: Login.
-        }
+        Redux.asyncAction(
+            ActionTypes.SIGN_UP,
+            { signUp: Request.post('users', { email, password }) }
+        )
     )
 
 }

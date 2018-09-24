@@ -1,4 +1,5 @@
 import Urls from '../Constants/Urls'
+import { history } from '../../index'
 
 /**
  * Utils for url.
@@ -33,8 +34,12 @@ class Url {
      * @param url
      * @return List of parts of path.
      */
-    private static parse(url: string): string[] {
-        return Url.trim(url).split(Url.SEPARATOR)
+    private static parse(url: string | Location): string[] {
+        if (typeof url === 'string') {
+            return Url.trim(url).split(Url.SEPARATOR)
+        } else {
+            return Url.trim(url.pathname).split(Url.SEPARATOR)
+        }
     }
 
     /**
@@ -42,7 +47,7 @@ class Url {
      * @param url
      * @return Page url.
      */
-    private static getPage(url: string): string {
+    public static getPage(url: string | Location): string {
         return Url.parse(url)[0]
     }
 
@@ -80,6 +85,95 @@ class Url {
      */
     public static isMainPage(url: string): boolean {
         return Url.equalsPage(Urls.HOME, url)
+    }
+
+    /**
+     * Get query parameter from query string.
+     * @param queryString Query string.
+     * @param key Name of parameter.
+     * @returns Value of parameter from query string.
+     */
+    public static getQuery(queryString: string, key: string): string {
+        const utils = new URLSearchParams(queryString)
+        return utils.get(key)
+    }
+
+    /**
+     * Remove query parameter from query string.
+     * @param queryString Query string.
+     * @param  key Name of parameter to remove.
+     * @returns New query string.
+     */
+    public static removeQuery(queryString: string, key: string): string {
+        const utils = new URLSearchParams(queryString)
+        utils.delete(key)
+        return utils.toString()
+    }
+
+    /**
+     * Add query parameter to query string.
+     * @param queryString Current query string.
+     * @param key Name of new parameter.
+     * @param  value Value of new parameter.
+     * @returns New query string.
+     */
+    public static setQuery(queryString: string, key: string, value: string): string {
+        const utils = new URLSearchParams(queryString)
+
+        if (value === null) {
+            utils.delete(key)
+        } else {
+            utils.set(key, value)
+        }
+
+        return utils.toString()
+    }
+
+    /**
+     * Check, if query parameter is in query string.
+     * @param queryString Query string.
+     * @param key Name of parameter.
+     * @returns Parameter is in query string.
+     */
+    public static hasQuery(queryString: string, key: string): boolean {
+        const utils = new URLSearchParams(queryString)
+        return utils.has(key)
+    }
+
+    /**
+     * Change current location.
+     * @param location Current location.
+     * @param target Object with optional pathname and query parameters.
+     * @returns New location.
+     */
+    public static link(location: ILocation, target: ILocationTarget): string {
+        const pathname = target.pathname || location.pathname
+        let query = location.search || ''
+
+        if (target.query) {
+            for (const key in target.query) {
+                query = Url.setQuery(query, key, target.query[key])
+            }
+        }
+
+        return pathname + query
+    }
+
+    /**
+     * Push new location to history.
+     * @param target New location.
+     */
+    public static push(target: ILocationTarget): void {
+        history.push(Url.link(history.location, target))
+    }
+
+
+    /**
+     * Replace last location to new location in history.
+     * @param target New location.
+     */
+    public static replace(target: ILocationTarget): void {
+        history.replace(Url.link(history.location, target))
     }
 
 }

@@ -1,0 +1,12 @@
+.context__info {
+
+    &--inner {
+        position: fixed;
+        z-index: 1000;
+    }
+
+    & > * {
+        margin: 0;
+    }
+
+}

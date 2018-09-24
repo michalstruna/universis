@@ -41,9 +41,9 @@ class AboutControl extends StatelessComponent<IProps> {
     }
 }
 
-export default AboutControl.connect(({ system }: any) => ({
+export default AboutControl.connect(({ system }: IStoreState) => ({
     strings: system.strings.controls,
     alert: system.strings.alert.about
-}), (dispatch: any) => ({
-    showAlert: (title: string, content: string, buttons: ILinkButton[]) => dispatch(SystemActions.showAlert(title, content, buttons))
+}), (dispatch: IDispatch) => ({
+    showAlert: (title: string, content: string, buttons: ILinkButton[]) => dispatch(SystemActions.toggleAlert(true, title, content, buttons))
 }))

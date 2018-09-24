@@ -3,11 +3,15 @@ import { NavLink } from 'react-router-dom'
 
 import StatelessComponent from './StatelessComponent'
 import Urls from '../Constants/Urls'
+import Url from '../Utils/Url'
+import Queries from '../Constants/Queries'
 
 interface IProps {
-    target: string,
-    className?: string,
+    target?: string
+    query?: { [name: string]: string }
+    className?: string
     onClick: IRunnable
+    style: { [property: string]: string | number }
 }
 
 /**
@@ -17,43 +21,48 @@ interface IProps {
 class Link extends StatelessComponent<IProps> {
 
     /**
-     * @var URLS List of all local urls.
+     * List of all urls.
      */
     public static URLS = Urls
 
     /**
-     * If link has some callback, run it.
-     * @param event Event.
-     * @param callback Callback.
+     * List of all query params.
      */
-    private handleClick = (event: React.MouseEvent<HTMLElement>, callback: IRunnable) => {
-        event.preventDefault()
-        callback()
+    public static QUERIES = Queries
+
+    private get search(): string {
+        const { query, location } = this.props
+
+        if (!query) {
+            return location.search
+        } else {
+            let newQuery = location.search
+
+            for (const queryParam in query) {
+                if(query[queryParam]) {
+                    newQuery = Url.setQuery(newQuery, queryParam, query[queryParam])
+                } else {
+                    newQuery = Url.removeQuery(newQuery, queryParam)
+                }
+            }
+
+            return newQuery
+        }
     }
 
     public render(): JSX.Element {
-        const { className, onClick, target } = this.props
+        const { className, target, style } = this.props
 
-        if (onClick) {
-            return (
-                <a
-                    className={className}
-                    onClick={event => this.handleClick(event, onClick)}
-                    href={target}>
-                    {this.props.children}
-                </a>
-            )
-        } else {
-            return (
-                <NavLink
-                    activeClassName={className + '--active'}
-                    className={className}
-                    exact
-                    to={target}>
-                    {this.props.children}
-                </NavLink>
-            )
-        }
+        return (
+            <NavLink
+                activeClassName={className + '--active'}
+                className={className}
+                style={style}
+                exact
+                to={{ pathname: target, search: this.search }}>
+                {this.props.children}
+            </NavLink>
+        )
     }
 
 }

@@ -1,0 +1,72 @@
+.universe {
+
+    &__controls {
+        @include size(22rem, 22rem);
+        bottom: 2rem;
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+        left: 0;
+        letter-spacing: 0.1em;
+        text-align: center;
+
+        &__row {
+            @include size;
+            display: flex;
+            flex-direction: row;
+        }
+
+        &__cell {
+            @include size;
+        }
+
+        &__button {
+            @include opacity-hover;
+            @include size;
+            background-color: $dark-color;
+            color: $lightest-color;
+            font-size: 90%;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            position: relative;
+
+            @each $button in (Free, Move, Faster, Slower, Speed, Now, Panel, Orbits, Labels, Name, Size) {
+                &--#{to_lower_case($button)} {
+                    .universe__controls__button__icon {
+                        @include svg("Universe/UI/#{$button}");
+                    }
+                }
+            }
+
+            &--slower, &--speed, &--faster {
+                .universe__controls__button__icon {
+                    margin: 0;
+                }
+            }
+
+            &__key {
+                font-size: 80%;
+                font-style: italic;
+                opacity: 0;
+                position: absolute;
+                right: 0.5rem;
+                top: 0.5rem;
+                transition: opacity $medium-animation-duration;
+            }
+
+            &:hover .universe__controls__button__key {
+                opacity: 1;
+            }
+
+            &__icon {
+                @include size(2rem);
+                background-size: auto 70%;
+                background-position: 10% center;
+                display: inline-block;
+                margin-right: 1rem;
+                vertical-align: middle;
+            }
+        }
+    }
+
+}

@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import { Urls, View } from '../../Utils'
+import { Url, View } from '../../Utils'
 import { IdentityForm } from '../../User'
 
 interface IProps {
-    isLoggedIn: boolean
+    identity: IUserIdentity
 }
 
 /**
@@ -15,17 +15,15 @@ class IdentityView extends View<IProps> {
 
 
     componentWillMount() {
-        const { history, isLoggedIn } = this.props
-
-        if (isLoggedIn) {
-            history.push(Urls.HOME)
+        if (this.props.identity) {
+            Url.replace({ pathname: Url.URLS.HOME})
         }
     }
 
     public render(): JSX.Element {
         return (
             <section className={this.getClassName('identity')}>
-                <IdentityForm />
+                <IdentityForm onSubmit={data => console.log(data)} />
             </section>
         )
     }
@@ -33,7 +31,7 @@ class IdentityView extends View<IProps> {
 }
 
 export default IdentityView.connect(
-    ({ user }: any) => ({
-        isLoggedIn: user.isLoggedIn
+    ({ user }: IStoreState) => ({
+        identity: user.identity
     })
 )

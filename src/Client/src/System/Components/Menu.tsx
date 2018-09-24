@@ -47,7 +47,7 @@ class Menu extends StatelessComponent<IProps> {
 }
 
 export default Menu.connect(
-    ({ system }: any) => ({
+    ({ system }: IStoreState) => ({
         strings: system.strings.home
     })
 )

@@ -2,7 +2,8 @@
     @include absolute-position;
     @include flex-center;
     @include size;
-    z-index: 100;
+    font-weight: bold;
+    z-index: 1000;
 
     &--inner {
         background-color: $lightest-color;
@@ -32,7 +33,7 @@
         border-left: none;
         border-right: none;
         font-size: 100%;
-        font-weight: 100;
+        font-weight: bold !important;
         letter-spacing: 0.1rem;
         overflow: hidden;
         padding: 0.5em 0;

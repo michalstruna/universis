@@ -16,6 +16,7 @@ export default {
         home: 'Domů',
         help: 'Nápověda',
         logIn: 'Přihlášení',
+        logout: 'Odhlásit se',
         hideUI: 'Skrýt ovládání',
         showUI: 'Zobrazit ovládání',
         about: 'O Universis',
@@ -34,7 +35,7 @@ export default {
     alert: {
         about: {
             title: 'O Universis',
-            content: 'Universis je 3D simulátor vesmíru. Autorem je Michal Struna. Další informace jsou v nápovědě.',
+            content: 'Universis je 3D simulátor vesmíru. Autorem je Michal Struna. Další informace naleznete v nápovědě.',
             buttons: [
                 { label: 'Do vesmíru', target: Urls.UNIVERSE },
                 { label: 'Nápověda', target: Urls.HELP }
@@ -44,15 +45,20 @@ export default {
 
     identity: {
         title: 'Přihlašte se.',
-        email: 'Váš email',
-        button: 'Další'
+        email: 'Zadejte email',
+        missingEmail: 'Zadejte email.',
+        invalidEmail: 'Zadejte platný email.',
+        submit: 'Další'
     },
 
     login: {
-        title: 'Přihlašte se.',
-        password: 'Vaše heslo',
-        button: 'Hotovo',
-        forgot: 'Zapomenuté heslo?'
+        title: 'Vítejte.',
+        password: 'Zadejte heslo',
+        missingPassword: 'Zadejte heslo.',
+        invalidPassword: 'Zadejte správné heslo.',
+        submit: 'Hotovo',
+        forgotPassword: 'Zapomenuté heslo?',
+        back: 'Zpět'
     },
 
     signUp: {
@@ -60,6 +66,19 @@ export default {
         password: 'Nové heslo',
         passwordAgain: 'Heslo znovu',
         button: 'Hotovo'
+    },
+
+    universe: {
+        controls: {
+            name: 'Jméno',
+            size: 'Size',
+            orbits: 'Orbity',
+            labels: 'Popisky',
+            panel: 'Panel',
+            free: 'Uvolnit',
+            now: 'Teď',
+            move: 'Pohyb'
+        }
     }
 
 }

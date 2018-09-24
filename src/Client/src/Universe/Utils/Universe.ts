@@ -82,6 +82,10 @@ class Universe implements IUniverse {
 
         element.addEventListener('mousedown', this.handleClick)
 
+        document.body.addEventListener('mousemove', event => {
+            this.controls.enabled = !(event.target as any).className // TODO: Add scrollbar to area.
+        })
+
         this.selectBody(this.bodies[3].mesh)
 
         this.resize()

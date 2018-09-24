@@ -15,6 +15,11 @@ const BodyTypeSchema = new Schema({
         type: Number
     },
 
+    halfTexture: {
+        type: Boolean,
+        default: false
+    },
+
     __v: {
         type: Number,
         select: false

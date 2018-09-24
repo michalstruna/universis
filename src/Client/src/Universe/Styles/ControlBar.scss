@@ -1,0 +1,60 @@
+.universe {
+
+    &__control-bar {
+        @include size(40rem, 2rem, true);
+        background-color: $semitransparent-medium-color;
+        bottom: 0;
+        cursor: default;
+        font-size: 80%;
+        left: 0;
+        letter-spacing: 0.05em;
+        opacity: 0.8;
+    }
+
+    &__toggle-panel, &__speed, &__time, &__view {
+        @include size(12rem, 100%);
+        box-sizing: border-box;
+        float: left;
+        padding: 0 1rem;
+        text-align: center;
+    }
+
+    &__toggle-panel {
+        @include svg("Universe/UI/Settings", auto 60%);
+        padding: 0;
+        transition: background-color $medium-animation-duration;
+        width: 4rem;
+
+        &:hover {
+            background-color: $dark-color;
+        }
+    }
+
+    &__speed, &__view {
+        &--inner {
+            display: inline-block;
+            padding-left: 2rem;
+        }
+    }
+
+    &__time {
+        &--inner {
+            @include svg("Universe/UI/Time", auto 60%, left center);
+        }
+    }
+
+    &__view {
+        &--inner {
+            @include svg("Universe/UI/View", auto 60%, left center);
+        }
+    }
+
+    &__speed {
+        &__item {
+            @include size(0.7rem, 100%);
+            @include svg("Universe/UI/Speed", 140% auto);
+            display: inline-block;
+        }
+    }
+
+}

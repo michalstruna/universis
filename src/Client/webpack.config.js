@@ -3,12 +3,15 @@ const Webpack = require('webpack')
 
 module.exports = {
     entry: Path.join(__dirname, 'src/index.tsx'),
+    mode: 'development',
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.(ts|tsx)$/,
                 exclude: /(node_modules)/,
-                loader: 'ts-loader'
+                use: {
+                    loader: 'ts-loader'
+                }
             },
             {
                 test: /\.s?css$/,

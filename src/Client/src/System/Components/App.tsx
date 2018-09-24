@@ -1,13 +1,19 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import AnimatedBackground from './AnimatedBackground'
-import { BlurLayout, SimpleComponent } from '../../Utils'
-import { Alert, Context, ContextTrigger, ControlPanel } from '../../Controls'
+import { Panel } from '../../Panel'
+import { BlurLayout, StatelessComponent } from '../../Utils'
+import { Alert, ContextMenu, ContextTrigger, ControlPanel, ContextInfo } from '../../Controls'
+
+interface IProps {
+    isPanelVisible: boolean
+}
 
 /**
  * Root component of application.
  */
-class App extends SimpleComponent {
+class App extends StatelessComponent<IProps> {
 
     /**
      * Render background of app.
@@ -35,20 +41,28 @@ class App extends SimpleComponent {
     }
 
     public render(): JSX.Element {
+        const { location } = this.props
+
         return (
-            <ContextTrigger className='app'>
+            <ContextTrigger className={ClassNames('app', { 'app--divided': location.search.includes('panel') })}>
+                <Panel />
                 <BlurLayout
-                    className='app__body'
+                    className='app__body app__body--small'
                     visibleAlert>
                     {this.renderBackground()}
                     {this.renderForeground()}
                 </BlurLayout>
                 <Alert />
-                <Context />
+                <ContextMenu />
+                <ContextInfo />
             </ContextTrigger>
         )
     }
 
 }
 
-export default App.connect()
+export default App.connect(
+    ({ system }: IStoreState) => ({
+        isPanelVisible: system.isPanelVisible
+    })
+)

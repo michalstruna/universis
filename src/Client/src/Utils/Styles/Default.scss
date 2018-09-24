@@ -14,7 +14,7 @@ body {
     background-image: radial-gradient(ellipse at top, $background-top-color, $background-bottom-color);
     color: $lightest-color;
     font-weight: 100;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.05rem;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -33,15 +33,25 @@ p {
 }
 
 button {
+    @include content-font;
     background: none;
     border: none;
     cursor: pointer;
     outline: none;
+    user-select: none;
 }
 
 input, textarea {
+    @include content-font;
     border: none;
     outline: none;
+}
+
+.view {
+    @include absolute-position;
+    @include size;
+    overflow: hidden;
+    transition: padding-left $medium-animation-duration, width $medium-animation-duration;
 }
 
 #app, #app > div {
@@ -54,6 +64,8 @@ input, textarea {
 
     &__body {
         @include size(100%);
+        box-sizing: border-box;
+        position: relative;
     }
 
     &__background {
@@ -76,12 +88,13 @@ input, textarea {
     &__transition-enter-active {
         opacity: 1;
     }
-}
 
-.view {
-    @include absolute-position;
-    @include size;
-    overflow: hidden;
+    &--divided {
+        .view {
+            padding-left: $panel-width;
+            width: calc(100% - #{$panel-width});
+        }
+    }
 }
 
 /**
@@ -92,10 +105,10 @@ input, textarea {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #333;
+    background-color: rgba(0, 0, 0, 0);
 
     &:hover {
-        background-color: #222;
+       // background-color: #222;
     }
 }
 

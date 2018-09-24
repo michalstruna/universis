@@ -1,0 +1,156 @@
+$user-info-height: 5rem;
+
+.user-info {
+    @include size(20rem, $user-info-height);
+    background-color: $dark-color;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin: 1rem auto;
+    overflow: hidden;
+
+    &--left, &--right {
+        box-sizing: border-box;
+        float: left;
+        height: 100%;
+    }
+
+    &--left {
+        width: $user-info-height;
+    }
+
+    &--right {
+        line-height: 1.5rem;
+        padding: 0.5rem;
+        padding-left: 1rem;
+        position: relative;
+        width: calc(100% - #{$user-info-height});
+    }
+
+    &__last-online {
+        font-size: 80%;
+        position: absolute;
+        right: 0.25rem;
+        top: 0.25rem;
+    }
+
+    &__avatar {
+        @include size($user-info-height);
+        background-position: center center;
+        background-size: cover;
+        float: left;
+    }
+
+    &__name {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        margin-top: 0.3rem;
+        text-align: center;
+        font-weight: bold !important;
+    }
+
+    &__karma {
+        color: $light-color;
+        font-size: 80%;
+
+        &--positive {
+            color: $green-color;
+        }
+
+        &--negative {
+            color: $red-color;
+        }
+    }
+
+    &__score {
+        font-size: 80%;
+    }
+
+    &__reputation {
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 0.5rem;
+
+        &--value {
+            font-size: 130%;
+            font-weight: 900;
+        }
+    }
+
+    &__badge {
+        box-sizing: border-box;
+        display: inline-block;
+        padding-left: 1.3rem;
+        padding-right: 0.3rem;
+        position: relative;
+        white-space: nowrap;
+
+        &:after {
+            @include absolute-position(0.5rem, 50%);
+            @include size(0.5rem);
+            border-radius: 100%;
+            content: "";
+            transform: translateY(-50%);
+        }
+
+        &--gold {
+            &:after {
+                background-color: gold;
+            }
+        }
+
+        &--silver {
+            &:after {
+                background-color: silver;
+            }
+        }
+
+        &--bronze {
+            &:after {
+                background-color: #cd7f32;
+            }
+        }
+    }
+
+    &--small {
+        @include size(3rem);
+        margin: 0;
+
+        .user-info {
+            &__avatar {
+                @include size(3rem);
+            }
+        }
+    }
+
+    &--medium {
+        @include size(15.1rem, 4rem);
+        display: inline-block;
+        margin: 0.4rem;
+
+        .user-info {
+            &__avatar {
+                @include size(4rem);
+            }
+
+            &__name {
+                font-size: 90%;
+                margin-bottom: 0.3rem;
+                margin-top: 0.1rem;
+            }
+
+            &--right {
+                padding: 0.25rem;
+                padding-left: 0.75rem;
+            }
+
+            &__reputation {
+                display: block;
+                font-size: 80%;
+            }
+
+            &__last-online {
+                top: 2.1rem;
+            }
+        }
+    }
+}

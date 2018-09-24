@@ -1,4 +1,5 @@
-@import "./Styles/UnauthIdentity";
+@import "./Styles/UserInfo";
+@import "./Styles/Notifications";
 
 .identity, .login, .sign-up {
     @include flex-center;
@@ -7,7 +8,12 @@
         background-color: $semitransparent-medium-color;
         box-shadow: 0 0 1em $darkest-color;
         padding: 2em;
-        width: 20em;
+        width: 23em;
+
+        .user-info {
+            margin-top: -2rem;
+            margin-bottom: 2rem;
+        }
     }
 }
 

@@ -2,7 +2,8 @@ import * as React from 'react'
 
 import { Loader, View, FadeLayout } from '../../Utils'
 import UniverseActions from '../Redux/UniverseActions'
-import UniverseCanvas from '../Components/UniverseCanvas'
+import Canvas from '../Components/Canvas'
+import UI from '../Components/UI'
 
 interface IProps {
     bodies: ISimpleBody[],
@@ -12,17 +13,16 @@ interface IProps {
 class UniverseView extends View<IProps> {
 
     public componentWillMount() {
-        this.props.getBodies()
+        //this.props.getBodies()
     }
 
     public render(): JSX.Element {
-        const { bodies } = this.props
-
         // TODO: Show loader if bodies are not exist.
 
         return (
             <section className={this.getClassName('universe')}>
-                <UniverseCanvas />
+                <Canvas />
+                <UI />
             </section>
         )
     }
@@ -30,10 +30,10 @@ class UniverseView extends View<IProps> {
 }
 
 export default UniverseView.connect(
-    ({ universe }: any) => ({
+    ({ universe }: IStoreState) => ({
         bodies: universe.bodies
     }),
-    dispatch => ({
+    (dispatch: IDispatch) => ({
         getBodies: () => dispatch(UniverseActions.getBodies())
     })
 )

@@ -1,0 +1,21 @@
+.universe__ui {
+    @include absolute-position;
+    @include size;
+    pointer-events: none;
+    transition: padding-left $medium-animation-duration;
+    z-index: 1000;
+
+    & > section > section {
+        pointer-events: all;
+        position: absolute;
+    }
+
+    &--inner {
+        @include size;
+        position: relative;
+    }
+}
+
+.app--divided .universe__ui {
+    padding-left: $panel-width;
+}

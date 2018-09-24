@@ -1,6 +1,7 @@
 import { request, exit } from 'screenfull'
 
-import ACTION_TYPES from './ActionTypes'
+import ActionTypes from './ActionTypes'
+import { Redux } from '../../Utils'
 
 /**
  * Actions for SystemModule.
@@ -8,72 +9,58 @@ import ACTION_TYPES from './ActionTypes'
 class SystemActions {
 
     /**
-     * Open full screen.
+     * Toggle full screen.
+     * @param isFullScreen
      */
-    static openFullScreen = () => {
-        request()
-        return { type: ACTION_TYPES.OPEN_FULL_SCREEN }
-    }
-
-    /**
-     * Exit full screen.
-     */
-    static exitFullScreen = () => {
-        exit()
-        return { type: ACTION_TYPES.EXIT_FULL_SCREEN }
-    }
+    public static toggleFullScreen = (isFullScreen: boolean) => (
+        Redux.toggleAction(
+            ActionTypes.TOGGLE_FULL_SCREEN,
+            { isFullScreen },
+            undefined,
+            () => isFullScreen ? request() : exit()
+        )
+    )
 
     /**
      * Show context menu.
      * @param x Horizontal coordination.
      * @param y Vertical coordination.
      */
-    static showContext = (x: number, y: number) => ({
-        type: ACTION_TYPES.SHOW_CONTEXT,
-        x,
-        y
-    })
+    public static showContextMenu = (x: number, y: number) => (
+        Redux.setAction(
+            ActionTypes.SET_CONTEXT_MENU,
+            { contextMenu: { isVisible: true, x, y } }
+        )
+    )
 
     /**
      * Hide context menu.
      */
-    static hideContext = () => ({
-        type: ACTION_TYPES.HIDE_CONTEXT
-    })
+    public static hideContextMenu = () => (
+        Redux.setAction(
+            ActionTypes.SET_CONTEXT_MENU,
+            { contextMenu: { isVisible: false } }
+        )
+    )
 
     /**
-     * Show UI controls.
-     */
-    static showUI = () => ({
-        type: ACTION_TYPES.SHOW_UI
-    })
-
-    /**
-     * Hide UI controls.
-     */
-    static hideUI = () => ({
-        type: ACTION_TYPES.HIDE_UI
-    })
-
-    /**
-     * Show alert window.
+     * Toggle alert window.
+     * @param isAlertVisible
      * @param title Title of alert.
      * @param content Message of alert.
      * @param buttons List of all buttons.
      */
-    static showAlert = (title: string, content: string, buttons: ILinkButton[]) => ({
-        type: ACTION_TYPES.SHOW_ALERT,
-        title,
-        content,
-        buttons
-    })
+    public static toggleAlert = (isAlertVisible: boolean, title?: string, content?: string, buttons?: ILinkButton[]) => (
+        Redux.toggleAction(
+            ActionTypes.TOGGLE_ALERT,
+            { isAlertVisible, alert: { title, content, buttons } }
+        )
+    )
 
     /**
-     * Hide alert window.
+     * Toggle UI.
      */
-    static hideAlert = () => ({
-        type: ACTION_TYPES.HIDE_ALERT
-    })
+    public static toggleUI = (isUIVisible: boolean) => Redux.toggleAction(ActionTypes.TOGGLE_UI, { isUIVisible })
 
 }
 

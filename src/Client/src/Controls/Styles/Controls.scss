@@ -1,12 +1,6 @@
 .control {
     cursor: pointer;
 
-    @each $item in (logout, language) {
-        &--#{$item} {
-            @include svg(#{$item}, controls);
-        }
-    }
-
     &--help {
         @include svg(Controls/Help);
     }
@@ -17,6 +11,10 @@
 
     &--login {
         @include svg(Controls/Login);
+    }
+
+    &--logout {
+        @include svg(Controls/Logout);
     }
 
     &--maximalize {
@@ -59,9 +57,9 @@
             &__labels {
                 margin-left: -4.5rem;
                 pointer-events: none;
-                opacity: 1;
                 text-align: right;
                 transition: opacity $medium-animation-duration;
+                user-select: none;
                 width: 3rem;
             }
 
@@ -76,12 +74,6 @@
 
             &__fill {
                 background-color: $light-color;
-            }
-        }
-
-        &:hover, &:active {
-            &, .rangeslider__labels {
-                opacity: 1;
             }
         }
     }

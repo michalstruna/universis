@@ -3,7 +3,7 @@ import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
 import { UniverseActions, Units } from '../../Universe'
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, Url } from '../../Utils'
 
 export interface IProps {
     viewSize: number
@@ -29,8 +29,12 @@ class ViewSizeControl extends StatelessComponent<IProps> {
     }
 
     public render(): JSX.Element {
-        const { changeViewSize, labels, viewSize } = this.props
+        const { changeViewSize, labels, viewSize, location } = this.props
         const sizes = Object.keys(labels)
+
+        if (!Url.equalsPage(location.pathname, Url.URLS.UNIVERSE)) {
+            return null
+        }
 
         return (
             <section className={'control control--view-size'}>
@@ -48,9 +52,9 @@ class ViewSizeControl extends StatelessComponent<IProps> {
     }
 }
 
-export default ViewSizeControl.connect(({ universe, system }: any) => ({
+export default ViewSizeControl.connect(({ universe, system }: IStoreState) => ({
     viewSize: universe.viewSize,
     labels: system.strings.controls.viewSize
-}), (dispatch: any) => ({
+}), (dispatch: IDispatch) => ({
     changeViewSize: (viewSize: number) => dispatch(UniverseActions.changeViewSize(viewSize))
 }))
