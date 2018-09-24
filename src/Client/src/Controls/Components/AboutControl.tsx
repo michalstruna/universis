@@ -45,5 +45,5 @@ export default AboutControl.connect(({ system }: IStoreState) => ({
     strings: system.strings.controls,
     alert: system.strings.alert.about
 }), (dispatch: IDispatch) => ({
-    showAlert: (title: string, content: string, buttons: ILinkButton[]) => dispatch(SystemActions.showAlert(title, content, buttons))
+    showAlert: (title: string, content: string, buttons: ILinkButton[]) => dispatch(SystemActions.toggleAlert(true, title, content, buttons))
 }))

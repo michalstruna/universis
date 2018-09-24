@@ -1,13 +1,13 @@
 import * as React from 'react'
 
 import { StatelessComponent } from '../../Utils'
-import FieldInput, { IFieldInputProps } from './Field'
+import FieldInput, { ICustomFieldProps } from './Field'
 import Strings from '../../../../Utils/Strings'
 
 /**
  * Component for rendering password input in form.
  */
-class PasswordField extends StatelessComponent<IFieldInputProps> {
+class PasswordField extends StatelessComponent<ICustomFieldProps> {
 
     public static defaultProps = {
         pattern: Strings.PASSWORD_PATTERN
@@ -17,8 +17,7 @@ class PasswordField extends StatelessComponent<IFieldInputProps> {
         return (
             <FieldInput
                 { ...this.props}
-                type='password'
-                pattern={this.props.pattern} />
+                type='password' />
         )
     }
 

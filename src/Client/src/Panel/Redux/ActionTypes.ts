@@ -1,6 +1,6 @@
 enum ActionTypes {
 
-    SET_PANEL_TAB = 'panelTab'
+    SET_PANEL_TAB = 'SET_PANEL_TAB'
 
 }
 

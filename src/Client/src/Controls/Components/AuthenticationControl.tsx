@@ -1,12 +1,14 @@
 import * as React from 'react'
 
 import ControlLink from './ControlLink'
+import Control from './Control'
 import { StatelessComponent, Urls, Url } from '../../Utils'
+import UserActions from '../../User/Redux/UserActions'
 
 export interface IProps {
-    strings: {
-        logIn: string
-    }
+    strings: IStrings
+    identity: IUserIdentity
+    logout: IRunnable
 }
 
 /**
@@ -32,18 +34,40 @@ class AuthentificationControl extends StatelessComponent<IProps> {
         return isVisible
     }
 
+    private handleLogout = () => {
+        this.props.logout()
+    }
+
     public render(): JSX.Element {
-        return (
-            <ControlLink
-                isVisible={this.isVisible}
-                name={'login'}
-                label={this.props.strings.logIn}
-                target={Urls.IDENTITY} />
-        )
+        const { strings, identity } = this.props
+
+        if (identity) {
+            return (
+                <Control
+                    isVisible={true}
+                    onClick={this.handleLogout}
+                    name={'logout'}
+                    label={strings.logout} />
+            )
+        } else {
+            return (
+                <ControlLink
+                    isVisible={this.isVisible}
+                    name={'login'}
+                    label={strings.logIn}
+                    target={Urls.IDENTITY} />
+            )
+        }
     }
 
 }
 
-export default AuthentificationControl.connect(({ system }: IStoreState) => ({
-    strings: system.strings.controls
-}))
+export default AuthentificationControl.connect(
+    ({ system, user }: IStoreState) => ({
+        strings: system.strings.controls,
+        identity: user.identity
+    }),
+    (dispatch: IDispatch) => ({
+        logout: () => dispatch(UserActions.logout())
+    })
+)

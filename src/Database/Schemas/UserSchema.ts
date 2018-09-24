@@ -1,7 +1,8 @@
 import { Schema } from 'mongoose'
 
 import Strings from '../../Utils/Strings'
-import UserRole from '../../Constants/UserRole'
+import HashPlugin from '../Plugins/HashPlugin'
+import ModifyPlugin from '../Plugins/ModifyPlugin'
 
 /**
  * DB schema for user.
@@ -20,20 +21,12 @@ const UserSchema = new Schema({
 
     password: {
         type: String,
-        required: [true, 'Password hash is required.']
+        required: [true, 'Password hash is required.'], // TODO: Remove messages?
+        select: false
     },
 
     name: {
-        type: String,
-        required: [true, 'Name is required.'],
-        unique: true,
-        default: 'No Name' // TODO: Equals this.email.
-    },
-
-    roles: {
-        type: [Number],
-        required: [true, 'Roles are required.'],
-        default: [UserRole.EVERYBODY]
+        type: String
     },
 
     avatar: {
@@ -47,6 +40,12 @@ const UserSchema = new Schema({
         select: false
     }
 
+})
+
+UserSchema.plugin(HashPlugin, { field: 'password' })
+
+UserSchema.plugin(ModifyPlugin, {
+    field: 'name', function: user => Strings.capitalize(Strings.getPrefix(user.email, '@'))
 })
 
 export default UserSchema

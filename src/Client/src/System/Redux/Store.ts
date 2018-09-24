@@ -1,8 +1,9 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux'
-import thunk from 'redux-thunk'
+import Thunk from 'redux-thunk'
+import ReduxLogger from 'redux-logger'
 
+import { reducer as FormReducer } from 'redux-form'
 import SystemReducer from './SystemReducer'
-import { FormReducer } from '../../Forms'
 import { UserReducer } from '../../User'
 import { UniverseReducer } from '../../Universe'
 import { PanelReducer } from '../../Panel'
@@ -15,7 +16,7 @@ const rootReducer = combineReducers({
     panel: PanelReducer
 })
 
-const middleware = applyMiddleware(thunk)
+const middleware = applyMiddleware(Thunk, ReduxLogger)
 
 const store = createStore<IStoreState>(rootReducer, middleware)
 

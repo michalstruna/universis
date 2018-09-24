@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { StatelessComponent, UILayout, Link, Url, Queries } from '../../Utils'
+import { StatelessComponent, UILayout, Link, Url, Queries, BlurLayout } from '../../Utils'
 import Chat from './Chat'
 import Overview from './Overview'
 import People from './People'
@@ -37,17 +37,13 @@ class Panel extends StatelessComponent<IProps> {
     private renderToggle(): JSX.Element {
         const { location, tab } = this.props
 
-        let newSearch
-
-        if (Url.hasQuery(location.search, Queries.PANEL)) {
-            newSearch = Url.removeQuery(location.search, Queries.PANEL)
-        } else {
-            newSearch = Url.setQuery(location.search, Queries.PANEL, tab)
-        }
+        const isOpened = Url.hasQuery(location.search, Queries.PANEL)
 
         return (
             <UILayout>
-                <Link className='panel--toggle' target={{ search: newSearch }} />
+                <Link
+                    className='panel--toggle'
+                    query={{ [Link.QUERIES.PANEL]: isOpened ? null : tab }} />
             </UILayout>
         )
     }
@@ -70,7 +66,7 @@ class Panel extends StatelessComponent<IProps> {
         return tabs.map((tab, key) => (
             <Link
                 key={key}
-                target={{ search: Url.setQuery(location.search, Queries.PANEL, tab.target) }}
+                query={{ [Link.QUERIES.PANEL]: tab.target }}
                 className={ClassNames('panel__tabs__tab', { 'panel__tabs__tab--selected': currentTab === tab.target })}>
                 {tab.label}
             </Link>
@@ -99,7 +95,9 @@ class Panel extends StatelessComponent<IProps> {
 
     public render(): JSX.Element {
         return (
-            <section className='panel'>
+            <BlurLayout
+                className='panel'
+                visibleAlert>
                 <section className='panel--inner'>
                     <section className='panel__tabs'>
                         {this.renderTabs()}
@@ -107,7 +105,7 @@ class Panel extends StatelessComponent<IProps> {
                     {this.renderContent()}
                 </section>
                 {this.renderToggle()}
-            </section>
+            </BlurLayout>
         )
     }
 
@@ -116,7 +114,7 @@ class Panel extends StatelessComponent<IProps> {
 export default Panel.connect(
     ({ system, panel }: IStoreState) => ({
         strings: system.strings.home,
-        tab: panel.panelTab
+        tab: panel.tab
     }),
     (dispatch: IDispatch) => ({
         setTab: (tab: string) => dispatch(PanelActions.setTab(tab))

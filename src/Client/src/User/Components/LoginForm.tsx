@@ -1,58 +1,65 @@
 import * as React from 'react'
+import { reduxForm, InjectedFormProps, SubmissionError } from 'redux-form'
 
-import { Link, StatelessComponent } from '../../Utils'
-import { PasswordField, Form, Note, Submit, Title } from '../../Forms'
 import UserActions from '../Redux/UserActions'
-import UnauthIdentity from './UnauthUser'
+import UserInfo from './UserInfo'
+import { StatelessComponent, Url, Link } from '../../Utils'
+import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
 
 interface IProps {
-    strings: {
-        title: string,
-        password: string,
-        button: string,
-        forgot: string
-    }
-    login: IDoubleConsumer<string, string>
+    strings: IStrings
+    login: IFunction2<string, string, Promise<IAsyncData<IUserIdentity>>>
+    unauthUser: IAsyncData<IBaseUser>
+}
+
+interface IValues {
+    password: string
 }
 
 /**
  * Form for login user.
  * There is only password input.
  */
-class LoginForm extends StatelessComponent<IProps> {
+class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
     /**
-     * After submit send request to server.
-     * @param values Values of form. There is only email.
-     * @param success Success of form.
-     * @param fail Fail of form.
+     * Login user.
+     * @param data
      */
-    private handleSubmit = (values: { email: string }, success: IRunnable, fail: IRunnable): void => {
-        // TODO: Login.
-        // TODO: Forgot password. Alert? Link?
+    private handleSubmit = async (data: IValues) => {
+        const { strings, login, unauthUser } = this.props
+
+        try {
+            await login(unauthUser.payload.email, data.password)
+        } catch (error) {
+            throw new SubmissionError({ password: strings.invalidPassword })
+        }
     }
 
     public render(): JSX.Element {
-        const { title, password, button, forgot } = this.props.strings
+        const { strings, handleSubmit, invalid, submitting } = this.props
 
         return (
             <Form
-                name='login'
-                onSubmit={this.handleSubmit}>
+                onSubmit={handleSubmit(this.handleSubmit)}
+                invalid={invalid}
+                sending={submitting}>
                 <Title>
-                    {title}
+                    {strings.title}
                 </Title>
-                <UnauthIdentity />
+                <UserInfo type={UserInfo.TYPES.LARGE} />
                 <PasswordField
-                    label={password}
+                    label={strings.password}
+                    required={strings.missingPassword}
+                    invalid={strings.invalidPassword}
                     name='password' />
-                <Note>
-                    <Link target={Link.URLS.HOME}>
-                        {forgot}
-                    </Link>
-                </Note>
+                <Back
+                    className='form__button form__button--back'
+                    to={Link.URLS.IDENTITY}>
+                    {strings.back}
+                </Back>
                 <Submit>
-                    {button}
+                    {strings.submit}
                 </Submit>
             </Form>
         )
@@ -60,11 +67,14 @@ class LoginForm extends StatelessComponent<IProps> {
 
 }
 
-export default LoginForm.connect(
-    ({ form, system }: IStoreState) => ({
-        strings: system.strings.login
+export default reduxForm({
+    form: 'login'
+})(LoginForm.connect(
+    ({ system, user }: IStoreState) => ({
+        strings: system.strings.login,
+        unauthUser: user.unauthUser
     }),
     (dispatch: IDispatch) => ({
         login: (email: string, password: string) => dispatch(UserActions.login(email, password))
     })
-)
+))

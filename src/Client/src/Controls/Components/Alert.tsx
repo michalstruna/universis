@@ -72,13 +72,13 @@ class Alert extends StatelessComponent<IProps> {
 }
 
 export default Alert.connect(
-    ({ system: { alert } }: IStoreState) => ({
-        buttons: alert.buttons,
-        content: alert.content,
-        isVisible: alert.isVisible,
-        title: alert.title
+    ({ system }: IStoreState) => ({
+        buttons: system.alert.buttons,
+        content: system.alert.content,
+        isVisible: system.isAlertVisible,
+        title: system.alert.title
     }),
     (dispatch: IDispatch) => ({
-        hide: () => dispatch(SystemActions.hideAlert())
+        hide: () => dispatch(SystemActions.toggleAlert(false))
     })
 )

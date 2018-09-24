@@ -1,19 +1,29 @@
 import { SortOrder, Errors } from '../Constants'
 import Model from './Model'
-import DatabaseModels from '../Constants/DatabaseModels'
 
 // TODO: Add integrity check - if false, entity can be deleted.
 
 class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<IGetOne, IGetAll, INew> {
 
-    private select: string[]
-    private join: string[]
+    private unapprovedDbModel: IDatabaseModel
 
-    public constructor(dbModel: DatabaseModels, select?: string[], join?: string[]) {
+    private selectOne: string[]
+    private selectAll: string[]
+
+    private joinOne: string[]
+    private joinAll: string[]
+
+    public constructor(options: IEntityModelOptions<IGetOne, IGetAll, INew>) {
         super()
-        this.dbModel = this.db.getModel(dbModel)
-        this.select = select
-        this.join = join
+
+        this.dbModel = this.db.getModel(options.dbModel)
+        this.unapprovedDbModel = options.unapprovedDbModel ? this.db.getModel(options.unapprovedDbModel) : null
+
+        this.selectOne = options.selectOne || null
+        this.selectAll = options.selectAll || null
+
+        this.joinOne = options.joinOne || []
+        this.joinAll = options.joinAll || []
     }
 
     public add(data: INew): Promise<string> {
@@ -25,32 +35,46 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
         ))
     }
 
-    public getAll(order: SortOrder, criterion: string, limit: number, offset: number): Promise<IGetAll[]> {
-        let query = this.dbModel
-            .get({})
-            .limit(limit)
-            .offset(offset)
-            .sort(criterion, order)
+    public getAll(filter: any, sort?: string, order?: SortOrder, limit?: number, offset?: number): Promise<IGetAll[]> {
+        let query = this.dbModel.get(filter)
 
-        if (this.join) {
-            for (const join of this.join) {
-                query = query.join(join)
-            }
+        if (sort) {
+            query = query.sort(sort, order || SortOrder.ASC)
         }
 
-        if (this.select) {
-            query = query.select(...this.select)
+        if (limit) {
+            query = query.limit(limit)
+        }
+
+        if (offset) {
+            query = query.offset(offset)
+        }
+
+        for (const join of this.joinAll) {
+            query = query.join(join)
+        }
+
+        if (this.selectAll) {
+            query = query.select(...this.selectAll)
         }
 
         return query.run<IGetAll[]>()
+    }
+
+    public getOne(filter: any, sort?: string, order?: SortOrder, offset?: number): Promise<IGetAll> {
+        return this.getAll(filter, sort, order, 1, offset).then(items => items[0])
     }
 
     public get(id: string): Promise<IGetOne> {
         return new Promise((resolve, reject) => {
             let query = this.dbModel.getById(id)
 
-            for (const join of this.join) {
+            for (const join of this.joinOne) {
                 query = query.join(join)
+            }
+
+            if (this.selectOne) {
+                query = query.select(...this.selectOne)
             }
 
             return query.run<IGetOne>()
@@ -105,6 +129,7 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
     public getCount(): Promise<any> {
         return this.dbModel.count({})
     }
+
 
 }
 

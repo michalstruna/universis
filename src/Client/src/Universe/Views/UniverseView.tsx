@@ -33,7 +33,7 @@ export default UniverseView.connect(
     ({ universe }: IStoreState) => ({
         bodies: universe.bodies
     }),
-    dispatch => ({
+    (dispatch: IDispatch) => ({
         getBodies: () => dispatch(UniverseActions.getBodies())
     })
 )

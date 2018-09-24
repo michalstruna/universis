@@ -13,17 +13,17 @@ export default {
     /**
      * Count of segments of body.
      */
-    BODY_SEGMENTS: 126,
+    BODY_SEGMENTS: 32,
 
     /**
      * Count of segments of orbits.
      */
-    ORBIT_SEGMENTS: 2048,
+    ORBIT_SEGMENTS: 1024,
 
     /**
      * Count of segments of body ring.
      */
-    RING_SEGMENTS: 126,
+    RING_SEGMENTS: 32,
 
     /**
      * Min camera distance.

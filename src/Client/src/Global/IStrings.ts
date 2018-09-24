@@ -1,6 +1,4 @@
 /**
  * Interface for strings.
  */
-declare interface IStrings {
-    [key: string]: string | IStrings
-}
+declare type IStrings = any

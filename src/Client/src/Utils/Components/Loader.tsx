@@ -9,13 +9,8 @@ class Loader extends SimpleComponent {
 
     public render(): JSX.Element {
         return (
-            <section className='square-loader'>
-                <section className='square-loader--inner'>
-                    <section className='square-loader--primary'>
-                        <section className='square-loader--secondary' />
-                    </section>
-                    <section className='square-loader__shadow' />
-                </section>
+            <section className='loader'>
+                <section className='loader--inner' />
             </section>
         )
     }

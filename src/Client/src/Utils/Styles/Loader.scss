@@ -1,0 +1,6 @@
+.loader {
+    @include absolute-position;
+    @include size;
+    @include svg(Loader/Ring, 7rem 7rem);
+    pointer-events: none;
+}

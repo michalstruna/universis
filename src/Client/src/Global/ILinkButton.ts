@@ -2,6 +2,6 @@
  * Interface for link button.
  */
 declare interface ILinkButton {
-    label: string,
+    label: string
     target: string
 }

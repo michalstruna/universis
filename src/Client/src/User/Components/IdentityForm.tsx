@@ -1,18 +1,14 @@
 import * as React from 'react'
+import { reduxForm, InjectedFormProps, SubmissionError } from 'redux-form'
 
-import { StatelessComponent, Urls } from '../../Utils'
+import { StatelessComponent, Url } from '../../Utils'
 import { EmailField, Form, Submit, Title } from '../../Forms'
 import UserActions from '../Redux/UserActions'
 
 interface IProps {
-    strings: {
-        title: string,
-        email: string,
-        button: string
-    }
-    getUnauthIdentityByEmail: IFunction<string, Promise<IBaseUser>>
-    unauthUser: IBaseUser
-    error: Error
+    strings: IStrings
+    getUnauthUser: IFunction<string, Promise<IAsyncData<IBaseUser>>>
+    unauthUser: IAsyncData<IBaseUser>
 }
 
 interface IValues {
@@ -23,68 +19,34 @@ interface IValues {
  * Form for get identity of unauth user.
  * There is only email input.
  */
-class IdentityForm extends StatelessComponent<IProps> {
+class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
     /**
-     * Callback for success.
+     * Get user by email. If exists, redirect to login, else to sign up.
+     * @param data
      */
-    private onSuccess: IRunnable
-
-    /**
-     * Callback for fail.
-     */
-    private onFail: IRunnable
-
-    public componentDidUpdate(): void {
-        this.handleReceiveResponse()
-    }
-
-    public shouldComponentUpdate(nextProps: IProps): boolean {
-        const isSuccess = !this.props.unauthUser && !!nextProps.unauthUser
-        const isFail = !this.props.error && !!nextProps.error
-        return isSuccess || isFail
-    }
-
-    /**
-     * After submit send request to server.
-     * If user exists, redirect to login view.
-     * If user don't exists, redirect to register view.
-     * @param values Values of form. There is only email.
-     * @param success Success of form.
-     * @param fail Fail of form.
-     */
-    private handleSubmit = (values: IValues, success: IRunnable, fail: IRunnable): void => {
-        this.onSuccess = success
-        this.onFail = fail
-        this.props.getUnauthIdentityByEmail(values.email)
-    }
-
-    private handleReceiveResponse = (): void => {
-        const { history, unauthUser, error } = this.props
-
-        if (error) {
-            this.onFail()
-        } else {
-            this.onSuccess()
-            history.push(unauthUser._id ? Urls.LOGIN : Urls.SIGN_UP)
-        }
+    private handleSubmit = (data: IValues) => {
+        this.props.getUnauthUser(data.email)
     }
 
     public render(): JSX.Element {
-        const { title, email, button } = this.props.strings
+        const { strings, handleSubmit, invalid, submitting } = this.props
 
         return (
             <Form
-                name='identity'
-                onSubmit={this.handleSubmit}>
+                onSubmit={handleSubmit(this.handleSubmit)}
+                invalid={invalid}
+                sending={submitting}>
                 <Title>
-                    {title}
+                    {strings.title}
                 </Title>
                 <EmailField
-                    label={email}
+                    label={strings.email}
+                    required={strings.missingEmail}
+                    invalid={strings.invalidEmail}
                     name='email' />
                 <Submit>
-                    {button}
+                    {strings.submit}
                 </Submit>
             </Form>
         )
@@ -92,13 +54,14 @@ class IdentityForm extends StatelessComponent<IProps> {
 
 }
 
-export default IdentityForm.connect(
-    ({ form, system, user }: IStoreState) => ({
+export default reduxForm({
+    form: 'identity'
+})(IdentityForm.connect(
+    ({ system, user }: IStoreState) => ({
         strings: system.strings.identity,
-        unauthUser: user.unauthUser,
-        error: user.getUnauthUserError
+        unauthUser: user.unauthUser
     }),
     (dispatch: IDispatch) => ({
-        getUnauthIdentityByEmail: (email: string) => dispatch(UserActions.getUnauthUserByEmail(email))
+        getUnauthUser: (email: string) => dispatch(UserActions.getUnauthUser(email))
     })
-)
+))
