@@ -11,7 +11,7 @@ export interface IProps {
         content: string
         buttons: ILinkButton[]
     }
-    showAlert: ITripleConsumer<string, string, ILinkButton[]>
+    showAlert: IConsumer3<string, string, ILinkButton[]>
     strings: {
         about: string
     }

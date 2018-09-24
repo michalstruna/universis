@@ -6,6 +6,12 @@ declare interface IAction {
     $callback?: IRunnable
 }
 
+declare interface IBaseAction extends IAction {
+    $set?: IObject<any>
+    $toggle?: IObject<any>
+    $async?: IObject<any>
+}
+
 /**
  * Interface for async action.
  */
@@ -19,27 +25,6 @@ declare interface IAsyncAction<T> extends IAction {
  */
 declare interface ISetAction extends IAction {
     $set: IObject<any>
-}
-
-/**
- * Interface for action.
- */
-declare interface IToggleAction extends ISetAction {
-    $toggle: IObject<boolean>
-}
-
-/**
- * Interface for increment action.
- */
-declare interface IIncrementAction extends IAction {
-    $increment: IObject<number>[]
-}
-
-/**
- * // TODO
- */
-declare interface IModifyAction extends IAction {
-    $modify: (state: IStoreState) => IStoreState
 }
 
 /**

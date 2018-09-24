@@ -4,9 +4,9 @@ import { SystemActions } from '../../System'
 import { Component } from '../../Utils'
 
 interface IProps {
-    hideContext: IRunnable,
+    toggleContextMenu: (isVisible: boolean, x?: number, y?: number) => void,
     isContextVisible: boolean
-    showContext: IDoubleConsumer<number, number>
+    showContext: IConsumer2<number, number>
     className?: string
 }
 
@@ -24,10 +24,10 @@ class ContextTrigger extends Component<IProps, IState> {
      * @param event
      */
     private handleClick = (event: React.MouseEvent<HTMLElement>): void => {
-        const { hideContext, isContextVisible } = this.props
+        const { toggleContextMenu, isContextVisible } = this.props
 
-        if(isContextVisible) {
-            hideContext()
+        if (isContextVisible) {
+            toggleContextMenu(false)
         }
     }
 
@@ -37,7 +37,7 @@ class ContextTrigger extends Component<IProps, IState> {
      */
     private handleContextMenu = (event: React.MouseEvent<HTMLElement>): void => {
         event.preventDefault()
-        this.props.showContext(event.pageX, event.pageY)
+        this.props.toggleContextMenu(true, event.pageX, event.pageY)
     }
 
     public render(): JSX.Element {
@@ -58,7 +58,6 @@ export default ContextTrigger.connect(
         isContextVisible: system.contextMenu.isVisible
     }),
     (dispatch: IDispatch) => ({
-        hideContext: () => dispatch(SystemActions.hideContextMenu()),
-        showContext: (x: number, y: number) => dispatch(SystemActions.showContextMenu(x, y))
+        toggleContextMenu: (isVisible, x, y) => dispatch(SystemActions.toggleContextMenu(isVisible, x, y))
     })
 )

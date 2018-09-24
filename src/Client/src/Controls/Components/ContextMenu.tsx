@@ -9,7 +9,7 @@ import { StatelessComponent } from '../../Utils'
 
 interface IProps {
     isVisible: boolean
-    show: IDoubleConsumer<number, number>
+    show: IConsumer2<number, number>
     x: number
     y: number
 }
@@ -19,7 +19,12 @@ interface IProps {
  */
 class ContextMenu extends StatelessComponent<IProps> {
 
-    componentDidUpdate(): void {
+    /**
+     * Container of context menu.
+     */
+    private container: HTMLElement
+
+    public componentDidUpdate(): void {
         this.fixCoordinates()
     }
 
@@ -30,10 +35,9 @@ class ContextMenu extends StatelessComponent<IProps> {
         const { isVisible, show, x, y } = this.props
 
         if (isVisible) {
-            const container: any = ReactDOM.findDOMNode(this.refs.container)
             let newCoordinates = { x, y }
 
-            const data: ClientRect | DOMRect = container.getBoundingClientRect()
+            const data: ClientRect | DOMRect = this.container.getBoundingClientRect()
 
             if (data.left + data.width > window.innerWidth) {
                 newCoordinates.x -= data.width
@@ -64,7 +68,7 @@ class ContextMenu extends StatelessComponent<IProps> {
         return (
             <section
                 className='context'
-                ref='container'
+                ref={ref => this.container = ref}
                 style={style}>
                 <FullScreenControl />
                 <UIControl />
@@ -82,6 +86,6 @@ export default ContextMenu.connect(
         y: contextMenu.y
     }),
     (dispatch: IDispatch) => ({
-        show: (x: number, y: number) => dispatch(SystemActions.showContextMenu(x, y))
+        show: (x: number, y: number) => dispatch(SystemActions.toggleContextMenu(true, x, y))
     })
 )
