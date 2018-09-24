@@ -4,7 +4,7 @@ import LoginForm from '../Components/LoginForm'
 import { Url, View } from '../../Utils'
 
 interface IProps {
-    unauthUser: IAsyncData<IBaseUser>
+    unauthUser: IAsyncEntity<IBaseUser>
     identity: IUserIdentity
 }
 
@@ -37,6 +37,6 @@ class LoginView extends View<IProps> {
 export default LoginView.connect(
     ({ user }: IStoreState) => ({
         unauthUser: user.unauthUser,
-        identity: user.identity
+        identity: user.identity.payload
     })
 )

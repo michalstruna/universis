@@ -7,7 +7,7 @@ import UniverseActions from '../Redux/UniverseActions'
 import Units from '../Utils/Units'
 
 interface IProps {
-    bodies: IAsyncData<ISimpleBody[]>
+    bodies: IAsyncEntity<ISimpleBody[]>
     getBodies: IRunnable
     changeViewSize: IConsumer<number>
     viewSize: number

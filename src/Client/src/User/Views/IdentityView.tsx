@@ -32,6 +32,6 @@ class IdentityView extends View<IProps> {
 
 export default IdentityView.connect(
     ({ user }: IStoreState) => ({
-        identity: user.identity
+        identity: user.identity.payload
     })
 )

@@ -8,8 +8,8 @@ import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
 
 interface IProps {
     strings: IStrings
-    login: IFunction2<string, string, Promise<IAsyncData<IUserIdentity>>>
-    unauthUser: IAsyncData<IBaseUser>
+    login: IFunction2<string, string, Promise<IAsyncEntity<IUserIdentity>>>
+    unauthUser: IAsyncEntity<IBaseUser>
 }
 
 interface IValues {

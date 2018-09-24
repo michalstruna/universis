@@ -17,7 +17,7 @@ declare interface IBaseAction extends IAction {
  */
 declare interface IAsyncAction<T> extends IAction {
     property: string
-    $async: IAsyncData<T>
+    $async: IAsyncEntity<T>
 }
 
 /**
@@ -33,19 +33,9 @@ declare interface ISetAction extends IAction {
 declare type IActionResult<T> = IFunction<IConsumer<IAsyncAction<T>>, Promise<T>>
 
 /**
- * Type for reducer entity (isSent, payload, fail).
- */
-declare type IReducerEntity = any
-
-/**
  * Type for redux store state.
  */
 declare type IStoreState = any
-
-/**
- * Type for redux reducer.
- */
-declare type IReducer = (IState, IAction) => IStoreState
 
 /**
  * Type of dispatch action function.
@@ -55,7 +45,7 @@ declare type IDispatch = IConsumer<any>
 /**
  * Interface for async data container.
  */
-declare interface IAsyncData<T> {
+declare interface IAsyncEntity<T> {
     payload?: T
     isSent?: boolean
     error?: number

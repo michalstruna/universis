@@ -11,6 +11,12 @@ class Redux {
 
     }
 
+    /**
+     * Default entities.
+     */
+    public static EMPTY_ENTITY = null
+    public static EMPTY_ASYNC_ENTITY = { error: null, payload: null, isSent: false }
+
     private static SUFFIXES = {
         SENT: '_SENT',
         SUCCESS: '_SUCCESS',
@@ -150,9 +156,9 @@ class Redux {
                 ...state,
                 [action.property]: {
                     ...state[action.property],
-                    error: action.$async.error,
+                    error: null,
                     isSent: false,
-                    payload: null
+                    payload: action.$async.payload
                 }
             }
         } else if (Redux.hasSuffix(action.type, FAIL)) {
@@ -160,9 +166,9 @@ class Redux {
                 ...state,
                 [action.property]: {
                     ...state[action.property],
-                    error: null,
+                    error: action.$async.error,
                     isSent: false,
-                    payload: action.$async.payload
+                    payload: null
                 }
             }
         } else {

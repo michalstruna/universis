@@ -4,7 +4,7 @@ import Keys from '../Constants/Keys'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
-    strings: IStrings,
+    strings: IStrings
     viewSize: number
 }
 

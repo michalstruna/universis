@@ -3,7 +3,7 @@ import * as React from 'react'
 import { View, Urls } from '../../Utils'
 
 interface IProps {
-    unauthUser: IAsyncData<IBaseUser>
+    unauthUser: IAsyncEntity<IBaseUser>
     isLoggedIn: boolean
 }
 

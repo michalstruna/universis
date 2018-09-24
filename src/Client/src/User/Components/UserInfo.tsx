@@ -2,7 +2,9 @@ import * as React from 'react'
 
 import { StatelessComponent, Link, Numbers } from '../../Utils'
 
-const avatarUrl = 'https://vignette.wikia.nocookie.net/evilbabes/images/2/2b/Esdeath_Quote_%28Akame_ga_Kill_Ep_10%29.png/revision/latest?cb=20160212175749' // TODO: Remove
+//const avatarUrl = 'https://vignette.wikia.nocookie.net/evilbabes/images/2/2b/Esdeath_Quote_%28Akame_ga_Kill_Ep_10%29.png/revision/latest?cb=20160212175749' // TODO: Remove
+const avatarUrl = 'https://s3.amazonaws.com/cdn.roosterteeth.com/uploads/images/1f26bf45-d6ba-4650-8757-b94c69413973/md/2166131-1448257742824-tumblr_nseo5sJWL21ubrv41o1_250.png'
+
 
 const score = {
     gold: 999,
@@ -62,7 +64,7 @@ class UserInfo extends StatelessComponent<IProps> {
             <Link
                 className='user-info__avatar'
                 target={Link.URLS.HOME}
-                style={{ backgroundImage: `url(${avatarUrl}})` }} />
+                style={{ backgroundImage: `url(${avatarUrl})` }} />
         )
     }
 
@@ -72,7 +74,7 @@ class UserInfo extends StatelessComponent<IProps> {
                 <Link
                     className='user-info__avatar'
                     target={Link.URLS.HOME}
-                    style={{ backgroundImage: `url(${avatarUrl}})` }} />
+                    style={{ backgroundImage: `url(${avatarUrl})` }} />
                 <section className='user-info--right'>
                     <Link
                         className='user-info__name'
@@ -97,7 +99,7 @@ class UserInfo extends StatelessComponent<IProps> {
                 <Link
                     className='user-info__avatar'
                     target={Link.URLS.HOME}
-                    style={{ backgroundImage: `url(${avatarUrl}})` }} />
+                    style={{ backgroundImage: `url(${avatarUrl})` }} />
                 <section className='user-info--right'>
                     <Link
                         className='user-info__name'

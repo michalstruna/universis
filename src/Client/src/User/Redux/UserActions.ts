@@ -26,7 +26,7 @@ class UserActions {
     public static login = (email: string, password: string) => (
         Redux.asyncAction(
             ActionTypes.LOGIN,
-            { identity: Request.post<IUserIdentity>('login', { email, password }) },
+            { identity: Request.post<IUserIdentity>('login', { email, password }) }, // TODO: Another data? First will be always async request.
             identity => {
                 Cookies.set(Cookies.KEYS.IDENTITY, identity, Cookies.EXPIRATIONS.IDENTITY)
                 Url.push({ pathname: Url.URLS.HOME })
@@ -42,7 +42,7 @@ class UserActions {
 
         return Redux.setAction(
             ActionTypes.LOGOUT,
-            { identity: null },
+            { identity: Redux.EMPTY_ASYNC_ENTITY },
             () => Url.push({ pathname: Url.URLS.LOGIN })
         )
     }
