@@ -17,7 +17,12 @@ export default Redux.createReducer(
         },
         isFullScreen: false,
         isUIVisible: true,
-        strings: Strings
+        strings: Strings,
+        contextInfo: {
+            isVisible: false,
+            x: 0,
+            y: 0
+        }
     },
     (state, action) => {
         switch (action.type) {
@@ -34,7 +39,7 @@ export default Redux.createReducer(
                     isFullScreen: false
                 }
 
-            case ActionTypes.SHOW_CONTEXT:
+            case ActionTypes.SHOW_CONTEXT_MENU:
                 return {
                     ...state,
                     context: {
@@ -45,7 +50,7 @@ export default Redux.createReducer(
                     }
                 }
 
-            case ActionTypes.HIDE_CONTEXT:
+            case ActionTypes.HIDE_CONTEXT_MENU:
                 return {
                     ...state,
                     context: {

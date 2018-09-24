@@ -58,7 +58,7 @@ export default ContextTrigger.connect(
         isContextVisible: system.context.isVisible
     }),
     (dispatch: IDispatch) => ({
-        hideContext: () => dispatch(SystemActions.hideContext()),
-        showContext: (x: number, y: number) => dispatch(SystemActions.showContext(x, y))
+        hideContext: () => dispatch(SystemActions.hideContextMenu()),
+        showContext: (x: number, y: number) => dispatch(SystemActions.showContextMenu(x, y))
     })
 )

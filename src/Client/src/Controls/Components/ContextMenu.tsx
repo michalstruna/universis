@@ -17,7 +17,7 @@ interface IProps {
 /**
  * Context menu with some controls.
  */
-class Context extends StatelessComponent<IProps> {
+class ContextMenu extends StatelessComponent<IProps> {
 
     componentDidUpdate(): void {
         this.fixCoordinates()
@@ -75,13 +75,13 @@ class Context extends StatelessComponent<IProps> {
 
 }
 
-export default Context.connect(
+export default ContextMenu.connect(
     ({ system: { context } }: IStoreState) => ({
         isVisible: context.isVisible,
         x: context.x,
         y: context.y
     }),
     (dispatch: IDispatch) => ({
-        show: (x: number, y: number) => dispatch(SystemActions.showContext(x, y))
+        show: (x: number, y: number) => dispatch(SystemActions.showContextMenu(x, y))
     })
 )

@@ -29,8 +29,8 @@ class SystemActions {
      * @param x Horizontal coordination.
      * @param y Vertical coordination.
      */
-    static showContext = (x: number, y: number) => ({
-        type: ActionTypes.SHOW_CONTEXT,
+    static showContextMenu = (x: number, y: number) => ({
+        type: ActionTypes.SHOW_CONTEXT_MENU,
         x,
         y
     })
@@ -38,8 +38,8 @@ class SystemActions {
     /**
      * Hide context menu.
      */
-    static hideContext = () => ({
-        type: ActionTypes.HIDE_CONTEXT
+    static hideContextMenu = () => ({
+        type: ActionTypes.HIDE_CONTEXT_MENU
     })
 
     /**
@@ -64,9 +64,8 @@ class SystemActions {
 
     /**
      * Toggle UI.
-     * @returns {IToggleAction}
      */
-    static toggleUI = () =>Redux.toggleAction(ActionTypes.TOGGLE_UI)
+    static toggleUI = () => Redux.toggleAction(ActionTypes.TOGGLE_UI)
 
 }
 
