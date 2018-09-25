@@ -64,8 +64,12 @@ export default {
     signUp: {
         title: 'Registrujte se.',
         password: 'Nové heslo',
+        missingPassword: 'Zadejte nové heslo.',
+        invalidPassword: 'Heslo musí mít 6+ znaků.',
         passwordAgain: 'Heslo znovu',
-        button: 'Hotovo'
+        missingPasswordAgain: 'Zadejte heslo znovu.',
+        invalidPasswordAgain: 'Hesla se neshodují.',
+        button: 'Registrovat se'
     },
 
     universe: {

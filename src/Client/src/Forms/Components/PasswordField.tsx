@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { StatelessComponent } from '../../Utils'
-import FieldInput, { ICustomFieldProps } from './Field'
+import Field, { ICustomFieldProps } from './Field'
 import Strings from '../../../../Utils/Strings'
 
 /**
@@ -13,11 +13,27 @@ class PasswordField extends StatelessComponent<ICustomFieldProps> {
         pattern: Strings.PASSWORD_PATTERN
     }
 
+    private validate = value => {
+        const { validate, required, invalid } = this.props
+
+        if (validate) {
+            return validate(value)
+        } else if (required && !value) {
+            return required
+        } else if (!Strings.isPassword(value)) {
+            return invalid
+        }
+    }
+
     public render(): JSX.Element {
+        const { name, label } = this.props
+
         return (
-            <FieldInput
-                { ...this.props}
-                type='password' />
+            <Field
+                name={name}
+                label={label}
+                type='password'
+                validate={this.validate} />
         )
     }
 
