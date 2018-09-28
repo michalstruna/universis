@@ -19,6 +19,7 @@ class Numbers {
      */
     public static addSpaces(number: number): string {
         let oldValue = Math.floor(number).toString()
+        const decimal = number.toString().split('.')[1]
         let newValue = ''
 
         for (let i = oldValue.length - 1; i >= 0; i--) {
@@ -29,7 +30,7 @@ class Numbers {
             }
         }
 
-        return newValue
+        return newValue + (decimal ? ('.' + decimal[0]) : '')
     }
 
     /**

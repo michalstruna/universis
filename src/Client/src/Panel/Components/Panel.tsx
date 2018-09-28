@@ -6,6 +6,7 @@ import Chat from './Chat'
 import Overview from './Overview'
 import People from './People'
 import PanelActions from '../Redux/PanelActions'
+import Bodies from './Bodies'
 
 interface IProps {
     strings: IStrings
@@ -58,7 +59,9 @@ class Panel extends StatelessComponent<IProps> {
         const tabs = [
             { label: 'Aktuality', target: Queries.OVERVIEW },
             { label: 'Chat', target: Queries.CHAT },
-            { label: 'Lidé', target: Queries.PEOPLE }
+            { label: 'Lidé', target: Queries.PEOPLE },
+            { label: 'Merkur', target: Queries.BODY },
+            { label: 'Tělesa', target: Queries.BODIES }
         ]
 
         const currentTab = Url.getQuery(location.search, Queries.PANEL)
@@ -88,6 +91,8 @@ class Panel extends StatelessComponent<IProps> {
                 return <Overview />
             case Queries.PEOPLE:
                 return <People />
+            case Queries.BODIES:
+                return <Bodies />
             default:
                 return null
         }

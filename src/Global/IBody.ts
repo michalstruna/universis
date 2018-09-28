@@ -27,6 +27,11 @@ declare interface INewSimpleBody {
     }
 
     /**
+     * Mass of body [kg].
+     */
+    mass: number
+
+    /**
      * Data about body orbit.
      */
     orbit: {

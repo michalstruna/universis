@@ -8,6 +8,15 @@ export {
 }
 
 /**
+ * Components.
+ */
+import SizeUnit from './Components/SizeUnit'
+
+export {
+    SizeUnit
+}
+
+/**
  * Constants.
  */
 import Physics from './Constants/Config'

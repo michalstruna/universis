@@ -1,9 +1,9 @@
 .panel {
     @include absolute-position;
-    @include size(#{$panel-width}, 100vh);
     background-color: $bottom-layer-color;
+    height: 100vh;
     left: -$panel-width;
-    transition: left $medium-animation-duration, opacity $medium-animation-duration;
+    transition: left $medium-animation-duration, opacity $medium-animation-duration, width $medium-animation-duration;
     z-index: 1000;
 
     &--visible {

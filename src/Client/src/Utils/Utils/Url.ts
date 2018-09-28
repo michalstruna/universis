@@ -1,4 +1,5 @@
 import Urls from '../Constants/Urls'
+import Queries from '../Constants/Queries'
 import { history } from '../../index'
 
 /**
@@ -10,6 +11,7 @@ class Url {
      * @var URLS All local urls.
      */
     public static URLS = Urls
+    public static QUERIES = Queries
 
     /**
      * Separator of url parts.

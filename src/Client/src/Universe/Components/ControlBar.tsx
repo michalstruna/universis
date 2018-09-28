@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import Units from '../Utils/Units'
+import SizeUnit from './SizeUnit'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
@@ -37,7 +37,9 @@ class ControlBar extends StatelessComponent<IProps> {
                 </section>
                 <section className='universe__view'>
                     <section className='universe__view--inner'>
-                        {Units.format(viewSize)}
+                        <SizeUnit>
+                            {viewSize}
+                        </SizeUnit>
                     </section>
                 </section>
             </section>
