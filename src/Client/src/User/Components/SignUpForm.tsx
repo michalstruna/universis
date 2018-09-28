@@ -8,7 +8,7 @@ import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
 
 interface IProps {
     strings: IStrings
-    login: IFunction2<string, string, Promise<IAsyncEntity<IUserIdentity>>>
+    signUp: IFunction2<string, string, Promise<IAsyncEntity<IUserIdentity>>>
     unauthUser: IAsyncEntity<IBaseUser>
     password: string
 }
@@ -31,10 +31,10 @@ class SignUpForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { strings, login, unauthUser } = this.props
+        const { strings, signUp, unauthUser } = this.props
 
         try {
-            await login(unauthUser.payload.email, data.password)
+            await signUp(unauthUser.payload.email, data.password)
         } catch (error) {
             throw new SubmissionError({ password: strings.invalidPassword })
         }

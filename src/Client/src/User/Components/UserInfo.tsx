@@ -16,6 +16,7 @@ const score = {
 
 interface IProps {
     type: UserInfoTypes
+    user?: IBaseUser
 }
 
 /**
@@ -94,6 +95,12 @@ class UserInfo extends StatelessComponent<IProps> {
     }
 
     private renderLarge(): JSX.Element {
+        const { user } = this.props
+
+        if (!user) {
+            return null
+        }
+
         return (
             <React.Fragment>
                 <Link
@@ -105,7 +112,7 @@ class UserInfo extends StatelessComponent<IProps> {
                         className='user-info__name'
                         target={Link.URLS.HOME}
                         style={{ color: this.getColorFromKarma() }}>
-                        Michal Struna
+                        {user.name}
                     </Link>
                     <section className='user-info__score'>
                         <section className='user-info__reputation'>

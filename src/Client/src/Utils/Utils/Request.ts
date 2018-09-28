@@ -100,6 +100,15 @@ class Request {
     }
 
     /**
+     * If there is no data in response, set default value.
+     * @param defaultData Default data.
+     * @returns Promise with old or default data.
+     */
+    public static setDefault<T>(defaultData: T): IFunction<T, Promise<T>> {
+        return (data: T) => new Promise(resolve => resolve(data ? data : defaultData))
+    }
+
+    /**
      * Process Axios promise and convert it to promise.
      * @param request Request Axios promise.
      * @returns Promise.
