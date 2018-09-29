@@ -11,9 +11,11 @@ export {
  * Components.
  */
 import SizeUnit from './Components/SizeUnit'
+import TimeUnit from './Components/TimeUnit'
 
 export {
-    SizeUnit
+    SizeUnit,
+    TimeUnit
 }
 
 /**

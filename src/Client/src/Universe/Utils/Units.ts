@@ -1,5 +1,5 @@
 import SizeUnit from '../Constants/SizeUnit'
-
+import TimeUnit from '../Constants/TimeUnit'
 /**
  * Utils for universe.
  */
@@ -9,6 +9,12 @@ class Units {
      * List of all size units.
      */
     static SIZE = SizeUnit
+
+    /**
+     * List of all time units.
+     * @type {TimeUnit}
+     */
+    static TIME = TimeUnit
 
     private constructor() {
 
@@ -21,7 +27,7 @@ class Units {
      * @param count Count of units. (optional, default 1)
      * @returns New unit.
      */
-    public static convert(from: SizeUnit, to: SizeUnit, count = 1): number {
+    public static convert(from: number, to: number, count = 1): number {
         return count * (from / to)
     }
 

@@ -7,7 +7,8 @@ import { StatelessComponent, Numbers } from '../../Utils'
 interface IProps {
     children: number,
     short?: boolean,
-    input?: Unit
+    input?: number,
+    row?: any
 }
 
 /**
@@ -24,53 +25,41 @@ class SizeUnit extends StatelessComponent<IProps> {
         input: Unit.KM
     }
 
-    /**
-     * Format number to unit (1 000 000 to 1 km).
-     * @returns Value with unit.
-     */
+    private static NAMES = {
+        M: 'm',
+        KM: 'km',
+        AU: 'AU',
+        LY: 'ly',
+        KLY: 'kly',
+        MLY: 'Mly',
+        GLY: 'Gly',
+        TLY: 'Tly'
+    }
+
     private getUnit(): string {
         const { children, input, short } = this.props
-        let newValue = Math.floor(Units.convert(children, input, Unit.KM) * Unit.KM)
+
+        let value = Units.convert(input, Unit.M, children)
+
         let unit
 
-        if (newValue < 2 * Unit.KM) {
-            unit = 'm'
-        } else if (newValue < 2 * Unit.AU) {
-            unit = 'km'
-            newValue /= Unit.KM
-        } else if (newValue < 2 * Unit.LY) {
-            unit = 'AU'
-            newValue /= Unit.AU
-        } else if (newValue < 2 * Unit.KLY) {
-            unit = 'ly'
-            newValue /= Unit.LY
-        } else if (newValue < 2 * Unit.MLY) {
-            unit = 'Kly'
-            newValue /= Unit.KLY
-        } else if (newValue < 2 * Unit.GLY) {
-            unit = 'Mly'
-            newValue /= Unit.MLY
-        } else if (newValue < 2 * Unit.TLY) {
-            unit = 'Gly'
-            newValue /= Unit.GLY
-        } else {
-            unit = 'Tly'
-            newValue /= Unit.TLY
+        for (const i in Unit) {
+            const unitNamesKeys = Object.keys(SizeUnit.NAMES)
+            const nextUnitKey = unitNamesKeys[unitNamesKeys.indexOf(i) + 1]
+            const nextUnitName = SizeUnit.NAMES[(nextUnitKey || '')]
+
+            if (!nextUnitName || value < Unit[nextUnitKey]) {
+                unit = SizeUnit.NAMES[i]
+                value /= Unit[i]
+                break
+            }
         }
 
-        let milions = ''
-
-        if (newValue > 1e7 && short) {
-            newValue = Math.floor(Math.floor(newValue) / 1e5) / 10
-            milions = 'M'
-        }
-
-        return Numbers.toReadable(newValue) + milions + ' ' + unit
+        const format = short ? Numbers.toShort : Numbers.toReadable
+        return format(value) + ' ' + unit
     }
 
     public render(): JSX.Element {
-        console.log(this.props.children)
-
         return (
             <React.Fragment>
                 {this.getUnit()}

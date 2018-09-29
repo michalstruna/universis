@@ -14,9 +14,9 @@ declare interface IUniverse {
     setViewSize(viewSize: number): void
 
     /**
-     * If view size is changed, run callback.
-     * @param callback Callback with view size in parameter.
+     * Select body.
+     * @param bodyId ID of body.
      */
-    setOnChangeViewSize(callback: IConsumer<number>): void
+    selectBody(bodyId: string): void
 
 }

@@ -16,6 +16,13 @@ const rotationVector = new THREE.Vector3(0, 0, 1)
 const cameraViewProjectionMatrix = new THREE.Matrix4()
 let lastViewSize = null
 
+interface IOptions {
+    element: HTMLElement
+    bodies: ISimpleBody[]
+    onChangeViewSize: IConsumer<number>
+    onSelectBody: IConsumer<string>
+}
+
 /**
  * Utils for universe.
  */
@@ -49,7 +56,8 @@ class Universe implements IUniverse {
     /**
      * Handlers.
      */
-    private onChangeViewSize: IConsumer<number>
+    private handleChangeViewSize: IConsumer<number>
+    private handleSelectBody: IConsumer<string>
 
     /**
      * THREE.js entities.
@@ -61,12 +69,14 @@ class Universe implements IUniverse {
 
     /**
      * Create universe.
-     * @param element Target. There will be canvas with universe.
-     * @param bodies List of all bodies.
+     * @param options Options.
      */
-    public constructor(element: HTMLElement, bodies: ISimpleBody[]) {
-        const initializer = new UniverseInitializer(element, bodies)
+    public constructor(options: IOptions) {
+        const initializer = new UniverseInitializer(options.element, options.bodies)
         this.scale = 1
+
+        this.handleSelectBody = options.onSelectBody
+        this.handleChangeViewSize = options.onChangeViewSize
 
         this.scene = initializer.scene
         this.renderer = initializer.renderer
@@ -77,16 +87,17 @@ class Universe implements IUniverse {
         this.bodySelector = initializer.bodySelector
 
         this.bodies.forEach(body => {
-            body.label.onclick = () => this.selectBody(body.mesh)
+            body.label.onclick = () => this.handleSelectBody(body.data._id)
         })
 
-        element.addEventListener('mousedown', this.handleClick)
+        options.element.addEventListener('mousedown', this.handleClick)
 
         document.body.addEventListener('mousemove', event => {
             this.controls.enabled = !(event.target as any).className // TODO: Add scrollbar to area.
         })
 
-        this.selectBody(this.bodies[3].mesh)
+        this.selectBody(this.bodies[3].data._id)
+        this.handleSelectBody(this.bodies[3].data._id)
 
         this.resize()
         this.render()
@@ -104,10 +115,6 @@ class Universe implements IUniverse {
         this.controls.maxDistance = viewSize
         lastViewSize = viewSize
         this.camera.updateProjectionMatrix()
-    }
-
-    public setOnChangeViewSize(callback: IConsumer<number>): void {
-        this.onChangeViewSize = callback
     }
 
     /**
@@ -160,9 +167,9 @@ class Universe implements IUniverse {
         this.selectedBody.getWorldPosition(bodyPosition)
         const viewSize = bodyPosition.distanceTo(cameraPosition)
 
-        if (Units.isDifferent(viewSize, lastViewSize) && this.onChangeViewSize) {
+        if (Units.isDifferent(viewSize, lastViewSize) && this.handleChangeViewSize) {
             lastViewSize = viewSize
-            this.onChangeViewSize(viewSize / Config.SIZE_RATIO)
+            this.handleChangeViewSize(viewSize / Config.SIZE_RATIO)
         }
 
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
@@ -215,17 +222,20 @@ class Universe implements IUniverse {
         const mesh = this.bodySelector.select(event.pageX, event.pageY)
 
         if (mesh) {
-            this.selectBody(mesh)
+            this.handleSelectBody(mesh.name)
         }
     }
 
     /**
      * Center body.
-     * @param mesh THREE body.
+     * @param bodyId ID of body.
      */
-    private selectBody(mesh: THREE.Mesh): void {
+    public selectBody(bodyId: string): void {
+        const mesh = this.getBodyById(bodyId).mesh
         this.selectedBody = mesh
-        this.controls.minDistance = (mesh.geometry as THREE.SphereGeometry).parameters.radius * 2
+        const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
+        this.controls.minDistance = radius * 2
+        this.controls.maxDistance = radius * 4
 
         mesh.children[0].add(this.camera)
         this.controls.target.set(0, 0, 0)

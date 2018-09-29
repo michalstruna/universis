@@ -38,6 +38,17 @@ class UniverseActions {
         )
     )
 
+    /**
+     * Select body.
+     * @param selectedBody ID of selected body.
+     */
+    public static selectBody = (selectedBody: string) => (
+        Redux.setAction(
+            ActionTypes.SELECT_BODY,
+            { selectedBody }
+        )
+    )
+
 }
 
 export default UniverseActions

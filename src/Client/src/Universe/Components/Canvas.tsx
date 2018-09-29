@@ -9,8 +9,10 @@ import Units from '../Utils/Units'
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
     getBodies: IRunnable
-    changeViewSize: IConsumer<number>
+    onChangeViewSize: IConsumer<number>
+    onSelectBody: IConsumer<string>
     viewSize: number
+    selectedBody: string
 }
 
 class Canvas extends StatelessComponent<IProps> {
@@ -25,12 +27,20 @@ class Canvas extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
+        const { viewSize, selectedBody } = this.props
+
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
         }
 
-        if (this.universe && Units.isDifferent(prevProps.viewSize, this.props.viewSize) ) {
+        if (this.universe && Units.isDifferent(prevProps.viewSize, viewSize)) {
             this.universe.setViewSize(this.props.viewSize)
+        }
+
+        console.log(prevProps.selectedBody, selectedBody)
+
+        if (this.universe && prevProps.selectedBody !== selectedBody) {
+            this.universe.selectBody(selectedBody)
         }
     }
 
@@ -38,18 +48,19 @@ class Canvas extends StatelessComponent<IProps> {
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        const { bodies } = this.props
+        const { bodies, onChangeViewSize, onSelectBody } = this.props
 
         if (bodies.payload && !this.universe) {
             const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement
-            this.universe = new Universe(element, bodies.payload)
-            this.universe.setOnChangeViewSize(this.handleChangeViewSize)
+            this.universe = new Universe({
+                element,
+                bodies: bodies.payload,
+                onChangeViewSize,
+                onSelectBody,
+            })
+
             this.setOnResize(this.universe.resize)
         }
-    }
-
-    private handleChangeViewSize = (viewSize: number) => {
-        this.props.changeViewSize(viewSize)
     }
 
     public render(): JSX.Element {
@@ -61,11 +72,13 @@ class Canvas extends StatelessComponent<IProps> {
 }
 
 export default Canvas.connect(
-    ({ universe  }: IStoreState) => ({
+    ({ universe }: IStoreState) => ({
         bodies: universe.bodies,
-        viewSize: universe.viewSize
+        viewSize: universe.viewSize,
+        selectedBody: universe.selectedBody
     }),
     (dispatch: IDispatch) => ({
-        changeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom))
+        onChangeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom)),
+        onSelectBody: (bodyId: string) => dispatch(UniverseActions.selectBody(bodyId))
     })
 )

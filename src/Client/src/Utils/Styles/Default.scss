@@ -134,3 +134,7 @@ input, textarea {
         background-color: #555;
     }
 }
+
+* {
+    transition-timing-function: ease-in-out !important;
+}
