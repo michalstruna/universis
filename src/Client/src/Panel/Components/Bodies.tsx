@@ -1,6 +1,7 @@
 import * as React from 'react'
 import ReactTable from 'react-table'
 
+import BodyFilterForm from './BodyFilterForm'
 import { SizeUnit, TimeUnit, UniverseActions } from '../../Universe'
 import { StatelessComponent } from '../../Utils'
 
@@ -17,17 +18,6 @@ class Bodies extends StatelessComponent<IProps> {
     private handleClick = (bodyId: string) => {
         this.props.selectBody(bodyId)
     }
-
-    /**
-     * Render size cell.
-     * @param size
-     * @returns Size cell.
-     */
-    private renderSizeCell = (size: number) => (
-        <SizeUnit input={SizeUnit.UNITS.KM} short={true}>
-            {size}
-        </SizeUnit>
-    )
 
     /**
      * Render list of bodies.
@@ -50,42 +40,42 @@ class Bodies extends StatelessComponent<IProps> {
                         Header: 'Průměr',
                         accessor: body => (body as ISimpleBody).diameter.equatorial,
                         minWidth: 92,
-                        Cell: row => this.renderSizeCell(row.value)
+                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
                     },
                     {
                         id: 'mass',
                         Header: 'Hmotnost',
                         accessor: body => (body as ISimpleBody).mass,
                         minWidth: 92,
-                        Cell: row => this.renderSizeCell(row.value)
+                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
                     },
                     {
                         id: 'density',
                         Header: 'Hustota',
                         accessor: body => (body as ISimpleBody).density,
                         minWidth: 92,
-                        Cell: row => this.renderSizeCell(row.value)
+                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
                     },
                     {
                         id: 'apocenter',
                         Header: 'Apo',
                         accessor: body => (body as ISimpleBody).orbit.apocenter,
                         minWidth: 92,
-                        Cell: row => this.renderSizeCell(row.value)
+                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
                     },
                     {
                         id: 'year',
                         Header: 'Rok',
                         accessor: body => (body as ISimpleBody).orbit.period,
                         minWidth: 92,
-                        Cell: row => <TimeUnit input={TimeUnit.UNITS.Y}>{row.value}</TimeUnit>
+                        Cell: row => <TimeUnit input={TimeUnit.UNITS.Y} short={true}>{row.value}</TimeUnit>
                     },
                     {
                         id: 'day',
                         Header: 'Den',
                         accessor: body => (body as ISimpleBody).period,
                         minWidth: 92,
-                        Cell: row => <TimeUnit input={TimeUnit.UNITS.D}>{row.value}</TimeUnit>
+                        Cell: row => <TimeUnit input={TimeUnit.UNITS.D} short={true}>{row.value}</TimeUnit>
                     }
                 ]}
                 defaultPageSize={bodies.payload.length}
@@ -103,22 +93,7 @@ class Bodies extends StatelessComponent<IProps> {
     private renderFilter(): JSX.Element {
         return (
             <section className='panel__bodies__filter'>
-                <select>
-                    <option></option>
-                    <option>Název</option>
-                    <option>Průměr</option>
-                </select>
-
-                <select>
-                    <option>Je roven</option>
-                    <option>Je větší</option>
-                    <option>Je menší</option>
-                </select>
-
-                než
-
-                <input type='text' />
-                <button>x</button>
+                <BodyFilterForm />
             </section>
         )
     }
