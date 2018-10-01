@@ -37,8 +37,6 @@ class Canvas extends StatelessComponent<IProps> {
             this.universe.setViewSize(this.props.viewSize)
         }
 
-        console.log(prevProps.selectedBody, selectedBody)
-
         if (this.universe && prevProps.selectedBody !== selectedBody) {
             this.universe.selectBody(selectedBody)
         }
@@ -51,7 +49,7 @@ class Canvas extends StatelessComponent<IProps> {
         const { bodies, onChangeViewSize, onSelectBody } = this.props
 
         if (bodies.payload && !this.universe) {
-            const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement
+            const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement // TODO: Refactor ref.
             this.universe = new Universe({
                 element,
                 bodies: bodies.payload,

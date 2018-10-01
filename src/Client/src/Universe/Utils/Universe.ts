@@ -4,6 +4,7 @@ import Config from '../Constants/Config'
 import UniverseInitializer from './UniverseInitializer'
 import Visibility from '../Constants/Visibility'
 import Units from './Units'
+import { Html } from '../../Utils'
 
 /**
  * Temp variables.
@@ -93,7 +94,7 @@ class Universe implements IUniverse {
         options.element.addEventListener('mousedown', this.handleClick)
 
         document.body.addEventListener('mousemove', event => {
-            this.controls.enabled = !(event.target as any).className // TODO: Add scrollbar to area.
+            this.controls.enabled = !Html.hasParent(event.target as HTMLElement, element => Html.hasClass(element, 'panel'))
         })
 
         this.selectBody(this.bodies[3].data._id)
