@@ -9,7 +9,7 @@ class Html {
      * @param filter Filter for parents.
      * @returns Nearest parent, that matches filter.
      */
-    public static findParent(element: HTMLElement, filter: IFunction<HTMLElement, boolean>): Node | null {
+    public static findParent(element: HTMLElement, filter: IFunction<HTMLElement, boolean>): HTMLElement | null {
         while (element) {
             if (filter(element)) {
                 return element

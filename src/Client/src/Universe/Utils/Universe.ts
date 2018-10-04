@@ -248,10 +248,10 @@ class Universe implements IUniverse {
      * @param viewSize Distance camera from centered body.
      */
     private setScale(viewSize: number): void {
-        if (viewSize > 1000000) {
-            this.scale /= 1000
-        } else if (viewSize < 1000) {
-            this.scale *= 1000
+        if (viewSize > 1e6) {
+            this.scale /= 1e3
+        } else if (viewSize < 1e3) {
+            this.scale *= 1e3
         }
     }
 

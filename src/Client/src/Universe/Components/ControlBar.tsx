@@ -37,7 +37,7 @@ class ControlBar extends StatelessComponent<IProps> {
                 </section>
                 <section className='universe__view'>
                     <section className='universe__view--inner'>
-                        <SizeUnit>
+                        <SizeUnit short={true}>
                             {viewSize}
                         </SizeUnit>
                     </section>
