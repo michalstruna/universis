@@ -25,4 +25,10 @@ declare interface IUniverse {
      */
     toggleLabels(areLabelsVisible: boolean): void
 
+    /**
+     * Toggle light.
+     * @param isLightVisible Light is visible.
+     */
+    toggleLight(isLightVisible: boolean): void
+
 }

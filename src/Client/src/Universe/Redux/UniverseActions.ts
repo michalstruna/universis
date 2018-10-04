@@ -60,6 +60,18 @@ class UniverseActions {
         )
     )
 
+    /**
+     * Toggle visibility of light.
+     * @param isLightVisible Light is visible.
+     */
+    public static toggleLight = (isLightVisible: boolean) => (
+        Redux.setAction(
+            ActionTypes.TOGGLE_LABELS,
+            { isLightVisible }
+        )
+    )
+
+
 }
 
 export default UniverseActions

@@ -72,6 +72,8 @@ class Universe implements IUniverse {
      * Toggle values.
      */
     private areLabelsVisible: boolean
+    private darkColor: THREE.AmbientLight
+    private lightColor: THREE.AmbientLight
 
     /**
      * Create universe.
@@ -91,6 +93,8 @@ class Universe implements IUniverse {
         this.frustum = initializer.frustum
         this.bodies = initializer.bodies
         this.bodySelector = initializer.bodySelector
+        this.darkColor = initializer.darkColor
+        this.lightColor = initializer.lightColor
 
         this.bodies.forEach(body => {
             body.label.onclick = () => this.handleSelectBody(body.data._id)
@@ -125,6 +129,16 @@ class Universe implements IUniverse {
 
     public toggleLabels(areLabelsVisible: boolean) {
         this.areLabelsVisible = areLabelsVisible
+    }
+
+    public toggleLight(isLightVisible: boolean) {
+        if (isLightVisible) {
+            this.scene.remove(this.darkColor)
+            this.scene.add(this.lightColor)
+        } else {
+            this.scene.remove(this.lightColor)
+            this.scene.add(this.darkColor)
+        }
     }
 
     /**

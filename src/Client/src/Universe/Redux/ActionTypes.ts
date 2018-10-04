@@ -4,7 +4,8 @@ enum ActionTypes {
     GET_BODY = 'GET_BODY',
     CHANGE_VIEW_SIZE = 'CHANGE_VIEW_SIZE',
     SELECT_BODY = 'SELECT_BODY',
-    TOGGLE_LABELS = 'TOGGLE_LABELS'
+    TOGGLE_LABELS = 'TOGGLE_LABELS',
+    TOGGLE_LIGHT = 'TOGGLE_LIGHT'
 }
 
 export default ActionTypes

@@ -8,7 +8,12 @@ export default {
     /**
      * Color of universe background.
      */
-    UNIVERSE_COLOR: 0x222222,
+    DARK_COLOR: 0x222222,
+
+    /**
+     * Color of light.
+     */
+    LIGHT_COLOR: 0xffffff,
 
     /**
      * Count of segments of body.

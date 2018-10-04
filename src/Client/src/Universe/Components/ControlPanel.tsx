@@ -10,6 +10,8 @@ interface IProps {
     viewSize: number
     areLabelsVisible: boolean
     toggleLabels: IConsumer<boolean>
+    isLightVisible: boolean
+    toggleLight: IConsumer<boolean>
 }
 
 /**
@@ -45,9 +47,7 @@ class ControlPanel extends StatelessComponent<IProps> {
     }
 
     public render(): JSX.Element {
-        const { areLabelsVisible, toggleLabels } = this.props
-
-        console.log(11111, this.props)
+        const { areLabelsVisible, toggleLabels, isLightVisible, toggleLight } = this.props
 
         return (
             <section className='universe__controls'>
@@ -63,7 +63,7 @@ class ControlPanel extends StatelessComponent<IProps> {
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('panel')}
-                    {this.renderButton('light')}
+                    {this.renderButton('light', () => toggleLight(!isLightVisible), isLightVisible)}
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('slower')}
@@ -83,9 +83,11 @@ class ControlPanel extends StatelessComponent<IProps> {
 export default ControlPanel.connect(
     ({ system, universe }: IStoreState) => ({
         strings: system.strings.universe.controls,
-        areLabelsVisible: universe.areLabelsVisible
+        areLabelsVisible: universe.areLabelsVisible,
+        isLightVisible: universe.isLightVisible
     }),
     (dispatch: IDispatch) => ({
-        toggleLabels: areLabelsVisible => dispatch(UniverseActions.toggleLabels(areLabelsVisible))
+        toggleLabels: areLabelsVisible => dispatch(UniverseActions.toggleLabels(areLabelsVisible)),
+        toggleLight: isLightVisible => dispatch(UniverseActions.toggleLight(isLightVisible))
     })
 )

@@ -14,6 +14,7 @@ interface IProps {
     viewSize: number
     selectedBody: string
     areLabelsVisible: boolean
+    isLightVisible: boolean
 }
 
 class Canvas extends StatelessComponent<IProps> {
@@ -28,7 +29,7 @@ class Canvas extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, areLabelsVisible } = this.props
+        const { viewSize, selectedBody, areLabelsVisible, isLightVisible } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -44,6 +45,10 @@ class Canvas extends StatelessComponent<IProps> {
 
         if (prevProps.areLabelsVisible !== areLabelsVisible) {
             this.universe.toggleLabels(areLabelsVisible)
+        }
+
+        if (prevProps.isLightVisible !== isLightVisible) {
+            this.universe.toggleLight(isLightVisible)
         }
     }
 
@@ -81,7 +86,8 @@ export default Canvas.connect(
         bodies: universe.bodies,
         viewSize: universe.viewSize,
         selectedBody: universe.selectedBody,
-        areLabelsVisible: universe.areLabelsVisible
+        areLabelsVisible: universe.areLabelsVisible,
+        isLightVisible: universe.isLightVisible
     }),
     (dispatch: IDispatch) => ({
         onChangeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom)),
