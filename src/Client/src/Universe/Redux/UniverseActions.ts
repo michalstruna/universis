@@ -49,6 +49,17 @@ class UniverseActions {
         )
     )
 
+    /**
+     * Toggle visibility of labels.
+     * @param areLabelsVisible Labels are visible.
+     */
+    public static toggleLabels = (areLabelsVisible: boolean) => (
+        Redux.setAction(
+            ActionTypes.TOGGLE_LABELS,
+            { areLabelsVisible }
+        )
+    )
+
 }
 
 export default UniverseActions

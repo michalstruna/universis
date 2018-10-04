@@ -13,6 +13,7 @@ interface IProps {
     onSelectBody: IConsumer<string>
     viewSize: number
     selectedBody: string
+    areLabelsVisible: boolean
 }
 
 class Canvas extends StatelessComponent<IProps> {
@@ -27,7 +28,7 @@ class Canvas extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody } = this.props
+        const { viewSize, selectedBody, areLabelsVisible } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -40,13 +41,17 @@ class Canvas extends StatelessComponent<IProps> {
         if (this.universe && prevProps.selectedBody !== selectedBody) {
             this.universe.selectBody(selectedBody)
         }
+
+        if (prevProps.areLabelsVisible !== areLabelsVisible) {
+            this.universe.toggleLabels(areLabelsVisible)
+        }
     }
 
     /**
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        const { bodies, onChangeViewSize, onSelectBody } = this.props
+        const { bodies, onChangeViewSize, onSelectBody, areLabelsVisible } = this.props
 
         if (bodies.payload && !this.universe) {
             const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement // TODO: Refactor ref.
@@ -54,8 +59,10 @@ class Canvas extends StatelessComponent<IProps> {
                 element,
                 bodies: bodies.payload,
                 onChangeViewSize,
-                onSelectBody,
+                onSelectBody
             })
+
+            this.universe.toggleLabels(areLabelsVisible)
 
             this.setOnResize(this.universe.resize)
         }
@@ -73,7 +80,8 @@ export default Canvas.connect(
     ({ universe }: IStoreState) => ({
         bodies: universe.bodies,
         viewSize: universe.viewSize,
-        selectedBody: universe.selectedBody
+        selectedBody: universe.selectedBody,
+        areLabelsVisible: universe.areLabelsVisible
     }),
     (dispatch: IDispatch) => ({
         onChangeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom)),

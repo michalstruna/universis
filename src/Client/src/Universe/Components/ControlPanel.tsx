@@ -1,11 +1,15 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import Keys from '../Constants/Keys'
 import { StatelessComponent } from '../../Utils'
+import UniverseActions from '../Redux/UniverseActions'
 
 interface IProps {
     strings: IStrings
     viewSize: number
+    areLabelsVisible: boolean
+    toggleLabels: IConsumer<boolean>
 }
 
 /**
@@ -16,13 +20,21 @@ class ControlPanel extends StatelessComponent<IProps> {
     /**
      * Render button.
      * @param name Class name suffix.
-     * @param key Key shortcut.
+     * @param handleClick Callback after click.
+     * @param isActive Button is active.
      * @returns Button.
      */
-    private renderButton(name: string, key: string = null): JSX.Element {
+    private renderButton(name: string, handleClick: IRunnable = () => null, isActive: boolean = false): JSX.Element {
+        const className = ClassNames(
+            'universe__controls__button',
+            'universe__controls__button--' + name,
+            { 'universe__controls__button--active': isActive }
+        )
+
         return (
             <button
-                className={'universe__controls__button universe__controls__button--' + name}>
+                className={className}
+                onClick={handleClick}>
                 <section className='universe__controls__button__key'>
                     {Keys[name.toUpperCase()]}
                 </section>
@@ -33,6 +45,10 @@ class ControlPanel extends StatelessComponent<IProps> {
     }
 
     public render(): JSX.Element {
+        const { areLabelsVisible, toggleLabels } = this.props
+
+        console.log(11111, this.props)
+
         return (
             <section className='universe__controls'>
                 <section className='universe__controls__row'>
@@ -43,11 +59,11 @@ class ControlPanel extends StatelessComponent<IProps> {
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('orbits')}
-                    {this.renderButton('labels')}
+                    {this.renderButton('labels', () => toggleLabels(!areLabelsVisible), areLabelsVisible)}
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('panel')}
-                    {this.renderButton('free')}
+                    {this.renderButton('light')}
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('slower')}
@@ -65,7 +81,11 @@ class ControlPanel extends StatelessComponent<IProps> {
 }
 
 export default ControlPanel.connect(
-    ({ system }: IStoreState) => ({
-        strings: system.strings.universe.controls
+    ({ system, universe }: IStoreState) => ({
+        strings: system.strings.universe.controls,
+        areLabelsVisible: universe.areLabelsVisible
+    }),
+    (dispatch: IDispatch) => ({
+        toggleLabels: areLabelsVisible => dispatch(UniverseActions.toggleLabels(areLabelsVisible))
     })
 )

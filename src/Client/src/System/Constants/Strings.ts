@@ -79,7 +79,7 @@ export default {
             orbits: 'Orbity',
             labels: 'Popisky',
             panel: 'Panel',
-            free: 'Uvolnit',
+            light: 'Světlo',
             now: 'Teď',
             move: 'Pohyb'
         }

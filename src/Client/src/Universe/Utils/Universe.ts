@@ -69,6 +69,11 @@ class Universe implements IUniverse {
     private controls: THREE.TrackballControls
 
     /**
+     * Toggle values.
+     */
+    private areLabelsVisible: boolean
+
+    /**
      * Create universe.
      * @param options Options.
      */
@@ -116,6 +121,10 @@ class Universe implements IUniverse {
         this.controls.maxDistance = viewSize
         lastViewSize = viewSize
         this.camera.updateProjectionMatrix()
+    }
+
+    public toggleLabels(areLabelsVisible: boolean) {
+        this.areLabelsVisible = areLabelsVisible
     }
 
     /**
@@ -187,13 +196,15 @@ class Universe implements IUniverse {
             const visibility = this.getVisibility(body, viewSize)
             const isSelectedBody = body.data._id === this.selectedBody.name
 
-            if (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody) {
+            if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody)) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
+                // body.label.style.display = 'inline-block'
                 body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
             } else {
                 body.label.style.transform = 'translateX(-1000px)'
+                //.label.style.display = 'none'
             }
 
             orbitColor.setHex(visibility)
