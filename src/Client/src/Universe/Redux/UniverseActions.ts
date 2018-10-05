@@ -71,6 +71,16 @@ class UniverseActions {
         )
     )
 
+    /**
+     * Toggle visibility of orbits.
+     * @param areOrbitsVisible Orbits are visible.
+     */
+    public static toggleOrbits = (areOrbitsVisible: boolean) => (
+        Redux.setAction(
+            ActionTypes.TOGGLE_ORBITS,
+            { areOrbitsVisible }
+        )
+    )
 
 }
 

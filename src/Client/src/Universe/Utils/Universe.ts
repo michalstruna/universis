@@ -141,6 +141,12 @@ class Universe implements IUniverse {
         }
     }
 
+    public toggleOrbits(areOrbitsVisible: boolean) {
+        for (const body of this.bodies) {
+            (body.orbit.children[0] as any).material.visible = areOrbitsVisible
+        }
+    }
+
     /**
      * Get body from collection.
      * @param bodyId ID of body.
@@ -206,7 +212,7 @@ class Universe implements IUniverse {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = tempVector.project(this.camera)
             const isBehindCamera = !this.frustum.intersectsObject(body.mesh)
-            const orbitColor = (body.orbit.children[0] as any).material.color
+            const orbit = body.orbit.children[0] as any
             const visibility = this.getVisibility(body, viewSize)
             const isSelectedBody = body.data._id === this.selectedBody.name
 
@@ -214,14 +220,12 @@ class Universe implements IUniverse {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
-                // body.label.style.display = 'inline-block'
                 body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
             } else {
                 body.label.style.transform = 'translateX(-1000px)'
-                //.label.style.display = 'none'
             }
 
-            orbitColor.setHex(visibility)
+            orbit.material.opacity = visibility
 
             const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
             body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)

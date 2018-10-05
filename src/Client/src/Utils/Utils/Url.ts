@@ -106,7 +106,7 @@ class Url {
      * @param  key Name of parameter to remove.
      * @returns New query string.
      */
-    public static removeQuery(queryString: string, key: string): string {
+    public static removeQuery(key: string, queryString: string = history.location.search): string {
         const utils = new URLSearchParams(queryString)
         utils.delete(key)
         return utils.toString()
@@ -137,7 +137,7 @@ class Url {
      * @param key Name of parameter.
      * @returns Parameter is in query string.
      */
-    public static hasQuery(queryString: string, key: string): boolean {
+    public static hasQuery(key: string, queryString: string = history.location.search): boolean {
         const utils = new URLSearchParams(queryString)
         return utils.has(key)
     }

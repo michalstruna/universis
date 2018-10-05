@@ -31,4 +31,10 @@ declare interface IUniverse {
      */
     toggleLight(isLightVisible: boolean): void
 
+    /**
+     * Toggle visibility of orbits.
+     * @param areOrbitsVisible Orbits is visible.
+     */
+    toggleOrbits(areOrbitsVisible: boolean): void
+
 }
