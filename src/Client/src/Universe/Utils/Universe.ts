@@ -106,8 +106,9 @@ class Universe implements IUniverse {
             this.controls.enabled = !Html.hasParent(event.target as HTMLElement, element => Html.hasClass(element, 'panel'))
         })
 
-        this.selectBody(this.bodies[3].data._id)
-        this.handleSelectBody(this.bodies[3].data._id)
+        const selectedBodyId = this.bodies.filter(body => body.data.name === Config.INITIAL_BODY)[0].data._id
+        this.selectBody(selectedBodyId)
+        this.handleSelectBody(selectedBodyId)
 
         this.resize()
         this.render()

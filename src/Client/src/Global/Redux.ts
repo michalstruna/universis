@@ -65,5 +65,5 @@ declare interface ILocation {
  */
 declare interface ILocationTarget {
     pathname?: string
-    query?: IObject<string> |
+    query?: IObject<string>
 }

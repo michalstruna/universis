@@ -5,6 +5,7 @@ import Universe from '../Utils/Universe'
 import { StatelessComponent } from '../../Utils'
 import UniverseActions from '../Redux/UniverseActions'
 import Units from '../Utils/Units'
+import Listener from '../Utils/Listener'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
@@ -61,19 +62,18 @@ class Canvas extends StatelessComponent<IProps> {
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        const { bodies, onChangeViewSize, onSelectBody, areLabelsVisible } = this.props
+        const { bodies, onSelectBody, areLabelsVisible } = this.props
 
         if (bodies.payload && !this.universe) {
             const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement // TODO: Refactor ref.
             this.universe = new Universe({
                 element,
                 bodies: bodies.payload,
-                onChangeViewSize,
+                onChangeViewSize: Listener.changeViewSizeFromSimulator,
                 onSelectBody
             })
 
             this.universe.toggleLabels(areLabelsVisible)
-
             this.setOnResize(this.universe.resize)
         }
     }
