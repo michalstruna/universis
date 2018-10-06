@@ -42,7 +42,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createGeometry(body: ISimpleBody): THREE.SphereGeometry {
         const geometry = new THREE.SphereGeometry(
-            body.diameter.equatorial,
+            body.diameter.equatorial / 2,
             Config.BODY_SEGMENTS,
             Config.BODY_SEGMENTS
         )

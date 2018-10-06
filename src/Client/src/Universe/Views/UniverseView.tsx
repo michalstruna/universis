@@ -13,7 +13,7 @@ interface IProps {
 class UniverseView extends View<IProps> {
 
     public componentWillMount() {
-        //this.props.getBodies()
+        this.props.getBodies()
     }
 
     public render(): JSX.Element {

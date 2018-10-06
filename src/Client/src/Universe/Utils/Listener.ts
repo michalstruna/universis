@@ -1,5 +1,6 @@
 import ControlBar from '../Components/ControlBar'
 import Units from '../Utils/Units'
+import Canvas from '../Components/Canvas'
 import { ViewSizeControl } from '../../Controls'
 
 /**
@@ -7,6 +8,11 @@ import { ViewSizeControl } from '../../Controls'
  * There cannot be Redux store, because of performance.
  */
 class Listener {
+
+    /**
+     * Function to update view size in simulator.
+     */
+    public static updateSimulatorViewSize: IConsumer<number>
 
     /**
      * When view size in simulator is changed, update UI.
@@ -23,7 +29,9 @@ class Listener {
     }
 
     public static changeViewSizeFromUI(viewSize: number): void {
-
+        if (Listener.updateSimulatorViewSize) {
+            Listener.updateSimulatorViewSize(viewSize)
+        }
     }
 
 }

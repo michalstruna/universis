@@ -75,6 +75,7 @@ class Canvas extends StatelessComponent<IProps> {
 
             this.universe.toggleLabels(areLabelsVisible)
             this.setOnResize(this.universe.resize)
+            Listener.updateSimulatorViewSize = this.universe.setViewSize
         }
     }
 

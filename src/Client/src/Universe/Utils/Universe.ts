@@ -120,7 +120,7 @@ class Universe implements IUniverse {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
-    public setViewSize(viewSize: number): void {
+    public setViewSize = (viewSize: number): void => {
         viewSize *= Config.SIZE_RATIO
         this.controls.minDistance = Math.max(viewSize, this.controls.minDistance)
         this.controls.maxDistance = viewSize

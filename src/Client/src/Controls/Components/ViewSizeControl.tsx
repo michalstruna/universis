@@ -2,13 +2,12 @@ import * as React from 'react'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
-import { Units } from '../../Universe'
+import { Units, Listener } from '../../Universe'
 import { Component, Url } from '../../Utils'
 import { history } from '../../'
 
 interface IProps {
-    labels: Map<number, string>
-    changeViewSize: IConsumer<number>
+
 }
 
 interface IState {
@@ -25,8 +24,6 @@ const labels = {
     [27.98 - 3]: 'km',
     27.98: 'm'
 }
-
-const changeViewSize = (viewSize: number) => {}
 
 /**
  * Component for toggle full screen.
@@ -58,6 +55,16 @@ class ViewSizeControl extends Component<IProps, IState> {
         return Math.floor(100 * (parseFloat(sizes[sizes.length - 1]) - value)) / 100
     }
 
+    /**
+     * On change UI, change simulator also.
+     * @param viewSize New view size.
+     */
+    private handleChange = (viewSize: number) => {
+        this.setState({ viewSize: Units.convert(Units.SIZE.M, Units.SIZE.KM, Math.pow(10, this.reverseValue(viewSize))) }, () => {
+            Listener.changeViewSizeFromUI(this.state.viewSize)
+        })
+    }
+
     public render(): JSX.Element {
         const { viewSize } = this.state
         const sizes = Object.keys(labels)
@@ -76,7 +83,7 @@ class ViewSizeControl extends Component<IProps, IState> {
                     value={this.reverseValue(Math.log10(Units.convert(Units.SIZE.KM, Units.SIZE.M, viewSize)))}
                     labels={labels}
                     tooltip={false}
-                    onChange={viewSize => changeViewSize(Units.convert(Units.SIZE.M, Units.SIZE.KM, Math.pow(10, this.reverseValue(viewSize))))} />
+                    onChange={this.handleChange} />
             </section>
         )
     }
