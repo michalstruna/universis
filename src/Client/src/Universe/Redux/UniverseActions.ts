@@ -38,6 +38,50 @@ class UniverseActions {
         )
     )
 
+    /**
+     * Select body.
+     * @param selectedBody ID of selected body.
+     */
+    public static selectBody = (selectedBody: string) => (
+        Redux.setAction(
+            ActionTypes.SELECT_BODY,
+            { selectedBody }
+        )
+    )
+
+    /**
+     * Toggle visibility of labels.
+     * @param areLabelsVisible Labels are visible.
+     */
+    public static toggleLabels = (areLabelsVisible: boolean) => (
+        Redux.setAction(
+            ActionTypes.TOGGLE_LABELS,
+            { areLabelsVisible }
+        )
+    )
+
+    /**
+     * Toggle visibility of light.
+     * @param isLightVisible Light is visible.
+     */
+    public static toggleLight = (isLightVisible: boolean) => (
+        Redux.setAction(
+            ActionTypes.TOGGLE_LABELS,
+            { isLightVisible }
+        )
+    )
+
+    /**
+     * Toggle visibility of orbits.
+     * @param areOrbitsVisible Orbits are visible.
+     */
+    public static toggleOrbits = (areOrbitsVisible: boolean) => (
+        Redux.setAction(
+            ActionTypes.TOGGLE_ORBITS,
+            { areOrbitsVisible }
+        )
+    )
+
 }
 
 export default UniverseActions

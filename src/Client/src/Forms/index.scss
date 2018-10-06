@@ -156,7 +156,7 @@
     }
 
     &--invalid {
-        .form__button {
+        .form__button--submit {
             opacity: 0.2;
             pointer-events: none;
         }

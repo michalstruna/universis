@@ -19,17 +19,7 @@ export default {
         logout: 'Odhlásit se',
         hideUI: 'Skrýt ovládání',
         showUI: 'Zobrazit ovládání',
-        about: 'O Universis',
-        viewSize: {
-            0: 'Tly',
-            [27.98 - 24.98]: 'Gly',
-            [27.98 - 21.98]: 'Mly',
-            [27.98 - 18.98]: 'kly',
-            [27.98 - 15.98]: 'ly',
-            [27.98 - 11.17]: 'AU',
-            [27.98 - 3]: 'km',
-            27.98: 'm'
-        }
+        about: 'O Universis'
     },
 
     alert: {
@@ -64,8 +54,12 @@ export default {
     signUp: {
         title: 'Registrujte se.',
         password: 'Nové heslo',
+        missingPassword: 'Zadejte nové heslo.',
+        invalidPassword: 'Heslo musí mít 6+ znaků.',
         passwordAgain: 'Heslo znovu',
-        button: 'Hotovo'
+        missingPasswordAgain: 'Zadejte heslo znovu.',
+        invalidPasswordAgain: 'Hesla se neshodují.',
+        button: 'Registrovat se'
     },
 
     universe: {
@@ -75,7 +69,7 @@ export default {
             orbits: 'Orbity',
             labels: 'Popisky',
             panel: 'Panel',
-            free: 'Uvolnit',
+            light: 'Světlo',
             now: 'Teď',
             move: 'Pohyb'
         }

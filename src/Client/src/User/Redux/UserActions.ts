@@ -13,8 +13,15 @@ class UserActions {
     public static getUnauthUser = (email: string) => (
         Redux.asyncAction(
             ActionTypes.GET_UNAUTH_USER,
-            { unauthUser: Request.get<IBaseUser[]>('users', { email, limit: 1 }).then(Request.unwind) },
-            userIdentity => Url.push({ pathname: userIdentity ? Url.URLS.LOGIN : Url.URLS.SIGN_UP })
+            {
+                unauthUser: (
+                    Request
+                        .get<IBaseUser[]>('users', { email, limit: 1 })
+                        .then(Request.unwind)
+                        .then(Request.setDefault({ email }))
+                )
+            },
+            userIdentity => Url.push({ pathname: '_id' in userIdentity ? Url.URLS.LOGIN : Url.URLS.SIGN_UP })
         )
     )
 
@@ -51,12 +58,12 @@ class UserActions {
      * Register new user.
      * @param {string} email
      * @param {string} password
-     * @returns {(dispatch) => Promise<void>}
      */
     public static signUp = (email: string, password: string) => (
         Redux.asyncAction(
             ActionTypes.SIGN_UP,
-            { signUp: Request.post('users', { email, password }) }
+            { signUp: Request.post('users', { email, password }) },
+            () => Url.push({ pathname: Url.URLS.LOGIN })
         )
     )
 

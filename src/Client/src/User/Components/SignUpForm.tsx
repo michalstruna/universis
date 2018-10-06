@@ -8,8 +8,9 @@ import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
 
 interface IProps {
     strings: IStrings
-    login: IFunction2<string, string, Promise<IAsyncEntity<IUserIdentity>>>
+    signUp: IFunction2<string, string, Promise<IAsyncEntity<IUserIdentity>>>
     unauthUser: IAsyncEntity<IBaseUser>
+    password: string
 }
 
 interface IValues {
@@ -17,30 +18,30 @@ interface IValues {
 }
 
 /**
- * Form for login user.
- * There is only password input.
+ * Form for sign up user.
+ * There is only password inputs.
  */
-class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
+class SignUpForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
-    public static readonly NAME = 'login'
-    public static readonly SELECTOR = formValueSelector(LoginForm.NAME) // TODO: public static getValue(), private selector, LoginForm extends Form autobind this.selector = selector(this.NAME).
+    public static readonly NAME = 'signUp'
+    public static readonly SELECTOR = formValueSelector(SignUpForm.NAME)
 
     /**
      * Login user.
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { strings, login, unauthUser } = this.props
+        const { strings, signUp, unauthUser } = this.props
 
         try {
-            await login(unauthUser.payload.email, data.password)
+            await signUp(unauthUser.payload.email, data.password)
         } catch (error) {
             throw new SubmissionError({ password: strings.invalidPassword })
         }
     }
 
     public render(): JSX.Element {
-        const { strings, handleSubmit, invalid, submitting } = this.props
+        const { strings, handleSubmit, invalid, submitting, password } = this.props
 
         return (
             <Form
@@ -56,6 +57,12 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}
                     name='password' />
+                <PasswordField
+                    label={strings.passwordAgain}
+                    required={strings.missingPasswordAgain}
+                    invalid={strings.invalidPasswordAgain}
+                    validate={value => value === password ? undefined : strings.invalidPasswordAgain}
+                    name='passwordAgain' />
                 <Back to={Link.URLS.IDENTITY}>
                     {strings.back}
                 </Back>
@@ -69,13 +76,14 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
 }
 
 export default reduxForm({
-    form: LoginForm.NAME
-})(LoginForm.connect(
-    ({ system, user }: IStoreState) => ({
-        strings: system.strings.login,
-        unauthUser: user.unauthUser
+    form: SignUpForm.NAME
+})(SignUpForm.connect(
+    (state: IStoreState) => ({
+        strings: state.system.strings.signUp,
+        unauthUser: state.user.unauthUser,
+        password: SignUpForm.SELECTOR(state, 'password')
     }),
     (dispatch: IDispatch) => ({
-        login: (email: string, password: string) => dispatch(UserActions.login(email, password))
+        signUp: (email: string, password: string) => dispatch(UserActions.signUp(email, password))
     })
 ))
