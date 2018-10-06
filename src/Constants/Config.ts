@@ -3,7 +3,7 @@ export default {
     /**
      * Port of server.
      */
-    port: 3000,
+    port: 1997,
 
     /**
      * Data about database.
