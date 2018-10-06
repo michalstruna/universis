@@ -22,6 +22,8 @@ class Database implements IDatabase {
         Database.connections[name] = this
         this.connection = Mongoose.createConnection(Database.getConnectionString(username, password, cluster, database))
 
+        this.connection.catch(e => console.log(e))
+
         if (onConnect) {
             this.connection.on('open', onConnect)
         }
