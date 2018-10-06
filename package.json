@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd src/Client && webpack -p --optimize-minimize && cd ../.. && tsc",
+    "webpack": "webpack -p --optimize-minimize",
+    "build": "cd src/Client && webpack && cd ../.. && tsc",
     "run": "node dist/index.js",
     "dev": "npm-run-all --parallel dev-server dev-client",
     "dev-server": "nodemon dist/index.js",
