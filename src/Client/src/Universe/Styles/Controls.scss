@@ -30,7 +30,11 @@
             letter-spacing: 0.05em;
             position: relative;
 
-            @each $button in (Free, Move, Faster, Slower, Speed, Now, Panel, Orbits, Labels, Name, Size) {
+            &--active {
+                opacity: 1;
+            }
+
+            @each $button in (Light, Move, Faster, Slower, Speed, Now, Panel, Orbits, Labels, Name, Size) {
                 &--#{to_lower_case($button)} {
                     .universe__controls__button__icon {
                         @include svg("Universe/UI/#{$button}");

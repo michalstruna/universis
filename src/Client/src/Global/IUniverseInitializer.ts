@@ -31,5 +31,7 @@ declare interface IUniverseInitializer {
     camera: THREE.PerspectiveCamera
     controls: THREE.TrackballControls
     frustum: THREE.Frustum
+    darkColor: THREE.AmbientLight
+    lightColor: THREE.AmbientLight
 
 }

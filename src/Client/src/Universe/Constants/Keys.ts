@@ -6,7 +6,7 @@ enum Keys {
     ORBITS = 'O',
     LABELS = 'L',
     PANEL = 'P',
-    FREE = 'F',
+    LIGHT = 'J',
     SLOWER = 'S',
     FASTER = 'W',
     SPEED = 'Q',

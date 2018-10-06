@@ -42,17 +42,10 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValu
                 onSubmit={handleSubmit(this.handleSubmit)}
                 invalid={invalid}
                 sending={submitting}>
-                <input type={'text'} />
                 <Select
                     name='field'
                     options={fields}
                     widthEmpty={true} />
-                <select>
-                    <option></option>
-                    <option>Název</option>
-                    <option>Průměr</option>
-                </select>
-
                 <select>
                     <option>Obsahuje</option>
                     <option>Je roven</option>
@@ -62,12 +55,6 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValu
                     <option>Končí na</option>
                 </select>
                 <TextField label={''} name='value' />
-                <TextField label={''} name='value' />
-                <Select
-                    name='field'
-                    options={fields}
-                    widthEmpty={true} />
-                <button>x</button>
             </Form>
         )
     }

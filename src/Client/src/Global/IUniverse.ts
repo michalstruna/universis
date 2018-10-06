@@ -19,4 +19,22 @@ declare interface IUniverse {
      */
     selectBody(bodyId: string): void
 
+    /**
+     * Toggle visibility of labels.
+     * @param areLabelsVisible Labels are visible.
+     */
+    toggleLabels(areLabelsVisible: boolean): void
+
+    /**
+     * Toggle light.
+     * @param isLightVisible Light is visible.
+     */
+    toggleLight(isLightVisible: boolean): void
+
+    /**
+     * Toggle visibility of orbits.
+     * @param areOrbitsVisible Orbits is visible.
+     */
+    toggleOrbits(areOrbitsVisible: boolean): void
+
 }

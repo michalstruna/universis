@@ -69,6 +69,13 @@ class Universe implements IUniverse {
     private controls: THREE.TrackballControls
 
     /**
+     * Toggle values.
+     */
+    private areLabelsVisible: boolean
+    private darkColor: THREE.AmbientLight
+    private lightColor: THREE.AmbientLight
+
+    /**
      * Create universe.
      * @param options Options.
      */
@@ -86,6 +93,8 @@ class Universe implements IUniverse {
         this.frustum = initializer.frustum
         this.bodies = initializer.bodies
         this.bodySelector = initializer.bodySelector
+        this.darkColor = initializer.darkColor
+        this.lightColor = initializer.lightColor
 
         this.bodies.forEach(body => {
             body.label.onclick = () => this.handleSelectBody(body.data._id)
@@ -97,8 +106,9 @@ class Universe implements IUniverse {
             this.controls.enabled = !Html.hasParent(event.target as HTMLElement, element => Html.hasClass(element, 'panel'))
         })
 
-        this.selectBody(this.bodies[3].data._id)
-        this.handleSelectBody(this.bodies[3].data._id)
+        const selectedBodyId = this.bodies.filter(body => body.data.name === Config.INITIAL_BODY)[0].data._id
+        this.selectBody(selectedBodyId)
+        this.handleSelectBody(selectedBodyId)
 
         this.resize()
         this.render()
@@ -110,12 +120,32 @@ class Universe implements IUniverse {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
-    public setViewSize(viewSize: number): void {
+    public setViewSize = (viewSize: number): void => {
         viewSize *= Config.SIZE_RATIO
         this.controls.minDistance = Math.max(viewSize, this.controls.minDistance)
         this.controls.maxDistance = viewSize
         lastViewSize = viewSize
         this.camera.updateProjectionMatrix()
+    }
+
+    public toggleLabels(areLabelsVisible: boolean) {
+        this.areLabelsVisible = areLabelsVisible
+    }
+
+    public toggleLight(isLightVisible: boolean) {
+        if (isLightVisible) {
+            this.scene.remove(this.darkColor)
+            this.scene.add(this.lightColor)
+        } else {
+            this.scene.remove(this.lightColor)
+            this.scene.add(this.darkColor)
+        }
+    }
+
+    public toggleOrbits(areOrbitsVisible: boolean) {
+        for (const body of this.bodies) {
+            (body.orbit.children[0] as any).material.visible = areOrbitsVisible
+        }
     }
 
     /**
@@ -183,11 +213,11 @@ class Universe implements IUniverse {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = tempVector.project(this.camera)
             const isBehindCamera = !this.frustum.intersectsObject(body.mesh)
-            const orbitColor = (body.orbit.children[0] as any).material.color
+            const orbit = body.orbit.children[0] as any
             const visibility = this.getVisibility(body, viewSize)
             const isSelectedBody = body.data._id === this.selectedBody.name
 
-            if (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody) {
+            if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody)) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
@@ -196,7 +226,7 @@ class Universe implements IUniverse {
                 body.label.style.transform = 'translateX(-1000px)'
             }
 
-            orbitColor.setHex(visibility)
+            orbit.material.opacity = visibility
 
             const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
             body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)

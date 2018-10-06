@@ -9,6 +9,6 @@ declare interface IBodySelector {
      * @param y Vertical coordinate.
      * @return Selected body or null.
      */
-    select(x: number, y: number): THREE.Mesh
+    select(x: number, y: number): THREE.Mesh | null
 
 }
