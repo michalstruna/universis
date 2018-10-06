@@ -32,6 +32,10 @@ class Listener {
         if (Listener.updateSimulatorViewSize) {
             Listener.updateSimulatorViewSize(viewSize)
         }
+
+        if (ControlBar.viewSize) {
+            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize)
+        }
     }
 
 }
