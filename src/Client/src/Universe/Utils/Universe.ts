@@ -4,6 +4,7 @@ import Config from '../Constants/Config'
 import UniverseInitializer from './UniverseInitializer'
 import Visibility from '../Constants/Visibility'
 import Units from './Units'
+import { Html } from '../../Utils'
 
 /**
  * Temp variables.
@@ -15,6 +16,13 @@ const meshPosition = new THREE.Vector3()
 const rotationVector = new THREE.Vector3(0, 0, 1)
 const cameraViewProjectionMatrix = new THREE.Matrix4()
 let lastViewSize = null
+
+interface IOptions {
+    element: HTMLElement
+    bodies: ISimpleBody[]
+    onChangeViewSize: IConsumer<number>
+    onSelectBody: IConsumer<string>
+}
 
 /**
  * Utils for universe.
@@ -49,7 +57,8 @@ class Universe implements IUniverse {
     /**
      * Handlers.
      */
-    private onChangeViewSize: IConsumer<number>
+    private handleChangeViewSize: IConsumer<number>
+    private handleSelectBody: IConsumer<string>
 
     /**
      * THREE.js entities.
@@ -60,13 +69,22 @@ class Universe implements IUniverse {
     private controls: THREE.TrackballControls
 
     /**
-     * Create universe.
-     * @param element Target. There will be canvas with universe.
-     * @param bodies List of all bodies.
+     * Toggle values.
      */
-    public constructor(element: HTMLElement, bodies: ISimpleBody[]) {
-        const initializer = new UniverseInitializer(element, bodies)
+    private areLabelsVisible: boolean
+    private darkColor: THREE.AmbientLight
+    private lightColor: THREE.AmbientLight
+
+    /**
+     * Create universe.
+     * @param options Options.
+     */
+    public constructor(options: IOptions) {
+        const initializer = new UniverseInitializer(options.element, options.bodies)
         this.scale = 1
+
+        this.handleSelectBody = options.onSelectBody
+        this.handleChangeViewSize = options.onChangeViewSize
 
         this.scene = initializer.scene
         this.renderer = initializer.renderer
@@ -75,18 +93,22 @@ class Universe implements IUniverse {
         this.frustum = initializer.frustum
         this.bodies = initializer.bodies
         this.bodySelector = initializer.bodySelector
+        this.darkColor = initializer.darkColor
+        this.lightColor = initializer.lightColor
 
         this.bodies.forEach(body => {
-            body.label.onclick = () => this.selectBody(body.mesh)
+            body.label.onclick = () => this.handleSelectBody(body.data._id)
         })
 
-        element.addEventListener('mousedown', this.handleClick)
+        options.element.addEventListener('mousedown', this.handleClick)
 
         document.body.addEventListener('mousemove', event => {
-            this.controls.enabled = !(event.target as any).className // TODO: Add scrollbar to area.
+            this.controls.enabled = !Html.hasParent(event.target as HTMLElement, element => Html.hasClass(element, 'panel'))
         })
 
-        this.selectBody(this.bodies[3].mesh)
+        const selectedBodyId = this.bodies.filter(body => body.data.name === Config.INITIAL_BODY)[0].data._id
+        this.selectBody(selectedBodyId)
+        this.handleSelectBody(selectedBodyId)
 
         this.resize()
         this.render()
@@ -98,7 +120,7 @@ class Universe implements IUniverse {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
-    public setViewSize(viewSize: number): void {
+    public setViewSize = (viewSize: number): void => {
         viewSize *= Config.SIZE_RATIO
         this.controls.minDistance = Math.max(viewSize, this.controls.minDistance)
         this.controls.maxDistance = viewSize
@@ -106,8 +128,24 @@ class Universe implements IUniverse {
         this.camera.updateProjectionMatrix()
     }
 
-    public setOnChangeViewSize(callback: IConsumer<number>): void {
-        this.onChangeViewSize = callback
+    public toggleLabels(areLabelsVisible: boolean) {
+        this.areLabelsVisible = areLabelsVisible
+    }
+
+    public toggleLight(isLightVisible: boolean) {
+        if (isLightVisible) {
+            this.scene.remove(this.darkColor)
+            this.scene.add(this.lightColor)
+        } else {
+            this.scene.remove(this.lightColor)
+            this.scene.add(this.darkColor)
+        }
+    }
+
+    public toggleOrbits(areOrbitsVisible: boolean) {
+        for (const body of this.bodies) {
+            (body.orbit.children[0] as any).material.visible = areOrbitsVisible
+        }
     }
 
     /**
@@ -160,9 +198,9 @@ class Universe implements IUniverse {
         this.selectedBody.getWorldPosition(bodyPosition)
         const viewSize = bodyPosition.distanceTo(cameraPosition)
 
-        if (Units.isDifferent(viewSize, lastViewSize) && this.onChangeViewSize) {
+        if (Units.isDifferent(viewSize, lastViewSize) && this.handleChangeViewSize) {
             lastViewSize = viewSize
-            this.onChangeViewSize(viewSize / Config.SIZE_RATIO)
+            this.handleChangeViewSize(viewSize / Config.SIZE_RATIO)
         }
 
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
@@ -175,11 +213,11 @@ class Universe implements IUniverse {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = tempVector.project(this.camera)
             const isBehindCamera = !this.frustum.intersectsObject(body.mesh)
-            const orbitColor = (body.orbit.children[0] as any).material.color
+            const orbit = body.orbit.children[0] as any
             const visibility = this.getVisibility(body, viewSize)
             const isSelectedBody = body.data._id === this.selectedBody.name
 
-            if (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody) {
+            if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody)) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
@@ -188,7 +226,7 @@ class Universe implements IUniverse {
                 body.label.style.transform = 'translateX(-1000px)'
             }
 
-            orbitColor.setHex(visibility)
+            orbit.material.opacity = visibility
 
             const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
             body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
@@ -215,17 +253,20 @@ class Universe implements IUniverse {
         const mesh = this.bodySelector.select(event.pageX, event.pageY)
 
         if (mesh) {
-            this.selectBody(mesh)
+            this.handleSelectBody(mesh.name)
         }
     }
 
     /**
      * Center body.
-     * @param mesh THREE body.
+     * @param bodyId ID of body.
      */
-    private selectBody(mesh: THREE.Mesh): void {
+    public selectBody(bodyId: string): void {
+        const mesh = this.getBodyById(bodyId).mesh
         this.selectedBody = mesh
-        this.controls.minDistance = (mesh.geometry as THREE.SphereGeometry).parameters.radius * 2
+        const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
+        this.controls.minDistance = radius * 2
+        this.controls.maxDistance = radius * 4
 
         mesh.children[0].add(this.camera)
         this.controls.target.set(0, 0, 0)
@@ -237,10 +278,10 @@ class Universe implements IUniverse {
      * @param viewSize Distance camera from centered body.
      */
     private setScale(viewSize: number): void {
-        if (viewSize > 1000000) {
-            this.scale /= 1000
-        } else if (viewSize < 1000) {
-            this.scale *= 1000
+        if (viewSize > 1e6) {
+            this.scale /= 1e3
+        } else if (viewSize < 1e3) {
+            this.scale *= 1e3
         }
     }
 

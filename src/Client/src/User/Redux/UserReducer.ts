@@ -5,6 +5,6 @@ export default Redux.createReducer(
     Object.values(ActionTypes),
     {
         unauthUser: {},
-        identity: Cookies.getJson(Cookies.KEYS.IDENTITY) || null
+        identity: { payload: Cookies.getJson(Cookies.KEYS.IDENTITY) } || {}
     }
 )

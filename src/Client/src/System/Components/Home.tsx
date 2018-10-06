@@ -4,9 +4,7 @@ import Menu from '../Components/Menu'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
-    strings: {
-        title: string
-    }
+    strings: IStrings
 }
 
 /**

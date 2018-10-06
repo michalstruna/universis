@@ -1,4 +1,5 @@
 import SizeUnit from '../Constants/SizeUnit'
+import TimeUnit from '../Constants/TimeUnit'
 import { Numbers } from '../../Utils'
 
 /**
@@ -11,6 +12,28 @@ class Units {
      */
     static SIZE = SizeUnit
 
+    /**
+     * List of all time units.
+     * @type {TimeUnit}
+     */
+    static TIME = TimeUnit
+
+    public static SIZE_UNITS = SizeUnit
+
+    /**
+     * List of size names.
+     */
+    private static SIZE_NAMES = {
+        M: 'm',
+        KM: 'km',
+        AU: 'AU',
+        LY: 'ly',
+        KLY: 'kly',
+        MLY: 'Mly',
+        GLY: 'Gly',
+        TLY: 'Tly'
+    }
+
     private constructor() {
 
     }
@@ -22,7 +45,7 @@ class Units {
      * @param count Count of units. (optional, default 1)
      * @returns New unit.
      */
-    public static convert(from: SizeUnit, to: SizeUnit, count = 1): number {
+    public static convert(from: number, to: number, count = 1): number {
         return count * (from / to)
     }
 
@@ -37,40 +60,31 @@ class Units {
     }
 
     /**
-     * Format number to unit (1 000 000 to 1 km).
-     * @param  value Value.
-     * @returns Value with unit.
+     * Format size unit.
+     * @param count Count of unit.
+     * @param input Unit type.
+     * @param short Short form with suffixes k, M, G, etc.
+     * @returns Formatted unit.
      */
-    public static format(value: number): string {
-        let newValue = Math.floor(value * SizeUnit.KM)
+    public static formatSize(count: number, input: number = SizeUnit.KM, short: boolean = true): string {
+        let value = Units.convert(input, SizeUnit.M, count)
+
         let unit
 
-        if (newValue < 2 * SizeUnit.KM) {
-            unit = 'm'
-        } else if (newValue < 2 * SizeUnit.AU) {
-            unit = 'km'
-            newValue /= SizeUnit.KM
-        } else if (newValue < 2 * SizeUnit.LY) {
-            unit = 'AU'
-            newValue /= SizeUnit.AU
-        } else if (newValue < 2 * SizeUnit.KLY) {
-            unit = 'ly'
-            newValue /= SizeUnit.LY
-        } else if (newValue < 2 * SizeUnit.MLY) {
-            unit = 'Kly'
-            newValue /= SizeUnit.KLY
-        } else if (newValue < 2 * SizeUnit.GLY) {
-            unit = 'Mly'
-            newValue /= SizeUnit.MLY
-        } else if (newValue < 2 * SizeUnit.TLY) {
-            unit = 'Gly'
-            newValue /= SizeUnit.GLY
-        } else {
-            unit = 'Tly'
-            newValue /= SizeUnit.TLY
+        for (const i in SizeUnit) {
+            const unitNamesKeys = Object.keys(Units.SIZE_NAMES)
+            const nextUnitKey = unitNamesKeys[unitNamesKeys.indexOf(i) + 1]
+            const nextUnitName = Units.SIZE_NAMES[(nextUnitKey || '')]
+
+            if (!nextUnitName || value < SizeUnit[nextUnitKey]) {
+                unit = Units.SIZE_NAMES[i]
+                value /= SizeUnit[i]
+                break
+            }
         }
 
-        return Numbers.toReadable(newValue) + ' ' + unit
+        const format = short ? Numbers.toShort : Numbers.toReadable
+        return format(value) + ' ' + unit
     }
 
 }

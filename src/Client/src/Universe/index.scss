@@ -7,6 +7,10 @@
     width: 100%;
 }
 
+.app--divided .view.universe {
+    width: calc(100% + #{$panel-width})
+}
+
 .text-label {
     color: $lightest-color;
     cursor: pointer;

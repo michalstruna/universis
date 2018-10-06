@@ -14,9 +14,27 @@ declare interface IUniverse {
     setViewSize(viewSize: number): void
 
     /**
-     * If view size is changed, run callback.
-     * @param callback Callback with view size in parameter.
+     * Select body.
+     * @param bodyId ID of body.
      */
-    setOnChangeViewSize(callback: IConsumer<number>): void
+    selectBody(bodyId: string): void
+
+    /**
+     * Toggle visibility of labels.
+     * @param areLabelsVisible Labels are visible.
+     */
+    toggleLabels(areLabelsVisible: boolean): void
+
+    /**
+     * Toggle light.
+     * @param isLightVisible Light is visible.
+     */
+    toggleLight(isLightVisible: boolean): void
+
+    /**
+     * Toggle visibility of orbits.
+     * @param areOrbitsVisible Orbits is visible.
+     */
+    toggleOrbits(areOrbitsVisible: boolean): void
 
 }

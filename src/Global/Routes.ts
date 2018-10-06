@@ -21,7 +21,7 @@ declare type IResultMap = boolean | IFunction<any, any>
 /**
  * Interface for express handler.
  */
-declare type IRequestHandler = IDoubleConsumer<IExpressRequest, IExpressResponse>
+declare type IRequestHandler = IConsumer2<IExpressRequest, IExpressResponse>
 
 /**
  * Interface for is authorized check.

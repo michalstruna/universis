@@ -1,10 +1,11 @@
 import * as React from 'react'
 
-import { View, Urls } from '../../Utils'
+import SignUpForm from '../Components/SignUpForm'
+import { View, Url } from '../../Utils'
 
 interface IProps {
-    unauthUser: IAsyncData<IBaseUser>
-    isLoggedIn: boolean
+    unauthUser: IAsyncEntity<IBaseUser>
+    identity: IUserIdentity
 }
 
 /**
@@ -14,19 +15,19 @@ interface IProps {
 class SignUpView extends View<IProps> {
 
     componentWillMount() {
-        const { unauthUser, history, isLoggedIn } = this.props
+        const { unauthUser, identity } = this.props
 
-        if (isLoggedIn) {
-            history.replace(Urls.HOME)
+        if (identity) {
+            Url.replace({ pathname: Url.URLS.HOME })
         } else if (!unauthUser.payload) {
-            history.replace(Urls.IDENTITY)
+            Url.replace({ pathname: Url.URLS.IDENTITY })
         }
     }
 
     public render(): JSX.Element {
         return (
             <section className={this.getClassName('sign-up')}>
-
+                <SignUpForm />
             </section>
         )
     }
@@ -36,6 +37,6 @@ class SignUpView extends View<IProps> {
 export default SignUpView.connect(
     ({ user }: IStoreState) => ({
         unauthUser: user.unauthUser,
-        isLoggedIn: user.isLoggedIn
+        identity: user.identity.payload
     })
 )

@@ -65,7 +65,7 @@ class AuthentificationControl extends StatelessComponent<IProps> {
 export default AuthentificationControl.connect(
     ({ system, user }: IStoreState) => ({
         strings: system.strings.controls,
-        identity: user.identity
+        identity: user.identity.payload
     }),
     (dispatch: IDispatch) => ({
         logout: () => dispatch(UserActions.logout())

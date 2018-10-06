@@ -1,20 +1,18 @@
 import * as React from 'react'
 
-import Units from '../Utils/Units'
-import { StatelessComponent } from '../../Utils'
-
-interface IProps {
-    viewSize: number
-}
+import { SimpleComponent } from '../../Utils'
 
 /**
  * Component control bar.
  */
-class ControlBar extends StatelessComponent<IProps> {
+class ControlBar extends SimpleComponent {
+
+    /**
+     * Element for view size.
+     */
+    public static viewSize: HTMLElement
 
     public render(): JSX.Element {
-        const { viewSize } = this.props
-
         return (
             <section className='universe__control-bar'>
                 <button className='universe__toggle-panel' />
@@ -36,9 +34,7 @@ class ControlBar extends StatelessComponent<IProps> {
                     </section>
                 </section>
                 <section className='universe__view'>
-                    <section className='universe__view--inner'>
-                        {Units.format(viewSize)}
-                    </section>
+                    <section className='universe__view--inner' ref={ref => ControlBar.viewSize = ref} />
                 </section>
             </section>
         )
@@ -46,9 +42,4 @@ class ControlBar extends StatelessComponent<IProps> {
 
 }
 
-export default ControlBar.connect(
-    ({ universe }: IStoreState) => ({
-        viewSize: universe.viewSize
-    }),
-    (dispatch: IDispatch) => ({})
-)
+export default ControlBar

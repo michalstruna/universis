@@ -11,6 +11,12 @@ class Redux {
 
     }
 
+    /**
+     * Default entities.
+     */
+    public static EMPTY_ENTITY = null
+    public static EMPTY_ASYNC_ENTITY = { error: null, payload: null, isSent: false }
+
     private static SUFFIXES = {
         SENT: '_SENT',
         SUCCESS: '_SUCCESS',
@@ -56,23 +62,17 @@ class Redux {
     }
 
     /**
-     * Process redux action, that toggle two values (true, false).
+     * Process action, that toggle boolean value of some property.
+     * There can be also another values, but toggled value must be first (can be nested value).
      * @param type Type of action.
-     * @param toggle Toggled property.
-     * @param changes ll another properties will be set.
+     * @param changes Toggled property with value.
      * @param callback Callback after toggle  (only first toggled value).
      * @returns Toggle action.
      */
-    public static toggleAction(type: string, toggle: IObject<boolean>, changes: IObject<any> = {}, callback?: IRunnable): IToggleAction {
-        const property = Object.keys(toggle)[0]
+    public static toggleAction(type: string, changes: IObject<any>, callback?: IRunnable): ISetAction {
+        const isTrue = Redux.getFirstValue<boolean>(changes)
         const { ON, OFF } = Redux.SUFFIXES
-
-        return {
-            type: type + (toggle[property] ? ON : OFF),
-            $toggle: toggle,
-            $set: changes,
-            $callback: callback
-        }
+        return Redux.setAction(type + (isTrue ? ON : OFF), changes, callback)
     }
 
     /**
@@ -93,14 +93,10 @@ class Redux {
      * @returns Reducer.
      */
     public static createReducer(actionTypes: string[], initialState: IStoreState = {}) {
-        return <T>(state: IStoreState = initialState, action: ISetAction | IIncrementAction | IToggleAction | IAsyncAction<T>) => {
+        return <T>(state: IStoreState = initialState, action: ISetAction | IAsyncAction<T>) => {
             if (actionTypes.includes(Redux.removeSuffixFromActionType(action.type))) {
                 if ('$set' in action) {
                     state = Redux.applySetAction(state, action)
-                }
-
-                if ('$toggle' in action) {
-                    state = Redux.applyToggleAction(state, action)
                 }
 
                 if ('$async' in action) {
@@ -140,21 +136,6 @@ class Redux {
     }
 
     /**
-     * Apply toggle action to store state.
-     * @param state Old store state.
-     * @param action Action.
-     * @returns New store state.
-     */
-    private static applyToggleAction(state: IStoreState, action: IToggleAction): IStoreState {
-        const property = Object.keys(action.$toggle)[0]
-
-        return {
-            ...state,
-            [property]: action.$toggle[property]
-        }
-    }
-
-    /**
      * Apply async action. There is object { error, isSent, payload }.
      * @param state Old store state.
      * @param action Action.
@@ -175,9 +156,9 @@ class Redux {
                 ...state,
                 [action.property]: {
                     ...state[action.property],
-                    error: action.$async.error,
+                    error: null,
                     isSent: false,
-                    payload: null
+                    payload: action.$async.payload
                 }
             }
         } else if (Redux.hasSuffix(action.type, FAIL)) {
@@ -185,9 +166,9 @@ class Redux {
                 ...state,
                 [action.property]: {
                     ...state[action.property],
-                    error: null,
+                    error: action.$async.error,
                     isSent: false,
-                    payload: action.$async.payload
+                    payload: null
                 }
             }
         } else {
@@ -218,13 +199,20 @@ class Redux {
     }
 
     /**
-     * Apply deep merge to two states.
-     * @param state1
-     * @param state2
-     * @returns Merged immutable state.
+     * Get first value of state.
+     * { a: { b: { c: 7, d: 6, e: 8 }, f: 4 }} returns 7.
+     * @param value State object.
+     * @returns Nested boolean value.
      */
-    private static mergeStates(state1: any, state2: any): any {
-        // TODO
+    private static getFirstValue<T>(value: IObject<any>): T {
+        let result = value
+
+        while (typeof result === 'object') {
+            const property = Object.keys(result)[0]
+            result = result[property]
+        }
+
+        return result
     }
 
 }

@@ -6,12 +6,18 @@ declare interface IAction {
     $callback?: IRunnable
 }
 
+declare interface IBaseAction extends IAction {
+    $set?: IObject<any>
+    $toggle?: IObject<any>
+    $async?: IObject<any>
+}
+
 /**
  * Interface for async action.
  */
 declare interface IAsyncAction<T> extends IAction {
     property: string
-    $async: IAsyncData<T>
+    $async: IAsyncEntity<T>
 }
 
 /**
@@ -22,45 +28,14 @@ declare interface ISetAction extends IAction {
 }
 
 /**
- * Interface for action.
- */
-declare interface IToggleAction extends ISetAction {
-    $toggle: IObject<boolean>
-}
-
-/**
- * Interface for increment action.
- */
-declare interface IIncrementAction extends IAction {
-    $increment: IObject<number>[]
-}
-
-/**
- * // TODO
- */
-declare interface IModifyAction extends IAction {
-    $modify: (state: IStoreState) => IStoreState
-}
-
-/**
  * Type for async action result.
  */
 declare type IActionResult<T> = IFunction<IConsumer<IAsyncAction<T>>, Promise<T>>
 
 /**
- * Type for reducer entity (isSent, payload, fail).
- */
-declare type IReducerEntity = any
-
-/**
  * Type for redux store state.
  */
 declare type IStoreState = any
-
-/**
- * Type for redux reducer.
- */
-declare type IReducer = (IState, IAction) => IStoreState
 
 /**
  * Type of dispatch action function.
@@ -70,7 +45,7 @@ declare type IDispatch = IConsumer<any>
 /**
  * Interface for async data container.
  */
-declare interface IAsyncData<T> {
+declare interface IAsyncEntity<T> {
     payload?: T
     isSent?: boolean
     error?: number

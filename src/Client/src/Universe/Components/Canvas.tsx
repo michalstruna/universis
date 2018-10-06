@@ -5,12 +5,18 @@ import Universe from '../Utils/Universe'
 import { StatelessComponent } from '../../Utils'
 import UniverseActions from '../Redux/UniverseActions'
 import Units from '../Utils/Units'
+import Listener from '../Utils/Listener'
 
 interface IProps {
-    bodies: IAsyncData<ISimpleBody[]>
+    bodies: IAsyncEntity<ISimpleBody[]>
     getBodies: IRunnable
-    changeViewSize: IConsumer<number>
+    onChangeViewSize: IConsumer<number>
+    onSelectBody: IConsumer<string>
     viewSize: number
+    selectedBody: string
+    areLabelsVisible: boolean
+    isLightVisible: boolean
+    areOrbitsVisible: boolean
 }
 
 class Canvas extends StatelessComponent<IProps> {
@@ -25,12 +31,30 @@ class Canvas extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
+        const { viewSize, selectedBody, areLabelsVisible, isLightVisible, areOrbitsVisible } = this.props
+
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
         }
 
-        if (this.universe && Units.isDifferent(prevProps.viewSize, this.props.viewSize) ) {
+        if (this.universe && Units.isDifferent(prevProps.viewSize, viewSize)) {
             this.universe.setViewSize(this.props.viewSize)
+        }
+
+        if (this.universe && prevProps.selectedBody !== selectedBody) {
+            this.universe.selectBody(selectedBody)
+        }
+
+        if (prevProps.areLabelsVisible !== areLabelsVisible) {
+            this.universe.toggleLabels(areLabelsVisible)
+        }
+
+        if (prevProps.isLightVisible !== isLightVisible) {
+            this.universe.toggleLight(isLightVisible)
+        }
+
+        if (prevProps.areOrbitsVisible !== areOrbitsVisible) {
+            this.universe.toggleOrbits(areOrbitsVisible)
         }
     }
 
@@ -38,18 +62,21 @@ class Canvas extends StatelessComponent<IProps> {
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        const { bodies } = this.props
+        const { bodies, onSelectBody, areLabelsVisible } = this.props
 
         if (bodies.payload && !this.universe) {
-            const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement
-            this.universe = new Universe(element, bodies.payload)
-            this.universe.setOnChangeViewSize(this.handleChangeViewSize)
-            this.setOnResize(this.universe.resize)
-        }
-    }
+            const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement // TODO: Refactor ref.
+            this.universe = new Universe({
+                element,
+                bodies: bodies.payload,
+                onChangeViewSize: Listener.changeViewSizeFromSimulator,
+                onSelectBody
+            })
 
-    private handleChangeViewSize = (viewSize: number) => {
-        this.props.changeViewSize(viewSize)
+            this.universe.toggleLabels(areLabelsVisible)
+            this.setOnResize(this.universe.resize)
+            Listener.updateSimulatorViewSize = this.universe.setViewSize
+        }
     }
 
     public render(): JSX.Element {
@@ -61,11 +88,16 @@ class Canvas extends StatelessComponent<IProps> {
 }
 
 export default Canvas.connect(
-    ({ universe  }: IStoreState) => ({
+    ({ universe }: IStoreState) => ({
         bodies: universe.bodies,
-        viewSize: universe.viewSize
+        viewSize: universe.viewSize,
+        selectedBody: universe.selectedBody,
+        areLabelsVisible: universe.areLabelsVisible,
+        isLightVisible: universe.isLightVisible,
+        areOrbitsVisible: universe.areOrbitsVisible
     }),
     (dispatch: IDispatch) => ({
-        changeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom))
+        onChangeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom)),
+        onSelectBody: (bodyId: string) => dispatch(UniverseActions.selectBody(bodyId))
     })
 )

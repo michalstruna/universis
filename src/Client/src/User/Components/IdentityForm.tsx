@@ -7,8 +7,8 @@ import UserActions from '../Redux/UserActions'
 
 interface IProps {
     strings: IStrings
-    getUnauthUser: IFunction<string, Promise<IAsyncData<IBaseUser>>>
-    unauthUser: IAsyncData<IBaseUser>
+    getUnauthUser: IFunction<string, Promise<IAsyncEntity<IBaseUser>>>
+    unauthUser: IAsyncEntity<IBaseUser>
 }
 
 interface IValues {
