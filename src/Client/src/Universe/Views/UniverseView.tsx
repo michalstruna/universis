@@ -6,14 +6,14 @@ import Canvas from '../Components/Canvas'
 import UI from '../Components/UI'
 
 interface IProps {
-    bodies: ISimpleBody[],
+    bodies: ISimpleBody[]
     getBodies: IRunnable
 }
 
 class UniverseView extends View<IProps> {
 
     public componentWillMount() {
-        //this.props.getBodies()
+        this.props.getBodies()
     }
 
     public render(): JSX.Element {

@@ -18,7 +18,7 @@ export default {
     /**
      * Color of light.
      */
-    LIGHT_COLOR: 0xffffff,
+    LIGHT_COLOR: 0xaaaaaa,
 
     /**
      * Count of segments of body.

@@ -42,7 +42,9 @@ export {
  * Utils.
  */
 import Units from './Utils/Units'
+import Listener from './Utils/Listener'
 
 export {
-    Units
+    Units,
+    Listener
 }
