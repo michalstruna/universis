@@ -10,7 +10,7 @@
     "dev": "npm-run-all --parallel dev-server dev-client",
     "dev-server": "nodemon dist/index.js",
     "dev-client": "cd src/Client && webpack-dev-server --content-base ./Dist/ --inline --hot --host localhost --port 8080",
-    "start": "npm i && cd src/Client && npm i && cd ../.. && npm run-script build && npm run-script run"
+    "postinstall": "npm i && cd src/Client && npm i && cd ../.. && npm run-script build && npm run-script run"
   },
   "repository": {
     "type": "git",
