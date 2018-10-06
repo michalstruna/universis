@@ -22,4 +22,4 @@ server.getRouter().get('*', (request, response) => {
     response.sendFile(Path.join(__dirname, './Client/dist', 'index.html'))
 })
 
-server.run(Config.port)
+server.run(parseInt(process.env.PORT) || Config.port)
