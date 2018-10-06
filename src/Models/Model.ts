@@ -46,7 +46,9 @@ abstract class Model implements IModel {
             Config.database.username,
             Config.database.password,
             Config.database.cluster,
-            Config.database.name
+            Config.database.name,
+            null,
+            console.error
         )
 
         this.db.createModel(this.dbModels.BODY, BodySchema)
