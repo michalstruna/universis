@@ -42,8 +42,7 @@ class Chat extends SimpleComponent {
         return (
             <section className='panel__chat panel__window'>
                 <section className='panel__chat__body'>
-                    <section className='panel__chat__body--scroll'
-                             onWheel={event => event.stopPropagation()}>
+                    <section className='panel__chat__body--scroll'>
                         <section className='panel__chat__body--inner'>
                             <section className='panel__chat__start'>
                                 Toto je počátek konverzace.

@@ -2,19 +2,48 @@ import * as React from 'react'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
-import { UniverseActions, Units } from '../../Universe'
-import { StatelessComponent, Url } from '../../Utils'
+import { Units, Listener } from '../../Universe'
+import { Component, Url } from '../../Utils'
+import { history } from '../../'
 
-export interface IProps {
+interface IProps {
+
+}
+
+interface IState {
     viewSize: number
-    labels: Map<number, string>,
-    changeViewSize: IConsumer<number>
+}
+
+const labels = {
+    0: 'Tly',
+    [27.98 - 24.98]: 'Gly',
+    [27.98 - 21.98]: 'Mly',
+    [27.98 - 18.98]: 'kly',
+    [27.98 - 15.98]: 'ly',
+    [27.98 - 11.17]: 'AU',
+    [27.98 - 3]: 'km',
+    27.98: 'm'
 }
 
 /**
  * Component for toggle full screen.
  */
-class ViewSizeControl extends StatelessComponent<IProps> {
+class ViewSizeControl extends Component<IProps, IState> {
+
+    /**
+     * Current instance of view size control.
+     */
+    public static instance: React.Component
+
+    public constructor(props) {
+        super(props)
+
+        this.state = {
+            viewSize: 0
+        }
+
+        ViewSizeControl.instance = this
+    }
 
     /**
      * Reverse slider value.
@@ -22,17 +51,25 @@ class ViewSizeControl extends StatelessComponent<IProps> {
      * @returns Real value.
      */
     private reverseValue(value: number): number {
-        const { labels } = this.props
         const sizes = Object.keys(labels)
-
         return Math.floor(100 * (parseFloat(sizes[sizes.length - 1]) - value)) / 100
     }
 
+    /**
+     * On change UI, change simulator also.
+     * @param viewSize New view size.
+     */
+    private handleChange = (viewSize: number) => {
+        this.setState({ viewSize: Units.convert(Units.SIZE.M, Units.SIZE.KM, Math.pow(10, this.reverseValue(viewSize))) }, () => {
+            Listener.changeViewSizeFromUI(this.state.viewSize)
+        })
+    }
+
     public render(): JSX.Element {
-        const { changeViewSize, labels, viewSize, location } = this.props
+        const { viewSize } = this.state
         const sizes = Object.keys(labels)
 
-        if (!Url.equalsPage(location.pathname, Url.URLS.UNIVERSE)) {
+        if (!Url.equalsPage(history.location.pathname, Url.URLS.UNIVERSE)) {
             return null
         }
 
@@ -46,15 +83,10 @@ class ViewSizeControl extends StatelessComponent<IProps> {
                     value={this.reverseValue(Math.log10(Units.convert(Units.SIZE.KM, Units.SIZE.M, viewSize)))}
                     labels={labels}
                     tooltip={false}
-                    onChange={viewSize => changeViewSize(Units.convert(Units.SIZE.M, Units.SIZE.KM, Math.pow(10, this.reverseValue(viewSize))))} />
+                    onChange={this.handleChange} />
             </section>
         )
     }
 }
 
-export default ViewSizeControl.connect(({ universe, system }: IStoreState) => ({
-    viewSize: universe.viewSize,
-    labels: system.strings.controls.viewSize
-}), (dispatch: IDispatch) => ({
-    changeViewSize: (viewSize: number) => dispatch(UniverseActions.changeViewSize(viewSize))
-}))
+export default ViewSizeControl

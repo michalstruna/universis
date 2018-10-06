@@ -21,6 +21,8 @@ class UniverseInitializer implements IUniverseInitializer {
     public readonly camera: THREE.PerspectiveCamera
     public readonly controls: THREE.TrackballControls
     public readonly frustum: THREE.Frustum
+    public readonly lightColor: THREE.AmbientLight
+    public readonly darkColor: THREE.AmbientLight
 
     /**
      * Create universe.
@@ -39,6 +41,8 @@ class UniverseInitializer implements IUniverseInitializer {
         this.bodies = this.createBodies(bodies)
         this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera)
         this.frustum = this.createFrustum()
+        this.lightColor = this.createLightColor()
+        this.darkColor = this.createDarkColor()
     }
 
     /**
@@ -86,9 +90,7 @@ class UniverseInitializer implements IUniverseInitializer {
      * @returns Scene.
      */
     private createScene(): THREE.Scene {
-        const scene = new THREE.Scene()
-        scene.add(new THREE.AmbientLight(Config.UNIVERSE_COLOR))
-        return scene
+        return new THREE.Scene()
     }
 
     /**
@@ -139,6 +141,22 @@ class UniverseInitializer implements IUniverseInitializer {
      */
     private createFrustum(): THREE.Frustum {
         return new THREE.Frustum()
+    }
+
+    /**
+     * Create light color.
+     * @returns Light color.
+     */
+    private createLightColor(): THREE.AmbientLight {
+        return new THREE.AmbientLight(Config.LIGHT_COLOR)
+    }
+
+    /**
+     * Create dark color.
+     * @returns Dark color.
+     */
+    private createDarkColor(): THREE.AmbientLight {
+        return new THREE.AmbientLight(Config.DARK_COLOR)
     }
 }
 

@@ -6,9 +6,19 @@ export default {
     INITIAL_BODY: 'Země',
 
     /**
+     * Color of orbits.
+     */
+    ORBIT_COLOR: 0x555555,
+
+    /**
      * Color of universe background.
      */
-    UNIVERSE_COLOR: 0x222222,
+    DARK_COLOR: 0x222222,
+
+    /**
+     * Color of light.
+     */
+    LIGHT_COLOR: 0xaaaaaa,
 
     /**
      * Count of segments of body.
