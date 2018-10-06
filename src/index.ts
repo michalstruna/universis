@@ -7,7 +7,7 @@ import { Config } from './Constants'
 import SwaggerDocument from './Swagger'
 
 const server = new Server()
-server.setStatic(Path.join(__dirname, './Client/dist'))
+server.setStatic(Path.join(__dirname, './Client'))
 
 server.getRouter().use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerDocument))
 
