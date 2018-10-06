@@ -35,8 +35,7 @@ class Server implements IServer {
     }
 
     public run(port: number): void {
-        console.log('___PORT___: ', process.env.PORT, parseInt(process.env.PORT) || port)
-        const runningServer = this.express.listen(parseInt(process.env.PORT) || port, '0.0.0.0', () => {
+        const runningServer = this.express.listen(process.env.PORT || port, () => {
             const info: any = runningServer.address()
             console.log(`Server is running on ${info.address}:${info.port}.`)
         })
