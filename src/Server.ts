@@ -34,7 +34,7 @@ class Server implements IServer {
         this.express.use(Express.static(path))
     }
 
-    public run(port: number): void {
+    public run(port: number | string): void {
         const runningServer = this.express.listen(port, () => {
             const info: any = runningServer.address()
             console.log(`Server is running on ${info.address}:${info.port}.`)
