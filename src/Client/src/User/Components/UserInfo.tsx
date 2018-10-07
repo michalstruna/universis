@@ -95,10 +95,18 @@ class UserInfo extends StatelessComponent<IProps> {
     }
 
     private renderLarge(): JSX.Element {
-        const { user } = this.props
+        let { user } = this.props
 
         if (!user) {
-            return null
+            //return null
+
+            user = {
+                _id: 'abc',
+                email: 'michal@struna.cz',
+                name: 'Michal',
+                avatar: 'Avatar',
+                roles: []
+            }
         }
 
         return (

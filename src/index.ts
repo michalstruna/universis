@@ -19,7 +19,7 @@ OpenApi.initialize({
 
 
 server.getRouter().get('*', (request, response) => {
-    response.sendFile(Path.join(__dirname, './Client/dist', 'index.html'))
+    response.sendFile(Path.join(__dirname, './Client', 'index.html'))
 })
 
 server.run(Config.port)

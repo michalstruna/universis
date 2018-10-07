@@ -15,7 +15,8 @@ abstract class View<IProps> extends StatelessComponent<IProps> {
     public componentDidMount(): void {
         const viewName = this.constructor.name.replace(/View$/, '')
         const titleName = Strings.camelToUpper(viewName)
-        document.title = 'Universis | ' + Titles[titleName]
+        //document.title = 'Universis | ' + Titles[titleName] // TODO: Fix in prod.
+        document.title = 'Universis'
     }
 
     /**
