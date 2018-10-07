@@ -44,6 +44,7 @@ module.exports = {
         publicPath: 'http://localhost:8080/JavaScript'
     },
     plugins: [
-        new Webpack.NamedModulesPlugin()
+        new Webpack.NamedModulesPlugin(),
+        new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ]
 }
