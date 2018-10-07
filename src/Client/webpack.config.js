@@ -1,5 +1,6 @@
 const Path = require('path')
 const Webpack = require('webpack')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
     entry: Path.join(__dirname, 'src/index.tsx'),
@@ -45,6 +46,7 @@ module.exports = {
     },
     plugins: [
         new Webpack.NamedModulesPlugin(),
-        new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+        new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new BundleAnalyzerPlugin()
     ]
 }
