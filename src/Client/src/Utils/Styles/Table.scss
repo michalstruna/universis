@@ -1,0 +1,52 @@
+.table {
+    width: 100%;
+
+    &__cell {
+        @include size(100%, 2.5rem);
+        box-sizing: border-box;
+        line-height: 2rem;
+        overflow: hidden;
+        padding: 0.25rem;
+        text-overflow: ellipsis;
+    }
+
+    &__row {
+        cursor: pointer;
+        display: flex;
+        transition: background-color $fast-animation-duration;
+
+        &:nth-of-type(2n + 1) {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        &:not(.table__row--header):hover {
+            background-color: $medium-dark-color;
+        }
+
+        &--header {
+            .table {
+                &__cell {
+                    border-bottom: 0.1rem solid transparent;
+                    border-top: 0.1rem solid transparent;
+                    height: 3rem;
+                    line-height: 2.5rem;
+                    text-align: center;
+                    transition: background-color $fast-animation-duration, border-bottom-color $fast-animation-duration, border-top-color $fast-animation-duration;
+
+                    &:hover {
+                        background-color: $medium-dark-color;
+                    }
+
+                    &--asc {
+                        border-top-color: $lightest-color;
+                    }
+
+                    &--desc {
+                        border-bottom-color: $lightest-color;
+                    }
+                }
+            }
+        }
+    }
+
+}

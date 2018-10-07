@@ -8,6 +8,7 @@ import Link from './Components/Link'
 import SimpleComponent from './Components/SimpleComponent'
 import Loader from './Components/Loader'
 import StatelessComponent from './Components/StatelessComponent'
+import Table from './Components/Table'
 import UILayout from './Components/UILayout'
 import View from './Components/View'
 
@@ -19,6 +20,7 @@ export {
     SimpleComponent,
     Loader,
     StatelessComponent,
+    Table,
     UILayout,
     View
 }
