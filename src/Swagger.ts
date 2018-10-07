@@ -13,8 +13,12 @@ export default {
     },
     'servers': [
         {
-            'url': 'http://localhost:1997',
+            'url': 'http://localhost:3000',
             'description': 'Default local develop server\'s url.'
+        },
+        {
+            'url': 'http://universis.herokuapp.com',
+            'description': 'Production server.'
         }
     ],
     'paths': {
