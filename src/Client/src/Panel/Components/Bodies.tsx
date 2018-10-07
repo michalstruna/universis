@@ -26,6 +26,12 @@ class Bodies extends StatelessComponent<IProps> {
     private renderTable(): JSX.Element {
         const { bodies } = this.props
 
+        if (!bodies.payload) {
+            return null
+        }
+
+        // TODO: Own react table because of change count of rows.
+
         return (
             <ReactTable
                 columns={[
