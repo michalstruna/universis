@@ -19,6 +19,10 @@ export default {
         {
             'url': 'http://universis.herokuapp.com',
             'description': 'Production server.'
+        },
+        {
+            'url': 'https://universis.herokuapp.com',
+            'description': 'Secure production server.'
         }
     ],
     'paths': {
