@@ -78,16 +78,16 @@ class Table extends Component<IProps, IState> {
         const { reverse, sort } = this.state
 
         const column = columns[sort]
-        const isAsc = reverse ? -1 : 1
+        const sortValue = reverse ? -1 : 1
 
         return items.sort((item1, item2) => {
             const property1 = column.accessor(item1)
             const property2 = column.accessor(item2)
 
             if (property1 < property2) {
-                return -isAsc
+                return -sortValue
             } else if (property1 > property2) {
-                return isAsc
+                return sortValue
             } else {
                 return 0
             }
@@ -106,8 +106,8 @@ class Table extends Component<IProps, IState> {
             <section
                 className={ClassNames(
                     'table__cell',
-                    { 'table__cell--asc': sort === key && reverse },
-                    { 'table__cell--desc': sort === key && !reverse }
+                    { 'table__cell--asc': sort === key && !reverse },
+                    { 'table__cell--desc': sort === key && reverse }
                 )}
                 key={key}
                 onClick={() => this.handleChangeSort(key)}>
