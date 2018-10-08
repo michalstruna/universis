@@ -9,7 +9,6 @@ import { IdentityView, LoginView, SignUpView } from './User'
 import { UniverseView } from './Universe'
 import { Urls } from './Utils'
 
-import 'react-table/react-table.css'
 import './index.scss'
 
 export const history = createBrowserHistory()

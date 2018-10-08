@@ -1,9 +1,8 @@
 import * as React from 'react'
-import ReactTable from 'react-table'
 
 import BodyFilterForm from './BodyFilterForm'
 import { SizeUnit, TimeUnit, UniverseActions } from '../../Universe'
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, Table } from '../../Utils'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
@@ -15,6 +14,47 @@ interface IProps {
  */
 class Bodies extends StatelessComponent<IProps> {
 
+    /**
+     * List of all columns in table.
+     * // TODO: Dynamic columns?
+     */
+    private static readonly COLUMNS = [
+        {
+            accessor: body => body.name,
+            title: 'Název',
+        },
+        {
+            accessor: body => body.diameter.equatorial,
+            title: 'Průměr',
+            render: diameter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{diameter}</SizeUnit>
+        },
+        {
+            accessor: body => body.mass,
+            title: 'Hmotnost',
+            render: mass => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{mass}</SizeUnit>
+        },
+        {
+            accessor: body => body.mass,
+            title: 'Hustota',
+            render: density => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{density}</SizeUnit>
+        },
+        {
+            accessor: body => body.orbit.apocenter,
+            title: 'Apo',
+            render: apocenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{apocenter}</SizeUnit>
+        },
+        {
+            accessor: body => body.orbit.period,
+            title: 'Rok',
+            render: period => <TimeUnit input={TimeUnit.UNITS.Y} short={true}>{period}</TimeUnit>
+        },
+        {
+            accessor: body => body.period,
+            title: 'Den',
+            render: period => <TimeUnit input={TimeUnit.UNITS.D} short={true}>{period}</TimeUnit>
+        }
+    ]
+
     private handleClick = (bodyId: string) => {
         this.props.selectBody(bodyId)
     }
@@ -24,78 +64,24 @@ class Bodies extends StatelessComponent<IProps> {
      * @returns Bodies.
      */
     private renderTable(): JSX.Element {
-        const { bodies } = this.props
+        const { bodies, selectBody } = this.props
 
         if (!bodies.payload) {
             return null
         }
 
-        // TODO: Own react table because of change count of rows.
-
         return (
-            <ReactTable
-                columns={[
-                    {
-                        id: 'name',
-                        Header: 'Název',
-                        accessor: body => (body as ISimpleBody).name,
-                        minWidth: 116
-                    },
-                    {
-                        id: 'diameter',
-                        Header: 'Průměr',
-                        accessor: body => (body as ISimpleBody).diameter.equatorial,
-                        minWidth: 92,
-                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
-                    },
-                    {
-                        id: 'mass',
-                        Header: 'Hmotnost',
-                        accessor: body => (body as ISimpleBody).mass,
-                        minWidth: 92,
-                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
-                    },
-                    {
-                        id: 'density',
-                        Header: 'Hustota',
-                        accessor: body => (body as ISimpleBody).density,
-                        minWidth: 92,
-                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
-                    },
-                    {
-                        id: 'apocenter',
-                        Header: 'Apo',
-                        accessor: body => (body as ISimpleBody).orbit.apocenter,
-                        minWidth: 92,
-                        Cell: row => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{row.value}</SizeUnit>
-                    },
-                    {
-                        id: 'year',
-                        Header: 'Rok',
-                        accessor: body => (body as ISimpleBody).orbit.period,
-                        minWidth: 92,
-                        Cell: row => <TimeUnit input={TimeUnit.UNITS.Y} short={true}>{row.value}</TimeUnit>
-                    },
-                    {
-                        id: 'day',
-                        Header: 'Den',
-                        accessor: body => (body as ISimpleBody).period,
-                        minWidth: 92,
-                        Cell: row => <TimeUnit input={TimeUnit.UNITS.D} short={true}>{row.value}</TimeUnit>
-                    }
-                ]}
-                defaultPageSize={bodies.payload.length}
-                data={bodies.payload}
-                getTrProps={(state, row) => ({
-                    onClick: () => this.handleClick(row.original._id)
-                })}
-                multiSort={false}
-                resizable={false}
-                showPagination={false}
-                showPageJump={false} />
+            <Table
+                columns={Bodies.COLUMNS}
+                items={bodies.payload}
+                onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
         )
     }
 
+    /**
+     * Render filter form.
+     * @returns Filter form.
+     */
     private renderFilter(): JSX.Element {
         return (
             <section className='panel__bodies__filter'>
