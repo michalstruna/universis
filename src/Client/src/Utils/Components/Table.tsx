@@ -47,7 +47,7 @@ class Table extends Component<IProps, IState> {
     public static defaultProps = {
         filter: item => true,
         onRowClick: item => null,
-        onSort: (index, isAsc) => null,
+        onSort: (index, reverse) => null,
         sort: 0,
         reverse: false
     }
@@ -78,16 +78,16 @@ class Table extends Component<IProps, IState> {
         const { reverse, sort } = this.state
 
         const column = columns[sort]
-        const ascCoeficient = reverse ? -1 : 1
+        const isAsc = reverse ? -1 : 1
 
         return items.sort((item1, item2) => {
             const property1 = column.accessor(item1)
             const property2 = column.accessor(item2)
 
             if (property1 < property2) {
-                return -ascCoeficient
+                return -isAsc
             } else if (property1 > property2) {
-                return ascCoeficient
+                return isAsc
             } else {
                 return 0
             }

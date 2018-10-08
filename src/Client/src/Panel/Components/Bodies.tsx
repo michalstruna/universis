@@ -74,7 +74,6 @@ class Bodies extends StatelessComponent<IProps> {
             <Table
                 columns={Bodies.COLUMNS}
                 items={bodies.payload}
-                onSort={(column, isAsc) => console.log(column, isAsc)}
                 onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
         )
     }
