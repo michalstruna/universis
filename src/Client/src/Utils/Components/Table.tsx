@@ -11,7 +11,6 @@ type Property = any
 
 interface IColumn {
     accessor: IFunction<Item, Property>
-    name: string
     title: string
     render?: IFunction<Property, JSX.Element>
 }
@@ -21,11 +20,14 @@ interface IProps {
     columns: IColumn[]
     filter?: IFunction<Item, boolean>
     onRowClick?: IConsumer<Item>
+    onSort?: IConsumer2<number, boolean>
+    sort?: number
+    reverse?: boolean
 }
 
 interface IState {
-    sortColumnName: string
-    isAscSort: boolean
+    sort: number
+    reverse: boolean
 }
 
 /**
@@ -37,26 +39,33 @@ class Table extends Component<IProps, IState> {
         super(props)
 
         this.state = {
-            sortColumnName: props.columns[0].name,
-            isAscSort: true
+            sort: props.sort,
+            reverse: props.reverse
         }
     }
 
     public static defaultProps = {
         filter: item => true,
-        onRowClick: item => null
+        onRowClick: item => null,
+        onSort: (index, isAsc) => null,
+        sort: 0,
+        reverse: false
     }
 
     /**
      * Handle change sort.
-     * @param columnName Name of sorted column.
+     * @param index Index of column.
      */
-    private handleChangeSort = (columnName: string) => {
-        const { sortColumnName, isAscSort } = this.state
+    private handleChangeSort = (index: number) => {
+        const { sort, reverse } = this.state
 
         this.setState({
-            sortColumnName: columnName,
-            isAscSort: columnName === sortColumnName ? !isAscSort : true
+            sort: index,
+            reverse: sort === index ? !reverse : true
+        }, () => {
+            const { onSort } = this.props
+            const { sort, reverse } = this.state
+            onSort(sort, reverse)
         })
     }
 
@@ -66,10 +75,10 @@ class Table extends Component<IProps, IState> {
      */
     private sort = (items: Item[]): Item[] => {
         const { columns } = this.props
-        const { isAscSort, sortColumnName } = this.state
+        const { reverse, sort } = this.state
 
-        const column = columns.filter(column => column.name === sortColumnName)[0]
-        const ascCoeficient = isAscSort ? 1 : -1
+        const column = columns[sort]
+        const ascCoeficient = reverse ? -1 : 1
 
         return items.sort((item1, item2) => {
             const property1 = column.accessor(item1)
@@ -91,17 +100,17 @@ class Table extends Component<IProps, IState> {
      */
     private renderHeader(): JSX.Element[] {
         const { columns } = this.props
-        const { sortColumnName, isAscSort } = this.state
+        const { sort, reverse } = this.state
 
         return columns.map((column, key) => (
             <section
                 className={ClassNames(
                     'table__cell',
-                    { 'table__cell--asc': sortColumnName === column.name && isAscSort },
-                    { 'table__cell--desc': sortColumnName === column.name && !isAscSort }
+                    { 'table__cell--asc': sort === key && reverse },
+                    { 'table__cell--desc': sort === key && !reverse }
                 )}
                 key={key}
-                onClick={() => this.handleChangeSort(column.name)}>
+                onClick={() => this.handleChangeSort(key)}>
                 {column.title}
             </section>
         ))
