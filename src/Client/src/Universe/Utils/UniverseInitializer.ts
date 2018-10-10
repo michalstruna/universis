@@ -1,10 +1,9 @@
 import * as THREE from 'three'
 
-const TrackballControls = require('three-trackballcontrols')
-
 import Config from '../Constants/Config'
 import BodyFactory from './BodyFactory'
 import BodySelector from './BodySelector'
+import Camera from './Camera'
 
 /**
  * Utils for universe.
@@ -15,12 +14,10 @@ class UniverseInitializer implements IUniverseInitializer {
     public readonly bodies: IBodyContainer[]
     public readonly bodyFactory: IFactory<ISimpleBody, IBodyContainer>
     public readonly bodySelector: IBodySelector
+    public readonly camera: ICamera
 
     public readonly scene: THREE.Scene
     public readonly renderer: THREE.WebGLRenderer
-    public readonly camera: THREE.PerspectiveCamera
-    public readonly controls: THREE.TrackballControls
-    public readonly frustum: THREE.Frustum
     public readonly lightColor: THREE.AmbientLight
     public readonly darkColor: THREE.AmbientLight
 
@@ -33,14 +30,11 @@ class UniverseInitializer implements IUniverseInitializer {
         this.element = element
         this.scene = this.createScene()
         this.renderer = this.createRenderer()
-        this.camera = this.createCamera()
-        this.controls = this.createControls()
+        this.camera = new Camera()
         this.bodyFactory = new BodyFactory()
-        this.scene.add(this.camera)
         element.appendChild(this.renderer.domElement)
         this.bodies = this.createBodies(bodies)
-        this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera)
-        this.frustum = this.createFrustum()
+        this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera.getNativeCamera())
         this.lightColor = this.createLightColor()
         this.darkColor = this.createDarkColor()
     }
@@ -106,41 +100,6 @@ class UniverseInitializer implements IUniverseInitializer {
         renderer.shadowMap.enabled = true
 
         return renderer
-    }
-
-    /**
-     * Create camera.
-     * @returns Perspective camera.
-     */
-    private createCamera(): THREE.PerspectiveCamera {
-        const camera = new THREE.PerspectiveCamera(
-            Config.CAMERA_FOV,
-            window.innerWidth / window.innerHeight,
-            Config.CAMERA_MIN_DISTANCE,
-            Config.CAMERA_MAX_DISTANCE
-        )
-
-        camera.position.z = 1
-
-        return camera
-    }
-
-    /**
-     * Create controls.
-     * @returns Trackball controls.
-     */
-    private createControls(): THREE.TrackballControls {
-        const controls = new TrackballControls(this.camera)
-        controls.maxDistance = Config.CAMERA_MAX_DISTANCE
-        return controls
-    }
-
-    /**
-     * Create frustum.
-     * @returns THREE Frustum.
-     */
-    private createFrustum(): THREE.Frustum {
-        return new THREE.Frustum()
     }
 
     /**

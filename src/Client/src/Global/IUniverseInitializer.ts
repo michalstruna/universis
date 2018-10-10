@@ -28,9 +28,7 @@ declare interface IUniverseInitializer {
      */
     scene: THREE.Scene
     renderer: THREE.WebGLRenderer
-    camera: THREE.PerspectiveCamera
-    controls: THREE.TrackballControls
-    frustum: THREE.Frustum
+    camera: ICamera
     darkColor: THREE.AmbientLight
     lightColor: THREE.AmbientLight
 
