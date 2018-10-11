@@ -113,7 +113,6 @@ class Camera implements ICamera {
             this.handleChangeViewSize(viewSize / Config.SIZE_RATIO)
         }
 
-
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         viewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
         this.frustum.setFromMatrix(viewProjectionMatrix)

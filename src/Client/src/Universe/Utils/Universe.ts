@@ -148,7 +148,6 @@ class Universe implements IUniverse {
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera.getNativeCamera())
         this.updateBodies()
-        this.camera.update()
     }
 
     /**
@@ -177,6 +176,7 @@ class Universe implements IUniverse {
      */
     private updateBodies(): void {
         this.setScale(this.camera.getViewSize() * this.scale)
+        this.camera.update()
 
         for (const body of  this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
