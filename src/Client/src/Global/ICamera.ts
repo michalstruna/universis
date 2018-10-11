@@ -71,4 +71,16 @@ declare interface ICamera {
      */
     setViewSizeLimit(min: number, max: number): void
 
+    /**
+     * Enable or disable camera controls.
+     * @param isEnabled
+     */
+    enableControls(isEnabled: boolean): void
+
+    /**
+     * Get world position of native camera.
+     * @returns World position.
+     */
+    getPosition(): THREE.Vector3
+
 }

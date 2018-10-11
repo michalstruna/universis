@@ -3,18 +3,16 @@ import * as THREE from 'three'
 import Config from '../Constants/Config'
 import UniverseInitializer from './UniverseInitializer'
 import Visibility from '../Constants/Visibility'
-import Units from './Units'
 import { Html } from '../../Utils'
+import Camera from '../Utils/Camera'
+import BodySelector from './BodySelector'
 
 /**
  * Temp variables.
  */
 const tempVector = new THREE.Vector3()
-const cameraPosition = new THREE.Vector3()
-const bodyPosition = new THREE.Vector3()
 const meshPosition = new THREE.Vector3()
 const rotationVector = new THREE.Vector3(0, 0, 1)
-let lastViewSize = null
 
 interface IOptions {
     element: HTMLElement
@@ -76,9 +74,9 @@ class Universe implements IUniverse {
 
         this.scene = initializer.scene
         this.renderer = initializer.renderer
-        this.camera = initializer.camera
+        this.camera = new Camera({ onChangeViewSize: this.handleChangeViewSize })
         this.bodies = initializer.bodies
-        this.bodySelector = initializer.bodySelector
+        this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera.getNativeCamera())
         this.darkColor = initializer.darkColor
         this.lightColor = initializer.lightColor
 
@@ -89,7 +87,12 @@ class Universe implements IUniverse {
         options.element.addEventListener('mousedown', this.handleClick)
 
         document.body.addEventListener('mousemove', event => {
-            this.camera.getNativeControls().enabled = !Html.hasParent(event.target as HTMLElement, element => Html.hasClass(element, 'panel'))
+            this.camera.enableControls(
+                !Html.hasParent(
+                    event.target as HTMLElement,
+                    element => Html.hasClass(element, 'panel')
+                )
+            )
         })
 
         const selectedBodyId = this.bodies.filter(body => body.data.name === Config.INITIAL_BODY)[0].data._id
@@ -144,23 +147,21 @@ class Universe implements IUniverse {
     private render = (): void => {
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera.getNativeCamera())
-        this.camera.getNativeControls().update()
         this.updateBodies()
+        this.camera.update()
     }
 
     /**
      * Check if body is visible.
      * @param body Body.
-     * @param viewSize Current camera zoom.
      * @returns Body visibility.
      */
-    private getVisibility(body: IBodyContainer, viewSize: number): Visibility {
-        const apocenter = body.data.orbit.apocenter
+    private getVisibility(body: IBodyContainer): Visibility {
         body.mesh.getWorldPosition(meshPosition)
 
-        const min = viewSize / apocenter
-        const distance = meshPosition.distanceTo(cameraPosition)
-        const max = viewSize / distance
+        const min = this.camera.getViewSize() / body.data.orbit.apocenter
+        const distance = meshPosition.distanceTo(this.camera.getPosition())
+        const max = this.camera.getViewSize() / distance
 
         if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
             return Visibility.INVISIBLE
@@ -175,24 +176,14 @@ class Universe implements IUniverse {
      * Update position of all bodies within render loop.
      */
     private updateBodies(): void {
-        this.camera.getNativeCamera().getWorldPosition(cameraPosition)
-        this.camera.getTarget().getWorldPosition(bodyPosition)
-        const viewSize = bodyPosition.distanceTo(cameraPosition)
-
-        if (Units.isDifferent(viewSize, lastViewSize) && this.handleChangeViewSize) {
-            lastViewSize = viewSize
-            this.handleChangeViewSize(viewSize / Config.SIZE_RATIO)
-        }
-
-        this.camera.update()
-        this.setScale(viewSize * this.scale)
+        this.setScale(this.camera.getViewSize() * this.scale)
 
         for (const body of  this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = tempVector.project(this.camera.getNativeCamera())
             const isVisible = this.camera.canSee(body.mesh)
             const orbit = body.orbit.children[0] as any
-            const visibility = this.getVisibility(body, viewSize)
+            const visibility = this.getVisibility(body)
             const isSelectedBody = body.data._id === this.camera.getTarget().name
 
             if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && isVisible || isSelectedBody)) {

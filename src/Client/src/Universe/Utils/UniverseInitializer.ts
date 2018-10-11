@@ -2,8 +2,6 @@ import * as THREE from 'three'
 
 import Config from '../Constants/Config'
 import BodyFactory from './BodyFactory'
-import BodySelector from './BodySelector'
-import Camera from './Camera'
 
 /**
  * Utils for universe.
@@ -13,8 +11,6 @@ class UniverseInitializer implements IUniverseInitializer {
     public readonly element: HTMLElement
     public readonly bodies: IBodyContainer[]
     public readonly bodyFactory: IFactory<ISimpleBody, IBodyContainer>
-    public readonly bodySelector: IBodySelector
-    public readonly camera: ICamera
 
     public readonly scene: THREE.Scene
     public readonly renderer: THREE.WebGLRenderer
@@ -30,11 +26,9 @@ class UniverseInitializer implements IUniverseInitializer {
         this.element = element
         this.scene = this.createScene()
         this.renderer = this.createRenderer()
-        this.camera = new Camera()
         this.bodyFactory = new BodyFactory()
         element.appendChild(this.renderer.domElement)
         this.bodies = this.createBodies(bodies)
-        this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera.getNativeCamera())
         this.lightColor = this.createLightColor()
         this.darkColor = this.createDarkColor()
     }

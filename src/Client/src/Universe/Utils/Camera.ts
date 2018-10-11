@@ -1,9 +1,18 @@
 import * as THREE from 'three'
 import Config from '../Constants/Config'
+import Units from './Units'
 
 const TrackballControls = require('three-trackballcontrols')
 
 const viewProjectionMatrix = new THREE.Matrix4()
+const cameraPosition = new THREE.Vector3()
+const meshPosition = new THREE.Vector3()
+let lastViewSize = null
+let viewSize = null
+
+interface IOptions {
+    onChangeViewSize: IConsumer<number>
+}
 
 /**
  * Wrapper for THREE.js camera.
@@ -26,16 +35,16 @@ class Camera implements ICamera {
     private target: THREE.Mesh
 
     /**
-     * Last view size of camera.
-     */
-    private viewSize: number
-
-    /**
      * Helper for decide if mesh is on camera or not.
      */
     private frustum: THREE.Frustum
 
-    public constructor() {
+    /**
+     * Callback when view size is changed.
+     */
+    private handleChangeViewSize: IConsumer<number>
+
+    public constructor(options: IOptions) {
         this.frustum = new THREE.Frustum()
 
         this.camera = new THREE.PerspectiveCamera(
@@ -49,6 +58,7 @@ class Camera implements ICamera {
 
         this.controls = new TrackballControls(this.camera)
         this.controls.maxDistance = Config.CAMERA_MAX_DISTANCE
+        this.handleChangeViewSize = options.onChangeViewSize
     }
 
     public setAspectRatio(aspectRatio: number): void {
@@ -71,12 +81,10 @@ class Camera implements ICamera {
     public setViewSize(viewSize: number): void {
         viewSize *= Config.SIZE_RATIO
         this.setViewSizeLimit(Math.max(viewSize, this.controls.minDistance), viewSize)
-        this.viewSize = viewSize
-        this.camera.updateProjectionMatrix()
     }
 
     public getViewSize(): number {
-        return this.viewSize
+        return viewSize
     }
 
     public getTarget(): THREE.Mesh {
@@ -96,14 +104,34 @@ class Camera implements ICamera {
     }
 
     public update(): void {
+        this.camera.getWorldPosition(cameraPosition)
+        this.target.getWorldPosition(meshPosition)
+        viewSize = meshPosition.distanceTo(cameraPosition)
+
+        if (Units.isDifferent(viewSize, lastViewSize) && this.handleChangeViewSize) {
+            lastViewSize = viewSize
+            this.handleChangeViewSize(viewSize / Config.SIZE_RATIO)
+        }
+
+
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         viewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
         this.frustum.setFromMatrix(viewProjectionMatrix)
+        this.controls.update()
     }
 
     public setViewSizeLimit(min: number, max: number): void {
         this.controls.maxDistance = max
         this.controls.minDistance = min
+        this.controls.update()
+    }
+
+    public enableControls(isEnabled: boolean): void {
+        this.controls.enabled = isEnabled
+    }
+
+    public getPosition(): THREE.Vector3 {
+        return cameraPosition
     }
 
 }
