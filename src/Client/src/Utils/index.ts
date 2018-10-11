@@ -40,7 +40,6 @@ export {
  * Utils.
  */
 import Cookies from './Utils/Cookies'
-import Event from './Utils/Event'
 import Html from './Utils/Html'
 import Redux from './Utils/Redux'
 import Request from './Utils/Request'
@@ -49,7 +48,6 @@ import Numbers from './Utils/Numbers'
 
 export {
     Cookies,
-    Event,
     Html,
     Redux,
     Request,

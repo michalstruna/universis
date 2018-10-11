@@ -89,6 +89,7 @@ class Camera implements ICamera {
             this.scene.add(this.camera)
             this.controls.target.set(0, 0, 0)
             mesh.add(this.camera)
+            this.target = mesh
             // TODO: Tween animation.
         } else {
             const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius

@@ -1,7 +1,7 @@
 /**
  * Utils for Redux.
  *
- * Automatically changes on action types:
+ * Automatic changes on action types:
  * For toggle actions: ACTION_TYPE -> ACTION_TYPE_ON, ACTION_TYPE_OFF.
  * For async actions: ACTION_TYPE -> ACTION_TYPE_SENT, ACTION_TYPE_SUCCESS, ACTION_TYPE_FAIL.
  */
