@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import * as TWEEN from '@tweenjs/tween.js'
+
 import Config from '../Constants/Config'
 import Units from './Units'
 
@@ -7,10 +9,12 @@ const TrackballControls = require('three-trackballcontrols')
 const viewProjectionMatrix = new THREE.Matrix4()
 const cameraPosition = new THREE.Vector3()
 const meshPosition = new THREE.Vector3()
+const targetPosition = new THREE.Vector3()
 let lastViewSize = null
 let viewSize = null
 
 interface IOptions {
+    scene: THREE.Scene
     onChangeViewSize: IConsumer<number>
 }
 
@@ -40,12 +44,19 @@ class Camera implements ICamera {
     private frustum: THREE.Frustum
 
     /**
+     * Scene, that contains camera.
+     */
+    private scene: THREE.Scene
+
+    /**
      * Callback when view size is changed.
      */
     private handleChangeViewSize: IConsumer<number>
 
-    public constructor(options: IOptions) {
+    public constructor(scene: THREE.Scene, handleChangeViewSize: IConsumer<number>) {
         this.frustum = new THREE.Frustum()
+
+        this.scene = scene
 
         this.camera = new THREE.PerspectiveCamera(
             Config.CAMERA_FOV,
@@ -58,7 +69,7 @@ class Camera implements ICamera {
 
         this.controls = new TrackballControls(this.camera)
         this.controls.maxDistance = Config.CAMERA_MAX_DISTANCE
-        this.handleChangeViewSize = options.onChangeViewSize
+        this.handleChangeViewSize = handleChangeViewSize
     }
 
     public setAspectRatio(aspectRatio: number): void {
@@ -71,11 +82,21 @@ class Camera implements ICamera {
     }
 
     public setTarget(mesh: THREE.Mesh): void {
-        const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
-        this.setViewSizeLimit(radius * 2, radius * 4)
-        mesh.children[0].add(this.camera)
-        this.controls.target.set(0, 0, 0)
-        this.target = mesh
+        mesh.getWorldPosition(targetPosition)
+
+        if (this.target) {
+            this.controls.target = targetPosition
+            this.scene.add(this.camera)
+            this.controls.target.set(0, 0, 0)
+            mesh.add(this.camera)
+            // TODO: Tween animation.
+        } else {
+            const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
+            this.setViewSizeLimit(radius * 2, radius * 4)
+            mesh.children[0].add(this.camera)
+            this.controls.target.set(0, 0, 0)
+            this.target = mesh
+        }
     }
 
     public setViewSize(viewSize: number): void {

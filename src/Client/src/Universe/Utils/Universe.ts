@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import * as TWEEN from '@tweenjs/tween.js'
 
 import Config from '../Constants/Config'
 import UniverseInitializer from './UniverseInitializer'
@@ -74,7 +75,7 @@ class Universe implements IUniverse {
 
         this.scene = initializer.scene
         this.renderer = initializer.renderer
-        this.camera = new Camera({ onChangeViewSize: this.handleChangeViewSize })
+        this.camera = new Camera(this.scene, this.handleChangeViewSize)
         this.bodies = initializer.bodies
         this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera.getNativeCamera())
         this.darkColor = initializer.darkColor
@@ -96,11 +97,10 @@ class Universe implements IUniverse {
         })
 
         const selectedBodyId = this.bodies.filter(body => body.data.name === Config.INITIAL_BODY)[0].data._id
-        this.selectBody(selectedBodyId)
         this.handleSelectBody(selectedBodyId)
 
         this.resize()
-        this.render()
+        requestAnimationFrame(this.render)
     }
 
     public resize = (): void => {
@@ -144,10 +144,11 @@ class Universe implements IUniverse {
     /**
      * Render scene.
      */
-    private render = (): void => {
+    private render = (time: number): void => {
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera.getNativeCamera())
         this.updateBodies()
+        TWEEN.update(time)
     }
 
     /**
@@ -198,7 +199,7 @@ class Universe implements IUniverse {
             orbit.material.opacity = visibility
 
             const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-            body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
+            //body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
 
             if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
                 body.mesh.position.set(0, 0, 0)
@@ -206,8 +207,8 @@ class Universe implements IUniverse {
                 body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
             }
 
-            body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
-            body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
+            //body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
+            //body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
         }
 
         this.camera.setViewSizeLimit((this.camera.getTarget().geometry as THREE.SphereGeometry).parameters.radius * 2, Infinity)

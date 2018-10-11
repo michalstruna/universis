@@ -25,6 +25,7 @@
   "license": "UNLICENSED",
   "homepage": "https://bitbucket.org/michal-struna/universis#readme",
   "dependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
