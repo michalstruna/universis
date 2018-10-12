@@ -10,6 +10,7 @@ const viewProjectionMatrix = new THREE.Matrix4()
 const cameraPosition = new THREE.Vector3()
 const meshPosition = new THREE.Vector3()
 const targetPosition = new THREE.Vector3()
+const cameraLocalPosition = new THREE.Vector3()
 let lastViewSize = null
 let viewSize = null
 
@@ -84,15 +85,42 @@ class Camera implements ICamera {
     public setTarget(mesh: THREE.Mesh): void {
         mesh.getWorldPosition(targetPosition)
 
+        const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
+
         if (this.target) {
-            this.controls.target = targetPosition
+            cameraLocalPosition.set(this.camera.position.x, this.camera.position.y, this.camera.position.z)
             this.scene.add(this.camera)
-            this.controls.target.set(0, 0, 0)
-            mesh.add(this.camera)
-            this.target = mesh
+            this.camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z)
+            this.controls.target = meshPosition
+
+           // const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
+
+            new TWEEN
+                .Tween(this.controls.target)
+                .to(targetPosition, 1000)
+                .onUpdate(() => {
+                    this.controls.target = this.controls.target
+                })
+                .onComplete(() => {
+                    this.camera.position.set(cameraLocalPosition.x, cameraLocalPosition.y, cameraLocalPosition.z)
+                    this.controls.target.set(0, 0, 0)
+                    mesh.add(this.camera)
+                    this.target = mesh
+                })
+                .start()
+
+            /*setTimeout(() => {
+                this.controls.target = targetPosition
+
+                setTimeout(() => {
+                    this.camera.position.sub(targetPosition)
+                    this.controls.target.set(0, 0, 0)
+                    mesh.add(this.camera)
+                    this.target = mesh
+                }, 1000)
+            }, 1000)*/
             // TODO: Tween animation.
         } else {
-            const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
             this.setViewSizeLimit(radius * 2, radius * 4)
             mesh.children[0].add(this.camera)
             this.controls.target.set(0, 0, 0)
