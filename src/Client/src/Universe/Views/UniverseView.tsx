@@ -1,28 +1,35 @@
 import * as React from 'react'
 
-import { Loader, View, FadeLayout } from '../../Utils'
+import { View, AsyncEntity } from '../../Utils'
 import UniverseActions from '../Redux/UniverseActions'
 import Canvas from '../Components/Canvas'
 import UI from '../Components/UI'
 
 interface IProps {
-    bodies: ISimpleBody[]
+    bodies: IAsyncEntity<ISimpleBody[]>
     getBodies: IRunnable
 }
 
 class UniverseView extends View<IProps> {
 
     public componentWillMount() {
-        this.props.getBodies()
+        const { bodies, getBodies } = this.props
+        AsyncEntity.request(bodies, getBodies)
     }
 
     public render(): JSX.Element {
-        // TODO: Show loader if bodies are not exist.
+        const { bodies } = this.props
 
         return (
             <section className={this.getClassName('universe')}>
-                <Canvas />
-                <UI />
+                <AsyncEntity
+                    data={bodies}
+                    success={() => (
+                        <React.Fragment>
+                            <Canvas />
+                            <UI />
+                        </React.Fragment>
+                    )} />
             </section>
         )
     }

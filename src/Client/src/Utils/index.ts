@@ -1,6 +1,7 @@
 /**
  * Components.
  */
+import AsyncEntity from './Components/AsyncEntity'
 import BlurLayout from './Components/BlurLayout'
 import Component from './Components/Component'
 import FadeLayout from './Components/FadeLayout'
@@ -13,6 +14,7 @@ import UILayout from './Components/UILayout'
 import View from './Components/View'
 
 export {
+    AsyncEntity,
     BlurLayout,
     Component,
     FadeLayout,
