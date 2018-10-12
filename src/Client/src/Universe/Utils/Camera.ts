@@ -93,13 +93,13 @@ class Camera implements ICamera {
             this.camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z)
             this.controls.target = meshPosition
 
-           // const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
+            const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
 
             new TWEEN
-                .Tween(this.controls.target)
+                .Tween(tween)
                 .to(targetPosition, 1000)
                 .onUpdate(() => {
-                    this.controls.target = this.controls.target
+                    this.controls.target = new THREE.Vector3(tween.x, tween.y, tween.z)
                 })
                 .onComplete(() => {
                     this.camera.position.set(cameraLocalPosition.x, cameraLocalPosition.y, cameraLocalPosition.z)
