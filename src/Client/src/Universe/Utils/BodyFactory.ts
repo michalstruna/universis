@@ -166,8 +166,8 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createRing(ring: IBodyRing): THREE.Mesh {
         const geometry = new THREE.RingBufferGeometry(
-            ring.diameter.min,
-            ring.diameter.max,
+            ring.diameter.min / 2,
+            ring.diameter.max / 2,
             Config.RING_SEGMENTS
         )
 

@@ -88,10 +88,11 @@ class Camera implements ICamera {
         const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
 
         if (this.target) {
-            cameraLocalPosition.set(this.camera.position.x, this.camera.position.y, this.camera.position.z)
             this.scene.add(this.camera)
-            this.camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z)
+            cameraLocalPosition.copy(this.camera.position)
+            this.camera.position.copy(cameraPosition)
             this.controls.target = meshPosition
+            this.camera.lookAt(meshPosition)
 
             const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
 
@@ -102,23 +103,13 @@ class Camera implements ICamera {
                     this.controls.target = new THREE.Vector3(tween.x, tween.y, tween.z)
                 })
                 .onComplete(() => {
-                    this.camera.position.set(cameraLocalPosition.x, cameraLocalPosition.y, cameraLocalPosition.z)
+                    this.camera.position.copy(cameraLocalPosition)
                     this.controls.target.set(0, 0, 0)
                     mesh.add(this.camera)
                     this.target = mesh
+                    this.camera.lookAt(0, 0, 0)
                 })
                 .start()
-
-            /*setTimeout(() => {
-                this.controls.target = targetPosition
-
-                setTimeout(() => {
-                    this.camera.position.sub(targetPosition)
-                    this.controls.target.set(0, 0, 0)
-                    mesh.add(this.camera)
-                    this.target = mesh
-                }, 1000)
-            }, 1000)*/
             // TODO: Tween animation.
         } else {
             this.setViewSizeLimit(radius * 2, radius * 4)
