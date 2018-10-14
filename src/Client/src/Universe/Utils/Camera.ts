@@ -8,11 +8,12 @@ const TrackballControls = require('three-trackballcontrols')
 
 const viewProjectionMatrix = new THREE.Matrix4()
 const cameraPosition = new THREE.Vector3()
-const meshPosition = new THREE.Vector3()
 const targetPosition = new THREE.Vector3()
-const cameraLocalPosition = new THREE.Vector3()
+const finalCameraPosition = new THREE.Vector3()
 let lastViewSize = null
 let viewSize = null
+
+let cameraAnimation = false
 
 /**
  * Wrapper for THREE.js camera.
@@ -78,16 +79,45 @@ class Camera implements ICamera {
     }
 
     public setTarget(mesh: THREE.Mesh): void {
-        mesh.getWorldPosition(targetPosition)
-
+        this.scene.add(this.camera)
         const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
 
+        mesh.getWorldPosition(targetPosition)
+        finalCameraPosition.copy(targetPosition)
+        finalCameraPosition.addScalar(radius * 3)
+
+        this.setViewSizeLimit(0, Infinity)
+        this.target = mesh
+
         if (this.target) {
-            this.scene.add(this.camera)
-            cameraLocalPosition.copy(this.camera.position)
+            cameraAnimation = true
+            this.target = mesh
+            const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
+
+            new TWEEN
+                .Tween(tween)
+                .to(targetPosition, 2000)
+                .easing(TWEEN.Easing.Cubic.InOut)
+                .onUpdate(() => {
+                    this.controls.target.set(tween.x, tween.y, tween.z)
+                    this.camera.lookAt(tween.x, tween.y, tween.z)
+                })
+                .onComplete(() => {
+                    cameraAnimation = false
+                   // this.setViewSizeLimit(radius * 2, radius * 4)
+                })
+                .start()
+
+            new TWEEN
+                .Tween(this.camera.position)
+                .to(finalCameraPosition, 2000)
+                .easing(TWEEN.Easing.Cubic.InOut)
+                .start()
+
+            /*this.scene.add(this.camera)
             this.camera.position.copy(cameraPosition)
-            this.controls.target = meshPosition
-            this.camera.lookAt(meshPosition)
+            this.controls.target = targetPosition
+            this.camera.lookAt(targetPosition)
 
             const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
 
@@ -95,22 +125,26 @@ class Camera implements ICamera {
                 .Tween(tween)
                 .to(targetPosition, 1000)
                 .onUpdate(() => {
-                    this.controls.target = new THREE.Vector3(tween.x, tween.y, tween.z)
+                    this.controls.target.set(tween.x, tween.y, tween.z)
+                    this.camera.lookAt(tween.x, tween.y, tween.z)
                 })
                 .onComplete(() => {
-                    this.camera.position.copy(cameraLocalPosition)
-                    this.controls.target.set(0, 0, 0)
-                    mesh.add(this.camera)
                     this.target = mesh
+                    this.camera.position.setScalar(radius)
+                    this.controls.target.setScalar(0)
                     this.camera.lookAt(0, 0, 0)
+                    mesh.add(this.camera)
                 })
                 .start()
+
+            new TWEEN
+                .Tween(this.camera.position)
+                .to(finalCameraPosition, 1000)
+                .start()*/
             // TODO: Tween animation.
+
         } else {
-            this.setViewSizeLimit(radius * 2, radius * 4)
-            mesh.children[0].add(this.camera)
-            this.controls.target.set(0, 0, 0)
-            this.target = mesh
+
         }
     }
 
@@ -141,8 +175,8 @@ class Camera implements ICamera {
 
     public update(): void {
         this.camera.getWorldPosition(cameraPosition)
-        this.target.getWorldPosition(meshPosition)
-        viewSize = meshPosition.distanceTo(cameraPosition)
+        this.target.getWorldPosition(targetPosition)
+        viewSize = targetPosition.distanceTo(cameraPosition)
 
         if (Units.isDifferent(viewSize, lastViewSize) && this.handleChangeViewSize) {
             lastViewSize = viewSize
@@ -152,12 +186,19 @@ class Camera implements ICamera {
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         viewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
         this.frustum.setFromMatrix(viewProjectionMatrix)
+
+        if (!cameraAnimation) {
+            this.controls.target.copy(targetPosition)
+            this.camera.lookAt(targetPosition.x, targetPosition.y, targetPosition.z)
+        }
+
+
         this.controls.update()
     }
 
     public setViewSizeLimit(min: number, max: number): void {
-        this.controls.maxDistance = max
-        this.controls.minDistance = min
+       /* this.controls.maxDistance = max
+        this.controls.minDistance = min*/
         this.controls.update()
     }
 
