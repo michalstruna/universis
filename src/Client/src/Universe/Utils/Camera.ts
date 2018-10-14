@@ -14,11 +14,6 @@ const cameraLocalPosition = new THREE.Vector3()
 let lastViewSize = null
 let viewSize = null
 
-interface IOptions {
-    scene: THREE.Scene
-    onChangeViewSize: IConsumer<number>
-}
-
 /**
  * Wrapper for THREE.js camera.
  */
