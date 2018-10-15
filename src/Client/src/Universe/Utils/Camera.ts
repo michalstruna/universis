@@ -7,6 +7,7 @@ import Units from './Units'
 const TrackballControls = require('three-trackballcontrols')
 
 const viewProjectionMatrix = new THREE.Matrix4()
+const cameraDirection = new THREE.Vector3()
 const cameraPosition = new THREE.Vector3()
 const targetPosition = new THREE.Vector3()
 const finalCameraPosition = new THREE.Vector3()
@@ -82,67 +83,32 @@ class Camera implements ICamera {
         this.scene.add(this.camera)
         const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
 
+        this.camera.getWorldDirection(cameraDirection)
+        cameraDirection.multiplyScalar(-radius * 3)
         mesh.getWorldPosition(targetPosition)
         finalCameraPosition.copy(targetPosition)
-        finalCameraPosition.addScalar(radius * 3)
-
+        finalCameraPosition.add(cameraDirection)
         this.setViewSizeLimit(0, Infinity)
         this.target = mesh
 
         if (this.target) {
             cameraAnimation = true
-            this.target = mesh
             const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
 
-            new TWEEN
-                .Tween(tween)
-                .to(targetPosition, 2000)
-                .easing(TWEEN.Easing.Cubic.InOut)
-                .onUpdate(() => {
+            this.animate(
+                tween,
+                targetPosition,
+                () => {
                     this.controls.target.set(tween.x, tween.y, tween.z)
                     this.camera.lookAt(tween.x, tween.y, tween.z)
-                })
-                .onComplete(() => {
+                },
+                () => {
                     cameraAnimation = false
-                   // this.setViewSizeLimit(radius * 2, radius * 4)
-                })
-                .start()
+                    this.setViewSizeLimit(radius * 2, Infinity)
+                }
+            )
 
-            new TWEEN
-                .Tween(this.camera.position)
-                .to(finalCameraPosition, 2000)
-                .easing(TWEEN.Easing.Cubic.InOut)
-                .start()
-
-            /*this.scene.add(this.camera)
-            this.camera.position.copy(cameraPosition)
-            this.controls.target = targetPosition
-            this.camera.lookAt(targetPosition)
-
-            const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
-
-            new TWEEN
-                .Tween(tween)
-                .to(targetPosition, 1000)
-                .onUpdate(() => {
-                    this.controls.target.set(tween.x, tween.y, tween.z)
-                    this.camera.lookAt(tween.x, tween.y, tween.z)
-                })
-                .onComplete(() => {
-                    this.target = mesh
-                    this.camera.position.setScalar(radius)
-                    this.controls.target.setScalar(0)
-                    this.camera.lookAt(0, 0, 0)
-                    mesh.add(this.camera)
-                })
-                .start()
-
-            new TWEEN
-                .Tween(this.camera.position)
-                .to(finalCameraPosition, 1000)
-                .start()*/
-            // TODO: Tween animation.
-
+            this.animate(this.camera.position, finalCameraPosition)
         } else {
 
         }
@@ -197,8 +163,8 @@ class Camera implements ICamera {
     }
 
     public setViewSizeLimit(min: number, max: number): void {
-       /* this.controls.maxDistance = max
-        this.controls.minDistance = min*/
+        this.controls.maxDistance = max
+        this.controls.minDistance = min
         this.controls.update()
     }
 
@@ -208,6 +174,25 @@ class Camera implements ICamera {
 
     public getPosition(): THREE.Vector3 {
         return cameraPosition
+    }
+
+    /**
+     * Start animation.
+     * @param from Start state.
+     * @param to Finished state.
+     * @param onUpdate
+     * @param onComplete Callback after complete. (optional)
+     * @param duration Duration of animation [ms]. (optional, default 2000)
+     * @param easing Type of easing. (optional, default TWEEN.Easing.Cubic.InOut
+     */
+    private animate(from: IObject<any>, to: IObject<any>, onUpdate?: IRunnable, onComplete?: IRunnable, duration = 2000, easing: any = TWEEN.Easing.Cubic.InOut): any {
+        return new TWEEN
+            .Tween(from)
+            .to(to, duration)
+            .easing(TWEEN.Easing.Cubic.InOut)
+            .onUpdate(onUpdate ? onUpdate : () => null)
+            .onComplete(onComplete ? onComplete : () => null)
+            .start()
     }
 
 }

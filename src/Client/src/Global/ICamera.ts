@@ -16,7 +16,7 @@ declare interface ICamera {
     getAspectRatio(): number
 
     /**
-     * Set view size fo camera.
+     * Set view size of camera.
      * @param viewSize New view size of camera.
      */
     setViewSize(viewSize: number): void
