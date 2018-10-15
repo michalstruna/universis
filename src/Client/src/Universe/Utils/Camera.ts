@@ -89,7 +89,6 @@ class Camera implements ICamera {
         finalCameraPosition.copy(targetPosition)
         finalCameraPosition.add(cameraDirection)
         this.setViewSizeLimit(0, Infinity)
-        this.target = mesh
 
         if (this.target) {
             cameraAnimation = true
@@ -112,6 +111,8 @@ class Camera implements ICamera {
         } else {
 
         }
+
+        this.target = mesh
     }
 
     public setViewSize(viewSize: number): void {
