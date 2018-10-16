@@ -7,14 +7,16 @@ import Units from './Units'
 const TrackballControls = require('three-trackballcontrols')
 
 const viewProjectionMatrix = new THREE.Matrix4()
-const cameraDirection = new THREE.Vector3()
 const cameraPosition = new THREE.Vector3()
 const targetPosition = new THREE.Vector3()
-const finalCameraPosition = new THREE.Vector3()
+const cameraLocalPosition = new THREE.Vector3()
+const cameraGlobalPosition = new THREE.Vector3()
+
+const oldTargetPosition = new THREE.Vector3()
+const newTargetPosition = new THREE.Vector3()
+
 let lastViewSize = null
 let viewSize = null
-
-let cameraAnimation = false
 
 /**
  * Wrapper for THREE.js camera.
@@ -80,36 +82,18 @@ class Camera implements ICamera {
     }
 
     public setTarget(mesh: THREE.Mesh): void {
-        this.scene.add(this.camera)
-        const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
-
-        this.camera.getWorldDirection(cameraDirection)
-        cameraDirection.multiplyScalar(-radius * 3)
-        mesh.getWorldPosition(targetPosition)
-        finalCameraPosition.copy(targetPosition)
-        finalCameraPosition.add(cameraDirection)
-        this.setViewSizeLimit(0, Infinity)
-
         if (this.target) {
-            cameraAnimation = true
-            const tween = { x: this.controls.target.x, y: this.controls.target.y, z: this.controls.target.z }
+            cameraLocalPosition.copy(this.camera.position)
+            this.camera.getWorldPosition(cameraGlobalPosition)
 
-            this.animate(
-                tween,
-                targetPosition,
-                () => {
-                    this.controls.target.set(tween.x, tween.y, tween.z)
-                    this.camera.lookAt(tween.x, tween.y, tween.z)
-                },
-                () => {
-                    cameraAnimation = false
-                    this.setViewSizeLimit(radius * 2, Infinity)
-                }
-            )
+            this.target.getWorldPosition(oldTargetPosition)
+            mesh.getWorldPosition(newTargetPosition)
+            newTargetPosition.sub(oldTargetPosition)
+            this.camera.position.add(newTargetPosition)
 
-            this.animate(this.camera.position, finalCameraPosition)
+            mesh.add(this.camera)
         } else {
-
+            mesh.add(this.camera)
         }
 
         this.target = mesh
@@ -153,13 +137,6 @@ class Camera implements ICamera {
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         viewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
         this.frustum.setFromMatrix(viewProjectionMatrix)
-
-        if (!cameraAnimation) {
-            this.controls.target.copy(targetPosition)
-            this.camera.lookAt(targetPosition.x, targetPosition.y, targetPosition.z)
-        }
-
-
         this.controls.update()
     }
 
