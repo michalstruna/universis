@@ -83,19 +83,12 @@ class Camera implements ICamera {
 
     public setTarget(mesh: THREE.Mesh): void {
         if (this.target) {
-            cameraLocalPosition.copy(this.camera.position)
-            this.camera.getWorldPosition(cameraGlobalPosition)
 
-            this.target.getWorldPosition(oldTargetPosition)
-            mesh.getWorldPosition(newTargetPosition)
-            newTargetPosition.sub(oldTargetPosition)
-            this.camera.position.add(newTargetPosition)
-
-            mesh.add(this.camera)
         } else {
-            mesh.add(this.camera)
+
         }
 
+        mesh.add(this.camera)
         this.target = mesh
     }
 
