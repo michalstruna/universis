@@ -6,22 +6,15 @@ import Units from './Units'
 
 const TrackballControls = require('three-trackballcontrols')
 
-const viewProjectionMatrix = new THREE.Matrix4()
-const cameraPosition = new THREE.Vector3()
-const targetPosition = new THREE.Vector3()
-const cameraLocalPosition = new THREE.Vector3()
-const cameraGlobalPosition = new THREE.Vector3()
-
-const oldTargetPosition = new THREE.Vector3()
-const newTargetPosition = new THREE.Vector3()
-
-let lastViewSize = null
-let viewSize = null
-
 /**
  * Wrapper for THREE.js camera.
  */
 class Camera implements ICamera {
+
+    /**
+     * Multiply of radius of new target.
+     */
+    public static readonly DEFAULT_TARGET_DISTANCE = 3
 
     /**
      * Native camera.
@@ -53,6 +46,19 @@ class Camera implements ICamera {
      */
     private handleChangeViewSize: IConsumer<number>
 
+    /*
+     * Help variables.
+     */
+    private viewProjection = new THREE.Matrix4()
+    private position = new THREE.Vector3()
+    private direction = new THREE.Vector3()
+    private targetPosition = new THREE.Vector3()
+    private controlsTarget = new THREE.Vector3(0, 0, 0)
+    private oldTargetPosition = new THREE.Vector3()
+    private newTargetPosition = new THREE.Vector3()
+    private lastViewSize = null
+    private viewSize = null
+
     public constructor(scene: THREE.Scene, handleChangeViewSize: IConsumer<number>) {
         this.frustum = new THREE.Frustum()
 
@@ -83,12 +89,24 @@ class Camera implements ICamera {
 
     public setTarget(mesh: THREE.Mesh): void {
         if (this.target) {
+            const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
+            this.camera.getWorldDirection(this.direction)
+            this.direction.multiplyScalar(-radius * Camera.DEFAULT_TARGET_DISTANCE)
 
+            this.camera.getWorldPosition(this.oldTargetPosition)
+            mesh.add(this.camera)
+            this.camera.getWorldPosition(this.newTargetPosition)
+            this.oldTargetPosition.sub(this.newTargetPosition)
+
+            this.camera.position.add(this.oldTargetPosition)
+            this.controls.target.copy(this.oldTargetPosition)
+
+            this.animate(this.controls.target, this.controlsTarget)
+            this.animate(this.camera.position, this.direction)
         } else {
-
+            mesh.add(this.camera)
         }
 
-        mesh.add(this.camera)
         this.target = mesh
     }
 
@@ -98,7 +116,7 @@ class Camera implements ICamera {
     }
 
     public getViewSize(): number {
-        return viewSize
+        return this.viewSize
     }
 
     public getTarget(): THREE.Mesh {
@@ -118,18 +136,18 @@ class Camera implements ICamera {
     }
 
     public update(): void {
-        this.camera.getWorldPosition(cameraPosition)
-        this.target.getWorldPosition(targetPosition)
-        viewSize = targetPosition.distanceTo(cameraPosition)
+        this.camera.getWorldPosition(this.position)
+        this.target.getWorldPosition(this.targetPosition)
+        this.viewSize = this.targetPosition.distanceTo(this.position)
 
-        if (Units.isDifferent(viewSize, lastViewSize) && this.handleChangeViewSize) {
-            lastViewSize = viewSize
-            this.handleChangeViewSize(viewSize / Config.SIZE_RATIO)
+        if (Units.isDifferent(this.viewSize, this.lastViewSize) && this.handleChangeViewSize) {
+            this.lastViewSize = this.viewSize
+            this.handleChangeViewSize(this.viewSize / Config.SIZE_RATIO)
         }
 
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
-        viewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
-        this.frustum.setFromMatrix(viewProjectionMatrix)
+        this.viewProjection.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
+        this.frustum.setFromMatrix(this.viewProjection)
         this.controls.update()
     }
 
@@ -144,7 +162,7 @@ class Camera implements ICamera {
     }
 
     public getPosition(): THREE.Vector3 {
-        return cameraPosition
+        return this.position
     }
 
     /**
