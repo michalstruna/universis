@@ -63,6 +63,12 @@ class Universe implements IUniverse {
     private lightColor: THREE.AmbientLight
 
     /**
+     * Variables for mouse down and mouse up events.
+     */
+    private startMouseX
+    private startMouseY
+
+    /**
      * Create universe.
      * @param options Options.
      */
@@ -85,7 +91,8 @@ class Universe implements IUniverse {
             body.label.onclick = () => this.handleSelectBody(body.data._id)
         })
 
-        options.element.addEventListener('mousedown', this.handleClick)
+        options.element.addEventListener('mousedown', this.handleMouseDown)
+        options.element.addEventListener('mouseup', this.handleMouseUp)
 
         document.body.addEventListener('mousemove', event => {
             this.camera.enableControls(
@@ -211,18 +218,29 @@ class Universe implements IUniverse {
             body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
         }
 
-        this.camera.setViewSizeLimit((this.camera.getTarget().geometry as THREE.SphereGeometry).parameters.radius * 2, Infinity)
+        this.camera.setViewSizeLimit((this.camera.getTarget().geometry as THREE.SphereGeometry).parameters.radius * 2, 1e22)
+    }
+
+    /**
+     * Save mouse coordinates.
+     * @param event Mouse event.
+     */
+    private handleMouseDown = (event: MouseEvent): void => {
+        this.startMouseX = event.pageX
+        this.startMouseY = event.pageY
     }
 
     /**
      * Select body by coordinates.
      * @param event Mouse event.
      */
-    private handleClick = (event: MouseEvent): void => {
-        const mesh = this.bodySelector.select(event.pageX, event.pageY)
+    private handleMouseUp = (event: MouseEvent): void => {
+        if (event.pageX === this.startMouseX && event.pageY === this.startMouseY) {
+            const mesh = this.bodySelector.select(event.pageX, event.pageY)
 
-        if (mesh) {
-            this.handleSelectBody(mesh.name)
+            if (mesh) {
+                this.handleSelectBody(mesh.name)
+            }
         }
     }
 

@@ -55,10 +55,6 @@ class Bodies extends StatelessComponent<IProps> {
         }
     ]
 
-    private handleClick = (bodyId: string) => {
-        this.props.selectBody(bodyId)
-    }
-
     /**
      * Render list of bodies.
      * @returns Bodies.

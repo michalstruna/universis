@@ -53,9 +53,6 @@ class Camera implements ICamera {
     private position = new THREE.Vector3()
     private direction = new THREE.Vector3()
     private targetPosition = new THREE.Vector3()
-    private controlsTarget = new THREE.Vector3(0, 0, 0)
-    private oldTargetPosition = new THREE.Vector3()
-    private newTargetPosition = new THREE.Vector3()
     private lastViewSize = null
     private viewSize = null
 
@@ -88,25 +85,24 @@ class Camera implements ICamera {
     }
 
     public setTarget(mesh: THREE.Mesh): void {
-        if (this.target) {
+        // TODO: Fix camera transition between bodies.
+        /*if (this.target) {
             const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
             this.camera.getWorldDirection(this.direction)
             this.direction.multiplyScalar(-radius * Camera.DEFAULT_TARGET_DISTANCE)
 
+
             this.camera.getWorldPosition(this.oldTargetPosition)
             mesh.add(this.camera)
-            this.camera.getWorldPosition(this.newTargetPosition)
-            this.oldTargetPosition.sub(this.newTargetPosition)
-
-            this.camera.position.add(this.oldTargetPosition)
+            this.camera.worldToLocal(this.oldTargetPosition)
             this.controls.target.copy(this.oldTargetPosition)
-
             this.animate(this.controls.target, this.controlsTarget)
             this.animate(this.camera.position, this.direction)
         } else {
             mesh.add(this.camera)
-        }
+        }*/
 
+        mesh.add(this.camera)
         this.target = mesh
     }
 
