@@ -24,8 +24,6 @@ class Filter {
     public static apply(items: any[], filter: IFilter): any[] {
         const result = []
 
-        console.log(filter)
-
         for (const item of items) {
             if (Filter.isMatch(item, filter)) {
                 result.push(item)
