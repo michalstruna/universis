@@ -18,7 +18,6 @@ interface IColumn {
 interface IProps {
     items: Item[]
     columns: IColumn[]
-    filter?: IFunction<Item, boolean>
     onRowClick?: IConsumer<Item>
     onSort?: IConsumer2<number, boolean>
     sort?: number
@@ -136,10 +135,9 @@ class Table extends Component<IProps, IState> {
      * @returns Rows.
      */
     private renderItems(): JSX.Element[] {
-        const { items, filter, onRowClick } = this.props
+        const { items, onRowClick } = this.props
 
-        const filteredItems = items.filter(filter)
-        const sortedItems = this.sort(filteredItems)
+        const sortedItems = this.sort(items)
 
         return sortedItems.map((item, key) => (
             <section

@@ -2,11 +2,12 @@ import * as React from 'react'
 
 import BodyFilterForm from './BodyFilterForm'
 import { SizeUnit, TimeUnit, UniverseActions } from '../../Universe'
-import { StatelessComponent, Table } from '../../Utils'
+import { StatelessComponent, Table, Filter } from '../../Utils'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
     selectBody: IConsumer<string>
+    filter: IFilter
 }
 
 /**
@@ -60,7 +61,7 @@ class Bodies extends StatelessComponent<IProps> {
      * @returns Bodies.
      */
     private renderTable(): JSX.Element {
-        const { bodies, selectBody } = this.props
+        const { bodies, selectBody, filter } = this.props
 
         if (!bodies.payload) {
             return null
@@ -69,7 +70,7 @@ class Bodies extends StatelessComponent<IProps> {
         return (
             <Table
                 columns={Bodies.COLUMNS}
-                items={bodies.payload}
+                items={Filter.apply(bodies.payload, filter)}
                 onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
         )
     }
@@ -104,8 +105,9 @@ class Bodies extends StatelessComponent<IProps> {
 }
 
 export default Bodies.connect(
-    ({ universe }: IStoreState) => ({
-        bodies: universe.bodies
+    ({ universe, panel }: IStoreState) => ({
+        bodies: universe.bodies,
+        filter: panel.bodyFilter
     }),
     (dispatch: IDispatch) => ({
         selectBody: bodyId => dispatch(UniverseActions.selectBody(bodyId))

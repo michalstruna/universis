@@ -1,11 +1,14 @@
 import * as React from 'react'
-import { reduxForm, InjectedFormProps, formValueSelector } from 'redux-form'
+import { reduxForm, InjectedFormProps, formValueSelector, getFormValues } from 'redux-form'
 
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, Filter } from '../../Utils'
 import { TextField, Form, Select } from '../../Forms'
+import PanelActions from '../Redux/PanelActions'
 
 interface IProps {
     strings: IStrings
+    values: IValues
+    handleChange: IConsumer<IValues>
 }
 
 interface IValues {
@@ -21,9 +24,32 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValu
     public static readonly NAME = 'bodyFilter'
     public static readonly SELECTOR = formValueSelector(BodyFilterForm.NAME) // TODO: public static getValue(), private selector, LoginForm extends Form autobind this.selector = selector(this.NAME).
 
+    private static FIELDS = [
+        { text: 'Název', value: 'name' },
+        { text: 'Průměr', value: 'diameter_equatorial' },
+        { text: 'Hmotnost', value: 'mass' },
+        { text: 'Hustota', value: 'density' },
+        { text: 'Apocentrum', value: 'orbit_apocenter' },
+        { text: 'Rok', value: 'orbit_period' },
+        { text: 'Den', value: 'period' }
+    ]
+
+    private static RELATION_OPTIONS = [
+        { text: 'Obsahuje', value: Filter.RELATIONS.CONTAINS },
+        { text: 'Je roven', value: Filter.RELATIONS.EQUALS },
+        { text: 'Začíná na', value: Filter.RELATIONS.STARTS_WITH },
+        { text: 'Končí na', value: Filter.RELATIONS.ENDS_WITH },
+        { text: 'Je větší než', value: Filter.RELATIONS.IS_LARGER },
+        { text: 'Je menší než', value: Filter.RELATIONS.IS_SMALLER }
+    ]
+
+    public componentDidUpdate(prevProps: IProps): void {
+        const { values, handleChange } = this.props
+        handleChange(values)
+    }
+
     /**
-     * Login user.
-     * @param data
+     * // TODO: Remove?
      */
     private handleSubmit = async (data: IValues) => {
 
@@ -32,10 +58,8 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValu
     public render(): JSX.Element {
         const { strings, handleSubmit, invalid, submitting } = this.props
 
-        const fields = [
-            { text: 'Název', value: 'name' },
-            { text: 'Equatorial diameter', value: 'diameter_equatorial' }
-        ]
+        // TODO: Move strings to constants.
+
 
         return (
             <Form
@@ -43,18 +67,13 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValu
                 invalid={invalid}
                 sending={submitting}>
                 <Select
-                    name='field'
-                    options={fields}
+                    name='property[0]'
+                    options={BodyFilterForm.FIELDS}
                     widthEmpty={true} />
-                <select>
-                    <option>Obsahuje</option>
-                    <option>Je roven</option>
-                    <option>Je větší než</option>
-                    <option>Je menší než</option>
-                    <option>Začíná na</option>
-                    <option>Končí na</option>
-                </select>
-                <TextField label={''} name='value' />
+                <Select
+                    name='relation[0]'
+                    options={BodyFilterForm.RELATION_OPTIONS} />
+                <TextField label={''} name='value[0]' />
             </Form>
         )
     }
@@ -64,6 +83,10 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValu
 export default reduxForm({
     form: BodyFilterForm.NAME
 })(BodyFilterForm.connect(
-    ({ system, user }: IStoreState) => ({}),
-    (dispatch: IDispatch) => ({})
+    (state: IStoreState) => ({
+        values: getFormValues(BodyFilterForm.NAME)(state)
+    }),
+    (dispatch: IDispatch) => ({
+        handleChange: values => dispatch(PanelActions.setBodyFilter(values))
+    })
 ))

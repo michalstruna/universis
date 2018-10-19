@@ -42,6 +42,7 @@ export {
  * Utils.
  */
 import Cookies from './Utils/Cookies'
+import Filter from './Utils/Filter'
 import Html from './Utils/Html'
 import Redux from './Utils/Redux'
 import Request from './Utils/Request'
@@ -50,6 +51,7 @@ import Numbers from './Utils/Numbers'
 
 export {
     Cookies,
+    Filter,
     Html,
     Redux,
     Request,
