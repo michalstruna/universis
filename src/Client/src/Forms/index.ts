@@ -3,6 +3,7 @@
  * Form Module is used for form components like Form, TextField, Submit, etc.
  */
 import Back from './Components/Back'
+import FlexRow from './Components/FlexRow'
 import Form from './Components/Form'
 import EmailField from './Components/EmailField'
 import Note from './Components/Note'
@@ -15,6 +16,7 @@ import Title from './Components/Title'
 export {
 
     Back,
+    FlexRow,
     Form,
     TextField,
     EmailField,

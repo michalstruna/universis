@@ -12,4 +12,38 @@
     &--inner {
         overflow: hidden;
     }
+
+    .form {
+        padding-left: 0;
+
+        &__flex-row {
+            &:nth-last-child(2) {
+                opacity: 0.2;
+                @include opacity-hover;
+
+                .form__button--remove {
+                    visibility: hidden;
+                }
+            }
+        }
+
+        &__button {
+            &--remove {
+                @include opacity-hover;
+                @include size(3rem !important);
+                @include svg("Panel/Bodies/Remove", 60%);
+                margin-right: 0;
+                min-width: 2rem;
+            }
+        }
+
+        &__field {
+            height: 100%;
+            padding: 0;
+        }
+    }
+
+    &__filter {
+        margin-bottom: 1rem;
+    }
 }

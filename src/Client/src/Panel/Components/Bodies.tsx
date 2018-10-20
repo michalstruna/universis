@@ -2,12 +2,13 @@ import * as React from 'react'
 
 import BodyFilterForm from './BodyFilterForm'
 import { SizeUnit, TimeUnit, UniverseActions } from '../../Universe'
-import { StatelessComponent, Table, Filter } from '../../Utils'
+import { StatelessComponent, Table, Filter, AsyncEntity, Url } from '../../Utils'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
     selectBody: IConsumer<string>
     filter: IFilter
+    getBodies: IRunnable
 }
 
 /**
@@ -56,22 +57,29 @@ class Bodies extends StatelessComponent<IProps> {
         }
     ]
 
+    public componentWillMount(): void {
+        const { bodies, getBodies } = this.props
+        AsyncEntity.request(bodies, getBodies)
+    }
+
     /**
      * Render list of bodies.
      * @returns Bodies.
      */
     private renderTable(): JSX.Element {
-        const { bodies, selectBody, filter } = this.props
-
-        if (!bodies.payload) {
-            return null
-        }
+        const { bodies, selectBody, location } = this.props
 
         return (
-            <Table
-                columns={Bodies.COLUMNS}
-                items={Filter.apply(bodies.payload, filter)}
-                onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
+            <AsyncEntity
+                data={bodies}
+                success={() => (
+                    <section className='panel__bodies__table'>
+                        <Table
+                            columns={Bodies.COLUMNS}
+                            items={Filter.apply(bodies.payload, JSON.parse(Url.getQuery(location.search, Url.QUERIES.BODY_FILTER)))}
+                            onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
+                    </section>
+                )} />
         )
     }
 
@@ -105,11 +113,11 @@ class Bodies extends StatelessComponent<IProps> {
 }
 
 export default Bodies.connect(
-    ({ universe, panel }: IStoreState) => ({
-        bodies: universe.bodies,
-        filter: panel.bodyFilter
+    ({ universe }: IStoreState) => ({
+        bodies: universe.bodies
     }),
     (dispatch: IDispatch) => ({
-        selectBody: bodyId => dispatch(UniverseActions.selectBody(bodyId))
+        selectBody: bodyId => dispatch(UniverseActions.selectBody(bodyId)),
+        getBodies: () => dispatch(UniverseActions.getBodies())
     })
 )

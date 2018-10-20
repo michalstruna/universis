@@ -41,7 +41,7 @@ button {
     user-select: none;
 }
 
-input, textarea {
+input, textarea, select, option {
     @include content-font;
     border: none;
     outline: none;
