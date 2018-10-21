@@ -70,6 +70,31 @@ class Filter {
     }
 
     /**
+     * Fill all parts (property, relation and value) of filter to same size.
+     * @param filter Filled filter.
+     * @param initialProperty
+     * @param initialRelation
+     * @param initialValue
+     * @param length Length of filter (optional, default is length of largest part of filter).
+     */
+    public static fillFilter(filter: IFilter, initialProperty: string, initialRelation: string, initialValue: string, length?: number): IFilter {
+        if (!Filter.isValidFilter(filter)) {
+            return filter
+        }
+
+        const filledFilter = Filter.getInitialFilter()
+        const maxSize = length || Math.max(filter.property.length, filter.relation.length, filter.value.length)
+
+        for (let i = 0; i < maxSize; i++) {
+            filledFilter.property[i] = filter.property[i] || initialProperty
+            filledFilter.relation[i] = filter.relation[i] || initialRelation
+            filledFilter.value[i] = filter.value[i] || initialValue
+        }
+
+        return filledFilter
+    }
+
+    /**
      * Check if item matches filter.
      * @param item Item.
      * @param filter Filter.
@@ -80,46 +105,52 @@ class Filter {
             if (filter.value && filter.relation && filter.property && filter.value[i] && filter.relation[i] && filter.property[i]) {
                 let property = Filter.getProperty(item, filter.property[i])
 
-                if (Number.isInteger(property) || typeof property === 'number') {
-                    switch (filter.relation[i]) {
-                        case Filter.RELATIONS.CONTAINS:
-                            return property.toString().includes(filter.value[i])
-                        case Filter.RELATIONS.STARTS_WITH:
-                            return property.toString().startsWith(filter.value[i])
-                        case Filter.RELATIONS.ENDS_WITH:
-                            return property.toString().endsWith(filter.value[i])
-                        case Filter.RELATIONS.EQUALS:
-                            return property.toString() === filter.value[i].toString()
-                        case Filter.RELATIONS.IS_LARGER:
-                            return property > filter.value[i]
-                        case Filter.RELATIONS.IS_SMALLER:
-                            return property < filter.value[i]
-                    }
-                } else if (typeof property === 'string') {
-                    property = property.toLowerCase()
-                    const value = filter.value[i].toLowerCase()
-
-                    switch (filter.relation[i]) {
-                        case Filter.RELATIONS.CONTAINS:
-                            return property.includes(value)
-                        case Filter.RELATIONS.STARTS_WITH:
-                            return property.startsWith(value)
-                        case Filter.RELATIONS.ENDS_WITH:
-                            return property.endsWith(value)
-                        case Filter.RELATIONS.EQUALS:
-                            return property === value
-                        case Filter.RELATIONS.IS_LARGER:
-                            return property > value
-                        case Filter.RELATIONS.IS_SMALLER:
-                            return property < value
-                    }
+                if (!Filter.isMatchValue(filter, property, i)) {
+                    return false
                 }
-
-                return false
             }
         }
 
         return true
+    }
+
+    private static isMatchValue(filter: IFilter, property: any, i: string): boolean {
+        if (Number.isInteger(property) || typeof property === 'number') {
+            switch (filter.relation[i]) {
+                case Filter.RELATIONS.CONTAINS:
+                    return property.toString().includes(filter.value[i])
+                case Filter.RELATIONS.STARTS_WITH:
+                    return property.toString().startsWith(filter.value[i])
+                case Filter.RELATIONS.ENDS_WITH:
+                    return property.toString().endsWith(filter.value[i])
+                case Filter.RELATIONS.EQUALS:
+                    return property.toString() === filter.value[i].toString()
+                case Filter.RELATIONS.IS_LARGER:
+                    return property > filter.value[i]
+                case Filter.RELATIONS.IS_SMALLER:
+                    return property < filter.value[i]
+            }
+        } else if (typeof property === 'string') {
+            property = property.toLowerCase()
+            const value = filter.value[i].toLowerCase()
+
+            switch (filter.relation[i]) {
+                case Filter.RELATIONS.CONTAINS:
+                    return property.includes(value)
+                case Filter.RELATIONS.STARTS_WITH:
+                    return property.startsWith(value)
+                case Filter.RELATIONS.ENDS_WITH:
+                    return property.endsWith(value)
+                case Filter.RELATIONS.EQUALS:
+                    return property === value
+                case Filter.RELATIONS.IS_LARGER:
+                    return property > value
+                case Filter.RELATIONS.IS_SMALLER:
+                    return property < value
+            }
+        }
+
+        return false
     }
 
     /**

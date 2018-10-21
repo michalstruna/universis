@@ -42,8 +42,17 @@ class Bodies extends StatelessComponent<IProps> {
         },
         {
             accessor: body => body.orbit.apocenter,
-            title: 'Apo',
+            title: 'Apocentrum',
             render: apocenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{apocenter}</SizeUnit>
+        },
+        {
+            accessor: body => body.orbit.pericenter,
+            title: 'Pericentrum',
+            render: pericenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{pericenter}</SizeUnit>
+        },
+        {
+            accessor: body => body.orbit.eccentricity,
+            title: 'Excentricita'
         },
         {
             accessor: body => body.orbit.period,
@@ -54,6 +63,34 @@ class Bodies extends StatelessComponent<IProps> {
             accessor: body => body.period,
             title: 'Den',
             render: period => <TimeUnit input={TimeUnit.UNITS.D} short={true}>{period}</TimeUnit>
+        },
+        {
+            accessor: body => body.rings.length,
+            title: 'Satelitů'
+        },
+        {
+            accessor: body => body.rings.length,
+            title: 'Prstenců'
+        },
+        {
+            accessor: body => body.tilt,
+            title: 'Sklon'
+        },
+        {
+            accessor: body => body.orbit.speed || 123,
+            title: 'Rychlost'
+        },
+        {
+            accessor: body => body.rings.length,
+            title: 'Povrch'
+        },
+        {
+            accessor: body => body.rings.length,
+            title: 'Jádro'
+        },
+        {
+            accessor: body => '1997',
+            title: 'Objev'
         }
     ]
 
@@ -99,11 +136,9 @@ class Bodies extends StatelessComponent<IProps> {
         return (
             <section className='panel__bodies panel__window'>
                 <section className='panel__bodies'>
-                    <section className='panel__bodies--scroll'>
-                        {this.renderFilter()}
-                        <section className='panel__bodies--inner'>
-                            {this.renderTable()}
-                        </section>
+                    {this.renderFilter()}
+                    <section className='panel__bodies--inner'>
+                        {this.renderTable()}
                     </section>
                 </section>
             </section>

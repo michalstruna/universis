@@ -155,7 +155,9 @@ class Table extends Component<IProps, IState> {
                 <section className='table__row table__row--header'>
                     {this.renderHeader()}
                 </section>
-                {this.renderItems()}
+                <section className='table__body'>
+                    {this.renderItems()}
+                </section>
             </section>
         )
     }

@@ -29,7 +29,14 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFilt
         { text: 'Pericentrum [km]', value: 'orbit.pericenter' },
         { text: 'Excentricita', value: 'orbit.excentricity' },
         { text: 'Rok [roky]', value: 'orbit.period' },
-        { text: 'Den [dny]', value: 'period' }
+        { text: 'Den [dny]', value: 'period' },
+        { text: 'Satelitů', value: 'diameter.equatorial' },
+        { text: 'Prstenců', value: 'diameter.equatorial' },
+        { text: 'Sklon', value: 'tilt' },
+        { text: 'Rychlost', value: 'orbit.speed' },
+        { text: 'Teplota jádra', value: 'innerTemperature' },
+        { text: 'Teplota povrchu', value: 'outerTemperature' },
+        { text: 'Objev', value: 'discovered' },
     ]
 
     private static RELATION_OPTIONS = [
@@ -42,18 +49,12 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFilt
     ]
 
     public componentDidMount(): void {
-        const { setValues } = this.props
-
         const bodyFilter = Url.getQueryFromUrl(Url.QUERIES.BODY_FILTER) // TODO: Check validity of filter.
 
         if (bodyFilter) {
-            setValues(JSON.parse(bodyFilter))
+            this.updateValues(JSON.parse(bodyFilter))
         } else {
-            setValues({
-                property: [BodyFilterForm.FIELDS[0].value],
-                relation: [BodyFilterForm.RELATION_OPTIONS[0].value],
-                value: [''],
-            })
+            this.updateValues(Filter.getInitialFilter())
         }
     }
 
@@ -74,6 +75,19 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFilt
         const { values, setValues } = this.props
         const newFilter = Filter.removeNthRule(values, index)
         setValues(newFilter)
+    }
+
+    private updateValues(filter: IFilter = this.props.values): void {
+        const { setValues } = this.props
+
+        setValues(
+            Filter.fillFilter(
+                filter,
+                BodyFilterForm.FIELDS[0].value,
+                BodyFilterForm.RELATION_OPTIONS[0].value,
+                ''
+            )
+        )
     }
 
     private renderRows(): React.ReactNodeArray {

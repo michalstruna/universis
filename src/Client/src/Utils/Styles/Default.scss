@@ -127,6 +127,10 @@ input, textarea, select, option {
     }
 }
 
+::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0);
+}
+
 ::-webkit-scrollbar-thumb {
     background-color: #444;
 
