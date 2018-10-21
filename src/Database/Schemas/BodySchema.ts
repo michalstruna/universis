@@ -110,6 +110,24 @@ const BodySchema = new Schema({
         max: 360
     },
 
+    temperature: {
+        outer: {
+            type: Number,
+            required: true,
+            min: 0
+        },
+
+        inner: {
+            type: Number,
+            required: true,
+            min: 0
+        }
+    },
+
+    discovered: {
+        type: String
+    },
+
     typeId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY_TYPE,
