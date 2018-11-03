@@ -51,12 +51,6 @@ const BodySchema = new Schema({
         }
     },
 
-    escapeVelocity: {
-        type: Number,
-        required: false,
-        min: 0
-    },
-
     axis: {
         period: {
             type: Number,

@@ -486,7 +486,7 @@ export default {
     },
     'components': {
         'schemas': {
-            'NewSimpleBody': {
+            'NewBody': {
                 'type': 'object',
                 'properties': {
                     'name': {
@@ -496,48 +496,95 @@ export default {
                     'diameter': {
                         'type': 'object',
                         'properties': {
-                            'equatorial': {
+                            'x': {
                                 'type': 'number',
                                 'example': 12756
                             },
-                            'polar': {
+                            'y': {
                                 'type': 'number',
                                 'example': 12713
+                            },
+                            'z': {
+                                'type': 'number',
+                                'example': 12756
                             }
                         }
                     },
-                    'orbit': {
+                    'mass': {
+                        'type': 'number',
+                        'example': 753951445667
+                    },
+                    'moveSpeed': {
                         'type': 'object',
                         'properties': {
-                            'apocenter': {
+                            'max': {
                                 'type': 'number',
-                                'example': 152097701
+                                'example': 33
                             },
-                            'pericenter': {
+                            'min': {
                                 'type': 'number',
-                                'example': 147098074
+                                'example': 27.3
                             },
-                            'eccentricity': {
+                        }
+                    },
+                    'magnitude': {
+                        'type': 'object',
+                        'properties': {
+                            'relative': {
                                 'type': 'number',
-                                'example': 0.01671022
+                                'example': -3.5
                             },
-                            'inclination': {
+                            'absolute': {
                                 'type': 'number',
-                                'example': 7.25
+                                'example': 2.26
                             },
-                            'startAngle': {
+                        }
+                    },
+                    'temperature': {
+                        'type': 'object',
+                        'properties': {
+                            'inner': {
                                 'type': 'number',
-                                'example': 0
+                                'example': 5800
                             },
-                            'period': {
+                            'outer': {
                                 'type': 'number',
-                                'example': 1
+                                'example': 15
                             }
                         }
                     },
-                    'period': {
+                    'axis': {
+                        'type': 'object',
+                        'properties': {
+                            'period': {
+                                'type': 'number',
+                                'example': 1.12
+                            },
+                            'tilt': {
+                                'type': 'number',
+                                'example': 7.26
+                            }
+                        }
+                    },
+                    'albedo': {
                         'type': 'number',
-                        'example': 1
+                        'example': 0.64
+                    },
+                    'composition': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'element': {
+                                    'type': 'string',
+                                    'example': 'He'
+                                },
+                                'percentage': {
+                                    'type': 'number',
+                                    'example': 75
+                                }
+                            }
+                        }
                     },
                     'rings': {
                         'type': 'array',
@@ -559,7 +606,7 @@ export default {
                                 },
                                 'texture': {
                                     'type': 'string',
-                                    'example': 'EarthRing.png'
+                                    'example': 'SaturnRing.png'
                                 }
                             }
                         }
@@ -568,9 +615,212 @@ export default {
                         'type': 'string',
                         'example': 'Earth.jpg'
                     },
-                    'tilt': {
+                    'discover': {
+                        'type': 'object',
+                        'properties': {
+                            'author': {
+                                'type': 'string',
+                                'example': 'William Herschel'
+                            },
+                            'date': {
+                                'type': 'string',
+                                'example': '2018-11-03'
+                            }
+                        }
+                    },
+                    'typeId': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'parentId': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'orbit': {
+                        '$ref': '#components/schemas/Orbit'
+                    },
+                    'position': {
+                        '$ref': '#components/schemas/Position'
+                    }
+                }
+            },
+            'Body': {
+                'allOf': [
+                    {
+                        '$ref': '#/components/schemas/SimpleBody'
+                    }
+                ]
+            },
+            'SimpleBody': {
+                'type': 'object',
+                'properties': {
+                    '_id': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'name': {
+                        'type': 'string',
+                        'example': 'Země'
+                    },
+                    'diameter': {
+                        'type': 'object',
+                        'properties': {
+                            'x': {
+                                'type': 'number',
+                                'example': 12756
+                            },
+                            'y': {
+                                'type': 'number',
+                                'example': 12713
+                            },
+                            'z': {
+                                'type': 'number',
+                                'example': 12756
+                            }
+                        }
+                    },
+                    'flattening': {
                         'type': 'number',
-                        'example': 2.29
+                        'example': 0.1
+                    },
+                    'surface': {
+                        'type': 'number',
+                        'example': 446752718
+                    },
+                    'volume': {
+                        'type': 'number',
+                        'example': 77852467894456
+                    },
+                    'mass': {
+                        'type': 'number',
+                        'example': 753951445667
+                    },
+                    'density': {
+                        'type': 'number',
+                        'example': 5515
+                    },
+                    'escapeVelocity': {
+                        'type': 'number',
+                        'example': 11
+                    },
+                    'satellitesCount': {
+                        'type': 'number',
+                        'example': 11
+                    },
+                    'moveSpeed': {
+                        'type': 'object',
+                        'properties': {
+                            'max': {
+                                'type': 'number',
+                                'example': 33
+                            },
+                            'min': {
+                                'type': 'number',
+                                'example': 27.3
+                            },
+                        }
+                    },
+                    'magnitude': {
+                        'type': 'object',
+                        'properties': {
+                            'relative': {
+                                'type': 'number',
+                                'example': -3.5
+                            },
+                            'absolute': {
+                                'type': 'number',
+                                'example': 2.26
+                            },
+                        }
+                    },
+                    'temperature': {
+                        'type': 'object',
+                        'properties': {
+                            'inner': {
+                                'type': 'number',
+                                'example': 5800
+                            },
+                            'outer': {
+                                'type': 'number',
+                                'example': 15
+                            }
+                        }
+                    },
+                    'axis': {
+                        'type': 'object',
+                        'properties': {
+                            'period': {
+                                'type': 'number',
+                                'example': 1.12
+                            },
+                            'tilt': {
+                                'type': 'number',
+                                'example': 7.26
+                            },
+                            'rotationSpeed': {
+                                'type': 'number',
+                                'example': 465
+                            }
+                        }
+                    },
+                    'albedo': {
+                        'type': 'number',
+                        'example': 0.64
+                    },
+                    'composition': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'element': {
+                                    'type': 'string',
+                                    'example': 'He'
+                                },
+                                'percentage': {
+                                    'type': 'number',
+                                    'example': 75
+                                }
+                            }
+                        }
+                    },
+                    'rings': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'diameter': {
+                                    'type': 'object',
+                                    'properties': {
+                                        'min': {
+                                            'type': 'number',
+                                            'example': 15000
+                                        },
+                                        'max': {
+                                            'type': 'number',
+                                            'example': 17250
+                                        }
+                                    }
+                                },
+                                'texture': {
+                                    'type': 'string',
+                                    'example': 'SaturnRing.png'
+                                }
+                            }
+                        }
+                    },
+                    'texture': {
+                        'type': 'string',
+                        'example': 'Earth.jpg'
+                    },
+                    'discover': {
+                        'type': 'object',
+                        'properties': {
+                            'author': {
+                                'type': 'string',
+                                'example': 'William Herschel'
+                            },
+                            'date': {
+                                'type': 'string',
+                                'example': '2018-11-03'
+                            }
+                        }
                     },
                     'type': {
                         'type': 'object',
@@ -588,40 +838,64 @@ export default {
                     },
                     'parentId': {
                         '$ref': '#/components/schemas/Id'
+                    },
+                    'orbit': {
+                        '$ref': '#components/schemas/Orbit'
+                    },
+                    'position': {
+                        '$ref': '#components/schemas/Position'
                     }
                 }
             },
-            'NewBody': {
-                'allOf': [
-                    {
-                        '$ref': '#/components/schemas/NewSimpleBody'
-                    }
-                ]
-            },
-            'SimpleBody': {
-                'allOf': [
-                    {
-                        'type': 'object',
-                        'properties': {
-                            '_id': {
-                                '$ref': '#/components/schemas/Id'
-                            }
-                        }
+            'Orbit': {
+                'type': 'object',
+                'properties': {
+                    'apocenter': {
+                        'type': 'number',
+                        'example': 152097701
                     },
-                    {
-                        '$ref': '#/components/schemas/NewSimpleBody'
-                    }
-                ]
-            },
-            'Body': {
-                'allOf': [
-                    {
-                        '$ref': '#/components/schemas/SimpleBody'
+                    'pericenter': {
+                        'type': 'number',
+                        'example': 147098074
                     },
-                    {
-                        '$ref': '#/components/schemas/NewBody'
+                    'eccentricity': {
+                        'type': 'number',
+                        'example': 0.01671022
+                    },
+                    'inclination': {
+                        'type': 'number',
+                        'example': 7.25
+                    },
+                    'startAngle': {
+                        'type': 'number',
+                        'example': 0
+                    },
+                    'period': {
+                        'type': 'number',
+                        'example': 1
+                    },
+                    'circuit': {
+                        'type': 'number',
+                        'example': 1237751455
+                    },
+                }
+            },
+            'Position': {
+                'type': 'object',
+                'properties': {
+                    'alpha': {
+                        'type': 'number',
+                        'example': 359.68
+                    },
+                    'beta': {
+                        'type': 'number',
+                        'example': 2.21
+                    },
+                    'distance': {
+                        'type': 'number',
+                        'example': 149597870
                     }
-                ]
+                }
             },
             'Id': {
                 'type': 'string',
@@ -630,9 +904,12 @@ export default {
                 'example': '87ac4247acf457229c9aa7ae',
                 'description': 'Unique identifier.'
             },
-            'NewBodyType': {
+            'BodyType': {
                 'type': 'object',
                 'properties': {
+                    '_id': {
+                        '$ref': '#/components/schemas/Id'
+                    },
                     'name': {
                         'type': 'string',
                         'example': 'Terestrická planeta',
@@ -644,53 +921,6 @@ export default {
                         'description': 'Emissive color of bodies with this type.'
                     }
                 }
-            },
-            'BodyType': {
-                'allOf': [
-                    {
-                        'type': 'object',
-                        'properties': {
-                            '_id': {
-                                '$ref': '#/components/schemas/Id'
-                            }
-                        }
-                    },
-                    {
-                        '$ref': '#/components/schemas/NewBodyType'
-                    }
-                ]
-            },
-            'NewBodyEvent': {
-                'type': 'object',
-                'properties': {
-                    'title': {
-                        'type': 'string'
-                    },
-                    'content': {
-                        'type': 'string'
-                    },
-                    'year': {
-                        'type': 'number'
-                    }
-                }
-            },
-            'BodyEvent': {
-                'allOf': [
-                    {
-                        'type': 'object',
-                        'properties': {
-                            '_id': {
-                                '$ref': '#/components/schemas/Id'
-                            },
-                            'bodyId': {
-                                '$ref': '#/components/schemas/Id'
-                            }
-                        }
-                    },
-                    {
-                        '$ref': '#/components/schemas/NewBodyEvent'
-                    }
-                ]
             },
             'SimpleUser': {
                 'type': 'object',
