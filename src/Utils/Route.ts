@@ -118,7 +118,99 @@ class Route {
         }
     }
 
-    public static getSwaggerRouteGroupForAll(tags, SimpleSchema, NewSchema) {
+    public static getSwaggerRouteGroupForOne(tags, id, schema) {
+        return {
+            'parameters': [
+                {
+                    'in': 'path',
+                    'name': id,
+                    'required': true,
+                    'schema': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'description': 'Unique identifier of item.'
+                }
+            ],
+            'get': {
+                'tags': tags,
+                'summary': 'Get item by ID.',
+                'description': 'Get item by ID.',
+                'responses': {
+                    '200': {
+                        'description': 'Get item is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    '$ref': '#/components/schemas/' + schema
+                                }
+                            }
+                        }
+                    },
+                    '404': {
+                        'description': 'Body with ID was not found.'
+                    }
+                }
+            },
+            'put': {
+                'tags': ['Bodies'],
+                'summary': 'Update already existing body.',
+                'description': 'Create new body and return ID of created body.',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                '$ref': '#/components/schemas/NewBody'
+                            },
+                        }
+                    }
+                },
+                'responses': {
+                    '204': {
+                        'description': 'Body was successful updated.'
+                    },
+                    '400': {
+                        'description': 'Invalid values.'
+                    },
+                    '404': {
+                        'description': 'Body with ID was not found.'
+                    },
+                    '409': {
+                        'description': 'Body with this name already exists.'
+                    }
+                }
+            },
+            'delete': {
+                'tags': ['Bodies'],
+                'summary': 'Delete body by ID.',
+                'description': 'Delete body by ID.',
+                'parameters': [
+                    {
+                        'in': 'query',
+                        'name': 'force',
+                        'schema': {
+                            'type': 'string',
+                            'example': 'true',
+                            'enum': ['true', 'false']
+                        },
+                        'description': 'Body will be deleted with all its children.'
+                    }
+                ],
+                'responses': {
+                    '204': {
+                        'description': 'Body was successful deleted.'
+                    },
+                    '400': {
+                        'description': 'Body cannot be deleted, because of existing children.'
+                    },
+                    '404': {
+                        'description': 'Body with ID was not found.'
+                    }
+                }
+            }
+        }
+    }
+
+    public static getSwaggerRouteGroupForAll(tags, simpleSchema, newSchema) {
         return {
             'get': {
                 'tags': tags,
@@ -182,7 +274,7 @@ class Route {
                                 'schema': {
                                     'type': 'array',
                                     'items': {
-                                        '$ref': '#/components/schemas/' + SimpleSchema
+                                        '$ref': '#/components/schemas/' + simpleSchema
                                     }
                                 }
                             }
@@ -198,7 +290,7 @@ class Route {
                     'content': {
                         'application/json': {
                             'schema': {
-                                '$ref': '#/components/schemas/' + NewSchema
+                                '$ref': '#/components/schemas/' + newSchema
                             }
                         }
                     }

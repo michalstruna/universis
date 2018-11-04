@@ -142,78 +142,74 @@ const BodySchema = new Schema({
     parentId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY,
-        required: true
+        required: false
     },
 
     orbit: {
         apocenter: {
             type: Number,
-            required: true,
+            required: false,
             min: 0
         },
 
         pericenter: {
             type: Number,
-            required: true,
+            required: false,
             min: 0
         },
 
         eccentricity: {
             type: Number,
-            required: true,
+            required: false,
             min: 0,
             max: 2
         },
 
         inclination: {
             type: Number,
-            required: true,
+            required: false,
             min: -360,
             max: 360
         },
 
         startAngle: {
             type: Number,
-            required: true,
+            required: false,
             min: 0, max: 360
         },
 
         period: {
             type: Number,
-            required: true,
+            required: false,
             min: 0
         },
 
         rotation: {
             type: Number,
-            required: true,
+            required: false,
             min: 0,
             max: 360
-        },
-
-        required: false
+        }
     },
 
     position: {
         alpha: {
             type: Number,
-            required: true,
+            required: false,
             min: 0,
             max: 360
         },
         beta: {
             type: Number,
-            required: true,
+            required: false,
             min: 0,
             max: 360
         },
         distance: {
             type: Number,
-            required: true,
+            required: false,
             min: 0
-        },
-
-        required: false
+        }
     },
 
     nearest: {
