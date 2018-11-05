@@ -36,7 +36,7 @@ module.exports = {
     },
     output: {
         filename: 'index.min.js',
-        path: Path.join(__dirname, '../../dist/Client/JavaScript'),
+        path: Path.join(__dirname, '../Public/JavaScript'),
         publicPath: '/JavaScript/'
     },
     devServer: {
@@ -47,6 +47,6 @@ module.exports = {
     plugins: [
         new Webpack.NamedModulesPlugin(),
         new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new BundleAnalyzerPlugin()
+        //new BundleAnalyzerPlugin() // TODO: Only debug.
     ]
 }
