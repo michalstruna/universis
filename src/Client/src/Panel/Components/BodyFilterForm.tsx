@@ -1,60 +1,137 @@
 import * as React from 'react'
-import { reduxForm, InjectedFormProps, formValueSelector } from 'redux-form'
+import { reduxForm, InjectedFormProps, formValueSelector, getFormValues, initialize } from 'redux-form'
 
-import { StatelessComponent } from '../../Utils'
-import { TextField, Form, Select } from '../../Forms'
+import { StatelessComponent, Filter, Url } from '../../Utils'
+import { TextField, Form, Select, FlexRow } from '../../Forms'
+import Arrays from '../../../../Utils/Arrays'
 
 interface IProps {
     strings: IStrings
-}
-
-interface IValues {
-    password: string
+    values: IFilter
+    setValues: IConsumer<IFilter>
 }
 
 /**
  * Form for login user.
  * There is only password input.
  */
-class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
+class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFilter>> {
 
     public static readonly NAME = 'bodyFilter'
     public static readonly SELECTOR = formValueSelector(BodyFilterForm.NAME) // TODO: public static getValue(), private selector, LoginForm extends Form autobind this.selector = selector(this.NAME).
 
-    /**
-     * Login user.
-     * @param data
-     */
-    private handleSubmit = async (data: IValues) => {
+    private static FIELDS = [
+        { text: 'Název', value: 'name' },
+        { text: 'Průměr [km]', value: 'diameter.equatorial' },
+        { text: 'Hmotnost [kg]', value: 'mass' },
+        { text: 'Hustota [kg/m3]', value: 'density' },
+        { text: 'Apocentrum [km]', value: 'orbit.apocenter' },
+        { text: 'Pericentrum [km]', value: 'orbit.pericenter' },
+        { text: 'Excentricita', value: 'orbit.excentricity' },
+        { text: 'Rok [roky]', value: 'orbit.period' },
+        { text: 'Den [dny]', value: 'period' },
+        { text: 'Satelitů', value: 'diameter.equatorial' },
+        { text: 'Prstenců', value: 'diameter.equatorial' },
+        { text: 'Sklon', value: 'tilt' },
+        { text: 'Rychlost', value: 'orbit.speed' },
+        { text: 'Teplota jádra', value: 'innerTemperature' },
+        { text: 'Teplota povrchu', value: 'outerTemperature' },
+        { text: 'Objev', value: 'discovered' },
+    ]
 
+    private static RELATION_OPTIONS = [
+        { text: 'Obsahuje', value: Filter.RELATIONS.CONTAINS },
+        { text: 'Je roven', value: Filter.RELATIONS.EQUALS },
+        { text: 'Začíná na', value: Filter.RELATIONS.STARTS_WITH },
+        { text: 'Končí na', value: Filter.RELATIONS.ENDS_WITH },
+        { text: 'Je větší než', value: Filter.RELATIONS.IS_LARGER },
+        { text: 'Je menší než', value: Filter.RELATIONS.IS_SMALLER }
+    ]
+
+    public componentDidMount(): void {
+        const bodyFilter = Url.getQueryFromUrl(Url.QUERIES.BODY_FILTER) // TODO: Check validity of filter.
+
+        if (bodyFilter) {
+            this.updateValues(JSON.parse(bodyFilter))
+        } else {
+            this.updateValues(Filter.getInitialFilter())
+        }
+    }
+
+    public componentDidUpdate(prevProps: IProps): void {
+        const { values } = this.props
+        Url.replace({ query: { [Url.QUERIES.BODY_FILTER]: JSON.stringify(values) } })
+    }
+
+    /**
+     * // TODO: Remove?
+     */
+    private handleSubmit = async (data: IFilter) => {
+
+    }
+
+    private handleRemoveRow = (event: React.MouseEvent, index: number) => {
+        event.preventDefault()
+        const { values, setValues } = this.props
+        const newFilter = Filter.removeNthRule(values, index)
+        setValues(newFilter)
+    }
+
+    private updateValues(filter: IFilter = this.props.values): void {
+        const { setValues } = this.props
+
+        setValues(
+            Filter.fillFilter(
+                filter,
+                BodyFilterForm.FIELDS[0].value,
+                BodyFilterForm.RELATION_OPTIONS[0].value,
+                ''
+            )
+        )
+    }
+
+    private renderRows(): React.ReactNodeArray {
+        const { values } = this.props
+        const rows = []
+
+        let lastFilled = 1
+
+        if (values && values.value) {
+            lastFilled = Math.max(1, Arrays.findLastIndex(values.value, value => !!value) + 2)
+        }
+
+        for (let i = 0; i < lastFilled; i++) {
+            rows.push(
+                <FlexRow key={i}>
+                    <Select
+                        name={`property[${i}]`}
+                        options={BodyFilterForm.FIELDS}
+                        widthEmpty={true} />
+                    <Select
+                        name={`relation[${i}]`}
+                        options={BodyFilterForm.RELATION_OPTIONS} />
+                    <TextField label={''} name={`value[${i}]`} />
+                    <button
+                        className='form__button--remove'
+                        onClick={event => this.handleRemoveRow(event, i)} />
+                </FlexRow>
+            )
+        }
+
+        return rows
     }
 
     public render(): JSX.Element {
         const { strings, handleSubmit, invalid, submitting } = this.props
 
-        const fields = [
-            { text: 'Název', value: 'name' },
-            { text: 'Equatorial diameter', value: 'diameter_equatorial' }
-        ]
+        // TODO: Move strings to constants.
 
         return (
             <Form
                 onSubmit={handleSubmit(this.handleSubmit)}
                 invalid={invalid}
                 sending={submitting}>
-                <Select
-                    name='field'
-                    options={fields}
-                    widthEmpty={true} />
-                <select>
-                    <option>Obsahuje</option>
-                    <option>Je roven</option>
-                    <option>Je větší než</option>
-                    <option>Je menší než</option>
-                    <option>Začíná na</option>
-                    <option>Končí na</option>
-                </select>
-                <TextField label={''} name='value' />
+                {this.renderRows()}
             </Form>
         )
     }
@@ -64,6 +141,10 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IValu
 export default reduxForm({
     form: BodyFilterForm.NAME
 })(BodyFilterForm.connect(
-    ({ system, user }: IStoreState) => ({}),
-    (dispatch: IDispatch) => ({})
+    (state: IStoreState) => ({
+        values: getFormValues(BodyFilterForm.NAME)(state)
+    }),
+    (dispatch: IDispatch) => ({
+        setValues: values => dispatch(initialize(BodyFilterForm.NAME, values))
+    })
 ))

@@ -19,6 +19,7 @@
   "license": "UNLICENSED",
   "homepage": "https://bitbucket.org/michal-struna/universis#readme",
   "dependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "js-cookie": "^2.2.0",

@@ -1,21 +1,19 @@
 import * as THREE from 'three'
+import * as TWEEN from '@tweenjs/tween.js'
 
 import Config from '../Constants/Config'
 import UniverseInitializer from './UniverseInitializer'
 import Visibility from '../Constants/Visibility'
-import Units from './Units'
 import { Html } from '../../Utils'
+import Camera from '../Utils/Camera'
+import BodySelector from './BodySelector'
 
 /**
  * Temp variables.
  */
 const tempVector = new THREE.Vector3()
-const cameraPosition = new THREE.Vector3()
-const bodyPosition = new THREE.Vector3()
 const meshPosition = new THREE.Vector3()
 const rotationVector = new THREE.Vector3(0, 0, 1)
-const cameraViewProjectionMatrix = new THREE.Matrix4()
-let lastViewSize = null
 
 interface IOptions {
     element: HTMLElement
@@ -40,16 +38,6 @@ class Universe implements IUniverse {
     private bodySelector: IBodySelector
 
     /**
-     * Current selected body.
-     */
-    private selectedBody: THREE.Mesh
-
-    /**
-     * Helper for decide if body is on camera or not.
-     */
-    private frustum: THREE.Frustum
-
-    /**
      * Scale of scene.
      */
     private scale: number
@@ -65,8 +53,7 @@ class Universe implements IUniverse {
      */
     private scene: THREE.Scene
     private renderer: THREE.WebGLRenderer
-    private camera: THREE.PerspectiveCamera
-    private controls: THREE.TrackballControls
+    private camera: ICamera
 
     /**
      * Toggle values.
@@ -74,6 +61,12 @@ class Universe implements IUniverse {
     private areLabelsVisible: boolean
     private darkColor: THREE.AmbientLight
     private lightColor: THREE.AmbientLight
+
+    /**
+     * Variables for mouse down and mouse up events.
+     */
+    private startMouseX
+    private startMouseY
 
     /**
      * Create universe.
@@ -88,11 +81,9 @@ class Universe implements IUniverse {
 
         this.scene = initializer.scene
         this.renderer = initializer.renderer
-        this.camera = initializer.camera
-        this.controls = initializer.controls
-        this.frustum = initializer.frustum
+        this.camera = new Camera(this.scene, this.handleChangeViewSize)
         this.bodies = initializer.bodies
-        this.bodySelector = initializer.bodySelector
+        this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera.getNativeCamera())
         this.darkColor = initializer.darkColor
         this.lightColor = initializer.lightColor
 
@@ -100,32 +91,32 @@ class Universe implements IUniverse {
             body.label.onclick = () => this.handleSelectBody(body.data._id)
         })
 
-        options.element.addEventListener('mousedown', this.handleClick)
+        options.element.addEventListener('mousedown', this.handleMouseDown)
+        options.element.addEventListener('mouseup', this.handleMouseUp)
 
         document.body.addEventListener('mousemove', event => {
-            this.controls.enabled = !Html.hasParent(event.target as HTMLElement, element => Html.hasClass(element, 'panel'))
+            this.camera.enableControls(
+                !Html.hasParent(
+                    event.target as HTMLElement,
+                    element => Html.hasClass(element, 'panel')
+                )
+            )
         })
 
         const selectedBodyId = this.bodies.filter(body => body.data.name === Config.INITIAL_BODY)[0].data._id
-        this.selectBody(selectedBodyId)
         this.handleSelectBody(selectedBodyId)
 
         this.resize()
-        this.render()
+        requestAnimationFrame(this.render)
     }
 
     public resize = (): void => {
-        this.camera.aspect = window.innerWidth / window.innerHeight
-        this.camera.updateProjectionMatrix()
+        this.camera.setAspectRatio(window.innerWidth / window.innerHeight)
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
     public setViewSize = (viewSize: number): void => {
-        viewSize *= Config.SIZE_RATIO
-        this.controls.minDistance = Math.max(viewSize, this.controls.minDistance)
-        this.controls.maxDistance = viewSize
-        lastViewSize = viewSize
-        this.camera.updateProjectionMatrix()
+        this.camera.setViewSize(viewSize)
     }
 
     public toggleLabels(areLabelsVisible: boolean) {
@@ -160,26 +151,24 @@ class Universe implements IUniverse {
     /**
      * Render scene.
      */
-    private render = (): void => {
+    private render = (time: number): void => {
         requestAnimationFrame(this.render)
-        this.renderer.render(this.scene, this.camera)
-        this.controls.update()
+        this.renderer.render(this.scene, this.camera.getNativeCamera())
         this.updateBodies()
+        TWEEN.update(time)
     }
 
     /**
      * Check if body is visible.
      * @param body Body.
-     * @param viewSize Current camera zoom.
      * @returns Body visibility.
      */
-    private getVisibility(body: IBodyContainer, viewSize: number): Visibility {
-        const apocenter = body.data.orbit.apocenter
+    private getVisibility(body: IBodyContainer): Visibility {
         body.mesh.getWorldPosition(meshPosition)
 
-        const min = viewSize / apocenter
-        const distance = meshPosition.distanceTo(cameraPosition)
-        const max = viewSize / distance
+        const min = this.camera.getViewSize() / body.data.orbit.apocenter
+        const distance = meshPosition.distanceTo(this.camera.getPosition())
+        const max = this.camera.getViewSize() / distance
 
         if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
             return Visibility.INVISIBLE
@@ -194,30 +183,18 @@ class Universe implements IUniverse {
      * Update position of all bodies within render loop.
      */
     private updateBodies(): void {
-        this.camera.getWorldPosition(cameraPosition)
-        this.selectedBody.getWorldPosition(bodyPosition)
-        const viewSize = bodyPosition.distanceTo(cameraPosition)
-
-        if (Units.isDifferent(viewSize, lastViewSize) && this.handleChangeViewSize) {
-            lastViewSize = viewSize
-            this.handleChangeViewSize(viewSize / Config.SIZE_RATIO)
-        }
-
-        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
-        cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
-        this.frustum.setFromMatrix(cameraViewProjectionMatrix)
-
-        this.setScale(viewSize * this.scale)
+        this.setScale(this.camera.getViewSize() * this.scale)
+        this.camera.update()
 
         for (const body of  this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
-            const vector = tempVector.project(this.camera)
-            const isBehindCamera = !this.frustum.intersectsObject(body.mesh)
+            const vector = tempVector.project(this.camera.getNativeCamera())
+            const isVisible = this.camera.canSee(body.mesh)
             const orbit = body.orbit.children[0] as any
-            const visibility = this.getVisibility(body, viewSize)
-            const isSelectedBody = body.data._id === this.selectedBody.name
+            const visibility = this.getVisibility(body)
+            const isSelectedBody = body.data._id === this.camera.getTarget().name
 
-            if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && !isBehindCamera || isSelectedBody)) {
+            if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && isVisible || isSelectedBody)) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
@@ -241,19 +218,29 @@ class Universe implements IUniverse {
             body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
         }
 
-        this.controls.minDistance = (this.selectedBody.geometry as THREE.SphereGeometry).parameters.radius * 2
-        this.controls.maxDistance = Infinity
+        this.camera.setViewSizeLimit((this.camera.getTarget().geometry as THREE.SphereGeometry).parameters.radius * 2, 1e22)
+    }
+
+    /**
+     * Save mouse coordinates.
+     * @param event Mouse event.
+     */
+    private handleMouseDown = (event: MouseEvent): void => {
+        this.startMouseX = event.pageX
+        this.startMouseY = event.pageY
     }
 
     /**
      * Select body by coordinates.
      * @param event Mouse event.
      */
-    private handleClick = (event: MouseEvent): void => {
-        const mesh = this.bodySelector.select(event.pageX, event.pageY)
+    private handleMouseUp = (event: MouseEvent): void => {
+        if (event.pageX === this.startMouseX && event.pageY === this.startMouseY) {
+            const mesh = this.bodySelector.select(event.pageX, event.pageY)
 
-        if (mesh) {
-            this.handleSelectBody(mesh.name)
+            if (mesh) {
+                this.handleSelectBody(mesh.name)
+            }
         }
     }
 
@@ -263,13 +250,7 @@ class Universe implements IUniverse {
      */
     public selectBody(bodyId: string): void {
         const mesh = this.getBodyById(bodyId).mesh
-        this.selectedBody = mesh
-        const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
-        this.controls.minDistance = radius * 2
-        this.controls.maxDistance = radius * 4
-
-        mesh.children[0].add(this.camera)
-        this.controls.target.set(0, 0, 0)
+        this.camera.setTarget(mesh)
     }
 
     /**

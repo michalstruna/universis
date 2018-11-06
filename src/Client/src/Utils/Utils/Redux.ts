@@ -1,7 +1,7 @@
 /**
  * Utils for Redux.
  *
- * Automatically changes on action types:
+ * Automatic changes on action types:
  * For toggle actions: ACTION_TYPE -> ACTION_TYPE_ON, ACTION_TYPE_OFF.
  * For async actions: ACTION_TYPE -> ACTION_TYPE_SENT, ACTION_TYPE_SUCCESS, ACTION_TYPE_FAIL.
  */
@@ -199,7 +199,7 @@ class Redux {
     }
 
     /**
-     * Get first value of state.
+     * Get first non-object value of state.
      * { a: { b: { c: 7, d: 6, e: 8 }, f: 4 }} returns 7.
      * @param value State object.
      * @returns Nested boolean value.

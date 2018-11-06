@@ -42,14 +42,14 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createGeometry(body: ISimpleBody): THREE.SphereGeometry {
         const geometry = new THREE.SphereGeometry(
-            body.diameter.equatorial / 2,
+            body.diameter.x / 2,
             Config.BODY_SEGMENTS,
             Config.BODY_SEGMENTS
         )
 
         geometry.applyMatrix(new THREE.Matrix4().makeScale(
             1,
-            body.diameter.polar / body.diameter.equatorial,
+            body.diameter.y / body.diameter.x,
             1
         ))
 
@@ -142,7 +142,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
         }
 
         mesh.position.set(0, 0, 0)
-        mesh.rotation.set(0, THREE.Math.degToRad(body.tilt) || 0, 0)
+        mesh.rotation.set(0, THREE.Math.degToRad(body.axis.tilt) || 0, 0)
 
         return mesh
     }
@@ -166,8 +166,8 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createRing(ring: IBodyRing): THREE.Mesh {
         const geometry = new THREE.RingBufferGeometry(
-            ring.diameter.min,
-            ring.diameter.max,
+            ring.diameter.min / 2,
+            ring.diameter.max / 2,
             Config.RING_SEGMENTS
         )
 

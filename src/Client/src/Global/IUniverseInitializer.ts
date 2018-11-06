@@ -19,18 +19,10 @@ declare interface IUniverseInitializer {
     bodyFactory: IFactory<ISimpleBody, IBodyContainer>
 
     /**
-     * Instance of class for select bodies by coordinates.
-     */
-    bodySelector: IBodySelector
-
-    /**
      * THREE.js entities.
      */
     scene: THREE.Scene
     renderer: THREE.WebGLRenderer
-    camera: THREE.PerspectiveCamera
-    controls: THREE.TrackballControls
-    frustum: THREE.Frustum
     darkColor: THREE.AmbientLight
     lightColor: THREE.AmbientLight
 

@@ -137,3 +137,8 @@ declare interface IEntityModelOptions<IGetOne, IGetAll, INew> {
     mapAll?: IFunction<IGetAll, IGetAll>
 
 }
+
+/**
+ * Interface for unspecified entity model.
+ */
+declare type IUnspecifiedEntityModel = IEntityModel<any, any, any>
