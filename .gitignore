@@ -1,6 +1,4 @@
-/dist/*
-!/dist/Client/
-/dist/Client/src
+dist
 .idea
 node_modules
 index.min.js

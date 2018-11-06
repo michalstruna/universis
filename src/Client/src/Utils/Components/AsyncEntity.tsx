@@ -30,7 +30,7 @@ class AsyncEntity extends StatelessComponent<IProps> {
         if (data.isSent) {
             return sent ? sent() : <Loader />
         } else if (data.error) {
-            return fail ? fail() : data.error
+            return fail ? fail() : data.error.toString()
         } else if (data.payload) {
             return success ? success() : JSON.stringify(data.payload || {})
         }

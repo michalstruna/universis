@@ -3,7 +3,7 @@ import { Schema } from 'mongoose'
 import { DatabaseModels } from '../../Constants'
 
 /**
- * DB schema for short body.
+ * DB schema for body.
  */
 const BodySchema = new Schema({
 
@@ -14,63 +14,81 @@ const BodySchema = new Schema({
     },
 
     diameter: {
-        equatorial: {
+        x: {
             type: Number,
             required: true,
             min: 0
         },
-        polar: {
+        y: {
             type: Number,
-            required: true,
+            required: false,
+            min: 0
+        },
+        z: {
+            type: Number,
+            required: false,
             min: 0
         }
     },
 
-    orbit: {
-        apocenter: {
+    mass: {
+        type: Number,
+        required: false,
+        min: 0
+    },
+
+    temperature: {
+        outer: {
             type: Number,
-            required: true,
+            required: false,
             min: 0
         },
-        pericenter: {
+
+        inner: {
             type: Number,
-            required: true,
+            required: false,
             min: 0
-        },
-        eccentricity: {
-            type: Number,
-            required: true,
-            min: 0,
-            max: 2
-        },
-        inclination: {
-            type: Number,
-            required: true,
-            min: -360,
-            max: 360
-        },
-        startAngle: {
-            type: Number,
-            required: true,
-            min: 0, max: 360
-        },
+        }
+    },
+
+    axis: {
         period: {
             type: Number,
             required: true,
             min: 0
         },
-        rotation: {
+
+        tilt: {
             type: Number,
             required: true,
-            min: 0,
+            min: -360,
             max: 360
         }
     },
 
-    period: {
+    albedo: {
         type: Number,
-        required: true,
+        required: false,
         min: 0
+    },
+
+    composition: {
+        type: [
+            {
+                element: {
+                    type: String,
+                    required: true
+                },
+                percentage: {
+                    type: Number,
+                    required: true,
+                    min: 0,
+                    max: 100
+                }
+            }
+        ],
+        default: [],
+        required: true
     },
 
     rings: {
@@ -95,6 +113,7 @@ const BodySchema = new Schema({
 
             }
         ],
+        default: [],
         required: true
     },
 
@@ -103,29 +122,15 @@ const BodySchema = new Schema({
         required: true
     },
 
-    tilt: {
-        type: Number,
-        required: true,
-        min: -360,
-        max: 360
-    },
-
-    temperature: {
-        outer: {
-            type: Number,
-            required: true,
-            min: 0
+    discover: {
+        author: {
+            type: String,
+            required: false
         },
-
-        inner: {
-            type: Number,
-            required: true,
-            min: 0
+        date: {
+            type: String,
+            required: false
         }
-    },
-
-    discovered: {
-        type: String
     },
 
     typeId: {
@@ -137,7 +142,91 @@ const BodySchema = new Schema({
     parentId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY,
-        required: true
+        required: false
+    },
+
+    orbit: {
+        apocenter: {
+            type: Number,
+            required: false,
+            min: 0
+        },
+
+        pericenter: {
+            type: Number,
+            required: false,
+            min: 0
+        },
+
+        eccentricity: {
+            type: Number,
+            required: false,
+            min: 0,
+            max: 2
+        },
+
+        inclination: {
+            type: Number,
+            required: false,
+            min: -360,
+            max: 360
+        },
+
+        startAngle: {
+            type: Number,
+            required: false,
+            min: 0, max: 360
+        },
+
+        period: {
+            type: Number,
+            required: false,
+            min: 0
+        },
+
+        rotation: {
+            type: Number,
+            required: false,
+            min: 0,
+            max: 360
+        }
+    },
+
+    position: {
+        alpha: {
+            type: Number,
+            required: false,
+            min: 0,
+            max: 360
+        },
+        beta: {
+            type: Number,
+            required: false,
+            min: 0,
+            max: 360
+        },
+        distance: {
+            type: Number,
+            required: false,
+            min: 0
+        }
+    },
+
+    nearest: {
+        type: Number,
+        required: false,
+        min: 0
+    },
+
+    magnitude: {
+        relative: {
+            type: Number,
+            required: false
+        },
+        absolute: {
+            type: Number,
+            required: false
+        }
     },
 
     __v: {
