@@ -12,6 +12,31 @@ class Route {
 
     }
 
+    /**
+     * Everybody can getAll, add and deleteAll.
+     */
+    private static DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL = {
+        get: Route.all,
+        post: Route.all,
+        delete: Route.all
+    }
+
+    /**
+     * Everybody can getById, updateById and deleteById.
+     */
+    private static DEFAULT_ROUTE_GROUP_ACCESS_FOR_ONE = {
+        get: Route.all,
+        put: Route.all,
+        delete: Route.all
+    }
+
+    /**
+     * Everybody can getCount.
+     */
+    private static DEFAULT_ROUTE_GROUP_ACCESS_FOR_COUNT = {
+        get: Route.all
+    }
+
     private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorized: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
         return (request, response) => (
             action(request)
@@ -22,7 +47,7 @@ class Route {
                         response.status(OK).send(resultMap(typeof result === 'number' ? result.toString() : result))
                     }
                 }).catch(error => {
-                    response.sendStatus(error)
+                response.sendStatus(error)
             })
         )
     }
@@ -33,7 +58,7 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static all(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return this.process(action, resultMap)
+        return Route.process(action, resultMap)
     }
 
     /**
@@ -52,7 +77,7 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static onlyWithId(userId: string, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return this.process(action, resultMap)
+        return Route.process(action, resultMap)
     }
 
     private static getFilterFromQuery(query: any): any {
@@ -73,24 +98,22 @@ class Route {
      * @param model Entity model.
      * @returns Route group.
      */
-    public static getRouteGroupForAll(model: IEntityModel<any, any, any>): IRouteGroupForAll {
-        return {
-            get: Route.all(({ query }) => (
-                model.getAll(
-                    Route.getFilterFromQuery(query),
-                    query.sort,
-                    query.order,
-                    parseInt(query.limit),
-                    parseInt(query.offset)
-                ))
-            ),
-            post: Route.all(({ body }) => (
-                model.add(body)
-            ), _id => ({ _id })),
-            delete: Route.all(() => (
-                model.removeAll()
-            ), count => ({ count }))
+    public static getRouteGroupForAll(model: IUnspecifiedEntityModel, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
+        const routeGroup: IObject<IRequestHandler> = {}
+
+        if (access.get) {
+            routeGroup.get = access.get(Route.getAllHandler(model))
         }
+
+        if (access.post) {
+            routeGroup.post = access.post(Route.addHandler(model), _id => ({ _id }))
+        }
+
+        if (access.delete) {
+            routeGroup.delete = access.delete(Route.deleteAllHandler(model), count => ({ count }))
+        }
+
+        return routeGroup
     }
 
     /**
@@ -98,25 +121,103 @@ class Route {
      * @param model Entity model.
      * @returns Route group.
      */
-    public static getRouteGroupForOne(model: IEntityModel<any, any, any>): IRouteGroupForOne {
-        return {
-            get: Route.all(({ params }) => (
-                model.get(params.bodyId)
-            )),
-            put: Route.all(({ params, body }) => (
-                model.update(params.bodyId, body)
-            ), false),
-            delete: Route.all(({ params }) => (
-                model.remove(params.bodyId, false)
-            ), false)
+    public static getRouteGroupForOne(model: IUnspecifiedEntityModel, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ONE): IRouteGroupForOne {
+        const routeGroup: IObject<IRequestHandler> = {}
+
+        if (access.get) {
+            routeGroup.get = access.get(Route.getByIdHandler(model))
         }
+
+        if (access.put) {
+            routeGroup.post = access.put(Route.updateByIdHandler(model), false)
+        }
+
+        if (access.delete) {
+            routeGroup.delete = access.delete(Route.deleteByIdHandler(model), false)
+        }
+
+        return routeGroup
     }
 
-    public static getRouteGroupForCount(model: IEntityModel<any, any, any>): IRouteGroupForCount {
-        return {
-            get: Route.all(() => model.getCount())
+    public static getRouteGroupForCount(model: IUnspecifiedEntityModel, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_COUNT): IRouteGroupForCount {
+        const routeGroup: IObject<IRequestHandler> = {}
+
+        if (access.get) {
+            routeGroup.get = access.get(Route.getCountHandler(model))
         }
+
+        return routeGroup
     }
+
+    /**
+     * Get handler for getAll route.
+     * @param model Model for CRUD operations.
+     * @returns Default request handler.
+     */
+    public static getAllHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+        ({ query }) => (
+            model.getAll(
+                Route.getFilterFromQuery(query),
+                query.sort,
+                query.order,
+                parseInt(query.limit),
+                parseInt(query.offset)
+            ))
+    )
+
+    /**
+     * Get handler for add route.
+     * @param model Model for CRUD operations.
+     * @returns Default request handler.
+     */
+    private static addHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+        ({ body }) => model.add(body)
+    )
+
+    /**
+     * Get handler for deleteAll route.
+     * @param model Model for CRUD operations.
+     * @returns Default request handler.
+     */
+    private static deleteAllHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+        () => model.removeAll()
+    )
+
+    /**
+     * Get handler for getById route.
+     * @param model Model for CRUD operations.
+     * @returns Default request handler.
+     */
+    private static getByIdHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+        ({ params }) => model.get(params.bodyId)
+    )
+
+    /**
+     * Get handler for updateById route.
+     * @param model Model for CRUD operations.
+     * @returns Default request handler.
+     */
+    private static updateByIdHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+        ({ params, body }) => model.update(params.bodyId, body)
+    )
+
+    /**
+     * Get handler for deleteById route.
+     * @param model Model for CRUD operations.
+     * @returns Default request handler.
+     */
+    private static deleteByIdHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+        ({ params }) => model.remove(params.bodyId, false) // TODO: Optional force?
+    )
+
+    /**
+     * Get handler for getCount route.
+     * @param model Model for CRUD operations.
+     * @returns Default request handler.
+     */
+    private static getCountHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+        ({ params, body }) => model.getCount() // TODO: Filter?
+    )
 
     public static getSwaggerRouteGroupForOne(tags, id, schema) {
         return {

@@ -29,6 +29,21 @@ declare type IRequestHandler = IConsumer2<IExpressRequest, IExpressResponse>
 declare type IIsAuthorized = IFunction<IUser, boolean>
 
 /**
+ * Function that say, who has access to route.
+ */
+declare type IRouteAccess = IFunction<IRouteAction, IRequestHandler> & IFunction2<IRouteAction, IResultMap, IRequestHandler>
+
+/**
+ * Interface for route group access.
+ */
+declare interface IRouteGroupAccess {
+    get?:IRouteAccess,
+    post?: IRouteAccess,
+    put?: IRouteAccess,
+    delete?: IRouteAccess
+}
+
+/**
  * Interface for group of routes for one entity.
  */
 declare interface IRouteGroupForAll {
@@ -36,17 +51,17 @@ declare interface IRouteGroupForAll {
     /**
      * Route for get entities.
      */
-    get: IRequestHandler
+    get?: IRequestHandler
 
     /**
      * Route for add entity.
      */
-    post: IRequestHandler
+    post?: IRequestHandler
 
     /**
      * Route for remove all entities.
      */
-    delete: IRequestHandler
+    delete?: IRequestHandler
 
 }
 
@@ -58,17 +73,17 @@ declare interface IRouteGroupForOne {
     /**
      * Route for get one entity.
      */
-    get: IRequestHandler
+    get?: IRequestHandler
 
     /**
      * Route for update entity.
      */
-    put: IRequestHandler
+    put?: IRequestHandler
 
     /**
      * Route for remove one entity.
      */
-    delete: IRequestHandler
+    delete?: IRequestHandler
 
 }
 
@@ -80,6 +95,6 @@ declare interface IRouteGroupForCount {
     /**
      * Route for get count of entities.
      */
-    get: IRequestHandler
+    get?: IRequestHandler
 
 }
