@@ -36,12 +36,12 @@ declare interface IRouteGroupForAll {
     /**
      * Route for get entities.
      */
-    get: IRequestHandler,
+    get: IRequestHandler
 
     /**
      * Route for add entity.
      */
-    post: IRequestHandler,
+    post: IRequestHandler
 
     /**
      * Route for remove all entities.
@@ -58,12 +58,12 @@ declare interface IRouteGroupForOne {
     /**
      * Route for get one entity.
      */
-    get: IRequestHandler,
+    get: IRequestHandler
 
     /**
      * Route for update entity.
      */
-    put: IRequestHandler,
+    put: IRequestHandler
 
     /**
      * Route for remove one entity.

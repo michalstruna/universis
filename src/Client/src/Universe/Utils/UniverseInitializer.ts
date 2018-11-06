@@ -62,8 +62,8 @@ class UniverseInitializer implements IUniverseInitializer {
      * @param body Body data.
      */
     private setScale(body: ISimpleBody): void {
-        body.diameter.equatorial *= Config.SIZE_RATIO
-        body.diameter.polar *= Config.SIZE_RATIO
+        body.diameter.x *= Config.SIZE_RATIO
+        body.diameter.y *= Config.SIZE_RATIO // TODO: Remove size ratio.
         body.orbit.apocenter *= Config.SIZE_RATIO
         body.orbit.pericenter *= Config.SIZE_RATIO
 
