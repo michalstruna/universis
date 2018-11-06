@@ -41,7 +41,7 @@ button {
     user-select: none;
 }
 
-input, textarea {
+input, textarea, select, option {
     @include content-font;
     border: none;
     outline: none;
@@ -125,6 +125,10 @@ input, textarea {
     &:hover {
         // background-color: #222;
     }
+}
+
+::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0);
 }
 
 ::-webkit-scrollbar-thumb {

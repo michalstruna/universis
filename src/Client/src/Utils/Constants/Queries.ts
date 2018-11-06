@@ -8,7 +8,8 @@ enum Queries {
     OVERVIEW = 'prehled',
     PEOPLE = 'lide',
     BODY = 'teleso',
-    BODIES = 'telesa'
+    BODIES = 'telesa',
+    BODY_FILTER = 'filtr'
 
 }
 

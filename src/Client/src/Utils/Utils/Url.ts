@@ -158,7 +158,7 @@ class Url {
             }
         }
 
-        return pathname + query
+        return pathname + '?' + query.replace('^\?', '')
     }
 
     /**
@@ -176,6 +176,15 @@ class Url {
      */
     public static replace(target: ILocationTarget): void {
         history.replace(Url.link(history.location, target))
+    }
+
+    /**
+     * Get value of query parameter from URL.
+     * @param key Name of query parameter.
+     * @returns Value of query parameter.
+     */
+    public static getQueryFromUrl(key: string): string {
+        return Url.getQuery(history.location.search, key)
     }
 
 }
