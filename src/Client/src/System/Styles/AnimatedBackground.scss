@@ -3,8 +3,8 @@ $height: 1080px;
 $duration: 7;
 
 @keyframes MoveBackground {
-    from { background-position: 50% $height; }
-    to { background-position: 50% 0; }
+    from { transform: translateY(0%) }
+    to { transform: translateY(-50%) }
 }
 
 .animated-background {
@@ -18,7 +18,7 @@ $duration: 7;
     }
 
     &--0, &--1, &--2 {
-        @include size(100%);
+        @include size(#{$width}, #{$height * 2});
         background-repeat: repeat;
         position: absolute;
     }
