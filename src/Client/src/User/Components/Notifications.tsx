@@ -17,21 +17,6 @@ const masonryOptions = {
 class Notifications extends StatelessComponent<IProps> {
 
     /**
-     * Get suffix of class name of notification.
-     * @param notification Notification.
-     * @returns Suffix of class name.
-     */
-    private getClassNameSuffix(notification: any): string { // TODO: Type INotification.
-        const random = Math.random()
-
-        if (random < 0.5) {
-            return 'high'
-        } else {
-            return 'normal'
-        }
-    }
-
-    /**
      * Render notifications.
      * @returns Notification in masonry layout.
      */
@@ -65,7 +50,7 @@ class Notifications extends StatelessComponent<IProps> {
         return notifications.map((notification, key) => (
             <Link
                 target={Link.URLS.HOME}
-                className={'notifications__notification notifications__notification--' + this.getClassNameSuffix(notification)}
+                className={'notifications__notification notifications__notification--normal'}
                 key={key}>
                 <section className='notifications__front'>
                     <section className='notifications__front--inner'>

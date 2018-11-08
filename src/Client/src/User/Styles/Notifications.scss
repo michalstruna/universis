@@ -33,12 +33,6 @@
         text-align: center;
         width: 10.25rem;
 
-        &--high {
-            & > section {
-                background-color: #443333;
-            }
-        }
-
         &--normal {
             & > section {
                 background-color: $dark-color;

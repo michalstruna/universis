@@ -40,8 +40,12 @@ module.exports = {
         publicPath: '/JavaScript/'
     },
     devServer: {
-        contentBase: Path.join(__dirname, '../../dist/Public'),
+        contentBase: Path.join(__dirname, '../Public'),
         historyApiFallback: true,
+        hot: true,
+        inline: true,
+        host: 'localhost',
+        port: 8080,
         publicPath: 'http://localhost:8080/JavaScript'
     },
     plugins: [
