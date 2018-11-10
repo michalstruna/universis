@@ -430,6 +430,16 @@ declare interface ISimpleBody {
          */
         rotation: number
 
+        /**
+         * Circuit of orbit.
+         */
+        circuit: number
+
+        /**
+         * Velocity of body around orbit.
+         */
+        velocity: number
+
     }
 
     /**

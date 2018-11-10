@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose'
 
 import { DatabaseModels } from '../../Constants'
+import FillBodyPlugin from '../Plugins/FillBodyPlugin'
 
 /**
  * DB schema for body.
@@ -235,5 +236,7 @@ const BodySchema = new Schema({
     }
 
 })
+
+BodySchema.plugin(FillBodyPlugin)
 
 export default BodySchema

@@ -5,31 +5,24 @@ import Units from '../Utils/Units'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
-    children: number,
-    short?: boolean,
-    input?: number,
-    row?: any
+    children: number
 }
 
 /**
  * Component for converting size units to readable form.
  */
-class SizeUnit extends StatelessComponent<IProps> {
+class MassUnit extends StatelessComponent<IProps> {
 
     public static UNITS = Unit
 
-    static defaultProps = {
-        input: Unit.KM
-    }
-
     private getUnit(): string {
-        const { children, input, short } = this.props
+        const { children } = this.props
 
         if (typeof children !== 'number') {
             return null
         }
 
-        return Units.formatSize(children, input, short)
+        return Units.formatMass(children)
     }
 
     public render(): JSX.Element {
@@ -42,4 +35,4 @@ class SizeUnit extends StatelessComponent<IProps> {
 
 }
 
-export default SizeUnit
+export default MassUnit

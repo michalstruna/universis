@@ -34,6 +34,14 @@ class Units {
         TLY: 'Tly'
     }
 
+    private static MASS_NAMES = {
+        KG: 'kg'
+    }
+
+    private static TEMPERATURE_NAMES = {
+        K: 'K'
+    }
+
     private constructor() {
 
     }
@@ -85,6 +93,27 @@ class Units {
 
         const format = short ? Numbers.toShort : Numbers.toReadable
         return format(value) + ' ' + unit
+    }
+
+    /**
+     * FOrmat mass unit.
+     * @param count Count of units.
+     * @returns Formatted units.
+     */
+    public static formatMass(count: number): string {
+        if (count < 1e3) {
+            return count + ' ' + Units.MASS_NAMES.KG
+        }
+
+        return count.toExponential(1).replace('+', '').replace('.0', '') + ' ' + Units.MASS_NAMES.KG
+    }
+
+    public static formatTemperature(count: number): string {
+        if (typeof count !== 'number') {
+            return null
+        }
+
+        return Numbers.toShort(count) + ' K'
     }
 
 }

@@ -1,14 +1,10 @@
 import * as React from 'react'
 
-import Unit from '../Constants/SizeUnit'
 import Units from '../Utils/Units'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
-    children: number,
-    short?: boolean,
-    input?: number,
-    row?: any
+    children: number
 }
 
 /**
@@ -16,26 +12,16 @@ interface IProps {
  */
 class SizeUnit extends StatelessComponent<IProps> {
 
-    public static UNITS = Unit
-
-    static defaultProps = {
-        input: Unit.KM
-    }
-
-    private getUnit(): string {
-        const { children, input, short } = this.props
+    public render(): JSX.Element {
+        const { children } = this.props
 
         if (typeof children !== 'number') {
             return null
         }
 
-        return Units.formatSize(children, input, short)
-    }
-
-    public render(): JSX.Element {
         return (
             <React.Fragment>
-                {this.getUnit()}
+                {Units.formatTemperature(children)}
             </React.Fragment>
         )
     }

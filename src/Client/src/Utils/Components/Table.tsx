@@ -12,7 +12,7 @@ type Property = any
 interface IColumn {
     accessor: IFunction<Item, Property>
     title: string
-    render?: IFunction<Property, JSX.Element>
+    render?: IFunction2<Property, Item, JSX.Element>
 }
 
 interface IProps {
@@ -125,7 +125,7 @@ class Table extends Component<IProps, IState> {
 
         return columns.map((column, key) => (
             <section className='table__cell' key={key}>
-                {column.render ? column.render(column.accessor(item)) : column.accessor(item)}
+                {column.render ? column.render(column.accessor(item), item) : column.accessor(item)}
             </section>
         ))
     }

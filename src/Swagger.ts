@@ -876,8 +876,12 @@ export default {
                     },
                     'circuit': {
                         'type': 'number',
-                        'example': 1237751455
+                        'example': 1
                     },
+                    'velocity': {
+                        'type': 'number',
+                        'example': 1
+                    }
                 }
             },
             'Position': {

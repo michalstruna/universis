@@ -8,6 +8,7 @@
         overflow: hidden;
         padding: 0.25rem;
         text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &__row {

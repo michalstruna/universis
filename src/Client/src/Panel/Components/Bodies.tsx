@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import BodyFilterForm from './BodyFilterForm'
-import { SizeUnit, TimeUnit, UniverseActions } from '../../Universe'
+import { SizeUnit, TimeUnit, MassUnit, UniverseActions, Units } from '../../Universe'
 import { StatelessComponent, Table, Filter, AsyncEntity, Url } from '../../Utils'
 
 interface IProps {
@@ -26,67 +26,69 @@ class Bodies extends StatelessComponent<IProps> {
             title: 'Název',
         },
         {
-            accessor: body => body.diameter.equatorial,
+            accessor: body => body.diameter.x,
             title: 'Průměr',
             render: diameter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{diameter}</SizeUnit>
         },
         {
             accessor: body => body.mass,
             title: 'Hmotnost',
-            render: mass => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{mass}</SizeUnit>
+            render: mass => <MassUnit>{mass}</MassUnit>
         },
         {
-            accessor: body => body.mass,
+            accessor: body => body.density,
             title: 'Hustota',
-            render: density => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{density}</SizeUnit>
+            render: density => density
         },
         {
-            accessor: body => body.orbit.apocenter,
+            accessor: body => body.orbit ? body.orbit.apocenter : null,
             title: 'Apocentrum',
             render: apocenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{apocenter}</SizeUnit>
         },
         {
-            accessor: body => body.orbit.pericenter,
+            accessor: body => body.orbit ? body.orbit.pericenter : null,
             title: 'Pericentrum',
             render: pericenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{pericenter}</SizeUnit>
         },
         {
-            accessor: body => body.orbit.eccentricity,
+            accessor: body => body.orbit ? body.orbit.eccentricity : null,
             title: 'Excentricita'
         },
         {
-            accessor: body => body.orbit.period,
+            accessor: body => body.orbit ? body.orbit.period : null,
             title: 'Rok',
-            render: period => <TimeUnit input={TimeUnit.UNITS.Y} short={true}>{period}</TimeUnit>
+            render: period => period ? <TimeUnit input={TimeUnit.UNITS.Y} short={true}>{period}</TimeUnit> : null
         },
         {
             accessor: body => body.period,
             title: 'Den',
-            render: period => <TimeUnit input={TimeUnit.UNITS.D} short={true}>{period}</TimeUnit>
+            render: period => period ? <TimeUnit input={TimeUnit.UNITS.D} short={true}>{period}</TimeUnit> : null
         },
         {
             accessor: body => body.rings.length,
             title: 'Satelitů'
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Prstenců'
+            accessor: body => body.escapeVelocity,
+            title: 'Úniková rychlost'
         },
         {
-            accessor: body => body.tilt,
+            accessor: body => body.axis.tilt,
             title: 'Sklon'
         },
         {
-            accessor: body => body.orbit.speed || 123,
+            accessor: body => body.orbit ? body.orbit.speed : null,
             title: 'Rychlost'
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Povrch'
+            accessor: body => body.temperature.outer,
+            title: 'Vnější teplota',
+            render: value => Units.formatTemperature(value)
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Jádro'
+            accessor: body => body.temperature.inner,
+            title: 'Vnitřní teplota',
+            render: value => Units.formatTemperature(value)
         },
         {
             accessor: body => '1997',
