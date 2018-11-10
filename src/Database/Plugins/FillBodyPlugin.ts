@@ -17,6 +17,7 @@ const FillBodyPlugin = (schema) => {
 const fillBody = (body: ISimpleBody) => {
     body.diameter.y = Physics.getDiameterY(body)
     body.diameter.z = Physics.getDiameterZ(body)
+    body.flattening = Physics.getFlattening(body)
     body.surface = Physics.getSurface(body)
     body.volume = Physics.getVolume(body)
     body.density = Physics.getDensity(body)

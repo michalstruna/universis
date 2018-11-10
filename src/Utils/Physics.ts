@@ -97,6 +97,15 @@ class Physics {
     }
 
     /**
+     * Get flattening of body.
+     * @param body
+     * @returns Flattening of body.
+     */
+    public static getFlattening(body: ISimpleBody): number {
+        return 1 - (Physics.getDiameterY(body) / body.diameter.x)
+    }
+
+    /**
      * Get average radius of body.
      * @param body
      * @returns Average radius of body.
