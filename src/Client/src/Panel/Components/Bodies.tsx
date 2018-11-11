@@ -38,7 +38,7 @@ class Bodies extends StatelessComponent<IProps> {
         {
             accessor: body => body.density,
             title: 'Hustota',
-            render: density => density
+            render: density => Units.formatDensity(density)
         },
         {
             accessor: body => body.orbit ? body.orbit.apocenter : null,
@@ -65,10 +65,6 @@ class Bodies extends StatelessComponent<IProps> {
             render: period => period ? <TimeUnit input={TimeUnit.UNITS.D} short={true}>{period}</TimeUnit> : null
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Satelitů'
-        },
-        {
             accessor: body => body.escapeVelocity,
             title: 'Úniková rychlost'
         },
@@ -91,8 +87,33 @@ class Bodies extends StatelessComponent<IProps> {
             render: value => Units.formatTemperature(value)
         },
         {
-            accessor: body => '1997',
+            accessor: body => body.discover.date,
             title: 'Objev'
+        },
+        {
+            accessor: body => body.flattening,
+            title: 'Zploštění'
+        },
+        {
+            accessor: body => body.magnitude.relative,
+            title: 'Mag.'
+        },
+        {
+            accessor: body => body.magnitude.absolute,
+            title: 'Abs. mag.'
+        },
+        {
+            accessor: body => body.orbit ? body.orbit.velocity : null,
+            title: 'Rychlost'
+        },
+        {
+            accessor: body => body.albedo,
+            title: 'Albedo'
+        },
+        {
+            accessor: body => body.luminosity,
+            title: 'Zářivost',
+            render: luminosity => Units.formatLuminosity(luminosity)
         }
     ]
 

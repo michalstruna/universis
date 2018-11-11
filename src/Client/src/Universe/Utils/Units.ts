@@ -95,25 +95,52 @@ class Units {
         return format(value) + ' ' + unit
     }
 
-    /**
-     * FOrmat mass unit.
-     * @param count Count of units.
-     * @returns Formatted units.
-     */
-    public static formatMass(count: number): string {
-        if (count < 1e3) {
-            return count + ' ' + Units.MASS_NAMES.KG
-        }
-
-        return count.toExponential(1).replace('+', '').replace('.0', '') + ' ' + Units.MASS_NAMES.KG
-    }
-
     public static formatTemperature(count: number): string {
         if (typeof count !== 'number') {
             return null
         }
 
         return Numbers.toShort(count) + ' K'
+    }
+
+    public static formatDensity(count: number): string {
+        return Numbers.toShort(count) + ' kg/m3'
+    }
+
+    /**
+     * Format mass unit.
+     * @param count Count of units.
+     * @returns Formatted units.
+     */
+    public static formatMass(count: number): string {
+        return Units.formatToExponential(count, 'kg')
+    }
+
+    /**
+     * Format luminosity.
+     * @param count
+     * @returns Formatted luminosity.
+     */
+    public static formatLuminosity(count: number): string {
+        return Units.formatToExponential(count, 'W')
+    }
+
+    /**
+     * Format unit to form like 2.5e15 kg.
+     * @param count Count of units.
+     * @param unit Name of unit.
+     * @returns Formatted unit.
+     */
+    private static formatToExponential(count, unit): string {
+        if (typeof count !== 'number') {
+            return null
+        }
+
+        if (count < 1e3) {
+            return count + ' ' + unit
+        }
+
+        return count.toExponential(1).replace('+', '').replace('.0', '') + ' ' + unit
     }
 
 }

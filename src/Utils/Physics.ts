@@ -9,6 +9,16 @@ class Physics {
     private static G = 6.6742e-11
 
     /**
+     * Speed of light.
+     */
+    private static C = 299792.458
+
+    /**
+     * Stefan-boltzmann constant.
+     */
+    private static STEFAN_BOLTZMANN = 5.670367e-8
+
+    /**
      * Get polar diameter of body.
      * @param body
      * @returns Polar diameter of body.
@@ -54,7 +64,7 @@ class Physics {
             return null
         }
 
-        return body.mass / body.volume
+        return body.mass / (body.volume * 1e9)
     }
 
     /**
@@ -67,7 +77,13 @@ class Physics {
             return null
         }
 
-        return Math.sqrt(2 * Physics.G * body.mass / (Physics.getAverageRadius(body) * 10e8))
+        const velocity = Math.sqrt(2 * Physics.G * body.mass / (Physics.getAverageRadius(body) * 10e8))
+
+        if (velocity > Physics.C) {
+            return null
+        }
+
+        return velocity
     }
 
     /**
@@ -103,6 +119,19 @@ class Physics {
      */
     public static getFlattening(body: ISimpleBody): number {
         return 1 - (Physics.getDiameterY(body) / body.diameter.x)
+    }
+
+    /**
+     * Get luminosity of body.
+     * @param body
+     * @returns Luminosity of body.
+     */
+    public static getLuminosity(body: ISimpleBody): number {
+        if (!body.temperature.outer) { // TODO: If emissive body.
+            return null
+        }
+
+        return 4 * Math.PI * Math.pow(Physics.getAverageRadius(body) * 1e3, 2) * Physics.STEFAN_BOLTZMANN * Math.pow(body.temperature.outer, 4)
     }
 
     /**

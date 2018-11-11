@@ -374,6 +374,11 @@ declare interface ISimpleBody {
     albedo: number
 
     /**
+     * Luminosity [W].
+     */
+    luminosity: number
+
+    /**
      * Chemical composition of body.
      */
     composition: [{

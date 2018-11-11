@@ -22,6 +22,7 @@ const fillBody = (body: ISimpleBody) => {
     body.volume = Physics.getVolume(body)
     body.density = Physics.getDensity(body)
     body.escapeVelocity = Physics.getEscapeVelocity(body)
+    body.luminosity = Physics.getLuminosity(body)
 
     if (body.orbit) {
         body.orbit.circuit = Physics.getOrbitCircuit(body)

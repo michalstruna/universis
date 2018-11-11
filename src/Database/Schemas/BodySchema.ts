@@ -126,11 +126,11 @@ const BodySchema = new Schema({
     discover: {
         author: {
             type: String,
-            required: false
+            default: null
         },
         date: {
             type: String,
-            required: false
+            default: null
         }
     },
 
@@ -222,11 +222,11 @@ const BodySchema = new Schema({
     magnitude: {
         relative: {
             type: Number,
-            required: false
+            default: null
         },
         absolute: {
             type: Number,
-            required: false
+            default: null
         }
     },
 

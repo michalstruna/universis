@@ -12,7 +12,7 @@ type Property = any
 interface IColumn {
     accessor: IFunction<Item, Property>
     title: string
-    render?: IFunction2<Property, Item, JSX.Element>
+    render?: IFunction2<Property, Item, React.ReactNode>
 }
 
 interface IProps {
