@@ -7,7 +7,7 @@ interface IProps {
 }
 
 /**
- * Component for rendering submit button.
+ * Component for rendering back form button.
  */
 class Submit extends StatelessComponent<IProps> {
 

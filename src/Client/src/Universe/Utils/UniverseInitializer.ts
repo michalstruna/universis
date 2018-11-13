@@ -64,8 +64,13 @@ class UniverseInitializer implements IUniverseInitializer {
     private setScale(body: ISimpleBody): void {
         body.diameter.x *= Config.SIZE_RATIO
         body.diameter.y *= Config.SIZE_RATIO // TODO: Remove size ratio.
-        body.orbit.apocenter *= Config.SIZE_RATIO
-        body.orbit.pericenter *= Config.SIZE_RATIO
+
+        if (body.orbit) {
+            body.orbit.apocenter *= Config.SIZE_RATIO
+            body.orbit.pericenter *= Config.SIZE_RATIO
+        } else if(body.position) {
+            body.position.distance *= Config.SIZE_RATIO
+        }
 
         for (const ring of body.rings) {
             ring.diameter.max *= Config.SIZE_RATIO

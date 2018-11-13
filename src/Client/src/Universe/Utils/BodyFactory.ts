@@ -90,20 +90,26 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createOrbit(body: ISimpleBody): THREE.Object3D {
         const outerOrbitMesh = new THREE.Object3D()
-        const a = this.calculateA(body)
-        const b = this.calculateB(body, a)
-        const path = new THREE.EllipseCurve(0, 0, a, b, 0, 2 * Math.PI, false, 0)
-        const geometry = new THREE.BufferGeometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
-        const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
-        material.transparent = true
 
-        const orbitMesh = new THREE.Line(geometry, material)
-        orbitMesh.position.x = (body.orbit.apocenter - body.orbit.pericenter) / 2
-        outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), THREE.Math.degToRad(body.orbit.rotation || 0))
-        outerOrbitMesh.add(orbitMesh)
+        if (body.orbit) {
+            const a = this.calculateA(body)
+            const b = this.calculateB(body, a)
+            const path = new THREE.EllipseCurve(0, 0, a, b, 0, 2 * Math.PI, false, 0)
+            const geometry = new THREE.BufferGeometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
+            const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
+            material.transparent = true
 
-        outerOrbitMesh.userData.path = path
-        outerOrbitMesh.userData.angle = 0 // TODO: Add initial angle.
+            const orbitMesh = new THREE.Line(geometry, material)
+            orbitMesh.position.x = (body.orbit.apocenter - body.orbit.pericenter) / 2
+            outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), THREE.Math.degToRad(body.orbit.rotation || 0))
+            outerOrbitMesh.add(orbitMesh)
+
+            outerOrbitMesh.userData.path = path
+            outerOrbitMesh.userData.angle = 0 // TODO: Add initial angle.
+        } else {
+            const orbitMesh = new THREE.Mesh()
+            outerOrbitMesh.add(orbitMesh)
+        }
 
         return outerOrbitMesh
     }
