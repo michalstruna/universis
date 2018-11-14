@@ -8,19 +8,6 @@ export {
 }
 
 /**
- * Components.
- */
-import SizeUnit from './Components/SizeUnit'
-import TimeUnit from './Components/TimeUnit'
-import MassUnit from './Components/MassUnit'
-
-export {
-    SizeUnit,
-    TimeUnit,
-    MassUnit
-}
-
-/**
  * Constants.
  */
 import Physics from './Constants/Config'

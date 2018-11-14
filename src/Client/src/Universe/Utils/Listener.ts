@@ -20,7 +20,7 @@ class Listener {
      */
     public static changeViewSizeFromSimulator(viewSize: number): void {
         if (ControlBar.viewSize) {
-            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize)
+            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize, Units.FULL)
         }
 
         if (ViewSizeControl.instance) {
@@ -34,7 +34,7 @@ class Listener {
         }
 
         if (ControlBar.viewSize) {
-            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize)
+            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize, Units.FULL)
         }
     }
 

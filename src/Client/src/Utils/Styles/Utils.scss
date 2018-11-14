@@ -40,7 +40,8 @@
  * Set content font to element.
  */
 @mixin content-font {
-    font-family: MontserratExtraLight, Arial;
+    /*font-family: MontserratExtraLight, Arial; TODO: Decide default font. */
+    font-family: Arial;
 }
 
 /**

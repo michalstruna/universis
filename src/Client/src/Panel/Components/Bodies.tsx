@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import BodyFilterForm from './BodyFilterForm'
-import { SizeUnit, TimeUnit, MassUnit, UniverseActions, Units } from '../../Universe'
+import { UniverseActions, Units } from '../../Universe'
 import { StatelessComponent, Table, Filter, AsyncEntity, Url } from '../../Utils'
 
 interface IProps {
@@ -9,6 +9,7 @@ interface IProps {
     selectBody: IConsumer<string>
     filter: IFilter
     getBodies: IRunnable
+    strings: IStrings
 }
 
 /**
@@ -18,37 +19,36 @@ class Bodies extends StatelessComponent<IProps> {
 
     /**
      * List of all columns in table.
-     * // TODO: Dynamic columns?
      */
-    private static readonly COLUMNS = [
+    private readonly columns = [
         {
             accessor: body => body.name,
-            title: 'Název',
+            title: this.props.strings.name,
         },
         {
             accessor: body => body.diameter.x,
-            title: 'Průměr',
-            render: diameter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{diameter}</SizeUnit>
+            title: this.props.strings.diameter,
+            render: diameter => Units.formatSize(diameter, Units.SHORT)
         },
         {
             accessor: body => body.mass,
-            title: 'Hmotnost',
-            render: mass => <MassUnit>{mass}</MassUnit>
+            title: this.props.strings.mass,
+            render: mass => Units.formatMass(mass, Units.EXPONENTIAL)
         },
         {
             accessor: body => body.density,
-            title: 'Hustota',
-            render: density => Units.formatDensity(density)
+            title: this.props.strings.density,
+            render: density => Units.formatDensity(density, Units.SHORT)
         },
         {
             accessor: body => body.orbit ? body.orbit.apocenter : null,
-            title: 'Apocentrum',
-            render: apocenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{apocenter}</SizeUnit>
+            title: this.props.strings.apocenter,
+            render: apocenter => apocenter ? Units.formatSize(apocenter, Units.SHORT) : null
         },
         {
             accessor: body => body.orbit ? body.orbit.pericenter : null,
-            title: 'Pericentrum',
-            render: pericenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{pericenter}</SizeUnit>
+            title: this.props.strings.pericenter,
+            render: pericenter => pericenter ? Units.formatSize(pericenter, Units.SHORT) : null
         },
         {
             accessor: body => body.orbit ? body.orbit.eccentricity : null,
@@ -57,12 +57,12 @@ class Bodies extends StatelessComponent<IProps> {
         {
             accessor: body => body.orbit ? body.orbit.period : null,
             title: 'Rok',
-            render: period => period ? <TimeUnit input={TimeUnit.UNITS.Y} short={true}>{period}</TimeUnit> : null
+            render: period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.Y) : null
         },
         {
-            accessor: body => body.period,
+            accessor: body => body.axis.period,
             title: 'Den',
-            render: period => period ? <TimeUnit input={TimeUnit.UNITS.D} short={true}>{period}</TimeUnit> : null
+            render: period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.D): null
         },
         {
             accessor: body => body.escapeVelocity,
@@ -73,18 +73,18 @@ class Bodies extends StatelessComponent<IProps> {
             title: 'Sklon'
         },
         {
-            accessor: body => body.orbit ? body.orbit.speed : null,
+            accessor: body => body.orbit ? body.orbit.velocity : null,
             title: 'Rychlost'
         },
         {
             accessor: body => body.temperature.outer,
             title: 'Vnější teplota',
-            render: value => Units.formatTemperature(value)
+            render: value => Units.formatTemperature(value, Units.SHORT)
         },
         {
             accessor: body => body.temperature.inner,
             title: 'Vnitřní teplota',
-            render: value => Units.formatTemperature(value)
+            render: value => Units.formatTemperature(value, Units.SHORT)
         },
         {
             accessor: body => body.discover.date,
@@ -113,7 +113,7 @@ class Bodies extends StatelessComponent<IProps> {
         {
             accessor: body => body.luminosity,
             title: 'Zářivost',
-            render: luminosity => Units.formatLuminosity(luminosity)
+            render: luminosity => Units.formatLuminosity(luminosity, Units.EXPONENTIAL)
         }
     ]
 
@@ -135,7 +135,7 @@ class Bodies extends StatelessComponent<IProps> {
                 success={() => (
                     <section className='panel__bodies__table'>
                         <Table
-                            columns={Bodies.COLUMNS}
+                            columns={this.columns}
                             items={Filter.apply(bodies.payload, JSON.parse(Url.getQuery(location.search, Url.QUERIES.BODY_FILTER)))}
                             onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
                     </section>
@@ -171,8 +171,9 @@ class Bodies extends StatelessComponent<IProps> {
 }
 
 export default Bodies.connect(
-    ({ universe }: IStoreState) => ({
-        bodies: universe.bodies
+    ({ universe, system }: IStoreState) => ({
+        bodies: universe.bodies,
+        strings: system.strings.panel.bodies
     }),
     (dispatch: IDispatch) => ({
         selectBody: bodyId => dispatch(UniverseActions.selectBody(bodyId)),

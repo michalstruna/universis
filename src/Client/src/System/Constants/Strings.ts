@@ -73,6 +73,17 @@ export default {
             now: 'Teď',
             move: 'Pohyb'
         }
+    },
+
+    panel: {
+        bodies: {
+            name: 'Název',
+            diameter: 'Průměr',
+            mass: 'Hmotnost',
+            density: 'Hustota',
+            apocenter: 'Apocentrum',
+            pericenter: 'Pericentrum'
+        }
     }
 
 }
