@@ -5,15 +5,12 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-
     "build": "npm i && cd src/Client && npm i && node_modules/webpack/bin/webpack.js -p --optimize-minimize && cd ../.. && node_modules/typescript/bin/tsc && rm -rf dist/Client && cp -r src/Public dist/Public",
     "run": "node dist/index.js",
     "build-and-run": "npm run-script build && npm run-script run",
-
     "dev-server": "nodemon dist/index.js",
     "dev-client": "cd src/Client && node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base ./Dist/ --inline --hot --host localhost --port 8080",
     "dev": "npm-run-all --parallel dev-server dev-client",
-
     "heroku-postbuild": "cd src/Client && npm i && cd ../.. && npm run-script build"
   },
   "repository": {
