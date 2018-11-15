@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import BodyFilterForm from './BodyFilterForm'
-import { UniverseActions, Units } from '../../Universe'
+import { Units, getBodies, selectBody } from '../../Universe'
 import { StatelessComponent, Table, Filter, AsyncEntity, Url } from '../../Utils'
 
 interface IProps {
@@ -175,8 +175,5 @@ export default Bodies.connect(
         bodies: universe.bodies,
         strings: system.strings.panel.bodies
     }),
-    (dispatch: IDispatch) => ({
-        selectBody: bodyId => dispatch(UniverseActions.selectBody(bodyId)),
-        getBodies: () => dispatch(UniverseActions.getBodies())
-    })
+    { getBodies, selectBody }
 )

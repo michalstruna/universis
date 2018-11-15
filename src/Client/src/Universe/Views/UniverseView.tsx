@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { View, AsyncEntity } from '../../Utils'
-import UniverseActions from '../Redux/UniverseActions'
+import { getBodies } from '../Redux/UniverseActions'
 import Canvas from '../Components/Canvas'
 import UI from '../Components/UI'
 
@@ -40,7 +40,5 @@ export default UniverseView.connect(
     ({ universe }: IStoreState) => ({
         bodies: universe.bodies
     }),
-    (dispatch: IDispatch) => ({
-        getBodies: () => dispatch(UniverseActions.getBodies())
-    })
+    { getBodies }
 )

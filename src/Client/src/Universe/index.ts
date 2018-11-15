@@ -19,13 +19,13 @@ export {
 /**
  * Redux.
  */
-import UniverseActions from './Redux/UniverseActions'
 import UniverseReducer from './Redux/UniverseReducer'
 
 export {
-    UniverseActions,
     UniverseReducer
 }
+
+export * from './Redux/UniverseActions'
 
 /**
  * Utils.
