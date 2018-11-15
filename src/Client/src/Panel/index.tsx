@@ -10,10 +10,10 @@ export {
 /**
  * Redux.
  */
-import PanelActions from './Redux/PanelActions'
 import PanelReducer from './Redux/PanelReducer'
 
 export {
-    PanelActions,
     PanelReducer
 }
+
+export * from './Redux/PanelActions'

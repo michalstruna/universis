@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { reduxForm, InjectedFormProps, SubmissionError, formValueSelector } from 'redux-form'
 
-import UserActions from '../Redux/UserActions'
+import { login } from '../Redux/UserActions'
 import UserInfo from './UserInfo'
 import { StatelessComponent, Url, Link } from '../../Utils'
 import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
@@ -75,7 +75,5 @@ export default reduxForm({
         strings: system.strings.login,
         unauthUser: user.unauthUser
     }),
-    (dispatch: IDispatch) => ({
-        login: (email: string, password: string) => dispatch(UserActions.login(email, password))
-    })
+    { login }
 ))

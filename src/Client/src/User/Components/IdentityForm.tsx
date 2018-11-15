@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { reduxForm, InjectedFormProps, SubmissionError } from 'redux-form'
+import { reduxForm, InjectedFormProps } from 'redux-form'
 
 import { StatelessComponent, Url } from '../../Utils'
 import { EmailField, Form, Submit, Title } from '../../Forms'
-import UserActions from '../Redux/UserActions'
+import { getUnauthUser } from '../Redux/UserActions'
 
 interface IProps {
     strings: IStrings
@@ -61,7 +61,5 @@ export default reduxForm({
         strings: system.strings.identity,
         unauthUser: user.unauthUser
     }),
-    (dispatch: IDispatch) => ({
-        getUnauthUser: (email: string) => dispatch(UserActions.getUnauthUser(email))
-    })
+    { getUnauthUser }
 ))

@@ -52,67 +52,67 @@ class Bodies extends StatelessComponent<IProps> {
         },
         {
             accessor: body => body.orbit ? body.orbit.eccentricity : null,
-            title: 'Excentricita'
+            title: this.props.strings.eccentricity
         },
         {
             accessor: body => body.orbit ? body.orbit.period : null,
-            title: 'Rok',
+            title: this.props.strings.year,
             render: period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.Y) : null
         },
         {
             accessor: body => body.axis.period,
-            title: 'Den',
+            title: this.props.strings.day,
             render: period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.D): null
         },
         {
             accessor: body => body.escapeVelocity,
-            title: 'Úniková rychlost'
+            title: this.props.strings.escapeVelocity
         },
         {
             accessor: body => body.axis.tilt,
-            title: 'Sklon'
+            title: this.props.strings.axisTilt
         },
         {
             accessor: body => body.orbit ? body.orbit.velocity : null,
-            title: 'Rychlost'
+            title: this.props.strings.orbitVelocity
         },
         {
             accessor: body => body.temperature.outer,
-            title: 'Vnější teplota',
+            title: this.props.strings.outerTemperature,
             render: value => Units.formatTemperature(value, Units.SHORT)
         },
         {
             accessor: body => body.temperature.inner,
-            title: 'Vnitřní teplota',
+            title: this.props.strings.innerTemperature,
             render: value => Units.formatTemperature(value, Units.SHORT)
         },
         {
             accessor: body => body.discover.date,
-            title: 'Objev'
+            title: this.props.strings.discoverDate
         },
         {
             accessor: body => body.flattening,
-            title: 'Zploštění'
+            title: this.props.strings.flattening
         },
         {
             accessor: body => body.magnitude.relative,
-            title: 'Mag.'
+            title: this.props.strings.relativeMagnitude
         },
         {
             accessor: body => body.magnitude.absolute,
-            title: 'Abs. mag.'
+            title: this.props.strings.absoluteMagnitude
         },
         {
-            accessor: body => body.orbit ? body.orbit.velocity : null,
-            title: 'Rychlost'
+            accessor: body => body.orbit ? body.axis.velocity : null,
+            title: this.props.strings.axisVelocity
         },
         {
             accessor: body => body.albedo,
-            title: 'Albedo'
+            title: this.props.strings.albedo
         },
         {
             accessor: body => body.luminosity,
-            title: 'Zářivost',
+            title: this.props.strings.luminosity,
             render: luminosity => Units.formatLuminosity(luminosity, Units.EXPONENTIAL)
         }
     ]

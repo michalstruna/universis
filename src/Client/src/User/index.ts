@@ -16,13 +16,13 @@ export {
 /**
  * Redux.
  */
-import UserActions from './Redux/UserActions'
 import UserReducer from './Redux/UserReducer'
 
 export {
-    UserActions,
     UserReducer
 }
+
+export * from './Redux/UserActions'
 
 /**
  * Views.

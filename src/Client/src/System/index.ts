@@ -26,14 +26,14 @@ export {
  * Redux.
  */
 import Store from './Redux/Store'
-import SystemActions from './Redux/SystemActions'
 import SystemReducer from './Redux/SystemReducer'
 
 export {
     Store,
-    SystemActions,
     SystemReducer
 }
+
+export * from './Redux/SystemActions'
 
 /**
  * Constants.

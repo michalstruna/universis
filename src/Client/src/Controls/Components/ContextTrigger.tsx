@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { SystemActions } from '../../System'
+import { toggleContextMenu } from '../../System'
 import { Component } from '../../Utils'
 
 interface IProps {
@@ -37,6 +37,7 @@ class ContextTrigger extends Component<IProps, IState> {
      */
     private handleContextMenu = (event: React.MouseEvent<HTMLElement>): void => {
         event.preventDefault()
+        console.log(this.props)
         this.props.toggleContextMenu(true, event.pageX, event.pageY)
     }
 
@@ -57,7 +58,5 @@ export default ContextTrigger.connect(
     ({ system }: IStoreState) => ({
         isContextVisible: system.contextMenu.isVisible
     }),
-    (dispatch: IDispatch) => ({
-        toggleContextMenu: (isVisible, x, y) => dispatch(SystemActions.toggleContextMenu(isVisible, x, y))
-    })
+    { toggleContextMenu }
 )

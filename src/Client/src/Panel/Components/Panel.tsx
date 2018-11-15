@@ -5,7 +5,7 @@ import { StatelessComponent, UILayout, Link, Url, Queries, BlurLayout } from '..
 import Chat from './Chat'
 import Overview from './Overview'
 import People from './People'
-import PanelActions from '../Redux/PanelActions'
+import { setTab } from '../Redux/PanelActions'
 import Bodies from './Bodies'
 
 interface IProps {
@@ -121,7 +121,5 @@ export default Panel.connect(
         strings: system.strings.home,
         tab: panel.tab
     }),
-    (dispatch: IDispatch) => ({
-        setTab: (tab: string) => dispatch(PanelActions.setTab(tab))
-    })
+    { setTab }
 )

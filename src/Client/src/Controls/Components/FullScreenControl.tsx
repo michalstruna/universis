@@ -1,9 +1,8 @@
 import * as React from 'react'
 
 import Control from './Control'
-import { SystemActions } from '../../System'
+import { toggleFullScreen } from '../../System'
 import { StatelessComponent } from '../../Utils'
-
 
 export interface IProps {
     toggleFullScreen: IConsumer<boolean>
@@ -29,9 +28,10 @@ class FullScreenControl extends StatelessComponent<IProps> {
     }
 }
 
-export default FullScreenControl.connect(({ system }: IStoreState) => ({
-    isFullScreen: system.isFullScreen,
-    strings: system.strings.controls
-}), (dispatch: IDispatch) => ({
-    toggleFullScreen: (isFullScreen: boolean) => dispatch(SystemActions.toggleFullScreen(isFullScreen))
-}))
+export default FullScreenControl.connect(
+    ({ system }: IStoreState) => ({
+        isFullScreen: system.isFullScreen,
+        strings: system.strings.controls
+    }),
+    { toggleFullScreen }
+)
