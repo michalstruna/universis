@@ -3,15 +3,14 @@ import * as ReactDOM from 'react-dom'
 
 import Universe from '../Utils/Universe'
 import { StatelessComponent } from '../../Utils'
-import UniverseActions from '../Redux/UniverseActions'
+import { selectBody } from '../Redux/UniverseActions'
 import Units from '../Utils/Units'
 import Listener from '../Utils/Listener'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
     getBodies: IRunnable
-    onChangeViewSize: IConsumer<number>
-    onSelectBody: IConsumer<string>
+    selectBody: IConsumer<string>
     viewSize: number
     selectedBody: string
     areLabelsVisible: boolean
@@ -62,7 +61,7 @@ class Canvas extends StatelessComponent<IProps> {
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        const { bodies, onSelectBody, areLabelsVisible } = this.props
+        const { bodies, selectBody, areLabelsVisible } = this.props
 
         if (bodies.payload && !this.universe) {
             const element = ReactDOM.findDOMNode(this.refs.space) as HTMLElement // TODO: Refactor ref.
@@ -70,7 +69,7 @@ class Canvas extends StatelessComponent<IProps> {
                 element,
                 bodies: bodies.payload,
                 onChangeViewSize: Listener.changeViewSizeFromSimulator,
-                onSelectBody
+                onSelectBody: selectBody
             })
 
             this.universe.toggleLabels(areLabelsVisible)
@@ -96,8 +95,5 @@ export default Canvas.connect(
         isLightVisible: universe.isLightVisible,
         areOrbitsVisible: universe.areOrbitsVisible
     }),
-    (dispatch: IDispatch) => ({
-        onChangeViewSize: (zoom: number) => dispatch(UniverseActions.changeViewSize(zoom)),
-        onSelectBody: (bodyId: string) => dispatch(UniverseActions.selectBody(bodyId))
-    })
+    { selectBody }
 )

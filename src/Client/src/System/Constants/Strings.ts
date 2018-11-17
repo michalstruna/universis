@@ -73,6 +73,32 @@ export default {
             now: 'Teď',
             move: 'Pohyb'
         }
+    },
+
+    panel: {
+        bodies: {
+            name: 'Název',
+            diameter: 'Průměr',
+            mass: 'Hmotnost',
+            density: 'Hustota',
+            apocenter: 'Apocentrum',
+            pericenter: 'Pericentrum',
+            eccentricity: 'Excentricita',
+            year: 'Rok',
+            day: 'Den',
+            escapeVelocity: 'Úniková rychlost',
+            axisTilt: 'SKlon',
+            orbitVelocity: 'Rychlost',
+            outerTemperature: 'Vnejší teplota',
+            innerTemperature: 'Vnitřní teplota',
+            discoverDate: 'Objev',
+            flattening: 'Zploštění',
+            relativeMagnitude: 'Mag.',
+            absoluteMagnitude: 'Abs. mag.',
+            axisVelocity: 'Rychlost rotace',
+            albedo: 'Albedo',
+            luminosity: 'Zářivost'
+        }
     }
 
 }

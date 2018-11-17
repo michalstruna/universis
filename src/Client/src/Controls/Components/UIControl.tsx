@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import Control from './Control'
-import { SystemActions } from '../../System'
+import { toggleUI } from '../../System'
 import { StatelessComponent } from '../../Utils'
 
 
@@ -29,9 +29,10 @@ class UIControl extends StatelessComponent<IProps> {
     }
 }
 
-export default UIControl.connect(({ system }: IStoreState) => ({
-    isUIVisible: system.isUIVisible,
-    strings: system.strings.controls
-}), (dispatch: IDispatch) => ({
-    toggleUI: isUIVisible => dispatch(SystemActions.toggleUI(isUIVisible)),
-}))
+export default UIControl.connect((
+    { system }: IStoreState) => ({
+        isUIVisible: system.isUIVisible,
+        strings: system.strings.controls
+    }),
+    { toggleUI }
+)

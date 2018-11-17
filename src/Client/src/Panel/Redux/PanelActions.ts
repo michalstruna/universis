@@ -2,32 +2,23 @@ import ActionTypes from './ActionTypes'
 import { Redux } from '../../Utils'
 
 /**
- * Actions for universe.
+ * Set panel tab.
+ * @param tab Name of tab.
  */
-class PanelActions {
-
-    /**
-     * Set panel tab.
-     * @param tab Name of tab.
-     */
-    public static setTab = (tab: string) => (
-        Redux.setAction(
-            ActionTypes.SET_PANEL_TAB,
-            { tab }
-        )
+export const setTab = (tab: string) => (
+    Redux.setAction(
+        ActionTypes.SET_PANEL_TAB,
+        { tab }
     )
+)
 
-    /**
-     * Set body filter.
-     * @param bodyFilter Filter.
-     */
-    public static setBodyFilter = (bodyFilter: IObject<any>) => (
-        Redux.setAction(
-            ActionTypes.SET_BODY_FILTER,
-            { bodyFilter }
-        )
+/**
+ * Set body filter.
+ * @param bodyFilter Filter.
+ */
+export const setBodyFilter = (bodyFilter: IObject<any>) => (
+    Redux.setAction(
+        ActionTypes.SET_BODY_FILTER,
+        { bodyFilter }
     )
-
-}
-
-export default PanelActions
+)

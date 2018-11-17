@@ -1,12 +1,12 @@
 import * as React from 'react'
 
 import { StatelessComponent, FadeLayout, Link } from '../../Utils'
-import { SystemActions } from '../../System'
+import { toggleAlert } from '../../System'
 
 interface IProps {
     buttons: ILinkButton[]
     content: string
-    hide: IRunnable
+    toggleAlert: IConsumer<boolean>
     isVisible: boolean
     title: string
 }
@@ -18,8 +18,8 @@ class Alert extends StatelessComponent<IProps> {
      * @param target Target of link.
      */
     private handleClickButton = (target: string) => {
-        const { hide, history } = this.props
-        hide()
+        const { toggleAlert, history } = this.props
+        toggleAlert(false)
         history.push(target)
     }
 
@@ -28,7 +28,7 @@ class Alert extends StatelessComponent<IProps> {
      * @return All buttons.
      */
     private renderButtons(): JSX.Element[] {
-        const { buttons, hide } = this.props
+        const { buttons } = this.props
 
         return buttons.map((button, key) => (
             <Link
@@ -42,19 +42,19 @@ class Alert extends StatelessComponent<IProps> {
     }
 
     public render(): JSX.Element {
-        const { hide, content, isVisible, title } = this.props
+        const { toggleAlert, content, isVisible, title } = this.props
 
         return (
             <FadeLayout
                 className='alert'
-                onClick={hide}
+                onClick={() => toggleAlert(false)}
                 mounted={isVisible}>
                 <section
                     className='alert--inner'
                     onClick={event => event.stopPropagation()}>
                     <button
                         className='alert__close'
-                        onClick={hide} />
+                        onClick={() => toggleAlert(false)} />
                     <h1 className='alert__title'>
                         {title}
                     </h1>
@@ -78,7 +78,5 @@ export default Alert.connect(
         isVisible: system.isAlertVisible,
         title: system.alert.title
     }),
-    (dispatch: IDispatch) => ({
-        hide: () => dispatch(SystemActions.toggleAlert(false))
-    })
+    { toggleAlert }
 )

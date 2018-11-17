@@ -3,7 +3,7 @@ import * as React from 'react'
 import ControlLink from './ControlLink'
 import Control from './Control'
 import { StatelessComponent, Urls, Url } from '../../Utils'
-import UserActions from '../../User/Redux/UserActions'
+import { logout } from '../../User/Redux/UserActions'
 
 export interface IProps {
     strings: IStrings
@@ -67,7 +67,5 @@ export default AuthentificationControl.connect(
         strings: system.strings.controls,
         identity: user.identity.payload
     }),
-    (dispatch: IDispatch) => ({
-        logout: () => dispatch(UserActions.logout())
-    })
+    { logout }
 )

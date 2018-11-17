@@ -191,7 +191,7 @@ class Universe implements IUniverse {
             const vector = tempVector.project(this.camera.getNativeCamera())
             const isVisible = this.camera.canSee(body.mesh)
             const orbit = body.orbit.children[0] as any
-            const visibility = this.getVisibility(body)
+            const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
             const isSelectedBody = body.data._id === this.camera.getTarget().name
 
             if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && isVisible || isSelectedBody)) {
@@ -205,17 +205,19 @@ class Universe implements IUniverse {
 
             orbit.material.opacity = visibility
 
-            const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-            body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
+            if (body.data.orbit) {
+                const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
+                body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
 
-            if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
-                body.mesh.position.set(0, 0, 0)
-            } else {
-                body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
+                if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
+                    body.mesh.position.set(0, 0, 0)
+                } else {
+                    body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
+                }
+
+                body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
+                body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
             }
-
-            body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
-            body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
         }
 
         this.camera.setViewSizeLimit((this.camera.getTarget().geometry as THREE.SphereGeometry).parameters.radius * 2, 1e22)

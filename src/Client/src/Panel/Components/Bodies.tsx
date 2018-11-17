@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import BodyFilterForm from './BodyFilterForm'
-import { SizeUnit, TimeUnit, UniverseActions } from '../../Universe'
+import { Units, getBodies, selectBody } from '../../Universe'
 import { StatelessComponent, Table, Filter, AsyncEntity, Url } from '../../Utils'
 
 interface IProps {
@@ -9,6 +9,7 @@ interface IProps {
     selectBody: IConsumer<string>
     filter: IFilter
     getBodies: IRunnable
+    strings: IStrings
 }
 
 /**
@@ -18,79 +19,101 @@ class Bodies extends StatelessComponent<IProps> {
 
     /**
      * List of all columns in table.
-     * // TODO: Dynamic columns?
      */
-    private static readonly COLUMNS = [
+    private readonly columns = [
         {
             accessor: body => body.name,
-            title: 'Název',
+            title: this.props.strings.name,
         },
         {
-            accessor: body => body.diameter.equatorial,
-            title: 'Průměr',
-            render: diameter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{diameter}</SizeUnit>
-        },
-        {
-            accessor: body => body.mass,
-            title: 'Hmotnost',
-            render: mass => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{mass}</SizeUnit>
+            accessor: body => body.diameter.x,
+            title: this.props.strings.diameter,
+            render: diameter => Units.formatSize(diameter, Units.SHORT)
         },
         {
             accessor: body => body.mass,
-            title: 'Hustota',
-            render: density => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{density}</SizeUnit>
+            title: this.props.strings.mass,
+            render: mass => Units.formatMass(mass, Units.EXPONENTIAL)
         },
         {
-            accessor: body => body.orbit.apocenter,
-            title: 'Apocentrum',
-            render: apocenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{apocenter}</SizeUnit>
+            accessor: body => body.density,
+            title: this.props.strings.density,
+            render: density => Units.formatDensity(density, Units.SHORT)
         },
         {
-            accessor: body => body.orbit.pericenter,
-            title: 'Pericentrum',
-            render: pericenter => <SizeUnit input={SizeUnit.UNITS.KM} short={true}>{pericenter}</SizeUnit>
+            accessor: body => body.orbit ? body.orbit.apocenter : null,
+            title: this.props.strings.apocenter,
+            render: apocenter => apocenter ? Units.formatSize(apocenter, Units.SHORT) : null
         },
         {
-            accessor: body => body.orbit.eccentricity,
-            title: 'Excentricita'
+            accessor: body => body.orbit ? body.orbit.pericenter : null,
+            title: this.props.strings.pericenter,
+            render: pericenter => pericenter ? Units.formatSize(pericenter, Units.SHORT) : null
         },
         {
-            accessor: body => body.orbit.period,
-            title: 'Rok',
-            render: period => <TimeUnit input={TimeUnit.UNITS.Y} short={true}>{period}</TimeUnit>
+            accessor: body => body.orbit ? body.orbit.eccentricity : null,
+            title: this.props.strings.eccentricity
         },
         {
-            accessor: body => body.period,
-            title: 'Den',
-            render: period => <TimeUnit input={TimeUnit.UNITS.D} short={true}>{period}</TimeUnit>
+            accessor: body => body.orbit ? body.orbit.period : null,
+            title: this.props.strings.year,
+            render: period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.Y) : null
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Satelitů'
+            accessor: body => body.axis.period,
+            title: this.props.strings.day,
+            render: period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.D): null
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Prstenců'
+            accessor: body => body.escapeVelocity,
+            title: this.props.strings.escapeVelocity
         },
         {
-            accessor: body => body.tilt,
-            title: 'Sklon'
+            accessor: body => body.axis.tilt,
+            title: this.props.strings.axisTilt
         },
         {
-            accessor: body => body.orbit.speed || 123,
-            title: 'Rychlost'
+            accessor: body => body.orbit ? body.orbit.velocity : null,
+            title: this.props.strings.orbitVelocity
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Povrch'
+            accessor: body => body.temperature.outer,
+            title: this.props.strings.outerTemperature,
+            render: value => Units.formatTemperature(value, Units.SHORT)
         },
         {
-            accessor: body => body.rings.length,
-            title: 'Jádro'
+            accessor: body => body.temperature.inner,
+            title: this.props.strings.innerTemperature,
+            render: value => Units.formatTemperature(value, Units.SHORT)
         },
         {
-            accessor: body => '1997',
-            title: 'Objev'
+            accessor: body => body.discover.date,
+            title: this.props.strings.discoverDate
+        },
+        {
+            accessor: body => body.flattening,
+            title: this.props.strings.flattening
+        },
+        {
+            accessor: body => body.magnitude.relative,
+            title: this.props.strings.relativeMagnitude
+        },
+        {
+            accessor: body => body.magnitude.absolute,
+            title: this.props.strings.absoluteMagnitude
+        },
+        {
+            accessor: body => body.orbit ? body.axis.velocity : null,
+            title: this.props.strings.axisVelocity
+        },
+        {
+            accessor: body => body.albedo,
+            title: this.props.strings.albedo
+        },
+        {
+            accessor: body => body.luminosity,
+            title: this.props.strings.luminosity,
+            render: luminosity => Units.formatLuminosity(luminosity, Units.EXPONENTIAL)
         }
     ]
 
@@ -112,7 +135,7 @@ class Bodies extends StatelessComponent<IProps> {
                 success={() => (
                     <section className='panel__bodies__table'>
                         <Table
-                            columns={Bodies.COLUMNS}
+                            columns={this.columns}
                             items={Filter.apply(bodies.payload, JSON.parse(Url.getQuery(location.search, Url.QUERIES.BODY_FILTER)))}
                             onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
                     </section>
@@ -148,11 +171,9 @@ class Bodies extends StatelessComponent<IProps> {
 }
 
 export default Bodies.connect(
-    ({ universe }: IStoreState) => ({
-        bodies: universe.bodies
+    ({ universe, system }: IStoreState) => ({
+        bodies: universe.bodies,
+        strings: system.strings.panel.bodies
     }),
-    (dispatch: IDispatch) => ({
-        selectBody: bodyId => dispatch(UniverseActions.selectBody(bodyId)),
-        getBodies: () => dispatch(UniverseActions.getBodies())
-    })
+    { getBodies, selectBody }
 )

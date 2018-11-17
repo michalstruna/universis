@@ -38,11 +38,6 @@ declare type IActionResult<T> = IFunction<IConsumer<IAsyncAction<T>>, Promise<T>
 declare type IStoreState = any
 
 /**
- * Type of dispatch action function.
- */
-declare type IDispatch = IConsumer<any>
-
-/**
  * Interface for async data container.
  */
 declare interface IAsyncEntity<T> {

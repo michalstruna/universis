@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import Keys from '../Constants/Keys'
 import { StatelessComponent } from '../../Utils'
-import UniverseActions from '../Redux/UniverseActions'
+import { toggleLabels, toggleLight, toggleOrbits } from '../Redux/UniverseActions'
 
 interface IProps {
     strings: IStrings
@@ -89,9 +89,5 @@ export default ControlPanel.connect(
         isLightVisible: universe.isLightVisible,
         areOrbitsVisible: universe.areOrbitsVisible
     }),
-    (dispatch: IDispatch) => ({
-        toggleLabels: areLabelsVisible => dispatch(UniverseActions.toggleLabels(areLabelsVisible)),
-        toggleLight: isLightVisible => dispatch(UniverseActions.toggleLight(isLightVisible)),
-        toggleOrbits: areOrbitsVisible => dispatch(UniverseActions.toggleOrbits(areOrbitsVisible))
-    })
+    { toggleLight, toggleOrbits, toggleLabels }
 )

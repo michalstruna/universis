@@ -3,12 +3,12 @@ import * as React from 'react'
 import AboutControl from './AboutControl'
 import FullScreenControl from './FullScreenControl'
 import UIControl from './UIControl'
-import { SystemActions } from '../../System'
+import { toggleContextMenu } from '../../System'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
     isVisible: boolean
-    show: IConsumer2<number, number>
+    toggleContextMenu: IConsumer3<boolean, number, number>
     x: number
     y: number
 }
@@ -31,7 +31,7 @@ class ContextMenu extends StatelessComponent<IProps> {
      * Check if context is out of screen and fix it.
      */
     private fixCoordinates(): void {
-        const { isVisible, show, x, y } = this.props
+        const { isVisible, toggleContextMenu, x, y } = this.props
 
         if (isVisible) {
             let newCoordinates = { x, y }
@@ -47,7 +47,7 @@ class ContextMenu extends StatelessComponent<IProps> {
             }
 
             if (newCoordinates.x !== x || newCoordinates.y !== y) {
-                show(newCoordinates.x, newCoordinates.y)
+                toggleContextMenu(true, newCoordinates.x, newCoordinates.y)
             }
         }
     }
@@ -84,7 +84,5 @@ export default ContextMenu.connect(
         x: contextMenu.x,
         y: contextMenu.y
     }),
-    (dispatch: IDispatch) => ({
-        show: (x: number, y: number) => dispatch(SystemActions.toggleContextMenu(true, x, y))
-    })
+    { toggleContextMenu }
 )

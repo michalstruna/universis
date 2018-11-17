@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { reduxForm, InjectedFormProps, SubmissionError, formValueSelector } from 'redux-form'
 
-import UserActions from '../Redux/UserActions'
+import { signUp } from '../Redux/UserActions'
 import UserInfo from './UserInfo'
 import { StatelessComponent, Url, Link } from '../../Utils'
 import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
@@ -83,7 +83,5 @@ export default reduxForm({
         unauthUser: state.user.unauthUser,
         password: SignUpForm.SELECTOR(state, 'password')
     }),
-    (dispatch: IDispatch) => ({
-        signUp: (email: string, password: string) => dispatch(UserActions.signUp(email, password))
-    })
+    { signUp }
 ))

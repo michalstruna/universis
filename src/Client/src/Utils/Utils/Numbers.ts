@@ -42,34 +42,37 @@ class Numbers {
      */
     public static toShort(number: number, integer = false): string {
         let suffix = '' // TODO: For loop.
+        let result: string | number = number
 
         if (number > 1e8) {
-            number = Math.round(number / 1e6)
+            result = Math.round(number / 1e6)
             suffix = 'M'
         } else if (number > 1e7) {
-            number = Math.round(number / 1e5) / 10
+            result = Math.round(number / 1e5) / 10
             suffix = 'M'
         } else if (number > 1e6) {
-            number = Math.round(number / 1e4) / 100
+            result = Math.round(number / 1e4) / 100
             suffix = 'M'
         } else if (number > 1e5) {
-            number = Math.round(number / 1e3)
+            result = Math.round(number / 1e3)
             suffix = 'k'
         } else if (number > 1e4) {
-            number = Math.round(number / 1e2) / 10
+            result = Math.round(number / 1e2) / 10
             suffix = 'k'
         } else if (number > 1e3) {
-            number = Math.round(number / 1e1) / 100
+            result = Math.round(number / 1e1) / 100
             suffix = 'k'
         } else if (number > 1e2) {
-            number = Math.round(number)
+            result = Math.round(number)
         } else if (number > 1e1) {
-            number = Math.round(number * 10) / 10
+            result = Math.round(number * 10) / 10
+        } else if (number < 1e-2) {
+            result = number.toExponential(2)
         } else {
-            number = Math.round(number * 100) / 100
+            result = Math.round(number * 100) / 100
         }
 
-        return number + suffix
+        return result + suffix
     }
 
 }

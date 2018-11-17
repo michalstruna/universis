@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { SystemActions } from '../../System'
+import { toggleContextMenu } from '../../System'
 import { Component } from '../../Utils'
 
 interface IProps {
@@ -57,7 +57,5 @@ export default ContextTrigger.connect(
     ({ system }: IStoreState) => ({
         isContextVisible: system.contextMenu.isVisible
     }),
-    (dispatch: IDispatch) => ({
-        toggleContextMenu: (isVisible, x, y) => dispatch(SystemActions.toggleContextMenu(isVisible, x, y))
-    })
+    { toggleContextMenu }
 )

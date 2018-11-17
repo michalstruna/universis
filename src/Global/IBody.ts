@@ -374,6 +374,11 @@ declare interface ISimpleBody {
     albedo: number
 
     /**
+     * Luminosity [W].
+     */
+    luminosity: number
+
+    /**
      * Chemical composition of body.
      */
     composition: [{
@@ -429,6 +434,16 @@ declare interface ISimpleBody {
          * Rotation of orbit.
          */
         rotation: number
+
+        /**
+         * Circuit of orbit.
+         */
+        circuit: number
+
+        /**
+         * Velocity of body around orbit.
+         */
+        velocity: number
 
     }
 
