@@ -37,7 +37,6 @@ class ContextTrigger extends Component<IProps, IState> {
      */
     private handleContextMenu = (event: React.MouseEvent<HTMLElement>): void => {
         event.preventDefault()
-        console.log(this.props)
         this.props.toggleContextMenu(true, event.pageX, event.pageY)
     }
 

@@ -75,7 +75,7 @@ class Units {
      * @returns Formatted size unit.
      */
     public static formatSize(value: number, format: IUnitFormatter, unit: IUnit = Units.SIZE.KM): string {
-        const corresponding = Units.setCorrespondingUnit(value, unit, Units.SIZE)
+        const corresponding = Units.getCorrespondingUnit(value, unit, Units.SIZE)
         return format(corresponding.value, corresponding.unit)
     }
 
@@ -98,7 +98,7 @@ class Units {
      * @returns Formatted time unit.
      */
     public static formatTime(value: number, format: IUnitFormatter, unit: IUnit = Units.TIME.S): string {
-        const corresponding = Units.setCorrespondingUnit(value, unit, Units.TIME)
+        const corresponding = Units.getCorrespondingUnit(value, unit, Units.TIME)
         return format(corresponding.value, corresponding.unit)
     }
 
@@ -142,7 +142,7 @@ class Units {
      * @param  units List of all units of this physics property.
      * @returns Object with value and unit.
      */
-    private static setCorrespondingUnit(value: number, unit: IUnit, units: IObject<IUnit>): { value: number, unit: IUnit } {
+    private static getCorrespondingUnit(value: number, unit: IUnit, units: IObject<IUnit>): { value: number, unit: IUnit } {
         let newValue = Units.convert(unit, units[Object.keys(units)[0]], value)
         let newUnit: IUnit
 

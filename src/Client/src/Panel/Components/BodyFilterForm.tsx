@@ -144,7 +144,7 @@ export default reduxForm({
     (state: IStoreState) => ({
         values: getFormValues(BodyFilterForm.NAME)(state)
     }),
-    (dispatch: IDispatch) => ({
+    dispatch => ({
         setValues: values => dispatch(initialize(BodyFilterForm.NAME, values))
     })
 ))

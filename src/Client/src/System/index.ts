@@ -1,47 +1,26 @@
+export * from './Redux/SystemActions'
+
 /**
  * Components.
  */
-import AnimatedBackground from './Components/AnimatedBackground'
-import App from './Components/App'
-import Home from './Components/Home'
-import Menu from './Components/Menu'
-
-export {
-    AnimatedBackground,
-    App,
-    Home,
-    Menu
-}
+export { default as AnimatedBackground } from './Components/AnimatedBackground'
+export { default as App } from './Components/App'
+export { default as Home } from './Components/Home'
+export { default as Menu } from './Components/Menu'
 
 /**
  * Views.
  */
-import HomeView from './Views/HomeView'
-
-export {
-    HomeView
-}
+export { default as HomeView } from './Views/HomeView'
 
 /**
  * Redux.
  */
-import Store from './Redux/Store'
-import SystemReducer from './Redux/SystemReducer'
-
-export {
-    Store,
-    SystemReducer
-}
-
-export * from './Redux/SystemActions'
+export { default as Store } from './Redux/Store'
+export { default as SystemReducer } from './Redux/SystemReducer'
 
 /**
  * Constants.
  */
-import Strings from './Constants/Strings'
-import Urls from '../Utils/Constants/Urls'
-
-export {
-    Strings,
-    Urls
-}
+export { default as Strings } from './Constants/Strings'
+export { default as Urls } from '../Utils/Constants/Urls'
