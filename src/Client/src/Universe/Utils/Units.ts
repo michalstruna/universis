@@ -94,7 +94,7 @@ class Units {
      * Format time unit.
      * @param value Amount of units.
      * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.MASS.S)
+     * @param unit Input unit. (optional, default Units.TIME.S)
      * @returns Formatted time unit.
      */
     public static formatTime(value: number, format: IUnitFormatter, unit: IUnit = Units.TIME.S): string {

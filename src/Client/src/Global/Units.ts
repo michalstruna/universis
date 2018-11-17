@@ -11,7 +11,7 @@ declare interface IUnit {
     /**
      * Relative value against base unit of this property.
      * kg is 1, because kg is main unit of mass.
-     * cm is 0.1, because m is main unit of mass.
+     * cm is 0.1, because m is main unit of size.
      */
     value: number
 
