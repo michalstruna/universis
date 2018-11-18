@@ -61,6 +61,10 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFilt
     public componentDidUpdate(prevProps: IProps): void {
         const { values } = this.props
         Url.replace({ query: { [Url.QUERIES.BODY_FILTER]: JSON.stringify(values) } })
+
+        if (this.getLastFilledIndex(prevProps.values) !== this.getLastFilledIndex(values)) {
+            this.updateValues()
+        }
     }
 
     /**
@@ -85,20 +89,20 @@ class BodyFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFilt
                 filter,
                 BodyFilterForm.FIELDS[0].value,
                 BodyFilterForm.RELATION_OPTIONS[0].value,
-                ''
+                '',
+                this.getLastFilledIndex()
             )
         )
     }
 
+    private getLastFilledIndex(values: IFilter = this.props.values): number {
+        return values && values.value ? Math.max(1, Arrays.findLastIndex(values.value, value => !!value) + 2) : 1
+    }
+
     private renderRows(): React.ReactNodeArray {
-        const { values } = this.props
         const rows = []
 
-        let lastFilled = 1
-
-        if (values && values.value) {
-            lastFilled = Math.max(1, Arrays.findLastIndex(values.value, value => !!value) + 2)
-        }
+        const lastFilled = this.getLastFilledIndex()
 
         for (let i = 0; i < lastFilled; i++) {
             rows.push(
