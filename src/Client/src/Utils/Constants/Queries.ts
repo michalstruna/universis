@@ -9,7 +9,8 @@ enum Queries {
     PEOPLE = 'lide',
     BODY = 'teleso',
     BODIES = 'telesa',
-    BODY_FILTER = 'filtr'
+    BODIES_FILTER = 'filtr',
+    BODIES_SETTINGS = 'nastaveni'
 
 }
 

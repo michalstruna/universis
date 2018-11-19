@@ -23,6 +23,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Remove slashes from begin and end of url.
      * @param url
      * @return Url without slashes.
@@ -32,6 +33,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Parse URL and split it to paths. '/some/path/' returns ['some', 'path'].
      * @param url
      * @return List of parts of path.
@@ -45,6 +47,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Returns first part of path of url.
      * @param url
      * @return Page url.
@@ -54,6 +57,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Convert url to absolute form: /absolute/url.
      * @param url
      * @return Absolute url.
@@ -63,6 +67,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Check if urls are same.
      * @param url1
      * @param url2
@@ -73,6 +78,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Check if urls are in same page.
      * @param url1
      * @param url2
@@ -83,6 +89,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Check if url is url of main page.
      */
     public static isMainPage(url: string): boolean {
@@ -90,6 +97,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Get query parameter from query string.
      * @param queryString Query string.
      * @param key Name of parameter.
@@ -101,6 +109,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Remove query parameter from query string.
      * @param queryString Query string.
      * @param  key Name of parameter to remove.
@@ -113,6 +122,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Add query parameter to query string.
      * @param queryString Current query string.
      * @param key Name of new parameter.
@@ -132,6 +142,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Check, if query parameter is in query string.
      * @param queryString Query string.
      * @param key Name of parameter.
@@ -143,6 +154,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Change current location.
      * @param location Current location.
      * @param target Object with optional pathname and query parameters.
@@ -162,6 +174,7 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Push new location to history.
      * @param target New location.
      */
@@ -171,6 +184,7 @@ class Url {
 
 
     /**
+     * @deprecated
      * Replace last location to new location in history.
      * @param target New location.
      */
@@ -179,12 +193,44 @@ class Url {
     }
 
     /**
+     * @deprecated
      * Get value of query parameter from URL.
      * @param key Name of query parameter.
      * @returns Value of query parameter.
      */
     public static getQueryFromUrl(key: string): string {
         return Url.getQuery(history.location.search, key)
+    }
+
+    /**
+     * @deprecated
+     * Get parsed value of query parameter from URL.
+     * @param key Name of query parameter.
+     * @returns Value of query parameter.
+     */
+    public static getJsonQueryFromUrl(key: string): IObject<any> {
+        const queryString = Url.getQueryFromUrl(key)
+
+        try {
+            return JSON.parse(queryString)
+        } catch (error) {
+            return null
+        }
+    }
+
+    /**
+     * Get parsed value of query parameter.
+     * @param key Name of query parameter.
+     * @returns Value of query parameter.
+     */
+    public static getJsonQuery(key: string, queryString: string = history.location.search): IObject<any> {
+        const query = Url.getQuery(queryString, key)
+
+        try {
+            return JSON.parse(query)
+        } catch (error) {
+            return null
+        }
     }
 
 }

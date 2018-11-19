@@ -1,13 +1,7 @@
-import * as ClassNames from 'classnames'
 import * as React from 'react'
 import { Field } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
-
-interface IOption {
-    text: string
-    value: string
-}
 
 interface IProps {
     name: string

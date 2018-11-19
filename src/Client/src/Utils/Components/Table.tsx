@@ -3,16 +3,9 @@ import * as React from 'react'
 
 import { Component } from '../../Utils'
 
-/**
- * Interface item of table.
- */
-type Item = any // TODO: Generic React component?
-type Property = any
-
-interface IColumn {
-    accessor: IFunction<Item, Property>
-    title: string
-    render?: IFunction2<Property, Item, React.ReactNode>
+interface IState {
+    sort: number
+    reverse: boolean
 }
 
 interface IProps {
@@ -22,11 +15,6 @@ interface IProps {
     onSort?: IConsumer2<number, boolean>
     sort?: number
     reverse?: boolean
-}
-
-interface IState {
-    sort: number
-    reverse: boolean
 }
 
 /**
@@ -125,7 +113,11 @@ class Table extends Component<IProps, IState> {
 
         return columns.map((column, key) => (
             <section className='table__cell' key={key}>
-                {column.render ? column.render(column.accessor(item), item) : column.accessor(item)}
+                {
+                    column.render &&
+                    column.accessor(item) !== null &&
+                    column.accessor(item) !== undefined ?
+                        column.render(column.accessor(item), item) : column.accessor(item)}
             </section>
         ))
     }
