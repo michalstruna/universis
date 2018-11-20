@@ -198,8 +198,8 @@ class Bodies extends StatelessComponent<IProps> {
         return (
             <section className='panel__bodies panel__window'>
                 <section className='panel__bodies'>
-                    {this.renderFilter()}
                     {this.renderSettings()}
+                    {this.renderFilter()}
                     <section className='panel__bodies--inner'>
                         {this.renderTable()}
                     </section>

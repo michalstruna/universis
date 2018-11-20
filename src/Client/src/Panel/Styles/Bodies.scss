@@ -55,19 +55,14 @@
     }
 
     &__filter, &__settings {
-        padding: 0.5rem;
+        padding: 0 0.5rem;
 
         .form {
             padding: 0;
         }
     }
 
-    &__settings {
-        margin-bottom: 1rem;
-
-        select {
-            display: inline-block;
-            width: 15rem;
-        }
+    &__filter {
+        margin-bottom: 1.5rem;
     }
 }

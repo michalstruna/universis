@@ -37,7 +37,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
         { text: 'Rychlost', value: 'orbit.speed' },
         { text: 'Teplota jádra', value: 'innerTemperature' },
         { text: 'Teplota povrchu', value: 'outerTemperature' },
-        { text: 'Objev', value: 'discovered' },
+        { text: 'Objev', value: 'discovered' }
     ]
 
     private static RELATION_OPTIONS = [
