@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import SignUpForm from '../Components/SignUpForm'
-import { View, Url } from '../../Utils'
+import { View, Url, Urls } from '../../Utils'
 
 interface IProps {
     unauthUser: IAsyncEntity<IBaseUser>
@@ -18,9 +18,9 @@ class SignUpView extends View<IProps> {
         const { unauthUser, identity } = this.props
 
         if (identity) {
-            Url.replace({ pathname: Url.URLS.HOME })
+            Url.replace({ pathname: Urls.HOME })
         } else if (!unauthUser.payload) {
-            Url.replace({ pathname: Url.URLS.IDENTITY })
+            Url.replace({ pathname: Urls.IDENTITY })
         }
     }
 

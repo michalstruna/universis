@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import AnimatedBackground from './AnimatedBackground'
 import { Panel } from '../../Panel'
-import { BlurLayout, StatelessComponent, Url } from '../../Utils'
+import { BlurLayout, StatelessComponent, Url, Queries } from '../../Utils'
 import { Alert, ContextMenu, ContextTrigger, ControlPanel, ContextInfo } from '../../Controls'
 
 interface IProps {
@@ -21,14 +21,13 @@ class App extends StatelessComponent<IProps> {
      */
     private getClassName(): string {
         const { location } = this.props
-        const { PANEL, BODY, BODIES } = Url.QUERIES
 
-        const tab = Url.getQuery(location.search, PANEL)
+        const tab = Url.getQuery(Queries.PANEL, location.search)
 
         return ClassNames(
             'app',
             { 'app--divided': !!tab },
-            { 'app--divided-large': tab === BODY || tab === BODIES }
+            { 'app--divided-large': tab === Queries.BODY || tab === Queries.BODIES }
         )
     }
 

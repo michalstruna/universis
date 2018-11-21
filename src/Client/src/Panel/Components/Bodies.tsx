@@ -3,7 +3,7 @@ import * as React from 'react'
 import BodiesFilterForm from './BodiesFilterForm'
 import BodiesSettingsForm from './BodiesSettingsForm'
 import { Units, getBodies, selectBody } from '../../Universe'
-import { StatelessComponent, Table, Filter, AsyncEntity, Url } from '../../Utils'
+import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries } from '../../Utils'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
@@ -126,7 +126,7 @@ class Bodies extends StatelessComponent<IProps> {
      */
     private getTableColumn(accessor: IColumnAccesor, title: string, render: IRenderColumn = value => Units.formatUnitLess(value, Units.SHORT)): IColumn {
         const { bodies, location } = this.props
-        const bodySettings = Url.getJsonQuery(Url.QUERIES.BODIES_SETTINGS, location.search)
+        const bodySettings = Url.getJsonQuery(Queries.BODIES_SETTINGS, location.search)
         const relativeTo = bodySettings ? bodies.payload.find(body => body._id === bodySettings.valuesType) : null
 
         if (relativeTo) {
@@ -163,7 +163,7 @@ class Bodies extends StatelessComponent<IProps> {
                     <section className='panel__bodies__table'>
                         <Table
                             columns={this.getColumns()}
-                            items={Filter.apply(bodies.payload, JSON.parse(Url.getQuery(location.search, Url.QUERIES.BODIES_FILTER)))}
+                            items={Filter.apply(bodies.payload, (Url.getJsonQuery(Queries.BODIES_FILTER, location.search)))}
                             onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
                     </section>
                 )} />

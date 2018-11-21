@@ -22,13 +22,12 @@ class Panel extends StatelessComponent<IProps> {
     public componentDidUpdate(prevProps: IProps): void {
         const { location, setTab } = this.props
 
-        const oldTab = Url.getQuery((prevProps as any).location.search, Queries.PANEL) // TODO: IProps extends IComponentProps
-        const tab = Url.getQuery(location.search, Queries.PANEL)
+        const oldTab = Url.getQuery(Queries.PANEL, (prevProps as any).location.search) // TODO: IProps extends IComponentProps
+        const tab = Url.getQuery(Queries.PANEL, location.search)
 
         if (oldTab !== tab && tab) {
             setTab(tab)
         }
-
     }
 
     /**
@@ -38,13 +37,13 @@ class Panel extends StatelessComponent<IProps> {
     private renderToggle(): JSX.Element {
         const { location, tab } = this.props
 
-        const isOpened = Url.hasQuery(location.search, Queries.PANEL)
+        const isOpened = Url.hasQuery(Queries.PANEL, location.search)
 
         return (
             <UILayout>
                 <Link
                     className='panel--toggle'
-                    query={{ [Link.QUERIES.PANEL]: isOpened ? null : tab }} />
+                    query={{ [Queries.PANEL]: isOpened ? null : tab }} />
             </UILayout>
         )
     }
@@ -64,12 +63,12 @@ class Panel extends StatelessComponent<IProps> {
             { label: 'Tělesa', target: Queries.BODIES }
         ]
 
-        const currentTab = Url.getQuery(location.search, Queries.PANEL)
+        const currentTab = Url.getQuery(Queries.PANEL, location.search)
 
         return tabs.map((tab, key) => (
             <Link
                 key={key}
-                query={{ [Link.QUERIES.PANEL]: tab.target }}
+                query={{ [Queries.PANEL]: tab.target }}
                 className={ClassNames('panel__tabs__tab', { 'panel__tabs__tab--selected': currentTab === tab.target })}>
                 {tab.label}
             </Link>
@@ -82,7 +81,7 @@ class Panel extends StatelessComponent<IProps> {
      */
     private renderContent(): JSX.Element {
         const { location, tab } = this.props
-        const currentTab = Url.getQuery(location.search, Queries.PANEL) || tab
+        const currentTab = Url.getQuery(Queries.PANEL, location.search) || tab
 
         switch (currentTab) {
             case Queries.CHAT:

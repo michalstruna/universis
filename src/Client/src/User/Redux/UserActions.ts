@@ -1,4 +1,4 @@
-import { Redux, Request, Url, Cookies } from '../../Utils'
+import { Redux, Request, Url, Urls, Cookies } from '../../Utils'
 import ActionTypes from './ActionTypes'
 
 /**
@@ -16,7 +16,7 @@ export const getUnauthUser = (email: string) => (
                     .then(Request.setDefault({ email }))
             )
         },
-        userIdentity => Url.push({ pathname: '_id' in userIdentity ? Url.URLS.LOGIN : Url.URLS.SIGN_UP })
+        userIdentity => Url.push({ pathname: '_id' in userIdentity ? Urls.LOGIN : Urls.SIGN_UP })
     )
 )
 
@@ -31,7 +31,7 @@ export const login = (email: string, password: string) => (
         { identity: Request.post<IUserIdentity>('login', { email, password }) }, // TODO: Another data? First will be always async request.
         identity => {
             Cookies.set(Cookies.KEYS.IDENTITY, identity, Cookies.EXPIRATIONS.IDENTITY)
-            Url.push({ pathname: Url.URLS.HOME })
+            Url.push({ pathname: Urls.HOME })
         }
     )
 )
@@ -45,7 +45,7 @@ export const logout = () => {
     return Redux.setAction(
         ActionTypes.LOGOUT,
         { identity: Redux.EMPTY_ASYNC_ENTITY },
-        () => Url.push({ pathname: Url.URLS.LOGIN })
+        () => Url.push({ pathname: Urls.LOGIN })
     )
 }
 
@@ -58,6 +58,6 @@ export const signUp = (email: string, password: string) => (
     Redux.asyncAction(
         ActionTypes.SIGN_UP,
         { signUp: Request.post('users', { email, password }) },
-        () => Url.push({ pathname: Url.URLS.LOGIN })
+        () => Url.push({ pathname: Urls.LOGIN })
     )
 )

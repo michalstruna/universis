@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { reduxForm, InjectedFormProps, formValueSelector, getFormValues, initialize } from 'redux-form'
 
-import { StatelessComponent, Url } from '../../Utils'
+import { StatelessComponent, Url, Queries } from '../../Utils'
 import { Form, Select, FlexRow } from '../../Forms'
 
 interface IProps {
@@ -22,7 +22,7 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<I
 
     public componentDidUpdate(prevProps: IProps): void {
         const { values } = this.props
-        Url.replace({ query: { [Url.QUERIES.BODIES_SETTINGS]: JSON.stringify(values) } })
+        Url.replace({ query: { [Queries.BODIES_SETTINGS]: JSON.stringify(values) } })
     }
 
     /**
@@ -74,7 +74,7 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<I
 
 export default reduxForm({
     form: BodiesSettingsForm.NAME,
-    initialValues: Url.getJsonQueryFromUrl(Url.QUERIES.BODIES_SETTINGS) || {}
+    initialValues: Url.getJsonQuery(Queries.BODIES_SETTINGS) || {}
 })(BodiesSettingsForm.connect(
     ({ form, universe, system }: IStoreState) => ({
         values: getFormValues(BodiesSettingsForm.NAME)({ form }),

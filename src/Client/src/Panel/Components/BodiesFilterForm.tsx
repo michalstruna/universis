@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { reduxForm, InjectedFormProps, formValueSelector, getFormValues, initialize } from 'redux-form'
 
-import { StatelessComponent, Filter, Url } from '../../Utils'
+import { StatelessComponent, Filter, Url, Queries } from '../../Utils'
 import { TextField, Form, Select, FlexRow } from '../../Forms'
 import Arrays from '../../../../Utils/Arrays'
 
@@ -51,7 +51,8 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
 
     public componentDidUpdate(prevProps: IProps): void {
         const { values } = this.props
-        Url.replace({ query: { [Url.QUERIES.BODIES_FILTER]: JSON.stringify(values) } })
+
+        Url.replace({ query: { [Queries.BODIES_FILTER]: JSON.stringify(values) } })
 
         if (this.getLastFilledIndex(prevProps.values) !== this.getLastFilledIndex(values)) {
             this.updateValues()
@@ -133,7 +134,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
 
 export default reduxForm({
     form: BodiesFilterForm.NAME,
-    initialValues: Url.getJsonQueryFromUrl(Url.QUERIES.BODIES_FILTER) || Filter.getInitialFilter()
+    initialValues: Url.getJsonQuery(Queries.BODIES_FILTER) || Filter.getInitialFilter()
 })(BodiesFilterForm.connect(
     (state: IStoreState) => ({
         values: getFormValues(BodiesFilterForm.NAME)(state)
