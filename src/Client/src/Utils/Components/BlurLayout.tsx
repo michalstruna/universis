@@ -25,7 +25,7 @@ class BlurLayout extends StatelessComponent<IProps> {
 
         let isBlurred = false
 
-        if (noHomePage && Url.getPage(location.pathname) !== Urls.HOME) {
+        if (noHomePage && !Url.equalsPage(Url.getPage(location.pathname), Urls.HOME)) {
             isBlurred = true
         }
 

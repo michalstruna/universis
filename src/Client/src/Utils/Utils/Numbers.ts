@@ -9,7 +9,7 @@ class Numbers {
      * @returns Readable string.
      */
     public static toReadable(number: number): string {
-        return Numbers.addSpaces(number)
+        return Numbers.addSpaces(Math.round(number))
     }
 
     /**
