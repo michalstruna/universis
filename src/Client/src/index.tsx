@@ -4,14 +4,14 @@ import { Provider } from 'react-redux'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
+export const history = createBrowserHistory()
+
 import { App, HomeView, Store, } from './System'
 import { IdentityView, LoginView, SignUpView } from './User'
 import { UniverseView } from './Universe'
 import { Urls } from './Utils'
 
 import './index.scss'
-
-export const history = createBrowserHistory()
 
 render(
     <Provider store={Store}>

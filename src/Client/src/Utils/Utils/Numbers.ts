@@ -9,7 +9,7 @@ class Numbers {
      * @returns Readable string.
      */
     public static toReadable(number: number): string {
-        return Numbers.addSpaces(number)
+        return Numbers.addSpaces(Math.round(number))
     }
 
     /**
@@ -35,6 +35,18 @@ class Numbers {
     }
 
     /**
+     * Convert number to exponential form.
+     * @param value Number
+     * @returns Number in exponential form.
+     */
+    public static toExponential(value: number): string {
+        return value
+            .toExponential(1)
+            .replace('+', '')
+            .replace('.0', '')
+    }
+
+    /**
      * Convert number to short string (1000 to 1k).
      * @param number Number.
      * @param integer Result will be integer.
@@ -44,7 +56,9 @@ class Numbers {
         let suffix = '' // TODO: For loop.
         let result: string | number = number
 
-        if (number > 1e8) {
+        if (number > 1e9) {
+            result = Numbers.toExponential(number)
+        } else if (number > 1e8) {
             result = Math.round(number / 1e6)
             suffix = 'M'
         } else if (number > 1e7) {
@@ -67,7 +81,7 @@ class Numbers {
         } else if (number > 1e1) {
             result = Math.round(number * 10) / 10
         } else if (number < 1e-2) {
-            result = number.toExponential(2)
+            result = Numbers.toExponential(number)
         } else {
             result = Math.round(number * 100) / 100
         }

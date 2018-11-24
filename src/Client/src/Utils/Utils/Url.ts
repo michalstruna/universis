@@ -1,17 +1,9 @@
-import Urls from '../Constants/Urls'
-import Queries from '../Constants/Queries'
 import { history } from '../../index'
 
 /**
  * Utils for url.
  */
 class Url {
-
-    /**
-     * @var URLS All local urls.
-     */
-    public static URLS = Urls
-    public static QUERIES = Queries
 
     /**
      * Separator of url parts.
@@ -36,12 +28,8 @@ class Url {
      * @param url
      * @return List of parts of path.
      */
-    private static parse(url: string | Location): string[] {
-        if (typeof url === 'string') {
-            return Url.trim(url).split(Url.SEPARATOR)
-        } else {
-            return Url.trim(url.pathname).split(Url.SEPARATOR)
-        }
+    private static parse(url: string): string[] {
+        return Url.trim(url).split(Url.SEPARATOR)
     }
 
     /**
@@ -49,27 +37,8 @@ class Url {
      * @param url
      * @return Page url.
      */
-    public static getPage(url: string | Location): string {
+    public static getPage(url: string): string {
         return Url.parse(url)[0]
-    }
-
-    /**
-     * Convert url to absolute form: /absolute/url.
-     * @param url
-     * @return Absolute url.
-     */
-    public static toAbsolute(url: string): string {
-        return Url.SEPARATOR + Url.trim(url)
-    }
-
-    /**
-     * Check if urls are same.
-     * @param url1
-     * @param url2
-     * @return url1 and url2 are same url.
-     */
-    public static equals(url1: string, url2: string): boolean {
-        return Url.trim(url1) === Url.trim(url2)
     }
 
     /**
@@ -80,66 +49,6 @@ class Url {
      */
     public static equalsPage(url1: string, url2: string): boolean {
         return Url.getPage(url1) === Url.getPage(url2)
-    }
-
-    /**
-     * Check if url is url of main page.
-     */
-    public static isMainPage(url: string): boolean {
-        return Url.equalsPage(Urls.HOME, url)
-    }
-
-    /**
-     * Get query parameter from query string.
-     * @param queryString Query string.
-     * @param key Name of parameter.
-     * @returns Value of parameter from query string.
-     */
-    public static getQuery(queryString: string, key: string): string {
-        const utils = new URLSearchParams(queryString)
-        return utils.get(key)
-    }
-
-    /**
-     * Remove query parameter from query string.
-     * @param queryString Query string.
-     * @param  key Name of parameter to remove.
-     * @returns New query string.
-     */
-    public static removeQuery(queryString: string, key: string): string {
-        const utils = new URLSearchParams(queryString)
-        utils.delete(key)
-        return utils.toString()
-    }
-
-    /**
-     * Add query parameter to query string.
-     * @param queryString Current query string.
-     * @param key Name of new parameter.
-     * @param  value Value of new parameter.
-     * @returns New query string.
-     */
-    public static setQuery(queryString: string, key: string, value: string): string {
-        const utils = new URLSearchParams(queryString)
-
-        if (value === null) {
-            utils.delete(key)
-        } else {
-            utils.set(key, value)
-        }
-
-        return utils.toString()
-    }
-
-    /**
-     * Check, if query parameter is in query string.
-     * @param queryString Query string.
-     * @param key Name of parameter.
-     * @returns Parameter is in query string.
-     */
-    public static hasQuery(queryString: string, key: string): boolean {
-        const utils = new URLSearchParams(queryString)
-        return utils.has(key)
     }
 
     /**
@@ -154,7 +63,7 @@ class Url {
 
         if (target.query) {
             for (const key in target.query) {
-                query = Url.setQuery(query, key, target.query[key])
+                query = Url.setQuery(key, target.query[key], query)
             }
         }
 
@@ -174,19 +83,83 @@ class Url {
      * Replace last location to new location in history.
      * @param target New location.
      */
-    public static replace(target: ILocationTarget): void {
-        history.replace(Url.link(history.location, target))
+    public static replace(target: ILocationTarget, x = false): void {
+        history.replace(Url.link(history.location, target), x)
+    }
+
+
+    /**
+     * Get value of query parameter.
+     * @param key Name of query parameter.
+     * @param source Source query string. (optional, default current browser location)
+     * @returns Value of query parameter.
+     */
+    public static getQuery(key: string, source: string = history.location.search): string {
+        const utils = new URLSearchParams(source)
+        return utils.get(key)
     }
 
     /**
-     * Get value of query parameter from URL.
+     * Get parsed value of query parameter.
      * @param key Name of query parameter.
-     * @returns Value of query parameter.
+     * @param source Source query string. (optional, default current browser location)
+     * @returns JSON value of query parameter.
      */
-    public static getQueryFromUrl(key: string): string {
-        return Url.getQuery(history.location.search, key)
+    public static getJsonQuery(key: string, source: string = history.location.search): any {
+        const query = Url.getQuery(key, source)
+
+        try {
+            return JSON.parse(query)
+        } catch (error) {
+            return null
+        }
+    }
+
+    /**
+     * Check, if query parameter is in query string.
+     * @param key Name of query parameter.
+     * @param source Source query string. (optional, default current browser location)
+     * @returns Parameter is in query string.
+     */
+    public static hasQuery(key: string, source: string = history.location.search): boolean {
+        const utils = new URLSearchParams(source)
+        return utils.has(key)
+    }
+
+    /**
+     * Add query parameter to query string.
+     * @param key Name of query parameter.
+     * @param source Source query string. (optional, default current browser location)
+     * @param  value Value of new parameter.
+     * @returns New query string.
+     */
+    public static setQuery(key: string, value: string, source: string = history.location.search): string {
+        const utils = new URLSearchParams(source)
+
+        if (value === null) {
+            utils.delete(key)
+        } else {
+            utils.set(key, value)
+        }
+
+        return utils.toString()
+    }
+
+    /**
+     * Remove query parameter from query string.
+     * @param key Name of query parameter.
+     * @param source Source query string. (optional, default current browser location)
+     * @returns New query string.
+     */
+    public static removeQuery(key: string, source: string = history.location.search): string {
+        const utils = new URLSearchParams(source)
+        utils.delete(key)
+        return utils.toString()
     }
 
 }
 
 export default Url
+
+export { default as Urls } from '../Constants/Urls'
+export { default as Queries } from '../Constants/Queries'

@@ -40,9 +40,9 @@ class Link extends StatelessComponent<IProps> {
 
             for (const queryParam in query) {
                 if(query[queryParam]) {
-                    newQuery = Url.setQuery(newQuery, queryParam, query[queryParam])
+                    newQuery = Url.setQuery(queryParam, query[queryParam], newQuery)
                 } else {
-                    newQuery = Url.removeQuery(newQuery, queryParam)
+                    newQuery = Url.removeQuery(queryParam, newQuery)
                 }
             }
 

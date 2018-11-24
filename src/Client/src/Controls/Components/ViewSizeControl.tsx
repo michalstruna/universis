@@ -3,7 +3,7 @@ import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
 import { Units, Listener } from '../../Universe'
-import { Component, Url } from '../../Utils'
+import { Component, Url, Urls } from '../../Utils'
 import { history } from '../../'
 
 interface IProps {
@@ -69,7 +69,7 @@ class ViewSizeControl extends Component<IProps, IState> {
         const { viewSize } = this.state
         const sizes = Object.keys(labels)
 
-        if (!Url.equalsPage(history.location.pathname, Url.URLS.UNIVERSE)) {
+        if (!Url.equalsPage(history.location.pathname, Urls.UNIVERSE)) {
             return null
         }
 

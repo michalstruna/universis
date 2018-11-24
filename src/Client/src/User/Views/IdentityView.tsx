@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Url, View } from '../../Utils'
+import { Url, View, Urls } from '../../Utils'
 import { IdentityForm } from '../../User'
 
 interface IProps {
@@ -16,7 +16,7 @@ class IdentityView extends View<IProps> {
 
     componentWillMount() {
         if (this.props.identity) {
-            Url.replace({ pathname: Url.URLS.HOME})
+            Url.replace({ pathname: Urls.HOME})
         }
     }
 

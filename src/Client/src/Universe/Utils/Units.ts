@@ -136,6 +136,16 @@ class Units {
     }
 
     /**
+     * Format value without unit.
+     * @param value Value.
+     * @param format Formatter function.
+     * @returns Frmatted value.
+     */
+    public static formatUnitLess(value: number, format: IUnitFormatter): string {
+        return format(value, null)
+    }
+
+    /**
      * Set corresponding unit. For example 10 AU instead of 149 597 870 000 km.
      * @param value Amount of units.
      * @param unit Current unit.
@@ -167,27 +177,38 @@ class Units {
      * @param unit Type of unit.
      */
     private static toFull = (value: number, unit: IUnit): string => {
-        return Numbers.toReadable(value) + ' ' + unit.shortName
+        return Units.concatValueWithUnit(Numbers.toReadable(value), unit)
+    }
+
+    /**
+     * Concat value and unit. If there is no unit, returns only value.
+     * @param value Value-
+     * @param unit Unit. (optional)
+     * Value with unit.
+     */
+    private static concatValueWithUnit(value: number | string, unit?: IUnit): string {
+        if (!unit) {
+            return value.toString()
+        }
+
+        return value + ' ' + unit.shortName
     }
 
     /**
      * Format unit to exponential form (like 1.5e8 km).
      * @param value Amount of units.
-     * @param unit Type of unit.
+     * @param unit Type of unit. (optional)
      */
-    private static toExponential = (value: number, unit: IUnit): string => {
+    private static toExponential = (value: number, unit?: IUnit): string => {
         if (typeof value !== 'number') {
             return null
         }
 
         if (value < 1e3) {
-            return value + ' ' + unit.shortName
+            return Units.concatValueWithUnit(Numbers.toShort(value).replace(/[a-zA-Z]$/, ''), unit)
         }
 
-        return value
-            .toExponential(1)
-            .replace('+', '')
-            .replace('.0', '') + ' ' + unit.shortName
+        return Units.concatValueWithUnit(Numbers.toExponential(value), unit)
     }
 
     /**
@@ -196,7 +217,7 @@ class Units {
      * @param unit Type of unit.
      */
     private static toShort = (value: number, unit: IUnit): string => {
-        return Numbers.toShort(value) + ' ' + unit.shortName
+        return Units.concatValueWithUnit(Numbers.toShort(value), unit)
     }
 
     /**

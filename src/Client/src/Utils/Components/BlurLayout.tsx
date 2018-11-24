@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import Url from '../Utils/Url'
+import Url, { Urls } from '../Utils/Url'
 import StatelessComponent from './StatelessComponent'
 
 interface IProps {
@@ -21,11 +21,11 @@ class BlurLayout extends StatelessComponent<IProps> {
      * @return Layout is blurred.
      */
     private get isBlurred(): boolean {
-        const { isAlertVisible, noHomePage, visibleAlert } = this.props
+        const { isAlertVisible, noHomePage, visibleAlert, location } = this.props
 
         let isBlurred = false
 
-        if (noHomePage && !Url.isMainPage(this.props.location.pathname)) {
+        if (noHomePage && !Url.equalsPage(Url.getPage(location.pathname), Urls.HOME)) {
             isBlurred = true
         }
 
