@@ -63,8 +63,8 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<I
                         widthEmpty={true} />
                     <Select
                         name='columns'
-                        options={this.getValues()}
-                        widthEmpty={true} />
+                        options={[{ text: '21 sloupců // TODO: Select columns.', value: null }]}
+                        disabled={true} />
                 </FlexRow>
             </Form>
         )

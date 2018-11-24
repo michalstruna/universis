@@ -7,6 +7,7 @@ interface IProps {
     name: string
     options: IOption[]
     withEmpty?: boolean
+    disabled?: boolean
 }
 
 /**
@@ -37,10 +38,11 @@ class Select extends StatelessComponent<IProps> {
     }
 
     public render(): JSX.Element {
-        const { name } = this.props
+        const { name, disabled } = this.props
 
         return (
             <Field
+                disabled={disabled}
                 component='select'
                 name={name}>
                 {this.renderOptions()}

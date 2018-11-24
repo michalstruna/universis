@@ -106,7 +106,7 @@ class Url {
      * @returns JSON value of query parameter.
      */
     public static getJsonQuery(key: string, source: string = history.location.search): any {
-        const query = Url.getQuery(source, key)
+        const query = Url.getQuery(key, source)
 
         try {
             return JSON.parse(query)
