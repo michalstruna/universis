@@ -19,99 +19,101 @@ interface IProps {
 class Bodies extends StatelessComponent<IProps> {
 
     private getColumns(): IColumn[] {
+        const { strings } = this.props
+
         return [
             {
                 accessor: body => body.name,
-                title: this.props.strings.name,
+                title: strings.name,
             },
             this.getTableColumn(
                 body => body.diameter.x,
-                this.props.strings.diameter,
+                strings.diameter,
                 diameter => Units.formatSize(diameter, Units.SHORT)
             ),
             this.getTableColumn(
                 body => body.mass,
-                this.props.strings.mass,
+                strings.mass,
                 mass => Units.formatMass(mass, Units.EXPONENTIAL)
             ),
             this.getTableColumn(
                 body => body.density,
-                this.props.strings.density,
+                strings.density,
                 density => Units.formatDensity(density, Units.SHORT)
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.apocenter : null,
-                this.props.strings.apocenter,
+                strings.apocenter,
                 apocenter => apocenter ? Units.formatSize(apocenter, Units.SHORT) : null
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.pericenter : null,
-                this.props.strings.pericenter,
+                strings.pericenter,
                 pericenter => pericenter ? Units.formatSize(pericenter, Units.SHORT) : null
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.eccentricity : null,
-                this.props.strings.eccentricity
+                strings.eccentricity
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.period : null,
-                this.props.strings.year,
+                strings.year,
                 period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.Y) : null
             ),
             this.getTableColumn(
                 body => body.axis.period,
-                this.props.strings.day,
+                strings.day,
                 period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.D) : null
             ),
             this.getTableColumn(
                 body => body.escapeVelocity,
-                this.props.strings.escapeVelocity
+                strings.escapeVelocity
             ),
             this.getTableColumn(
                 body => body.axis.tilt,
-                this.props.strings.axisTilt
+                strings.axisTilt
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.velocity : null,
-                this.props.strings.orbitVelocity
+                strings.orbitVelocity
             ),
             this.getTableColumn(
                 body => body.temperature.outer,
-                this.props.strings.outerTemperature,
+                strings.outerTemperature,
                 value => Units.formatTemperature(value, Units.SHORT)
             ),
             this.getTableColumn(
                 body => body.temperature.inner,
-                this.props.strings.innerTemperature,
+                strings.innerTemperature,
                 value => Units.formatTemperature(value, Units.SHORT)
             ),
             this.getTableColumn(
                 body => body.discover.date,
-                this.props.strings.discoverDate
+                strings.discoverDate
             ),
             this.getTableColumn(
                 body => body.flattening,
-                this.props.strings.flattening
+                strings.flattening
             ),
             this.getTableColumn(
                 body => body.magnitude.relative,
-                this.props.strings.relativeMagnitude
+                strings.relativeMagnitude
             ),
             this.getTableColumn(
                 body => body.magnitude.absolute,
-                this.props.strings.absoluteMagnitude
+                strings.absoluteMagnitude
             ),
             this.getTableColumn(
                 body => body.orbit ? body.axis.velocity : null,
-                this.props.strings.axisVelocity
+                strings.axisVelocity
             ),
             this.getTableColumn(
                 body => body.albedo,
-                this.props.strings.albedo
+                strings.albedo
             ),
             this.getTableColumn(
                 body => body.luminosity,
-                this.props.strings.luminosity,
+                strings.luminosity,
                 luminosity => Units.formatLuminosity(luminosity, Units.EXPONENTIAL)
             ),
         ]
