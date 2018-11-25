@@ -11,23 +11,12 @@
         opacity: 0.8;
     }
 
-    &__toggle-panel, &__speed, &__time, &__view {
+    &__speed, &__time, &__view {
         @include size(12rem, 100%);
         box-sizing: border-box;
         float: left;
         padding: 0 1rem;
         text-align: center;
-    }
-
-    &__toggle-panel {
-        @include svg("Universe/UI/Settings", auto 60%);
-        padding: 0;
-        transition: background-color $medium-animation-duration;
-        width: 4rem;
-
-        &:hover {
-            background-color: $dark-color;
-        }
     }
 
     &__speed, &__view {
