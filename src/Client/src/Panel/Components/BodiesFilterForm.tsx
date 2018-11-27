@@ -23,7 +23,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
     // TODO: Move strings to constants. Accessors instead of string key?
     private static FIELDS = [
         { text: 'Název', value: 'name' },
-        { text: 'Průměr [km]', value: 'diameter.equatorial' },
+        { text: 'Průměr [km]', value: 'diameter.x' },
         { text: 'Hmotnost [kg]', value: 'mass' },
         { text: 'Hustota [kg/m3]', value: 'density' },
         { text: 'Apocentrum [km]', value: 'orbit.apocenter' },
