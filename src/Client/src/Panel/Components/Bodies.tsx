@@ -18,7 +18,7 @@ interface IProps {
  */
 class Bodies extends StatelessComponent<IProps> {
 
-    private getColumns(): IColumn[] {
+    private getColumns(): IColumn<ISimpleBody>[] {
         const { strings } = this.props
 
         return [
@@ -115,7 +115,7 @@ class Bodies extends StatelessComponent<IProps> {
                 body => body.luminosity,
                 strings.luminosity,
                 luminosity => Units.formatLuminosity(luminosity, Units.EXPONENTIAL)
-            ),
+            )
         ]
     }
 
@@ -126,7 +126,7 @@ class Bodies extends StatelessComponent<IProps> {
      * @param render Render absolute value. (optional)
      * @returns Table column definition.
      */
-    private getTableColumn(accessor: IColumnAccesor, title: string, render: IRenderColumn = value => Units.formatUnitLess(value, Units.SHORT)): IColumn {
+    private getTableColumn(accessor: IColumnAccesor<ISimpleBody>, title: string, render: IRenderColumn<ISimpleBody> = value => Units.formatUnitLess(value, Units.SHORT)): IColumn<ISimpleBody> {
         const { bodies, location } = this.props
         const bodySettings = Url.getJsonQuery(Queries.BODIES_SETTINGS, location.search)
         const relativeTo = bodySettings ? bodies.payload.find(body => body._id === bodySettings.valuesType) : null
@@ -163,7 +163,7 @@ class Bodies extends StatelessComponent<IProps> {
                 data={bodies}
                 success={() => (
                     <section className='panel__bodies__table'>
-                        <Table
+                        <Table<ISimpleBody>
                             columns={this.getColumns()}
                             items={Filter.apply(bodies.payload, (Url.getJsonQuery(Queries.BODIES_FILTER, location.search)))}
                             onRowClick={(body: ISimpleBody) => selectBody(body._id)} />

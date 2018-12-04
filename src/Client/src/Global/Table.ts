@@ -1,14 +1,8 @@
-/**
- * Interface item of table.
- */
-declare type Item = any // TODO: Generic React component?
-declare type Property = any
+declare type IColumnAccesor<Item> = IFunction<Item, any>
+declare type IRenderColumn<Item> = IFunction2<any, Item, React.ReactNode>
 
-declare type IColumnAccesor = IFunction<Item, Property>
-declare type IRenderColumn = IFunction2<Property, Item, React.ReactNode>
-
-declare interface IColumn {
-    accessor: IColumnAccesor
+declare interface IColumn<Item> {
+    accessor: IColumnAccesor<Item>
     title: string
-    render?: IRenderColumn
+    render?: IRenderColumn<Item>
 }

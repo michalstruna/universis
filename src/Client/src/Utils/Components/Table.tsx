@@ -8,21 +8,48 @@ interface IState {
     reverse: boolean
 }
 
-interface IProps {
+interface IProps<Item> {
+
+    /**
+     * List of items.
+     */
     items: Item[]
-    columns: IColumn[]
+
+    /**
+     *
+     */
+    columns: IColumn<Item>[]
+
+    /**
+     * Handler for click on row.
+     * There is clicked item in consumer parameter.
+     */
     onRowClick?: IConsumer<Item>
+
+    /**
+     * Handler for change sorting.
+     * THere is index of sorted column and direction in consumer parameter.
+     */
     onSort?: IConsumer2<number, boolean>
+
+    /**
+     * Index of column which will be sorted.
+     */
     sort?: number
+
+    /**
+     * Sorting will be descending.
+     */
     reverse?: boolean
 }
 
 /**
  * Component Table.
+ * @template Item Rendered item type.
  */
-class Table extends Component<IProps, IState> {
+class Table<Item> extends Component<IProps<Item>, IState> {
 
-    public constructor(props: IProps) {
+    public constructor(props: IProps<Item>) {
         super(props)
 
         this.state = {
@@ -111,13 +138,14 @@ class Table extends Component<IProps, IState> {
     private renderItem(item: Item): JSX.Element[] {
         const { columns } = this.props
 
+        // TODO: Refactor.
+
         return columns.map((column, key) => (
             <section className='table__cell' key={key}>
                 {
                     column.render &&
                     column.accessor(item) !== null &&
-                    column.accessor(item) !== undefined ?
-                        column.render(column.accessor(item), item) : column.accessor(item)}
+                    column.accessor(item) !== undefined ? column.render(column.accessor(item), item) : column.accessor(item)}
             </section>
         ))
     }
