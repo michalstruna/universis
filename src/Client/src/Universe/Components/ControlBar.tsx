@@ -15,7 +15,6 @@ class ControlBar extends SimpleComponent {
     public render(): JSX.Element {
         return (
             <section className='universe__control-bar'>
-                <button className='universe__toggle-panel' />
                 <section className='universe__speed'>
                     <section className='universe__speed__item' />
                     <section className='universe__speed__item' />

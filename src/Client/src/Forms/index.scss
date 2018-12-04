@@ -27,7 +27,6 @@
         @include content-font;
         @include size(auto, 2em, true);
         color: $light-color;
-        font-weight: bold;
         left: 0;
         pointer-events: none;
         position: absolute;

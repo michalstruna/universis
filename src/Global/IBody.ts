@@ -301,7 +301,7 @@ declare interface ISimpleBody {
     /**
      * Speed.
      */
-    moveSpeed: {
+    moveVelocity: {
 
         /**
          * Maximum speed.
@@ -364,7 +364,7 @@ declare interface ISimpleBody {
         /**
          * Rotation speed [m/s].
          */
-        rotationSpeed: number
+        velocity: number
 
     }
 

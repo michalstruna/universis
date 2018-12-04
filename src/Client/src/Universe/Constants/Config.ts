@@ -3,7 +3,7 @@ export default {
     /**
      * This body will be centered on start of simulator.
      */
-    INITIAL_BODY: 'Slunce',
+    INITIAL_BODY: 'Země',
 
     /**
      * Color of orbits.
