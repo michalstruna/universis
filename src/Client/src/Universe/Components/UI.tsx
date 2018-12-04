@@ -13,7 +13,7 @@ interface IProps {
  */
 class UI extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <UILayout>
                 <section className='universe__ui'>

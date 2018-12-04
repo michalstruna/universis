@@ -5,7 +5,7 @@ import { Component } from '../../Utils'
 
 interface IProps {
     className?: string
-    content: JSX.Element
+    content: React.ReactNode
 }
 
 interface IState {
@@ -37,7 +37,7 @@ class ContextInfo extends Component<IProps, IState> {
         this.setState({ isVisible: false })
     }
 
-    private renderContextInfo(): JSX.Element {
+    private renderContextInfo(): React.ReactNode {
         const { content } = this.props
         const { isVisible, x, y } = this.state
 
@@ -54,7 +54,7 @@ class ContextInfo extends Component<IProps, IState> {
         )
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { className, children } = this.props
 
         return (

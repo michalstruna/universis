@@ -40,7 +40,7 @@ class ContextTrigger extends Component<IProps, IState> {
         this.props.toggleContextMenu(true, event.pageX, event.pageY)
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section
                 className={this.props.className}

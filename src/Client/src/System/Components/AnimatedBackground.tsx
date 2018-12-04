@@ -15,7 +15,7 @@ interface IState {
  */
 class AnimatedBackground extends Component<IProps, IState> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='animated-background'>
                 <section className='animated-background--0' />

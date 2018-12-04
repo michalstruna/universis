@@ -34,7 +34,7 @@ class Panel extends StatelessComponent<IProps> {
      * Render button for toggle visibility of panel.
      * @returns Button.
      */
-    private renderToggle(): JSX.Element {
+    private renderToggle(): React.ReactNode {
         const { location, tab } = this.props
 
         const isOpened = Url.hasQuery(Queries.PANEL, location.search)
@@ -50,9 +50,9 @@ class Panel extends StatelessComponent<IProps> {
 
     /**
      * Render all tabs of chat.
-     * @returns {JSX.Element[]}
+     * @returns {React.ReactNode[]}
      */
-    private renderTabs(): JSX.Element[] {
+    private renderTabs(): React.ReactNode[] {
         const { location } = this.props
 
         const tabs = [
@@ -79,7 +79,7 @@ class Panel extends StatelessComponent<IProps> {
      * Render content of panel depends on URI.
      * @returns Content.
      */
-    private renderContent(): JSX.Element {
+    private renderContent(): React.ReactNode {
         const { location, tab } = this.props
         const currentTab = Url.getQuery(Queries.PANEL, location.search) || tab
 
@@ -97,7 +97,7 @@ class Panel extends StatelessComponent<IProps> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <BlurLayout
                 className='panel'

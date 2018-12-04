@@ -40,7 +40,7 @@ class SignUpForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { strings, handleSubmit, invalid, submitting, password } = this.props
 
         return (

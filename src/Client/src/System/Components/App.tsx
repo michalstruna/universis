@@ -35,7 +35,7 @@ class App extends StatelessComponent<IProps> {
      * Render background of app.
      * @return Background.
      */
-    private renderBackground(): JSX.Element {
+    private renderBackground(): React.ReactNode {
         return (
             <BlurLayout className='app__background' noHomePage>
                 <AnimatedBackground />
@@ -47,7 +47,7 @@ class App extends StatelessComponent<IProps> {
      * Render foreground of app.
      * @return Foreground.
      */
-    private renderForeground(): JSX.Element {
+    private renderForeground(): React.ReactNode {
         return (
             <section className='app__foreground'>
                 {this.props.children}
@@ -56,7 +56,7 @@ class App extends StatelessComponent<IProps> {
         )
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <ContextTrigger className={this.getClassName()}>
                 <Panel />

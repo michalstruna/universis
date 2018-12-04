@@ -21,7 +21,7 @@ class EmailField extends StatelessComponent<ICustomFieldProps> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { name, label } = this.props
 
         return (

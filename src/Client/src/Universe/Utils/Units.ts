@@ -139,10 +139,20 @@ class Units {
      * Format value without unit.
      * @param value Value.
      * @param format Formatter function.
-     * @returns Frmatted value.
+     * @returns Formatted value.
      */
     public static formatUnitLess(value: number, format: IUnitFormatter): string {
         return format(value, null)
+    }
+
+    /**
+     * Format ISO date.
+     * @param date ISO date.
+     * @returns Date in format DD. MM. YYYY.
+     */
+    public static formatISODate(date: string): string {
+        const dateObject = new Date(date)
+        return dateObject.getDate() + '. ' + (dateObject.getMonth() + 1) + '. ' + dateObject.getFullYear()
     }
 
     /**

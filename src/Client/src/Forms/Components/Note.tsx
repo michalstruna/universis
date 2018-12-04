@@ -7,7 +7,7 @@ import { SimpleComponent } from '../../Utils'
  */
 class Note extends SimpleComponent {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='form__note'>
                 {this.props.children}

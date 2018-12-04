@@ -28,7 +28,7 @@ class ControlPanel extends StatelessComponent<IProps> {
      * @param isActive Button is active.
      * @returns Button.
      */
-    private renderButton(name: string, handleClick: IRunnable = () => null, isActive: boolean = false): JSX.Element {
+    private renderButton(name: string, handleClick: IRunnable = () => null, isActive: boolean = false): React.ReactNode {
         const className = ClassNames(
             'universe__controls__button',
             'universe__controls__button--' + name,
@@ -48,7 +48,7 @@ class ControlPanel extends StatelessComponent<IProps> {
         )
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { areLabelsVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits } = this.props
 
         return (

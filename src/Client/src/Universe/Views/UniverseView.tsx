@@ -17,7 +17,7 @@ class UniverseView extends View<IProps> {
         AsyncEntity.request(bodies, getBodies)
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { bodies } = this.props
 
         return (

@@ -11,7 +11,7 @@ interface IProps {
  */
 class Submit extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <Link
                 className='form__button form__button--back'

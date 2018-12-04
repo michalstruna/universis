@@ -117,7 +117,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
         return rows
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { handleSubmit, invalid, submitting } = this.props
 
         return (

@@ -20,7 +20,7 @@ class Notifications extends StatelessComponent<IProps> {
      * Render notifications.
      * @returns Notification in masonry layout.
      */
-    private renderNotifications(): JSX.Element[] {
+    private renderNotifications(): React.ReactNode[] {
         const notifications = [
             { text: 'Jaká je největší planeta sluneční soustavy?', type: 'Komentář' },
             { text: 'Jupiter', type: 'Komentář' },
@@ -68,7 +68,7 @@ class Notifications extends StatelessComponent<IProps> {
 
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <Masonry
                 className={'notifications'}

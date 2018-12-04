@@ -23,7 +23,7 @@ class Menu extends StatelessComponent<IProps> {
      * @param label Label of link.
      * @return Link.
      */
-    private renderLink(target: string, label: string): JSX.Element {
+    private renderLink(target: string, label: string): React.ReactNode {
         return  (
             <Link
                 className='home__link'
@@ -33,7 +33,7 @@ class Menu extends StatelessComponent<IProps> {
         )
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { menu } = this.props.strings
 
         return (

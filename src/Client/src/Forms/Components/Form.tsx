@@ -18,7 +18,7 @@ interface IProps {
  */
 class Form extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { children, onSubmit, invalid, sending } = this.props
 
         return (

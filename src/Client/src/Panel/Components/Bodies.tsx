@@ -89,7 +89,8 @@ class Bodies extends StatelessComponent<IProps> {
             ),
             this.getTableColumn(
                 body => body.discover.date,
-                strings.discoverDate
+                strings.discoverDate,
+                date => Units.formatISODate(date)
             ),
             this.getTableColumn(
                 body => body.flattening,
@@ -155,7 +156,7 @@ class Bodies extends StatelessComponent<IProps> {
      * Render list of bodies.
      * @returns Bodies.
      */
-    private renderTable(): JSX.Element {
+    private renderTable(): React.ReactNode {
         const { bodies, selectBody, location } = this.props
 
         return (
@@ -176,7 +177,7 @@ class Bodies extends StatelessComponent<IProps> {
      * Render filter form.
      * @returns Filter form.
      */
-    private renderFilter(): JSX.Element {
+    private renderFilter(): React.ReactNode {
         return (
             <section className='panel__bodies__filter'>
                 <BodiesFilterForm />
@@ -188,7 +189,7 @@ class Bodies extends StatelessComponent<IProps> {
      * Render filter form.
      * @returns Filter form.
      */
-    private renderSettings(): JSX.Element {
+    private renderSettings(): React.ReactNode {
         return (
             <section className='panel__bodies__settings'>
                 <BodiesSettingsForm />
@@ -196,7 +197,7 @@ class Bodies extends StatelessComponent<IProps> {
         )
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='panel__bodies panel__window'>
                 <section className='panel__bodies'>

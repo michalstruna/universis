@@ -36,7 +36,7 @@ class BlurLayout extends StatelessComponent<IProps> {
         return isBlurred
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const className = ClassNames(
             'blur-layout',
             { 'blur-layout--blurred': this.isBlurred },

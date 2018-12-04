@@ -24,7 +24,7 @@ class LoginView extends View<IProps> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className={this.getClassName('login')}>
                 <LoginForm />

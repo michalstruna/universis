@@ -7,7 +7,7 @@ import { SimpleComponent } from '../../Utils'
  */
 class Title extends SimpleComponent {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <legend className='form__title'>
                 {this.props.children}

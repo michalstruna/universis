@@ -12,7 +12,7 @@ import { UILayout, SimpleComponent } from '../../Utils'
  */
 class ControlPanel extends SimpleComponent {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <UILayout
                 onClick={event => event.stopPropagation()}

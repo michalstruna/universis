@@ -23,7 +23,7 @@ abstract class Control extends StatelessComponent<IProps> {
         this.props.onClick(event)
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         if (!this.props.isVisible) {
             return null
         }

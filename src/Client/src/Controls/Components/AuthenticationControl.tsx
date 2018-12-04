@@ -38,7 +38,7 @@ class AuthentificationControl extends StatelessComponent<IProps> {
         this.props.logout()
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { strings, identity } = this.props
 
         if (identity) {

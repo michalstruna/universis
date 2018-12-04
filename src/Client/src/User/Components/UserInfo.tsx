@@ -49,7 +49,7 @@ class UserInfo extends StatelessComponent<IProps> {
         }
     }
 
-    private renderType(): JSX.Element {
+    private renderType(): React.ReactNode {
         switch (this.props.type) {
             case UserInfoTypes.SMALL:
                 return this.renderSmall()
@@ -60,7 +60,7 @@ class UserInfo extends StatelessComponent<IProps> {
         }
     }
 
-    private renderSmall(): JSX.Element {
+    private renderSmall(): React.ReactNode {
         return (
             <Link
                 className='user-info__avatar'
@@ -69,7 +69,7 @@ class UserInfo extends StatelessComponent<IProps> {
         )
     }
 
-    private renderMedium(): JSX.Element {
+    private renderMedium(): React.ReactNode {
         return (
             <React.Fragment>
                 <Link
@@ -94,7 +94,7 @@ class UserInfo extends StatelessComponent<IProps> {
         )
     }
 
-    private renderLarge(): JSX.Element {
+    private renderLarge(): React.ReactNode {
         let { user } = this.props
 
         if (!user) {
@@ -144,7 +144,7 @@ class UserInfo extends StatelessComponent<IProps> {
         )
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className={'user-info user-info--' + this.props.type}>
                 {this.renderType()}

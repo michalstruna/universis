@@ -12,7 +12,7 @@ class ControlBar extends SimpleComponent {
      */
     public static viewSize: HTMLElement
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='universe__control-bar'>
                 <section className='universe__speed'>

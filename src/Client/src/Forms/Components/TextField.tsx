@@ -8,7 +8,7 @@ import FieldInput, { ICustomFieldProps } from './Field'
  */
 class TextField extends StatelessComponent<ICustomFieldProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <FieldInput { ...this.props} type='text' />
         )

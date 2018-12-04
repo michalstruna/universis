@@ -29,7 +29,7 @@ class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues
         this.props.getUnauthUser(data.email)
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { strings, handleSubmit, invalid, submitting } = this.props
 
         return (

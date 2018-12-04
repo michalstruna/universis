@@ -21,7 +21,7 @@ abstract class ControlLink extends StatelessComponent<IProps> {
         history.push(target + location.search)
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { isVisible, label, location, name, target } = this.props
 
         return (

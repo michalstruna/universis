@@ -23,7 +23,7 @@ abstract class View<IProps> extends StatelessComponent<IProps> {
      * Render content of view.
      * @return Content of view.
      */
-    public abstract render(): JSX.Element
+    public abstract render(): React.ReactNode
 
     /**
      * Concat class name of view.

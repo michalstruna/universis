@@ -16,7 +16,7 @@ export interface IProps {
  */
 class UIControl extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { isUIVisible, strings, toggleUI } = this.props
 
         return (

@@ -7,7 +7,7 @@ import { SimpleComponent } from '../../Utils'
  */
 class Submit extends SimpleComponent {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <button
                 className='form__button form__button--submit'
