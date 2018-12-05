@@ -3,7 +3,7 @@ import * as React from 'react'
 import BodiesFilterForm from './BodiesFilterForm'
 import BodiesSettingsForm from './BodiesSettingsForm'
 import { Units, getBodies, selectBody } from '../../Universe'
-import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries } from '../../Utils'
+import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries, Dates } from '../../Utils'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
@@ -90,7 +90,7 @@ class Bodies extends StatelessComponent<IProps> {
             this.getTableColumn(
                 body => body.discover.date,
                 strings.discoverDate,
-                date => Units.formatISODate(date)
+                date => Dates.formatISO(date, Dates.FORMAT.DATE)
             ),
             this.getTableColumn(
                 body => body.flattening,
