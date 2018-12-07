@@ -12,7 +12,7 @@ interface IProps {
  */
 class HomeView extends View<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className={this.getClassName('home')}>
                 <Home />

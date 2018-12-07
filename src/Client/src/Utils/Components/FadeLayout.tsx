@@ -63,7 +63,7 @@ class FadeLayout extends Component<IProps, IState> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         if (!this.state.isMounted) {
             return null
         }

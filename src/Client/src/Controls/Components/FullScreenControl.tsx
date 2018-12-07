@@ -15,7 +15,7 @@ export interface IProps {
  */
 class FullScreenControl extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { toggleFullScreen, isFullScreen, strings } = this.props
 
         return (

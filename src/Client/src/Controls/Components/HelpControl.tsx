@@ -14,7 +14,7 @@ export interface IProps {
  */
 class HelpControl extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <ControlLink
                 name={'help'}

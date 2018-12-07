@@ -26,7 +26,7 @@ interface IProps {
  */
 class Field extends StatelessComponent<IProps> {
 
-    private renderComponent = (data): JSX.Element => {
+    private renderComponent = (data): React.ReactNode => {
         const { label, type } = this.props
         const { touched, error } = data.meta
 
@@ -45,7 +45,7 @@ class Field extends StatelessComponent<IProps> {
         )
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { label, name, type, validate } = this.props
 
         return (

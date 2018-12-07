@@ -7,7 +7,7 @@ import SimpleComponent from './SimpleComponent'
  */
 class Loader extends SimpleComponent {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='loader'>
                 <section className='loader--inner' />

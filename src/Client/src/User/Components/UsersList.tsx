@@ -16,7 +16,7 @@ class UsersList extends StatelessComponent<IProps> {
      * Render list of all users in current group.
      * @returns Users.
      */
-    private renderUsers(): JSX.Element[] {
+    private renderUsers(): React.ReactNode[] {
         const users = []
 
         for (let i = 0; i < 50; i++) {
@@ -30,7 +30,7 @@ class UsersList extends StatelessComponent<IProps> {
         return users
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='users-list'>
                 {this.renderUsers()}

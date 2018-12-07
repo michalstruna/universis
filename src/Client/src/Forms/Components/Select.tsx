@@ -15,7 +15,7 @@ interface IProps {
  */
 class Select extends StatelessComponent<IProps> {
 
-    private renderOptions(): JSX.Element[] {
+    private renderOptions(): React.ReactNode[] {
         const { options, withEmpty } = this.props
 
         const result = []
@@ -37,7 +37,7 @@ class Select extends StatelessComponent<IProps> {
         return result
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { name, disabled } = this.props
 
         return (

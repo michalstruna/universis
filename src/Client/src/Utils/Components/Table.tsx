@@ -112,7 +112,7 @@ class Table<Item> extends Component<IProps<Item>, IState> {
      * Render header row.
      * @returns Header cells.
      */
-    private renderHeader(): JSX.Element[] {
+    private renderHeader(): React.ReactNode[] {
         const { columns } = this.props
         const { sort, reverse } = this.state
 
@@ -135,7 +135,7 @@ class Table<Item> extends Component<IProps<Item>, IState> {
      * @param item Item data.
      * @returns Item cells.
      */
-    private renderItem(item: Item): JSX.Element[] {
+    private renderItem(item: Item): React.ReactNode[] {
         const { columns } = this.props
 
         // TODO: Refactor.
@@ -154,7 +154,7 @@ class Table<Item> extends Component<IProps<Item>, IState> {
      * Render rows.
      * @returns Rows.
      */
-    private renderItems(): JSX.Element[] {
+    private renderItems(): React.ReactNode[] {
         const { items, onRowClick } = this.props
 
         const sortedItems = this.sort(items)
@@ -169,7 +169,7 @@ class Table<Item> extends Component<IProps<Item>, IState> {
         ))
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='table'>
                 <section className='table__row table__row--header'>

@@ -13,7 +13,7 @@ class Chat extends SimpleComponent {
      * Render messages.
      * @returns Messages.
      */
-    private renderMessages(): JSX.Element[] {
+    private renderMessages(): React.ReactNode[] {
         const messages = []
 
         for (let i = 0; i < 50; i++) {
@@ -38,7 +38,7 @@ class Chat extends SimpleComponent {
         return messages
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='panel__chat panel__window'>
                 <section className='panel__chat__body'>

@@ -78,7 +78,7 @@ class Canvas extends StatelessComponent<IProps> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='universe__space' ref='space' />
         )

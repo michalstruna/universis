@@ -20,7 +20,7 @@ class IdentityView extends View<IProps> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className={this.getClassName('identity')}>
                 <IdentityForm onSubmit={data => console.log(data)} />

@@ -48,7 +48,7 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<I
         return values
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { handleSubmit, invalid, submitting } = this.props
 
         return (

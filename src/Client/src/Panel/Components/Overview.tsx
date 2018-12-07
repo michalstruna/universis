@@ -12,7 +12,7 @@ interface IProps {
  */
 class Overview extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { identity } = this.props
 
         return (

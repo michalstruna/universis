@@ -4,7 +4,7 @@ import FadeLayout from './FadeLayout'
 import StatelessComponent from './StatelessComponent'
 
 interface IProps {
-    children: JSX.Element | JSX.Element[] | string | number,
+    children: React.ReactNode | React.ReactNode[] | string | number,
     isUIVisible: boolean
 }
 
@@ -13,7 +13,7 @@ interface IProps {
  */
 class UILayout extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { children, isUIVisible, ...props } = this.props
 
         return (

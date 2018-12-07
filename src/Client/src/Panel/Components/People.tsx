@@ -8,7 +8,7 @@ import { UsersList } from '../../User'
  */
 class People extends SimpleComponent {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='panel__people panel__window'>
                 <section className='panel__people--inner'>

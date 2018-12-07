@@ -50,7 +50,7 @@ class Link extends StatelessComponent<IProps> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { className, target, style } = this.props
 
         return (

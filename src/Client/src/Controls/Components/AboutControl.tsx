@@ -29,7 +29,7 @@ class AboutControl extends StatelessComponent<IProps> {
         toggleAlert(true, alert.title, alert.content, alert.buttons)
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <Control
                 isVisible={true}

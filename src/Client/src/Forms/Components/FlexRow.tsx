@@ -7,7 +7,7 @@ import { SimpleComponent } from '../../Utils'
  */
 class FlexRow extends SimpleComponent {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='form__flex-row'>
                 {this.props.children}

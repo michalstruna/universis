@@ -12,7 +12,7 @@ interface IProps {
  */
 class Home extends StatelessComponent<IProps> {
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <section className='home__center'>
                 <h1 className='home__title'>

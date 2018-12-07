@@ -27,7 +27,7 @@ class Alert extends StatelessComponent<IProps> {
      * Render all buttons of alert window.
      * @return All buttons.
      */
-    private renderButtons(): JSX.Element[] {
+    private renderButtons(): React.ReactNode[] {
         const { buttons } = this.props
 
         return buttons.map((button, key) => (
@@ -41,7 +41,7 @@ class Alert extends StatelessComponent<IProps> {
         ))
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { toggleAlert, content, isVisible, title } = this.props
 
         return (

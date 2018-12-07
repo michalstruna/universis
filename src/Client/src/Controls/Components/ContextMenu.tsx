@@ -52,7 +52,7 @@ class ContextMenu extends StatelessComponent<IProps> {
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { isVisible, x, y } = this.props
 
         if (!isVisible) {

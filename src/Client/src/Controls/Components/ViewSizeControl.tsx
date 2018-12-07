@@ -65,7 +65,7 @@ class ViewSizeControl extends Component<IProps, IState> {
         })
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const { viewSize } = this.state
         const sizes = Object.keys(labels)
 
