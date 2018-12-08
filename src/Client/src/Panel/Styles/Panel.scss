@@ -23,30 +23,6 @@
         transition: opacity $fast-animation-duration, transform $medium-animation-duration;
     }
 
-    &__tabs {
-        @include size(100%, 3rem);
-        display: flex;
-
-        &__tab {
-            @include size;
-            color: $lightest-color;
-            font-size: 100%;
-            line-height: 3rem;
-            text-align: center;
-            transition: background-color $fast-animation-duration;
-            user-select: none;
-
-            &--selected {
-                cursor: default;
-                pointer-events: none;
-            }
-
-            &--selected, &:hover {
-                background-color: $top-layer-color
-            }
-        }
-    }
-
     &__window {
         @include size(100%, calc(100% - 3rem));
 
@@ -66,13 +42,24 @@
         }
 
         &__menu {
-            @include size(100%, 3rem);
+            @include size(100%, 3rem, true);
             display: flex;
+            text-align: center;
 
-            &__button {
+            &__link {
                 @include size;
                 color: $lightest-color;
                 font-size: 100%;
+                transition: background-color $fast-animation-duration;
+
+                &--active {
+                    cursor: default;
+                    pointer-events: none;
+                }
+
+                &--active, &:hover {
+                    background-color: $top-layer-color
+                }
             }
         }
     }

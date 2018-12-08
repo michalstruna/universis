@@ -8,6 +8,7 @@ import People from './People'
 import { setTab } from '../Redux/PanelActions'
 import Bodies from './Bodies'
 import Body from './Body'
+import QueryMenu from '../../Utils/Components/QueryMenu'
 
 interface IProps {
     strings: IStrings
@@ -57,27 +58,19 @@ class Panel extends StatelessComponent<IProps> {
      * Render all tabs of chat.
      * @returns {React.ReactNode[]}
      */
-    private renderTabs(): React.ReactNode[] {
-        const { location } = this.props
-
-        const tabs = [
-            { label: 'Aktuality', target: Queries.OVERVIEW },
-            { label: 'Chat', target: Queries.CHAT },
-            { label: 'Lidé', target: Queries.PEOPLE },
-            { label: this.getBodyNameFromUrl(), target: Queries.BODY },
-            { label: 'Tělesa', target: Queries.BODIES }
-        ]
-
-        const currentTab = Url.getQuery(Queries.PANEL, location.search)
-
-        return tabs.map((tab, key) => (
-            <Link
-                key={key}
-                query={{ [Queries.PANEL]: tab.target }}
-                className={ClassNames('panel__tabs__tab', { 'panel__tabs__tab--selected': currentTab === tab.target })}>
-                {tab.label}
-            </Link>
-        ))
+    private renderMenu(): React.ReactNode {
+        return (
+            <QueryMenu
+                query={Queries.PANEL}
+                links={{
+                    'Aktuality': Queries.OVERVIEW,
+                    'Chat': Queries.CHAT,
+                    'Lidé': Queries.PEOPLE,
+                    [this.getBodyNameFromUrl()]: Queries.BODY,
+                    'Tělesa': Queries.BODIES
+                }}
+                className='panel__window__menu' />
+        )
     }
 
     /**
@@ -110,9 +103,7 @@ class Panel extends StatelessComponent<IProps> {
                 className='panel'
                 visibleAlert>
                 <section className='panel--inner'>
-                    <section className='panel__tabs'>
-                        {this.renderTabs()}
-                    </section>
+                    {this.renderMenu()}
                     {this.renderContent()}
                 </section>
                 {this.renderToggle()}

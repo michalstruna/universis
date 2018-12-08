@@ -51,11 +51,11 @@ class Link extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { className, target, style } = this.props
+        const { className, target, style, query } = this.props
 
         return (
             <NavLink
-                activeClassName={className + '--active'}
+                activeClassName={query ? null : className + '--active'}
                 className={className}
                 style={style}
                 exact

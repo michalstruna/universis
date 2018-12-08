@@ -11,6 +11,7 @@ import Loader from './Components/Loader'
 import StatelessComponent from './Components/StatelessComponent'
 import Table from './Components/Table'
 import UILayout from './Components/UILayout'
+import QueryMenu from './Components/QueryMenu'
 import View from './Components/View'
 
 export {
@@ -24,6 +25,7 @@ export {
     StatelessComponent,
     Table,
     UILayout,
+    QueryMenu,
     View
 }
 

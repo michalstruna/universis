@@ -71,7 +71,7 @@ class Route {
     }
 
     /**
-     * Run route handler only if author of user has this ID.
+     * Run route handler only if author of request has this ID.
      * @param userId Required user's ID.
      * @param action Request action.
      * @param resultMap Convert model result to response data.

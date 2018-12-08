@@ -3,6 +3,8 @@ import * as React from 'react'
 import { UserInfo } from '../../User'
 import { ContextInfo } from '../../Controls'
 import { SimpleComponent } from '../../Utils'
+import QueryMenu from '../../Utils/Components/QueryMenu'
+import Queries from '../../Utils/Constants/Queries'
 
 /**
  * Components for chat.
@@ -55,17 +57,12 @@ class Chat extends SimpleComponent {
                         <button className='panel__chat__send' />
                     </section>
                 </section>
-                <section className='panel__window__menu'>
-                    <button className='panel__window__menu__button'>
-                        Veřejný
-                    </button>
-                    <button className='panel__window__menu__button'>
-                        user1
-                    </button>
-                    <button className='panel__window__menu__button'>
-                        user2
-                    </button>
-                </section>
+                <QueryMenu
+                    query={Queries.CHAT_TAB}
+                    links={{
+                        'Veřejný chat': null
+                    }}
+                    className='panel__window__menu' />
             </section>
         )
     }

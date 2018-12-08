@@ -18,6 +18,11 @@ interface IProps {
  */
 class Bodies extends StatelessComponent<IProps> {
 
+    public componentWillMount(): void {
+        const { bodies, getBodies } = this.props
+        AsyncEntity.request(bodies, getBodies)
+    }
+
     private getColumns(): IColumn<ISimpleBody>[] {
         const { strings } = this.props
 
@@ -147,11 +152,6 @@ class Bodies extends StatelessComponent<IProps> {
         }
     }
 
-    public componentWillMount(): void {
-        const { bodies, getBodies } = this.props
-        AsyncEntity.request(bodies, getBodies)
-    }
-
     /**
      * Render list of bodies.
      * @returns Bodies.
@@ -208,12 +208,10 @@ class Bodies extends StatelessComponent<IProps> {
     public render(): React.ReactNode {
         return (
             <section className='panel__bodies panel__window'>
-                <section className='panel__bodies'>
-                    {this.renderSettings()}
-                    {this.renderFilter()}
-                    <section className='panel__bodies--inner'>
-                        {this.renderTable()}
-                    </section>
+                {this.renderSettings()}
+                {this.renderFilter()}
+                <section className='panel__bodies--inner'>
+                    {this.renderTable()}
                 </section>
             </section>
         )
