@@ -49,6 +49,32 @@
 
     &__window {
         @include size(100%, calc(100% - 3rem));
+
+        &__body {
+            @include size(100%, calc(100% - 3rem));
+            background-color: $top-layer-color;
+            overflow: hidden;
+
+            &--scroll {
+                @include size(100%, calc(100% - 4rem));
+                overflow-y: scroll;
+            }
+
+            &--inner {
+                overflow: hidden;
+            }
+        }
+
+        &__menu {
+            @include size(100%, 3rem);
+            display: flex;
+
+            &__button {
+                @include size;
+                color: $lightest-color;
+                font-size: 100%;
+            }
+        }
     }
 
 }

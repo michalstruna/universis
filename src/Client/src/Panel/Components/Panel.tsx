@@ -7,6 +7,7 @@ import Overview from './Overview'
 import People from './People'
 import { setTab } from '../Redux/PanelActions'
 import Bodies from './Bodies'
+import Body from './Body'
 
 interface IProps {
     strings: IStrings
@@ -48,6 +49,10 @@ class Panel extends StatelessComponent<IProps> {
         )
     }
 
+    private getBodyNameFromUrl = () => (
+        Url.getQuery(Queries.BODY) || 'Merkur' // TODO: Get from config.
+    )
+
     /**
      * Render all tabs of chat.
      * @returns {React.ReactNode[]}
@@ -59,7 +64,7 @@ class Panel extends StatelessComponent<IProps> {
             { label: 'Aktuality', target: Queries.OVERVIEW },
             { label: 'Chat', target: Queries.CHAT },
             { label: 'Lidé', target: Queries.PEOPLE },
-            { label: 'Merkur', target: Queries.BODY },
+            { label: this.getBodyNameFromUrl(), target: Queries.BODY },
             { label: 'Tělesa', target: Queries.BODIES }
         ]
 
@@ -92,6 +97,8 @@ class Panel extends StatelessComponent<IProps> {
                 return <People />
             case Queries.BODIES:
                 return <Bodies />
+            case Queries.BODY:
+                return <Body />
             default:
                 return null
         }

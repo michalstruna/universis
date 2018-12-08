@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import BodiesFilterForm from './BodiesFilterForm'
 import BodiesSettingsForm from './BodiesSettingsForm'
-import { Units, getBodies, selectBody } from '../../Universe'
+import { Units, getBodies } from '../../Universe'
 import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries, Dates } from '../../Utils'
 
 interface IProps {
@@ -157,7 +157,7 @@ class Bodies extends StatelessComponent<IProps> {
      * @returns Bodies.
      */
     private renderTable(): React.ReactNode {
-        const { bodies, selectBody, location } = this.props
+        const { bodies, location } = this.props
 
         return (
             <AsyncEntity
@@ -167,10 +167,18 @@ class Bodies extends StatelessComponent<IProps> {
                         <Table<ISimpleBody>
                             columns={this.getColumns()}
                             items={Filter.apply(bodies.payload, (Url.getJsonQuery(Queries.BODIES_FILTER, location.search)))}
-                            onRowClick={(body: ISimpleBody) => selectBody(body._id)} />
+                            onRowClick={this.handleBodyClick} />
                     </section>
                 )} />
         )
+    }
+
+    /**
+     * Handler for table row click.
+     * @param body Clicked body.
+     */
+    private handleBodyClick = (body: ISimpleBody) => {
+        Url.push({ query: { [Queries.PANEL]: Queries.BODY, [Queries.BODY]: body.name } })
     }
 
     /**
@@ -218,5 +226,5 @@ export default Bodies.connect(
         bodies: universe.bodies,
         strings: system.strings.bodies
     }),
-    { getBodies, selectBody }
+    { getBodies }
 )

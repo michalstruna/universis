@@ -41,9 +41,9 @@ class Chat extends SimpleComponent {
     public render(): React.ReactNode {
         return (
             <section className='panel__chat panel__window'>
-                <section className='panel__chat__body'>
-                    <section className='panel__chat__body--scroll'>
-                        <section className='panel__chat__body--inner'>
+                <section className='panel__window__body'>
+                    <section className='panel__window__body--scroll'>
+                        <section className='panel__window__body--inner'>
                             <section className='panel__chat__start'>
                                 Toto je počátek konverzace.
                             </section>
@@ -55,14 +55,14 @@ class Chat extends SimpleComponent {
                         <button className='panel__chat__send' />
                     </section>
                 </section>
-                <section className='panel__chat__menu'>
-                    <button className='panel__chat__menu__button'>
+                <section className='panel__window__menu'>
+                    <button className='panel__window__menu__button'>
                         Veřejný
                     </button>
-                    <button className='panel__chat__menu__button'>
+                    <button className='panel__window__menu__button'>
                         user1
                     </button>
-                    <button className='panel__chat__menu__button'>
+                    <button className='panel__window__menu__button'>
                         user2
                     </button>
                 </section>
