@@ -4,6 +4,7 @@
 import AsyncEntity from './Components/AsyncEntity'
 import BlurLayout from './Components/BlurLayout'
 import Component from './Components/Component'
+import DataTable from './Components/DataTable'
 import FadeLayout from './Components/FadeLayout'
 import Link from './Components/Link'
 import SimpleComponent from './Components/SimpleComponent'
@@ -18,6 +19,7 @@ export {
     AsyncEntity,
     BlurLayout,
     Component,
+    DataTable,
     FadeLayout,
     Link,
     SimpleComponent,

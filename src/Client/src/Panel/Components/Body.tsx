@@ -2,8 +2,10 @@ import * as React from 'react'
 
 import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu } from '../../Utils'
 import { getBodies, getBodyById, Physics } from '../../Universe'
+import BodyData from './BodyData'
 
 interface IProps {
+    strings: IStrings
     bodies: IAsyncEntity<ISimpleBody[]>
     body: IAsyncEntity<IBody>
     getBodies: IRunnable
@@ -46,6 +48,22 @@ class Body extends StatelessComponent<IProps> {
         AsyncEntity.request(body, () => getBodyById(bodyData._id), true)
     }
 
+    /**
+     * Render content of panel depends on URI.
+     * @returns Content.
+     */
+    private renderContent(): React.ReactNode {
+        const { location } = this.props
+        const currentTab = Url.getQuery(Queries.BODY_TAB, location.search)
+
+        switch (currentTab) {
+            case Queries.BODY_DATA:
+                return <BodyData />
+            default:
+                return null
+        }
+    }
+
     public render(): React.ReactNode {
         const { body } = this.props
 
@@ -54,7 +72,8 @@ class Body extends StatelessComponent<IProps> {
                 <section className='panel__window__body'>
                     <section className='panel__window__body--scroll'>
                         <AsyncEntity
-                            data={body} />
+                            data={body}
+                            success={() => this.renderContent()} />
                     </section>
                 </section>
                 <QueryMenu
@@ -74,7 +93,7 @@ class Body extends StatelessComponent<IProps> {
 export default Body.connect(
     ({ universe }: IStoreState) => ({
         bodies: universe.bodies,
-        body: universe.body
+        body: universe.body,
     }),
     { getBodies, getBodyById }
 )

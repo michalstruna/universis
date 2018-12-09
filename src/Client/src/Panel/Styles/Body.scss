@@ -1,0 +1,27 @@
+.panel__body {
+
+    &__data {
+
+        .data-table {
+            border: 1px solid $medium-dark-color;
+            box-sizing: border-box;
+            width: 50%;
+
+            &__row {
+                background-color: $semitransparent-medium-color;
+
+                &:nth-of-type(2n) {
+                    background-color: darken($semitransparent-medium-color, 5);
+                }
+            }
+
+            &__cell {
+                &--title {
+                    background-color: $medium-dark-color;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+}

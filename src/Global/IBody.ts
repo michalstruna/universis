@@ -71,7 +71,7 @@ declare interface INewBody {
     }
 
     /**
-     * Tempperature [K].
+     * Temperature [K].
      */
     temperature: {
 
