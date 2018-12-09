@@ -33,14 +33,28 @@ class DataTable extends StatelessComponent<IProps> {
 
         return Object.keys(data).map((column, key) => (
             <section className='data-table__row' key={key}>
+                {this.renderRow(column)}
+            </section>
+        ))
+    }
+
+    private renderRow(column: string): React.ReactNode {
+        const { data } = this.props
+
+        if (typeof data[column] === 'function') {
+            return data[column]()
+        }
+
+        return (
+            <>
                 <section className='data-table__cell'>
                     {column}
                 </section>
                 <section className='data-table__cell'>
                     {data[column]}
                 </section>
-            </section>
-        ))
+            </>
+        )
     }
 
     public render(): React.ReactNode {
