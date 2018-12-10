@@ -1,0 +1,40 @@
+.panel__body {
+
+    &__data {
+
+        .data-table {
+            border: 1px solid $medium-dark-color;
+            box-sizing: border-box;
+            width: 50%;
+
+            &__row {
+                background-color: $semitransparent-medium-color;
+
+                &:nth-of-type(2n) {
+                    background-color: darken($semitransparent-medium-color, 5);
+                }
+            }
+
+            &__cell {
+                &--title {
+                    background-color: $medium-dark-color;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        &__chart {
+            @include size(100%, 16rem);
+            position: relative;
+
+            svg > g > g:last-child {
+                pointer-events: none;
+            }
+        }
+    }
+
+    .panel__window__body--scroll {
+        height: 100%;
+    }
+
+}

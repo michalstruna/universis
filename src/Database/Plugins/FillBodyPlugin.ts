@@ -6,12 +6,15 @@ import Physics from '../../Utils/Physics'
  */
 const FillBodyPlugin = (schema) => {
 
-    schema.post('find', async function (docs) {
+    schema.post('find', docs => {
         for (const doc of docs) {
             fillBody(doc)
         }
     })
 
+    schema.post('findOne', doc => {
+        fillBody(doc)
+    })
 }
 
 const fillBody = (body: ISimpleBody) => {

@@ -102,6 +102,57 @@ export default {
         luminosity: 'Zářivost',
         absoluteValues: 'Absolutní hodnoty',
         relativeTo: 'Relativně k'
+    },
+
+    bodyData: {
+        size: 'Velikost',
+        diameterX: 'Rov. průměr',
+        diameterY: 'Polar. průměr',
+        surface: 'Povrch',
+        circumference: 'Obvod',
+        volume: 'Objem',
+        flattening: 'Zploštění',
+
+        matter: 'Hmota',
+        mass: 'Hmotnost',
+        density: 'Hustota',
+        composition: 'Složení',
+        escapeVelocity: 'Úniková rychlost',
+        gravity: 'Gravitace',
+
+        orbit: 'Dráha',
+        semimajorAxis: 'Velká poloosa',
+        pericenter: 'Periapsida',
+        apocenter: 'Apoapsida',
+        eccentricity: 'Excentricita',
+        orbitPeriod: 'Doba oběhu',
+        orbitVelocity: 'Rychlost oběhu',
+        inclination: 'Sklon dráhy',
+        circuit: 'Obvod dráhy',
+
+        atmosphere: 'Atmosféra',
+        atmospherePressure: 'Atmosfér. tlak',
+        atmosphereComposition: 'Složení atmosf.',
+
+        visibility: 'Viditelnost',
+        albedo: 'Albedo',
+        magnitude: 'Magnituda',
+        absoluteMagnitude: 'Abs. magnituda',
+
+        energy: 'Energie',
+        innerTemperature: 'Vnitř. teplota',
+        outerTemperature: 'Vnějš. templota',
+        luminosity: 'Zářivý výkon',
+
+        axis: 'Osa',
+        axisPeriod: 'Perioda rotace',
+        axisVelocity: 'Rychlost rotace',
+        axisTilt: 'Sklon osy',
+
+        discover: 'Objev',
+        discoverer: 'Objevitel',
+        discoverDate: 'Datum objevu'
+
     }
 
 }

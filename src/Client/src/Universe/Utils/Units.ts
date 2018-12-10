@@ -25,6 +25,26 @@ class Units {
     }
 
     /**
+     * List of all surface units.
+     */
+    public static SURFACE = {
+        M2: { value: 1, shortName: 'm2' },
+        KM2: { value: 1e6, shortName: 'km2' },
+        AU2: { value: 2.2e22, shortName: 'AU2' },
+        LY2: { value: 8.9e31, shortName: 'ly2' }
+    }
+
+    /**
+     * List of all volume units.
+     */
+    public static VOLUME = {
+        M3: { value: 1, shortName: 'm3' },
+        KM3: { value: 1e9, shortName: 'km3' },
+        AU3: { value: 1e33, shortName: 'AU3' },
+        LY3: { value: 1e47, shortName: 'ly3' }
+    }
+
+    /**
      * List of all time units.
      */
     public static TIME = {
@@ -76,6 +96,30 @@ class Units {
      */
     public static formatSize(value: number, format: IUnitFormatter, unit: IUnit = Units.SIZE.KM): string {
         const corresponding = Units.getCorrespondingUnit(value, unit, Units.SIZE)
+        return format(corresponding.value, corresponding.unit)
+    }
+
+    /**
+     * Format surface unit.
+     * @param value Amount of units.
+     * @param format Formatter function.
+     * @param unit Input unit. (optional, default Units.SIZE.KM2)
+     * @returns Formatted surface unit.
+     */
+    public static formatSurface(value: number, format: IUnitFormatter, unit: IUnit = Units.SURFACE.KM2): string {
+        const corresponding = Units.getCorrespondingUnit(value, unit, Units.SURFACE)
+        return format(corresponding.value, corresponding.unit)
+    }
+
+    /**
+     * Format volume unit.
+     * @param value Amount of units.
+     * @param format Formatter function.
+     * @param unit Input unit. (optional, default Units.SIZE.KM3)
+     * @returns Formatted volume unit.
+     */
+    public static formatVolume(value: number, format: IUnitFormatter, unit: IUnit = Units.VOLUME.KM3): string {
+        const corresponding = Units.getCorrespondingUnit(value, unit, Units.VOLUME)
         return format(corresponding.value, corresponding.unit)
     }
 

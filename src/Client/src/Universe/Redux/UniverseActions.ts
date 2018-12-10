@@ -11,6 +11,17 @@ export const getBodies = () => (
     )
 )
 
+/**
+ * Get body by ID.
+ * @param bodyId ID of body.
+ */
+export const getBodyById = (bodyId: string) => (
+    Redux.asyncAction(
+        ActionTypes.GET_BODY_BY_ID,
+        { body: Request.get<ISimpleBody>(`bodies/${bodyId}`,) }
+    )
+)
+
 
 /**
  * Select body.

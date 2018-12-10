@@ -4,6 +4,7 @@
 import AsyncEntity from './Components/AsyncEntity'
 import BlurLayout from './Components/BlurLayout'
 import Component from './Components/Component'
+import DataTable from './Components/DataTable'
 import FadeLayout from './Components/FadeLayout'
 import Link from './Components/Link'
 import SimpleComponent from './Components/SimpleComponent'
@@ -11,12 +12,14 @@ import Loader from './Components/Loader'
 import StatelessComponent from './Components/StatelessComponent'
 import Table from './Components/Table'
 import UILayout from './Components/UILayout'
+import QueryMenu from './Components/QueryMenu'
 import View from './Components/View'
 
 export {
     AsyncEntity,
     BlurLayout,
     Component,
+    DataTable,
     FadeLayout,
     Link,
     SimpleComponent,
@@ -24,6 +27,7 @@ export {
     StatelessComponent,
     Table,
     UILayout,
+    QueryMenu,
     View
 }
 

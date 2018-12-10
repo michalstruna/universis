@@ -10,7 +10,14 @@ enum Queries {
     BODY = 'teleso',
     BODIES = 'telesa',
     BODIES_FILTER = 'filtr',
-    BODIES_SETTINGS = 'nastaveni'
+    BODIES_SETTINGS = 'nastaveni',
+    BODY_TAB = 'teleso-tab',
+
+    BODY_DATA = 'data',
+    BODY_TIMELINE = 'casova-osa',
+    BODY_DISCUSSION = 'diskuse',
+
+    CHAT_TAB = 'chat-tab'
 
 }
 
