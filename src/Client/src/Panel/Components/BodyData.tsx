@@ -1,6 +1,6 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
-import { Doughnut } from 'react-chartjs-2'
+import { Chart } from 'react-google-charts'
 
 import { StatelessComponent, DataTable } from '../../Utils'
 import { Units } from '../../Universe'
@@ -12,30 +12,50 @@ interface IProps {
 
 class BodyData extends StatelessComponent<IProps> {
 
-    private renderPieChart(data: object): React.ReactNode {
+    private static renderPieChart(data: object): React.ReactNode {
         return (
-            <Doughnut
-                legend={{
-                    labels: {
-                        fontColor: '#eee'
-                    }
-                }}
-                data={{
-                    labels: ['He', 'H', 'O', 'N', 'C', 'X'],
-                    datasets: [{
-                        backgroundColor: ['#484', '#27a', '#b90', '#a33', '#2aa', '#aa6'],
-                        borderWidth: 0,
-                        data: [80, 20, 15, 36, 47, 5]
-                    }]
-                }}
-                options={{
-                    maintainAspectRatio: false
-                }} />
+            <>
+                <Chart
+                    width={'300px'}
+                    height={'300px'}
+                    chartType='PieChart'
+                    loader={<div>Loading Chart</div>}
+                    data={[
+                        ['Task', 'Hours per Day'],
+                        ['He', 11],
+                        ['H', 2],
+                        ['C', 2],
+                        ['O', 2],
+                        ['Uup', 7],
+                    ]}
+                    options={{
+                        backgroundColor: 'transparent',
+                        pieHole: 0.5,
+                        pieSliceBorderColor: 'transparent',
+                        legend: 'none',
+                        pieSliceText: 'value-and-percentage',
+                        chartArea: {
+                            left: 0,
+                            top: 10,
+                            width: "100%",
+                            height: "80%"
+                        },
+                        tooltip: {
+                            ignoreBounds: true,
+                            text: 'percentage'
+                        }
+                    }}
+                />
+            </>
         )
     }
 
     public render(): React.ReactNode {
         const { strings, body } = this.props
+
+        if (!body) {
+            return null
+        }
 
         return (
             <section className='panel__body__data'>
@@ -49,6 +69,7 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.diameterX]: Units.formatSize(body.diameter.x, Units.FULL),
                             [strings.diameterY]: Units.formatSize(body.diameter.y, Units.FULL),
                             [strings.flattening]: Units.formatUnitLess(body.flattening, Units.FULL),
+                            [strings.circumference]: Units.formatSize(40075, Units.FULL),
                             [strings.surface]: Units.formatSurface(body.surface, Units.SHORT),
                             [strings.volume]: Units.formatVolume(body.volume, Units.SHORT)
                         }} />
@@ -59,7 +80,7 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.density]: Units.formatDensity(body.density, Units.FULL),
                             [strings.composition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    {this.renderPieChart(body.composition)}
+                                    {BodyData.renderPieChart(body.composition)}
                                 </section>
                             ),
                             [strings.escapeVelocity]: Units.formatUnitLess(body.escapeVelocity, Units.FULL),
@@ -90,7 +111,7 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.atmospherePressure]: 'TODO', // TODO
                             [strings.atmosphereCoposition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    {this.renderPieChart(body.composition)}
+                                    {BodyData.renderPieChart(body.composition)}
                                 </section>
                             )
                         }} />

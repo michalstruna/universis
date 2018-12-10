@@ -109,6 +109,7 @@ export default {
         diameterX: 'Rov. průměr',
         diameterY: 'Polar. průměr',
         surface: 'Povrch',
+        circumference: 'Obvod',
         volume: 'Objem',
         flattening: 'Zploštění',
 

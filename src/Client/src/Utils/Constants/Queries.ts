@@ -11,7 +11,7 @@ enum Queries {
     BODIES = 'telesa',
     BODIES_FILTER = 'filtr',
     BODIES_SETTINGS = 'nastaveni',
-    BODY_TAB = 'info',
+    BODY_TAB = 'teleso-tab',
 
     BODY_DATA = 'data',
     BODY_TIMELINE = 'casova-osa',

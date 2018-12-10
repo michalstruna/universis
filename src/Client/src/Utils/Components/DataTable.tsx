@@ -42,7 +42,14 @@ class DataTable extends StatelessComponent<IProps> {
         const { data } = this.props
 
         if (typeof data[column] === 'function') {
-            return data[column]()
+            return (
+                <section className='data-table__cell--custom'>
+                    <span className='data-table__cell--center'>
+                        {column}
+                    </span>
+                    {data[column]()}
+                </section>
+            )
         }
 
         return (

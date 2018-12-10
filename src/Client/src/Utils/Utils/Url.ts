@@ -83,8 +83,8 @@ class Url {
      * Replace last location to new location in history.
      * @param target New location.
      */
-    public static replace(target: ILocationTarget, x = false): void {
-        history.replace(Url.link(history.location, target), x)
+    public static replace(target: ILocationTarget): void {
+        history.replace(Url.link(history.location, target))
     }
 
 

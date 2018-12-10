@@ -24,6 +24,15 @@
         &--title {
             text-align: center !important;
         }
+
+        &--custom {
+            padding: 0.5rem 0;
+        }
+
+        &--center {
+            display: block;
+            text-align: center;
+        }
     }
 
 }

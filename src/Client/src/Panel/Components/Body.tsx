@@ -20,6 +20,10 @@ class Body extends StatelessComponent<IProps> {
     public componentWillMount(): void {
         const { bodies, getBodies } = this.props
 
+        if (!Url.hasQuery(Queries.BODY)) {
+            Url.replace({ query: { [Queries.BODY_TAB]: Queries.BODY_DATA } })
+        }
+
         AsyncEntity.request(bodies, getBodies)
 
         if (bodies.payload) {
@@ -60,7 +64,7 @@ class Body extends StatelessComponent<IProps> {
             case Queries.BODY_DATA:
                 return <BodyData />
             default:
-                return null
+                return <BodyData />
         }
     }
 

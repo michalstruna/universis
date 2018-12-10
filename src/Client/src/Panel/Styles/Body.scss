@@ -24,9 +24,12 @@
         }
 
         &__chart {
-            @include size(100%, 15rem);
-            padding: 1rem 0;
+            @include size(100%, 16rem);
             position: relative;
+
+            svg > g > g:last-child {
+                pointer-events: none;
+            }
         }
     }
 
