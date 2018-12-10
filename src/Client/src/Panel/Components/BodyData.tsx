@@ -2,7 +2,7 @@ import Masonry from 'react-masonry-component'
 import * as React from 'react'
 import { Chart } from 'react-google-charts'
 
-import { StatelessComponent, DataTable } from '../../Utils'
+import { StatelessComponent, DataTable, Loader } from '../../Utils'
 import { Units } from '../../Universe'
 
 interface IProps {
@@ -14,39 +14,37 @@ class BodyData extends StatelessComponent<IProps> {
 
     private static renderPieChart(data: object): React.ReactNode {
         return (
-            <>
-                <Chart
-                    width={'300px'}
-                    height={'300px'}
-                    chartType='PieChart'
-                    loader={<div>Loading Chart</div>}
-                    data={[
-                        ['Task', 'Hours per Day'],
-                        ['He', 11],
-                        ['H', 2],
-                        ['C', 2],
-                        ['O', 2],
-                        ['Uup', 7],
-                    ]}
-                    options={{
-                        backgroundColor: 'transparent',
-                        pieHole: 0.5,
-                        pieSliceBorderColor: 'transparent',
-                        legend: 'none',
-                        pieSliceText: 'value-and-percentage',
-                        chartArea: {
-                            left: 0,
-                            top: 10,
-                            width: "100%",
-                            height: "80%"
-                        },
-                        tooltip: {
-                            ignoreBounds: true,
-                            text: 'percentage'
-                        }
-                    }}
-                />
-            </>
+            <Chart
+                width={'300px'}
+                height={'300px'}
+                chartType='PieChart'
+                loader={<Loader />}
+                data={[
+                    ['Task', 'Hours per Day'],
+                    ['He', 11],
+                    ['H', 2],
+                    ['C', 2],
+                    ['O', 2],
+                    ['Uup', 7],
+                ]}
+                options={{
+                    backgroundColor: 'transparent',
+                    pieHole: 0.5,
+                    pieSliceBorderColor: 'transparent',
+                    legend: 'none',
+                    pieSliceText: 'value-and-percentage',
+                    chartArea: {
+                        left: 0,
+                        top: 10,
+                        width: '100%',
+                        height: '80%'
+                    },
+                    tooltip: {
+                        ignoreBounds: true,
+                        text: 'percentage'
+                    }
+                }}
+            />
         )
     }
 
