@@ -5,6 +5,7 @@ import AsyncEntity from './Components/AsyncEntity'
 import BlurLayout from './Components/BlurLayout'
 import Component from './Components/Component'
 import DataTable from './Components/DataTable'
+import DonutChart from './Components/DonutChart'
 import FadeLayout from './Components/FadeLayout'
 import Link from './Components/Link'
 import SimpleComponent from './Components/SimpleComponent'
@@ -20,6 +21,7 @@ export {
     BlurLayout,
     Component,
     DataTable,
+    DonutChart,
     FadeLayout,
     Link,
     SimpleComponent,
