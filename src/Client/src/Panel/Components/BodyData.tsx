@@ -2,7 +2,7 @@ import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
 import { StatelessComponent, DataTable, DonutChart } from '../../Utils'
-import { Units } from '../../Universe'
+import { Units, BodyPreview } from '../../Universe'
 
 interface IProps {
     body: IBody
@@ -20,6 +20,25 @@ class BodyData extends StatelessComponent<IProps> {
 
         return (
             <section className='panel__body__data'>
+                <section className='panel__body__data__preview'>
+                    <section className='panel__body__data__preview--left'>
+                        <h2 className='panel__body__data__subtitle'>
+                            {body.type.name}
+                        </h2>
+                        <h1 className='panel__body__data__title'>
+                            {body.name}
+                        </h1>
+                        <p className='panel__body__data__description'>
+                            Jupiter je největší planeta sluneční soustavy, v pořadí pátá od Slunce.
+                            Je 3krát hmotnější, než všechny ostatní planety sluneční soustavy dohromady.
+                            Symbolickým útvarem je Velká rudá skvrna.
+                            Jedná se o bouři dvakrát větší, než Země.
+                        </p>
+                    </section>
+                    <section className='panel__body__data__preview--right'>
+                        <BodyPreview body={body} size={300} />
+                    </section>
+                </section>
                 <Masonry
                     className={'panel__body__data__masonry'}
                     elementType={'section'}

@@ -31,6 +31,37 @@
                 pointer-events: none;
             }
         }
+
+        &__preview {
+            @include size(100%, 18.75rem);
+            text-align: center;
+
+            &--left {
+                @include size(50%, 100%);
+                box-sizing: border-box;
+                float: left;
+                padding: 1rem;
+            }
+
+            &--right {
+                @include size(50%, 100%);
+                float: right;
+            }
+        }
+
+        &__title {
+            font-size: 150%;
+        }
+
+        &__subtitle {
+            font-size: 100%;
+            font-weight: normal;
+        }
+
+        &__description {
+            line-height: 1.5em;
+            margin-top: 1rem;
+        }
     }
 
     .panel__window__body--scroll {

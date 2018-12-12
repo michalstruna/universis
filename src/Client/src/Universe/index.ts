@@ -37,3 +37,8 @@ export {
     Units,
     Listener
 }
+
+/**
+ * Components
+ */
+export { default as BodyPreview } from './Components/BodyPreview'
