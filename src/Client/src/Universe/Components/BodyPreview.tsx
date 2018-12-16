@@ -1,8 +1,8 @@
 import * as React from 'react'
-import * as THREE from 'three'
 
 import { StatelessComponent } from '../../Utils'
 import BodyFactory from '../Utils/BodyFactory'
+import Scene from '../Utils/Scene'
 
 interface IProps {
     body: ISimpleBody
@@ -22,47 +22,21 @@ class BodyPreview extends StatelessComponent<IProps> {
     }
 
     public componentDidMount(): void {
-        /**
-         * const scene = new Scene({
-         *     getAspect: () => 1,
-         *     getNear: () => selectedBody.diameter.x,
-         *     getFar: () => universe.diameter.x,
-         *     alpha: true,
-         *     logaritmicBuffer: true,
-         *     clearColor: 0x000000,
-         *     size: size,
-         *     meshes: [...]
-         * })
-         */
-
-
         const { body, size } = this.props
-        const scene = new THREE.Scene()
-        const camera = new THREE.PerspectiveCamera(75, 1, 2, 2000000000)
-        const renderer = new THREE.WebGLRenderer({ alpha: true })
-        renderer.setClearColor(0x000000, 0)
-
-        renderer.setSize(size, size)
-        this.parent.appendChild(renderer.domElement)
-
-        scene.add(new THREE.AmbientLight(0xffffff))
-        scene.add(camera)
-
-        camera.position.z = body.diameter.x
 
         const bodyContainer = this.bodyFactory.create(body)
         bodyContainer.mesh.rotateX(-Math.PI / 2)
-        bodyContainer.mesh.position.x = -body.diameter.x / 10
 
-        scene.add(bodyContainer.mesh)
+        new Scene({
+            ambientColor: 0xffffff,
+            cameraPosition: { z: body.diameter.x },
+            element: this.parent,
+            height: size,
+            objects: [bodyContainer.mesh],
+            onRender: () => bodyContainer.mesh.rotation.z -= 0.01,
+            width: size
+        })
 
-        const animate = () => {
-            requestAnimationFrame(animate)
-            renderer.render(scene, camera)
-            bodyContainer.mesh.rotation.z -= 0.01
-        }
-
-        animate()
     }
 
     public render(): React.ReactNode {

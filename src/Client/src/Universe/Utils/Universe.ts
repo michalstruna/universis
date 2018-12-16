@@ -1,18 +1,15 @@
 import * as THREE from 'three'
-import * as TWEEN from '@tweenjs/tween.js'
 
 import Config from '../Constants/Config'
-import UniverseInitializer from './UniverseInitializer'
 import Visibility from '../Constants/Visibility'
-import { Html } from '../../Utils'
-import Camera from '../Utils/Camera'
-import BodySelector from './BodySelector'
+
+import Scene from '../Utils/Scene'
+import BodyFactory from './BodyFactory'
 
 /**
  * Temp variables.
  */
 const tempVector = new THREE.Vector3()
-const meshPosition = new THREE.Vector3()
 const rotationVector = new THREE.Vector3(0, 0, 1)
 
 interface IOptions {
@@ -22,20 +19,23 @@ interface IOptions {
     onSelectBody: IConsumer<string>
 }
 
-/**
- * Utils for universe.
- */
 class Universe implements IUniverse {
+
+    /**
+     * Instance of THREE.js scene.
+     */
+    private scene: IScene
 
     /**
      * List of all bodies in universe.
      */
     private bodies: IBodyContainer[]
+    private rootBodies: THREE.Object3D[]
 
     /**
-     * Instance of class for select bodies by coordinates.
+     * Visibility of labels.
      */
-    private bodySelector: IBodySelector
+    private areLabelsVisible: boolean
 
     /**
      * Scale of scene.
@@ -43,156 +43,69 @@ class Universe implements IUniverse {
     private scale: number
 
     /**
-     * Handlers.
+     * Body factory.
      */
-    private handleChangeViewSize: IConsumer<number>
-    private handleSelectBody: IConsumer<string>
+    private bodyFactory: IFactory<ISimpleBody, IBodyContainer>
 
-    /**
-     * THREE.js entities.
-     */
-    private scene: THREE.Scene
-    private renderer: THREE.WebGLRenderer
-    private camera: ICamera
-
-    /**
-     * Toggle values.
-     */
-    private areLabelsVisible: boolean
-    private darkColor: THREE.AmbientLight
-    private lightColor: THREE.AmbientLight
-
-    /**
-     * Variables for mouse down and mouse up events.
-     */
-    private startMouseX
-    private startMouseY
-
-    /**
-     * Create universe.
-     * @param options Options.
-     */
     public constructor(options: IOptions) {
-        const initializer = new UniverseInitializer(options.element, options.bodies)
-        this.scale = 1
+        this.bodyFactory = new BodyFactory()
+        this.createBodies(options.bodies)
 
-        this.handleSelectBody = options.onSelectBody
-        this.handleChangeViewSize = options.onChangeViewSize
-
-        this.scene = initializer.scene
-        this.renderer = initializer.renderer
-        this.camera = new Camera(this.scene, this.handleChangeViewSize)
-        this.bodies = initializer.bodies
-        this.bodySelector = new BodySelector(Object.values(this.bodies).map(body => body.mesh), this.camera.getNativeCamera())
-        this.darkColor = initializer.darkColor
-        this.lightColor = initializer.lightColor
-
-        this.bodies.forEach(body => {
-            body.label.onclick = () => this.handleSelectBody(body.data._id)
+        this.scene = new Scene({
+            backgroundColor: 0x000000,
+            controllable: true,
+            element: options.element,
+            logarithmicDepth: true,
+            objects: this.rootBodies,
+            onRender: () => this.updateBodies()
         })
-
-        options.element.addEventListener('mousedown', this.handleMouseDown)
-        options.element.addEventListener('mouseup', this.handleMouseUp)
-
-        document.body.addEventListener('mousemove', event => {
-            this.camera.enableControls(
-                !Html.hasParent(
-                    event.target as HTMLElement,
-                    element => Html.hasClass(element, 'panel')
-                )
-            )
-        })
-
-        const selectedBodyId = this.bodies.filter(body => body.data.name === Config.INITIAL_BODY)[0].data._id
-        this.handleSelectBody(selectedBodyId)
-
-        this.resize()
-        requestAnimationFrame(this.render)
     }
 
-    public resize = (): void => {
-        this.camera.setAspectRatio(window.innerWidth / window.innerHeight)
-        this.renderer.setSize(window.innerWidth, window.innerHeight)
+    public resize(): void {
+        //this.camera.setAspectRatio(window.innerWidth / window.innerHeight)
+        //this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
-    public setViewSize = (viewSize: number): void => {
-        this.camera.setViewSize(viewSize)
+    public selectBody(bodyId: string): void {
+        this.scene.setCameraTarget(bodyId)
     }
 
-    public toggleLabels(areLabelsVisible: boolean) {
+    public setViewSize(viewSize: number): void {
+        this.scene.setCameraPosition({ z: viewSize })
+    }
+
+    public toggleLabels(areLabelsVisible: boolean): void {
         this.areLabelsVisible = areLabelsVisible
     }
 
-    public toggleLight(isLightVisible: boolean) {
-        if (isLightVisible) {
-            this.scene.remove(this.darkColor)
-            this.scene.add(this.lightColor)
-        } else {
-            this.scene.remove(this.lightColor)
-            this.scene.add(this.darkColor)
-        }
+    public toggleLight(isLightVisible: boolean): void {
+        this.scene.setAmbientColor(isLightVisible ? Config.LIGHT_COLOR : Config.DARK_COLOR)
     }
 
-    public toggleOrbits(areOrbitsVisible: boolean) {
+    public toggleOrbits(areOrbitsVisible: boolean): void {
         for (const body of this.bodies) {
             (body.orbit.children[0] as any).material.visible = areOrbitsVisible
         }
     }
 
     /**
-     * Get body from collection.
-     * @param bodyId ID of body.
-     * @returns Body container with this ID.
-     */
-    private getBodyById(bodyId: string): IBodyContainer {
-        return this.bodies.filter(body => body.data._id === bodyId)[0]
-    }
-
-    /**
-     * Render scene.
-     */
-    private render = (time: number): void => {
-        requestAnimationFrame(this.render)
-        this.renderer.render(this.scene, this.camera.getNativeCamera())
-        this.updateBodies()
-        TWEEN.update(time)
-    }
-
-    /**
-     * Check if body is visible.
-     * @param body Body.
-     * @returns Body visibility.
-     */
-    private getVisibility(body: IBodyContainer): Visibility {
-        body.mesh.getWorldPosition(meshPosition)
-
-        const min = this.camera.getViewSize() / body.data.orbit.apocenter
-        const distance = meshPosition.distanceTo(this.camera.getPosition())
-        const max = this.camera.getViewSize() / distance
-
-        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
-            return Visibility.INVISIBLE
-        } else if (min > Config.SEMI_VISIBILITY_EDGE || Math.min(max, min) < (1 / Config.SEMI_VISIBILITY_EDGE)) {
-            return Visibility.SEMI_VISIBLE
-        } else {
-            return Visibility.VISIBLE
-        }
-    }
-
-    /**
      * Update position of all bodies within render loop.
      */
-    private updateBodies(): void {
-        this.setScale(this.camera.getViewSize() * this.scale)
-        this.camera.update()
+    private updateBodies = (): void => {
+        if(!this.scene) {
+            return
+        }
+
+        //this.setScale(this.scene.getDistanceFromCamera() * this.scale)
+        //this.camera.update()
 
         for (const body of  this.bodies) {
-            tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
-            const vector = tempVector.project(this.camera.getNativeCamera())
-            const isVisible = this.camera.canSee(body.mesh)
+           /* tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
+            const vector = this.scene.projectCamera(tempVector)
+            const isVisible = this.scene.isInFov(body.mesh)
             const orbit = body.orbit.children[0] as any
             const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
-            const isSelectedBody = body.data._id === this.camera.getTarget().name
+            const isSelectedBody = body.data._id === this.scene.getCameraTarget().name
 
             if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && isVisible || isSelectedBody)) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
@@ -217,42 +130,10 @@ class Universe implements IUniverse {
 
                 body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
                 body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
-            }
+            }*/
         }
 
-        this.camera.setViewSizeLimit((this.camera.getTarget().geometry as THREE.SphereGeometry).parameters.radius * 2, 1e22)
-    }
-
-    /**
-     * Save mouse coordinates.
-     * @param event Mouse event.
-     */
-    private handleMouseDown = (event: MouseEvent): void => {
-        this.startMouseX = event.pageX
-        this.startMouseY = event.pageY
-    }
-
-    /**
-     * Select body by coordinates.
-     * @param event Mouse event.
-     */
-    private handleMouseUp = (event: MouseEvent): void => {
-        if (event.pageX === this.startMouseX && event.pageY === this.startMouseY) {
-            const mesh = this.bodySelector.select(event.pageX, event.pageY)
-
-            if (mesh) {
-                this.handleSelectBody(mesh.name)
-            }
-        }
-    }
-
-    /**
-     * Center body.
-     * @param bodyId ID of body.
-     */
-    public selectBody(bodyId: string): void {
-        const mesh = this.getBodyById(bodyId).mesh
-        this.camera.setTarget(mesh)
+        //this.scene.setMinDistanceFromCenter(((this.scene.getCameraTarget() as THREE.Mesh).geometry as THREE.SphereGeometry).parameters.radius * 2)
     }
 
     /**
@@ -266,6 +147,56 @@ class Universe implements IUniverse {
         } else if (viewSize < 1e3) {
             this.scale *= 1e3
         }
+    }
+
+    /**
+     * Check if body is visible.
+     * @param body Body.
+     * @returns Body visibility.
+     */
+    private getVisibility(body: IBodyContainer): Visibility {
+        const viewSize = this.scene.getDistanceFromCamera()
+
+        const min = viewSize / body.data.orbit.apocenter
+        const distance = this.scene.getDistanceFromCamera(body.mesh)
+        const max = viewSize / distance
+
+        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
+            return Visibility.INVISIBLE
+        } else if (min > Config.SEMI_VISIBILITY_EDGE || Math.min(max, min) < (1 / Config.SEMI_VISIBILITY_EDGE)) {
+            return Visibility.SEMI_VISIBLE
+        } else {
+            return Visibility.VISIBLE
+        }
+    }
+
+    /**
+     * Create bodies in universe and assign them to parents.
+     * @param bodies List of all bodies.
+     */
+    private createBodies(bodies: ISimpleBody[]): void {
+        this.bodies = []
+        this.rootBodies = []
+
+        for (const data of bodies) {
+            //this.setScale(data)
+
+            const body = this.bodyFactory.create(data)
+            this.bodies.push(body)
+           // this.element.appendChild(body.label)
+
+            if (data.parentId) {
+                this.bodies.filter(body => body.data._id === data.parentId)[0].mesh.add(body.orbit)
+                //this.scene.getObject(data.parentId).children[0].add(body.orbit)
+            } else {
+                this.rootBodies.push(body.orbit)
+                //this.scene.addObject(body.orbit)
+            }
+        }
+
+        //bodyContainers.forEach(body => {
+          //  body.label.onclick = () => this.handleSelectBody(body.data._id)
+        //})
     }
 
 }

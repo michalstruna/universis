@@ -6,7 +6,7 @@ import BodyFactory from './BodyFactory'
 /**
  * Utils for universe.
  */
-class UniverseInitializer implements IUniverseInitializer {
+class UniverseInitializer {
 
     public readonly element: HTMLElement
     public readonly bodies: IBodyContainer[]
@@ -24,13 +24,10 @@ class UniverseInitializer implements IUniverseInitializer {
      */
     public constructor(element: HTMLElement, bodies: ISimpleBody[]) {
         this.element = element
-        this.scene = this.createScene()
         this.renderer = this.createRenderer()
         this.bodyFactory = new BodyFactory()
         element.appendChild(this.renderer.domElement)
         this.bodies = this.createBodies(bodies)
-        this.lightColor = this.createLightColor()
-        this.darkColor = this.createDarkColor()
     }
 
     /**
@@ -79,42 +76,18 @@ class UniverseInitializer implements IUniverseInitializer {
     }
 
     /**
-     * Create THREE.js scene.
-     * @returns Scene.
-     */
-    private createScene(): THREE.Scene {
-        return new THREE.Scene()
-    }
-
-    /**
      * Create renderer.
      * @returns WebGL renderer.
      */
     private createRenderer(): THREE.WebGLRenderer {
         const renderer = new THREE.WebGLRenderer({
-            antialias: true,
+            antialias: true, // TODO?
             logarithmicDepthBuffer: true
         })
 
-        renderer.shadowMap.enabled = true
+        renderer.shadowMap.enabled = true // TODO?
 
         return renderer
-    }
-
-    /**
-     * Create light color.
-     * @returns Light color.
-     */
-    private createLightColor(): THREE.AmbientLight {
-        return new THREE.AmbientLight(Config.LIGHT_COLOR)
-    }
-
-    /**
-     * Create dark color.
-     * @returns Dark color.
-     */
-    private createDarkColor(): THREE.AmbientLight {
-        return new THREE.AmbientLight(Config.DARK_COLOR)
     }
 }
 

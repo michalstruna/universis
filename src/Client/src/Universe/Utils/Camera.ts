@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import * as TWEEN from '@tweenjs/tween.js'
 
 import Config from '../Constants/Config'
 import Units from './Units'
@@ -9,7 +8,7 @@ const TrackballControls = require('three-trackballcontrols')
 /**
  * Wrapper for THREE.js camera.
  */
-class Camera implements ICamera {
+class Camera {
 
     /**
      * Multiply of radius of new target.
@@ -85,23 +84,6 @@ class Camera implements ICamera {
     }
 
     public setTarget(mesh: THREE.Mesh): void {
-        // TODO: Fix camera transition between bodies.
-        /*if (this.target) {
-            const radius = (mesh.geometry as THREE.SphereGeometry).parameters.radius
-            this.camera.getWorldDirection(this.direction)
-            this.direction.multiplyScalar(-radius * Camera.DEFAULT_TARGET_DISTANCE)
-
-
-            this.camera.getWorldPosition(this.oldTargetPosition)
-            mesh.add(this.camera)
-            this.camera.worldToLocal(this.oldTargetPosition)
-            this.controls.target.copy(this.oldTargetPosition)
-            this.animate(this.controls.target, this.controlsTarget)
-            this.animate(this.camera.position, this.direction)
-        } else {
-            mesh.add(this.camera)
-        }*/
-
         mesh.add(this.camera)
         this.target = mesh
     }
@@ -159,25 +141,6 @@ class Camera implements ICamera {
 
     public getPosition(): THREE.Vector3 {
         return this.position
-    }
-
-    /**
-     * Start animation.
-     * @param from Start state.
-     * @param to Finished state.
-     * @param onUpdate
-     * @param onComplete Callback after complete. (optional)
-     * @param duration Duration of animation [ms]. (optional, default 2000)
-     * @param easing Type of easing. (optional, default TWEEN.Easing.Cubic.InOut
-     */
-    private animate(from: IObject<any>, to: IObject<any>, onUpdate?: IRunnable, onComplete?: IRunnable, duration = 2000, easing: any = TWEEN.Easing.Cubic.InOut): any {
-        return new TWEEN
-            .Tween(from)
-            .to(to, duration)
-            .easing(TWEEN.Easing.Cubic.InOut)
-            .onUpdate(onUpdate ? onUpdate : () => null)
-            .onComplete(onComplete ? onComplete : () => null)
-            .start()
     }
 
 }
