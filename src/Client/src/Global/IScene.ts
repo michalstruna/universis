@@ -44,9 +44,24 @@ declare interface ISceneOptions {
     height?: number
 
     /**
+     * Initial camera target.
+     */
+    target?: THREE.Object3D | string
+
+    /**
      * Use logarithmic depth buffer. (optional, default false)
      */
     logarithmicDepth?: boolean
+
+    /**
+     * If scene is controllable, this is max distance of camera from target. (optional, default Infinity)
+     */
+    maxDistance?: number
+
+    /**
+     * If scene is controllable, this is max distance of camera from target. (optional, default 0)
+     */
+    minDistance?: number
 
     /**
      * Nearest visibility of camera. (optional, default 1e-3)

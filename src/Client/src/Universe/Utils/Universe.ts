@@ -57,7 +57,8 @@ class Universe implements IUniverse {
             element: options.element,
             logarithmicDepth: true,
             objects: this.rootBodies,
-            onRender: () => this.updateBodies()
+            onRender: () => this.updateBodies(),
+            target: '5be60eee4143ef4fd8db9a77'
         })
     }
 

@@ -5,11 +5,13 @@ const TrackballControls = require('three-trackballcontrols')
 const DEFAULT_OPTIONS = {
     ambientColor: 0x000000,
     backgroundColor: null,
-    cameraPosition: {},
+    cameraPosition: { z: 1 },
     far: 1e50,
     fov: 75,
     height: window.innerHeight,
     logarithmicDepth: false,
+    maxDistance: Infinity,
+    minDistance: 0,
     near: 1e-3,
     objects: [],
     width: window.innerWidth
@@ -65,6 +67,10 @@ class Scene implements IScene {
             this.createControls()
         }
 
+        if (this.options.target) {
+            this.setCameraTarget(this.options.target)
+        }
+
         this.append()
         this.render()
     }
@@ -105,9 +111,19 @@ class Scene implements IScene {
     }
 
     public setCameraTarget(objectId: string | THREE.Object3D): void {
-        const object = typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId
+        let object = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
+
         object.add(this.camera)
         this.target = object
+
+        if (this.controls) {
+            if (object.geometry) {
+                if (object.geometry.boundingSphere) {
+                    this.controls.minDistance = object.geometry.boundingSphere.radius * 2
+                }
+            }
+
+        }
     }
 
     public setMinDistanceFromCenter(distance: number): void {
@@ -175,7 +191,10 @@ class Scene implements IScene {
     }
 
     private createControls(): void {
+        const { maxDistance, minDistance } = this.options
         this.controls = new TrackballControls(this.camera)
+        this.controls.maxDistance = maxDistance
+        this.controls.minDistance = minDistance
     }
 
     /**

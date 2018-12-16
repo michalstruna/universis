@@ -32,12 +32,13 @@ class BodyPreview extends StatelessComponent<IProps> {
             cameraPosition: { z: body.diameter.x },
             element: this.parent,
             height: size,
+            logarithmicDepth: true,
             objects: [bodyContainer.mesh],
             onRender: () => bodyContainer.mesh.rotation.z -= 0.01,
             width: size
         })
 
-    }
+    }a
 
     public render(): React.ReactNode {
         return (
