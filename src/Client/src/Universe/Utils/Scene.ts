@@ -118,8 +118,8 @@ class Scene implements IScene {
 
         if (this.controls) {
             if (object.geometry) {
-                if (object.geometry.boundingSphere) {
-                    this.controls.minDistance = object.geometry.boundingSphere.radius * 2
+                if (object.geometry.parameters.radius) {
+                    this.controls.minDistance = object.geometry.parameters.radius * 2
                 }
             }
 
