@@ -1,4 +1,4 @@
-import { Texture, TextureLoader } from 'three'
+import { Texture, TextureLoader, RepeatWrapping } from 'three'
 
 import Config from '../Constants/Config'
 
@@ -37,7 +37,11 @@ class TextureStore {
      * @return THREE texture.
      */
     private static load(name: string): Texture {
-        return TextureStore.loader.load(Config.TEXTURES_PATH + name)
+        const texture = TextureStore.loader.load(Config.TEXTURES_PATH + name)
+        //texture.wrapS = texture.wrapT = RepeatWrapping
+        //texture.repeat.set(2, 1)
+        //texture.offset.set(texture.repeat.x * 2, texture.repeat.y)
+        return texture
     }
 
 }

@@ -68,18 +68,24 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createMaterial(body: ISimpleBody): THREE.MeshBasicMaterial {
         const texture = TextureStore.get(body.texture)
+        let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial
 
         if (typeof body.type.emissiveColor === 'number') {
-            return new THREE.MeshBasicMaterial({
-                map: texture
+            material = new THREE.MeshBasicMaterial({
+                map: texture,
+                //side: THREE.DoubleSide // TODO: Universe background?
             })
         } else {
-            return new THREE.MeshPhongMaterial({
+            material = new THREE.MeshPhongMaterial({
                 map: texture,
                 specularMap: texture,
                 specular: new THREE.Color(0, 0, 0)
             })
         }
+
+        //material.needsUpdate = false
+
+        return material
     }
 
     /**

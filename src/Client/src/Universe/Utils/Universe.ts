@@ -93,15 +93,15 @@ class Universe implements IUniverse {
      * Update position of all bodies within render loop.
      */
     private updateBodies = (): void => {
-        if(!this.scene) {
+        if (!this.scene) {
             return
         }
 
-        //this.setScale(this.scene.getDistanceFromCamera() * this.scale)
+        // this.setScale(this.scene.getDistanceFromCamera() * this.scale)
         //this.camera.update()
 
         for (const body of  this.bodies) {
-           /* tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
+            tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = this.scene.projectCamera(tempVector)
             const isVisible = this.scene.isInFov(body.mesh)
             const orbit = body.orbit.children[0] as any
@@ -131,7 +131,7 @@ class Universe implements IUniverse {
 
                 body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
                 body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
-            }*/
+            }
         }
 
         //this.scene.setMinDistanceFromCenter(((this.scene.getCameraTarget() as THREE.Mesh).geometry as THREE.SphereGeometry).parameters.radius * 2)
@@ -142,11 +142,38 @@ class Universe implements IUniverse {
      * If scene is too small or too large, scale it.
      * @param viewSize Distance camera from centered body.
      */
-    private setScale(viewSize: number): void {
+
+    /*private setScale(viewSize: number): void {
         if (viewSize > 1e6) {
             this.scale /= 1e3
         } else if (viewSize < 1e3) {
             this.scale *= 1e3
+        }
+    }*/
+
+    /**
+     * Convert size of bodies.
+     * @param body Body data.
+     */
+    private setScale(body: ISimpleBody): void {
+        const convert = (value: number) => (
+            value * Config.SIZE_RATIO
+        )
+
+        body.diameter.x = convert(body.diameter.x)
+        body.diameter.y = convert(body.diameter.y)
+        body.diameter.z = convert(body.diameter.z)
+
+        if (body.orbit) {
+            body.orbit.apocenter = convert(body.orbit.apocenter)
+            body.orbit.pericenter = convert(body.orbit.pericenter)
+        } else if (body.position) {
+            body.position.distance = convert(body.position.distance)
+        }
+
+        for (const ring of body.rings) {
+            ring.diameter.max = convert(ring.diameter.max)
+            ring.diameter.min = convert(ring.diameter.min)
         }
     }
 
@@ -180,11 +207,11 @@ class Universe implements IUniverse {
         this.rootBodies = []
 
         for (const data of bodies) {
-            //this.setScale(data)
+            this.setScale(data)
 
             const body = this.bodyFactory.create(data)
             this.bodies.push(body)
-           // this.element.appendChild(body.label)
+            // this.element.appendChild(body.label)
 
             if (data.parentId) {
                 this.bodies.filter(body => body.data._id === data.parentId)[0].mesh.add(body.orbit)
@@ -196,7 +223,7 @@ class Universe implements IUniverse {
         }
 
         //bodyContainers.forEach(body => {
-          //  body.label.onclick = () => this.handleSelectBody(body.data._id)
+        //  body.label.onclick = () => this.handleSelectBody(body.data._id)
         //})
     }
 
