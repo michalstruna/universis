@@ -102,6 +102,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
             const b = this.calculateB(body, a)
             const path = new THREE.EllipseCurve(0, 0, a, b, 0, 2 * Math.PI, false, 0)
             const geometry = new THREE.BufferGeometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
+            geometry.computeBoundingSphere()
             const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
             material.transparent = true
 

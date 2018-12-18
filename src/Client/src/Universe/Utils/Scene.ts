@@ -36,6 +36,11 @@ class Scene implements IScene {
     private target: THREE.Mesh
 
     /**
+     * List of all named meshes in scene.
+     */
+    private namedMeshes: THREE.Mesh[]
+
+    /**
      * THREE.js entities.
      */
     private scene: THREE.Scene
@@ -48,11 +53,16 @@ class Scene implements IScene {
 
     private lastDistanceFromTarget: number
 
+    private startMouseX: number
+    private startMouseY: number
+
     constructor(options: ISceneOptions) {
         this.options = {
             ...DEFAULT_OPTIONS,
             ...options
         }
+
+        this.namedMeshes = []
 
         this.createScene()
         this.createCamera()
@@ -64,6 +74,7 @@ class Scene implements IScene {
         if (this.options.controllable) {
             this.createControls()
             this.createRayCaster()
+            this.bindEvents()
         }
 
         if (this.options.target) {
@@ -72,6 +83,7 @@ class Scene implements IScene {
 
         this.append()
         this.render()
+        this.resize()
     }
 
     public getCameraTarget(): THREE.Mesh {
@@ -92,7 +104,7 @@ class Scene implements IScene {
         return vector.project(this.camera)
     }
 
-    public resize(width: number, height: number): void {
+    public resize(width: number = this.options.width, height: number = this.options.height): void {
         this.camera.aspect = window.innerWidth / window.innerHeight
         this.camera.updateProjectionMatrix()
         this.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -132,7 +144,6 @@ class Scene implements IScene {
 
         if (targetSize) {
             this.controls.minDistance = targetSize
-            this.lastDistanceFromTarget = this.controls.minDistance
         }
     }
 
@@ -184,14 +195,26 @@ class Scene implements IScene {
     }
 
     /**
-     * Add objects to scene.
+     * Add objects with name to scene.
      */
     private createObjects(): void {
         const { objects } = this.options
 
+        const recursivelyAddMeshes = (objects: THREE.Object3D[]) => {
+            for (const object of objects) {
+                if (object.name) {
+                    this.namedMeshes.push(object as THREE.Mesh)
+                }
+
+                recursivelyAddMeshes(object.children)
+            }
+        }
+
         for (const object of objects) {
             this.scene.add(object)
         }
+
+        recursivelyAddMeshes(objects)
     }
 
     /**
@@ -237,7 +260,7 @@ class Scene implements IScene {
         }
 
         const fromCenter = this.getDistanceFromCamera()
-        const isDifferent = (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
+        const isDifferent = !this.lastDistanceFromTarget || (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
 
         if (onZoom && isDifferent) {
             this.lastDistanceFromTarget = fromCenter
@@ -264,14 +287,14 @@ class Scene implements IScene {
      * @param y Vertical coordinate.
      * @return Selected body or null.
      */
-    private select(x: number, y: number): THREE.Mesh {
+    private select = (x: number, y: number): THREE.Mesh => {
         const coordinates = {
             x: (x / window.innerWidth) * 2 - 1,
             y: -(y / window.innerHeight) * 2 + 1
         }
 
         this.rayCaster.setFromCamera(coordinates, this.camera)
-        const intersects = this.rayCaster.intersectObjects(this.options.objects)
+        const intersects = this.rayCaster.intersectObjects(this.namedMeshes)
 
         return intersects[0] ? (intersects[0].object as THREE.Mesh) : null
     }
@@ -289,6 +312,45 @@ class Scene implements IScene {
         }
 
         return null
+    }
+
+    /**
+     * Bind UI events to scene.
+     */
+    private bindEvents(): void {
+        const { element } = this.options
+
+        element.addEventListener('mousedown', this.handleMouseDown)
+        element.addEventListener('mouseup', this.handleMouseUp)
+    }
+
+    /**
+     * Save mouse coordinates.
+     * @param event Mouse event.
+     */
+    private handleMouseDown = (event: MouseEvent): void => {
+        this.startMouseX = event.pageX
+        this.startMouseY = event.pageY
+    }
+
+    /**
+     * Select body by coordinates.
+     * @param event Mouse event.
+     */
+    private handleMouseUp = (event: MouseEvent): void => {
+        const { onChangeTarget } = this.options
+
+        if (event.pageX === this.startMouseX && event.pageY === this.startMouseY) {
+            const mesh = this.select(event.pageX, event.pageY)
+
+            if (mesh) {
+                this.setCameraTarget(mesh)
+
+                if (onChangeTarget) {
+                    onChangeTarget(mesh.name)
+                }
+            }
+        }
     }
 
 }

@@ -71,7 +71,7 @@ declare interface ISceneOptions {
     /**
      * Handler for click on object. There is ID of object in parameter. (optional)
      */
-    onObjectClick?: IConsumer<string>
+    onChangeTarget?: IConsumer<string>
 
     /**
      * Callback for render loop. (optional)
