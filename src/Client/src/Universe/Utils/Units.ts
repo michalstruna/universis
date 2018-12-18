@@ -282,7 +282,7 @@ class Units {
      * @returns Values are different.
      */
     public static isDifferent(value1, value2): boolean {
-        return Math.max(value1, value2) / Math.min(value1, value2) > 1.01
+        return Math.max(value1, value2) / Math.min(value1, value2) > 1.01 // TODO: Remove
     }
 
     /**

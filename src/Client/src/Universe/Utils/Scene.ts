@@ -11,7 +11,6 @@ const DEFAULT_OPTIONS = {
     height: window.innerHeight,
     logarithmicDepth: false,
     maxDistance: Infinity,
-    minDistance: 0,
     near: 1e-3,
     objects: [],
     width: window.innerWidth
@@ -19,7 +18,6 @@ const DEFAULT_OPTIONS = {
 
 let tempObjectPosition = new THREE.Vector3()
 let tempCameraPosition = new THREE.Vector3()
-let tempTargetPosition = new THREE.Vector3()
 let tempViewProjection = new THREE.Matrix4()
 
 /**
@@ -35,7 +33,7 @@ class Scene implements IScene {
     /**
      * Camera target.
      */
-    private target: THREE.Object3D
+    private target: THREE.Mesh
 
     /**
      * THREE.js entities.
@@ -48,8 +46,7 @@ class Scene implements IScene {
     private controls: THREE.TrackballControls
     private rayCaster: THREE.Raycaster
 
-    private viewSize: number
-    private lastViewSize: number
+    private lastDistanceFromTarget: number
 
     constructor(options: ISceneOptions) {
         this.options = {
@@ -77,16 +74,17 @@ class Scene implements IScene {
         this.render()
     }
 
-    public getCameraTarget(): THREE.Object3D {
+    public getCameraTarget(): THREE.Mesh {
         return this.target
     }
 
-    public getDistanceFromCamera(object: THREE.Object3D = this.target): number {
+    public getDistanceFromCamera(object: THREE.Mesh = this.target): number {
         object.getWorldPosition(tempObjectPosition)
-        return tempObjectPosition.distanceTo(this.camera.position)
+        this.camera.getWorldPosition(tempCameraPosition)
+        return tempObjectPosition.distanceTo(tempCameraPosition)
     }
 
-    public isInFov(object: THREE.Object3D): boolean {
+    public isInFov(object: THREE.Mesh): boolean {
         return this.frustum.intersectsObject(object)
     }
 
@@ -124,20 +122,23 @@ class Scene implements IScene {
         this.controls.enabled = isControllable
     }
 
-    public setCameraTarget(objectId: string | THREE.Object3D): void {
+    public setCameraTarget(objectId: string | THREE.Mesh): void {
         let object = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
 
         object.add(this.camera)
         this.target = object
 
-        if (this.controls) {
-            if (object.geometry) {
-                if (object.geometry.parameters.radius) {
-                    this.controls.minDistance = object.geometry.parameters.radius * 2
-                }
-            }
+        const targetSize = this.getTargetSize()
 
+        if (targetSize) {
+            this.controls.minDistance = targetSize
+            this.lastDistanceFromTarget = this.controls.minDistance
         }
+    }
+
+    public setDistanceFromTarget(distance: number): void {
+        this.controls.minDistance = distance
+        this.controls.maxDistance = distance
     }
 
     /**
@@ -204,10 +205,7 @@ class Scene implements IScene {
      * Create trackball controls.
      */
     private createControls(): void {
-        const { maxDistance, minDistance } = this.options
         this.controls = new TrackballControls(this.camera)
-        this.controls.maxDistance = maxDistance
-        this.controls.minDistance = minDistance
     }
 
     /**
@@ -229,7 +227,7 @@ class Scene implements IScene {
      * Render loop.
      */
     private render = (): void => {
-        const { onRender } = this.options
+        const { maxDistance, onRender, onZoom } = this.options
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera)
         this.updateCamera()
@@ -237,18 +235,20 @@ class Scene implements IScene {
         if (onRender) {
             onRender()
         }
+
+        const fromCenter = this.getDistanceFromCamera()
+        const isDifferent = (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
+
+        if (onZoom && isDifferent) {
+            this.lastDistanceFromTarget = fromCenter
+            onZoom(fromCenter)
+        }
+
+        this.controls.maxDistance = maxDistance
+        this.controls.minDistance = this.getTargetSize()
     }
 
     private updateCamera(): void {
-        //this.camera.getWorldPosition(tempCameraPosition)
-        //this.target.getWorldPosition(tempTargetPosition)
-        // this.viewSize = this.getDistanceFromCamera()
-
-        // if (Units.isDifferent(this.viewSize, this.lastViewSize) && this.handleChangeViewSize) {
-        // this.lastViewSize = this.viewSize
-        //this.handleChangeViewSize(this.viewSize / Config.SIZE_RATIO)
-        // }
-
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         tempViewProjection.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
         this.frustum.setFromMatrix(tempViewProjection)
@@ -276,10 +276,21 @@ class Scene implements IScene {
         return intersects[0] ? (intersects[0].object as THREE.Mesh) : null
     }
 
+    /**
+     * Get size of target mesh.
+     */
+    private getTargetSize(): number {
+        const geometry = this.target.geometry as any
+
+        if (geometry) {
+            if (geometry.parameters.radius) {
+                return geometry.parameters.radius * 2
+            }
+        }
+
+        return null
+    }
+
 }
 
 export default Scene
-
-/**
- Viewsize rename
- */

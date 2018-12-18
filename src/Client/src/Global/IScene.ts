@@ -46,7 +46,7 @@ declare interface ISceneOptions {
     /**
      * Initial camera target.
      */
-    target?: THREE.Object3D | string
+    target?: THREE.Mesh | string
 
     /**
      * Use logarithmic depth buffer. (optional, default false)
@@ -57,11 +57,6 @@ declare interface ISceneOptions {
      * If scene is controllable, this is max distance of camera from target. (optional, default Infinity)
      */
     maxDistance?: number
-
-    /**
-     * If scene is controllable, this is max distance of camera from target. (optional, default 0)
-     */
-    minDistance?: number
 
     /**
      * Nearest visibility of camera. (optional, default 1e-3)
@@ -82,6 +77,11 @@ declare interface ISceneOptions {
      * Callback for render loop. (optional)
      */
     onRender?: IRunnable
+
+    /**
+     * Callback for change distance from camera target. There is current distance in parameter. (optional)
+     */
+    onZoom?: IConsumer<number>
 
     /**
      * Width of canvas. (optional, default window.innerWidth)
@@ -117,17 +117,17 @@ declare interface IScene {
      * Calculate camera distance from object.
      * @param object Object. (optional, default target object)
      */
-    getDistanceFromCamera(object?: THREE.Object3D): number
+    getDistanceFromCamera(object?: THREE.Mesh): number
 
     /**
      * Get camera target.
      */
-    getCameraTarget(): THREE.Object3D
+    getCameraTarget(): THREE.Mesh
 
     /**
      * Check if object is in field of vision of camera.
      */
-    isInFov(object: THREE.Object3D): boolean
+    isInFov(object: THREE.Mesh): boolean
 
     /**
      * Project camera on vector.
@@ -158,12 +158,18 @@ declare interface IScene {
      * Set camera target.
      * @param objectId ID of target object. It could be string ID or whole object.
      */
-    setCameraTarget(objectId: THREE.Object3D | string): void
+    setCameraTarget(objectId: THREE.Mesh | string): void
 
     /**
      * Enable or disable controls.
      * @param isControllable
      */
     setControllable(isControllable: boolean): void
+
+    /**
+     * Set camera distance from target.
+     * @param distance
+     */
+    setDistanceFromTarget(distance: number): void
 
 }
