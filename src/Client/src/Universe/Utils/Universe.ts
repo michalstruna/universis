@@ -63,8 +63,7 @@ class Universe implements IUniverse {
     }
 
     public resize(): void {
-        //this.camera.setAspectRatio(window.innerWidth / window.innerHeight)
-        //this.renderer.setSize(window.innerWidth, window.innerHeight)
+        this.scene.resize(window.innerWidth, window.innerHeight)
     }
 
     public selectBody(bodyId: string): void {
@@ -97,8 +96,7 @@ class Universe implements IUniverse {
             return
         }
 
-        // this.setScale(this.scene.getDistanceFromCamera() * this.scale)
-        //this.camera.update()
+        this.updateScale(this.scene.getDistanceFromCamera() * this.scale)
 
         for (const body of  this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
@@ -133,8 +131,6 @@ class Universe implements IUniverse {
                 body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
             }
         }
-
-        //this.scene.setMinDistanceFromCenter(((this.scene.getCameraTarget() as THREE.Mesh).geometry as THREE.SphereGeometry).parameters.radius * 2)
     }
 
     /**
@@ -143,13 +139,13 @@ class Universe implements IUniverse {
      * @param viewSize Distance camera from centered body.
      */
 
-    /*private setScale(viewSize: number): void {
+    private updateScale(viewSize: number): void {
         if (viewSize > 1e6) {
             this.scale /= 1e3
         } else if (viewSize < 1e3) {
             this.scale *= 1e3
         }
-    }*/
+    }
 
     /**
      * Convert size of bodies.

@@ -46,6 +46,7 @@ class Scene implements IScene {
     private ambientLight: THREE.AmbientLight
     private frustum: THREE.Frustum
     private controls: THREE.TrackballControls
+    private rayCaster: THREE.Raycaster
 
     private viewSize: number
     private lastViewSize: number
@@ -65,6 +66,7 @@ class Scene implements IScene {
 
         if (this.options.controllable) {
             this.createControls()
+            this.createRayCaster()
         }
 
         if (this.options.target) {
@@ -92,6 +94,12 @@ class Scene implements IScene {
         return vector.project(this.camera)
     }
 
+    public resize(width: number, height: number): void {
+        this.camera.aspect = window.innerWidth / window.innerHeight
+        this.camera.updateProjectionMatrix()
+        this.renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+
     public setAmbientColor(color: number): void {
         this.ambientLight.color.setHex(color)
     }
@@ -103,8 +111,14 @@ class Scene implements IScene {
     }
 
     public setControllable(isControllable: boolean): void {
-        if (!this.controls) {
-            this.createControls()
+        if (isControllable) {
+            if (!this.controls) {
+                this.createControls()
+            }
+
+            if (!this.rayCaster) {
+                this.createRayCaster()
+            }
         }
 
         this.controls.enabled = isControllable
@@ -124,10 +138,6 @@ class Scene implements IScene {
             }
 
         }
-    }
-
-    public setMinDistanceFromCenter(distance: number): void {
-
     }
 
     /**
@@ -190,11 +200,21 @@ class Scene implements IScene {
         this.frustum = new THREE.Frustum()
     }
 
+    /**
+     * Create trackball controls.
+     */
     private createControls(): void {
         const { maxDistance, minDistance } = this.options
         this.controls = new TrackballControls(this.camera)
         this.controls.maxDistance = maxDistance
         this.controls.minDistance = minDistance
+    }
+
+    /**
+     * Create ray caster.
+     */
+    private createRayCaster(): void {
+        this.rayCaster = new THREE.Raycaster()
     }
 
     /**
@@ -236,6 +256,24 @@ class Scene implements IScene {
         if (this.controls) {
             this.controls.update()
         }
+    }
+
+    /**
+     * Select body by coordinates on screen.
+     * @param x Horizontal coordinate.
+     * @param y Vertical coordinate.
+     * @return Selected body or null.
+     */
+    private select(x: number, y: number): THREE.Mesh {
+        const coordinates = {
+            x: (x / window.innerWidth) * 2 - 1,
+            y: -(y / window.innerHeight) * 2 + 1
+        }
+
+        this.rayCaster.setFromCamera(coordinates, this.camera)
+        const intersects = this.rayCaster.intersectObjects(this.options.objects)
+
+        return intersects[0] ? (intersects[0].object as THREE.Mesh) : null
     }
 
 }

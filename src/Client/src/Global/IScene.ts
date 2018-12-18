@@ -136,6 +136,13 @@ declare interface IScene {
     projectCamera(vector: THREE.Vector3): THREE.Vector3
 
     /**
+     * Resize scene.
+     * @param width New width.
+     * @param height New height.
+     */
+    resize(width: number, height: number): void
+
+    /**
      * Set color of ambient light.
      * @param color Color.
      */
@@ -158,11 +165,5 @@ declare interface IScene {
      * @param isControllable
      */
     setControllable(isControllable: boolean): void
-
-    /**
-     * Set nearest distance of camera.
-     * @param near Nearest distance from camera.
-     */
-    setMinDistanceFromCenter(near: number): void
 
 }
