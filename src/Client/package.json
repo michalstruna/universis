@@ -22,6 +22,7 @@
     "@tweenjs/tween.js": "^17.2.0",
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
+    "chartjs-plugin-labels": "^1.1.0",
     "classnames": "^2.2.6",
     "js-cookie": "^2.2.0",
     "node-sass": "^4.9.3",

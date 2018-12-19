@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Doughnut } from 'react-chartjs-2'
+import 'chartjs-plugin-labels'
 
 import StatelessComponent from './StatelessComponent'
 
@@ -13,20 +14,25 @@ class DonutChart extends StatelessComponent<IProps> {
         return (
             <Doughnut
                 legend={{
-                    labels: {
-                        fontColor: '#eee'
-                    }
+                    display: false
                 }}
                 data={{
-                    labels: ['He', 'H', 'O', 'N', 'C', 'X'],
+                    labels: ['Fe', 'O', 'Si', 'Mg', 'Ni', 'Ca', 'Al', 'S', 'Na', 'Ti', 'K', 'Další'],
                     datasets: [{
-                        backgroundColor: ['#484', '#27a', '#b90', '#a33', '#2aa', '#aa6'],
+                        backgroundColor: ['darkorange', 'red', '#b90', 'darkgreen', 'green', 'darkgreen', 'yellow', 'violet', 'gray', 'violet', 'white', 'white'],
                         borderWidth: 0,
-                        data: [80, 20, 15, 36, 47, 5]
+                        data: [34.1, 28.2, 17.2, 15.9, 1.6, 1.6, 1.5, 0.7, 0.25, 0.071, 0.019, 0.53]
                     }]
                 }}
                 options={{
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    plugins: {
+                        labels: {
+                            fontColor: 'white',
+                            overlap: false,
+                            render: data => data.label + '\n' + data.percentage + '%'
+                        }
+                    }
                 }} />
         )
     }
