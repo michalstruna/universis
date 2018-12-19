@@ -5,10 +5,10 @@ const TrackballControls = require('three-trackballcontrols')
 const DEFAULT_OPTIONS = {
     ambientColor: 0x000000,
     backgroundColor: null,
-    cameraPosition: { z: 1 },
     far: 1e50,
     fov: 75,
     height: window.innerHeight,
+    globalCamera: false,
     logarithmicDepth: false,
     maxDistance: Infinity,
     near: 1e-3,
@@ -77,9 +77,7 @@ class Scene implements IScene {
             this.bindEvents()
         }
 
-        if (this.options.target) {
-            this.setCameraTarget(this.options.target)
-        }
+        this.setInitialTarget()
 
         this.append()
         this.render()
@@ -105,19 +103,13 @@ class Scene implements IScene {
     }
 
     public resize(width: number = this.options.width, height: number = this.options.height): void {
-        this.camera.aspect = window.innerWidth / window.innerHeight
+        this.camera.aspect = width / height
         this.camera.updateProjectionMatrix()
-        this.renderer.setSize(window.innerWidth, window.innerHeight)
+        this.renderer.setSize(width, height)
     }
 
     public setAmbientColor(color: number): void {
         this.ambientLight.color.setHex(color)
-    }
-
-    public setCameraPosition(position: IVector3): void {
-        for (const i in position) {
-            this.camera.position[i] = position[i]
-        }
     }
 
     public setControllable(isControllable: boolean): void {
@@ -135,21 +127,26 @@ class Scene implements IScene {
     }
 
     public setCameraTarget(objectId: string | THREE.Mesh): void {
+        const { controllable, globalCamera } = this.options
         let object = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
 
-        object.add(this.camera)
+        if (!globalCamera) {
+            object.add(this.camera)
+        } // TODO: Else set coordinates.
+
         this.target = object
 
         const targetSize = this.getTargetSize()
 
-        if (targetSize) {
+        if (controllable && targetSize) {
             this.controls.minDistance = targetSize
         }
+
+        this.setCameraDistance(targetSize)
     }
 
     public setDistanceFromTarget(distance: number): void {
-        this.controls.minDistance = distance
-        this.controls.maxDistance = distance
+        this.setCameraDistance(distance)
     }
 
     /**
@@ -163,10 +160,10 @@ class Scene implements IScene {
      * Create THREE.js perspective camera.
      */
     private createCamera(): void {
-        const { cameraPosition, far, fov, height, near, width } = this.options
+        const { far, fov, height, near, width } = this.options
         this.camera = new THREE.PerspectiveCamera(fov, width / height, near, far)
+        this.camera.position.z = 1
         this.scene.add(this.camera)
-        this.setCameraPosition(cameraPosition)
     }
 
     /**
@@ -229,6 +226,7 @@ class Scene implements IScene {
      */
     private createControls(): void {
         this.controls = new TrackballControls(this.camera)
+        this.controls.maxDistance = this.options.maxDistance
     }
 
     /**
@@ -250,7 +248,7 @@ class Scene implements IScene {
      * Render loop.
      */
     private render = (): void => {
-        const { maxDistance, onRender, onZoom } = this.options
+        const { controllable, onRender, onZoom } = this.options
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera)
         this.updateCamera()
@@ -259,16 +257,15 @@ class Scene implements IScene {
             onRender()
         }
 
-        const fromCenter = this.getDistanceFromCamera()
-        const isDifferent = !this.lastDistanceFromTarget || (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
+        if (controllable) {
+            const fromCenter = this.getDistanceFromCamera()
+            const isDifferent = !this.lastDistanceFromTarget || (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
 
-        if (onZoom && isDifferent) {
-            this.lastDistanceFromTarget = fromCenter
-            onZoom(fromCenter)
+            if (onZoom && isDifferent) {
+                this.lastDistanceFromTarget = fromCenter
+                onZoom(fromCenter)
+            }
         }
-
-        this.controls.maxDistance = maxDistance
-        this.controls.minDistance = this.getTargetSize()
     }
 
     private updateCamera(): void {
@@ -351,6 +348,25 @@ class Scene implements IScene {
                 }
             }
         }
+    }
+
+    /**
+     * Set initial target of camera. If not specified, set first named mesh in scene.
+     */
+    private setInitialTarget(): void {
+        const target = this.options.target || this.namedMeshes[0]
+
+        if (target) {
+            this.setCameraTarget(target)
+        }
+    }
+
+    /**
+     * Set distance of camera from target.
+     * @param distance New distance.
+     */
+    private setCameraDistance(distance: number): void {
+        this.camera.position.normalize().multiplyScalar(distance)
     }
 
 }

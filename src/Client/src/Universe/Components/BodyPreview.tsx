@@ -29,16 +29,14 @@ class BodyPreview extends StatelessComponent<IProps> {
 
         new Scene({
             ambientColor: 0xffffff,
-            cameraPosition: { z: body.diameter.x },
             element: this.parent,
             height: size,
-            logarithmicDepth: true,
+            globalCamera: true,
             objects: [bodyContainer.mesh],
             onRender: () => bodyContainer.mesh.rotation.z -= 0.01,
             width: size
         })
-
-    }a
+    }
 
     public render(): React.ReactNode {
         return (

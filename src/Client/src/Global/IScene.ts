@@ -14,11 +14,6 @@ declare interface ISceneOptions {
     backgroundColor?: number
 
     /**
-     * Initial position of camera. (optional, default [0, 0, 0]).
-     */
-    cameraPosition?: IVector3
-
-    /**
      * With camera trackball controls. (optional, default false)
      */
     controllable?: boolean
@@ -42,6 +37,11 @@ declare interface ISceneOptions {
      * Height of canvas. (optional, default window.innerHeight)
      */
     height?: number
+
+    /**
+     * Camera will not be children of target, but always scene. (optional, default false)
+     */
+    globalCamera?: boolean
 
     /**
      * Initial camera target.
@@ -147,12 +147,6 @@ declare interface IScene {
      * @param color Color.
      */
     setAmbientColor(color: number): void
-
-    /**
-     * Set position of camera.
-     * @param position New position.
-     */
-    setCameraPosition(position: IVector3): void
 
     /**
      * Set camera target.
