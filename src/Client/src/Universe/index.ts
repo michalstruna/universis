@@ -30,11 +30,9 @@ export * from './Redux/UniverseActions'
 /**
  * Utils.
  */
-import Units from './Utils/Units'
 import Listener from './Utils/Listener'
 
 export {
-    Units,
     Listener
 }
 

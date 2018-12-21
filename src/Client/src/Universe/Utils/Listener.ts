@@ -1,5 +1,5 @@
 import ControlBar from '../Components/ControlBar'
-import Units from '../Utils/Units'
+import Units from '../../Utils/Utils/Units'
 import Canvas from '../Components/Canvas'
 import { ViewSizeControl } from '../../Controls'
 
@@ -20,7 +20,7 @@ class Listener {
      */
     public static changeViewSizeFromSimulator(viewSize: number): void {
         if (ControlBar.viewSize) {
-            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize, Units.FULL)
+            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize, Units.toFull)
         }
 
         if (ViewSizeControl.instance) {
@@ -34,7 +34,7 @@ class Listener {
         }
 
         if (ControlBar.viewSize) {
-            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize, Units.FULL)
+            ControlBar.viewSize.innerHTML = Units.formatSize(viewSize, Units.toFull)
         }
     }
 

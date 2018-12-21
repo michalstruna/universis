@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { StatelessComponent, Link, Numbers } from '../../Utils'
+import { StatelessComponent, Link, Units } from '../../Utils'
 
 //const avatarUrl = 'https://vignette.wikia.nocookie.net/evilbabes/images/2/2b/Esdeath_Quote_%28Akame_ga_Kill_Ep_10%29.png/revision/latest?cb=20160212175749' // TODO: Remove
 const avatarUrl = 'https://s3.amazonaws.com/cdn.roosterteeth.com/uploads/images/1f26bf45-d6ba-4650-8757-b94c69413973/md/2166131-1448257742824-tumblr_nseo5sJWL21ubrv41o1_250.png'
@@ -84,7 +84,7 @@ class UserInfo extends StatelessComponent<IProps> {
                         Michal Struna
                     </Link>
                     <section className='user-info__reputation'>
-                        {Numbers.toShort(score.reputation)}
+                        {Units.toShort(score.reputation)}
                     </section>
                     <section className='user-info__last-online'>
                         11 měs.
@@ -124,16 +124,16 @@ class UserInfo extends StatelessComponent<IProps> {
                     </Link>
                     <section className='user-info__score'>
                         <section className='user-info__reputation'>
-                            {Numbers.toShort(score.reputation)}
+                            {Units.toShort(score.reputation)}
                         </section>
                         <section className='user-info__badge user-info__badge--gold'>
-                            {Numbers.toShort(score.gold)}
+                            {Units.toShort(score.gold)}
                         </section>
                         <section className='user-info__badge user-info__badge--silver'>
-                            {Numbers.toShort(score.silver)}
+                            {Units.toShort(score.silver)}
                         </section>
                         <section className='user-info__badge user-info__badge--bronze'>
-                            {Numbers.toShort(score.bronze)}
+                            {Units.toShort(score.bronze)}
                         </section>
                     </section>
                     <section className='user-info__last-online'>

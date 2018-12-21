@@ -2,8 +2,8 @@ import * as React from 'react'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
-import { Units, Listener } from '../../Universe'
-import { Component, Url, Urls } from '../../Utils'
+import { Listener } from '../../Universe'
+import { Component, Url, Urls, Units } from '../../Utils'
 import { history } from '../../'
 
 interface IProps {

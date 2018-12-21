@@ -1,12 +1,10 @@
-import { Numbers } from '../../Utils'
-
 /**
  * Utils for units.
  * This utils can convert one unit to another unit.
  * This utils can also format units to some forms:
- * - FULL: 149 597 870 km,
- * - EXPONENTIAL: 1.5e8 km,
- * - SHORT: 149M km.
+ * - toFull: 149 597 870 km,
+ * - toExponential: 1.5e8 km,
+ * - toShort: 149M km.
  */
 class Units {
 
@@ -179,14 +177,62 @@ class Units {
         return format(value, unit)
     }
 
+
     /**
-     * Format value without unit.
-     * @param value Value.
-     * @param format Formatter function.
-     * @returns Frmatted value.
+     * Format unit to full form (like 149 597 870 km).
+     * @param value Amount of units.
+     * @param unit Type of unit.
      */
-    public static formatUnitLess(value: number, format: IUnitFormatter): string {
-        return format(value, null)
+    public static toFull = (value: number, unit?: IUnit): string => {
+        const temp = Math.pow(10, Units.getPrecision(value))
+        return Units.concatValueWithUnit(value ? parseFloat((Math.round(value * temp) / temp).toString()).toLocaleString() : '0', unit)
+    }
+
+    /**
+     * Format unit to exponential form (like 1.5e8 km).
+     * @param value Amount of units.
+     * @param unit Type of unit. (optional)
+     */
+    public static toExponential = (value: number, unit?: IUnit): string => {
+        if (value < 1e3) {
+            return Units.toShort(value, unit).replace(/[a-zA-Z]$/, '')
+        }
+
+        return Units.concatValueWithUnit(value
+            .toExponential(1)
+            .replace('+', '')
+            .replace('.0', ''), unit)
+    }
+
+    /**
+     * Format unit fo short form (like 150M km).
+     * @param value Amount of units.
+     * @param unit Type of unit.
+     */
+    public static toShort = (value: number, unit?: IUnit): string => {
+        const suffixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Y', 'Z']
+
+        for (let i = 0; i <= suffixes.length * 3; i++) {
+            if (value < Math.pow(10, i)) {
+                const result = Math.round(value / Math.pow(10, i - 3)) / Math.pow(10, 2 - ((i + 2) % 3))
+                const suffix = suffixes[Math.floor((i - 1) / 3)]
+                return Units.concatValueWithUnit(result + suffix, unit)
+            }
+        }
+
+        return Units.toExponential(value, unit)
+
+    }
+
+    /**
+     * Convert unit to another unit.
+     * @param from Initial unit.
+     * @param to Target unit.
+     * @param value Count of units. (optional, default 1)
+     * @returns New unit.
+     */
+    public static convert(from: IUnit, to: IUnit, value = 1): number {
+        return value * (from.value / to.value)
     }
 
     /**
@@ -216,15 +262,6 @@ class Units {
     }
 
     /**
-     * Format unit to full form (like 149 597 870 km).
-     * @param value Amount of units.
-     * @param unit Type of unit.
-     */
-    private static toFull = (value: number, unit: IUnit): string => {
-        return Units.concatValueWithUnit(Numbers.toReadable(value), unit)
-    }
-
-    /**
      * Concat value and unit. If there is no unit, returns only value.
      * @param value Value-
      * @param unit Unit. (optional)
@@ -239,58 +276,19 @@ class Units {
     }
 
     /**
-     * Format unit to exponential form (like 1.5e8 km).
-     * @param value Amount of units.
-     * @param unit Type of unit. (optional)
+     * Get precision.
+     * Example: 0.123, 1,23, 12,3, 123.
+     * @param number Precision.
      */
-    private static toExponential = (value: number, unit?: IUnit): string => {
-        if (typeof value !== 'number') {
-            return null
+    private static getPrecision(number: number): number {
+        for (let i = -3; i < 3; i++) {
+            if (number < Math.pow(10, i)) {
+                return -i + 3
+            }
         }
 
-        if (value < 1e3) {
-            return Units.concatValueWithUnit(Numbers.toShort(value).replace(/[a-zA-Z]$/, ''), unit)
-        }
-
-        return Units.concatValueWithUnit(Numbers.toExponential(value), unit)
+        return 0
     }
-
-    /**
-     * Format unit fo short form (like 150M km).
-     * @param value Amount of units.
-     * @param unit Type of unit.
-     */
-    private static toShort = (value: number, unit: IUnit): string => {
-        return Units.concatValueWithUnit(Numbers.toShort(value), unit)
-    }
-
-    /**
-     * Convert unit to another unit.
-     * @param from Initial unit.
-     * @param to Target unit.
-     * @param value Count of units. (optional, default 1)
-     * @returns New unit.
-     */
-    public static convert(from: IUnit, to: IUnit, value = 1): number {
-        return value * (from.value / to.value)
-    }
-
-    /**
-     * Check is values are different.
-     * @param value1 First value.
-     * @param value2 Second value.
-     * @returns Values are different.
-     */
-    public static isDifferent(value1, value2): boolean {
-        return Math.max(value1, value2) / Math.min(value1, value2) > 1.01 // TODO: Remove
-    }
-
-    /**
-     * List of all available formatter functions.
-     */
-    public static readonly FULL: IUnitFormatter = Units.toFull
-    public static readonly EXPONENTIAL: IUnitFormatter = Units.toExponential
-    public static readonly SHORT: IUnitFormatter = Units.toShort
 
 }
 

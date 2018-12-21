@@ -44,6 +44,8 @@ export {
     Queries
 }
 
+export { default as Units } from './Utils/Units'
+
 /**
  * Utils.
  */
@@ -53,7 +55,6 @@ import Html from './Utils/Html'
 import Redux from './Utils/Redux'
 import Request from './Utils/Request'
 import Url from './Utils/Url'
-import Numbers from './Utils/Numbers'
 import Dates from './Utils/Dates'
 
 export {
@@ -63,6 +64,5 @@ export {
     Redux,
     Request,
     Url,
-    Numbers,
     Dates
 }

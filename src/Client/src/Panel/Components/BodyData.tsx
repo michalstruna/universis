@@ -1,8 +1,8 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
-import { StatelessComponent, DataTable, DonutChart } from '../../Utils'
-import { Units, BodyPreview } from '../../Universe'
+import { StatelessComponent, DataTable, DonutChart, Units } from '../../Utils'
+import { BodyPreview } from '../../Universe'
 
 interface IProps {
     body: IBody
@@ -46,44 +46,44 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.size}
                         data={{
-                            [strings.diameterX]: Units.formatSize(body.diameter.x, Units.FULL),
-                            [strings.diameterY]: Units.formatSize(body.diameter.y, Units.FULL),
-                            [strings.flattening]: Units.formatUnitLess(body.flattening, Units.FULL),
-                            [strings.circumference]: Units.formatSize(40075, Units.FULL),
-                            [strings.surface]: Units.formatSurface(body.surface, Units.SHORT),
-                            [strings.volume]: Units.formatVolume(body.volume, Units.SHORT)
+                            [strings.diameterX]: Units.formatSize(body.diameter.x, Units.toFull),
+                            [strings.diameterY]: Units.formatSize(body.diameter.y, Units.toFull),
+                            [strings.flattening]: Units.toFull(body.flattening),
+                            [strings.circumference]: Units.formatSize(40075, Units.toFull),
+                            [strings.surface]: Units.formatSurface(body.surface, Units.toShort),
+                            [strings.volume]: Units.formatVolume(body.volume, Units.toShort)
                         }} />
                     <DataTable
                         title={strings.matter}
                         data={{
-                            [strings.mass]: Units.formatMass(body.mass, Units.SHORT),
-                            [strings.density]: Units.formatDensity(body.density, Units.FULL),
+                            [strings.mass]: Units.formatMass(body.mass, Units.toShort),
+                            [strings.density]: Units.formatDensity(body.density, Units.toFull),
                             [strings.composition]: () => (
                                 <section className='panel__body__data__chart'>
                                     <DonutChart data={body.composition} />
                                 </section>
                             ),
-                            [strings.escapeVelocity]: Units.formatUnitLess(body.escapeVelocity, Units.FULL),
-                            [strings.gravity]: Units.formatUnitLess(body.escapeVelocity, Units.FULL), // TODO
+                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity),
+                            [strings.gravity]: Units.toFull(body.escapeVelocity), // TODO
                         }} />
                     <DataTable
                         title={strings.orbit}
                         data={{
-                            [strings.semimajorAxis]: Units.formatSize(body.orbit.pericenter, Units.FULL), // TODO
-                            [strings.apocenter]: Units.formatSize(body.orbit.pericenter, Units.FULL),
-                            [strings.pericenter]: Units.formatSize(body.orbit.pericenter, Units.FULL),
-                            [strings.eccentricity]: Units.formatUnitLess(body.orbit.eccentricity, Units.FULL),
-                            [strings.orbitPeriod]: Units.formatTime(body.orbit.period, Units.FULL, Units.TIME.Y),
-                            [strings.orbitVelocity]: Units.formatUnitLess(body.orbit.velocity, Units.FULL), // TODO
-                            [strings.inclination]: Units.formatUnitLess(body.orbit.inclination, Units.FULL), // TODO
-                            [strings.circuit]: Units.formatSize(body.orbit.circuit, Units.FULL)
+                            [strings.semimajorAxis]: Units.formatSize(body.orbit.pericenter, Units.toFull), // TODO
+                            [strings.apocenter]: Units.formatSize(body.orbit.pericenter, Units.toFull),
+                            [strings.pericenter]: Units.formatSize(body.orbit.pericenter, Units.toFull),
+                            [strings.eccentricity]: Units.toFull(body.orbit.eccentricity),
+                            [strings.orbitPeriod]: Units.formatTime(body.orbit.period, Units.toFull, Units.TIME.Y),
+                            [strings.orbitVelocity]: Units.toFull(body.orbit.velocity), // TODO
+                            [strings.inclination]: Units.toFull(body.orbit.inclination), // TODO
+                            [strings.circuit]: Units.formatSize(body.orbit.circuit, Units.toFull)
                         }} />
                     <DataTable
                         title={strings.axis}
                         data={{
-                            [strings.axisTilt]: Units.formatUnitLess(body.axis.tilt, Units.FULL),
-                            [strings.axisPeriod]: Units.formatTime(body.axis.period, Units.FULL, Units.TIME.D),
-                            [strings.axisVelocity]: Units.formatUnitLess(body.axis.velocity, Units.FULL)
+                            [strings.axisTilt]: Units.toFull(body.axis.tilt),
+                            [strings.axisPeriod]: Units.formatTime(body.axis.period, Units.toFull, Units.TIME.D),
+                            [strings.axisVelocity]: Units.toFull(body.axis.velocity)
                         }} />
                     <DataTable
                         title={strings.atmosphere}
@@ -98,16 +98,16 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.visibility}
                         data={{
-                            [strings.albedo]: Units.formatUnitLess(body.albedo, Units.FULL),
-                            [strings.magnitude]: Units.formatUnitLess(body.magnitude.relative, Units.FULL),
-                            [strings.absoluteMagnitude]: Units.formatUnitLess(body.magnitude.absolute, Units.FULL)
+                            [strings.albedo]: Units.toFull(body.albedo),
+                            [strings.magnitude]: Units.toFull(body.magnitude.relative),
+                            [strings.absoluteMagnitude]: Units.toFull(body.magnitude.absolute)
                         }} />
                     <DataTable
                         title={strings.energy}
                         data={{
-                            [strings.innerTemperature]: Units.formatUnitLess(body.temperature.inner, Units.FULL),
-                            [strings.outerTemperature]: Units.formatUnitLess(body.temperature.outer, Units.FULL),
-                            [strings.luminosity]: Units.formatUnitLess(body.luminosity, Units.FULL)
+                            [strings.innerTemperature]: Units.toFull(body.temperature.inner),
+                            [strings.outerTemperature]: Units.toFull(body.temperature.outer),
+                            [strings.luminosity]: Units.toFull(body.luminosity)
                         }} />
                     <DataTable
                         title={strings.discover}
