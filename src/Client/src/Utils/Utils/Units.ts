@@ -177,7 +177,6 @@ class Units {
         return format(value, unit)
     }
 
-
     /**
      * Format unit to full form (like 149 597 870 km).
      * @param value Amount of units.
