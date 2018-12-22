@@ -1,6 +1,8 @@
 /**
- * Utils for units.
+ * Utils for units (or values without unit).
  * This utils can convert one unit to another unit.
+ * Example bellow convert 100 km to 100 000 m:
+ * - convert(100, Units.SIZE.KM, Units.SIZE.M)
  * This utils can also format units to some forms:
  * - toFull: 149 597 870 km,
  * - toExponential: 1.5e8 km,
@@ -81,108 +83,46 @@ class Units {
         K: { value: 1, shortName: 'K' }
     }
 
+    /**
+     * List of angle units.
+     */
+    public static ANGLE = {
+        DEGREE: { value: 3600, shortName: '°', withUnit: false }
+    }
+
+    /**
+     * List of velocity units.
+     */
+    public static VELOCITY = {
+        KM_S: { value: 1, shortName: 'km/s' },
+        M_S: { value: 1000, shortName: 'm/s' }
+    }
+
+    /**
+     * List of acceleration units.
+     */
+    public static ACCELERATION = {
+        KM_S2: { value: 1, shortName: 'km/s2' },
+        M_S2: { value: 1000, shortName: 'm/s2' }
+    }
+
     private constructor() {
 
     }
 
     /**
-     * Format size unit.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.SIZE.KM)
-     * @returns Formatted size unit.
-     */
-    public static formatSize(value: number, format: IUnitFormatter, unit: IUnit = Units.SIZE.KM): string {
-        const corresponding = Units.getCorrespondingUnit(value, unit, Units.SIZE)
-        return format(corresponding.value, corresponding.unit)
-    }
-
-    /**
-     * Format surface unit.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.SIZE.KM2)
-     * @returns Formatted surface unit.
-     */
-    public static formatSurface(value: number, format: IUnitFormatter, unit: IUnit = Units.SURFACE.KM2): string {
-        const corresponding = Units.getCorrespondingUnit(value, unit, Units.SURFACE)
-        return format(corresponding.value, corresponding.unit)
-    }
-
-    /**
-     * Format volume unit.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.SIZE.KM3)
-     * @returns Formatted volume unit.
-     */
-    public static formatVolume(value: number, format: IUnitFormatter, unit: IUnit = Units.VOLUME.KM3): string {
-        const corresponding = Units.getCorrespondingUnit(value, unit, Units.VOLUME)
-        return format(corresponding.value, corresponding.unit)
-    }
-
-    /**
-     * Format mass unit.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.MASS.KG)
-     * @returns Formatted size unit.
-     */
-    public static formatMass(value: number, format: IUnitFormatter, unit: IUnit = Units.MASS.KG): string {
-        return format(value, unit)
-    }
-
-    /**
-     * Format time unit.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.TIME.S)
-     * @returns Formatted time unit.
-     */
-    public static formatTime(value: number, format: IUnitFormatter, unit: IUnit = Units.TIME.S): string {
-        const corresponding = Units.getCorrespondingUnit(value, unit, Units.TIME)
-        return format(corresponding.value, corresponding.unit)
-    }
-
-    /**
-     * Format luminosity.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.LUMINOSITY.W).
-     * @returns Formatted luminosity.
-     */
-    public static formatLuminosity(value: number, format: IUnitFormatter, unit: IUnit = Units.LUMINOSITY.W): string {
-        return format(value, unit)
-    }
-
-    /**
-     * Format density.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.DENSITY.KG_M3).
-     * @returns Formatted density.
-     */
-    public static formatDensity(value: number, format: IUnitFormatter, unit: IUnit = Units.DENSITY.KG_M3): string {
-        return format(value, unit)
-    }
-
-    /**
-     * Format temperature.
-     * @param value Amount of units.
-     * @param format Formatter function.
-     * @param unit Input unit. (optional, default Units.TEMPERATURE.K).
-     * @returns Formatted temperature.
-     */
-    public static formatTemperature(value: number, format: IUnitFormatter, unit: IUnit = Units.TEMPERATURE.K): string {
-        return format(value, unit)
-    }
-
-    /**
      * Format unit to full form (like 149 597 870 km).
      * @param value Amount of units.
-     * @param unit Type of unit.
+     * @param unit Type of unit. (optional, default without unit)
+     * @param correspondentUnits Find optional unit. For example 100 AU is better than 14 959 787 000 000 m. (optional)
      */
-    public static toFull = (value: number, unit?: IUnit): string => {
+    public static toFull = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+        if (correspondentUnits) {
+            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
+            value = temp.value
+            unit = temp.unit
+        }
+
         const temp = Math.pow(10, Units.getPrecision(value))
         return Units.concatValueWithUnit(value ? parseFloat((Math.round(value * temp) / temp).toString()).toLocaleString() : '0', unit)
     }
@@ -191,8 +131,16 @@ class Units {
      * Format unit to exponential form (like 1.5e8 km).
      * @param value Amount of units.
      * @param unit Type of unit. (optional)
+     * @param correspondentUnits Find optional unit. For example 100 AU is better than 14 959 787 000 000 m. (optional)
+     * @returns Formatted value like 1.49e8 km.
      */
-    public static toExponential = (value: number, unit?: IUnit): string => {
+    public static toExponential = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+        if (correspondentUnits) {
+            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
+            value = temp.value
+            unit = temp.unit
+        }
+
         if (value < 1e3) {
             return Units.toShort(value, unit).replace(/[a-zA-Z]$/, '')
         }
@@ -207,8 +155,16 @@ class Units {
      * Format unit fo short form (like 150M km).
      * @param value Amount of units.
      * @param unit Type of unit.
+     * @param correspondentUnits Find optional unit. For example 100 AU is better than 14 959 787 000 000 m. (optional)
+     * @returns Formatted value like 149M km.
      */
-    public static toShort = (value: number, unit?: IUnit): string => {
+    public static toShort = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+        if (correspondentUnits) {
+            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
+            value = temp.value
+            unit = temp.unit
+        }
+
         const suffixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Y', 'Z']
 
         for (let i = 0; i <= suffixes.length * 3; i++) {
@@ -271,7 +227,7 @@ class Units {
             return value.toString()
         }
 
-        return value + ' ' + unit.shortName
+        return value + (unit === Units.ANGLE.DEGREE ? '' : ' ') + unit.shortName
     }
 
     /**

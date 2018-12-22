@@ -29,10 +29,7 @@ class BodyData extends StatelessComponent<IProps> {
                             {body.name}
                         </h1>
                         <p className='panel__body__data__description'>
-                            Jupiter je největší planeta sluneční soustavy, v pořadí pátá od Slunce.
-                            Je 3krát hmotnější, než všechny ostatní planety sluneční soustavy dohromady.
-                            Symbolickým útvarem je Velká rudá skvrna.
-                            Jedná se o bouři dvakrát větší, než Země.
+                            {body.description}
                         </p>
                     </section>
                     <section className='panel__body__data__preview--right'>
@@ -46,52 +43,52 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.size}
                         data={{
-                            [strings.diameterX]: Units.formatSize(body.diameter.x, Units.toFull),
-                            [strings.diameterY]: Units.formatSize(body.diameter.y, Units.toFull),
+                            [strings.diameterX]: Units.toFull(body.diameter.x, Units.SIZE.KM, Units.SIZE),
+                            [strings.diameterY]: Units.toFull(body.diameter.y, Units.SIZE.KM, Units.SIZE),
                             [strings.flattening]: Units.toFull(body.flattening),
-                            [strings.circumference]: Units.formatSize(40075, Units.toFull),
-                            [strings.surface]: Units.formatSurface(body.surface, Units.toShort),
-                            [strings.volume]: Units.formatVolume(body.volume, Units.toShort)
+                            [strings.circumference]: Units.toFull(body.circuit, Units.SIZE.KM, Units.SIZE),
+                            [strings.surface]: Units.toShort(body.surface, Units.SURFACE.KM2, Units.SURFACE),
+                            [strings.volume]: Units.toShort(body.volume, Units.VOLUME.KM3, Units.VOLUME)
                         }} />
                     <DataTable
                         title={strings.matter}
                         data={{
-                            [strings.mass]: Units.formatMass(body.mass, Units.toShort),
-                            [strings.density]: Units.formatDensity(body.density, Units.toFull),
+                            [strings.mass]: Units.toShort(body.mass, Units.MASS.KG),
+                            [strings.density]: Units.toFull(body.density, Units.DENSITY.KG_M3),
                             [strings.composition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    <DonutChart data={body.composition} />
+                                    <DonutChart data={DonutChart.buildData(body.composition, item => item.element, item => item.percentage)} />
                                 </section>
                             ),
-                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity),
-                            [strings.gravity]: Units.toFull(body.escapeVelocity), // TODO
+                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S),
+                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2)
                         }} />
                     <DataTable
                         title={strings.orbit}
                         data={{
-                            [strings.semimajorAxis]: Units.formatSize(body.orbit.pericenter, Units.toFull), // TODO
-                            [strings.apocenter]: Units.formatSize(body.orbit.pericenter, Units.toFull),
-                            [strings.pericenter]: Units.formatSize(body.orbit.pericenter, Units.toFull),
+                            [strings.semiMajorAxis]: Units.toFull(body.orbit.semiMajorAxis, Units.SIZE.KM),
+                            [strings.apocenter]: Units.toFull(body.orbit.apocenter, Units.SIZE.KM),
+                            [strings.pericenter]: Units.toFull(body.orbit.pericenter, Units.SIZE.KM),
                             [strings.eccentricity]: Units.toFull(body.orbit.eccentricity),
-                            [strings.orbitPeriod]: Units.formatTime(body.orbit.period, Units.toFull, Units.TIME.Y),
-                            [strings.orbitVelocity]: Units.toFull(body.orbit.velocity), // TODO
-                            [strings.inclination]: Units.toFull(body.orbit.inclination), // TODO
-                            [strings.circuit]: Units.formatSize(body.orbit.circuit, Units.toFull)
+                            [strings.orbitPeriod]: Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME),
+                            [strings.orbitVelocity]: Units.toFull(body.orbit.velocity, Units.VELOCITY.KM_S),
+                            [strings.inclination]: Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE),
+                            [strings.circuit]: Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE)
                         }} />
                     <DataTable
                         title={strings.axis}
                         data={{
-                            [strings.axisTilt]: Units.toFull(body.axis.tilt),
-                            [strings.axisPeriod]: Units.formatTime(body.axis.period, Units.toFull, Units.TIME.D),
-                            [strings.axisVelocity]: Units.toFull(body.axis.velocity)
+                            [strings.axisTilt]: Units.toFull(body.axis.tilt, Units.ANGLE.DEGREE),
+                            [strings.axisPeriod]: Units.toFull(body.axis.period, Units.TIME.D),
+                            [strings.axisVelocity]: Units.toFull(body.axis.velocity, Units.VELOCITY.M_S)
                         }} />
                     <DataTable
                         title={strings.atmosphere}
                         data={{
-                            [strings.atmospherePressure]: 'TODO', // TODO
-                            [strings.atmosphereCoposition]: () => (
+                            [strings.atmospherePressure]: '101 kPa', // TODO
+                            [strings.atmosphereComposition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    <DonutChart data={body.composition} />
+                                    <DonutChart data={DonutChart.buildData(body.atmosphereComposition, item => item.element, item => item.percentage)} />
                                 </section>
                             )
                         }} />
@@ -105,9 +102,9 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.energy}
                         data={{
-                            [strings.innerTemperature]: Units.toFull(body.temperature.inner),
-                            [strings.outerTemperature]: Units.toFull(body.temperature.outer),
-                            [strings.luminosity]: Units.toFull(body.luminosity)
+                            [strings.innerTemperature]: Units.toFull(body.temperature.inner, Units.TEMPERATURE.K),
+                            [strings.outerTemperature]: Units.toFull(body.temperature.outer, Units.TEMPERATURE.K),
+                            [strings.luminosity]: Units.toShort(body.luminosity, Units.LUMINOSITY.W)
                         }} />
                     <DataTable
                         title={strings.discover}

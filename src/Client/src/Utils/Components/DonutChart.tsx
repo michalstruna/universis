@@ -10,18 +10,37 @@ interface IProps {
 
 class DonutChart extends StatelessComponent<IProps> {
 
+    /**
+     * Transform data for donut chart.
+     * @param items Array of any data.
+     * @param getType Function to map item type.
+     * @param getValue FUnction to map item value.
+     * @returns Data for donut chart.
+     */
+    public static buildData(items: any[], getType: IFunction2<any, number, string>, getValue: IFunction2<any, number, number>): IObject<number> {
+        const result = {}
+
+        for (const i in items) {
+            result[getType(items[i], parseInt(i))] = getValue(items[i], parseInt(i))
+        }
+
+        return result
+    }
+
     public render(): React.ReactNode {
+        const { data } = this.props
+
         return (
             <Doughnut
                 legend={{
                     display: false
                 }}
                 data={{
-                    labels: ['Fe', 'O', 'Si', 'Mg', 'Ni', 'Ca', 'Al', 'S', 'Na', 'Ti', 'K', 'Další'],
+                    labels: Object.keys(data),
                     datasets: [{
-                        backgroundColor: ['darkorange', 'red', '#b90', 'darkgreen', 'green', 'darkgreen', 'yellow', 'violet', 'gray', 'violet', 'white', 'white'],
+                        backgroundColor: ['#06b', '#272', '#722', '#980', '#585', '#a60', '#808', '#088', '#664', '#477', '#747', '#467'],
                         borderWidth: 0,
-                        data: [34.1, 28.2, 17.2, 15.9, 1.6, 1.6, 1.5, 0.7, 0.25, 0.071, 0.019, 0.53]
+                        data: Object.values(data)
                     }]
                 }}
                 options={{

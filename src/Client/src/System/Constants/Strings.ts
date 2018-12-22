@@ -118,10 +118,10 @@ export default {
         density: 'Hustota',
         composition: 'Složení',
         escapeVelocity: 'Úniková rychlost',
-        gravity: 'Gravitace',
+        gravitationalAcceleration: 'Gravit. zrychlení',
 
         orbit: 'Dráha',
-        semimajorAxis: 'Velká poloosa',
+        semiMajorAxis: 'Velká poloosa',
         pericenter: 'Periapsida',
         apocenter: 'Apoapsida',
         eccentricity: 'Excentricita',
@@ -132,7 +132,7 @@ export default {
 
         atmosphere: 'Atmosféra',
         atmospherePressure: 'Atmosfér. tlak',
-        atmosphereComposition: 'Složení atmosf.',
+        atmosphereComposition: 'Složení',
 
         visibility: 'Viditelnost',
         albedo: 'Albedo',
