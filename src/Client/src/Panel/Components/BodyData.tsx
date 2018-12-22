@@ -57,7 +57,8 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.density]: Units.toFull(body.density, Units.DENSITY.KG_M3),
                             [strings.composition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    <DonutChart data={DonutChart.buildData(body.composition, item => item.element, item => item.percentage)} />
+                                    <DonutChart
+                                        data={DonutChart.buildData(body.composition, item => item.element, item => item.percentage)} />
                                 </section>
                             ),
                             [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S),
@@ -66,14 +67,14 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.orbit}
                         data={{
-                            [strings.semiMajorAxis]: Units.toFull(body.orbit.semiMajorAxis, Units.SIZE.KM),
-                            [strings.apocenter]: Units.toFull(body.orbit.apocenter, Units.SIZE.KM),
-                            [strings.pericenter]: Units.toFull(body.orbit.pericenter, Units.SIZE.KM),
-                            [strings.eccentricity]: Units.toFull(body.orbit.eccentricity),
-                            [strings.orbitPeriod]: Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME),
-                            [strings.orbitVelocity]: Units.toFull(body.orbit.velocity, Units.VELOCITY.KM_S),
-                            [strings.inclination]: Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE),
-                            [strings.circuit]: Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE)
+                            [strings.semiMajorAxis]: body.orbit ? Units.toFull(body.orbit.semiMajorAxis, Units.SIZE.KM) : null,
+                            [strings.apocenter]: body.orbit ? Units.toFull(body.orbit.apocenter, Units.SIZE.KM) : null,
+                            [strings.pericenter]: body.orbit ? Units.toFull(body.orbit.pericenter, Units.SIZE.KM) : null,
+                            [strings.eccentricity]: body.orbit ? Units.toFull(body.orbit.eccentricity) : null,
+                            [strings.orbitPeriod]: body.orbit ? Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME) : null,
+                            [strings.orbitVelocity]: body.orbit ? Units.toFull(body.orbit.velocity, Units.VELOCITY.KM_S) : null,
+                            [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
+                            [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null
                         }} />
                     <DataTable
                         title={strings.axis}
@@ -88,7 +89,8 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.atmospherePressure]: '101 kPa', // TODO
                             [strings.atmosphereComposition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    <DonutChart data={DonutChart.buildData(body.atmosphereComposition, item => item.element, item => item.percentage)} />
+                                    <DonutChart
+                                        data={DonutChart.buildData(body.atmosphereComposition, item => item.element, item => item.percentage)} />
                                 </section>
                             )
                         }} />

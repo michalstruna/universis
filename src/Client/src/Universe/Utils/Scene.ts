@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 
+import { Html } from '../../Utils'
+
 const TrackballControls = require('three-trackballcontrols')
 
 const DEFAULT_OPTIONS = {
@@ -319,6 +321,15 @@ class Scene implements IScene {
 
         element.addEventListener('mousedown', this.handleMouseDown)
         element.addEventListener('mouseup', this.handleMouseUp)
+
+        document.body.addEventListener('mousemove', event => {
+            this.controls.enabled = (
+                !Html.hasParent(
+                    event.target as HTMLElement,
+                    element => Html.hasClass(element, 'panel')
+                )
+            )
+        })
     }
 
     /**
