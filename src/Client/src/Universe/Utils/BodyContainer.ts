@@ -26,9 +26,9 @@ class BodyContainer implements IBodyContainer {
     /**
      * Container for all children of body.
      */
-    private _childrenContainer: THREE.Mesh
+    private _childrenContainer: THREE.Object3D
 
-    public constructor(data: ISimpleBody, mesh: THREE.Mesh, orbit: THREE.Object3D, label: HTMLElement, childrenContainer: THREE.Mesh) {
+    public constructor(data: ISimpleBody, mesh: THREE.Mesh, orbit: THREE.Object3D, label: HTMLElement, childrenContainer: THREE.Object3D) {
         this._data = data
         this._mesh = mesh
         this._orbit = orbit
@@ -52,7 +52,7 @@ class BodyContainer implements IBodyContainer {
         return this._label
     }
 
-    get childrenContainer(): THREE.Mesh {
+    get childrenContainer(): THREE.Object3D {
         return this._childrenContainer
     }
 }

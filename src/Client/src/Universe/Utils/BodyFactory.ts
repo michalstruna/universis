@@ -31,8 +31,8 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
         )
     }
 
-    private createChildrenContainer(): THREE.Mesh {
-        return new THREE.Mesh()
+    private createChildrenContainer(): THREE.Object3D {
+        return new THREE.Object3D()
     }
 
     /**
@@ -95,7 +95,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @return THREE object.
      */
     private createOrbit(body: ISimpleBody): THREE.Object3D {
-        const outerOrbitMesh = new THREE.Object3D()
+        const outerOrbitMesh = new THREE.Object3D() as any
 
         if (body.orbit) {
             const a = this.calculateA(body)

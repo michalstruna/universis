@@ -63,7 +63,7 @@ class Universe implements IUniverse {
         })
     }
 
-    public resize(): void {
+    public resize = (): void => {
         this.scene.resize(window.innerWidth, window.innerHeight)
     }
 
