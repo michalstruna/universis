@@ -42,6 +42,8 @@ class Universe implements IUniverse {
      */
     private scale: number
 
+    private element: HTMLElement
+
     /**
      * Body factory.
      */
@@ -49,6 +51,7 @@ class Universe implements IUniverse {
 
     public constructor(options: IOptions) {
         this.bodyFactory = new BodyFactory()
+        this.element = options.element
         this.createBodies(options.bodies)
 
         this.scene = new Scene({
@@ -209,7 +212,7 @@ class Universe implements IUniverse {
 
             const body = this.bodyFactory.create(data)
             this.bodies.push(body)
-            // this.element.appendChild(body.label)
+            this.element.appendChild(body.label)
 
             if (data.parentId) {
                 this.bodies.filter(body => body.data._id === data.parentId)[0].mesh.add(body.orbit)
@@ -220,9 +223,9 @@ class Universe implements IUniverse {
             }
         }
 
-        //bodyContainers.forEach(body => {
-        //  body.label.onclick = () => this.handleSelectBody(body.data._id)
-        //})
+        this.bodies.forEach(body => {
+            body.label.onclick = () => this.scene.setCameraTarget(body.mesh)
+        })
     }
 
 }
