@@ -164,6 +164,6 @@ declare interface IScene {
      * Set camera distance from target.
      * @param distance
      */
-    setDistanceFromTarget(distance: number): void
+    setCameraDistance(distance: number): void
 
 }

@@ -147,8 +147,8 @@ class Scene implements IScene {
         this.setCameraDistance(targetSize)
     }
 
-    public setDistanceFromTarget(distance: number): void {
-        this.setCameraDistance(distance)
+    public setCameraDistance(distance: number): void {
+        this.camera.position.normalize().multiplyScalar(distance)
     }
 
     /**
@@ -370,14 +370,6 @@ class Scene implements IScene {
         if (target) {
             this.setCameraTarget(target)
         }
-    }
-
-    /**
-     * Set distance of camera from target.
-     * @param distance New distance.
-     */
-    private setCameraDistance(distance: number): void {
-        this.camera.position.normalize().multiplyScalar(distance)
     }
 
 }

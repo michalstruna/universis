@@ -83,7 +83,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
             })
         }
 
-        //material.needsUpdate = false
+        material.needsUpdate = false
 
         return material
     }

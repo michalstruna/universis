@@ -72,7 +72,7 @@ class Universe implements IUniverse {
     }
 
     public setViewSize = (viewSize: number): void => {
-        this.scene.setDistanceFromTarget(viewSize * Config.SIZE_RATIO)
+        this.scene.setCameraDistance(viewSize * Config.SIZE_RATIO)
     }
 
     public toggleLabels(areLabelsVisible: boolean): void {

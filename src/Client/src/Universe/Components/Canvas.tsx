@@ -36,7 +36,7 @@ class Canvas extends StatelessComponent<IProps> {
             this.initializeUniverse()
         }
 
-        if (this.universe) {
+        if (this.universe && viewSize) {
             this.universe.setViewSize(viewSize)
         }
 
