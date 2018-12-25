@@ -14,6 +14,11 @@ declare interface ISceneOptions {
     backgroundColor?: number
 
     /**
+     * Initial distance of camera from target. (optional)
+     */
+    cameraDistance?: number
+
+    /**
      * With camera trackball controls. (optional, default false)
      */
     controllable?: boolean

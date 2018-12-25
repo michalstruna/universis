@@ -29,6 +29,7 @@ class BodyPreview extends StatelessComponent<IProps> {
 
         new Scene({
             ambientColor: 0xffffff,
+            cameraDistance: body.diameter.x * 1.4,
             element: this.parent,
             height: size,
             globalCamera: true,

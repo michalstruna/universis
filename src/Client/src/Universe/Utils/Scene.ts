@@ -7,8 +7,9 @@ const TrackballControls = require('three-trackballcontrols')
 const DEFAULT_OPTIONS = {
     ambientColor: 0x000000,
     backgroundColor: null,
+    cameraDistance: 1,
     far: 1e50,
-    fov: 75,
+    fov: 50,
     height: window.innerHeight,
     globalCamera: false,
     logarithmicDepth: false,
@@ -84,6 +85,8 @@ class Scene implements IScene {
         this.append()
         this.render()
         this.resize()
+
+        this.setCameraDistance(this.options.cameraDistance)
     }
 
     public getCameraTarget(): THREE.Mesh {
