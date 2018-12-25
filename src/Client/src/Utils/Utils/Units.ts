@@ -87,7 +87,7 @@ class Units {
      * List of angle units.
      */
     public static ANGLE = {
-        DEGREE: { value: 3600, shortName: '°', withUnit: false }
+        DEGREE: { value: 3600, shortName: '°', withSpace: false }
     }
 
     /**
@@ -141,7 +141,7 @@ class Units {
             unit = temp.unit
         }
 
-        if (value < 1e3) {
+        if (value > 1 && value < 1e3) {
             return Units.toShort(value, unit).replace(/[a-zA-Z]$/, '')
         }
 
@@ -165,13 +165,19 @@ class Units {
             unit = temp.unit
         }
 
+        if (value < 1e-3) {
+            return Units.toExponential(value, unit)
+        } else if (value < 1) {
+            return Units.toFull(value, unit)
+        }
+
         const suffixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Y', 'Z']
 
         for (let i = 0; i <= suffixes.length * 3; i++) {
             if (value < Math.pow(10, i)) {
                 const result = Math.round(value / Math.pow(10, i - 3)) / Math.pow(10, 2 - ((i + 2) % 3))
                 const suffix = suffixes[Math.floor((i - 1) / 3)]
-                return Units.concatValueWithUnit(result + suffix, unit)
+                return Units.concatValueWithUnit(result + (suffix || ''), unit)
             }
         }
 
@@ -227,7 +233,7 @@ class Units {
             return value.toString()
         }
 
-        return value + (unit === Units.ANGLE.DEGREE ? '' : ' ') + unit.shortName
+        return value + (unit.withSpace === false ? '' : ' ') + unit.shortName
     }
 
     /**

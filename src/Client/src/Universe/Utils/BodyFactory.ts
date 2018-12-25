@@ -150,7 +150,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
         mesh.name = body._id
 
         if (body.type.emissiveColor) {
-            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000)) // TODO: Calc distance from size of body.
+            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000000)) // TODO: Calc distance from size of body.
         }
 
         mesh.position.set(0, 0, 0)

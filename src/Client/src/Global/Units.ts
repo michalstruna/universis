@@ -18,7 +18,7 @@ declare interface IUnit {
     /**
      * Between unit and value is space. (optional, default true)
      */
-    withUnit?: boolean
+    withSpace?: boolean
 
 }
 
