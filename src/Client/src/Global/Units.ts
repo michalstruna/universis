@@ -21,8 +21,3 @@ declare interface IUnit {
     withSpace?: boolean
 
 }
-
-/**
- * Interface for function, that format unit.
- */
-declare type IUnitFormatter = IFunction2<number, IUnit, string>
