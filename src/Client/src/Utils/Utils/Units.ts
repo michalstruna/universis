@@ -117,10 +117,18 @@ class Units {
      * @param correspondentUnits Find optional unit. For example 100 AU is better than 14 959 787 000 000 m. (optional)
      */
     public static toFull = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+        if (value === null || value === undefined) {
+            return null
+        }
+
         if (correspondentUnits) {
             const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
             value = temp.value
             unit = temp.unit
+        }
+
+        if (value < 1e-3) {
+            return Units.toExponential(value, unit)
         }
 
         const temp = Math.pow(10, Units.getPrecision(value))
@@ -135,6 +143,10 @@ class Units {
      * @returns Formatted value like 1.49e8 km.
      */
     public static toExponential = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+        if (value === null || value === undefined) {
+            return null
+        }
+
         if (correspondentUnits) {
             const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
             value = temp.value
@@ -159,6 +171,10 @@ class Units {
      * @returns Formatted value like 149M km.
      */
     public static toShort = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+        if (value === null || value === undefined) {
+            return null
+        }
+
         if (correspondentUnits) {
             const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
             value = temp.value
