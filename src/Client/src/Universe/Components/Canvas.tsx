@@ -4,7 +4,6 @@ import * as ReactDOM from 'react-dom'
 import Universe from '../Utils/Universe'
 import { StatelessComponent } from '../../Utils'
 import { selectBody } from '../Redux/UniverseActions'
-import Units from '../../Utils/Utils/Units'
 import Listener from '../Utils/Listener'
 
 interface IProps {

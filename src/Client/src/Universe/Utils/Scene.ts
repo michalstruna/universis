@@ -329,7 +329,7 @@ class Scene implements IScene {
             this.controls.enabled = (
                 !Html.hasParent(
                     event.target as HTMLElement,
-                    element => Html.hasClass(element, 'panel')
+                    element => Html.hasClass(element, 'panel') || Html.hasClass(element, 'control')
                 )
             )
         })
