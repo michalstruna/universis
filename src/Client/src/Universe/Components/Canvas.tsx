@@ -4,7 +4,6 @@ import * as ReactDOM from 'react-dom'
 import Universe from '../Utils/Universe'
 import { StatelessComponent } from '../../Utils'
 import { selectBody } from '../Redux/UniverseActions'
-import Units from '../Utils/Units'
 import Listener from '../Utils/Listener'
 
 interface IProps {
@@ -36,8 +35,8 @@ class Canvas extends StatelessComponent<IProps> {
             this.initializeUniverse()
         }
 
-        if (this.universe && Units.isDifferent(prevProps.viewSize, viewSize)) {
-            this.universe.setViewSize(this.props.viewSize)
+        if (this.universe && viewSize) {
+            this.universe.setViewSize(viewSize)
         }
 
         if (this.universe && prevProps.selectedBody !== selectedBody) {

@@ -1,8 +1,8 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
-import { StatelessComponent, DataTable, DonutChart } from '../../Utils'
-import { Units } from '../../Universe'
+import { StatelessComponent, DataTable, DonutChart, Units } from '../../Utils'
+import { BodyPreview } from '../../Universe'
 
 interface IProps {
     body: IBody
@@ -20,6 +20,22 @@ class BodyData extends StatelessComponent<IProps> {
 
         return (
             <section className='panel__body__data'>
+                <section className='panel__body__data__preview'>
+                    <section className='panel__body__data__preview--left'>
+                        <h2 className='panel__body__data__subtitle'>
+                            {body.type.name}
+                        </h2>
+                        <h1 className='panel__body__data__title'>
+                            {body.name}
+                        </h1>
+                        <p className='panel__body__data__description'>
+                            {body.description}
+                        </p>
+                    </section>
+                    <section className='panel__body__data__preview--right'>
+                        <BodyPreview body={body} size={300} />
+                    </section>
+                </section>
                 <Masonry
                     className={'panel__body__data__masonry'}
                     elementType={'section'}
@@ -27,68 +43,70 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.size}
                         data={{
-                            [strings.diameterX]: Units.formatSize(body.diameter.x, Units.FULL),
-                            [strings.diameterY]: Units.formatSize(body.diameter.y, Units.FULL),
-                            [strings.flattening]: Units.formatUnitLess(body.flattening, Units.FULL),
-                            [strings.circumference]: Units.formatSize(40075, Units.FULL),
-                            [strings.surface]: Units.formatSurface(body.surface, Units.SHORT),
-                            [strings.volume]: Units.formatVolume(body.volume, Units.SHORT)
+                            [strings.diameterX]: Units.toFull(body.diameter.x, Units.SIZE.KM, Units.SIZE),
+                            [strings.diameterY]: Units.toFull(body.diameter.y, Units.SIZE.KM, Units.SIZE),
+                            [strings.flattening]: Units.toFull(body.flattening),
+                            [strings.circumference]: Units.toFull(body.circuit, Units.SIZE.KM, Units.SIZE),
+                            [strings.surface]: Units.toShort(body.surface, Units.SURFACE.KM2, Units.SURFACE),
+                            [strings.volume]: Units.toShort(body.volume, Units.VOLUME.KM3, Units.VOLUME)
                         }} />
                     <DataTable
                         title={strings.matter}
                         data={{
-                            [strings.mass]: Units.formatMass(body.mass, Units.SHORT),
-                            [strings.density]: Units.formatDensity(body.density, Units.FULL),
+                            [strings.mass]: Units.toShort(body.mass, Units.MASS.KG),
+                            [strings.density]: Units.toFull(body.density, Units.DENSITY.KG_M3),
                             [strings.composition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    <DonutChart data={body.composition} />
+                                    <DonutChart
+                                        data={DonutChart.buildData(body.composition, item => item.element, item => item.percentage)} />
                                 </section>
                             ),
-                            [strings.escapeVelocity]: Units.formatUnitLess(body.escapeVelocity, Units.FULL),
-                            [strings.gravity]: Units.formatUnitLess(body.escapeVelocity, Units.FULL), // TODO
+                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S),
+                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2)
                         }} />
                     <DataTable
                         title={strings.orbit}
                         data={{
-                            [strings.semimajorAxis]: Units.formatSize(body.orbit.pericenter, Units.FULL), // TODO
-                            [strings.apocenter]: Units.formatSize(body.orbit.pericenter, Units.FULL),
-                            [strings.pericenter]: Units.formatSize(body.orbit.pericenter, Units.FULL),
-                            [strings.eccentricity]: Units.formatUnitLess(body.orbit.eccentricity, Units.FULL),
-                            [strings.orbitPeriod]: Units.formatTime(body.orbit.period, Units.FULL, Units.TIME.Y),
-                            [strings.orbitVelocity]: Units.formatUnitLess(body.orbit.velocity, Units.FULL), // TODO
-                            [strings.inclination]: Units.formatUnitLess(body.orbit.inclination, Units.FULL), // TODO
-                            [strings.circuit]: Units.formatSize(body.orbit.circuit, Units.FULL)
+                            [strings.semiMajorAxis]: body.orbit ? Units.toFull(body.orbit.semiMajorAxis, Units.SIZE.KM) : null,
+                            [strings.apocenter]: body.orbit ? Units.toFull(body.orbit.apocenter, Units.SIZE.KM) : null,
+                            [strings.pericenter]: body.orbit ? Units.toFull(body.orbit.pericenter, Units.SIZE.KM) : null,
+                            [strings.eccentricity]: body.orbit ? Units.toFull(body.orbit.eccentricity) : null,
+                            [strings.orbitPeriod]: body.orbit ? Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME) : null,
+                            [strings.orbitVelocity]: body.orbit ? Units.toFull(body.orbit.velocity, Units.VELOCITY.KM_S) : null,
+                            [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
+                            [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null
                         }} />
                     <DataTable
                         title={strings.axis}
                         data={{
-                            [strings.axisTilt]: Units.formatUnitLess(body.axis.tilt, Units.FULL),
-                            [strings.axisPeriod]: Units.formatTime(body.axis.period, Units.FULL, Units.TIME.D),
-                            [strings.axisVelocity]: Units.formatUnitLess(body.axis.velocity, Units.FULL)
+                            [strings.axisTilt]: Units.toFull(body.axis.tilt, Units.ANGLE.DEGREE),
+                            [strings.axisPeriod]: Units.toFull(body.axis.period, Units.TIME.D),
+                            [strings.axisVelocity]: Units.toFull(body.axis.velocity, Units.VELOCITY.M_S)
                         }} />
                     <DataTable
                         title={strings.atmosphere}
                         data={{
-                            [strings.atmospherePressure]: 'TODO', // TODO
-                            [strings.atmosphereCoposition]: () => (
+                            [strings.atmospherePressure]: '101 kPa', // TODO
+                            [strings.atmosphereComposition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    <DonutChart data={body.composition} />
+                                    <DonutChart
+                                        data={DonutChart.buildData(body.atmosphereComposition, item => item.element, item => item.percentage)} />
                                 </section>
                             )
                         }} />
                     <DataTable
                         title={strings.visibility}
                         data={{
-                            [strings.albedo]: Units.formatUnitLess(body.albedo, Units.FULL),
-                            [strings.magnitude]: Units.formatUnitLess(body.magnitude.relative, Units.FULL),
-                            [strings.absoluteMagnitude]: Units.formatUnitLess(body.magnitude.absolute, Units.FULL)
+                            [strings.albedo]: Units.toFull(body.albedo),
+                            [strings.magnitude]: Units.toFull(body.magnitude.relative),
+                            [strings.absoluteMagnitude]: Units.toFull(body.magnitude.absolute)
                         }} />
                     <DataTable
                         title={strings.energy}
                         data={{
-                            [strings.innerTemperature]: Units.formatUnitLess(body.temperature.inner, Units.FULL),
-                            [strings.outerTemperature]: Units.formatUnitLess(body.temperature.outer, Units.FULL),
-                            [strings.luminosity]: Units.formatUnitLess(body.luminosity, Units.FULL)
+                            [strings.innerTemperature]: Units.toFull(body.temperature.inner, Units.TEMPERATURE.K),
+                            [strings.outerTemperature]: Units.toFull(body.temperature.outer, Units.TEMPERATURE.K),
+                            [strings.luminosity]: Units.toShort(body.luminosity, Units.LUMINOSITY.W)
                         }} />
                     <DataTable
                         title={strings.discover}

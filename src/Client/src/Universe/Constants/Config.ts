@@ -53,7 +53,7 @@ export default {
     /**
      * Relative size of three meshes and distances.
      */
-    SIZE_RATIO: 0.001,
+    SIZE_RATIO: 1,
 
     /**
      * Path of all textures.
@@ -67,6 +67,6 @@ export default {
      * and smaller than 20× of screen.
      */
     SEMI_VISIBILITY_EDGE: 40,
-    INVISIBILITY_EDGE: 1000,
+    INVISIBILITY_EDGE: 1000
 
 }

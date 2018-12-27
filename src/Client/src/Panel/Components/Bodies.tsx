@@ -2,8 +2,8 @@ import * as React from 'react'
 
 import BodiesFilterForm from './BodiesFilterForm'
 import BodiesSettingsForm from './BodiesSettingsForm'
-import { Units, getBodies } from '../../Universe'
-import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries, Dates } from '../../Utils'
+import { getBodies } from '../../Universe'
+import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries, Dates, Units } from '../../Utils'
 
 interface IProps {
     bodies: IAsyncEntity<ISimpleBody[]>
@@ -34,27 +34,27 @@ class Bodies extends StatelessComponent<IProps> {
             this.getTableColumn(
                 body => body.diameter.x,
                 strings.diameter,
-                diameter => Units.formatSize(diameter, Units.SHORT)
+                diameter => Units.toShort(diameter, Units.SIZE.KM, Units.SIZE)
             ),
             this.getTableColumn(
                 body => body.mass,
                 strings.mass,
-                mass => Units.formatMass(mass, Units.EXPONENTIAL)
+                mass => Units.toExponential(mass, Units.MASS.KG)
             ),
             this.getTableColumn(
                 body => body.density,
                 strings.density,
-                density => Units.formatDensity(density, Units.SHORT)
+                density => Units.toShort(density, Units.DENSITY.KG_M3)
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.apocenter : null,
                 strings.apocenter,
-                apocenter => apocenter ? Units.formatSize(apocenter, Units.SHORT) : null
+                apocenter => apocenter ? Units.toShort(apocenter, Units.SIZE.KM, Units.SIZE) : null
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.pericenter : null,
                 strings.pericenter,
-                pericenter => pericenter ? Units.formatSize(pericenter, Units.SHORT) : null
+                pericenter => pericenter ? Units.toShort(pericenter, Units.SIZE.KM, Units.SIZE) : null
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.eccentricity : null,
@@ -63,12 +63,12 @@ class Bodies extends StatelessComponent<IProps> {
             this.getTableColumn(
                 body => body.orbit ? body.orbit.period : null,
                 strings.year,
-                period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.Y) : null
+                period => period ? Units.toShort(period, Units.TIME.Y, Units.TIME) : null
             ),
             this.getTableColumn(
                 body => body.axis.period,
                 strings.day,
-                period => period ? Units.formatTime(period, Units.SHORT, Units.TIME.D) : null
+                period => period ? Units.toShort(period, Units.TIME.D, Units.TIME) : null
             ),
             this.getTableColumn(
                 body => body.escapeVelocity,
@@ -85,12 +85,12 @@ class Bodies extends StatelessComponent<IProps> {
             this.getTableColumn(
                 body => body.temperature.outer,
                 strings.outerTemperature,
-                value => Units.formatTemperature(value, Units.SHORT)
+                value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
             this.getTableColumn(
                 body => body.temperature.inner,
                 strings.innerTemperature,
-                value => Units.formatTemperature(value, Units.SHORT)
+                value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
             this.getTableColumn(
                 body => body.discover.date,
@@ -120,7 +120,7 @@ class Bodies extends StatelessComponent<IProps> {
             this.getTableColumn(
                 body => body.luminosity,
                 strings.luminosity,
-                luminosity => Units.formatLuminosity(luminosity, Units.EXPONENTIAL)
+                luminosity => Units.toExponential(luminosity, Units.LUMINOSITY.W)
             )
         ]
     }
@@ -132,7 +132,7 @@ class Bodies extends StatelessComponent<IProps> {
      * @param render Render absolute value. (optional)
      * @returns Table column definition.
      */
-    private getTableColumn(accessor: IColumnAccesor<ISimpleBody>, title: string, render: IRenderColumn<ISimpleBody> = value => Units.formatUnitLess(value, Units.SHORT)): IColumn<ISimpleBody> {
+    private getTableColumn(accessor: IColumnAccesor<ISimpleBody>, title: string, render: IRenderColumn<ISimpleBody> = value => Units.toShort(value)): IColumn<ISimpleBody> {
         const { bodies, location } = this.props
         const bodySettings = Url.getJsonQuery(Queries.BODIES_SETTINGS, location.search)
         const relativeTo = bodySettings ? bodies.payload.find(body => body._id === bodySettings.valuesType) : null
@@ -142,7 +142,7 @@ class Bodies extends StatelessComponent<IProps> {
                 if (!value || !accessor(relativeTo)) {
                     return null
                 } else {
-                    return Units.formatUnitLess(value, Units.SHORT)
+                    return Units.toShort(value)
                 }
             }
 

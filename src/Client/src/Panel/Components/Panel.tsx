@@ -66,8 +66,8 @@ class Panel extends StatelessComponent<IProps> {
                     'Aktuality': Queries.OVERVIEW,
                     'Chat': Queries.CHAT,
                     'Lidé': Queries.PEOPLE,
-                    [this.getBodyNameFromUrl()]: Queries.BODY,
-                    'Tělesa': Queries.BODIES
+                    'Tělesa': Queries.BODIES,
+                    [this.getBodyNameFromUrl()]: Queries.BODY
                 }}
                 className='panel__window__menu' />
         )

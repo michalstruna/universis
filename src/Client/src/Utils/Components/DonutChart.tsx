@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Doughnut } from 'react-chartjs-2'
+import 'chartjs-plugin-labels'
 
 import StatelessComponent from './StatelessComponent'
 
@@ -9,24 +10,48 @@ interface IProps {
 
 class DonutChart extends StatelessComponent<IProps> {
 
+    /**
+     * Transform data for donut chart.
+     * @param items Array of any data.
+     * @param getType Function to map item type.
+     * @param getValue FUnction to map item value.
+     * @returns Data for donut chart.
+     */
+    public static buildData(items: any[], getType: IFunction2<any, number, string>, getValue: IFunction2<any, number, number>): IObject<number> {
+        const result = {}
+
+        for (const i in items) {
+            result[getType(items[i], parseInt(i))] = getValue(items[i], parseInt(i))
+        }
+
+        return result
+    }
+
     public render(): React.ReactNode {
+        const { data } = this.props
+
         return (
             <Doughnut
                 legend={{
-                    labels: {
-                        fontColor: '#eee'
-                    }
+                    display: false
                 }}
                 data={{
-                    labels: ['He', 'H', 'O', 'N', 'C', 'X'],
+                    labels: Object.keys(data),
                     datasets: [{
-                        backgroundColor: ['#484', '#27a', '#b90', '#a33', '#2aa', '#aa6'],
+                        backgroundColor: ['#06b', '#272', '#722', '#980', '#585', '#a60', '#808', '#088', '#664', '#477', '#747', '#467'],
                         borderWidth: 0,
-                        data: [80, 20, 15, 36, 47, 5]
+                        data: Object.values(data)
                     }]
                 }}
                 options={{
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    plugins: {
+                        labels: {
+                            fontColor: 'white',
+                            overlap: false,
+                            render: data => data.label + '\n' + data.percentage + '%'
+                        }
+                    }
                 }} />
         )
     }

@@ -31,8 +31,8 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
         )
     }
 
-    private createChildrenContainer(): THREE.Mesh {
-        return new THREE.Mesh()
+    private createChildrenContainer(): THREE.Object3D {
+        return new THREE.Object3D()
     }
 
     /**
@@ -68,18 +68,24 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      */
     private createMaterial(body: ISimpleBody): THREE.MeshBasicMaterial {
         const texture = TextureStore.get(body.texture)
+        let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial
 
         if (typeof body.type.emissiveColor === 'number') {
-            return new THREE.MeshBasicMaterial({
-                map: texture
+            material = new THREE.MeshBasicMaterial({
+                map: texture,
+                //side: THREE.DoubleSide // TODO: Universe background?
             })
         } else {
-            return new THREE.MeshPhongMaterial({
+            material = new THREE.MeshPhongMaterial({
                 map: texture,
                 specularMap: texture,
                 specular: new THREE.Color(0, 0, 0)
             })
         }
+
+        material.needsUpdate = false
+
+        return material
     }
 
     /**
@@ -89,7 +95,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @return THREE object.
      */
     private createOrbit(body: ISimpleBody): THREE.Object3D {
-        const outerOrbitMesh = new THREE.Object3D()
+        const outerOrbitMesh = new THREE.Object3D() as any
 
         if (body.orbit) {
             const a = this.calculateA(body)
@@ -144,7 +150,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
         mesh.name = body._id
 
         if (body.type.emissiveColor) {
-            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000)) // TODO: Calc distance from size of body.
+            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000000)) // TODO: Calc distance from size of body.
         }
 
         mesh.position.set(0, 0, 0)

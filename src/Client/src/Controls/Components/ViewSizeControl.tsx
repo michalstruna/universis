@@ -2,8 +2,8 @@ import * as React from 'react'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
-import { Units, Listener } from '../../Universe'
-import { Component, Url, Urls } from '../../Utils'
+import { Listener } from '../../Universe'
+import { Component, Url, Urls, Units } from '../../Utils'
 import { history } from '../../'
 
 interface IProps {
@@ -35,6 +35,8 @@ class ViewSizeControl extends Component<IProps, IState> {
      */
     public static instance: React.Component
 
+    private interval
+
     public constructor(props) {
         super(props)
 
@@ -60,9 +62,32 @@ class ViewSizeControl extends Component<IProps, IState> {
      * @param viewSize New view size.
      */
     private handleChange = (viewSize: number) => {
-        this.setState({ viewSize: Units.convert(Units.SIZE.M, Units.SIZE.KM, Math.pow(10, this.reverseValue(viewSize))) }, () => {
-            Listener.changeViewSizeFromUI(this.state.viewSize)
-        })
+        const newViewSize = Units.convert(Units.SIZE.M, Units.SIZE.KM, Math.pow(10, this.reverseValue(viewSize)))
+        let newValue
+
+        clearInterval(this.interval)
+
+        const innerHandleChange = (value: number) => {
+            if (value > this.state.viewSize) {
+                newValue = Math.min(value, this.state.viewSize * 1.2)
+            } else {
+                newValue = Math.max(value, this.state.viewSize / 1.2)
+            }
+
+            this.setState({ viewSize: newValue }, () => {
+                Listener.changeViewSizeFromUI(this.state.viewSize)
+            })
+
+            if (viewSize === newValue) {
+                clearInterval(this.interval)
+            }
+        }
+
+        innerHandleChange(newViewSize)
+
+        this.interval = setInterval(() => {
+            innerHandleChange(newViewSize)
+        }, 30)
     }
 
     public render(): React.ReactNode {
@@ -83,7 +108,8 @@ class ViewSizeControl extends Component<IProps, IState> {
                     value={this.reverseValue(Math.log10(Units.convert(Units.SIZE.KM, Units.SIZE.M, viewSize)))}
                     labels={labels}
                     tooltip={false}
-                    onChange={this.handleChange} />
+                    onChange={this.handleChange}
+                    onChangeComplete={() => clearInterval(this.interval)} />
             </section>
         )
     }

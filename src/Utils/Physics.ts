@@ -37,6 +37,15 @@ class Physics {
     }
 
     /**
+     * Get body circuit.
+     * @param body
+     * @returns Body circuit.
+     */
+    public static getBodyCircuit(body: ISimpleBody): number {
+        return Physics.getCircuit(body.diameter.x, body.diameter.z)
+    }
+
+    /**
      * Get surface of body.
      * @param body
      * @returns Surface of body.
@@ -135,12 +144,70 @@ class Physics {
     }
 
     /**
+     * Get semi-major axis.
+     * @param body
+     * @returns Semi-major axis.
+     */
+    public static getSemiMajorAxis(body: ISimpleBody): number {
+        if (!body.orbit) {
+            return null
+        }
+
+        return Math.floor(Physics.getAverage(body.orbit.pericenter, body.orbit.apocenter))
+    }
+
+    public static getAxisVelocity(body: ISimpleBody): number {
+        if (!body.axis.period) {
+            return null
+        }
+
+        if (!body.circuit) {
+            body.circuit = Physics.getBodyCircuit(body)
+        }
+
+        return (body.circuit * 1e3) / (body.axis.period * 1440 * 60)
+    }
+
+    /**
      * Get average radius of body.
      * @param body
      * @returns Average radius of body.
      */
     private static getAverageRadius(body: ISimpleBody): number {
         return (body.diameter.x + Physics.getDiameterY(body) + Physics.getDiameterZ(body)) / 6
+    }
+
+    /**
+     * Get a.
+     * @param body
+     * @returns Gravitational acceleration.
+     */
+    public static getGravitationalAcceleration(body: ISimpleBody): number {
+        return Physics.G * body.mass / Math.pow(Physics.getAverageRadius(body) * 1e3, 2)
+    }
+
+    /**
+     * Get circuit of ellipse.
+     * @param diameters All diameters dimensions.
+     * @returns circuit.
+     */
+    private static getCircuit(...diameters: number[]): number {
+        return Math.PI * Physics.getAverage(...diameters)
+    }
+
+    /**
+     * Get average value of array of numbers.
+     * @param values
+     * @returns Average value.
+     */
+    private static getAverage(...values: number[]): number {
+        let sum = 0
+
+        for (const dimension of values) {
+            sum += dimension
+        }
+
+        return sum / values.length
     }
 
 }

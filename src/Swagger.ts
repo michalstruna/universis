@@ -586,6 +586,26 @@ export default {
                             }
                         }
                     },
+                    'atmosphereComposition': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'element': {
+                                    'type': 'string',
+                                    'example': 'He'
+                                },
+                                'percentage': {
+                                    'type': 'number',
+                                    'example': 75
+                                }
+                            }
+                        }
+                    },
+                    'description': {
+                        'type': 'string',
+                        'example': 'Jupiter is largest planet in solar system.'
+                    },
                     'rings': {
                         'type': 'array',
                         'items': {

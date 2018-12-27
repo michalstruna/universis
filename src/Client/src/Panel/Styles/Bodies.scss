@@ -50,6 +50,8 @@
         width: 150rem;
 
         &__row .table__cell:first-of-type {
+            box-sizing: border-box;
+            padding-left: 1rem;
             width: 200%;
         }
     }
@@ -64,5 +66,11 @@
 
     &__filter {
         margin-bottom: 1.5rem;
+    }
+
+    &__settings {
+        .form__flex-row {
+            opacity: 1 !important;
+        }
     }
 }

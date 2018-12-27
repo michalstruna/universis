@@ -18,7 +18,7 @@ interface IProps {
 class Body extends StatelessComponent<IProps> {
 
     public componentWillMount(): void {
-        const { bodies, getBodies } = this.props
+        const { body, bodies, getBodies } = this.props
 
         if (!Url.hasQuery(Queries.BODY)) {
             Url.replace({ query: { [Queries.BODY_TAB]: Queries.BODY_DATA } })
@@ -49,7 +49,7 @@ class Body extends StatelessComponent<IProps> {
             bodyData = bodies.payload.find(body => body.name === Physics.INITIAL_BODY)
         }
 
-        AsyncEntity.request(body, () => getBodyById(bodyData._id), true)
+        return AsyncEntity.request(body, () => getBodyById(bodyData._id), true)
     }
 
     /**
@@ -69,15 +69,19 @@ class Body extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { body } = this.props
+        const { bodies, body } = this.props
 
         return (
             <section className='panel__body panel__window'>
                 <section className='panel__window__body'>
                     <section className='panel__window__body--scroll'>
                         <AsyncEntity
-                            data={body}
-                            success={() => this.renderContent()} />
+                            data={bodies}
+                            success={() => (
+                                <AsyncEntity
+                                    data={body}
+                                    success={() => this.renderContent()} />
+                            )} />
                     </section>
                 </section>
                 <QueryMenu

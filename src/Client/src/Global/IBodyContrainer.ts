@@ -26,6 +26,6 @@ declare interface IBodyContainer {
     /**
      * Container for all children of body.
      */
-    readonly childrenContainer: THREE.Mesh
+    readonly childrenContainer: THREE.Object3D
 
 }
