@@ -1,8 +1,7 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
-import { Chart } from 'react-google-charts'
 
-import { StatelessComponent, DataTable } from '../../Utils'
+import { StatelessComponent, DataTable, DonutChart } from '../../Utils'
 import { Units } from '../../Universe'
 
 interface IProps {
@@ -11,44 +10,6 @@ interface IProps {
 }
 
 class BodyData extends StatelessComponent<IProps> {
-
-    private static renderPieChart(data: object): React.ReactNode {
-        return (
-            <>
-                <Chart
-                    width={'300px'}
-                    height={'300px'}
-                    chartType='PieChart'
-                    loader={<div>Loading Chart</div>}
-                    data={[
-                        ['Task', 'Hours per Day'],
-                        ['He', 11],
-                        ['H', 2],
-                        ['C', 2],
-                        ['O', 2],
-                        ['Uup', 7],
-                    ]}
-                    options={{
-                        backgroundColor: 'transparent',
-                        pieHole: 0.5,
-                        pieSliceBorderColor: 'transparent',
-                        legend: 'none',
-                        pieSliceText: 'value-and-percentage',
-                        chartArea: {
-                            left: 0,
-                            top: 10,
-                            width: "100%",
-                            height: "80%"
-                        },
-                        tooltip: {
-                            ignoreBounds: true,
-                            text: 'percentage'
-                        }
-                    }}
-                />
-            </>
-        )
-    }
 
     public render(): React.ReactNode {
         const { strings, body } = this.props
@@ -80,7 +41,7 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.density]: Units.formatDensity(body.density, Units.FULL),
                             [strings.composition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    {BodyData.renderPieChart(body.composition)}
+                                    <DonutChart data={body.composition} />
                                 </section>
                             ),
                             [strings.escapeVelocity]: Units.formatUnitLess(body.escapeVelocity, Units.FULL),
@@ -111,7 +72,7 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.atmospherePressure]: 'TODO', // TODO
                             [strings.atmosphereCoposition]: () => (
                                 <section className='panel__body__data__chart'>
-                                    {BodyData.renderPieChart(body.composition)}
+                                    <DonutChart data={body.composition} />
                                 </section>
                             )
                         }} />
