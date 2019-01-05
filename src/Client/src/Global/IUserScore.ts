@@ -23,9 +23,4 @@ declare interface IUserScore {
      */
     karma: number
 
-    /**
-     * Whole reputation of user.
-     */
-    reputation: number
-
 }

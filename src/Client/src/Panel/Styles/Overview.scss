@@ -6,7 +6,7 @@
     padding-top: 0.4rem;
 
     .user-info {
-        margin: 0.2rem;
+        margin: 0.3rem;
     }
 
     &__controls {
@@ -14,20 +14,56 @@
     }
 
     &__button {
-        @include size(5.3rem, 5rem);
+        @include size(9.3rem, 5rem);
         background-color: $dark-color;
+        background-position: center 30% !important;
+        background-size: auto 40% !important;
         box-sizing: border-box;
         color: $lightest-color;
+        font-size: 90%;
+        line-height: 8rem;
         margin: 0.2rem 0.4rem;
         padding: 0;
+        text-align: center;
         transition: background-color $fast-animation-duration;
 
         &:hover {
-            background-color: #443333;
+            background-color: #444;
         }
 
         &--clean {
-            @include svg("Panel/Overview/Clean", 60%);
+            @include svg("Panel/Overview/Clean");
+        }
+
+        &--login {
+            @include svg("Controls/Login");
+        }
+    }
+
+    .users-list {
+        @include size(28rem, calc(100vh - 9rem));
+        overflow-y: scroll;
+    }
+
+    .toggle-layout {
+        &__item {
+            &:first-of-type {
+                width: calc(100% - 28rem);
+
+                &.toggle-layout__item--active {
+                    width: 80%;
+                }
+            }
+
+            &:last-of-type {
+                width: 20%;
+
+                &.toggle-layout__item--active {
+                    width: 28rem;
+                }
+            }
+
+            float: left;
         }
     }
 

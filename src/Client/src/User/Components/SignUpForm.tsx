@@ -41,7 +41,7 @@ class SignUpForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
     }
 
     public render(): React.ReactNode {
-        const { strings, handleSubmit, invalid, submitting, password } = this.props
+        const { strings, handleSubmit, invalid, submitting, password, unauthUser } = this.props
 
         return (
             <Form
@@ -51,7 +51,9 @@ class SignUpForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
                 <Title>
                     {strings.title}
                 </Title>
-                <UserInfo type={UserInfo.TYPES.LARGE} />
+                <UserInfo type={UserInfo.TYPES.LARGE} user={{
+                    ...UserInfo.DEFAULT_USER
+                }} />
                 <PasswordField
                     label={strings.password}
                     required={strings.missingPassword}

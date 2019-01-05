@@ -1,0 +1,22 @@
+.toggle-layout {
+
+    &__item {
+        opacity: 0.3;
+        overflow: hidden;
+        transition: height $medium-animation-duration, width $medium-animation-duration, opacity $medium-animation-duration;
+
+        & > * {
+            pointer-events: none;
+        }
+
+        &--active {
+            opacity: 1;
+
+            & > * {
+                pointer-events: all;
+            }
+        }
+
+    }
+
+}

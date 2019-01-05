@@ -59,7 +59,7 @@ export default {
         passwordAgain: 'Heslo znovu',
         missingPasswordAgain: 'Zadejte heslo znovu.',
         invalidPasswordAgain: 'Hesla se neshodují.',
-        button: 'Registrovat se'
+        submit: 'Registrovat se'
     },
 
     universe: {

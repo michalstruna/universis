@@ -3,16 +3,6 @@ import * as React from 'react'
 import { StatelessComponent, Link, Units } from '../../Utils'
 
 //const avatarUrl = 'https://vignette.wikia.nocookie.net/evilbabes/images/2/2b/Esdeath_Quote_%28Akame_ga_Kill_Ep_10%29.png/revision/latest?cb=20160212175749' // TODO: Remove
-const avatarUrl = 'https://s3.amazonaws.com/cdn.roosterteeth.com/uploads/images/1f26bf45-d6ba-4650-8757-b94c69413973/md/2166131-1448257742824-tumblr_nseo5sJWL21ubrv41o1_250.png'
-
-
-const score = {
-    gold: 999,
-    silver: 999,
-    bronze: 999,
-    karma: 56,
-    reputation: 999
-} // TODO: Remove
 
 interface IProps {
     type: UserInfoTypes
@@ -33,10 +23,23 @@ enum UserInfoTypes {
  */
 class UserInfo extends StatelessComponent<IProps> {
 
+    public static readonly DEFAULT_USER = {
+        email: null,
+        name: 'Nepřihlášený',
+        avatar: '/Images/User/Avatar.svg',
+        roles: [],
+        score: {
+            gold: 0,
+            silver: 0,
+            bronze: 0,
+            karma: 0
+        }
+    }
+
     public static TYPES = UserInfoTypes
 
     private getColorFromKarma(): string {
-        const currentKarma = Math.round(Math.random() * 200 - 100)
+        const currentKarma = Math.round(this.getUser().score.karma)
         const karma = Math.min(Math.max(currentKarma, -100), 100)
         const color = 200 - Math.abs(karma / 100) * 200
 
@@ -60,31 +63,56 @@ class UserInfo extends StatelessComponent<IProps> {
         }
     }
 
+    /**
+     * Get user.
+     */
+    private getUser(): IBaseUser {
+        const { user } = this.props
+
+        if (!user) {
+            return UserInfo.DEFAULT_USER
+        }
+
+        return user
+    }
+
+    /**
+     * Get user reputation.
+     */
+    private getReputation(): number {
+        const user = this.getUser()
+        return Math.floor((user.score.gold + user.score.silver + user.score.bronze) / 3)
+    }
+
     private renderSmall(): React.ReactNode {
+        const user = this.getUser()
+
         return (
             <Link
                 className='user-info__avatar'
                 target={Link.URLS.HOME}
-                style={{ backgroundImage: `url(${avatarUrl})` }} />
+                style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
         )
     }
 
     private renderMedium(): React.ReactNode {
+        const user = this.getUser()
+
         return (
             <React.Fragment>
                 <Link
                     className='user-info__avatar'
                     target={Link.URLS.HOME}
-                    style={{ backgroundImage: `url(${avatarUrl})` }} />
+                    style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
                 <section className='user-info--right'>
                     <Link
                         className='user-info__name'
                         target={Link.URLS.HOME}
                         style={{ color: this.getColorFromKarma() }}>
-                        Michal Struna
+                        {user.name}
                     </Link>
                     <section className='user-info__reputation'>
-                        {Units.toShort(score.reputation)}
+                        {Units.toShort(this.getReputation())}
                     </section>
                     <section className='user-info__last-online'>
                         11 měs.
@@ -95,26 +123,14 @@ class UserInfo extends StatelessComponent<IProps> {
     }
 
     private renderLarge(): React.ReactNode {
-        let { user } = this.props
-
-        if (!user) {
-            //return null
-
-            user = {
-                _id: 'abc',
-                email: 'michal@struna.cz',
-                name: 'Michal',
-                avatar: 'Avatar',
-                roles: []
-            }
-        }
+        const user = this.getUser()
 
         return (
             <React.Fragment>
                 <Link
                     className='user-info__avatar'
                     target={Link.URLS.HOME}
-                    style={{ backgroundImage: `url(${avatarUrl})` }} />
+                    style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
                 <section className='user-info--right'>
                     <Link
                         className='user-info__name'
@@ -124,16 +140,16 @@ class UserInfo extends StatelessComponent<IProps> {
                     </Link>
                     <section className='user-info__score'>
                         <section className='user-info__reputation'>
-                            {Units.toShort(score.reputation)}
+                            {Units.toShort(this.getReputation())}
                         </section>
                         <section className='user-info__badge user-info__badge--gold'>
-                            {Units.toShort(score.gold)}
+                            {Units.toShort(user.score.gold)}
                         </section>
                         <section className='user-info__badge user-info__badge--silver'>
-                            {Units.toShort(score.silver)}
+                            {Units.toShort(user.score.silver)}
                         </section>
                         <section className='user-info__badge user-info__badge--bronze'>
-                            {Units.toShort(score.bronze)}
+                            {Units.toShort(user.score.bronze)}
                         </section>
                     </section>
                     <section className='user-info__last-online'>

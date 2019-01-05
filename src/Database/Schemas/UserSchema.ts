@@ -30,9 +30,30 @@ const UserSchema = new Schema({
     },
 
     avatar: {
-        type: String,
-        required: [true, 'Avatar is required.'],
-        default: 'http://i372.photobucket.com/albums/oo170/Emperortopaz/Headshots/Esdeath_zpsz4aexby6.jpg' // TODO: Default avatar.
+        type: String
+    },
+
+    score: {
+        gold: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+        silver: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+        bronze: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+        karma: {
+            type: Number,
+            required: true,
+            default: 0
+        }
     },
 
     __v: {

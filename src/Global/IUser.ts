@@ -31,6 +31,11 @@ declare interface IBaseUser {
         includes: (number) => boolean
     }
 
+    /**
+     * Score of user.
+     */
+    score: IUserScore
+
 }
 
 /**

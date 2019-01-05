@@ -1,7 +1,8 @@
 import * as React from 'react'
 
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, Link, ToggleLayout } from '../../Utils'
 import { UserInfo, Notifications } from '../../User'
+import UsersList from '../../User/Components/UsersList'
 
 interface IProps {
     identity: IAsyncEntity<IUserIdentity>
@@ -18,13 +19,20 @@ class Overview extends StatelessComponent<IProps> {
         return (
             <section className='panel__overview panel__window'>
                 <section className='panel__overview__controls'>
-                    <button className='panel__overview__button'>
-
-                    </button>
+                    <Link
+                        target={Link.URLS.IDENTITY}
+                        className='panel__overview__button panel__overview__button--login'>
+                        Přihlášení
+                    </Link>
                     <UserInfo user={identity.payload} type={UserInfo.TYPES.LARGE} />
-                    <button className='panel__overview__button panel__overview__button--clean' />
+                    <button className='panel__overview__button panel__overview__button--clean'>
+                        Vyčistit
+                    </button>
                 </section>
-                <Notifications />
+                <ToggleLayout>
+                    <Notifications />
+                    <UsersList />
+                </ToggleLayout>
             </section>
         )
     }
