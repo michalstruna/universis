@@ -16,6 +16,10 @@ const masonryOptions = {
  */
 class Notifications extends StatelessComponent<IProps> {
 
+    public shouldComponentUpdate(): boolean {
+        return false
+    }
+
     /**
      * Render notifications.
      * @returns Notification in masonry layout.

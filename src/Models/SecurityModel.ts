@@ -52,7 +52,7 @@ class SecurityModel extends Model implements ISecurityModel {
         return Security.sign(payload)
     }
 
-    public unsign(token: string): Promise<string> {
+    public unsign(token: string): Promise<IObject<any>> {
         return this.dbModel.count({ token }).then(count => {
             if (count === 1) {
                 JWT.verify(token, Config.security.token.secret, (error, payload) => (

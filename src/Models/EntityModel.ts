@@ -30,7 +30,7 @@ class EntityModel<IGetOne, IGetAll, INew> extends Model implements IEntityModel<
         return new Promise((resolve, reject) => (
             this.dbModel
                 .add(data)
-                .then(id => resolve(id))
+                .then(id => resolve(id)) // TODO: .then(resolve)
                 .catch(error => reject(error === Errors.DUPLICATE ? Errors.DUPLICATE : Errors.INVALID))
         ))
     }

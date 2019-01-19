@@ -63,9 +63,8 @@ class Panel extends StatelessComponent<IProps> {
             <QueryMenu
                 query={Queries.PANEL}
                 links={{
-                    'Aktuality': Queries.OVERVIEW,
+                    'Přehled': Queries.OVERVIEW,
                     'Chat': Queries.CHAT,
-                    'Lidé': Queries.PEOPLE,
                     'Tělesa': Queries.BODIES,
                     [this.getBodyNameFromUrl()]: Queries.BODY
                 }}
@@ -86,8 +85,6 @@ class Panel extends StatelessComponent<IProps> {
                 return <Chat />
             case Queries.OVERVIEW:
                 return <Overview />
-            case Queries.PEOPLE:
-                return <People />
             case Queries.BODIES:
                 return <Bodies />
             case Queries.BODY:

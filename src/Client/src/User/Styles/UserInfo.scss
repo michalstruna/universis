@@ -123,19 +123,19 @@ $user-info-height: 5rem;
     }
 
     &--medium {
-        @include size(15.1rem, 4rem);
+        @include size(12.64rem, 3rem);
         display: inline-block;
-        margin: 0.4rem;
+        margin: 0.3rem;
 
         .user-info {
             &__avatar {
-                @include size(4rem);
+                @include size(3rem);
             }
 
             &__name {
                 font-size: 90%;
-                margin-bottom: 0.3rem;
-                margin-top: 0.1rem;
+                margin-bottom: -0.5rem;
+                margin-top: 0;
             }
 
             &--right {
@@ -146,10 +146,15 @@ $user-info-height: 5rem;
             &__reputation {
                 display: block;
                 font-size: 80%;
+                margin-top: -0.1rem;
             }
 
             &__last-online {
-                top: 2.1rem;
+                top: 1.6rem;
+            }
+
+            &--right {
+                width: calc(100% - 3rem);
             }
         }
     }

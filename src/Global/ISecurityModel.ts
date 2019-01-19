@@ -40,6 +40,6 @@ declare interface ISecurityModel {
      * @returns Promise with error NOT_FOUND, if token doesn't exist.
      * @returns Promise with error INVALID, if token is invalid.
      */
-    unsign(token: string): Promise<string>
+    unsign(token: string): Promise<IObject<any>>
 
 }

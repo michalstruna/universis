@@ -181,7 +181,9 @@ class Units {
             unit = temp.unit
         }
 
-        if (value < 1e-3) {
+        if(!value) {
+           return '0'
+        } if (value < 1e-3) {
             return Units.toExponential(value, unit)
         } else if (value < 1) {
             return Units.toFull(value, unit)
