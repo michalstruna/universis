@@ -35,8 +35,6 @@ class ViewSizeControl extends Component<IProps, IState> {
      */
     public static instance: React.Component
 
-    private interval
-
     public constructor(props) {
         super(props)
 
@@ -65,7 +63,7 @@ class ViewSizeControl extends Component<IProps, IState> {
         const newViewSize = Units.convert(Units.SIZE.M, Units.SIZE.KM, Math.pow(10, this.reverseValue(viewSize)))
         let newValue
 
-        clearInterval(this.interval)
+        this.unsetInterval()
 
         const innerHandleChange = (value: number) => {
             if (value > this.state.viewSize) {
@@ -79,13 +77,13 @@ class ViewSizeControl extends Component<IProps, IState> {
             })
 
             if (viewSize === newValue) {
-                clearInterval(this.interval)
+                this.unsetInterval()
             }
         }
 
         innerHandleChange(newViewSize)
 
-        this.interval = setInterval(() => {
+        this.setInterval(() => {
             innerHandleChange(newViewSize)
         }, 30)
     }
@@ -109,7 +107,7 @@ class ViewSizeControl extends Component<IProps, IState> {
                     labels={labels}
                     tooltip={false}
                     onChange={this.handleChange}
-                    onChangeComplete={() => clearInterval(this.interval)} />
+                    onChangeComplete={() => this.unsetInterval()} />
             </section>
         )
     }

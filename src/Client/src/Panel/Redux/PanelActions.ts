@@ -41,6 +41,6 @@ export const addNotification = (notification: Universis.Notification.New) => (
 export const getNotifications = (limit: number) => (
     Redux.asyncAction(
         ActionTypes.GET_NOTIFICATIONS,
-        { notifications: Request.get(`notifications`) }
+        { notifications: Request.get(`notifications`, { sort: 'date', order: 'desc', limit }) }
     )
 )

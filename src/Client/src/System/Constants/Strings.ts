@@ -1,5 +1,5 @@
 import { Urls } from '../../Utils'
-import { Subject, Relation } from '../../Panel'
+import { NotificationRelation, NotificationSubject } from '../../Panel'
 
 export default {
 
@@ -160,14 +160,16 @@ export default {
     notifications: {
 
         relations: {
-
+            [NotificationRelation.ADD]: 'Nový',
+            [NotificationRelation.DELETE]: 'Smazaný',
+            [NotificationRelation.EDIT]: 'Upravený'
         },
 
         subjects: {
-            [Subject.BODY]: 'Těleso',
-            [Subject.COMMENT]: 'Komentář',
-            [Subject.DISCUSSION]: 'Diskuse',
-            [Subject.USER]: 'Uživatel'
+            [NotificationSubject.BODY]: 'Těleso',
+            [NotificationSubject.COMMENT]: 'Komentář',
+            [NotificationSubject.DISCUSSION]: 'Diskuse',
+            [NotificationSubject.USER]: 'Uživatel'
         }
 
     }

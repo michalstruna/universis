@@ -12,5 +12,5 @@ export * from './Redux/PanelActions'
 /**
  * Constants.
  */
-export { default as Relation } from './Constants/Relation'
-export { default as Subject } from './Constants/Subject'
+export { default as NotificationRelation } from './Constants/NotificationRelation'
+export { default as NotificationSubject } from './Constants/NotificationSubject'

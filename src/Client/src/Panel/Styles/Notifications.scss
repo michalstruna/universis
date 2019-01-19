@@ -36,9 +36,21 @@
         text-align: center;
         width: 10rem;
 
-        &--normal {
+        &--0 {
             & > section {
-                background-color: $dark-color;
+                background-color: #353;
+            }
+        }
+
+        &--1 {
+            & > section {
+                background-color: #046;
+            }
+        }
+
+        &--2 {
+            & > section {
+                background-color: #533;
             }
         }
 

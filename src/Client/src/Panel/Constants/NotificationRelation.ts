@@ -1,10 +1,10 @@
 /**
  * Relation for notification subject.
  */
-enum Relation {
+enum NotificationRelation {
     ADD,
     EDIT,
     DELETE
 }
 
-export default Relation
+export default NotificationRelation

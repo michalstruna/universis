@@ -48,11 +48,12 @@ class Units {
      * List of all time units.
      */
     public static TIME = {
-        S: { value: 1, shortName: 's' },
-        M: { value: 60, shortName: 'm' },
-        H: { value: 3600, shortName: 'h' },
-        D: { value: 86400, shortName: 'd' },
-        Y: { value: 31557600, shortName: 'r' }
+        MS: { value: 1, shortName: 'ms' },
+        S: { value: 1e3, shortName: 's' },
+        M: { value: 6e4, shortName: 'm' },
+        H: { value: 36e5, shortName: 'h' },
+        D: { value: 864e5, shortName: 'd' },
+        Y: { value: 315576e5, shortName: 'r' }
     }
 
     /**

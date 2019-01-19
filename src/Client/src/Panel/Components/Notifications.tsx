@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Masonry from 'react-masonry-component'
 
-import { StatelessComponent, Link, AsyncEntity, RelativeTime } from '../../Utils'
+import { StatelessComponent, Link, AsyncEntity, RelativeTime, Words } from '../../Utils'
 import { getNotifications } from '../Redux/PanelActions'
 
 interface IProps {
@@ -10,9 +10,11 @@ interface IProps {
     strings: IStrings
 }
 
-const masonryOptions = {
+const MASONRY_OPTIONS = {
     transitionDuration: 0
 }
+
+const NOTIFICATION_COUNT = 100
 
 /**
  * Component for notifications.
@@ -21,7 +23,7 @@ class Notifications extends StatelessComponent<IProps> {
 
     public componentWillMount(): void {
         const { notifications, getNotifications } = this.props
-        AsyncEntity.request(notifications, () => getNotifications(10), true) // TODO: Calc count by window size.
+        AsyncEntity.request(notifications, () => getNotifications(NOTIFICATION_COUNT), true)
     }
 
     /**
@@ -34,7 +36,7 @@ class Notifications extends StatelessComponent<IProps> {
         return notifications.payload.map((notification, key) => (
             <Link
                 target={notification.target}
-                className={'notifications__notification notifications__notification--normal'}
+                className={'notifications__notification notifications__notification--' + notification.relation}
                 key={key}>
                 <section className='notifications__front'>
                     <section className='notifications__front--inner'>
@@ -45,7 +47,7 @@ class Notifications extends StatelessComponent<IProps> {
                     <section className='notifications__age'>
                         <RelativeTime date={notification.date} />
                     </section>
-                    {strings.subjects[notification.subject]}
+                    {Words.concatAdjectiveWithSubstantive(strings.relations[notification.relation], strings.subjects[notification.subject].toLowerCase())}
                 </section>
             </Link>
         ))
@@ -63,7 +65,7 @@ class Notifications extends StatelessComponent<IProps> {
                         <Masonry
                             className={'notifications'}
                             elementType={'section'}
-                            options={masonryOptions}>
+                            options={MASONRY_OPTIONS}>
                             {this.renderNotifications()}
                         </Masonry>
                     )} />

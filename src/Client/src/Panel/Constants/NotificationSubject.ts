@@ -1,11 +1,11 @@
 /**
  * Subject of notification.
  */
-enum Subject {
+enum NotificationSubject {
     USER,
     BODY,
     DISCUSSION,
     COMMENT,
 }
 
-export default Subject
+export default NotificationSubject

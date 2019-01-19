@@ -32,12 +32,12 @@ declare namespace Universis.Notification {
         text: string
 
         /**
-         * Subject (index of BODY, USER, DISCUSSION, ...).
+         * NotificationSubject (index of BODY, USER, DISCUSSION, ...).
          */
         subject: number
 
         /**
-         * Relation (index of ADD, EDIT, DELETE, ...).
+         * NotificationRelation (index of ADD, EDIT, DELETE, ...).
          */
         relation: number
 

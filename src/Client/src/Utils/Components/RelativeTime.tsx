@@ -6,9 +6,11 @@ interface IProps {
     date: string
 }
 
-// TODO: Real time update.
-
 class RelativeTime extends StatelessComponent<IProps> {
+
+    public componentDidMount(): void {
+        this.setInterval(() => this.forceUpdate(), Units.convert(Units.TIME.M, Units.TIME.MS))
+    }
 
     public render(): React.ReactNode {
         const { date } = this.props
