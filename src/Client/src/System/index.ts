@@ -5,8 +5,6 @@ export * from './Redux/SystemActions'
  */
 export { default as AnimatedBackground } from './Components/AnimatedBackground'
 export { default as App } from './Components/App'
-export { default as Home } from './Components/Home'
-export { default as Menu } from './Components/Menu'
 
 /**
  * Views.

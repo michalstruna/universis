@@ -10,24 +10,24 @@
     &__menu {
         margin-top: 150px;
         text-align: center;
-    }
 
-    &__link {
-        @include size(270px, 60px, true);
-        border: 3px solid $light-color;
-        display: inline-block;
-        font-size: 140%;
-        font-weight: bold;
-        margin: 0 50px;
-        text-align: center;
-        transition: background-color $medium-animation-duration, box-shadow $medium-animation-duration, color $medium-animation-duration;
-        user-select: none;
-        max-width: calc(100vw - 40px);
+        &__link {
+            @include size(270px, 60px, true);
+            border: 3px solid $light-color;
+            display: inline-block;
+            font-size: 140%;
+            font-weight: bold;
+            margin: 0 50px;
+            text-align: center;
+            transition: background-color $medium-animation-duration, box-shadow $medium-animation-duration, color $medium-animation-duration;
+            user-select: none;
+            max-width: calc(100vw - 40px);
 
-        &:hover {
-            background-color: $light-color;
-            box-shadow: $light-color 0 0 0.5em;
-            color: $darkest-color;
+            &:hover {
+                background-color: $light-color;
+                box-shadow: $light-color 0 0 0.5em;
+                color: $darkest-color;
+            }
         }
     }
 }

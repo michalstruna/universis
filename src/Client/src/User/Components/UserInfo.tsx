@@ -2,8 +2,6 @@ import * as React from 'react'
 
 import { StatelessComponent, Link, Units } from '../../Utils'
 
-//const avatarUrl = 'https://vignette.wikia.nocookie.net/evilbabes/images/2/2b/Esdeath_Quote_%28Akame_ga_Kill_Ep_10%29.png/revision/latest?cb=20160212175749' // TODO: Remove
-
 interface IProps {
     type: UserInfoTypes
     user?: IBaseUser

@@ -16,6 +16,7 @@ export { default as UILayout } from './Components/UILayout'
 export { default as QueryMenu } from './Components/QueryMenu'
 export { default as View } from './Components/View'
 export { default as ToggleLayout } from './Components/ToggleLayout'
+export { default as Menu } from './Components/Menu'
 
 /**
  * Constants.
