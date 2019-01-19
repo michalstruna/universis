@@ -1,4 +1,5 @@
 import { Urls } from '../../Utils'
+import { Subject, Relation } from '../../Panel'
 
 export default {
 
@@ -78,6 +79,7 @@ export default {
     panel: {
 
     },
+
     bodies: {
         name: 'Název',
         diameter: 'Průměr',
@@ -152,6 +154,21 @@ export default {
         discover: 'Objev',
         discoverer: 'Objevitel',
         discoverDate: 'Datum objevu'
+
+    },
+
+    notifications: {
+
+        relations: {
+
+        },
+
+        subjects: {
+            [Subject.BODY]: 'Těleso',
+            [Subject.COMMENT]: 'Komentář',
+            [Subject.DISCUSSION]: 'Diskuse',
+            [Subject.USER]: 'Uživatel'
+        }
 
     }
 

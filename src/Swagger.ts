@@ -482,7 +482,8 @@ export default {
                     }
                 }
             }
-        }
+        },
+        '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification'),
     },
     'components': {
         'schemas': {
@@ -1022,6 +1023,46 @@ export default {
                             'token': {
                                 'type': 'string',
                                 'example': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjlkN2M0NzUyODgyOTJkNjQ2OWEwYmYiLCJpYXQiOjE1MzcwNDc5NTcsImV4cCI6MTUzNzA0OTc1N30.cGTu3XyU3bstQpkC32GAXDBgr3dFjIIVyJ4-Ocm2tXQ'
+                            }
+                        }
+                    }
+                ]
+            },
+            'NewNotification': {
+                'type': 'object',
+                'properties': {
+                    'text': {
+                        'type': 'string',
+                        'example': 'Jaká je největší planeta sluneční soustavy?'
+                    },
+                    'subject': {
+                        'type': 'number',
+                        'example': 7
+                    },
+                    'relation': {
+                        'type': 'number',
+                        'example': 1
+                    },
+                    'target': {
+                        'type': 'string',
+                        'example': '/vesmir?t=Slunce&panel=teleso&teleso=Slunce&tab=diskuse'
+                    }
+                }
+            },
+            'Notification': {
+                'allOf': [
+                    {
+                        '$ref': '#/components/schemas/NewNotification'
+                    },
+                    {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            },
+                            'date': {
+                                'type': 'string',
+                                'example': '2018-11-03'
                             }
                         }
                     }

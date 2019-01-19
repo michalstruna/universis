@@ -1,5 +1,7 @@
 .notifications {
+    @include size(32rem, 100%);
     overflow: hidden;
+    position: relative;
 
     &__front, &__back {
         align-items: center;

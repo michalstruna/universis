@@ -7,6 +7,7 @@ import BodySchema from '../Database/Schemas/BodySchema'
 import BodyTypeSchema from '../Database/Schemas/BodyTypeSchema'
 import UserSchema from '../Database/Schemas/UserSchema'
 import TokenSchema from '../Database/Schemas/TokenSchema'
+import NotificationSchema from '../Database/Schemas/NotificationSchema'
 
 /**
  * Base model. This is parent of each another model.
@@ -55,6 +56,7 @@ abstract class Model implements IModel {
         this.db.createModel(this.dbModels.BODY_TYPE, BodyTypeSchema)
         this.db.createModel(this.dbModels.USER, UserSchema)
         this.db.createModel(this.dbModels.TOKEN, TokenSchema)
+        this.db.createModel(this.dbModels.NOTIFICATION, NotificationSchema)
     }
 
 }

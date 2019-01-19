@@ -46,6 +46,8 @@
     }
 
     .toggle-layout {
+        height: calc(100% - 5.6rem);
+
         &__item {
             &:first-of-type {
                 width: calc(100% - 28rem);
