@@ -1,37 +1,121 @@
-import { Model, Document, DocumentQuery } from 'mongoose'
+import { Model, Document, Query } from 'mongoose'
 
-import { Errors, SortOrder } from '../Constants'
+import { Errors } from '../Constants'
 
-/**
- * Map mongoose error to http status.
- */
-const mapMongooseErrorToStatus = {
-    11000: Errors.DUPLICATE
-}
+// TODO: Remove func does not return list of items.
+// TODO: Join, select, limit, offset, ... options in update and remove.
 
 /**
  * Adapter for database model.
  */
-class DatabaseModel implements IDatabaseModel {
+class DatabaseModel implements Universis.Database.Model {
 
     /**
      * Original mongoose model.
      */
     private model: Model<Document>
 
-    /**
-     * Current query.
-     * When get, add, update or delete is used, query is cleaned.
-     */
-    private query: DocumentQuery<Document | Document[], Document>
-
-    /**
-     * List of joined fields in current query.
-     */
-    private joinList: string[]
 
     public constructor(model: Model<Document>) {
         this.model = model
+    }
+
+    public remove<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
+        return new Promise((resolve, reject) => (
+            this.processQuery(
+                this.model.remove(filter),
+                options
+            )
+                .then(removed => this.processResult(removed, options))
+                .catch(error => reject(this.getError(error)))
+        ))
+    }
+
+    public add<T>(data: Universis.Database.Query.Item): Promise<T> {
+        return new Promise((resolve, reject) => (
+            this.model
+                .create(data)
+                .then(body => resolve(body._id))
+                .catch(error => reject(this.getError(error)))
+        ))
+    }
+
+    public count(filter: Universis.Database.Query.Filter): Promise<number> {
+        return this.model.count(filter).exec()
+    }
+
+    public get<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
+        return this.processQuery(
+            this.model.find(filter),
+            options
+        )
+            .then(items => this.processResult<T>(items, options))
+    }
+
+    public update<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): Promise<T> {
+        return new Promise((resolve, reject) => (
+            this.processQuery(
+                this.model.updateMany(filter, newItem, { new: true }),
+                options
+            )
+                .then(updated => resolve(this.processResult<T>(updated, options)))
+                .catch(error => reject(this.getError(error)))
+        ))
+    }
+
+
+    private processQuery(query: Query<Universis.Database.Query.Item[]>, options?: Universis.Database.Query.Options): Query<Universis.Database.Query.Item[]> {
+        if (options) {
+            if (options.sort) {
+                query = query.sort([[options.sort, options.reverse ? -1 : 1]])
+            }
+
+            if (options.offset) {
+                query = query.skip(options.offset)
+            }
+
+            if (options.limit) {
+                query = query.limit(options.limit)
+            }
+
+            if (options.join) {
+                query = query.populate(options.join.join(' '))
+            }
+
+            if (options.select) {
+                query = query.select([...options.join, options.select].join(' '))
+            }
+        }
+
+        return query
+    }
+
+    /**
+     * Apply query options to result items.
+     * @type T Type of result items.
+     * @param items Result of query.
+     * @param options Options of query.
+     * @returns Items or item.
+     */
+    private processResult<T>(items: Universis.Database.Query.Item[], options?: Universis.Database.Query.Options): T {
+        let result: T
+
+        if (options) {
+            if (options.join) {
+                for (const join of options.join) {
+                    for (const i in result) {
+                        result[i][join.replace(/Id$/, '')] = result[i][join]
+                        delete result[i][join]
+                    }
+                }
+            }
+
+            if (options.extract) {
+                result = result[0]
+            }
+        }
+
+        return result
     }
 
     /**
@@ -39,148 +123,10 @@ class DatabaseModel implements IDatabaseModel {
      * @param error Mongoose error.
      * @returns Http status code.
      */
-    private getErrorStatusCode(error: { code: number }): number {
-        return mapMongooseErrorToStatus[error.code] || Errors.INVALID
+    private getError(error: { code: number }): Universis.Error {
+        return Object.values(Errors).filter(error => error.mongo === error.code)[0] || Errors.INVALID
     }
 
-    private createQuery(query: DocumentQuery<Document | Document[], Document>): void {
-        this.query = query
-        this.joinList = []
-    }
-
-    public add(data: Object): Promise<string> {
-        return new Promise((resolve, reject) => (
-            this.model
-                .create(data)
-                .then(body => resolve(body.toObject()._id))
-                .catch(error => reject(this.getErrorStatusCode(error)))
-        ))
-    }
-
-    public count(condition: Object): Promise<number> {
-        return this.model.count(condition).exec()
-    }
-
-    public get(condition: Object): IDatabaseModel {
-        this.createQuery(this.model.find(condition))
-        return this
-    }
-
-    public getById(id: string): IDatabaseModel {
-        this.createQuery(this.model.findById(id))
-        return this
-    }
-
-    public getOne(condition: Object): IDatabaseModel {
-        this.createQuery(this.model.findOne(condition))
-        return this
-    }
-
-    public join(field: string): IDatabaseModel {
-        // TODO: Nested populate.
-        this.query = this.query.populate(field)
-        this.joinList.push(field)
-        return this
-    }
-
-    public limit(limit: number): IDatabaseModel {
-        this.query = this.query.limit(limit)
-        return this
-    }
-
-    public offset(offset: number): IDatabaseModel {
-        this.query = this.query.skip(offset)
-        return this
-    }
-
-    public remove(condition: Object): Promise<number> {
-        return new Promise((resolve, reject) => (
-            this.model
-                .remove(condition)
-                .then(removed => removed.n > 0 ? resolve(removed.n) : reject(Errors.NOT_FOUND))
-                .catch(error => reject(this.getErrorStatusCode(error)))
-        ))
-    }
-
-    public removeById(id: string): Promise<void> {
-        return new Promise((resolve, reject) => (
-            this.model
-                .findByIdAndRemove(id)
-                .then(removed => removed ? resolve() : reject(Errors.NOT_FOUND))
-                .catch(error => reject(this.getErrorStatusCode(error)))
-        ))
-    }
-
-    public removeOne(condition: Object): Promise<void> {
-        return new Promise((resolve, reject) => (
-            this.model
-                .findOneAndRemove(condition)
-                .then(removed => removed ? resolve() : reject(Errors.NOT_FOUND))
-                .catch(error => reject(this.getErrorStatusCode(error)))
-        ))
-    }
-
-    public select(...fields: string[]): IDatabaseModel {
-        this.query = this.query.select(fields.join(' '))
-        return this
-    }
-
-    public sort(field: string, order: SortOrder): IDatabaseModel {
-        this.query = this.query.sort([[field, order === SortOrder.ASC ? 1 : -1]])
-        return this
-    }
-
-    public run<T>(): Promise<T> {
-        return this.query
-            .lean()
-            .exec()
-            .then(result => {
-                if (result) {
-                    if (result.length) {
-                        for (const join of this.joinList) {
-                            for (const i in result) {
-                                result[i][join.replace(/Id$/, '')] = result[i][join]
-                                delete result[i][join]
-                            }
-                        }
-                    } else {
-                        for (const join of this.joinList) {
-                            result[join.replace(/Id$/, '')] = result[join]
-                            delete result[join]
-                        }
-                    }
-                }
-
-                return result
-            })
-    }
-
-    public update(condition: Object, newValues: Object): Promise<number> {
-        return new Promise((resolve, reject) => (
-            this.model
-                .updateMany(condition, newValues, { new: true })
-                .then(updated => updated.length > 0 ? resolve(updated.length) : reject(Errors.NOT_FOUND))
-                .catch(error => reject(this.getErrorStatusCode(error)))
-        ))
-    }
-
-    public updateById(id: string, newValues: Object): Promise<void> {
-        return new Promise((resolve, reject) => (
-            this.model
-                .findByIdAndUpdate(id, newValues)
-                .then(updated => updated ? resolve() : reject(Errors.NOT_FOUND))
-                .catch(error => reject(this.getErrorStatusCode(error)))
-        ))
-    }
-
-    public updateOne(condition: Object, newValues: Object): Promise<void> {
-        return new Promise((resolve, reject) => (
-            this.model
-                .updateOne(condition, newValues, { new: true })
-                .then(updated => updated ? resolve() : reject(Errors.NOT_FOUND))
-                .catch(error => reject(this.getErrorStatusCode(error)))
-        ))
-    }
 }
 
 export default DatabaseModel

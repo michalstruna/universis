@@ -483,7 +483,7 @@ export default {
                 }
             }
         },
-        '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification'),
+        '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification', ['get']),
     },
     'components': {
         'schemas': {

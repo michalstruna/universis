@@ -22,7 +22,7 @@ abstract class Model implements IModel {
     /**
      * Primary database model.
      */
-    protected dbModel: IDatabaseModel
+    protected dbModel: Universis.Database.Model
 
     /**
      * List of all database models.

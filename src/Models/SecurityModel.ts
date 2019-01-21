@@ -9,7 +9,7 @@ import Security from '../Utils/Security'
 
 class SecurityModel extends Model implements ISecurityModel {
 
-    private userDbModel: IDatabaseModel
+    private userDbModel: Universis.DatabaseModel
 
     constructor() {
         super()
@@ -20,7 +20,7 @@ class SecurityModel extends Model implements ISecurityModel {
     public authenticate(email: string, secret: string): Promise<IUserIdentity> {
         return new Promise(async (resolve, reject) => {
             const userPassword = await this.userDbModel
-                .getOne({ email })
+                .get({ email })
                 .select('password')
                 .run<{ password: string }>()
 
@@ -32,7 +32,7 @@ class SecurityModel extends Model implements ISecurityModel {
                 return reject(Errors.INVALID) // Invalid password.
             }
 
-            const user = await UserModel.getOne({ email })
+            const user = await UserModel.get({ email })
             const token = await this.sign({ _id: user._id })
 
             await this.dbModel.add({ token })

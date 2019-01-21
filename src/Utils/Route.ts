@@ -99,7 +99,7 @@ class Route {
      * @param model Entity model.
      * @returns Route group.
      */
-    public static getRouteGroupForAll(model: IUnspecifiedEntityModel, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
+    public static getRouteGroupForAll(model: Universis.EntityModel.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
         const routeGroup: IObject<IRequestHandler> = {}
 
         if (access.get) {
@@ -122,7 +122,7 @@ class Route {
      * @param model Entity model.
      * @returns Route group.
      */
-    public static getRouteGroupForOne(model: IUnspecifiedEntityModel, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ONE): IRouteGroupForOne {
+    public static getRouteGroupForOne(model: Universis.EntityModel.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ONE): IRouteGroupForOne {
         const routeGroup: IObject<IRequestHandler> = {}
 
         if (access.get) {
@@ -140,7 +140,7 @@ class Route {
         return routeGroup
     }
 
-    public static getRouteGroupForCount(model: IUnspecifiedEntityModel, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_COUNT): IRouteGroupForCount {
+    public static getRouteGroupForCount(model: Universis.EntityModel.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_COUNT): IRouteGroupForCount {
         const routeGroup: IObject<IRequestHandler> = {}
 
         if (access.get) {
@@ -155,7 +155,7 @@ class Route {
      * @param model Model for CRUD operations.
      * @returns Default request handler.
      */
-    public static getAllHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+    public static getAllHandler = (model: Universis.EntityModel.Unspecified): IRouteAction => (
         ({ query }) => (
             model.getAll(
                 Route.getFilterFromQuery(query),
@@ -171,7 +171,7 @@ class Route {
      * @param model Model for CRUD operations.
      * @returns Default request handler.
      */
-    private static addHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+    private static addHandler = (model: Universis.EntityModel.Unspecified): IRouteAction => (
         ({ body }) => model.add(body)
     )
 
@@ -180,7 +180,7 @@ class Route {
      * @param model Model for CRUD operations.
      * @returns Default request handler.
      */
-    private static deleteAllHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+    private static deleteAllHandler = (model: Universis.EntityModel.Unspecified): IRouteAction => (
         () => model.removeAll()
     )
 
@@ -189,7 +189,7 @@ class Route {
      * @param model Model for CRUD operations.
      * @returns Default request handler.
      */
-    private static getByIdHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+    private static getByIdHandler = (model: Universis.EntityModel.Unspecified): IRouteAction => (
         ({ params }) => model.get(params.bodyId)
     )
 
@@ -198,7 +198,7 @@ class Route {
      * @param model Model for CRUD operations.
      * @returns Default request handler.
      */
-    private static updateByIdHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+    private static updateByIdHandler = (model: Universis.EntityModel.Unspecified): IRouteAction => (
         ({ params, body }) => model.update(params.bodyId, body)
     )
 
@@ -207,7 +207,7 @@ class Route {
      * @param model Model for CRUD operations.
      * @returns Default request handler.
      */
-    private static deleteByIdHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+    private static deleteByIdHandler = (model: Universis.EntityModel.Unspecified): IRouteAction => (
         ({ params }) => model.remove(params.bodyId, false) // TODO: Optional force?
     )
 
@@ -216,7 +216,7 @@ class Route {
      * @param model Model for CRUD operations.
      * @returns Default request handler.
      */
-    private static getCountHandler = (model: IUnspecifiedEntityModel): IRouteAction => (
+    private static getCountHandler = (model: Universis.EntityModel.Unspecified): IRouteAction => (
         ({ params, body }) => model.getCount() // TODO: Filter?
     )
 
@@ -312,9 +312,18 @@ class Route {
         }
     }
 
-    public static getSwaggerRouteGroupForAll(tags, simpleSchema, newSchema) {
-        return {
-            'get': {
+    /**
+     * Generate code for swagger.
+     * @param tags Tags.
+     * @param simpleSchema
+     * @param newSchema
+     * @param routes
+     */
+    public static getSwaggerRouteGroupForAll(tags: string[], simpleSchema: string, newSchema: string, routes = ['get', 'post', 'delete']) {
+        const result = { get: undefined, post: undefined, delete: undefined }
+
+        if (routes.includes('get')) {
+            result.get = {
                 'tags': tags,
                 'summary': 'Get all items.',
                 'description': 'Get basic objects of all items.',
@@ -383,8 +392,11 @@ class Route {
                         }
                     }
                 }
-            },
-            'post': {
+            }
+        }
+
+        if (routes.includes('post')) {
+            result.post = {
                 'tags': tags,
                 'summary': 'Create new item.',
                 'description': 'Create new item and return ID of created item.',
@@ -420,8 +432,11 @@ class Route {
                         'description': 'Duplicate values.'
                     }
                 }
-            },
-            'delete': {
+            }
+        }
+
+        if (routes.includes('delete')) {
+            result.delete = {
                 'tags': tags,
                 'summary': 'Delete all items.',
                 'description': 'Delete all items and return count of deleted items.',
@@ -448,6 +463,8 @@ class Route {
                 }
             }
         }
+
+        return result
     }
 
 }
