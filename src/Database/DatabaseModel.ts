@@ -20,22 +20,20 @@ class DatabaseModel implements Universis.Database.Model {
         this.model = model
     }
 
-    public remove<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
+    public add<T>(items: Universis.Database.Query.Item[]): Promise<T[]> {
         return new Promise((resolve, reject) => (
-            this.processQuery(
-                this.model.remove(filter),
-                options
-            )
-                .then(removed => this.processResult(removed, options))
+            this.model
+                .insertMany(items)
+                .then(items => resolve(items.map(item => item.toObject())))
                 .catch(error => reject(this.getError(error)))
         ))
     }
 
-    public add<T>(data: Universis.Database.Query.Item): Promise<T> {
+    public addOne<T>(item: Universis.Database.Query.Item): Promise<T> {
         return new Promise((resolve, reject) => (
             this.model
-                .create(data)
-                .then(body => resolve(body._id))
+                .create(item)
+                .then(item => resolve(item.toObject()))
                 .catch(error => reject(this.getError(error)))
         ))
     }
@@ -44,27 +42,78 @@ class DatabaseModel implements Universis.Database.Model {
         return this.model.count(filter).exec()
     }
 
-    public get<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
+    public get<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T[]> {
         return this.processQuery(
             this.model.find(filter),
             options
         )
-            .then(items => this.processResult<T>(items, options))
+            .then(items => this.processResultForAll<T>(items, options))
     }
 
-    public update<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): Promise<T> {
+    public getOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<T> {
+        return this.processQuery(
+            this.model.find(filter),
+            options
+        )
+            .then(items => this.processResultForOne<T>(items, options))
+    }
+
+    public getField<T>(filter: Universis.Database.Query.Filter, fieldName: string): Promise<T> {
+        return this.getOne<{ [fieldName: string]: T }>(filter, { select: [fieldName, '-_id'] })
+            .then(item => item[fieldName])
+    }
+
+    public remove<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T[]> {
+        return new Promise((resolve, reject) => (
+            this.processQuery(
+                this.model.deleteMany(filter),
+                options
+            )
+                .then(removed => this.processResultForAll(removed, options))
+                .catch(error => reject(this.getError(error)))
+        ))
+    }
+
+    public removeOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<T> {
+        return new Promise((resolve, reject) => (
+            this.processQuery(
+                this.model.findOneAndRemove(filter),
+                options
+            )
+                .then(removed => this.processResultForAll(removed, options))
+                .catch(error => reject(this.getError(error)))
+        ))
+    }
+
+    public update<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): Promise<T[]> {
         return new Promise((resolve, reject) => (
             this.processQuery(
                 this.model.updateMany(filter, newItem, { new: true }),
                 options
             )
-                .then(updated => resolve(this.processResult<T>(updated, options)))
+                .then(updated => resolve(this.processResultForAll<T>(updated, options)))
                 .catch(error => reject(this.getError(error)))
         ))
     }
 
+    public updateOne<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.OptionsForOne): Promise<T> {
+        return new Promise((resolve, reject) => (
+            this.processQuery(
+                this.model.updateMany(filter, newItem, { new: true }),
+                options
+            )
+                .then(updated => resolve(this.processResultForOne<T>(updated, options)))
+                .catch(error => reject(this.getError(error)))
+        ))
+    }
 
-    private processQuery(query: Query<Universis.Database.Query.Item[]>, options?: Universis.Database.Query.Options): Query<Universis.Database.Query.Item[]> {
+    /**
+     * Apply query options to query.
+     * @param query Query.
+     * @param options Options of query.
+     * @returns Query with options.
+     */
+    private processQuery(query: Query<any>, options?: Universis.Database.Query.OptionsForOne | Universis.Database.Query.Options): Query<any> {
         if (options) {
             if (options.sort) {
                 query = query.sort([[options.sort, options.reverse ? -1 : 1]])
@@ -74,7 +123,7 @@ class DatabaseModel implements Universis.Database.Model {
                 query = query.skip(options.offset)
             }
 
-            if (options.limit) {
+            if ('limit' in options) {
                 query = query.limit(options.limit)
             }
 
@@ -97,25 +146,32 @@ class DatabaseModel implements Universis.Database.Model {
      * @param options Options of query.
      * @returns Items or item.
      */
-    private processResult<T>(items: Universis.Database.Query.Item[], options?: Universis.Database.Query.Options): T {
-        let result: T
-
-        if (options) {
-            if (options.join) {
-                for (const join of options.join) {
-                    for (const i in result) {
-                        result[i][join.replace(/Id$/, '')] = result[i][join]
-                        delete result[i][join]
-                    }
-                }
-            }
-
-            if (options.extract) {
-                result = result[0]
+    private processResultForAll<T>(items: Universis.Database.Query.Item[], options?: Universis.Database.Query.Options): T[] {
+        if (options && options.join) {
+            for (const i in items) {
+                items[i] = this.processResultForOne(items[i], options)
             }
         }
 
-        return result
+        return items as T[]
+    }
+
+    /**
+     * Apply query options to result item.
+     * @type T Type of result item.
+     * @param item Result of query.
+     * @param options Options of query.
+     * @returns Item.
+     */
+    private processResultForOne<T>(item: Universis.Database.Query.Item, options?: Universis.Database.Query.OptionsForOne): T {
+        if (options && options.join) {
+            for (const join of options.join) {
+                item[join.replace(/Id$/, '')] = item[join]
+                delete item[join]
+            }
+        }
+
+        return item as T
     }
 
     /**

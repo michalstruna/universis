@@ -1,4 +1,3 @@
-import * as Bcrypt from 'bcrypt'
 import * as JWT from 'jsonwebtoken'
 
 import Model from './Model'
@@ -9,7 +8,7 @@ import Security from '../Utils/Security'
 
 class SecurityModel extends Model implements ISecurityModel {
 
-    private userDbModel: Universis.DatabaseModel
+    private userDbModel: Universis.Database.Model
 
     constructor() {
         super()
@@ -19,23 +18,20 @@ class SecurityModel extends Model implements ISecurityModel {
 
     public authenticate(email: string, secret: string): Promise<IUserIdentity> {
         return new Promise(async (resolve, reject) => {
-            const userPassword = await this.userDbModel
-                .get({ email })
-                .select('password')
-                .run<{ password: string }>()
+            const password = await this.userDbModel.getField<string>({ email }, 'password')
 
-            if (!userPassword) {
+            if (!password) {
                 return reject(Errors.NOT_FOUND) // User not found.
             }
 
-            if (!await this.isAuthenticated(secret, userPassword.password)) {
+            if (!await this.isAuthenticated(secret, password)) {
                 return reject(Errors.INVALID) // Invalid password.
             }
 
-            const user = await UserModel.get({ email })
+            const user = await UserModel.getOne({ email })
             const token = await this.sign({ _id: user._id })
 
-            await this.dbModel.add({ token })
+            await this.dbModel.addOne({ token })
             return resolve({ ...user, token })
         })
     }

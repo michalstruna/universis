@@ -24,7 +24,7 @@ declare namespace Universis.Notification {
     /**
      * Interface for new notification.
      */
-    export interface New {
+    export interface New extends Item {
 
         /**
          * Text of notification.

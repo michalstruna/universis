@@ -1,7 +1,7 @@
 /**
  * Interface for new body type.
  */
-declare interface INewBodyType {
+declare interface INewBodyType extends Universis.Item {
 
     /**
      * Name of body type.

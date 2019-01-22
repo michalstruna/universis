@@ -1,6 +1,6 @@
 import { DatabaseModels } from '../Constants'
-import EntityModel from './EntityModel'
+import ItemModel from './ItemModel'
 
-export default new EntityModel<Universis.Notification, Universis.Notification, Universis.Notification.New>({
+export default new ItemModel<Universis.Notification, Universis.Notification, Universis.Notification.New>({
     dbModel: DatabaseModels.NOTIFICATION
 })

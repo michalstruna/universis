@@ -1,11 +1,5 @@
-import Config from './Config'
-import DatabaseConnections from './DatabaseConnections'
-import DatabaseModels from './DatabaseModels'
-import Errors from './Errors'
-
-export {
-    Config,
-    Errors,
-    DatabaseConnections,
-    DatabaseModels
-}
+export { default as Config } from './Config'
+export { default as DatabaseModels } from './DatabaseModels'
+export { default as Errors } from './Errors'
+export { default as NotificationRelations } from './NotificationRelations'
+export { default as NotificationSubjects } from './NotificationSubjects'
