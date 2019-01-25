@@ -48,7 +48,7 @@ class Route {
                     }
                 })
                 .catch(error => {
-                    response.sendStatus(error)
+                    response.status(error.code).send(error)
                 })
         )
     }
@@ -174,7 +174,7 @@ class Route {
      * @returns Default request handler.
      */
     private static addHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        ({ body }) => model.add(body)
+        ({ body }) => model.addOne(body)
     )
 
     /**

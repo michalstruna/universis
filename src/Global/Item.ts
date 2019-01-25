@@ -54,7 +54,7 @@ declare namespace Universis.Item {
          * @returns Empty promise.
          * @returns Promise with error NOT_FOUND, if there is no item.
          */
-        approveOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<void>
+        approveOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void>
 
         /**
          * Get count of all items.
@@ -78,7 +78,7 @@ declare namespace Universis.Item {
          * @returns Promise with item.
          * @returns Promise with error NOT_FOUND, if there is no item.
          */
-        getOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<Full>
+        getOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Full>
 
         /**
          * Remove all items.
@@ -96,7 +96,7 @@ declare namespace Universis.Item {
          * @returns Empty promise.
          * @returns Promise with error NOT_FOUND, if item with this ID was not found.
          */
-        removeOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<void>
+        removeOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void>
 
         /**
          * Update one item.
@@ -108,7 +108,7 @@ declare namespace Universis.Item {
          * @returns Promise with error NOT_FOUND, if item with this ID was not found.
          * @returns Promise with error DUPLICATE, if there is duplicate unique value.
          */
-        updateOne(filter: Universis.Database.Query.Filter, changes: New, options?: Universis.Database.Query.OptionsForOne): Promise<void>
+        updateOne(filter: Universis.Database.Query.Filter, changes: New, options?: Universis.Database.Query.Options): Promise<void>
 
         /**
          * Update all items.
@@ -130,131 +130,12 @@ declare namespace Universis.Item {
  */
 declare namespace Universis.Model {
 
-    /**
-     * Callback of before get one item.
-     * THere is query filter and query options in parameters.
-     */
-    export type onBeforeGetOne = Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.OptionsForOne>
-
-    /**
-     * Callback of after get one item.
-     * There is item, query filter and query options in parameters.
-     * @type Full Type of item.
-     */
-    export type onAfterGetOne<Full> = Universis.Consumer3<Full, Universis.Database.Query.Filter, Universis.Database.Query.OptionsForOne>
-
-    /**
-     * Callback of before get one item.
-     * There is query filter and query options in parameters.
-     */
-    export type onBeforeGet = Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.Options>
-
-    /**
-     * Callback of after get one item.
-     * There is items, query filter and query options in parameters.
-     * @type Simple Type of item.
-     */
-    export type onAfterGet<Simple> = Universis.Consumer3<Simple[], Universis.Database.Query.Filter, Universis.Database.Query.Options>
-
-
-    /**
-     * Callback of before add one item.
-     * There is new item in parameter.
-     * @type New Type of new item.
-     */
-    export type onBeforeAddOne<New> = Universis.Consumer<New>
-
-    /**
-     * Callback of after add one item.
-     * There are added item and new item in parameters.
-     * @type New Type of new item.
-     */
-    export type onAfterAddOne<Full, New> = Universis.Consumer2<Full, New>
-
-    /**
-     * Callback of before add one item.
-     * There is added items in parameter.
-     * @type New Type of new item.
-     */
-    export type onBeforeAdd<New> = Universis.Consumer<New[]>
-
-    /**
-     * Callback of after get one item.
-     * There are added items and new items in parameters.
-     * @type New Type of new items.
-     */
-    export type onAfterAdd<Full, New> = Universis.Consumer2<Full[], New[]>
-
-    /**
-     * Callback of before update one item.
-     * THere is changes, query filter and query options in parameters
-     * @type New Type of changes.
-     */
-    export type onBeforeUpdateOne<New> = Universis.Consumer3<New, Universis.Database.Query.Filter, Universis.Database.Query.OptionsForOne>
-
-    /**
-     * Callback of after update one item.
-     * There are updated item, changes, query filter and query options in parameters.
-     * @type Full Type of updated item.
-     * @type New Type of changes.
-     */
-    export type onAfterUpdateOne<Full, New> = Universis.Consumer4<Full, New, Universis.Database.Query.Filter, Universis.Database.Query.OptionsForOne>
-
-    /**
-     * Callback of before update one item.
-     * There are changes, query filter and query options in parameters.
-     * @type New Type of changes.
-     */
-    export type onBeforeUpdate<New> = Universis.Consumer3<New[], Universis.Database.Query.Filter, Universis.Database.Query.Options>
-
-    /**
-     * Callback of after update one item.
-     * There are updated items, changes, query filter and query options in parameters.
-     * @type Simple Type of item.
-     */
-    export type onAfterUpdate<Full, New> = Universis.Consumer4<Full[], New[], Universis.Database.Query.Filter, Universis.Database.Query.Options>
-
-    /**
-     * Callback of before remove one item.
-     * THere are query filter and query options in parameters
-     */
-    export type onBeforeRemoveOne = Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.OptionsForOne>
-
-    /**
-     * Callback of after remove one item.
-     * There are removed item, query filter and query options in parameters.
-     * @type Full Type of removed item.
-     */
-    export type onAfterRemoveOne<Full> = Universis.Consumer3<Full, Universis.Database.Query.Filter, Universis.Database.Query.OptionsForOne>
-
-    /**
-     * Callback of before remove one item.
-     * There are query filter and query options in parameters.
-     * @type New Type of changes.
-     */
-    export type onBeforeRemove = Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.Options>
-
-    /**
-     * Callback of after remove one item.
-     * There are removed items, changes, query filter and query options in parameters.
-     * @type Simple Type of removed items.
-     */
-    export type onAfterRemove<Full> = Universis.Consumer3<Full[], Universis.Database.Query.Filter, Universis.Database.Query.Options>
-
-
     export interface Options<Full, Simple, New> {
 
         /**
          * Name of DB model.
          */
         dbModel: string
-
-        /**
-         * Name of DB model for unapproved changes.
-         * If specified, all changes (add, update, remove) will be placed in this model.
-         * TO move to original model must be approved.
-         */
-        unapprovedDbModel?: string
 
         /**
          * Info about notifications. (optional)
@@ -269,86 +150,145 @@ declare namespace Universis.Model {
             /**
              * Get notification text from object.
              */
-            textAccessor: Universis.Function<Full, string>
+            textAccessor: Universis.Function<Full | Simple, string>
 
             /**
              * Get notification target. (optional)
              */
-            targetAccessor?: Universis.Function<Full, string>
+            targetAccessor?: Universis.Function<Full | Simple, string> // TODO: Refactor, remove Simple (because of get())
 
         }
 
         /**
-         * Get one item operation.
-         */
-        getOne?: Operation<onBeforeGetOne, onAfterGetOne<Full>>
-
-        /**
          * Get all items operation.
          */
-        get?: Operation<onBeforeGet, onAfterGet<Simple>>
+        get?: {
 
-        /**
-         * Add one item operation.
-         */
-        addOne?: Operation<onBeforeAddOne<New>, onAfterAddOne<Full, New>>
+            /**
+             * Each getted item will generate notification. (optional, default false)
+             */
+            notification?: boolean
+
+            /**
+             * Callback of before get item. (optional)
+             * THere are query filter and query options in parameters.
+             */
+            onBefore?: Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.Options>
+
+            /**
+             * Callback of after get item. (optional)
+             * There are item, query filter and query options in parameters.
+             */
+            onAfter?: Universis.Consumer3<Full | Simple, Universis.Database.Query.Filter, Universis.Database.Query.Options>
+
+            /**
+             * List of selected fields in getOne. (optional, default all fields)
+             */
+            select?: string[]
+
+            /**
+             * List of populated fields in getOne. (optional, default no fields)
+             */
+            join?: string[]
+
+            /**
+             * List of selected fields in get. (optional, default all fields)
+             */
+            selectAll?: string[]
+
+            /**
+             * List of populated fields in get. (optional, default no fields)
+             */
+            joinAll?: string[]
+
+        }
 
         /**
          * Add all items operation.
          */
-        add?: Operation<onBeforeAdd<New>, onAfterAdd<Full, New>>
+        add?: {
+
+            /**
+             * Add of item must be approved. (optional, default false)
+             */
+            approval?: boolean
+
+            /**
+             * Each added item will generate notification. (optional, default false)
+             */
+            notification?: boolean
+
+            /**
+             * Callback of before add item.
+             * THere are new item,in parameter.
+             */
+            onBefore?: Universis.Consumer<New>
+
+            /**
+             * Callback of add update item.
+             * There are added item and new item in parameter.
+             */
+            onAfter?: Universis.Consumer2<Full, New>
+
+        }
 
         /**
-         * Get one item operation.
+         * Update item operation.
          */
-        updateOne?: Operation<onBeforeUpdateOne<New>, onAfterUpdateOne<Full, New>>
+        update?: {
+
+            /**
+             * Update of item must be approved. (optional, default false)
+             */
+            approval?: boolean
+
+            /**
+             * Each updated item will generate notification. (optional, default false)
+             */
+            notification?: boolean
+
+            /**
+             * Callback of before update item.
+             * THere are changes, query filter and query options in parameters.
+             */
+            onBefore?: Universis.Consumer3<New, Universis.Database.Query.Filter, Universis.Database.Query.Options>
+
+            /**
+             * Callback of after update item.
+             * There are updated item, changes, query filter and query options in parameters.
+             */
+            onAfter?: Universis.Consumer4<Full, New, Universis.Database.Query.Filter, Universis.Database.Query.Options>
+
+        }
 
         /**
-         * Update all items operation.
+         * Remove item operation.
          */
-        update?: Operation<onBeforeUpdate<New>, onAfterUpdate<Full, New>>
+        remove?: {
 
-        /**
-         * Remove one item operation.
-         */
-        removeOne?: Operation<onBeforeRemoveOne, onAfterRemoveOne<Full>>
+            /**
+             * Remove of item must be approved. (optional, default false)
+             */
+            approval?: boolean
 
-        /**
-         * Remove all items operation.
-         */
-        remove?: Operation<onBeforeRemove, onAfterRemove<Full>>
+            /**
+             * Each removed item will generate notification. (optional, default false)
+             */
+            notification?: boolean
 
-    }
+            /**
+             * Callback of before remove item.
+             * THere are query filter and query options in parameters.
+             */
+            onBefore?: Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.Options>
 
-    export interface Operation<onBefore, onAfter> {
+            /**
+             * Callback of after remove item.
+             * There are removed item, query filter and query options in parameters.
+             */
+            onAfter?: Universis.Consumer3<Full, Universis.Database.Query.Filter, Universis.Database.Query.Options>
 
-        /**
-         * Operation will generate notification. (optional)
-         * If this is operation for all items, notification will be generated for each item.
-         */
-        notification?: boolean
-
-        /**
-         * Callback before operation. (optional)
-         * If onBefore for all is not specified, onBefore for one will be called for each item.
-         */
-        onBefore?: onBefore
-
-        /**
-         * Callback after operation. (optional)
-         * If onAfter for all is not specified, onAfter for one will be called for each item.
-         */
-        onAfter?: onAfter
-
-        /**
-         * List of selected fields. (optional, default all fields)
-         */
-        select?: string[]
-
-        /**
-         * List of joined fields. (optional)
-         */
-        join?: string[]
+        }
 
     }
 

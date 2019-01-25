@@ -1,5 +1,5 @@
 import { Urls } from '../../Utils'
-import { NotificationRelations, NotificationSubjects } from '../../../../Constants'
+import { Operations, NotificationSubjects } from '../../../../Constants'
 
 export default {
 
@@ -158,9 +158,10 @@ export default {
     notifications: {
 
         relations: {
-            [NotificationRelations.ADD]: 'Nový',
-            [NotificationRelations.DELETE]: 'Smazaný',
-            [NotificationRelations.EDIT]: 'Upravený'
+            [Operations.ADD]: 'Nový',
+            [Operations.REMOVE]: 'Smazaný',
+            [Operations.UPDATE]: 'Upravený',
+            [Operations.GET]: 'Přečtený'
         },
 
         subjects: {

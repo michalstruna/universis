@@ -1,24 +1,20 @@
 import { Schema } from 'mongoose'
 
-const NotificationSchema = new Schema({
+export default new Schema({
 
-    text: {
+    modelName: {
         type: String,
         required: true
     },
 
-    target: {
-        type: String
-    },
-
-    relation: {
+    type: {
         type: Number,
         required: true
     },
 
-    subject: {
-        type: Number,
-        required: true
+    data: {
+        type: Schema.Types.Mixed,
+        required: false
     },
 
     date: {
@@ -28,5 +24,3 @@ const NotificationSchema = new Schema({
     }
 
 })
-
-export default NotificationSchema

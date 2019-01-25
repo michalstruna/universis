@@ -114,7 +114,7 @@ declare namespace Universis {
              * @param options Query options. (optional)
              * @returns Promise with item.
              */
-            getOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<T>
+            getOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T>
 
             /**
              * Get one field of one document with condition.
@@ -124,7 +124,7 @@ declare namespace Universis {
              * @returns Promise with value of field.
              * @returns Promise with error NOT_FOUND, if there is no document with this filter.
              */
-            getField<T>(filter: Universis.Database.Query.Filter, fieldName: string, options?: Universis.Database.Query.OptionsForOne): Promise<T>
+            getField<T>(filter: Universis.Database.Query.Filter, fieldName: string, options?: Universis.Database.Query.Options): Promise<T>
 
             /**
              * Remove all documents with condition.
@@ -143,7 +143,7 @@ declare namespace Universis {
              * @param options Query options. (optional)
              * @returns Promise with removed item.
              */
-            removeOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<T>
+            removeOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T>
 
             /**
              * Update all documents with condition.
@@ -185,9 +185,14 @@ declare namespace Universis {
             export type Item = Universis.Map<any>
 
             /**
-             * Query options for one items.
+             * Query options.
              */
-            export interface OptionsForOne {
+            export interface Options {
+
+                /**
+                 * List of fields, that will be populated.
+                 */
+                join?: string[]
 
                 /**
                  * Index of first item. (optional, default 0)
@@ -195,9 +200,9 @@ declare namespace Universis {
                 offset?: number
 
                 /**
-                 * Name of sorted column. (optional, default _id)
+                 * Max count of items. (optional, default Infinity)
                  */
-                sort?: string
+                limit?: number
 
                 /**
                  * Sort will be reverse (DESC). (optional, default ASC)
@@ -210,21 +215,10 @@ declare namespace Universis {
                 select?: string[]
 
                 /**
-                 * List of fields, that will be populated.
+                 * Name of sorted column. (optional, default _id)
                  */
-                join?: string[]
+                sort?: string
 
-            }
-
-            /**
-             * Query options for all items.
-             */
-            export interface Options extends OptionsForOne {
-
-                /**
-                 * Max count of items. (optional, default Infinity)
-                 */
-                limit?: number
 
             }
 

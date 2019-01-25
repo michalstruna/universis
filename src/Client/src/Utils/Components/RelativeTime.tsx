@@ -19,7 +19,7 @@ class RelativeTime extends StatelessComponent<IProps> {
         if (diff < Units.convert(Units.TIME.M, Units.TIME.S)) {
             return 'teď'
         } else {
-            return Units.toFull(diff, Units.TIME.S, Units.TIME).replace(/,[0-9]+/, '')
+            return Units.toFull(diff, Units.TIME.S, Units.TIME, 1).replace(/,[0-9]+/, '')
         }
     }
 

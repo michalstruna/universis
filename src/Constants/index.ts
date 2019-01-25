@@ -1,5 +1,5 @@
 export { default as Config } from './Config'
 export { default as DatabaseModels } from './DatabaseModels'
 export { default as Errors } from './Errors'
-export { default as NotificationRelations } from './NotificationRelations'
+export { default as Operations } from './Operations'
 export { default as NotificationSubjects } from './NotificationSubjects'

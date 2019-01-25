@@ -50,7 +50,7 @@ class DatabaseModel implements Universis.Database.Model {
             .then(items => this.processResultForAll<T>(items, options))
     }
 
-    public getOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<T> {
+    public getOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
         return this.processQuery(
             this.model.find(filter),
             options
@@ -74,7 +74,7 @@ class DatabaseModel implements Universis.Database.Model {
         ))
     }
 
-    public removeOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.OptionsForOne): Promise<T> {
+    public removeOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
         return new Promise((resolve, reject) => (
             this.processQuery(
                 this.model.findOneAndRemove(filter),
@@ -96,7 +96,7 @@ class DatabaseModel implements Universis.Database.Model {
         ))
     }
 
-    public updateOne<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.OptionsForOne): Promise<T> {
+    public updateOne<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): Promise<T> {
         return new Promise((resolve, reject) => (
             this.processQuery(
                 this.model.updateMany(filter, newItem, { new: true }),
@@ -113,7 +113,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @param options Options of query.
      * @returns Query with options.
      */
-    private processQuery(query: Query<any>, options?: Universis.Database.Query.OptionsForOne | Universis.Database.Query.Options): Query<any> {
+    private processQuery(query: Query<any>, options?: Universis.Database.Query.Options | Universis.Database.Query.Options): Query<any> {
         if (options) {
             if (options.sort) {
                 query = query.sort([[options.sort, options.reverse ? -1 : 1]])
@@ -163,7 +163,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @param options Options of query.
      * @returns Item.
      */
-    private processResultForOne<T>(item: Universis.Database.Query.Item, options?: Universis.Database.Query.OptionsForOne): T {
+    private processResultForOne<T>(item: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): T {
         if (options && options.join) {
             for (const join of options.join) {
                 item[join.replace(/Id$/, '')] = item[join]

@@ -3,35 +3,24 @@ import ItemModel from './ItemModel'
 
 export default new ItemModel<IBody, ISimpleBody, INewBody>({
     dbModel: DatabaseModels.BODY,
-    add: {
-        notification: true
+    notifications: {
+        textAccessor: body => body.name,
+        subjectType: NotificationSubjects.BODY
     },
-    addOne: {
-        notification: true
+    add: {
+        approval: true,
+        notification: true,
     },
     get: {
-        notification: true,
-        join: ['typeId']
-    },
-    getOne: {
-        notification: true,
-        join: ['typeId']
+        join: ['typeId'],
+        joinAll: ['typeId']
     },
     remove: {
-        notification: true
-    },
-    removeOne: {
+        approval: true,
         notification: true
     },
     update: {
+        approval: true,
         notification: true
-    },
-    updateOne: {
-        notification: true
-    },
-    notifications: {
-        subjectType: NotificationSubjects.BODY,
-        textAccessor: body => body.name
-        // TODO: Target
     }
 })

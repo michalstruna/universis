@@ -24,17 +24,6 @@ export const setBodyFilter = (bodyFilter: IObject<any>) => (
 )
 
 /**
- * Add new notification.
- * @param notification New notification.
- */
-export const addNotification = (notification: Universis.Notification.New) => (
-    Redux.asyncAction(
-        ActionTypes.ADD_NOTIFICATION,
-        { newNotification: Request.post(`notifications`, notification) }
-    )
-)
-
-/**
  * Get last n notifications.
  * @param limit Count of notifications.
  */

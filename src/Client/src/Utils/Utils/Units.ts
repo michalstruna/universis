@@ -116,14 +116,16 @@ class Units {
      * @param value Amount of units.
      * @param unit Type of unit. (optional, default without unit)
      * @param correspondentUnits Find optional unit. For example 100 AU is better than 14 959 787 000 000 m. (optional)
+     * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
+     * @returns Formatted value like 149 597 870 km.
      */
-    public static toFull = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+    public static toFull = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
         if (value === null || value === undefined) {
             return null
         }
 
         if (correspondentUnits) {
-            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
+            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits, threshold)
             value = temp.value
             unit = temp.unit
         }
@@ -141,15 +143,16 @@ class Units {
      * @param value Amount of units.
      * @param unit Type of unit. (optional)
      * @param correspondentUnits Find optional unit. For example 100 AU is better than 14 959 787 000 000 m. (optional)
+     * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 1.49e8 km.
      */
-    public static toExponential = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+    public static toExponential = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
         if (value === null || value === undefined) {
             return null
         }
 
         if (correspondentUnits) {
-            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
+            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits, threshold)
             value = temp.value
             unit = temp.unit
         }
@@ -169,15 +172,16 @@ class Units {
      * @param value Amount of units.
      * @param unit Type of unit.
      * @param correspondentUnits Find optional unit. For example 100 AU is better than 14 959 787 000 000 m. (optional)
+     * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 149M km.
      */
-    public static toShort = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>): string => {
+    public static toShort = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
         if (value === null || value === undefined) {
             return null
         }
 
         if (correspondentUnits) {
-            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits)
+            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits, threshold)
             value = temp.value
             unit = temp.unit
         }
@@ -219,10 +223,11 @@ class Units {
      * Set corresponding unit. For example 10 AU instead of 149 597 870 000 km.
      * @param value Amount of units.
      * @param unit Current unit.
-     * @param  units List of all units of this physics property.
+     * @param units List of all units of this physics property.
+     * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional, default 2)
      * @returns Object with value and unit.
      */
-    private static getCorrespondingUnit(value: number, unit: IUnit, units: IObject<IUnit>): { value: number, unit: IUnit } {
+    private static getCorrespondingUnit(value: number, unit: IUnit, units: IObject<IUnit>, threshold: number = 2): { value: number, unit: IUnit } {
         let newValue = Units.convert(unit, units[Object.keys(units)[0]], value)
         let newUnit: IUnit
 
@@ -231,7 +236,7 @@ class Units {
             const nextUnitKey = unitNamesKeys[unitNamesKeys.indexOf(i) + 1]
             const nextUnit = units[(nextUnitKey || '')]
 
-            if (!nextUnit || newValue < (units[nextUnitKey].value * 2)) {
+            if (!nextUnit || newValue < (units[nextUnitKey].value * threshold)) {
                 newUnit = units[i]
                 newValue /= units[i].value
                 break
