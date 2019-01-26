@@ -157,7 +157,7 @@ export default {
 
     notifications: {
 
-        relations: {
+        operations: {
             [Operations.ADD]: 'Nový',
             [Operations.REMOVE]: 'Smazaný',
             [Operations.UPDATE]: 'Upravený',

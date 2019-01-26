@@ -81,7 +81,7 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New 
             await get.onBefore(filter, options)
         }
 
-        const items = await this.dbModel.get<Simple>(filter, options)
+        const items = await this.dbModel.get<Simple>(filter, { ...options, join: get.joinAll, select: get.selectAll })
 
         if (notifications && get.notification) {
             await NotificationModel.add(items.map(item => ({
@@ -106,7 +106,7 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New 
             await get.onBefore(filter, options)
         }
 
-        const item = await this.dbModel.getOne<Full>(filter, options)
+        const item = await this.dbModel.getOne<Full>(filter, { ...options, join: get.join, select: get.select })
 
         if (notifications && get.notification) {
             await NotificationModel.addOne({

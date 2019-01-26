@@ -52,7 +52,7 @@ class DatabaseModel implements Universis.Database.Model {
 
     public getOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
         return this.processQuery(
-            this.model.find(filter),
+            this.model.findOne(filter),
             options
         )
             .then(items => this.processResultForOne<T>(items, options))
@@ -113,7 +113,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @param options Options of query.
      * @returns Query with options.
      */
-    private processQuery(query: Query<any>, options?: Universis.Database.Query.Options | Universis.Database.Query.Options): Query<any> {
+    private processQuery(query: Query<any>, options?: Universis.Database.Query.Options): Query<any> {
         if (options) {
             if (options.sort) {
                 query = query.sort([[options.sort, options.reverse ? -1 : 1]])
@@ -123,7 +123,7 @@ class DatabaseModel implements Universis.Database.Model {
                 query = query.skip(options.offset)
             }
 
-            if ('limit' in options) {
+            if (options.limit) {
                 query = query.limit(options.limit)
             }
 
@@ -134,6 +134,8 @@ class DatabaseModel implements Universis.Database.Model {
             if (options.select) {
                 query = query.select([...options.join, options.select].join(' '))
             }
+
+            query = query.lean()
         }
 
         return query
@@ -149,7 +151,7 @@ class DatabaseModel implements Universis.Database.Model {
     private processResultForAll<T>(items: Universis.Database.Query.Item[], options?: Universis.Database.Query.Options): T[] {
         if (options && options.join) {
             for (const i in items) {
-                items[i] = this.processResultForOne(items[i], options)
+                items[i] = this.processResultForOne<T>(items[i], options)
             }
         }
 

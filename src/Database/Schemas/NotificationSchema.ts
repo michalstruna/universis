@@ -11,7 +11,7 @@ const NotificationSchema = new Schema({
         type: String
     },
 
-    relation: {
+    operation: {
         type: Number,
         required: true
     },

@@ -36,7 +36,7 @@ class Notifications extends StatelessComponent<IProps> {
         return notifications.payload.map((notification, key) => (
             <Link
                 target={notification.target}
-                className={'notifications__notification notifications__notification--' + notification.relation}
+                className={'notifications__notification notifications__notification--' + notification.operation}
                 key={key}>
                 <section className='notifications__front'>
                     <section className='notifications__front--inner'>
@@ -47,7 +47,7 @@ class Notifications extends StatelessComponent<IProps> {
                     <section className='notifications__age'>
                         <RelativeTime date={notification.date} />
                     </section>
-                    {Words.concatAdjectiveWithSubstantive(strings.relations[notification.relation], strings.subjects[notification.subject].toLowerCase())}
+                    {Words.concatAdjectiveWithSubstantive(strings.operations[notification.operation], strings.subjects[notification.subject].toLowerCase())}
                 </section>
             </Link>
         ))
