@@ -70,4 +70,59 @@
         height: 100%;
     }
 
+    &__timeline {
+        display: grid;
+        grid-template-columns: 9rem 9rem 9rem 9rem 3rem;
+        grid-auto-rows: 1rem;
+        position: relative;
+        width: 100%;
+
+        &__current {
+            @include absolute-position;
+            border-top: 1px solid $medium-color;
+            display: none;
+            font-size: 80%;
+            text-align: right;
+            width: 100%;
+            z-index: 1;
+        }
+
+        &:hover {
+            .panel__body__timeline__current {
+                display: block;
+            }
+        }
+
+        &__year {
+            font-size: 80%;
+            text-align: right;
+            width: 3rem;
+        }
+
+        &__step {
+            border-bottom: 1px solid $light-color;
+            grid-column: 5;
+            float: right;
+            margin-bottom: 0.5rem;
+            margin-left: 2.4rem;
+            width: 0.5rem;
+
+            &--major {
+                margin-left: 1.9rem;
+                width: 1rem;
+            }
+        }
+
+        &__event {
+            background-color: $dark-color;
+            box-shadow: #000 0 0 0.5rem;
+            box-sizing: border-box;
+            margin: 0.25rem;
+            padding: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+    }
+
 }

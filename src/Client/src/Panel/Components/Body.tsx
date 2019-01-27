@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu } from '../../Utils'
-import { getBodies, getBodyById, Physics } from '../../Universe'
+import { BodyPreview, getBodies, getBodyById, Physics } from '../../Universe'
 import BodyData from './BodyData'
+import BodyTimeline from './BodyTimeline'
 
 interface IProps {
     strings: IStrings
@@ -18,9 +19,9 @@ interface IProps {
 class Body extends StatelessComponent<IProps> {
 
     public componentWillMount(): void {
-        const { body, bodies, getBodies } = this.props
+        const { bodies, getBodies } = this.props
 
-        if (!Url.hasQuery(Queries.BODY)) {
+        if (!Url.hasQuery(Queries.BODY_TAB)) {
             Url.replace({ query: { [Queries.BODY_TAB]: Queries.BODY_DATA } })
         }
 
@@ -63,6 +64,8 @@ class Body extends StatelessComponent<IProps> {
         switch (currentTab) {
             case Queries.BODY_DATA:
                 return <BodyData />
+            case Queries.BODY_TIMELINE:
+                return <BodyTimeline />
             default:
                 return <BodyData />
         }
@@ -80,7 +83,27 @@ class Body extends StatelessComponent<IProps> {
                             success={() => (
                                 <AsyncEntity
                                     data={body}
-                                    success={() => this.renderContent()} />
+                                    success={() => (
+                                        <>
+                                            <section className='panel__body__data__preview'>
+                                                <section className='panel__body__data__preview--left'>
+                                                    <h2 className='panel__body__data__subtitle'>
+                                                        {body.payload.type.name}
+                                                    </h2>
+                                                    <h1 className='panel__body__data__title'>
+                                                        {body.payload.name}
+                                                    </h1>
+                                                    <p className='panel__body__data__description'>
+                                                        {body.payload.description}
+                                                    </p>
+                                                </section>
+                                                <section className='panel__body__data__preview--right'>
+                                                    <BodyPreview body={body.payload} size={300} />
+                                                </section>
+                                            </section>
+                                            {this.renderContent()}
+                                        </>
+                                    )} />
                             )} />
                     </section>
                 </section>

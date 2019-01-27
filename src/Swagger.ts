@@ -27,426 +27,17 @@ export default {
     ],
     'paths': {
         '/bodies': Route.getSwaggerRouteGroupForAll(['Bodies'], 'SimpleBody', 'NewBody'),
-        '/bodies/{bodyId}': {
-            'parameters': [
-                {
-                    'in': 'path',
-                    'name': 'bodyId',
-                    'required': true,
-                    'schema': {
-                        '$ref': '#/components/schemas/Id'
-                    },
-                    'description': 'Unique identifier of body.'
-                }
-            ],
-            'get': {
-                'tags': ['Bodies'],
-                'summary': 'Get body by ID.',
-                'description': 'Get body by ID.',
-                'responses': {
-                    '200': {
-                        'description': 'Get body is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    '$ref': '#/components/schemas/Body'
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'Body with ID was not found.'
-                    }
-                }
-            },
-            'put': {
-                'tags': ['Bodies'],
-                'summary': 'Update already existing body.',
-                'description': 'Create new body and return ID of created body.',
-                'requestBody': {
-                    'content': {
-                        'application/json': {
-                            'schema': {
-                                '$ref': '#/components/schemas/NewBody'
-                            },
-                        }
-                    }
-                },
-                'responses': {
-                    '204': {
-                        'description': 'Body was successful updated.'
-                    },
-                    '400': {
-                        'description': 'Invalid values.'
-                    },
-                    '404': {
-                        'description': 'Body with ID was not found.'
-                    },
-                    '409': {
-                        'description': 'Body with this name already exists.'
-                    }
-                }
-            },
-            'delete': {
-                'tags': ['Bodies'],
-                'summary': 'Delete body by ID.',
-                'description': 'Delete body by ID.',
-                'parameters': [
-                    {
-                        'in': 'query',
-                        'name': 'force',
-                        'schema': {
-                            'type': 'string',
-                            'example': 'true',
-                            'enum': ['true', 'false']
-                        },
-                        'description': 'Body will be deleted with all its children.'
-                    }
-                ],
-                'responses': {
-                    '204': {
-                        'description': 'Body was successful deleted.'
-                    },
-                    '400': {
-                        'description': 'Body cannot be deleted, because of existing children.'
-                    },
-                    '404': {
-                        'description': 'Body with ID was not found.'
-                    }
-                }
-            }
-        },
-        '/bodies/count': {
-            'get': {
-                'tags': ['Bodies'],
-                'summary': 'Get count of all bodies.',
-                'description': 'Get count of all bodies.',
-                'responses': {
-                    '200': {
-                        'description': 'Get bodies count is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'number'
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        '/bodyTypes': {
-            'get': {
-                'tags': ['Body types'],
-                'summary': 'Get all body types.',
-                'description': 'Get all body types.',
-                'parameters': [
-                    {
-                        'in': 'query',
-                        'name': 'limit',
-                        'schema': {
-                            'type': 'number',
-                            'example': 7
-                        },
-                        'description': 'Max count of body types.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'offset',
-                        'schema': {
-                            'type': 'number',
-                            'example': 353
-                        },
-                        'description': 'Index of first body type.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'sort',
-                        'schema': {
-                            'type': 'string',
-                            'example': '_id'
-                        },
-                        'description': 'Name of some property.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'order',
-                        'schema': {
-                            'type': 'string',
-                            'example': 'desc',
-                            'enum': ['asc', 'desc']
-                        },
-                        'description': 'Order of body types. Default is asc. Desc is reverse order.'
-                    },
-                    {
-                        'in': 'query',
-                        'name': 'params',
-                        'schema': {
-                            'type': 'object',
-                            'additionalProperties': {
-                                'type': 'string'
-                            }
-                        },
-                        'description': 'Filter bodies by its any property.'
-                    }
-                ],
-                'responses': {
-                    '200': {
-                        'description': 'Get body types is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'array',
-                                    'items': {
-                                        '$ref': '#/components/schemas/BodyType'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            'post': {
-                'tags': ['Body types'],
-                'summary': 'Create new body type.',
-                'description': 'Create new body type and return created body type.',
-                'requestBody': {
-                    'content': {
-                        'application/json': {
-                            'schema': {
-                                'type': 'object',
-                                'properties': {
-                                    'name': {
-                                        'type': 'string',
-                                        'example': 'Terestrická planeta'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                'responses': {
-                    '200': {
-                        'description': 'Body type was successful created.'
-                    },
-                    '400': {
-                        'description': 'Invalid name.'
-                    },
-                    '409': {
-                        'description': 'Body type with this name already exists.'
-                    }
-                }
-            },
-            'delete': {
-                'tags': ['Body types'],
-                'summary': 'Delete all body types.',
-                'description': 'Delete all body types.',
-                'responses': {
-                    '204': {
-                        'description': 'Body types was successful deleted.'
-                    },
-                    '404': {
-                        'description': 'There is no body type to remove.'
-                    },
-                    '409': {
-                        'description': 'There are bodies with any body types.'
-                    }
-                }
-            }
-        },
-        '/bodyTypes/{bodyTypeId}': {
-            'parameters': [
-                {
-                    'in': 'path',
-                    'name': 'bodyTypeId',
-                    'required': true,
-                    'schema': {
-                        '$ref': '#/components/schemas/Id'
-                    },
-                    'description': 'Unique identifier of body type.'
-                }
-            ],
-            'get': {
-                'tags': ['Body types'],
-                'summary': 'Get body type by ID.',
-                'description': 'Get body type by ID.',
-                'responses': {
-                    '200': {
-                        'description': 'Get body type is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    '$ref': '#/components/schemas/BodyType'
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'Body type with ID was not found.'
-                    }
-                }
-            },
-            'put': {
-                'tags': ['Body types'],
-                'summary': 'Update already existing body type.',
-                'description': 'Update already existing body type.',
-                'requestBody': {
-                    'content': {
-                        'application/json': {
-                            'schema': {
-                                '$ref': '#/components/schemas/NewBodyType'
-                            }
-                        }
-                    }
-                },
-                'responses': {
-                    '204': {
-                        'description': 'Body type was successful updated.'
-                    },
-                    '400': {
-                        'description': 'Invalid name.'
-                    },
-                    '404': {
-                        'description': 'Body type with ID was not found.'
-                    },
-                    '409': {
-                        'description': 'Body type with this name already exists.'
-                    }
-                }
-            },
-            'delete': {
-                'tags': ['Body types'],
-                'summary': 'Delete body type by ID.',
-                'description': 'Delete body type by ID.',
-                'responses': {
-                    '204': {
-                        'description': 'Body type was successful deleted.'
-                    },
-                    '400': {
-                        'description': 'Body type cannot be deleted, because of existing body with this type.'
-                    },
-                    '404': {
-                        'description': 'Body type with ID was not found.'
-                    }
-                }
-            }
-        },
-        '/bodyTypes/count': {
-            'get': {
-                'tags': ['Body types'],
-                'summary': 'Get count of all body types.',
-                'description': 'Get count of all body types.',
-                'responses': {
-                    '200': {
-                        'description': 'Get body types count is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'number'
-                                }
-                            }
-                        }
-                    },
-                }
-            }
-        },
+        '/bodies/{bodyId}': Route.getSwaggerRouteGroupForOne(['Bodies'], 'Body', ['bodyId']),
+        '/bodies/count': Route.getSwaggerRouteGroupForCount(['Bodies']),
+        '/bodies/events': Route.getSwaggerRouteGroupForAll(['Body events'], 'BodyEvent', 'NewBodyEvent'),
+        '/bodies/events/{eventId}': Route.getSwaggerRouteGroupForOne(['Body events'], 'Body', ['bodyId', 'eventId']),
+        '/bodies/events/count': Route.getSwaggerRouteGroupForCount(['Body events']),
+        '/bodyTypes': Route.getSwaggerRouteGroupForAll(['Body types'], 'BodyType', 'NewBodyType'),
+        '/bodyTypes/{bodyTypeId}': Route.getSwaggerRouteGroupForOne(['Body types'], 'BodyType', ['bodyTypeId']),
+        '/bodyTypes/count': Route.getSwaggerRouteGroupForCount(['Body types']),
         '/users': Route.getSwaggerRouteGroupForAll(['Users'], 'SimpleUser', 'NewUser'),
-        '/users/{userId}': {
-            'parameters': [
-                {
-                    'in': 'path',
-                    'name': 'userId',
-                    'required': true,
-                    'schema': {
-                        '$ref': '#/components/schemas/Id'
-                    },
-                    'description': 'Unique identifier of user.'
-                }
-            ],
-            'get': {
-                'tags': ['Users'],
-                'summary': 'Get user by ID.',
-                'description': 'Get user by ID.',
-                'responses': {
-                    '200': {
-                        'description': 'Get user is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    '$ref': '#/components/schemas/User'
-                                }
-                            }
-                        }
-                    },
-                    '404': {
-                        'description': 'User with ID was not found.'
-                    }
-                }
-            },
-            'put': {
-                'tags': ['Users'],
-                'summary': 'Update already existing user.',
-                'description': 'Update already existing user.',
-                'requestBody': {
-                    'content': {
-                        'application/json': {
-                            'schema': {
-                                '$ref': '#/components/schemas/NewUser'
-                            }
-                        }
-                    }
-                },
-                'responses': {
-                    '204': {
-                        'description': 'User was successful updated.'
-                    },
-                    '400': {
-                        'description': 'Invalid values.'
-                    },
-                    '404': {
-                        'description': 'User with ID was not found.'
-                    },
-                    '409': {
-                        'description': 'User with this email already exists.'
-                    }
-                }
-            },
-            'delete': {
-                'tags': ['Users'],
-                'summary': 'Delete user by ID.',
-                'description': 'Delete user by ID.',
-                'responses': {
-                    '204': {
-                        'description': 'User was successful deleted.'
-                    },
-                    '400': {
-                        'description': 'User cannot be deleted, because of existing dependents.'
-                    },
-                    '404': {
-                        'description': 'User with ID was not found.'
-                    }
-                }
-            }
-        },
-        '/users/count': {
-            'get': {
-                'tags': ['Users'],
-                'summary': 'Get count of all users.',
-                'description': 'Get count of all users.',
-                'responses': {
-                    '200': {
-                        'description': 'Get users count is successful.',
-                        'content': {
-                            'application/json': {
-                                'schema': {
-                                    'type': 'number'
-                                }
-                            }
-                        }
-                    },
-                }
-            }
-        },
+        '/users/{userId}': Route.getSwaggerRouteGroupForOne(['Users'], 'User', ['userId']),
+        '/users/count': Route.getSwaggerRouteGroupForCount(['Users']),
         '/login': {
             'post': {
                 'tags': ['Users'],
@@ -483,7 +74,9 @@ export default {
                 }
             }
         },
-        '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification', ['get']),
+        '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification'),
+        '/notifications/{notificationId}': Route.getSwaggerRouteGroupForOne(['Notifications'], 'Notification', ['notificationId']),
+        '/notifications/count': Route.getSwaggerRouteGroupForCount(['Notifications']),
     },
     'components': {
         'schemas': {
@@ -929,12 +522,9 @@ export default {
                 'example': '87ac4247acf457229c9aa7ae',
                 'description': 'Unique identifier.'
             },
-            'BodyType': {
+            'NewBodyType': {
                 'type': 'object',
                 'properties': {
-                    '_id': {
-                        '$ref': '#/components/schemas/Id'
-                    },
                     'name': {
                         'type': 'string',
                         'example': 'Terestrická planeta',
@@ -946,6 +536,22 @@ export default {
                         'description': 'Emissive color of bodies with this type.'
                     }
                 }
+            },
+            'BodyType': {
+                'type': 'object',
+                'allOf': [
+                    {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            }
+                        }
+                    },
+                    {
+                        '$ref': '#components/schemas/NewBodyType'
+                    }
+                ]
             },
             'SimpleUser': {
                 'type': 'object',
@@ -1028,32 +634,28 @@ export default {
                     }
                 ]
             },
-            'NewNotification': {
+            'NewBodyEvent': {
                 'type': 'object',
                 'properties': {
-                    'text': {
+                    'title': {
                         'type': 'string',
-                        'example': 'Jaká je největší planeta sluneční soustavy?'
+                        'example': 'První život'
                     },
-                    'subject': {
-                        'type': 'number',
-                        'example': 7
-                    },
-                    'relation': {
-                        'type': 'number',
-                        'example': 1
-                    },
-                    'target': {
+                    'description': {
                         'type': 'string',
-                        'example': '/vesmir?t=Slunce&panel=teleso&teleso=Slunce&tab=diskuse'
-                    }
+                        'example': 'První jednobuněčné organismy se vyvinuli ve vodě a umožnili vznik složitějších organismů.'
+                    },
+                    'year': {
+                        'type': 'number',
+                        'example': -3500000000
+                    },
+                    'bodyId': {
+                        '$ref': '#/components/schemas/Id'
+                    },
                 }
             },
-            'Notification': {
+            'BodyEvent': {
                 'allOf': [
-                    {
-                        '$ref': '#/components/schemas/NewNotification'
-                    },
                     {
                         'type': 'object',
                         'properties': {
@@ -1065,6 +667,9 @@ export default {
                                 'example': '2018-11-03'
                             }
                         }
+                    },
+                    {
+                        '$ref': '#/components/schemas/NewBodyEvent'
                     }
                 ]
             }

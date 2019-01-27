@@ -120,6 +120,9 @@ class Units {
      * @returns Formatted value like 149 597 870 km.
      */
     public static toFull = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
+        const minus = value < 0
+        value = Math.abs(value)
+
         if (value === null || value === undefined) {
             return null
         }
@@ -135,7 +138,7 @@ class Units {
         }
 
         const temp = Math.pow(10, Units.getPrecision(value))
-        return Units.concatValueWithUnit(value ? parseFloat((Math.round(value * temp) / temp).toString()).toLocaleString() : '0', unit)
+        return (minus ? '-' : '') + Units.concatValueWithUnit(value ? parseFloat((Math.round(value * temp) / temp).toString()).toLocaleString() : '0', unit)
     }
 
     /**

@@ -222,20 +222,21 @@ class Route {
         () => model.count({}) // TODO: Filter?
     )
 
-    public static getSwaggerRouteGroupForOne(tags, id, schema) {
-        return {
-            'parameters': [
-                {
-                    'in': 'path',
-                    'name': id,
-                    'required': true,
-                    'schema': {
-                        '$ref': '#/components/schemas/Id'
-                    },
-                    'description': 'Unique identifier of item.'
-                }
-            ],
-            'get': {
+    public static getSwaggerRouteGroupForOne(tags: string[], schema: string, pathParameters: string[] = [], routes: string[] = ['get', 'put', 'delete']) {
+        const result = { parameters: [], get: undefined, put: undefined, delete: undefined }
+
+        result.parameters = pathParameters.map(parameter => ({
+            'in': 'path',
+            'name': parameter,
+            'required': true,
+            'schema': {
+                '$ref': '#/components/schemas/Id'
+            },
+            'description': 'Path identificator.'
+        }))
+
+        if (routes.includes('get')) {
+            result.get = {
                 'tags': tags,
                 'summary': 'Get item by ID.',
                 'description': 'Get item by ID.',
@@ -251,63 +252,95 @@ class Route {
                         }
                     },
                     '404': {
-                        'description': 'Body with ID was not found.'
+                        'description': 'Item with ID was not found.'
                     }
                 }
-            },
-            'put': {
-                'tags': ['Bodies'],
-                'summary': 'Update already existing body.',
-                'description': 'Create new body and return ID of created body.',
+            }
+        }
+
+        if (routes.includes('put')) {
+            result.put = {
+                'tags': tags,
+                'summary': 'Update already existing item.',
+                'description': 'Create new item and return ID of created item.',
                 'requestBody': {
                     'content': {
                         'application/json': {
                             'schema': {
-                                '$ref': '#/components/schemas/NewBody'
+                                '$ref': '#/components/schemas/' + schema
                             },
                         }
                     }
                 },
                 'responses': {
                     '204': {
-                        'description': 'Body was successful updated.'
+                        'description': 'Item was successful updated.'
                     },
                     '400': {
                         'description': 'Invalid values.'
                     },
                     '404': {
-                        'description': 'Body with ID was not found.'
+                        'description': 'Item with ID was not found.'
                     },
                     '409': {
-                        'description': 'Body with this name already exists.'
+                        'description': 'Item with this unique value already exists.'
                     }
                 }
-            },
-            'delete': {
-                'tags': ['Bodies'],
-                'summary': 'Delete body by ID.',
-                'description': 'Delete body by ID.',
-                'parameters': [
-                    {
-                        'in': 'query',
-                        'name': 'force',
-                        'schema': {
-                            'type': 'string',
-                            'example': 'true',
-                            'enum': ['true', 'false']
-                        },
-                        'description': 'Body will be deleted with all its children.'
-                    }
-                ],
+            }
+        }
+
+        if (routes.includes('delete')) {
+            result.delete = {
+                'tags': tags,
+                'summary': 'Delete item by ID.',
+                'description': 'Delete item by ID.',
+                'parameters': [],
                 'responses': {
                     '204': {
-                        'description': 'Body was successful deleted.'
+                        'description': 'Item was successful deleted.'
                     },
                     '400': {
-                        'description': 'Body cannot be deleted, because of existing children.'
+                        'description': 'Item cannot be deleted, because of existing dependencies.'
                     },
                     '404': {
-                        'description': 'Body with ID was not found.'
+                        'description': 'Item with ID was not found.'
+                    }
+                }
+            }
+        }
+
+        return result
+    }
+
+    public static getSwaggerRouteGroupForCount(tags: string[]) {
+        return {
+            'parameters': [
+                {
+                    'in': 'query',
+                    'name': 'filter',
+                    'schema': {
+                        'type': 'object',
+                        'additionalProperties': {
+                            'type': 'string'
+                        }
+                    },
+                    'description': 'Filter items by its any property.'
+                }
+            ],
+            'get': {
+                'tags': tags,
+                'summary': 'Get count of all items.',
+                'description': 'Get count of all items.',
+                'responses': {
+                    '200': {
+                        'description': 'Get items count is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -321,8 +354,18 @@ class Route {
      * @param newSchema
      * @param routes
      */
-    public static getSwaggerRouteGroupForAll(tags: string[], simpleSchema: string, newSchema: string, routes = ['get', 'post', 'delete']) {
-        const result = { get: undefined, post: undefined, delete: undefined }
+    public static getSwaggerRouteGroupForAll(tags: string[], simpleSchema: string, newSchema: string, pathParameters: string[] = [], routes: string[] = ['get', 'post', 'delete']) {
+        const result = { parameters: [], get: undefined, post: undefined, delete: undefined }
+
+        result.parameters = pathParameters.map(parameter => ({
+            'in': 'path',
+            'name': parameter,
+            'required': true,
+            'schema': {
+                '$ref': '#/components/schemas/Id'
+            },
+            'description': 'Path identificator.'
+        }))
 
         if (routes.includes('get')) {
             result.get = {
@@ -444,7 +487,7 @@ class Route {
                 'description': 'Delete all items and return count of deleted items.',
                 'responses': {
                     '200': {
-                        'description': 'Items was successful deleted.',
+                        'description': 'Items were successful deleted.',
                         'content': {
                             'application/json': {
                                 'schema': {
