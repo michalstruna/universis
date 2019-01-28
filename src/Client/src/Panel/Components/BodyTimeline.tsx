@@ -1,7 +1,9 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
+import { Line } from 'react-chartjs-2'
 
 import { StatelessComponent, Units } from '../../Utils'
+import { BodyPreview } from '../../Universe'
 
 interface IProps {
     body: IBody
@@ -9,26 +11,17 @@ interface IProps {
 }
 
 const generateYears = (): number[] => {
-    const plus = [0]
+    const plus = [0, 1000, 1500, 1800, 2000]
     const minus = [-1000]
-    const minusMultiply = [2, 2.5, 2]
 
-    for (let i = 0; i < 21; i++) {
-        minus.push(minus[minus.length - 1] * minusMultiply[i % 3])
+    for (let i = 0; i < 8; i++) {
+        minus.push(minus[minus.length - 1] * 10)
     }
 
-    while (plus[plus.length - 1] < new Date().getFullYear()) {
-        const last = plus[plus.length - 1]
+    minus[minus.length - 1] = -13.8e9
 
-        if (last < 1000) {
-            plus.push(last + 500)
-        } else if (last < 1500) {
-            plus.push(last + 200)
-        } else if (last < 1900) {
-            plus.push(last + 100)
-        } else {
-            plus.push(Math.min(last + 20, new Date().getFullYear()))
-        }
+    while (plus[plus.length - 1] < new Date().getFullYear()) {
+        plus.push(Math.min(plus[plus.length - 1] + 100, new Date().getFullYear()))
     }
 
     plus.reverse()
@@ -88,7 +81,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
     private renderYears(): React.ReactNode {
         const years = []
 
-        for (let i = 0; i < YEARS.length * 10; i++) {
+        for (let i = 0; i < (YEARS.length - 1) * 10 + 1; i++) {
             const gridColumn = 5
             const gridRow = i + 1
             const year = YEARS[i / 10]
@@ -175,15 +168,45 @@ class BodyTimeline extends StatelessComponent<IProps> {
         }
 
         return (
-            <section
-                className='panel__body__timeline'
-                onMouseMove={this.handleMouseMove}
-                ref={ref => this.container = ref}>
-                <div
-                    className='panel__body__timeline__current'
-                    ref={ref => this.current = ref} />
-                {this.renderYears()}
-                {this.renderEvents()}
+            <section className='panel__body__timeline'>
+                <section className='panel__body__timeline__preview'>
+                    <section className='panel__body__timeline__preview--left'>
+                        <Line
+                            legend={{
+                                display: false
+                            }}
+                            height={55}
+                            data={{
+                                labels: ['2k', '0', '-10k', '-1M', '-100M', '-1G', '-14G'],
+                                datasets: [
+                                    {
+                                        data: [65, 59, 80, 81, 56, 55, 40],
+                                        borderColor: '#777',
+                                        fill: false,
+                                        lineTension: 0,
+                                        borderWidth: 2,
+                                        radius: 0
+                                    }
+                                ]
+                            }}
+                            options={{
+
+                                }} />
+                    </section>
+                    <section className='panel__body__timeline__preview--right'>
+                        <BodyPreview body={body} size={100} />
+                    </section>
+                </section>
+                <section
+                    className='panel__body__timeline--inner'
+                    onMouseMove={this.handleMouseMove}
+                    ref={ref => this.container = ref}>
+                    <div
+                        className='panel__body__timeline__current'
+                        ref={ref => this.current = ref} />
+                    {this.renderYears()}
+                    {this.renderEvents()}
+                </section>
             </section>
         )
     }

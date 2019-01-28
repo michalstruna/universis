@@ -83,27 +83,7 @@ class Body extends StatelessComponent<IProps> {
                             success={() => (
                                 <AsyncEntity
                                     data={body}
-                                    success={() => (
-                                        <>
-                                            <section className='panel__body__data__preview'>
-                                                <section className='panel__body__data__preview--left'>
-                                                    <h2 className='panel__body__data__subtitle'>
-                                                        {body.payload.type.name}
-                                                    </h2>
-                                                    <h1 className='panel__body__data__title'>
-                                                        {body.payload.name}
-                                                    </h1>
-                                                    <p className='panel__body__data__description'>
-                                                        {body.payload.description}
-                                                    </p>
-                                                </section>
-                                                <section className='panel__body__data__preview--right'>
-                                                    <BodyPreview body={body.payload} size={300} />
-                                                </section>
-                                            </section>
-                                            {this.renderContent()}
-                                        </>
-                                    )} />
+                                    success={() => this.renderContent()} />
                             )} />
                     </section>
                 </section>
