@@ -154,6 +154,9 @@ class Units {
             return null
         }
 
+        const minus = value < 0
+        value = Math.abs(value)
+
         if (correspondentUnits) {
             const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits, threshold)
             value = temp.value
@@ -164,7 +167,7 @@ class Units {
             return Units.toShort(value, unit).replace(/[a-zA-Z]$/, '')
         }
 
-        return Units.concatValueWithUnit(value
+        return (minus ? '-' : '') + Units.concatValueWithUnit(value
             .toExponential(1)
             .replace('+', '')
             .replace('.0', ''), unit)
@@ -182,6 +185,9 @@ class Units {
         if (value === null || value === undefined) {
             return null
         }
+
+        const minus = value < 0
+        value = Math.abs(value)
 
         if (correspondentUnits) {
             const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits, threshold)
@@ -203,7 +209,7 @@ class Units {
             if (value < Math.pow(10, i)) {
                 const result = Math.round(value / Math.pow(10, i - 3)) / Math.pow(10, 2 - ((i + 2) % 3))
                 const suffix = suffixes[Math.floor((i - 1) / 3)]
-                return Units.concatValueWithUnit(result + (suffix || ''), unit)
+                return (minus ? '-' : '') + Units.concatValueWithUnit(result + (suffix || ''), unit)
             }
         }
 

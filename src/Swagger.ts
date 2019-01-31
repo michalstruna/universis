@@ -29,9 +29,9 @@ export default {
         '/bodies': Route.getSwaggerRouteGroupForAll(['Bodies'], 'SimpleBody', 'NewBody'),
         '/bodies/{bodyId}': Route.getSwaggerRouteGroupForOne(['Bodies'], 'Body', ['bodyId']),
         '/bodies/count': Route.getSwaggerRouteGroupForCount(['Bodies']),
-        '/bodies/events': Route.getSwaggerRouteGroupForAll(['Body events'], 'BodyEvent', 'NewBodyEvent'),
+        '/bodies/{bodyId}/events': Route.getSwaggerRouteGroupForAll(['Body events'], 'BodyEvent', 'NewBodyEvent'),
         '/bodies/events/{eventId}': Route.getSwaggerRouteGroupForOne(['Body events'], 'Body', ['bodyId', 'eventId']),
-        '/bodies/events/count': Route.getSwaggerRouteGroupForCount(['Body events']),
+        '/bodies/{bodyId}/events/count': Route.getSwaggerRouteGroupForCount(['Body events']),
         '/bodyTypes': Route.getSwaggerRouteGroupForAll(['Body types'], 'BodyType', 'NewBodyType'),
         '/bodyTypes/{bodyTypeId}': Route.getSwaggerRouteGroupForOne(['Body types'], 'BodyType', ['bodyTypeId']),
         '/bodyTypes/count': Route.getSwaggerRouteGroupForCount(['Body types']),
@@ -643,11 +643,15 @@ export default {
                     },
                     'description': {
                         'type': 'string',
-                        'example': 'První jednobuněčné organismy se vyvinuli ve vodě a umožnili vznik složitějších organismů.'
+                        'example': 'První jednobuněčné organismy se vyvinuly ve vodě a umožnily vznik složitějších organismů.'
                     },
-                    'year': {
+                    'from': {
                         'type': 'number',
                         'example': -3500000000
+                    },
+                    'to': {
+                        'type': 'number',
+                        'example': -3000000000
                     },
                     'bodyId': {
                         '$ref': '#/components/schemas/Id'
@@ -661,10 +665,6 @@ export default {
                         'properties': {
                             '_id': {
                                 '$ref': '#/components/schemas/Id'
-                            },
-                            'date': {
-                                'type': 'string',
-                                'example': '2018-11-03'
                             }
                         }
                     },

@@ -5,7 +5,6 @@ export { default as AsyncEntity } from './Components/AsyncEntity'
 export { default as BlurLayout } from './Components/BlurLayout'
 export { default as Component } from './Components/Component'
 export { default as DataTable } from './Components/DataTable'
-export { default as DonutChart } from './Components/DonutChart'
 export { default as FadeLayout } from './Components/FadeLayout'
 export { default as Link } from './Components/Link'
 export { default as SimpleComponent } from './Components/SimpleComponent'
@@ -18,6 +17,7 @@ export { default as View } from './Components/View'
 export { default as ToggleLayout } from './Components/ToggleLayout'
 export { default as Menu } from './Components/Menu'
 export { default as RelativeTime } from './Components/RelativeTime'
+export { default as EventArea } from './Components/EventsArea'
 
 /**
  * Constants.

@@ -35,9 +35,9 @@ declare namespace Universis {
 
                 description: string
 
-                year: number
+                from: number
 
-
+                to: number
 
             }
 

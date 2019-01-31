@@ -6,7 +6,8 @@ enum ActionTypes {
     SELECT_BODY = 'SELECT_BODY',
     TOGGLE_LABELS = 'TOGGLE_LABELS',
     TOGGLE_LIGHT = 'TOGGLE_LIGHT',
-    TOGGLE_ORBITS = 'TOGGLE_ORBITS'
+    TOGGLE_ORBITS = 'TOGGLE_ORBITS',
+    GET_EVENTS = 'GET_EVENTS'
 }
 
 export default ActionTypes

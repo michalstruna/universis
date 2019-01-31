@@ -19,7 +19,7 @@ declare namespace Universis.Item {
     /**
      * Interface for item model.
      */
-    export interface Model<Full extends Universis.Item, Simple extends Universis.Item, New extends Universis.Item> {
+    export interface Model<Full extends Universis.Item, Simple extends Universis.Item, New> {
 
         /**
          * Create new items.

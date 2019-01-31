@@ -1,13 +1,14 @@
-import * as ClassNames from 'classnames'
 import * as React from 'react'
-import { Line } from 'react-chartjs-2'
 
-import { StatelessComponent, Units } from '../../Utils'
-import { BodyPreview } from '../../Universe'
+import { StatelessComponent, Units, AsyncEntity, EventArea } from '../../Utils'
+import { BodyPreview, getEvents } from '../../Universe'
+import { LineChart } from '../../Charts'
 
 interface IProps {
-    body: IBody
     strings: IStrings
+    events: IAsyncEntity<Universis.Universe.Event[]>
+    getEvents: Universis.Consumer<string>
+    body: IAsyncEntity<IBody>
 }
 
 const generateYears = (): number[] => {
@@ -30,183 +31,93 @@ const generateYears = (): number[] => {
 
 const YEARS = generateYears()
 
+const tmp = [
+    { _id: '1', title: 'První', from: 2002, to: 2019, description: 'Toto je první poznámka' },
+    { _id: '2', title: 'Druhý', from: 1850, to: 1850, description: 'Toto je druhá událost.' },
+    { _id: '3', title: 'Třetí', from: 1950, to: 2003, description: 'Toto je třetí událost.' },
+    { _id: '4', title: 'Čtvrtý', from: 2003, to: 2004, description: 'Toto je čtvrtá událost.' },
+    { _id: '5', title: 'Pátý', from: 2019, to: 2019, description: 'Toto je pátá událost.' },
+    { _id: '6', title: 'Šestý', from: 2007, to: 2014, description: 'Toto je šestá událost.' },
+    { _id: '7', title: 'Sedmá', from: 1850, to: 2014, description: 'Toto je sedmá událost.' },
+    { _id: '999', title: 'Sedmá', from: -4000, to: -3000, description: 'Toto je sedmá událost.' },
+    {
+        _id: '9',
+        title: 'Čeljabinský meteor',
+        from: 2013,
+        to: 2013,
+        description: '15metrový bolid o hmotnosti 10M kg dopadající rychlostí 17 km/s explodoval 30 km nad Ruskem. Síla výbuchu byla 30-150 kilotun TNT.'
+    },
+    {
+        _id: '8',
+        title: 'Množství CO2',
+        from: 2013,
+        to: 2013,
+        description: 'Množství CO2 v atmosféře poprvé za 5 milionů let překročilo hodnotu 144 ppm.'
+    }
+]
+
 class BodyTimeline extends StatelessComponent<IProps> {
 
-    /**
-     * Timeline container.
-     */
-    private container: HTMLElement
-
-    /**
-     * Current hover time element.
-     */
-    private current: HTMLElement
-
-    /**
-     * Handler for mouse move.
-     * @param event Mouse event.
-     */
-    private handleMouseMove = (event: React.MouseEvent): void => {
-        const y = event.clientY - this.container.getBoundingClientRect().top
-        this.current.textContent = Units.toFull(this.toAbsolute(y / 16.02))
-        this.current.style.top = y + 'px'
+    public componentWillMount() {
+        const { getEvents, events, body } = this.props
+        AsyncEntity.request(events, () => getEvents(body.payload._id))
     }
 
     /**
-     * Convert year to relative value.
-     * @param year Year.
-     * @returns Relative value.
+     * Because of large values and small amount of pixels.
+     * @param value
      */
-    private toRelative(year: number): number {
-        const index = year < YEARS[YEARS.length - 1] ? YEARS.length - 1 : YEARS.findIndex(value => value < year)
-        const after = YEARS[index - 1]
-        const before = YEARS[index]
-        const offset = 1 - (year - before) / (after - before)
-        return 1 + ((index - 1) * 10) + Math.round(offset * 10)
+    private obfuscateValue = (value: number) => {
+        return value + (value / 1e3) * Math.sin(value)
     }
 
     /**
-     * Convert relative value to year.
-     * @param value Relative value.
-     * @returns Year.
+     * Get count of events in time interval.
+     * @param from Start.
+     * @param to End.
+     * @returns Count of events.
      */
-    private toAbsolute(value: number): number {
-        const index = Math.floor(value / 10)
-        const start = YEARS[index + 1]
-        const end = YEARS[index]
-        const offset = (end - start) * (1 - (value % 10) / 10)
-        return Math.round(start + offset)
-    }
-
-    private renderYears(): React.ReactNode {
-        const years = []
-
-        for (let i = 0; i < (YEARS.length - 1) * 10 + 1; i++) {
-            const gridColumn = 5
-            const gridRow = i + 1
-            const year = YEARS[i / 10]
-
-            if (i % 10) {
-                years.push(
-                    <section
-                        key={i}
-                        className={ClassNames('panel__body__timeline__step', { 'panel__body__timeline__step--major': i % 5 === 0 })}
-                        style={{ gridColumn, gridRow }} />
-                )
-            } else {
-                years.push(
-                    <section
-                        key={i}
-                        className='panel__body__timeline__year'
-                        style={{ gridColumn, gridRow }}>
-                        {year < 0 ? '-' + Units.toShort(-YEARS[i / 10]) : year}
-                    </section>
-                )
-            }
-        }
-
-        return years
-    }
-
-    private renderEvents(): React.ReactNode {
-        return (
-            <>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(2017)}/1/${this.toRelative(2010)}/2` }}>
-                    2010-2017
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(2014)}/2/${this.toRelative(2007)}/4` }}>
-                    2010-2017
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(2019)}/1/${this.toRelative(-3.6e6)}/2` }}>
-                    Čtvrtohory
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(-3.6e6)}/1/${this.toRelative(-66e6)}/2` }}>
-                    Třetihory
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(-66e6)}/1/${this.toRelative(-252e6)}/2` }}>
-                    Druhohory
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(-252e6)}/1/${this.toRelative(-541e6)}/2` }}>
-                    Prvohory
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(-541e6)}/1/${this.toRelative(-2.5e9)}/2` }}>
-                    Starohory
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(-2.5e9)}/1/${this.toRelative(-4e9)}/2` }}>
-                    Prahory
-                </section>
-                <section
-                    className='panel__body__timeline__event'
-                    style={{ gridArea: `${this.toRelative(-4e9)}/1/${this.toRelative(-4.6e9)}/2` }}>
-                    Hadaikum
-                </section>
-            </>
-        )
+    private getEventsCount(from: number, to: number): number {
+        return tmp.filter(event => (event.from >= from && event.from <= to) || (event.to >= from && event.to <= to)).length
     }
 
     public render(): React.ReactNode {
-        const { body } = this.props
+        const { body, events } = this.props
 
-        if (!body) {
+        if (!body.payload) {
             return null
         }
+
+        const chartYears = [new Date().getFullYear(), 0, -1e4, -1e6, -1e8, -14e10]
 
         return (
             <section className='panel__body__timeline'>
                 <section className='panel__body__timeline__preview'>
                     <section className='panel__body__timeline__preview--left'>
-                        <Line
-                            legend={{
-                                display: false
-                            }}
+                        <LineChart
+                            labels={chartYears.map(value => Units.toShort(value))}
+                            values={chartYears.map((value, key) => this.getEventsCount(chartYears[key + 1], value))}
+                            data={{ '2k': 4, '0': 3, '-10k': 4, '-1M': 0, '-100M': 9, '-1G': 7, '-14G': 2 }}
                             height={55}
-                            data={{
-                                labels: ['2k', '0', '-10k', '-1M', '-100M', '-1G', '-14G'],
-                                datasets: [
-                                    {
-                                        data: [65, 59, 80, 81, 56, 55, 40],
-                                        borderColor: '#777',
-                                        fill: false,
-                                        lineTension: 0,
-                                        borderWidth: 2,
-                                        radius: 0
-                                    }
-                                ]
-                            }}
-                            options={{
-
-                                }} />
+                            width={300} />
                     </section>
                     <section className='panel__body__timeline__preview--right'>
-                        <BodyPreview body={body} size={100} />
+                        <BodyPreview body={body.payload} size={100} />
                     </section>
                 </section>
-                <section
-                    className='panel__body__timeline--inner'
-                    onMouseMove={this.handleMouseMove}
-                    ref={ref => this.container = ref}>
-                    <div
-                        className='panel__body__timeline__current'
-                        ref={ref => this.current = ref} />
-                    {this.renderYears()}
-                    {this.renderEvents()}
-                </section>
+                <AsyncEntity
+                    data={events}
+                    success={() => (
+                        <EventArea
+                            columnsCount={4}
+                            events={tmp}
+                            formatCurrentValue={value => Units.toFull(this.obfuscateValue(value))}
+                            formatTickValue={Units.toShort}
+                            hoverDetail={true}
+                            tickHeight={15}
+                            ticks={YEARS}
+                            minorTicksCount={9} />
+                    )} />
             </section>
         )
     }
@@ -216,6 +127,8 @@ class BodyTimeline extends StatelessComponent<IProps> {
 export default BodyTimeline.connect(
     ({ system, universe }: IStoreState) => ({
         strings: system.strings.bodyData,
-        body: universe.body.payload
-    })
+        body: universe.body,
+        events: universe.events
+    }),
+    { getEvents }
 )

@@ -1,0 +1,98 @@
+.events-area {
+    display: grid;
+    grid-template-columns: 9rem 9rem 9rem 9rem 3rem;
+    position: relative;
+    width: 100%;
+
+    &__hover-line {
+        @include absolute-position;
+        border-top: 1px solid $medium-color;
+        display: none;
+        font-size: 80%;
+        pointer-events: none;
+        text-align: right;
+        width: 100%;
+        z-index: 1;
+    }
+
+    &:hover {
+        .events-area__hover-line {
+            display: block;
+        }
+    }
+
+    &__major-tick {
+        font-size: 80%;
+        text-align: right;
+        width: 3rem;
+    }
+
+    &__minor-tick {
+        border-bottom: 1px solid $light-color;
+        grid-column: 5;
+        float: right;
+        margin-bottom: 0.5rem;
+        margin-left: 2.4rem;
+        width: 0.5rem;
+
+        &--5 {
+            margin-left: 1.9rem;
+            width: 1rem;
+        }
+    }
+
+    &__event {
+        @include flex-center;
+        background-color: $medium-dark-color;
+        box-shadow: #000 0 0 0.5rem;
+        box-sizing: border-box;
+        cursor: default;
+        font-size: 90%;
+        margin: 0.25rem;
+        padding: 0.5rem;
+        position: relative;
+        text-align: center;
+
+        &__detail {
+            @include size(12rem, auto);
+            background-color: $darkest-color;
+            display: none;
+            left: 0.5rem;
+            padding: 0.5rem;
+            position: absolute;
+            text-align: left;
+            top: 0.5rem;
+            z-index: 100;
+
+            div {
+                font-style: italic;
+                text-align: center;
+            }
+
+            h3 {
+                font-size: 110%;
+                font-weight: bold;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+
+            p {
+                line-height: 1.5em;
+            }
+        }
+
+        &--4 {
+            .events-area__event__detail {
+                left: auto;
+                right: 0.5rem;
+            }
+        }
+
+        &:hover {
+            .events-area__event__detail {
+                display: block;
+            }
+        }
+    }
+
+}

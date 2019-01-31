@@ -1,10 +1,10 @@
 import { DatabaseModels, NotificationSubjects } from '../Constants'
 import ItemModel from './ItemModel'
 
-export default new ItemModel<IBody, ISimpleBody, INewBody>({
+export default new ItemModel<Universis.Universe.Event, Universis.Universe.Event, Universis.Universe.Event.New>({
     dbModel: DatabaseModels.BODY_EVENT,
     notifications: {
-        textAccessor: body => body.name,
+        textAccessor: notification => notification.title,
         subjectType: NotificationSubjects.BODY_EVENT
     },
     add: {

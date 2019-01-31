@@ -16,9 +16,14 @@ const BodyEventSchema = new Schema({
         required: true
     },
 
-    year: {
+    from: {
         type: Number,
         required: true
+    },
+
+    to: {
+        type: Number,
+        required: false
     },
 
     bodyId: {
