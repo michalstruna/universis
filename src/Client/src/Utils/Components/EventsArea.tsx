@@ -11,6 +11,7 @@ interface IProps {
     hoverDetail?: boolean
     formatCurrentValue?: Universis.Function<number, string>
     formatTickValue?: Universis.Function<number, string>
+    formatDetailValue?: Universis.Function<number, string>
 }
 
 /**
@@ -21,6 +22,7 @@ class EventsArea extends StatelessComponent <IProps> {
     public static defaultProps = {
         formatCurrentValue: value => value,
         formatTickValue: value => value,
+        formatDetailValue: value => value,
         minorTicksCount: 0
     }
 
@@ -58,12 +60,14 @@ class EventsArea extends StatelessComponent <IProps> {
      * @returns Coordinate value.
      */
     private toCoordinate(value: number): number {
-        const { ticks } = this.props
+        const { ticks, minorTicksCount } = this.props
         const index = value < ticks[ticks.length - 1] ? ticks.length - 1 : ticks.findIndex(tick => tick < value)
         const after = ticks[index - 1]
         const before = ticks[index]
+
         const offset = 1 - (value - before) / (after - before)
-        return 1 + ((index - 1) * 10) + Math.round(offset * 10)
+
+        return 1 + (index - 1) * (minorTicksCount + 1) + Math.round(offset * (minorTicksCount + 1))
     }
 
     /**
@@ -119,15 +123,16 @@ class EventsArea extends StatelessComponent <IProps> {
      * Render all events in event area.
      */
     private renderEvents(): React.ReactNode {
-        const { events } = this.props
-        const resources = new Array(5).fill(null).map(item => new Array(150).fill(false))
+        const { events, columnsCount } = this.props
+        const resources = new Array(columnsCount + 1).fill(null).map(item => new Array(150).fill(false))
 
         return events.map((event, key) => {
             const from = Math.max(this.toCoordinate(event.from), 4)
             const to = Math.min(this.toCoordinate(event.to), from - 3)
+
             let column
 
-            for (let i = 1; i < 5; i++) {
+            for (let i = 1; i <= columnsCount; i++) {
                 let isEmpty = true
 
                 for (let j = to; j < from; j++) {
@@ -160,7 +165,7 @@ class EventsArea extends StatelessComponent <IProps> {
     }
 
     private renderDetail(event: Universis.Event): React.ReactNode {
-        const { hoverDetail } = this.props
+        const { hoverDetail, formatDetailValue } = this.props
 
         if (!hoverDetail) {
             return null
@@ -169,7 +174,7 @@ class EventsArea extends StatelessComponent <IProps> {
         return (
             <section className='events-area__event__detail'>
                 <div>
-                    {event.from === event.to ? event.from : (event.from + ' až ' + event.to)}
+                    {event.from === event.to ? formatDetailValue(event.from) : (formatDetailValue(event.from) + ' až ' + formatDetailValue(event.to))}
                 </div>
                 <h3>
                     {event.title}

@@ -48,7 +48,9 @@ class LineChart extends StatelessComponent<IProps> {
                     scales: {
                         yAxes: [{
                             ticks: {
-                                fontColor: fontColor
+                                fontColor: fontColor,
+                                min: 0,
+                                callback: value => value % 1 ? null : value
                             },
                             gridLines: {
                                 color: gridColor
@@ -62,7 +64,8 @@ class LineChart extends StatelessComponent<IProps> {
                                 color: gridColor
                             }
                         }]
-                    }
+                    },
+                    events: []
                 }} />
         )
     }

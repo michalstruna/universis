@@ -27,22 +27,6 @@ declare namespace Universis {
 
         }
 
-        export namespace Event {
-
-            export interface New {
-
-                title: string
-
-                description: string
-
-                from: number
-
-                to: number
-
-            }
-
-        }
-
         export interface Comment {
 
 

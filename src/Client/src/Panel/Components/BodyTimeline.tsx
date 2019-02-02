@@ -12,49 +12,27 @@ interface IProps {
 }
 
 const generateYears = (): number[] => {
-    const plus = [0, 1000, 1500, 1800, 2000]
-    const minus = [-1000]
+    const plus = [0, 1900, new Date().getFullYear()]
+    const minus = [-10000]
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 4; i++) {
         minus.push(minus[minus.length - 1] * 10)
     }
 
-    minus[minus.length - 1] = -13.8e9
+    minus.push(-2.5e8, -5e8, -1e9)
 
-    while (plus[plus.length - 1] < new Date().getFullYear()) {
-        plus.push(Math.min(plus[plus.length - 1] + 100, new Date().getFullYear()))
+    for (let i = 0; i < 5; i++) {
+        minus.push(minus[minus.length - 1] - 1e9)
     }
+
+    minus.push(-8e9, -13.8e9)
 
     plus.reverse()
     return plus.concat(minus)
 }
 
 const YEARS = generateYears()
-
-const tmp = [
-    { _id: '1', title: 'První', from: 2002, to: 2019, description: 'Toto je první poznámka' },
-    { _id: '2', title: 'Druhý', from: 1850, to: 1850, description: 'Toto je druhá událost.' },
-    { _id: '3', title: 'Třetí', from: 1950, to: 2003, description: 'Toto je třetí událost.' },
-    { _id: '4', title: 'Čtvrtý', from: 2003, to: 2004, description: 'Toto je čtvrtá událost.' },
-    { _id: '5', title: 'Pátý', from: 2019, to: 2019, description: 'Toto je pátá událost.' },
-    { _id: '6', title: 'Šestý', from: 2007, to: 2014, description: 'Toto je šestá událost.' },
-    { _id: '7', title: 'Sedmá', from: 1850, to: 2014, description: 'Toto je sedmá událost.' },
-    { _id: '999', title: 'Sedmá', from: -4000, to: -3000, description: 'Toto je sedmá událost.' },
-    {
-        _id: '9',
-        title: 'Čeljabinský meteor',
-        from: 2013,
-        to: 2013,
-        description: '15metrový bolid o hmotnosti 10M kg dopadající rychlostí 17 km/s explodoval 30 km nad Ruskem. Síla výbuchu byla 30-150 kilotun TNT.'
-    },
-    {
-        _id: '8',
-        title: 'Množství CO2',
-        from: 2013,
-        to: 2013,
-        description: 'Množství CO2 v atmosféře poprvé za 5 milionů let překročilo hodnotu 144 ppm.'
-    }
-]
+const CHART_YEARS = [0, -1e4, -1e5, -1e6, -1e7, -1e8, -1e9, -14e10]
 
 class BodyTimeline extends StatelessComponent<IProps> {
 
@@ -68,7 +46,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
      * @param value
      */
     private obfuscateValue = (value: number) => {
-        return value + (value / 1e3) * Math.sin(value)
+        return value < 0 ? (value + (value / 1e3) * Math.sin(value)) : value
     }
 
     /**
@@ -78,7 +56,12 @@ class BodyTimeline extends StatelessComponent<IProps> {
      * @returns Count of events.
      */
     private getEventsCount(from: number, to: number): number {
-        return tmp.filter(event => (event.from >= from && event.from <= to) || (event.to >= from && event.to <= to)).length
+        const { events } = this.props
+        return events.payload.filter(event => (
+            (event.from < from && event.to > from) ||
+            (event.from < to && event.to > to) ||
+            (event.from > from && event.to < to)
+        )).length
     }
 
     public render(): React.ReactNode {
@@ -88,37 +71,35 @@ class BodyTimeline extends StatelessComponent<IProps> {
             return null
         }
 
-        const chartYears = [new Date().getFullYear(), 0, -1e4, -1e6, -1e8, -14e10]
-
         return (
-            <section className='panel__body__timeline'>
-                <section className='panel__body__timeline__preview'>
-                    <section className='panel__body__timeline__preview--left'>
-                        <LineChart
-                            labels={chartYears.map(value => Units.toShort(value))}
-                            values={chartYears.map((value, key) => this.getEventsCount(chartYears[key + 1], value))}
-                            data={{ '2k': 4, '0': 3, '-10k': 4, '-1M': 0, '-100M': 9, '-1G': 7, '-14G': 2 }}
-                            height={55}
-                            width={300} />
-                    </section>
-                    <section className='panel__body__timeline__preview--right'>
-                        <BodyPreview body={body.payload} size={100} />
-                    </section>
-                </section>
-                <AsyncEntity
-                    data={events}
-                    success={() => (
+            <AsyncEntity
+                data={events}
+                success={() => (
+                    <section className='panel__body__timeline'>
+                        <section className='panel__body__timeline__preview'>
+                            <section className='panel__body__timeline__preview--left'>
+                                <LineChart
+                                    labels={CHART_YEARS.map(value => Units.toShort(value))}
+                                    values={CHART_YEARS.map((value, key) => this.getEventsCount(value, key ? CHART_YEARS[key - 1] : new Date().getFullYear()))}
+                                    height={55}
+                                    width={300} />
+                            </section>
+                            <section className='panel__body__timeline__preview--right'>
+                                <BodyPreview body={body.payload} size={100} />
+                            </section>
+                        </section>
                         <EventArea
-                            columnsCount={4}
-                            events={tmp}
+                            columnsCount={5}
+                            events={events.payload}
                             formatCurrentValue={value => Units.toFull(this.obfuscateValue(value))}
                             formatTickValue={Units.toShort}
+                            formatDetailValue={value => value < 0 ? Units.toShort(value) : Units.toFull(value)}
                             hoverDetail={true}
+                            minorTicksCount={9}
                             tickHeight={15}
-                            ticks={YEARS}
-                            minorTicksCount={9} />
-                    )} />
-            </section>
+                            ticks={YEARS} />
+                    </section>
+                )} />
         )
     }
 

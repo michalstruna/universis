@@ -1,6 +1,6 @@
 .events-area {
     display: grid;
-    grid-template-columns: 9rem 9rem 9rem 9rem 3rem;
+    grid-template-columns: 7.2rem 7.2rem 7.2rem 7.2rem 7.2rem 2rem;
     position: relative;
     width: 100%;
 
@@ -48,7 +48,7 @@
         box-sizing: border-box;
         cursor: default;
         font-size: 90%;
-        margin: 0.25rem;
+        margin: 0.2rem;
         padding: 0.5rem;
         position: relative;
         text-align: center;
@@ -81,7 +81,7 @@
             }
         }
 
-        &--4 {
+        &--5 {
             .events-area__event__detail {
                 left: auto;
                 right: 0.5rem;
