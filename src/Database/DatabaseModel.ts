@@ -132,7 +132,7 @@ class DatabaseModel implements Universis.Database.Model {
             }
 
             if (options.select) {
-                query = query.select([...options.join, options.select].join(' '))
+                query = query.select([...(options.join || []), options.select].join(' '))
             }
 
             query = query.lean()

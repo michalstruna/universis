@@ -6,7 +6,7 @@ import { LineChart } from '../../Charts'
 
 interface IProps {
     strings: IStrings
-    events: IAsyncEntity<Universis.Universe.Event[]>
+    events: IAsyncEntity<Universis.Event[]>
     getEvents: Universis.Consumer<string>
     body: IAsyncEntity<IBody>
 }

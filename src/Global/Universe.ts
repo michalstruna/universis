@@ -18,15 +18,6 @@ declare namespace Universis {
 
         }
 
-        export interface Event extends Event.New {
-
-            /**
-             * ID of event.
-             */
-            _id: string
-
-        }
-
         export interface Comment {
 
 

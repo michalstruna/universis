@@ -84,6 +84,6 @@ export const toggleOrbits = (areOrbitsVisible: boolean) => (
 export const getEvents = (bodyId: string) => (
     Redux.asyncAction(
         ActionTypes.GET_EVENTS,
-        { events: Request.get<Universis.Universe.Event>(`bodies/${bodyId}/events`) }
+        { events: Request.get<Universis.Event>(`bodies/${bodyId}/events`) }
     )
 )
