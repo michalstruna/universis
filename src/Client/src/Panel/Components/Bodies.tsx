@@ -29,7 +29,7 @@ class Bodies extends StatelessComponent<IProps> {
         return [
             {
                 accessor: body => body.name,
-                title: strings.name,
+                title: strings.name
             },
             this.getTableColumn(
                 body => body.diameter.x,

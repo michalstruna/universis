@@ -98,20 +98,24 @@ class Route {
     /**
      * Generate routes for all entities.
      * @param model Entity model.
+     * @param access Object of access points. It can be default function (Route.all, ...) or custom request handlers (Route.all(), ...).
      * @returns Route group.
      */
     public static getRouteGroupForAll(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
         const routeGroup: IObject<IRequestHandler> = {}
 
-        if (access.get) {
+        // TODO: Map before and map after.
+        if (access.get && typeof access.get !== 'object') {
             routeGroup.get = access.get(Route.getAllHandler(model))
         }
 
         if (access.post) {
-            routeGroup.post = access.post(Route.addHandler(model), _id => ({ _id }))
+            const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : item => item
+            const handler = 'access' in access.post ? access.post.access : access.post
+            routeGroup.post = handler(request => mapBefore(request), _id => ({ _id }))
         }
 
-        if (access.delete) {
+        if (access.delete && typeof access.delete !== 'object') {
             routeGroup.delete = access.delete(Route.deleteAllHandler(model), count => ({ count }))
         }
 
@@ -121,20 +125,21 @@ class Route {
     /**
      * Generate routes for one entity.
      * @param model Entity model.
+     * @param access Object of access points. It can be default function (Route.all, ...) or custom request handlers (Route.all(), ...).
      * @returns Route group.
      */
     public static getRouteGroupForOne(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ONE): IRouteGroupForOne {
         const routeGroup: IObject<IRequestHandler> = {}
 
-        if (access.get) {
+        if (access.get && typeof access.get !== 'object') {
             routeGroup.get = access.get(Route.getByIdHandler(model))
         }
 
-        if (access.put) {
-            routeGroup.post = access.put(Route.updateByIdHandler(model), false)
+        if (access.put && typeof access.put !== 'object') {
+            routeGroup.put = access.put(Route.updateByIdHandler(model), false)
         }
 
-        if (access.delete) {
+        if (access.delete && typeof access.delete !== 'object') {
             routeGroup.delete = access.delete(Route.deleteByIdHandler(model), false)
         }
 
@@ -144,7 +149,7 @@ class Route {
     public static getRouteGroupForCount(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_COUNT): IRouteGroupForCount {
         const routeGroup: IObject<IRequestHandler> = {}
 
-        if (access.get) {
+        if (access.get && typeof access.get !== 'object') {
             routeGroup.get = access.get(Route.getCountHandler(model))
         }
 
@@ -175,7 +180,7 @@ class Route {
      * @returns Default request handler.
      */
     private static addHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        ({ body }) => model.addOne(body)
+        () => model.remove({}) // TODO: Filter?
     )
 
     /**
@@ -269,7 +274,7 @@ class Route {
                         'application/json': {
                             'schema': {
                                 '$ref': '#/components/schemas/' + schema
-                            },
+                            }
                         }
                     }
                 },

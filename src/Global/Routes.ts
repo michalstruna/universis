@@ -31,13 +31,14 @@ declare type IIsAuthorized = IFunction<IUser, boolean>
 /**
  * Function that say, who has access to route.
  */
-declare type IRouteAccess = IFunction<IRouteAction, IRequestHandler> & IFunction2<IRouteAction, IResultMap, IRequestHandler>
+type IDefaultRouteAccess = (IFunction<IRouteAction, IRequestHandler> & IFunction2<IRouteAction, IResultMap, IRequestHandler>)
+declare type IRouteAccess = IDefaultRouteAccess | { access: IDefaultRouteAccess, mapBefore?: IFunction<any, any>, mapAfter?: IFunction<any, any> }
 
 /**
  * Interface for route group access.
  */
 declare interface IRouteGroupAccess {
-    get?:IRouteAccess,
+    get?: IRouteAccess,
     post?: IRouteAccess,
     put?: IRouteAccess,
     delete?: IRouteAccess
