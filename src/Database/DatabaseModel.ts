@@ -132,7 +132,7 @@ class DatabaseModel implements Universis.Database.Model {
             }
 
             if (options.select) {
-                query = query.select([...options.join, options.select].join(' '))
+                query = query.select([...(options.join || []), options.select].join(' '))
             }
 
             query = query.lean()
@@ -182,6 +182,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @returns Http status code.
      */
     private getError(error: { code: number }): Universis.Error {
+        console.log(error)
         return Object.values(Errors).filter(error => error.mongo === error.code)[0] || Errors.INVALID
     }
 

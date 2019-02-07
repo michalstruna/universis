@@ -8,6 +8,7 @@ import BodyTypeSchema from '../Database/Schemas/BodyTypeSchema'
 import UserSchema from '../Database/Schemas/UserSchema'
 import TokenSchema from '../Database/Schemas/TokenSchema'
 import NotificationSchema from '../Database/Schemas/NotificationSchema'
+import BodyEventSchema from '../Database/Schemas/BodyEventSchema'
 
 /**
  * Base model. This is parent of each another model.
@@ -53,7 +54,8 @@ abstract class Model implements IModel {
                 [DatabaseModels.BODY_TYPE]: BodyTypeSchema,
                 [DatabaseModels.USER]: UserSchema,
                 [DatabaseModels.TOKEN]: TokenSchema,
-                [DatabaseModels.NOTIFICATION]: NotificationSchema
+                [DatabaseModels.NOTIFICATION]: NotificationSchema,
+                [DatabaseModels.BODY_EVENT]: BodyEventSchema
             }
         })
     }

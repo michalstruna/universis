@@ -4,6 +4,7 @@
 enum NotificationSubjects {
     USER,
     BODY,
+    BODY_EVENT,
     DISCUSSION,
     COMMENT,
 }

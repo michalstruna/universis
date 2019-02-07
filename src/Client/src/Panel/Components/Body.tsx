@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu } from '../../Utils'
-import { getBodies, getBodyById, Physics } from '../../Universe'
+import { BodyPreview, getBodies, getBodyById, Physics } from '../../Universe'
 import BodyData from './BodyData'
+import BodyTimeline from './BodyTimeline'
 
 interface IProps {
     strings: IStrings
@@ -18,9 +19,9 @@ interface IProps {
 class Body extends StatelessComponent<IProps> {
 
     public componentWillMount(): void {
-        const { body, bodies, getBodies } = this.props
+        const { bodies, getBodies } = this.props
 
-        if (!Url.hasQuery(Queries.BODY)) {
+        if (!Url.hasQuery(Queries.BODY_TAB)) {
             Url.replace({ query: { [Queries.BODY_TAB]: Queries.BODY_DATA } })
         }
 
@@ -63,6 +64,8 @@ class Body extends StatelessComponent<IProps> {
         switch (currentTab) {
             case Queries.BODY_DATA:
                 return <BodyData />
+            case Queries.BODY_TIMELINE:
+                return <BodyTimeline />
             default:
                 return <BodyData />
         }
