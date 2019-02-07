@@ -158,17 +158,18 @@ export default {
     notifications: {
 
         operations: {
-            [Operations.ADD]: 'Nový',
-            [Operations.REMOVE]: 'Smazaný',
-            [Operations.UPDATE]: 'Upravený',
-            [Operations.GET]: 'Přečtený'
+            0: 'Nový',
+            1: 'Smazaný',
+            2: 'Upravený',
+            3: 'Přečtený'
         },
 
         subjects: {
-            [NotificationSubjects.BODY]: 'Těleso',
-            [NotificationSubjects.COMMENT]: 'Komentář',
-            [NotificationSubjects.DISCUSSION]: 'Diskuse',
-            [NotificationSubjects.USER]: 'Uživatel'
+            0: 'Těleso',
+            1: 'Komentář',
+            2: 'Událost',
+            3: 'Diskuse',
+            4: 'Uživatel'
         }
 
     }
