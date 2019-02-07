@@ -70,4 +70,30 @@
         height: 100%;
     }
 
+    .event-area {
+        margin-top: 0.5rem;
+    }
+
+    &__timeline {
+        &__preview {
+            @include size(100%, 6.25rem);
+
+            &--left {
+                @include size(78%, 100%);
+                box-sizing: border-box;
+                float: left;
+                padding: 1rem;
+            }
+
+            &--center {
+
+            }
+
+            &--right {
+                @include size(22%, 100%);
+                float: right;
+            }
+        }
+    }
+
 }

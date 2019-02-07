@@ -76,3 +76,14 @@ export const toggleOrbits = (areOrbitsVisible: boolean) => (
         { areOrbitsVisible }
     )
 )
+
+/**
+ * Get body events.
+ * @param bodyId ID of body.
+ */
+export const getEvents = (bodyId: string) => (
+    Redux.asyncAction(
+        ActionTypes.GET_EVENTS,
+        { events: Request.get<Universis.Event>(`bodies/${bodyId}/events`) }
+    )
+)

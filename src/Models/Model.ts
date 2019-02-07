@@ -1,12 +1,14 @@
-import Database from '../Database/Database'
 import Config from '../Constants/Config'
 
-import { DatabaseConnections, DatabaseModels } from '../Constants'
+import { DatabaseModels } from '../Constants'
+import Database from '../Database/Database'
 
 import BodySchema from '../Database/Schemas/BodySchema'
 import BodyTypeSchema from '../Database/Schemas/BodyTypeSchema'
 import UserSchema from '../Database/Schemas/UserSchema'
 import TokenSchema from '../Database/Schemas/TokenSchema'
+import NotificationSchema from '../Database/Schemas/NotificationSchema'
+import BodyEventSchema from '../Database/Schemas/BodyEventSchema'
 
 /**
  * Base model. This is parent of each another model.
@@ -14,47 +16,48 @@ import TokenSchema from '../Database/Schemas/TokenSchema'
 abstract class Model implements IModel {
 
     /**
+     * Cached instance of database
+     */
+    protected static db: Universis.Database
+
+    /**
      * Instance of database
      */
-    protected db: IDatabase
+    protected db: Universis.Database
 
     /**
      * Primary database model.
      */
-    protected dbModel: IDatabaseModel
-
-    /**
-     * List of all database models.
-     */
-    protected dbModels = DatabaseModels
+    protected dbModel: Universis.Database.Model
 
     public constructor() {
-        this.db = Database.getConnection(DatabaseConnections.BASE)
-
-        if (!this.db) {
-            this.createBaseConnection()
+        if (!Model.db) {
+            Model.createBaseDatabase()
         }
+
+        this.db = Model.db
     }
 
     /**
      * Create connection to DB.
      * Only if connection is not already exists.
      */
-    private createBaseConnection(): void {
-        this.db = new Database(
-            DatabaseConnections.BASE,
-            Config.database.username,
-            Config.database.password,
-            Config.database.cluster,
-            Config.database.name,
-            null,
-            console.error
-        )
-
-        this.db.createModel(this.dbModels.BODY, BodySchema)
-        this.db.createModel(this.dbModels.BODY_TYPE, BodyTypeSchema)
-        this.db.createModel(this.dbModels.USER, UserSchema)
-        this.db.createModel(this.dbModels.TOKEN, TokenSchema)
+    private static createBaseDatabase(): void {
+        Model.db = new Database({
+            userName: Config.database.username,
+            password: Config.database.password,
+            cluster: Config.database.cluster,
+            database: Config.database.name,
+            onError: console.error,
+            schemas: {
+                [DatabaseModels.BODY]: BodySchema,
+                [DatabaseModels.BODY_TYPE]: BodyTypeSchema,
+                [DatabaseModels.USER]: UserSchema,
+                [DatabaseModels.TOKEN]: TokenSchema,
+                [DatabaseModels.NOTIFICATION]: NotificationSchema,
+                [DatabaseModels.BODY_EVENT]: BodyEventSchema
+            }
+        })
     }
 
 }

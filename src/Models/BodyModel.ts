@@ -1,8 +1,26 @@
-import { DatabaseModels } from '../Constants'
-import EntityModel from './EntityModel'
+import { DatabaseModels, NotificationSubjects } from '../Constants'
+import ItemModel from './ItemModel'
 
-export default new EntityModel<IBody, ISimpleBody, INewBody>({
+export default new ItemModel<IBody, ISimpleBody, INewBody>({
     dbModel: DatabaseModels.BODY,
-    joinAll: ['typeId'],
-    joinOne: ['typeId']
+    notifications: {
+        textAccessor: body => body.name,
+        subjectType: NotificationSubjects.BODY
+    },
+    add: {
+        approval: true,
+        notification: true,
+    },
+    get: {
+        join: ['typeId'],
+        joinAll: ['typeId']
+    },
+    remove: {
+        approval: true,
+        notification: true
+    },
+    update: {
+        approval: true,
+        notification: true
+    }
 })

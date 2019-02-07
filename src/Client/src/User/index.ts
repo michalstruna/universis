@@ -4,11 +4,9 @@
 import IdentityForm from './Components/IdentityForm'
 import UserInfo from './Components/UserInfo'
 import UsersList from './Components/UsersList'
-import Notifications from './Components/Notifications'
 
 export {
     IdentityForm,
-    Notifications,
     UserInfo,
     UsersList
 }

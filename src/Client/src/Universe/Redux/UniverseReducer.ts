@@ -9,6 +9,7 @@ export default Redux.createReducer(
         isLightVisible: false,
         areOrbitsVisible: true,
         bodies: Redux.EMPTY_ASYNC_ENTITY,
-        body: Redux.EMPTY_ASYNC_ENTITY
+        body: Redux.EMPTY_ASYNC_ENTITY,
+        events: Redux.EMPTY_ASYNC_ENTITY
     }
 )

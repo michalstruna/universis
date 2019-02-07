@@ -21,6 +21,11 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
     private handleResize: IRunnable
 
     /**
+     * Interval.
+     */
+    private interval: number
+
+    /**
      * Connect component with store and router.
      * @param mapStateToProps
      * @param mapDispatchToProps
@@ -40,6 +45,8 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
         if (this.handleResize) {
             window.removeEventListener('resize', this.handleResize)
         }
+
+        this.unsetInterval()
     }
 
     /**
@@ -49,6 +56,21 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
     protected setOnResize(callback: IRunnable): void {
         this.handleResize = callback
         window.addEventListener('resize', this.handleResize)
+    }
+
+    /**
+     * Set interval callback.
+     * @param callback Callback.
+     * @param interval Interval in milliseconds.
+     */
+    protected setInterval(callback: IRunnable, interval: number) {
+        this.interval = window.setInterval(callback, interval)
+    }
+
+    protected unsetInterval() {
+        if (this.interval) {
+            clearInterval(this.interval)
+        }
     }
 
 }

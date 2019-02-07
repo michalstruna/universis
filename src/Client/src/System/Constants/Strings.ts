@@ -1,4 +1,5 @@
 import { Urls } from '../../Utils'
+import { Operations, NotificationSubjects } from '../../../../Constants'
 
 export default {
 
@@ -75,9 +76,8 @@ export default {
         }
     },
 
-    panel: {
+    panel: {},
 
-    },
     bodies: {
         name: 'Název',
         diameter: 'Průměr',
@@ -152,6 +152,25 @@ export default {
         discover: 'Objev',
         discoverer: 'Objevitel',
         discoverDate: 'Datum objevu'
+
+    },
+
+    notifications: {
+
+        operations: {
+            0: 'Nový',
+            1: 'Smazaný',
+            2: 'Upravený',
+            3: 'Přečtený'
+        },
+
+        subjects: {
+            0: 'Těleso',
+            1: 'Komentář',
+            2: 'Událost',
+            3: 'Diskuse',
+            4: 'Uživatel'
+        }
 
     }
 

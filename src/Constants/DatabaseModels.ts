@@ -1,9 +1,11 @@
 enum DatabaseModels {
 
     BODY = 'Body',
+    BODY_EVENT = 'BodyEvent',
     BODY_TYPE = 'BodyType',
     USER = 'User',
-    TOKEN = 'Token'
+    TOKEN = 'Token',
+    NOTIFICATION = 'Notification'
 
 }
 

@@ -1,6 +1,8 @@
 .toggle-layout {
+    height: 100%;
 
     &__item {
+        height: 100%;
         opacity: 0.3;
         overflow: hidden;
         transition: height $medium-animation-duration, width $medium-animation-duration, opacity $medium-animation-duration;

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import 'chartjs-plugin-labels'
 
-import StatelessComponent from './StatelessComponent'
+import StatelessComponent from '../../Utils/Components/StatelessComponent'
 
 interface IProps {
     data: IObject<number>

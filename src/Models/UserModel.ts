@@ -1,6 +1,6 @@
 import { DatabaseModels } from '../Constants'
-import EntityModel from './EntityModel'
+import ItemModel from './ItemModel'
 
-export default new EntityModel<IUser, IBaseUser, INewUser>({
+export default new ItemModel<IUser, IBaseUser, INewUser>({
     dbModel: DatabaseModels.USER
 })

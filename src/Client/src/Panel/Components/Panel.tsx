@@ -1,10 +1,8 @@
-import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import { StatelessComponent, UILayout, Link, Url, Queries, BlurLayout } from '../../Utils'
 import Chat from './Chat'
 import Overview from './Overview'
-import People from './People'
 import { setTab } from '../Redux/PanelActions'
 import Bodies from './Bodies'
 import Body from './Body'

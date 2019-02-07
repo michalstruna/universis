@@ -1,59 +1,48 @@
 import * as Mongoose from 'mongoose'
 
 import DatabaseModel from './DatabaseModel'
-import { DatabaseModels } from '../Constants'
 
-/**
- * Adapter for Mongoose.
- */
-class Database implements IDatabase {
-
-    /**
-     * List of all existing connections.
-     */
-    private static connections: { [name: number]: IDatabase } = {}
+class Database implements Universis.Database {
 
     /**
      * Instance of connection to database.
      */
     private connection: Mongoose.Connection
 
-    public constructor(name: number, username: string, password: string, cluster: string, database, onConnect?: IRunnable, onError?: IRunnable) {
-        Database.connections[name] = this
-        this.connection = Mongoose.createConnection(Database.getConnectionString(username, password, cluster, database))
-
-        if (onConnect) {
-            this.connection.on('open', onConnect)
-        }
-
-        if (onError) {
-            this.connection.on('error', onError)
-        }
-    }
-
     /**
-     * Return database instance by name.
-     * @param name Name of connection.
-     * @returns Database instance.
+     * List of all existing models.
      */
-    public static getConnection(name: number): IDatabase {
-        if (Database.connections[name]) {
-            return Database.connections[name]
+    private models: Universis.Map<Universis.Database.Model>
+
+    public constructor(options: Universis.Database.Options) {
+        this.connection = Mongoose.createConnection(Database.getConnectionString(
+            options.userName,
+            options.password,
+            options.cluster,
+            options.database
+        ))
+
+        if (options.onConnect) {
+            this.connection.on('open', options.onConnect)
         }
 
-        return null
+        if (options.onError) {
+            this.connection.on('error', options.onError)
+        }
+
+        this.models = {}
+
+        for (const i in options.schemas) {
+            this.models[i] = new DatabaseModel(this.connection.model(i, options.schemas[i]))
+        }
     }
 
-    public createModel(name: string, schema: Mongoose.Schema): IDatabaseModel {
-        return new DatabaseModel(this.connection.model(name, schema))
-    }
-
-    public getModel(name: DatabaseModels) {
-        return new DatabaseModel(this.connection.models[name])
+    public getModel(name: string): Universis.Database.Model {
+        return this.models[name]
     }
 
     public getModelNames(): string[] {
-        return this.connection.modelNames()
+        return Object.keys(this.models)
     }
 
     /**

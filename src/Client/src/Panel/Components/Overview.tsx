@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import { StatelessComponent, Link, ToggleLayout } from '../../Utils'
-import { UserInfo, Notifications } from '../../User'
+import { UserInfo } from '../../User'
 import UsersList from '../../User/Components/UsersList'
+import Notifications from './Notifications'
 
 interface IProps {
     identity: IAsyncEntity<IUserIdentity>

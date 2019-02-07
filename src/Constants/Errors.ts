@@ -1,11 +1,11 @@
-import { BAD_REQUEST, CONFLICT, NOT_FOUND as _NOT_FOUND } from 'http-status-codes'
+import * as Codes from 'http-status-codes'
 
-enum Errors {
+export default {
 
-    INVALID = BAD_REQUEST,
-    DUPLICATE = CONFLICT,
-    NOT_FOUND = _NOT_FOUND
+    INVALID: { name: 'INVALID', code: Codes.BAD_REQUEST },
+    DUPLICATE: { name: 'DUPLICATE', code: Codes.BAD_REQUEST, mongo: 11000 },
+    NOT_FOUND: { name: 'NOT_FOUND', code: Codes.NOT_FOUND }
 
 }
 
-export default Errors
+// TODO: Error generator Errors.create(INVALID) returns new CustomError(...)

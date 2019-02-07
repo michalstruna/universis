@@ -1,5 +1,5 @@
 import ActionTypes from './ActionTypes'
-import { Redux } from '../../Utils'
+import { Redux, Request } from '../../Utils'
 
 /**
  * Set panel tab.
@@ -20,5 +20,16 @@ export const setBodyFilter = (bodyFilter: IObject<any>) => (
     Redux.setAction(
         ActionTypes.SET_BODY_FILTER,
         { bodyFilter }
+    )
+)
+
+/**
+ * Get last n notifications.
+ * @param limit Count of notifications.
+ */
+export const getNotifications = (limit: number) => (
+    Redux.asyncAction(
+        ActionTypes.GET_NOTIFICATIONS,
+        { notifications: Request.get(`notifications`, { sort: 'date', order: 'desc', limit }) }
     )
 )
