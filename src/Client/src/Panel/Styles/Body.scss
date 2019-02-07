@@ -96,4 +96,40 @@
         }
     }
 
+    &__discussion {
+        box-sizing: border-box;
+        padding: 0.5rem;
+
+        &__topic {
+            margin-left: 3.5rem;
+            position: relative;
+            width: calc(100% - 3.5rem);
+        }
+
+        &__avatar {
+            @include absolute-position;
+            @include size(3rem);
+            background-color: $light-color;
+            left: -3rem;
+        }
+
+        &__metadata {
+            font-size: 90%;
+        }
+
+        &__author {
+            font-weight: bold;
+        }
+
+        &__date {
+            color: $light-color;
+            font-weight: 100;
+            margin-left: 0.5rem;
+        }
+
+        &__content {
+            padding-left: 0.5rem;
+        }
+    }
+
 }

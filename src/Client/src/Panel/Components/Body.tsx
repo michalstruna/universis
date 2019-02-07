@@ -4,6 +4,7 @@ import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu } from '../../
 import { BodyPreview, getBodies, getBodyById, Physics } from '../../Universe'
 import BodyData from './BodyData'
 import BodyTimeline from './BodyTimeline'
+import BodyDiscussion from './BodyDiscussion'
 
 interface IProps {
     strings: IStrings
@@ -41,7 +42,7 @@ class Body extends StatelessComponent<IProps> {
     }
 
     private getBody(): void {
-        const { bodies, body, getBodyById, } = this.props
+        const { bodies, body, getBodyById } = this.props
 
         let bodyData = bodies.payload.find(body => body.name === Url.getQuery(Queries.BODY))
 
@@ -66,6 +67,8 @@ class Body extends StatelessComponent<IProps> {
                 return <BodyData />
             case Queries.BODY_TIMELINE:
                 return <BodyTimeline />
+            case Queries.BODY_DISCUSSION:
+                return <BodyDiscussion />
             default:
                 return <BodyData />
         }
@@ -104,7 +107,7 @@ class Body extends StatelessComponent<IProps> {
 export default Body.connect(
     ({ universe }: IStoreState) => ({
         bodies: universe.bodies,
-        body: universe.body,
+        body: universe.body
     }),
     { getBodies, getBodyById }
 )

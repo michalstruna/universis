@@ -32,7 +32,7 @@ const generateYears = (): number[] => {
 }
 
 const YEARS = generateYears()
-const CHART_YEARS = [0, -1e4, -1e5, -1e6, -1e7, -1e8, -1e9, -14e10]
+const CHART_YEARS = [0, -1e4, -1e5, -1e6, -1e7, -1e8, -1e9, -14e9]
 
 class BodyTimeline extends StatelessComponent<IProps> {
 
