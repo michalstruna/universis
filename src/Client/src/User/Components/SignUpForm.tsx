@@ -4,7 +4,7 @@ import { reduxForm, InjectedFormProps, SubmissionError, formValueSelector } from
 import { signUp } from '../Redux/UserActions'
 import UserInfo from './UserInfo'
 import { StatelessComponent, Url, Link } from '../../Utils'
-import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
+import { Field, Form, Submit, Title, Back } from '../../Forms'
 
 interface IProps {
     strings: IStrings
@@ -54,16 +54,18 @@ class SignUpForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
                 <UserInfo type={UserInfo.TYPES.LARGE} user={{
                     ...UserInfo.DEFAULT_USER
                 }} />
-                <PasswordField
+                <Field
+                    type={Field.PASSWORD}
                     label={strings.password}
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}
                     name='password' />
-                <PasswordField
+                <Field
+                    type={Field.PASSWORD}
                     label={strings.passwordAgain}
                     required={strings.missingPasswordAgain}
                     invalid={strings.invalidPasswordAgain}
-                    validate={value => value === password ? undefined : strings.invalidPasswordAgain}
+                    validator={value => value === password ? undefined : strings.invalidPasswordAgain}
                     name='passwordAgain' />
                 <Back to={Link.URLS.IDENTITY}>
                     {strings.back}

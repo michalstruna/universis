@@ -7,7 +7,11 @@ enum ActionTypes {
     TOGGLE_LABELS = 'TOGGLE_LABELS',
     TOGGLE_LIGHT = 'TOGGLE_LIGHT',
     TOGGLE_ORBITS = 'TOGGLE_ORBITS',
-    GET_EVENTS = 'GET_EVENTS'
+    GET_EVENTS = 'GET_EVENTS',
+    TOGGLE_TOPIC = 'TOGGLE_TOPIC',
+    VOTE_UP = 'VOTE_UP',
+    VOTE_DOWN = 'VOTE_DOWN',
+    ADD_ANSWER = 'ADD_ANSWER'
 }
 
 export default ActionTypes

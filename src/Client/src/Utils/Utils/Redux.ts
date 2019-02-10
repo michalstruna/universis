@@ -5,6 +5,8 @@
  * For toggle actions: ACTION_TYPE -> ACTION_TYPE_ON, ACTION_TYPE_OFF.
  * For async actions: ACTION_TYPE -> ACTION_TYPE_SENT, ACTION_TYPE_SUCCESS, ACTION_TYPE_FAIL.
  */
+import apply = Reflect.apply
+
 class Redux {
 
     private constructor() {
@@ -121,18 +123,33 @@ class Redux {
      * @returns New store state.
      */
     private static applySetAction(state: IStoreState, action: ISetAction): IStoreState {
-        let newState = state
+        const applyNestedChange = (source: any, change: any) => {
+            if (change.$find) {
+                const index = source.findIndex(change.$find)
+                delete change.$find
+                source[index] = applyNestedChange(source[index], change)
+            } else if (change.$add) {
+                source = [...source, change.$add]
+            } else if (change.$remove) {
+                const index = source.findIndex(change.$remove)
 
-        for (const property in action.$set) {
-            if (action.$set.hasOwnProperty(property)) {
-                newState = {
-                    ...newState,
-                    [property]: action.$set[property]
+                if (index > -1) {
+                    source.splice(index, 1)
                 }
+            } else if (typeof change[Object.keys(change)[0]] === 'object') {
+                for (const i in change) {
+                    if (!(i.startsWith('$'))) {
+                        source[i] = applyNestedChange(source[i], change[i])
+                    }
+                }
+            } else {
+                source = { ...source, ...change }
             }
+
+            return source
         }
 
-        return newState
+        return applyNestedChange(JSON.parse(JSON.stringify(state)), action.$set)
     }
 
     /**

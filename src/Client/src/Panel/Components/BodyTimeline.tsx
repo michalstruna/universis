@@ -84,9 +84,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
                                     height={55}
                                     width={300} />
                             </section>
-                            <section className='panel__body__timeline__preview--right'>
-                                <BodyPreview body={body.payload} size={100} />
-                            </section>
+                            <section className='panel__body__timeline__preview--right' />
                         </section>
                         <EventArea
                             columnsCount={5}

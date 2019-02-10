@@ -1,5 +1,4 @@
 import { Urls } from '../../Utils'
-import { Operations, NotificationSubjects } from '../../../../Constants'
 
 export default {
 
@@ -153,6 +152,11 @@ export default {
         discoverer: 'Objevitel',
         discoverDate: 'Datum objevu'
 
+    },
+
+    discussion: {
+        missingContent: 'Nelze odeslat prázdnou odpověď.',
+        contentLabel: 'Vaše odpověď.'
     },
 
     notifications: {

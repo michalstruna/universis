@@ -7,7 +7,7 @@ import * as OpenApi from 'express-openapi'
 import * as Path from "path";
 
 import { Config } from './Constants'
-import SwaggerDocument from "./Swagger";
+import SwaggerDocument from "./Swagger"
 
 class Server implements IServer {
 

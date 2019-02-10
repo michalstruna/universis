@@ -1,3 +1,4 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu } from '../../Utils'
@@ -76,9 +77,11 @@ class Body extends StatelessComponent<IProps> {
 
     public render(): React.ReactNode {
         const { bodies, body } = this.props
+        const currentTab = Url.getQuery(Queries.BODY_TAB, location.search)
 
         return (
-            <section className='panel__body panel__window'>
+            <section
+                className={ClassNames('panel__body', 'panel__window', { 'panel__body--title': currentTab === Queries.BODY_DATA })}>
                 <section className='panel__window__body'>
                     <section className='panel__window__body--scroll'>
                         <AsyncEntity
@@ -86,7 +89,12 @@ class Body extends StatelessComponent<IProps> {
                             success={() => (
                                 <AsyncEntity
                                     data={body}
-                                    success={() => this.renderContent()} />
+                                    success={() => (
+                                        <>
+                                            <BodyPreview body={body.payload} size={300} />
+                                            {this.renderContent()}
+                                        </>
+                                    )} />
                             )} />
                     </section>
                 </section>

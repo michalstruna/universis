@@ -164,7 +164,7 @@ class Bodies extends StatelessComponent<IProps> {
                 data={bodies}
                 success={() => (
                     <section className='panel__bodies__table'>
-                        <Table<ISimpleBody>
+                        <Table
                             columns={this.getColumns()}
                             items={Filter.apply(bodies.payload, (Url.getJsonQuery(Queries.BODIES_FILTER, location.search)))}
                             onRowClick={this.handleBodyClick} />

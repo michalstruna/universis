@@ -29,12 +29,18 @@ export default {
         '/bodies': Route.getSwaggerRouteGroupForAll(['Bodies'], 'SimpleBody', 'NewBody'),
         '/bodies/{bodyId}': Route.getSwaggerRouteGroupForOne(['Bodies'], 'Body', ['bodyId']),
         '/bodies/count': Route.getSwaggerRouteGroupForCount(['Bodies']),
-        '/bodies/{bodyId}/events': Route.getSwaggerRouteGroupForAll(['Body events'], 'BodyEvent', 'NewBodyEvent', ['bodyId']),
-        '/bodies/events/{eventId}': Route.getSwaggerRouteGroupForOne(['Body events'], 'Body', ['eventId']),
-        '/bodies/{bodyId}/events/count': Route.getSwaggerRouteGroupForCount(['Body events']),
         '/bodyTypes': Route.getSwaggerRouteGroupForAll(['Body types'], 'BodyType', 'NewBodyType'),
         '/bodyTypes/{bodyTypeId}': Route.getSwaggerRouteGroupForOne(['Body types'], 'BodyType', ['bodyTypeId']),
         '/bodyTypes/count': Route.getSwaggerRouteGroupForCount(['Body types']),
+        '/topics/{topicId}/answers': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Answer', 'NewPost', ['topicId']),
+        '/topics/answers/{answerId}': Route.getSwaggerRouteGroupForOne(['Discussion'], 'Answer', ['answerId']),
+        '/topics/{topicId}/answers/count': Route.getSwaggerRouteGroupForCount(['Discussion']),
+        '/bodies/{bodyId}/topics': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Topic', 'NewPost', ['bodyId']),
+        '/bodies/topics/{topicId}': Route.getSwaggerRouteGroupForOne(['Discussion'], 'Topic', ['topicId']),
+        '/bodies/{bodyId}/topics/count': Route.getSwaggerRouteGroupForCount(['Discussion']),
+        '/bodies/{bodyId}/events': Route.getSwaggerRouteGroupForAll(['Events'], 'BodyEvent', 'NewBodyEvent', ['bodyId']),
+        '/bodies/events/{eventId}': Route.getSwaggerRouteGroupForOne(['Events'], 'Body', ['eventId']),
+        '/bodies/{bodyId}/events/count': Route.getSwaggerRouteGroupForCount(['Events']),
         '/users': Route.getSwaggerRouteGroupForAll(['Users'], 'SimpleUser', 'NewUser'),
         '/users/{userId}': Route.getSwaggerRouteGroupForOne(['Users'], 'User', ['userId']),
         '/users/count': Route.getSwaggerRouteGroupForCount(['Users']),
@@ -76,7 +82,7 @@ export default {
         },
         '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification'),
         '/notifications/{notificationId}': Route.getSwaggerRouteGroupForOne(['Notifications'], 'Notification', ['notificationId']),
-        '/notifications/count': Route.getSwaggerRouteGroupForCount(['Notifications']),
+        '/notifications/count': Route.getSwaggerRouteGroupForCount(['Notifications'])
     },
     'components': {
         'schemas': {
@@ -118,7 +124,7 @@ export default {
                             'min': {
                                 'type': 'number',
                                 'example': 27.3
-                            },
+                            }
                         }
                     },
                     'magnitude': {
@@ -131,7 +137,7 @@ export default {
                             'absolute': {
                                 'type': 'number',
                                 'example': 2.26
-                            },
+                            }
                         }
                     },
                     'temperature': {
@@ -328,7 +334,7 @@ export default {
                             'min': {
                                 'type': 'number',
                                 'example': 27.3
-                            },
+                            }
                         }
                     },
                     'magnitude': {
@@ -341,7 +347,7 @@ export default {
                             'absolute': {
                                 'type': 'number',
                                 'example': 2.26
-                            },
+                            }
                         }
                     },
                     'temperature': {
@@ -655,7 +661,7 @@ export default {
                     },
                     'bodyId': {
                         '$ref': '#/components/schemas/Id'
-                    },
+                    }
                 }
             },
             'BodyEvent': {
@@ -670,6 +676,97 @@ export default {
                     },
                     {
                         '$ref': '#/components/schemas/NewBodyEvent'
+                    }
+                ]
+            },
+            'NewAnswer': {
+                'type': 'object',
+                'properties': {
+                    'content': {
+                        'type': 'string'
+                    }
+                }
+            },
+            'NewTopic': {
+                'type': 'object',
+                'properties': {
+                    'title': {
+                        'type': 'string'
+                    },
+                    'content': {
+                        'type': 'string'
+                    }
+                }
+            },
+            'Answer': {
+                'allOf': [
+                    {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            },
+                            'date': {
+                                'type': 'string'
+                            },
+                            'user': {
+                                '$ref': '#/components/schemas/SimpleUser'
+                            },
+                            'agreements': {
+                                'type': 'array',
+                                'items': {
+                                    '$ref': '#/components/schemas/SimpleUser'
+                                }
+                            },
+                            'disagreements': {
+                                'type': 'array',
+                                'items': {
+                                    '$ref': '#/components/schemas/SimpleUser'
+                                }
+                            }
+                        }
+                    },
+                    {
+                        '$ref': '#/components/schemas/NewAnswer'
+                    }
+                ]
+            },
+            'Topic': {
+                'allOf': [
+                    {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            },
+                            'date': {
+                                'type': 'string'
+                            },
+                            'user': {
+                                '$ref': '#/components/schemas/SimpleUser'
+                            },
+                            'agreements': {
+                                'type': 'array',
+                                'items': {
+                                    '$ref': '#/components/schemas/SimpleUser'
+                                }
+                            },
+                            'disagreements': {
+                                'type': 'array',
+                                'items': {
+                                    '$ref': '#/components/schemas/SimpleUser'
+                                }
+                            },
+                            'answers': {
+                                'type': 'array',
+                                'items': {
+                                    '$ref': '#/components/schemas/Answer'
+                                }
+                            }
+                        }
+                    },
+                    {
+                        '$ref': '#/components/schemas/NewTopic'
                     }
                 ]
             }

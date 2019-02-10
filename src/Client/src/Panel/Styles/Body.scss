@@ -1,4 +1,21 @@
 .panel__body {
+    position: relative;
+
+    .body-preview {
+        position: absolute;
+        right: 2rem;
+        top: 0;
+        transform: scale(0.35);
+        transform-origin: top right;
+        transition: transform $medium-animation-duration;
+        z-index: 1000000;
+    }
+
+    &--title {
+        .body-preview {
+            transform: scale(1);
+        }
+    }
 
     &__data {
 
@@ -68,6 +85,7 @@
 
     .panel__window__body--scroll {
         height: 100%;
+        position: relative;
     }
 
     .event-area {
@@ -100,35 +118,168 @@
         box-sizing: border-box;
         padding: 0.5rem;
 
-        &__topic {
-            margin-left: 3.5rem;
-            position: relative;
-            width: calc(100% - 3.5rem);
+        &__header {
+            @include size(100%, 4rem);
         }
 
-        &__avatar {
-            @include absolute-position;
-            @include size(3rem);
-            background-color: $light-color;
-            left: -3rem;
-        }
-
-        &__metadata {
+        &__posts {
             font-size: 90%;
         }
 
-        &__author {
+        &__answers {
+            box-sizing: border-box;
+            margin-top: -1rem;
+            overflow: hidden;
+            transition: margin-top $medium-animation-duration, height $medium-animation-duration;
+
+            &:empty {
+                display: none;
+            }
+
+            &--expanded {
+                margin-top: 0;
+            }
+        }
+
+        &__post {
+            margin: 2rem 0;
+            margin-left: 4rem;
+            position: relative;
+            width: calc(100% - 4rem);
+
+            & > .user-info {
+                float: left;
+                margin-left: -3.5rem;
+            }
+
+            .panel__body__discussion__post {
+                margin: 0;
+                margin-left: 4rem;
+                padding: 0.5rem 0;
+            }
+        }
+
+        &__metadata {
+
+        }
+
+        &__title {
+            display: inline-block;
             font-weight: bold;
+            margin-right: 1rem;
+            max-width: 25rem;
+        }
+
+        &__author, &__date {
+            color: $light-color;
+            font-weight: 100;
+            vertical-align: top;
         }
 
         &__date {
-            color: $light-color;
-            font-weight: 100;
-            margin-left: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        &__body {
+            padding-left: 0.5rem;
         }
 
         &__content {
-            padding-left: 0.5rem;
+            line-height: 1.3rem;
+            margin: 0.5rem 0;
+        }
+
+        &__controls {
+            overflow: hidden;
+        }
+
+        &__up, &__down {
+            @include size(2em);
+            display: inline-block;
+            opacity: 0.5;
+            transition: opacity $medium-animation-duration;
+            vertical-align: middle;
+
+            &--active {
+                opacity: 1;
+            }
+        }
+
+        &__up-count, &__down-count {
+            &:empty {
+                display: none;
+            }
+        }
+
+        &__up-count {
+            margin-right: 1rem;
+        }
+
+        &__down-count {
+            margin-right: 2rem;
+        }
+
+        &__up {
+            @include svg("Panel/Body/ThumbUp", 60%, left);
+        }
+
+        &__down {
+            @include svg("Panel/Body/ThumbDown", 60%, left);
+        }
+
+        &__expand {
+            color: $lightest-color;
+            float: right;
+            font-size: 100%;
+            font-weight: bold;
+            padding: 0;
+            padding-top: 0.5rem;
+
+            &:after {
+                @include size(0.8rem);
+                @include svg("Panel/Body/ToggleAnswers");
+                content: "";
+                display: inline-block;
+                margin-left: 0.5rem;
+                transform: rotate(90deg);
+                transition: transform $medium-animation-duration;
+            }
+
+            &--active {
+                &:after {
+                    transform: rotate(270deg);
+                }
+            }
+        }
+
+        .form {
+            display: block;
+            padding: 0;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            vertical-align: middle;
+
+            &__block, &__button {
+                display: inline-block;
+                font-size: 90%;
+            }
+
+            &__block {
+                padding: 0;
+                width: calc(100% - 3rem);
+            }
+
+            &__button {
+                @include opacity-hover;
+                margin: 0;
+                width: 2rem;
+
+                &__icon {
+                    @include svg("Panel/Body/Send", 80%);
+                    margin: 0;
+                    transform: none !important;
+                }
+            }
         }
     }
 

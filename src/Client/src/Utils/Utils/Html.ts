@@ -41,6 +41,14 @@ class Html {
         return element.className && element.className.split(' ').includes(className)
     }
 
+    /**
+     * Get height of element.
+     * @param element
+     */
+    public static getHeight = (element: HTMLElement): number => {
+        return element.getBoundingClientRect().height
+    }
+
 }
 
 export default Html

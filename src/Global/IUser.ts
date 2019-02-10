@@ -41,7 +41,7 @@ declare interface IBaseUser {
 /**
  * Interface for new user.
  */
-declare interface INewUser extends Universis.Item{
+declare interface INewUser extends Universis.Item {
 
     /**
      * Email of user.
