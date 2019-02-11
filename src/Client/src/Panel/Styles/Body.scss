@@ -3,16 +3,17 @@
 
     .body-preview {
         position: absolute;
-        right: 2rem;
+        right: 0rem;
         top: 0;
-        transform: scale(0.35);
+        transform: scale(0.33);
         transform-origin: top right;
-        transition: transform $medium-animation-duration;
+        transition: right $medium-animation-duration, transform $medium-animation-duration;
         z-index: 1000000;
     }
 
     &--title {
         .body-preview {
+            right: -2rem;
             transform: scale(1);
         }
     }
@@ -97,10 +98,10 @@
             @include size(100%, 6.25rem);
 
             &--left {
-                @include size(78%, 100%);
+                @include size(80%, 100%);
                 box-sizing: border-box;
                 float: left;
-                padding: 1rem;
+                padding: 1rem 0;
             }
 
             &--center {
@@ -112,6 +113,10 @@
                 float: right;
             }
         }
+
+        .events-area {
+            margin-top: 1rem;
+        }
     }
 
     &__discussion {
@@ -119,7 +124,40 @@
         padding: 0.5rem;
 
         &__header {
-            @include size(100%, 4rem);
+            @include size(calc(100% - 8rem), 6rem);
+            display: flex;
+            font-size: 90%;
+
+            .data-table {
+                &:first-of-type {
+                    width: 12rem;
+
+                    .data-table__cell {
+                        width: 6rem;
+                    }
+                }
+
+                &:last-of-type {
+                    width: calc(100% - 12rem);
+
+                    .data-table {
+                        &__cell {
+                            &:first-of-type {
+                                width: calc(100% - 8rem);
+                            }
+
+                            &:last-of-type {
+                                width: 8rem;
+                            }
+                        }
+                    }
+                }
+
+                &__cell {
+                    border: 1px solid $medium-color;
+                    padding: 0.35rem 0.5rem;
+                }
+            }
         }
 
         &__posts {
@@ -142,7 +180,8 @@
         }
 
         &__post {
-            margin: 2rem 0;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
             margin-left: 4rem;
             position: relative;
             width: calc(100% - 4rem);

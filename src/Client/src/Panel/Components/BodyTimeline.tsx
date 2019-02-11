@@ -82,9 +82,8 @@ class BodyTimeline extends StatelessComponent<IProps> {
                                     labels={CHART_YEARS.map(value => Units.toShort(value))}
                                     values={CHART_YEARS.map((value, key) => this.getEventsCount(value, key ? CHART_YEARS[key - 1] : new Date().getFullYear()))}
                                     height={55}
-                                    width={300} />
+                                    width={320} />
                             </section>
-                            <section className='panel__body__timeline__preview--right' />
                         </section>
                         <EventArea
                             columnsCount={5}

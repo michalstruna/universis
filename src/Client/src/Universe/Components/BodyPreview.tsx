@@ -6,7 +6,8 @@ import Scene from '../Utils/Scene'
 
 interface IProps {
     body: ISimpleBody
-    size: number
+    height: number
+    width: number
 }
 
 class BodyPreview extends StatelessComponent<IProps> {
@@ -22,7 +23,7 @@ class BodyPreview extends StatelessComponent<IProps> {
     }
 
     public componentDidMount(): void {
-        const { body, size } = this.props
+        const { body, height, width } = this.props
 
         const bodyContainer = this.bodyFactory.create(body)
         bodyContainer.mesh.rotateX(-Math.PI / 2)
@@ -31,11 +32,11 @@ class BodyPreview extends StatelessComponent<IProps> {
             ambientColor: 0xffffff,
             cameraDistance: body.diameter.x * 1.4,
             element: this.parent,
-            height: size,
+            height,
             globalCamera: true,
             objects: [bodyContainer.mesh],
             onRender: () => bodyContainer.mesh.rotation.z -= 0.01,
-            width: size
+            width
         })
     }
 

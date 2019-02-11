@@ -91,7 +91,7 @@ class Body extends StatelessComponent<IProps> {
                                     data={body}
                                     success={() => (
                                         <>
-                                            <BodyPreview body={body.payload} size={300} />
+                                            <BodyPreview body={body.payload} width={400} height={300} />
                                             {this.renderContent()}
                                         </>
                                     )} />

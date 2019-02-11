@@ -156,7 +156,7 @@ export default {
 
     discussion: {
         missingContent: 'Nelze odeslat prázdnou odpověď.',
-        contentLabel: 'Vaše odpověď.'
+        contentLabel: 'Vaše odpověď...'
     },
 
     notifications: {

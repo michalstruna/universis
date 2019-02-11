@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { StatelessComponent, AsyncEntity } from '../../Utils'
+import { StatelessComponent, AsyncEntity, DataTable, RelativeTime } from '../../Utils'
 import BodyPost from './BodyPost'
 
 interface IProps {
@@ -29,7 +29,8 @@ class BodyTimeline extends StatelessComponent<IProps> {
                 success={() => (
                     <section className='panel__body__discussion'>
                         <header className='panel__body__discussion__header'>
-
+                            <DataTable data={{ 'Diskusí': 16, 'Odpovědí': 93, 'Uživatelů': 4 }} />
+                            <DataTable data={{ 'Nejoblíbenější': 'Václav', 'Nejaktivnější': 'Olga', 'Poslední příspěvek': <RelativeTime date={'2019-02-11T16:09:00'} /> }} />
                         </header>
                         <section className='panel__body__discussion__posts'>
                             {this.renderPosts()}
