@@ -60,7 +60,7 @@
 \def\typPrace{Bakalářská práce}
 \def\rok{2019}
 % cesty k obrázkům zadání, je-li zadání naskenováno
-\def\prefixZadani{img/zadani}	% cesta a začátek jména, bude doplněno číslo strany
+\def\prefixZadani{Images/zadani}	% cesta a začátek jména, bude doplněno číslo strany
 \def\suffixZadani{.jpg}		% doplní se ke každému jménu souboru zadání
 \def\datumOdevzdaniPrace{?.\,?.\,2019}
 
@@ -145,7 +145,6 @@
 
 % netučně, odsazení 6em (možno změnit), šířka pro pojem/zkratku se dopočítá z odsazení
 \begin{description}[font=\mdseries,leftmargin=6em,labelwidth=!,]
-%\item[zkratka]		Význam	% vzor pro zkratku
 \item[3D]		Three Dimensional
 \item[API]		Application Programming Interface
 \item[BSON]	Binary JSON
@@ -194,13 +193,21 @@ Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat
 
 \textit{Celestia} je \textit{open-source} 3D program zobrazující tělesa ve vesmíru v reálném čase. Podobně jako tato bakalářská práce obsahuje databázi těles od těch nejmenších meteoritů až po celé galaxie. Vzhledem k tomu, že program Celestia vyvíjí komunita a~nikoliv jednotlivec je tato databáze mnohem rozsáhlejší a~lze si dodatečně stáhnout více jak 10 GB dat.
 
-Program je vytvořen v~\textit{C++} a \textit{Lua}, což mu dovoluje výkon počítače využívat podstatně lépe, než webová aplikace. Navzdory tomu je nutno tento program nejdříve stáhnout, což může některé uživatele odradit. Je však dostupný jak pro \textit{Windows}, tak i~pro \textit{Linux} a~\textit{macOS}. Neobsahuje ovšem češtinu. 
+Program je vytvořen v~\textit{C++} a \textit{Lua}, což mu dovoluje výkon počítače využívat podstatně lépe, než webová aplikace. Navzdory tomu je nutno tento program nejdříve nainstalovat, což může některé uživatele odradit. Je však dostupný jak pro \textit{Windows}, tak i~pro \textit{Linux} a~\textit{macOS}. Neobsahuje ovšem češtinu. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=450pt]{Images/Celestia.png}
+  \caption[Ukázka JPL Solar System Simulator]{Ukázka JPL Solar Simulator   \footnotemark[1]}
+\end{figure}
+
+\footnotetext[1]{Fotografie pořízena z \url{https://space.jpl.nasa.gov/}.}
 
 \subsection{Stellarium}
 
 \textit{Stellarium} je dalším z řady \textit{open-source} astronomických programů. Není zde však možné se volně pohybovat prostorem. Program se specializuje na zobrazování oblohy, a~to v~jakoukoliv dobu jakéhokoliv dne z~jakéhokoliv místa na Zemi.
 
-Obsahuje velice rozsáhlou databázi obsahující v~základní instalaci necelý milion těles. Je však možné si dodatečně nainstalovat katalogy s~více jak 200 miliony tělesy. U každého tělesa je možné se zobrazit stručné informace, především co se jejich polohy a~vzdálenosti od Země týče.
+Obsahuje velice rozsáhlou databázi obsahující v~základní instalaci necelý milion těles. Je však možné si dodatečně nainstalovat katalogy s~více jak 200 miliony tělesy. U každého tělesa je možné si zobrazit stručné informace, především co se jejich polohy a~vzdálenosti od Země týče.
 
 Jedná se o~program napsaný v~\textit{C++}, což stejně jako u~programu Celestia vede k~vysokému výkonu, avšak nutnosti instalace. Je ovšem dostupný i~v~české lokalizaci a opět pro \textit{Windows}, \textit{Linux} i~\textit{macOS}.
 
@@ -234,7 +241,7 @@ Javascriptová knihovna \textit{React}, jejíž autorem je \textit{Facebook}, us
 
 Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se často s~knihovnou \textit{React} používá i~syntaxe \textit{JSX}. Ta umožňuje psát \textit{javascriptový} kód v~podobě \textit{XML} tagů. \textit{JSX} syntaxi je z~důvodů kompatibility prohlížečů nutné transpilovat do nativního \textit{JavaScriptu}.
 
-\lstinputlisting[caption={Porovnání vykreslení komponenty ve standardním JavaScriptu a~v~JSX}, language={JavaScript}]{SourceCodes/JSX.ts}
+\lstinputlisting[caption={Porovnání vykreslení komponenty ve standardním JavaScriptu a~v~JSX}, language={JavaScript}]{SourceCodes/JSX.js}
 
 \subsection{Knihovna Three.js}
 
@@ -261,7 +268,7 @@ Díky nástroji \textit{Webpack} je možné v~\textit{JavaScriptu} využívat mo
 
 \textit{Webpack} také umožňuje využívat tzv. \textit{loadery} třetích stran. To vede k možnosti podobně načítat, slučovat či parsovat i soubory jiných typů, např. \textit{CSS}, \textit{SVG} nebo \textit{JSON}. Zároveň za využití bohaté nabídky pluginů lze všechny tyto soubory modifikovat, např. převádět nový \textit{JavaScript} verze \textit{ES6} na starší, podporovaný prohlížeči.
 
-\lstinputlisting[caption={Konfigurace nástroje Webpack v souboru webpack.config.json}, language={JavaScript}]{SourceCodes/Webpack.ts}.
+\lstinputlisting[caption={Konfigurace nástroje Webpack v souboru webpack.config.json}, language={JavaScript}]{SourceCodes/Webpack.js}.
 
 \subsection{Verzovací systém Git}
 
@@ -332,6 +339,8 @@ React nepřichází s~žádnou doporučenou strukturou projektu. Proto došlo k~
 \item \textbf{Utils}:  Pomocné třídy.
 \end{itemize} 
 
+\item \textbf{docs}:  Teoretická část bakalářské práce včetně zdrojových souborů pro LaTeX.
+
 \end{itemize} 
 
 Moduly obsažené zejména v~klientské části projektu jsou adresářové celky, které mohou obsahovat další strukturu:
@@ -347,7 +356,7 @@ Moduly obsažené zejména v~klientské části projektu jsou adresářové celk
 Každý modul obsahuje mapování a~export všech souborů, které mají být veřejné. Z~vnějšku tedy není nutné znát strukturu daného modulu a~adresu hledaného souboru uvnitř modulu.
 
 
-\lstinputlisting[caption={Správné a~nesprávné použití importu souboru z~modulu}, language={JavaScript}]{SourceCodes/ImportFromModule.ts}
+\lstinputlisting[caption={Správné a~nesprávné použití importu souboru z~modulu}, language={JavaScript}]{SourceCodes/ImportFromModule.js}
 
 
 \subsection{Klientská část}
@@ -368,7 +377,7 @@ Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumen
 
 Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav. Je složen obvykle z~přepínače s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.
 
-\lstinputlisting[caption={Ukázka architektury Redux}, language={JavaScript}]{SourceCodes/Redux.ts}
+\lstinputlisting[caption={Ukázka architektury Redux}, language={JavaScript}]{SourceCodes/Redux.js}
 
 \subsubsection{Akce}
 
@@ -390,19 +399,19 @@ V~projektu byla proto vytvořena vlastní knihovna \textit{Redux} v~modulu \text
 
 V~kódu pak použití asynchronní akce vypadá následovně. Automaticky je zajištěno sledování průběhu požadavku a~je tudíž zcela lehce možné zobrazit např. načítací animaci.
 
-\lstinputlisting[caption={Redux akce za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxAction.ts}
+\lstinputlisting[caption={Redux akce za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxAction.js}
 
 \subsubsection{Reducer}
 
 Reducer je běžně funkce, která obsahuje často rozsáhlý přepínač s~výčtem všech akcí a~jejich modifikací stavu aplikace. Díky vlastní knihovně to ale není nutné. Stačí uvést pole všech akcí a~případně i~počáteční stav \textit{store}.
 
-\lstinputlisting[caption={Redux reducer za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxReducer.ts}
+\lstinputlisting[caption={Redux reducer za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxReducer.js}
 
 \subsubsection{3D grafika}
 
 Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z datových objektů těles vytvoří kontejnery obsahující mimo jiné i~3D útvary tělesa a~jeho orbity. Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní knihovna \textit{Scene} v modulu \textit{Utils}.
 
-\lstinputlisting[caption={Práce s vlastní knihovnou pro 3D grafiku}, language={JavaScript}]{SourceCodes/Scene.ts}
+\lstinputlisting[caption={Práce s vlastní knihovnou pro 3D grafiku}, language={JavaScript}]{SourceCodes/Scene.js}
 
 Pro to, aby byla scéna interaktivní a~měnila se v~čase je třeba v~parametrech definovat funkce \textit{onClick} a~\textit{onRender}. První ze zmíněných proběhne pokaždé, když je kliknuto na těleso. Druhá funkce probíhá při každém průběhu vykreslovací smyčky (v~ideálním případě 60krát za sekundu).
 
@@ -412,7 +421,7 @@ Pro to, aby byla scéna interaktivní a~měnila se v~čase je třeba v~parametre
 
 Server vystavuje \textit{REST~API}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
 
-\lstinputlisting[caption={Definice cesty v REST~API}, language={JavaScript}]{SourceCodes/Route.ts}
+\lstinputlisting[caption={Definice cesty v REST~API}, language={JavaScript}]{SourceCodes/Route.js}
 
 Dokumentace je zpřístupněna na lokální adrese \textit{/api-docs}. Je možné se zde informovat o~všech možných \textit{HTTP} požadavcích nebo je s~nastavenými parametry nasimulovat.
 
@@ -451,11 +460,11 @@ V~aplikaci byla vyvinuta vlastní knihovna, která všechny ze zmíněných proc
 
 Samotná definice přístupových bodů pak může vypadat následovně. U každé přístupové metody je možné určit, jaká oprávnění musí mít uživatel, aby tuto metodu nad daným zdrojem mohl vykonat.
 
-\lstinputlisting[caption={Zpracování HTTP požadavku}, language={JavaScript}]{SourceCodes/RouteUtils.ts}
+\lstinputlisting[caption={Zpracování HTTP požadavku}, language={JavaScript}]{SourceCodes/RouteUtils.js}
 
 Modelové třídy většiny entit není nutné psát individuálně. Všechny mají za úkol poskytnout \textit{CRUD operace} nad danou entitou (např. \textit{BodyModel} nad tělesy). Jediné, co se liší, je název databázové kolekce, vybrané sloupce při výpisu detailu entity a~při výpisu všech entit, popř. další parametry. Veškerá logika komunikace s~databází byla ukryta do třídy EntityModel. Většina dalších modelů je pak pouhou instancí této třídy s~konkrétními parametry.
 
-\lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.ts}
+\lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.js}
 
 \subsection{Databáze}
 
@@ -467,19 +476,19 @@ Připojení do databáze je jednoznačně inicializováno textovým řetězcem o
 
 Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
-\lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.ts}
+\lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.js}
 
 \subsubsection{Mongoose schéma}
 
 Pomocí schématu lze určit strukturu databázové kolekce a nastavit validační pravidla. Veškerá konfigurace kolekce je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu.
 
-\lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.ts}
+\lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.js}
 
 \subsubsection{Mongoose plugin}
 
 Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, které dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.
 
-\lstinputlisting[caption={Vytvoření a~použití databázového pluginu}, language={JavaScript}]{SourceCodes/Hash.ts}
+\lstinputlisting[caption={Vytvoření a~použití databázového pluginu}, language={JavaScript}]{SourceCodes/Hash.js}
 
 Ve zdrojovém kódu~12 je popsán plugin pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
 
@@ -487,7 +496,7 @@ Ve zdrojovém kódu~12 je popsán plugin pro automatické hashování hesla. Ten
 
 Databáze umožňuje provádět velké množství operací nad daty v~ní uloženými. Je možné vyhledávat podle konkrétní hodnoty, pole hodnot, regulárních výrazů nebo číselného rozsahu. Takto vyfiltrovaná data lze číst, smazat či editovat. Je také možné nastavit spoustu parametrů, např. maximální počet dokumentů (\textit{limit}), které vyhovují filtru. Mimo jiné je možné také provádět více dotazů do databáze jako atomické operace pomocí transakcí.
 
-\lstinputlisting[caption={CRUD operace nad kolekcí uživatelů}, language={JavaScript}]{SourceCodes/Database.ts}
+\lstinputlisting[caption={CRUD operace nad kolekcí uživatelů}, language={JavaScript}]{SourceCodes/Database.js}
 
 \section{Rozvržení aplikace}
 
@@ -745,21 +754,21 @@ Pro vyšší bezpečnost se otisk nevypočítává z pouhého hesla, ale hesla s
 
 V~aplikaci je použita \textit{hashovací funkce bcrypt} s~10 iteracemi a~to přímo na úrovni databáze. Celá logika je skryta do tzv. \textit{Mongoose pluginu}. Ten může reagovat na různé události a~modifikovat dokument.
 
-\lstinputlisting[caption={Hashování hesel v Mongoose schématu}, language={JavaScript}]{SourceCodes/Hash.ts}
+\lstinputlisting[caption={Hashování hesel v Mongoose schématu}, language={JavaScript}]{SourceCodes/Hash.js}
 
 \subsection{Zobrazování hodnot fyzikálních veličin}
 
 Aplikace zobrazuje různě velké hodnoty různých fyzikálních veličin. Z~důvodu přehlednosti a~omezeného množství prostoru, ve kterém se tyto hodnoty zobrazují, byla vytvořena pomocná třída \code{Units} umístěná do modulu \code{Utils}. Ta umožňuje převádět a~formátovat jednotky do několika podob.
 
-\lstinputlisting[caption={Ukázka formátování jednotek}, language={JavaScript}]{SourceCodes/Units.ts}
+\lstinputlisting[caption={Ukázka formátování jednotek}, language={JavaScript}]{SourceCodes/Units.js}
 
 Všechny číselné hodnoty se automaticky zaokrouhlují s~rozumnou přesností:
 
-\lstinputlisting[caption={Ukázka zaokrouhlování hodnot}, language={JavaScript}]{SourceCodes/Round.ts}
+\lstinputlisting[caption={Ukázka zaokrouhlování hodnot}, language={JavaScript}]{SourceCodes/Round.js}
 
 Není nutné používat předdefinované jednotky v~této třídě a~lze si vytvořit vlastní. Vytvoření jednotek pro velikost vypadá takto:
 
-\lstinputlisting[caption={Tvorba vlastních jednotek}, language={JavaScript}]{SourceCodes/CreateUnits.ts}
+\lstinputlisting[caption={Tvorba vlastních jednotek}, language={JavaScript}]{SourceCodes/CreateUnits.js}
 
 \subsection{Vykreslování časové osy}
 
@@ -769,7 +778,7 @@ Situace je o~to komplikovanější, že časová osa nemusí být lineární a~d
 
 Překrývání jednotlivých události je ošetřeno tak, že se vykreslí do různých sloupců. Je také možno nastavit počet mezistupňů mezi hraničními souřadnicemi. Ty lze nastylovat např. jako čáry na pravítku pro zlepšení přehlednosti. Při pohybu s kurzorem myši nad oblastí se zobrazuje horizontální čára s aktuální souřadnicí (rokem), nad kterou se kurzor nachází. Pro implementaci komponenty byla použita CSS vlastnost \textit{grid}.
 
-\lstinputlisting[caption={Příklad použití komponenty EventsArea}, language={JavaScript}]{SourceCodes/EventsArea.ts}
+\lstinputlisting[caption={Příklad použití komponenty EventsArea}, language={JavaScript}]{SourceCodes/EventsArea.js}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  12 FEB 2019 17:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  12 FEB 2019 18:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1130,158 +1130,163 @@ File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 
 
 ]
-<Images/JPLNasa.png, id=488, 799.98875pt x 449.68pt>
-File: Images/JPLNasa.png Graphic file (type png)
-<use Images/JPLNasa.png>
-Package pdftex.def Info: Images/JPLNasa.png  used on input line 213.
-(pdftex.def)             Requested size: 450.0pt x 252.95123pt.
+<Images/Celestia.png, id=490, 805.0075pt x 482.80376pt>
+File: Images/Celestia.png Graphic file (type png)
+<use Images/Celestia.png>
+Package pdftex.def Info: Images/Celestia.png  used on input line 200.
+(pdftex.def)             Requested size: 450.0pt x 269.8894pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 214.
+(Font)              <10> on input line 201.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 214.
+(Font)              <7> on input line 201.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 214.
- [12
-
-]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 217.
+(Font)              <5> on input line 201.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 204.
 
 
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [13 <./Images/JPLNasa.png>]
+) [12
+
+ <./Images/Celestia.png>]
+<Images/JPLNasa.png, id=503, 799.98875pt x 449.68pt>
+File: Images/JPLNasa.png Graphic file (type png)
+<use Images/JPLNasa.png>
+Package pdftex.def Info: Images/JPLNasa.png  used on input line 220.
+(pdftex.def)             Requested size: 450.0pt x 252.95123pt.
+ [13 <./Images/JPLNasa.png>] [14]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 237.
+nput line 244.
+ (./SourceCodes/JSX.js) [15
 
-(./SourceCodes/JSX.ts) [14
+] [16]
+(./SourceCodes/Webpack.js) [17] (./SourceCodes/Npm.txt) [18]
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 296.
 
-] [15] (./SourceCodes/Webpack.ts) [16]
-(./SourceCodes/Npm.txt) [17]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 289.
 
- (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
+(/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [18
+) [19
 
 ]
-(./SourceCodes/ImportFromModule.ts)
-<Images/Redux.png, id=551, 941.5175pt x 242.9075pt>
+(./SourceCodes/ImportFromModule.js)
+<Images/Redux.png, id=561, 941.5175pt x 242.9075pt>
 File: Images/Redux.png Graphic file (type png)
 <use Images/Redux.png>
-Package pdftex.def Info: Images/Redux.png  used on input line 359.
+Package pdftex.def Info: Images/Redux.png  used on input line 368.
 (pdftex.def)             Requested size: 350.0pt x 90.29689pt.
- [19 <./Images/Redux.png>]
-(./SourceCodes/Redux.ts
+ [20 <./Images/Redux.png>]
+(./SourceCodes/Redux.js
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 2.
-) [20] (./SourceCodes/ReduxAction.ts)
-(./SourceCodes/ReduxReducer.ts [21]) (./SourceCodes/Scene.ts) [22]
-(./SourceCodes/Route.ts) [23] (./SourceCodes/RouteUtils.ts)
-(./SourceCodes/Model.ts [24]) (./SourceCodes/DatabaseConnection.ts [25])
-(./SourceCodes/Schema.ts) (./SourceCodes/Hash.ts) [26]
-(./SourceCodes/Database.ts) [27]
-<Images/MainPage.png, id=728, 1927.2pt x 1084.05pt>
+) [21] (./SourceCodes/ReduxAction.js)
+(./SourceCodes/ReduxReducer.js [22]) (./SourceCodes/Scene.js) [23]
+(./SourceCodes/Route.js) [24] (./SourceCodes/RouteUtils.js)
+(./SourceCodes/Model.js [25]) (./SourceCodes/DatabaseConnection.js [26])
+(./SourceCodes/Schema.js) (./SourceCodes/Hash.js) [27]
+(./SourceCodes/Database.js) [28]
+<Images/MainPage.png, id=737, 1927.2pt x 1084.05pt>
 File: Images/MainPage.png Graphic file (type png)
 <use Images/MainPage.png>
-Package pdftex.def Info: Images/MainPage.png  used on input line 500.
+Package pdftex.def Info: Images/MainPage.png  used on input line 509.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
-<Images/Identity.png, id=729, 401.5pt x 247.92625pt>
+<Images/Identity.png, id=738, 401.5pt x 247.92625pt>
 File: Images/Identity.png Graphic file (type png)
 <use Images/Identity.png>
-Package pdftex.def Info: Images/Identity.png  used on input line 518.
+Package pdftex.def Info: Images/Identity.png  used on input line 527.
 (pdftex.def)             Requested size: 250.0pt x 154.3785pt.
- [28
+ [29
 
  <./Images/MainPage.png>]
-<Images/SignIn.png, id=735, 402.50375pt x 356.33125pt>
+<Images/SignIn.png, id=744, 402.50375pt x 356.33125pt>
 File: Images/SignIn.png Graphic file (type png)
 <use Images/SignIn.png>
-Package pdftex.def Info: Images/SignIn.png  used on input line 530.
+Package pdftex.def Info: Images/SignIn.png  used on input line 539.
 (pdftex.def)             Requested size: 250.0pt x 221.31999pt.
-<Images/SignUp.png, id=736, 401.5pt x 436.63126pt>
+<Images/SignUp.png, id=745, 401.5pt x 436.63126pt>
 File: Images/SignUp.png Graphic file (type png)
 <use Images/SignUp.png>
-Package pdftex.def Info: Images/SignUp.png  used on input line 542.
+Package pdftex.def Info: Images/SignUp.png  used on input line 551.
 (pdftex.def)             Requested size: 250.0pt x 271.88116pt.
- [29 <./Images/Identity.png> <./Images/SignIn.png>] [30 <./Images/SignUp.png>]
-<Images/Simulator.png, id=748, 1927.2pt x 1084.05pt>
+ [30 <./Images/Identity.png> <./Images/SignIn.png>] [31 <./Images/SignUp.png>]
+<Images/Simulator.png, id=758, 1927.2pt x 1084.05pt>
 File: Images/Simulator.png Graphic file (type png)
 <use Images/Simulator.png>
-Package pdftex.def Info: Images/Simulator.png  used on input line 586.
+Package pdftex.def Info: Images/Simulator.png  used on input line 595.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
- [31]
-<Images/Overview.png, id=754, 640.3925pt x 434.62375pt>
+ [32]
+<Images/Overview.png, id=763, 640.3925pt x 434.62375pt>
 File: Images/Overview.png Graphic file (type png)
 <use Images/Overview.png>
-Package pdftex.def Info: Images/Overview.png  used on input line 602.
+Package pdftex.def Info: Images/Overview.png  used on input line 611.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
- [32 <./Images/Simulator.png>]
+ [33 <./Images/Simulator.png>]
 File: Images/Overview.png Graphic file (type png)
 <use Images/Overview.png>
-Package pdftex.def Info: Images/Overview.png  used on input line 614.
+Package pdftex.def Info: Images/Overview.png  used on input line 623.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
- [33 <./Images/Overview.png>]
-<Images/Bodies.png, id=765, 640.3925pt x 441.65pt>
+ [34 <./Images/Overview.png>]
+<Images/Bodies.png, id=774, 640.3925pt x 441.65pt>
 File: Images/Bodies.png Graphic file (type png)
 <use Images/Bodies.png>
-Package pdftex.def Info: Images/Bodies.png  used on input line 643.
+Package pdftex.def Info: Images/Bodies.png  used on input line 652.
 (pdftex.def)             Requested size: 350.0pt x 241.38522pt.
- [34 <./Images/Bodies.png>]
-<Images/Body.png, id=771, 624.3325pt x 556.0775pt>
+ [35 <./Images/Bodies.png>]
+<Images/Body.png, id=780, 624.3325pt x 556.0775pt>
 File: Images/Body.png Graphic file (type png)
 <use Images/Body.png>
-Package pdftex.def Info: Images/Body.png  used on input line 659.
+Package pdftex.def Info: Images/Body.png  used on input line 668.
 (pdftex.def)             Requested size: 350.0pt x 311.74068pt.
-<Images/Timeline.png, id=772, 626.34pt x 483.8075pt>
+<Images/Timeline.png, id=781, 626.34pt x 483.8075pt>
 File: Images/Timeline.png Graphic file (type png)
 <use Images/Timeline.png>
-Package pdftex.def Info: Images/Timeline.png  used on input line 667.
+Package pdftex.def Info: Images/Timeline.png  used on input line 676.
 (pdftex.def)             Requested size: 350.0pt x 270.36191pt.
 
-[35 <./Images/Body.png>]
-<Images/Discussion.png, id=778, 625.33624pt x 451.6875pt>
+[36 <./Images/Body.png>]
+<Images/Discussion.png, id=788, 625.33624pt x 451.6875pt>
 File: Images/Discussion.png Graphic file (type png)
 <use Images/Discussion.png>
-Package pdftex.def Info: Images/Discussion.png  used on input line 675.
+Package pdftex.def Info: Images/Discussion.png  used on input line 684.
 (pdftex.def)             Requested size: 350.0pt x 252.81232pt.
- [36 <./Images/Timeline.png> <./Images/Discussion.png>]
-<Images/Webpack.png, id=786, 888.31876pt x 689.57625pt>
+ [37 <./Images/Timeline.png> <./Images/Discussion.png>]
+<Images/Webpack.png, id=796, 888.31876pt x 689.57625pt>
 File: Images/Webpack.png Graphic file (type png)
 <use Images/Webpack.png>
-Package pdftex.def Info: Images/Webpack.png  used on input line 700.
+Package pdftex.def Info: Images/Webpack.png  used on input line 709.
 (pdftex.def)             Requested size: 280.0pt x 217.35445pt.
-[37
+[38
 
-] [38 <./Images/Webpack.png>] [39] (./SourceCodes/Hash.ts) [40]
-(./SourceCodes/Units.ts) (./SourceCodes/Round.ts) (./SourceCodes/CreateUnits.ts
-) [41] (./SourceCodes/EventsArea.ts) [42] [43
-
-
-] [44
+] [39 <./Images/Webpack.png>] [40] (./SourceCodes/Hash.js) [41]
+(./SourceCodes/Units.js) (./SourceCodes/Round.js) (./SourceCodes/CreateUnits.js
+) [42] (./SourceCodes/EventsArea.js) [43] [44
 
 
 ] [45
 
 
+] [46
+
+
 ]
-Overfull \hbox (16.84169pt too wide) in paragraph at lines 820--820
+Overfull \hbox (16.84169pt too wide) in paragraph at lines 829--829
 |\T1/lmr/bx/n/17.28 SEZNAM SOU-BOR— ZDRO-JO-VÝCH KÓD— NA PI-
  []
 
 
-LaTeX Warning: Reference `prilohaA' on page 46 undefined on input line 822.
+LaTeX Warning: Reference `prilohaA' on page 47 undefined on input line 831.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 828.
-[46
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 837.
+[47
 
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 828.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 837.
  (./Bc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 828.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 828.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 837.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 837.
 Package rerunfilecheck Info: File `Bc.out' has not changed.
-(rerunfilecheck)             Checksum: C3A7AAD92E829E94D2A7B5A2E4D22F24;12697.
+(rerunfilecheck)             Checksum: CC3040958AF340369B1F491FA0185B90;12697.
 
 
 LaTeX Warning: There were undefined references.
@@ -1289,13 +1294,13 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 828.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 837.
  ) 
 Here is how much of TeX's memory you used:
- 15615 strings out of 494848
- 219951 string characters out of 6178430
- 471869 words of memory out of 5000000
- 18258 multiletter control sequences out of 15000+600000
+ 15622 strings out of 494848
+ 220082 string characters out of 6178430
+ 471872 words of memory out of 5000000
+ 18262 multiletter control sequences out of 15000+600000
  57376 words of font info for 54 fonts, out of 8000000 for 9000
  46 hyphenation exceptions out of 8191
  43i,9n,42p,952b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1315,10 +1320,10 @@ mr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fo
 nts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf/fonts/typ
 e1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on Bc.pdf (46 pages, 3116445 bytes).
+Output written on Bc.pdf (47 pages, 3512379 bytes).
 PDF statistics:
- 991 PDF objects out of 1000 (max. 8388607)
- 891 compressed objects within 9 object streams
- 352 named destinations out of 1000 (max. 500000)
- 662 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1000 PDF objects out of 1000 (max. 8388607)
+ 897 compressed objects within 9 object streams
+ 354 named destinations out of 1000 (max. 500000)
+ 667 words of extra memory for PDF output out of 10000 (max. 10000000)
 
