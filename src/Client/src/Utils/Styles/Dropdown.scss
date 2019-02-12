@@ -1,0 +1,42 @@
+.dropdown {
+
+    &__area {
+        box-sizing: border-box;
+        height: 0;
+        overflow: hidden;
+        transition: height $medium-animation-duration;
+
+        &--inner {
+            margin-top: -1rem;
+            transition: margin $medium-animation-duration;
+        }
+
+        &--expanded {
+            .dropdown__area--inner {
+                margin-top: 0;
+            }
+        }
+    }
+
+    &__button {
+        color: $lightest-color;
+        font-size: 100%;
+        font-weight: bold;
+
+        &:after {
+            @include size(0.8rem);
+            @include svg("General/LeftBoldArrow");
+            content: "";
+            display: inline-block;
+            margin-left: 0.5rem;
+            transform: rotate(90deg);
+            transition: transform $medium-animation-duration;
+        }
+
+        &--expanded {
+            &:after {
+                transform: rotate(270deg);
+            }
+        }
+    }
+}

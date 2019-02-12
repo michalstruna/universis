@@ -2,7 +2,7 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import { RelativeTime, Component, Html } from '../../Utils'
+import { RelativeTime, Component, Html, DropdownArea, DropdownButton } from '../../Utils'
 import { UserInfo } from '../../User'
 import { toggleTopic, vote } from '../../Universe'
 import Arrays from '../../../../Utils/Arrays'
@@ -11,9 +11,8 @@ import AnswerForm from './AnswerForm'
 interface IProps {
     identity: IAsyncEntity<Universis.User.Identity>
     post: Universis.Topic | Universis.Answer,
-    toggleTopic?: Universis.Consumer2<number, boolean>
+    toggleTopic?: Universis.Consumer2<string, boolean>
     parentId?: string
-    index?: number
     vote: Universis.Consumer4<number, boolean, string, string>
 }
 
@@ -96,7 +95,7 @@ class BodyPost extends Component<IProps, IState> {
      * @returns Expand button.
      */
     private renderExpand(): React.ReactNode {
-        const { post, toggleTopic, index } = this.props
+        const { post, toggleTopic } = this.props
 
         if (!('title' in post)) {
             return null
@@ -105,11 +104,10 @@ class BodyPost extends Component<IProps, IState> {
         const showLabel = post.answers.length > 0 ? 'Zobrazit odpovědi (' + post.answers.length + ')' : 'Odpovědět'
 
         return (
-            <button
-                className={ClassNames('panel__body__discussion__expand', { 'panel__body__discussion__expand--active': post.isExpanded })}
-                onClick={() => toggleTopic(index, !post.isExpanded)}>
-                {post.isExpanded ? 'Skrýt odpovědi' : showLabel}
-            </button>
+            <DropdownButton
+                isExpanded={post.isExpanded}
+                label={post.isExpanded ? 'Skrýt odpovědi' : showLabel}
+                onClick={() => toggleTopic(post._id, !post.isExpanded)} />
         )
     }
 
@@ -162,12 +160,10 @@ class BodyPost extends Component<IProps, IState> {
         }
 
         return (
-            <section
-                style={{ height: post.isExpanded ? answersHeight : 0 }}
-                className={ClassNames('panel__body__discussion__answers', { 'panel__body__discussion__answers--expanded': post.isExpanded })}>
+            <DropdownArea isExpanded={post.isExpanded} expandedHeight={answersHeight}>
                 {this.renderReply()}
                 {this.renderAnswers()}
-            </section>
+            </DropdownArea>
         )
     }
 

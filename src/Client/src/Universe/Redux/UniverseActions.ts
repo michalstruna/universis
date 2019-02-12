@@ -90,13 +90,13 @@ export const getEvents = (bodyId: string) => (
 
 /**
  * Toggle topic.
- * @param index Order of topic.
+ * @param topicId ID of topic.
  * @param isExpanded Answers of topic should be visible.
  */
-export const toggleTopic = (index: number, isExpanded: boolean) => (
+export const toggleTopic = (topicId: string, isExpanded: boolean) => (
     Redux.toggleAction(
         ActionTypes.TOGGLE_TOPIC,
-        { posts: { payload: { [index]: { isExpanded } } } }
+        { posts: { payload: { $find: topic => topic._id === topicId, isExpanded } } }
     )
 )
 
@@ -150,8 +150,6 @@ export const addAnswer = (answer: Universis.Answer.New) => (
             }, ...answer, answers: [], agreements: [], disagreements: []
         }
 
-        console.log(answer, newAnswer)
-
         return dispatch(
             Redux.setAction(
                 ActionTypes.ADD_ANSWER,
@@ -159,4 +157,15 @@ export const addAnswer = (answer: Universis.Answer.New) => (
             )
         )
     }
+)
+
+/**
+ * Toggle new discussion form.
+ * @param isNewDiscussionExpanded
+ */
+export const toggleNewDiscussion = (isNewDiscussionExpanded: boolean) => (
+    Redux.toggleAction(
+        ActionTypes.TOGGLE_NEW_DISCUSSION,
+        { isNewDiscussionExpanded }
+    )
 )

@@ -11,7 +11,8 @@ enum ActionTypes {
     TOGGLE_TOPIC = 'TOGGLE_TOPIC',
     VOTE_UP = 'VOTE_UP',
     VOTE_DOWN = 'VOTE_DOWN',
-    ADD_ANSWER = 'ADD_ANSWER'
+    ADD_ANSWER = 'ADD_ANSWER',
+    TOGGLE_NEW_DISCUSSION = 'TOGGLE_NEW_DISCUSSION'
 }
 
 export default ActionTypes

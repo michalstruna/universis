@@ -19,7 +19,6 @@
     }
 
     &__data {
-
         .data-table {
             border: 1px solid $medium-dark-color;
             box-sizing: border-box;
@@ -153,30 +152,26 @@
                     }
                 }
 
-                &__cell {
+                &__cell, &__cell--custom {
                     border: 1px solid $medium-color;
                     padding: 0.35rem 0.5rem;
                 }
+            }
+
+            .dropdown__button {
+                float: none !important;
+                padding: 0 !important;
+            }
+        }
+
+        &__new {
+            &--expanded {
+                height: 13rem;
             }
         }
 
         &__posts {
             font-size: 90%;
-        }
-
-        &__answers {
-            box-sizing: border-box;
-            margin-top: -1rem;
-            overflow: hidden;
-            transition: margin-top $medium-animation-duration, height $medium-animation-duration;
-
-            &:empty {
-                display: none;
-            }
-
-            &--expanded {
-                margin-top: 0;
-            }
         }
 
         &__post {
@@ -266,29 +261,10 @@
             @include svg("Panel/Body/ThumbDown", 60%, left);
         }
 
-        &__expand {
-            color: $lightest-color;
+        .dropdown__button {
             float: right;
-            font-size: 100%;
-            font-weight: bold;
             padding: 0;
             padding-top: 0.5rem;
-
-            &:after {
-                @include size(0.8rem);
-                @include svg("Panel/Body/ToggleAnswers");
-                content: "";
-                display: inline-block;
-                margin-left: 0.5rem;
-                transform: rotate(90deg);
-                transition: transform $medium-animation-duration;
-            }
-
-            &--active {
-                &:after {
-                    transform: rotate(270deg);
-                }
-            }
         }
 
         .form {

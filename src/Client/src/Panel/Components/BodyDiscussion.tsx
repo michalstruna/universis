@@ -1,11 +1,15 @@
 import * as React from 'react'
 
-import { StatelessComponent, AsyncEntity, DataTable, RelativeTime } from '../../Utils'
+import { StatelessComponent, AsyncEntity, DataTable, DropdownArea, DropdownButton } from '../../Utils'
 import BodyPost from './BodyPost'
+import { toggleNewDiscussion } from '../../Universe'
+import AnswerForm from './AnswerForm'
 
 interface IProps {
     identity: IAsyncEntity<Universis.User.Identity>
     posts: IAsyncEntity<Universis.Topic[]>
+    isNewDiscussionExpanded: boolean
+    toggleNewDiscussion: Universis.Consumer<boolean>
 }
 
 class BodyTimeline extends StatelessComponent<IProps> {
@@ -16,8 +20,35 @@ class BodyTimeline extends StatelessComponent<IProps> {
      */
     private renderPosts(): React.ReactNode {
         return this.props.posts.payload.map((post, key) => (
-            <BodyPost post={post} key={key} index={key} />
+            <BodyPost post={post} key={key} />
         ))
+    }
+
+    /**
+     * Render button for toggle new discussion.
+     * @returns Button.
+     */
+    private renderToggleNewDiscussion = (): React.ReactNode => {
+        const { isNewDiscussionExpanded, toggleNewDiscussion } = this.props
+
+        return (
+            <DropdownButton
+                isExpanded={isNewDiscussionExpanded}
+                label={'Založit novou diskusi'}
+                onClick={() => toggleNewDiscussion(!isNewDiscussionExpanded)} />
+        )
+    }
+
+    private renderNewDiscussion(): React.ReactNode {
+        const { isNewDiscussionExpanded } = this.props
+
+        return (
+            <DropdownArea isExpanded={isNewDiscussionExpanded} className='panel__body__discussion__new'>
+                <AnswerForm form={'a'} />
+                <AnswerForm form={'a'} />
+                <AnswerForm form={'a'} />
+            </DropdownArea>
+        )
     }
 
     public render(): React.ReactNode {
@@ -30,8 +61,13 @@ class BodyTimeline extends StatelessComponent<IProps> {
                     <section className='panel__body__discussion'>
                         <header className='panel__body__discussion__header'>
                             <DataTable data={{ 'Diskusí': 16, 'Odpovědí': 93, 'Uživatelů': 4 }} />
-                            <DataTable data={{ 'Nejoblíbenější': 'Václav', 'Nejaktivnější': 'Michal', 'Poslední příspěvek': <RelativeTime date={'2019-02-11T16:09:00'} /> }} />
+                            <DataTable data={{
+                                'Nejoblíbenější': 'Václav',
+                                'Nejaktivnější': 'Michal',
+                                '': this.renderToggleNewDiscussion
+                            }} />
                         </header>
+                        {this.renderNewDiscussion()}
                         <section className='panel__body__discussion__posts'>
                             {this.renderPosts()}
                         </section>
@@ -44,6 +80,8 @@ class BodyTimeline extends StatelessComponent<IProps> {
 
 export default BodyTimeline.connect(
     ({ universe }: IStoreState) => ({
-        posts: universe.posts
-    })
+        posts: universe.posts,
+        isNewDiscussionExpanded: universe.isNewDiscussionExpanded
+    }),
+    { toggleNewDiscussion }
 )

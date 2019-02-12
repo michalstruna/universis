@@ -146,6 +146,8 @@ export default Redux.createReducer(
                     ]
                 }
             ]
-        }
+        },
+
+        isNewDiscussionExpanded: false
     }
 )
