@@ -1,0 +1,6 @@
+npm update // Update packages.
+npm install // Install existing dependencies.
+npm search mongo // Find out name of package.
+npm install --save mongodb // Add new dependency.
+npm uninstall --save-dev webpack // Remove dev dependency.
+npm list // Show dependency tree.

@@ -30,7 +30,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
                     <section className='panel__body__discussion'>
                         <header className='panel__body__discussion__header'>
                             <DataTable data={{ 'Diskusí': 16, 'Odpovědí': 93, 'Uživatelů': 4 }} />
-                            <DataTable data={{ 'Nejoblíbenější': 'Václav', 'Nejaktivnější': 'Olga', 'Poslední příspěvek': <RelativeTime date={'2019-02-11T16:09:00'} /> }} />
+                            <DataTable data={{ 'Nejoblíbenější': 'Václav', 'Nejaktivnější': 'Michal', 'Poslední příspěvek': <RelativeTime date={'2019-02-11T16:09:00'} /> }} />
                         </header>
                         <section className='panel__body__discussion__posts'>
                             {this.renderPosts()}
