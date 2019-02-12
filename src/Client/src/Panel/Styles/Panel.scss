@@ -33,6 +33,7 @@
 
             &--scroll {
                 @include size(100%, calc(100% - 4rem));
+                overflow-x: hidden;
                 overflow-y: scroll;
             }
 
