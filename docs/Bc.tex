@@ -153,8 +153,10 @@
 \item[DOM]	Document Object Model
 \item[HTML] Hypertext Markup Language
 \item[HTTP]	Hypertext Transfer Protocol
+\item[JPEG]		 Joint Photographic Experts Group
 \item[JS]		JavaScript
 \item[JSON]	JavaScript Object Notation
+\item[PNG]		Portable Network Graphics
 \item[REST]	Representational State Transfer
 \item[SASS]	Syntactically awesome style sheets
 \item[TS]		TypeScript
@@ -359,9 +361,11 @@ Každý modul obsahuje mapování a~export všech souborů, které mají být ve
 \lstinputlisting[caption={Správné a~nesprávné použití importu souboru z~modulu}, language={JavaScript}]{SourceCodes/ImportFromModule.js}
 
 
-\subsection{Klientská část}
+\subsection{Uživatelské rozhraní}
 
-Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Dochází tak k~eliminování případů, kdy jednotlivé komponenty komunikují se svými rodičovskými nebo vnořenými komponentami, což je ve větších aplikacích nepřehledné.
+Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v~tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Kdykoliv se změní stav aplikace, dojde k~automatickému překreslení těch částí \textit{UI}, které změněná data obsahují.
+
+Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.
 
 \begin{figure}[H]
 \begin{center}
@@ -373,15 +377,13 @@ Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav 
 
 \footnotetext[1]{Vytvořeno v \url{https://www.draw.io}.}
 
-Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.
-
 Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav. Je složen obvykle z~přepínače s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.
 
 \lstinputlisting[caption={Ukázka architektury Redux}, language={JavaScript}]{SourceCodes/Redux.js}
 
 \subsubsection{Akce}
 
-Vytvářet akce manuálně je zdlouhavé, zejména pokud jde o~asynchronní akce. Pro správnou funkcionalitu \textit{UI} je totiž při asynchronním požadavku třeba zaznamenat následující stavy:
+Vytvářet zejména asynchronní akce manuálně je zdlouhavé. Pro správnou funkcionalitu \textit{UI} je totiž při asynchronním požadavku třeba zaznamenat následující stavy:
 
 \begin{itemize}
 \item \textbf{SENT}: Požadavek byl odeslán,
@@ -397,23 +399,76 @@ V~projektu byla proto vytvořena vlastní knihovna \textit{Redux} v~modulu \text
 \item \textbf{asyncAction}: Asynchroní požadavek (generuje \textit{SENT/SUCCESS/FAIL}).
 \end{itemize}
 
-V~kódu pak použití asynchronní akce vypadá následovně. Automaticky je zajištěno sledování průběhu požadavku a~je tudíž zcela lehce možné zobrazit např. načítací animaci.
+V~kódu pak použití asynchronní akce vypadá následovně. Automaticky je zajištěno sledování průběhu požadavku a~je tudíž je jednoduše možné zobrazit např. načítací animaci.
 
 \lstinputlisting[caption={Redux akce za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxAction.js}
 
 \subsubsection{Reducer}
 
-Reducer je běžně funkce, která obsahuje často rozsáhlý přepínač s~výčtem všech akcí a~jejich modifikací stavu aplikace. Díky vlastní knihovně to ale není nutné. Stačí uvést pole všech akcí a~případně i~počáteční stav \textit{store}.
+Reducer je běžně funkce, která obsahuje \textit{switch} s~výčtem všech akcí a~jejich modifikací stavu aplikace. Díky vlastní knihovně to ale není nutné. Stačí uvést pole všech akcí a~případně i~počáteční stav \textit{store}.
 
 \lstinputlisting[caption={Redux reducer za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxReducer.js}
 
-\subsubsection{3D grafika}
+\subsection{3D grafika}
 
-Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z datových objektů těles vytvoří kontejnery obsahující mimo jiné i~3D útvary tělesa a~jeho orbity. Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní knihovna \textit{Scene} v modulu \textit{Utils}.
+Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z~datových objektů těles vytvoří kontejnery obsahující kromě samotných dat z~databáze také objekty pro vykreslení.
+
+Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. Počítat absolutní pozici tělesa by proto bylo více než náročné.
+
+Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, kolem kterého zdánlivě obíhá. Tím je dosaženo dědičnosti a~souřadnice není nutné uvádět absolutně vzhledem k~vesmíru, ale pouze vzhledem k~rodičovskému tělesu. Pokud je pozice Slunce [1000,~0,~0], stačí uvést souřadnice Země [5,~0,~0] a~knihovna \textit{Three} si už sama dopočítá skutečnou polohu Země [1005,~0,~0].
+
+Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní knihovna \textit{Scene}. Ta v~každém průběhu vykreslovací smyčky vypočítá pozice a~rotace těles a~aktualizuje je.
 
 \lstinputlisting[caption={Práce s vlastní knihovnou pro 3D grafiku}, language={JavaScript}]{SourceCodes/Scene.js}
 
-Pro to, aby byla scéna interaktivní a~měnila se v~čase je třeba v~parametrech definovat funkce \textit{onClick} a~\textit{onRender}. První ze zmíněných proběhne pokaždé, když je kliknuto na těleso. Druhá funkce probíhá při každém průběhu vykreslovací smyčky (v~ideálním případě 60krát za sekundu).
+\subsubsection{Těleso}
+
+Samotné těleso je reprezentováno koulí, tedy objektem s~geometrií \textit{THREE.SphereGeometry}. Pokud má těleso rozdílný rovníkový a~polární průměr, je výsledné zploštění řešeno transformaci \textit{new THREE.Matrix4().makeScale()}. Materiálem je \textit{THREE.MeshBasicMaterial} (tělesa emitující světlo) nebo \textit{THREE.MeshPhongMaterial} (tělesa pohlcující světlo). Povrch tělesa tvoří 2D~textura \textit{THREE.Texture} ve formátu \textit{JPG} nebo \textit{PNG}.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=370pt]{Images/BodyData.png}
+\caption[Jednoznačná definice tělesa]{Jednoznačná definice tělesa \footnotemark[1]}
+\end{center}
+\end{figure}
+
+\footnotetext[1]{Vytvořeno v \url{https://www.draw.io}.}
+
+\subsubsection{Orbita}
+
+Orbita je objekt s geometrií \textit{THREE.BufferGeometry}, jejíž tvar je vypočten na základě nejbližší vzdálenosti tělesa od těžiště (pericentrum), nejvzdálenější vzdálenosti tělesa od těžiště (apocentrum) a~výstřednosti dráhy (excentricita). Pro materiál je použit\newline \textit{THREE.LineMaterial} s jedinou barvou namísto textury.
+
+\lstinputlisting[caption={Výpočet geometrie orbity tělesa}, language={JavaScript}]{SourceCodes/Orbit.js}
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=300pt]{Images/OrbitData.png}
+\caption[Jednoznačná definice orbity tělesa]{Jednoznačná definice orbity tělesa \footnotemark[1]}
+\end{center}
+\end{figure}
+
+
+\subsubsection{Světlo}
+
+Pokud je těleso zdrojem světla, je mezi jeho potomky navíc také bodové světlo\newline \textit{THREE.PointLight}, které emituje světlo o~stejné barvě a~intenzitě, jakou má reálné těleso.
+
+\subsubsection{Prstence}
+
+Prstenec je objekt s~geometrií \textit{THREE.BufferRingGeometry}, materiálem\newline \textit{THREE.MeshLambertMaterial} a~2D~texturou \textit{THREE.Texture} ve formátu \textit{JPG} nebo \textit{PNG}. Těleso může mít libovolný počet prstenců, nebo také žádný.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=300pt]{Images/RingData.png}
+\caption[Jednoznačná definice prstence tělesa]{Jednoznačná definice prstence tělesa \footnotemark[1]}
+\end{center}
+\end{figure}
+
+\footnotetext[1]{Vytvořeno v \url{https://www.draw.io}.}
+
+\subsubsection{Popisek}
+
+Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicován na stejné souřadnice, jako je vykreslované těleso. Kromě názvu tělesa obsahuje i~vzdálenost od Země a~vzdálenost od kamery.
 
 \subsection{Serverová část}
 
@@ -423,7 +478,7 @@ Server vystavuje \textit{REST~API}, ze kterého si mohou klientské aplikace (v~
 
 \lstinputlisting[caption={Definice cesty v REST~API}, language={JavaScript}]{SourceCodes/Route.js}
 
-Dokumentace je zpřístupněna na lokální adrese \textit{/api-docs}. Je možné se zde informovat o~všech možných \textit{HTTP} požadavcích nebo je s~nastavenými parametry nasimulovat.
+Dokumentace je zpřístupněna na lokální adrese \textit{/api-docs}. Je možné se zde informovat o~všech možných \textit{HTTP} požadavcích nebo je s~nastavenými parametry simulovat.
 
 \subsubsection{Zpracování HTTP požadavku}
 
@@ -462,7 +517,7 @@ Samotná definice přístupových bodů pak může vypadat následovně. U každ
 
 \lstinputlisting[caption={Zpracování HTTP požadavku}, language={JavaScript}]{SourceCodes/RouteUtils.js}
 
-Modelové třídy většiny entit není nutné psát individuálně. Všechny mají za úkol poskytnout \textit{CRUD operace} nad danou entitou (např. \textit{BodyModel} nad tělesy). Jediné, co se liší, je název databázové kolekce, vybrané sloupce při výpisu detailu entity a~při výpisu všech entit, popř. další parametry. Veškerá logika komunikace s~databází byla ukryta do třídy EntityModel. Většina dalších modelů je pak pouhou instancí této třídy s~konkrétními parametry.
+Modelové třídy většiny entit není nutné psát individuálně. Všechny mají za úkol poskytnout \textit{CRUD operace} nad danou entitou (např. \textit{BodyModel} nad tělesy). Jediné, co se liší, je název databázové kolekce, vybrané sloupce při výpisu detailu entity a~při výpisu všech entit, popř. další parametry. Veškerá logika komunikace s~databází byla ukryta do třídy \textit{ItemModel}. Většina dalších modelů je pak pouhou instancí této třídy s~konkrétními parametry. \textit{ItemModel} vedle \textit{CRUD} operací automatizuje i vytváření notifikací a~schvalovací proces administrátora.
 
 \lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.js}
 
