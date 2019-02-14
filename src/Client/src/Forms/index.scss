@@ -44,6 +44,7 @@
         display: block;
         font-size: 100%;
         color: $lightest-color;
+        letter-spacing: 0.05em;
         padding: 0.5em 0;
         transition: border-color $medium-animation-duration;
         width: 100%;
@@ -52,10 +53,15 @@
             border-color: $lightest-color;
         }
 
-        &:not([value=""]), &:focus {
+        &:focus {
             & + .form__label {
-                transform: translateY(-1.5em) scale(0.7) translateZ(0);
+                transform: translateY(-1.5em) scale(0.8) translateZ(0);
             }
+        }
+
+        &--textarea {
+            height: 5rem;
+            resize: none;
         }
     }
 
@@ -131,6 +137,12 @@
                 &__field {
                     border-color: $red-color;
                 }
+            }
+        }
+
+        &:not(.form__block--empty) {
+            .form__label {
+                transform: translateY(-1.5em) scale(0.8) translateZ(0);
             }
         }
     }

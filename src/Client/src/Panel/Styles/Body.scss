@@ -165,8 +165,30 @@
         }
 
         &__new {
+            font-size: 90%;
+
             &--expanded {
                 height: 13rem;
+            }
+
+            .form {
+
+                &__block  {
+                    margin-bottom: 1rem;
+                }
+
+                &__field {
+
+                    &--texteare {
+
+                    }
+
+                }
+
+                &__button {
+                    margin-top: 3rem !important;
+                }
+
             }
         }
 
@@ -267,7 +289,7 @@
             padding-top: 0.5rem;
         }
 
-        .form {
+        &__post .form {
             display: block;
             padding: 0;
             padding-top: 1rem;

@@ -5,8 +5,6 @@
  * For toggle actions: ACTION_TYPE -> ACTION_TYPE_ON, ACTION_TYPE_OFF.
  * For async actions: ACTION_TYPE -> ACTION_TYPE_SENT, ACTION_TYPE_SUCCESS, ACTION_TYPE_FAIL.
  */
-import apply = Reflect.apply
-
 class Redux {
 
     private constructor() {
@@ -130,6 +128,8 @@ class Redux {
                 source[index] = applyNestedChange(source[index], change)
             } else if (change.$add) {
                 source = [...source, change.$add]
+            } else if (change.$addFirst) {
+                source = [change.$addFirst, ...source]
             } else if (change.$remove) {
                 const index = source.findIndex(change.$remove)
 

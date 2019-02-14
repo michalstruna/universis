@@ -33,13 +33,13 @@ export default {
         '/bodyTypes/{bodyTypeId}': Route.getSwaggerRouteGroupForOne(['Body types'], 'BodyType', ['bodyTypeId']),
         '/bodyTypes/count': Route.getSwaggerRouteGroupForCount(['Body types']),
 
-        '/posts/{postId}/posts': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Answer', 'NewPost', ['postId']),
+        '/posts/{postId}/posts': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Answer', 'NewAnswer', ['postId']),
         '/posts/{postId}/posts/count': Route.getSwaggerRouteGroupForCount(['Discussion']),
-        '/bodies/{bodyId}/posts': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Topic', 'NewPost', ['bodyId']),
+        '/bodies/{bodyId}/posts': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Discussion', 'NewDiscussion', ['bodyId']),
         '/bodies/{bodyId}/posts/count': Route.getSwaggerRouteGroupForCount(['Discussion']),
         '/posts/{postId}': Route.getSwaggerRouteGroupForOne(['Discussion'], 'Answer', ['answerId']),
-        '/posts/{postId}/votes': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Topic', 'NewPost', ['postId']),
-        '/posts/votes/{voteId}': Route.getSwaggerRouteGroupForOne(['Discussion'], 'Topic', ['voteId']),
+        '/posts/{postId}/votes': Route.getSwaggerRouteGroupForAll(['Discussion'], 'Discussion', 'NewPost', ['postId']),
+        '/posts/votes/{voteId}': Route.getSwaggerRouteGroupForOne(['Discussion'], 'Discussion', ['voteId']),
         '/posts/{postId}/votes/count': Route.getSwaggerRouteGroupForCount(['Discussion']),
 
         '/bodies/{bodyId}/events': Route.getSwaggerRouteGroupForAll(['Events'], 'BodyEvent', 'NewBodyEvent', ['bodyId']),
@@ -691,7 +691,7 @@ export default {
                     }
                 }
             },
-            'NewTopic': {
+            'NewDiscussion': {
                 'type': 'object',
                 'properties': {
                     'title': {
@@ -735,7 +735,7 @@ export default {
                     }
                 ]
             },
-            'Topic': {
+            'Discussion': {
                 'allOf': [
                     {
                         'type': 'object',
@@ -770,7 +770,7 @@ export default {
                         }
                     },
                     {
-                        '$ref': '#/components/schemas/NewTopic'
+                        '$ref': '#/components/schemas/NewDiscussion'
                     }
                 ]
             }

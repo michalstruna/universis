@@ -100,7 +100,7 @@ class Route {
      * @param model Entity model.
      * @param access Object of access points. It can be default function (Route.all, ...) or custom request handlers (Route.all(), ...).
      * @returns Route group.
-     */
+     */ů
     public static getRouteGroupForAll(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
         const routeGroup: IObject<IRequestHandler> = {}
 
@@ -109,10 +109,12 @@ class Route {
             routeGroup.get = access.get(Route.getAllHandler(model))
         }
 
-        if (access.post) {
-            const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : item => item
+        if (access.post && typeof access.post !== 'object') {
+      /*      const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : item => item
             const handler = 'access' in access.post ? access.post.access : access.post
-            routeGroup.post = handler(request => mapBefore(request), _id => ({ _id }))
+            routeGroup.post = handler(request => mapBefore(request), _id => ({ _id }))*/
+
+            routeGroup.post = access.post(Route.addHandler(model), _id => ({ _id }))
         }
 
         if (access.delete && typeof access.delete !== 'object') {
@@ -180,7 +182,7 @@ class Route {
      * @returns Default request handler.
      */
     private static addHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        () => model.remove({}) // TODO: Filter?
+        ({ body }) => model.addOne(body) // TODO: Filter?
     )
 
     /**

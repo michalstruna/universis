@@ -143,19 +143,19 @@ declare namespace Universis.Model {
         notifications?: {
 
             /**
-             * Type of subject.
+             * Get type of subject.
              */
-            subjectType: number
+            subjectAccessor: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, number>
 
             /**
              * Get notification text from object.
              */
-            textAccessor: Universis.Function<Full | Simple, string>
+            textAccessor: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, string>
 
             /**
              * Get notification target. (optional)
              */
-            targetAccessor?: Universis.Function<Full | Simple, string> // TODO: Refactor, remove Simple (because of get())
+            targetAccessor?: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, string> // TODO: Refactor, remove Simple (because of get())
 
         }
 

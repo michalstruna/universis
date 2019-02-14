@@ -1,9 +1,9 @@
 declare namespace Universis {
 
     /**
-     * Interface for topic.
+     * Interface for Discussion.
      */
-    export interface Topic extends Topic.New {
+    export interface Discussion extends Discussion.New {
 
         /**
          * ID of post.
@@ -36,7 +36,7 @@ declare namespace Universis {
         date: string
 
         /**
-         * Answers of topic are visible.
+         * Answers of discussion are visible.
          */
         isExpanded: boolean
 
@@ -70,7 +70,7 @@ declare namespace Universis {
         /**
          * List of answers.
          */
-        answers: Answer[]
+        answers: Answer[] // TODO: Remove.
 
         /**
          * Date of creation-
@@ -79,7 +79,7 @@ declare namespace Universis {
 
     }
 
-    export namespace Topic {
+    export namespace Discussion {
 
         export interface New {
 
@@ -109,7 +109,7 @@ declare namespace Universis {
             /**
              * Parent post.
              */
-            topicId: string
+            discussionId: string
 
             /**
              * Content of post.

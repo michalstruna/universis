@@ -4,14 +4,14 @@ import * as ReactDOM from 'react-dom'
 
 import { RelativeTime, Component, Html, DropdownArea, DropdownButton } from '../../Utils'
 import { UserInfo } from '../../User'
-import { toggleTopic, vote } from '../../Universe'
+import { toggleAnswers, vote } from '../../Universe'
 import Arrays from '../../../../Utils/Arrays'
 import AnswerForm from './AnswerForm'
 
 interface IProps {
     identity: IAsyncEntity<Universis.User.Identity>
-    post: Universis.Topic | Universis.Answer,
-    toggleTopic?: Universis.Consumer2<string, boolean>
+    post: Universis.Discussion | Universis.Answer,
+    toggleAnswers?: Universis.Consumer2<string, boolean>
     parentId?: string
     vote: Universis.Consumer4<number, boolean, string, string>
 }
@@ -21,7 +21,7 @@ interface IState {
 }
 
 /**
- * Topic or answer for body.
+ * Discussion or answer for body.
  */
 class BodyPost extends Component<IProps, IState> {
 
@@ -73,7 +73,7 @@ class BodyPost extends Component<IProps, IState> {
     }
 
     /**
-     * Render title of topic.
+     * Render title of discussion.
      * @returns Title.
      */
     private renderTitle(): React.ReactNode {
@@ -95,7 +95,7 @@ class BodyPost extends Component<IProps, IState> {
      * @returns Expand button.
      */
     private renderExpand(): React.ReactNode {
-        const { post, toggleTopic } = this.props
+        const { post, toggleAnswers } = this.props
 
         if (!('title' in post)) {
             return null
@@ -107,12 +107,12 @@ class BodyPost extends Component<IProps, IState> {
             <DropdownButton
                 isExpanded={post.isExpanded}
                 label={post.isExpanded ? 'Skrýt odpovědi' : showLabel}
-                onClick={() => toggleTopic(post._id, !post.isExpanded)} />
+                onClick={() => toggleAnswers(post._id, !post.isExpanded)} />
         )
     }
 
     /**
-     * Render reply to topic.
+     * Render reply to discussion.
      * @returns Reply form.
      */
     private renderReply(): React.ReactNode {
@@ -123,7 +123,7 @@ class BodyPost extends Component<IProps, IState> {
         }
 
         return (
-            <AnswerForm form={'answer__' + post._id} />
+            <AnswerForm form={'answer__' + post._id} key={post._id} />
         )
     }
 
@@ -132,14 +132,14 @@ class BodyPost extends Component<IProps, IState> {
      * @returns Answers.
      */
     private renderAnswers(): React.ReactNode {
-        const { post, identity, toggleTopic, vote } = this.props
+        const { post, identity, toggleAnswers, vote } = this.props
 
         this.answersElements = []
 
         return post.answers.map((answer, key) => (
             <BodyPost
                 ref={ref => this.answersElements.push(ref)}
-                toggleTopic={toggleTopic}
+                toggleAnswers={toggleAnswers}
                 vote={vote}
                 parentId={post._id}
                 identity={identity}
@@ -234,5 +234,5 @@ export default BodyPost.connect(
         identity: user.identity,
         posts: universe.posts
     }),
-    { toggleTopic, vote }
+    { toggleAnswers, vote }
 )

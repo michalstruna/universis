@@ -89,14 +89,14 @@ export const getEvents = (bodyId: string) => (
 )
 
 /**
- * Toggle topic.
- * @param topicId ID of topic.
- * @param isExpanded Answers of topic should be visible.
+ * Toggle answers.
+ * @param discussionId ID of discussion.
+ * @param isExpanded Answers of discussion should be visible.
  */
-export const toggleTopic = (topicId: string, isExpanded: boolean) => (
+export const toggleAnswers = (discussionId: string, isExpanded: boolean) => (
     Redux.toggleAction(
-        ActionTypes.TOGGLE_TOPIC,
-        { posts: { payload: { $find: topic => topic._id === topicId, isExpanded } } }
+        ActionTypes.TOGGLE_ANSWERS,
+        { posts: { payload: { $find: discussion => discussion._id === discussionId, isExpanded } } }
     )
 )
 
@@ -135,6 +135,10 @@ export const vote = (score: number, isTrue: boolean, postId: string, parentId?: 
     }
 )
 
+/**
+ * Add answer to discussion.
+ * @param answer
+ */
 export const addAnswer = (answer: Universis.Answer.New) => (
     dispatch => {
         const newAnswer = {
@@ -152,8 +156,54 @@ export const addAnswer = (answer: Universis.Answer.New) => (
 
         return dispatch(
             Redux.setAction(
-                ActionTypes.ADD_ANSWER,
-                { posts: { payload: { $find: topic => topic._id === answer.topicId, answers: { $add: newAnswer } } } }
+                ActionTypes.LOCAL_ADD_ANSWER,
+                {
+                    posts: {
+                        payload: {
+                            $find: discussion => discussion._id === answer.discussionId,
+                            answers: { $add: newAnswer }
+                        }
+                    }
+                }
+            )
+        )
+    }
+)
+
+/**
+ * Add new discussion to body.
+ * @param discussion
+ */
+export const addDiscussion = (discussion: Universis.Discussion.New) => (
+    async dispatch => {
+        const newDiscussion = {
+            _id: Math.random().toString(), date: new Date().toISOString(), user: {
+                avatar: 'https://i.pinimg.com/originals/3d/af/bb/3dafbbca852add94c6b2af6e4c01881d.jpg',
+                name: 'Michal',
+                score: {
+                    gold: 12,
+                    silver: 1329,
+                    bronze: 12347,
+                    karma: 15
+                }
+            }, ...discussion, answers: [], agreements: [], disagreements: []
+        }
+
+        const { bodyId, ...discussionToServer } = discussion
+
+        dispatch(
+            Redux.asyncAction(
+                ActionTypes.ADD_DISCUSSION,
+                { newDiscussion: Request.post(`bodies/${bodyId}`, discussionToServer) }
+            )
+        )
+
+        dispatch(toggleNewDiscussion(false))
+
+        return dispatch(
+            Redux.setAction(
+                ActionTypes.LOCAL_ADD_DISCUSSION,
+                { posts: { payload: { $addFirst: newDiscussion } } }
             )
         )
     }

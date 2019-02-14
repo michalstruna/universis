@@ -30,7 +30,7 @@ class AnswerForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
         const { strings, identity, form, addAnswer, reset } = this.props
 
         try {
-            addAnswer({ topicId: form.split('__')[1], content: data.content })
+            addAnswer({ discussionId: form.split('__')[1], content: data.content })
             reset()
         } catch (error) {
         }

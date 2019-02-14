@@ -24,9 +24,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && add.notification) {
             await NotificationModel.add(addedItems.map(item => ({
                 operation: Operations.ADD,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(item),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item) : null
+                subject: notifications.subjectAccessor(item, this),
+                text: notifications.textAccessor(item, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
             })))
         }
 
@@ -49,9 +49,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && add.notification) {
             await NotificationModel.addOne({
                 operation: Operations.ADD,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(addedItem),
-                target: notifications.targetAccessor ? notifications.targetAccessor(addedItem) : null
+                subject: notifications.subjectAccessor(addedItem, this),
+                text: notifications.textAccessor(addedItem, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(addedItem, this) : null
             })
         }
 
@@ -86,9 +86,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && get.notification) {
             await NotificationModel.add(items.map(item => ({
                 operation: Operations.GET,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(item),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item) : null
+                subject: notifications.subjectAccessor(item, this),
+                text: notifications.textAccessor(item, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
             })))
         }
 
@@ -111,9 +111,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && get.notification) {
             await NotificationModel.addOne({
                 operation: Operations.GET,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(item),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item) : null
+                subject: notifications.subjectAccessor(item, this),
+                text: notifications.textAccessor(item, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
             })
         }
 
@@ -136,9 +136,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && remove.notification) {
             await NotificationModel.add(items.map(item => ({
                 operation: Operations.REMOVE,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(item),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item) : null
+                subject: notifications.subjectAccessor(item, this),
+                text: notifications.textAccessor(item, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
             })))
         }
 
@@ -161,9 +161,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && remove.notification) {
             await NotificationModel.addOne({
                 operation: Operations.REMOVE,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(item),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item) : null
+                subject: notifications.subjectAccessor(item, this),
+                text: notifications.textAccessor(item, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
             })
         }
 
@@ -186,9 +186,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && update.notification) {
             await NotificationModel.add(items.map(item => ({
                 operation: Operations.UPDATE,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(item),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item) : null
+                subject: notifications.subjectAccessor(item, this),
+                text: notifications.textAccessor(item, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
             })))
         }
 
@@ -211,9 +211,9 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         if (notifications && update.notification) {
             await NotificationModel.addOne({
                 operation: Operations.UPDATE,
-                subject: notifications.subjectType,
-                text: notifications.textAccessor(item),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item) : null
+                subject: notifications.subjectAccessor(item, this),
+                text: notifications.textAccessor(item, this),
+                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
             })
         }
 

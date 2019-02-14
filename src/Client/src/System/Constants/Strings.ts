@@ -156,7 +156,11 @@ export default {
 
     discussion: {
         missingContent: 'Nelze odeslat prázdnou odpověď.',
-        contentLabel: 'Vaše odpověď...'
+        contentLabel: 'Vaše odpověď...',
+        missingTitle: 'Zadejte titulek diskuse.',
+        titleLabel: 'Titulek vaší diskuse',
+        missingDiscussion: 'Popište problém, otázku či úvahu.',
+        discussionLabel: 'Podrobnosti...'
     },
 
     notifications: {

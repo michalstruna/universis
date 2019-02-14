@@ -32,14 +32,28 @@ class Field extends StatelessComponent<IProps> {
         validator: value => true
     }
 
+    /**
+     * Password input.
+     */
     public static PASSWORD = {
         name: 'password',
         validator: Strings.isPassword
     }
 
+    /**
+     * Email input.
+     */
     public static EMAIL = {
         name: 'email',
         validator: Strings.isEmail
+    }
+
+    /**
+     * Textarea input.
+     */
+    public static TEXT_AREA = {
+        name: 'textarea',
+        validator: value => true
     }
 
     public static defaultProps = {
@@ -72,16 +86,24 @@ class Field extends StatelessComponent<IProps> {
      */
     private renderComponent = (data): React.ReactNode => {
         const { label, type } = this.props
-        const { touched, error } = data.meta
+        const { touched, error, value } = data.meta
+        const blockClassName = ClassNames('form__block', { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value })
+        const inputProps = { ...data.input, autoComplete: 'off', className: 'form__field form__field--' + type.name }
+
+        if (type === Field.TEXT_AREA) {
+            return (
+                <label className={blockClassName}>
+                    <textarea {...inputProps} />
+                    <p className='form__label'>
+                        {touched && error ? error : label}
+                    </p>
+                </label>
+            )
+        }
 
         return (
-            <label className={ClassNames('form__block', { 'form__block--error': touched && !!error })}>
-                <input
-                    {...data.input}
-                    autoComplete='off'
-                    className={'form__field form__field--' + type}
-                    type={type.name}
-                />
+            <label className={blockClassName}>
+                <input {...inputProps} type={type.name} />
                 <p className='form__label'>
                     {touched && error ? error : label}
                 </p>

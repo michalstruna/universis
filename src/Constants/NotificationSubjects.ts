@@ -5,8 +5,8 @@ enum NotificationSubjects {
     USER,
     BODY,
     BODY_EVENT,
-    DISCUSSION,
-    COMMENT,
+    BODY_DISCUSSION,
+    BODY_COMMENT,
 }
 
 export default NotificationSubjects

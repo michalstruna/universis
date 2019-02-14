@@ -3,16 +3,22 @@ import * as React from 'react'
 import { StatelessComponent, AsyncEntity, DataTable, DropdownArea, DropdownButton } from '../../Utils'
 import BodyPost from './BodyPost'
 import { toggleNewDiscussion } from '../../Universe'
-import AnswerForm from './AnswerForm'
+import DiscussionForm from './DiscussionForm'
 
 interface IProps {
     identity: IAsyncEntity<Universis.User.Identity>
-    posts: IAsyncEntity<Universis.Topic[]>
+    posts: IAsyncEntity<Universis.Discussion[]>
     isNewDiscussionExpanded: boolean
     toggleNewDiscussion: Universis.Consumer<boolean>
 }
 
 class BodyTimeline extends StatelessComponent<IProps> {
+
+    public componentDidUpdate(prevProps: IProps): void {
+        if (prevProps.posts.payload.length !== this.props.posts.payload.length) {
+            this.forceUpdate()
+        }
+    }
 
     /**
      * Render posts.
@@ -44,9 +50,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
 
         return (
             <DropdownArea isExpanded={isNewDiscussionExpanded} className='panel__body__discussion__new'>
-                <AnswerForm form={'a'} />
-                <AnswerForm form={'a'} />
-                <AnswerForm form={'a'} />
+                <DiscussionForm />
             </DropdownArea>
         )
     }

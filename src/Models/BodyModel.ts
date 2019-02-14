@@ -5,7 +5,7 @@ export default new ItemModel<IBody, ISimpleBody, INewBody>({
     dbModel: DatabaseModels.BODY,
     notifications: {
         textAccessor: body => body.name,
-        subjectType: NotificationSubjects.BODY
+        subjectAccessor: () => NotificationSubjects.BODY
     },
     add: {
         approval: true,
