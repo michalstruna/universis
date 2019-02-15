@@ -10,12 +10,6 @@ const BodyPostSchema = new Schema({
         minlength: 1
     },
 
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: DatabaseModels.USER,
-        required: true
-    },
-
     agreements: {
         type: [
             {
@@ -44,6 +38,34 @@ const BodyPostSchema = new Schema({
         required: true
     },
 
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.USER,
+        required: false
+    },
+
+    answers: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: DatabaseModels.BODY_POST
+            }
+        ],
+        default: [],
+        required: true
+    },
+
+    title: {
+        type: String,
+        required: false,
+        minlength: 1
+    },
+
+    ip: {
+        type: String,
+        required: true
+    },
+
     bodyId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY,
@@ -54,6 +76,11 @@ const BodyPostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY_POST,
         required: false
+    },
+
+    __v: {
+        type: Number,
+        select: false
     }
 
 })

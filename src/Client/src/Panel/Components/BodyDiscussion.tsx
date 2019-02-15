@@ -2,30 +2,40 @@ import * as React from 'react'
 
 import { StatelessComponent, AsyncEntity, DataTable, DropdownArea, DropdownButton } from '../../Utils'
 import BodyPost from './BodyPost'
-import { toggleNewDiscussion } from '../../Universe'
+import { toggleNewDiscussion, getDiscussions } from '../../Universe'
 import DiscussionForm from './DiscussionForm'
+import users from '../../../../Controllers/users'
 
 interface IProps {
     identity: IAsyncEntity<Universis.User.Identity>
-    posts: IAsyncEntity<Universis.Discussion[]>
+    discussions: IAsyncEntity<Universis.Discussion[]>
     isNewDiscussionExpanded: boolean
     toggleNewDiscussion: Universis.Consumer<boolean>
+    getDiscussions: Universis.Consumer<string>
+    bodyId: string
 }
 
 class BodyTimeline extends StatelessComponent<IProps> {
 
+    public componentWillMount(): void {
+        const { discussions, getDiscussions, bodyId } = this.props
+        AsyncEntity.request(discussions, () => getDiscussions(bodyId))
+    }
+
     public componentDidUpdate(prevProps: IProps): void {
-        if (prevProps.posts.payload.length !== this.props.posts.payload.length) {
+        const { discussions } = this.props
+
+        if (prevProps.discussions.payload && discussions.payload && prevProps.discussions.payload.length !== discussions.payload.length) {
             this.forceUpdate()
         }
     }
 
     /**
-     * Render posts.
-     * @returns List of posts.
+     * Render discussions.
+     * @returns List of discussions.
      */
-    private renderPosts(): React.ReactNode {
-        return this.props.posts.payload.map((post, key) => (
+    private renderDiscussions(): React.ReactNode {
+        return this.props.discussions.payload.map((post, key) => (
             <BodyPost post={post} key={key} />
         ))
     }
@@ -55,25 +65,51 @@ class BodyTimeline extends StatelessComponent<IProps> {
         )
     }
 
+    private renderHeader(): React.ReactNode {
+        const { discussions } = this.props
+
+        const users = []
+
+        for (const discussion of discussions.payload) {
+            if ((discussion.user && !users.includes(discussion.user._id)) || !users.includes(discussion.ip)) {
+                users.push(discussion.user ? discussion.user._id : discussion.ip)
+            }
+
+            for (const answer of discussion.answers) {
+                if ((answer.user && !users.includes(answer.user._id)) || !users.includes(answer.ip)) {
+                    users.push(answer.user ? answer.user._id : answer.ip)
+                }
+            }
+        }
+
+        return (
+            <header className='panel__body__discussion__header'>
+                <DataTable data={{
+                    'Diskusí': discussions.payload.length,
+                    'Odpovědí': discussions.payload.reduce((count, discussion) => count + discussion.answers.length, 0),
+                    'Uživatelů': users.length
+                }} />
+                <DataTable data={{
+                    'Nejoblíbenější': 'Václav',
+                    'Nejaktivnější': 'Michal',
+                    '': this.renderToggleNewDiscussion
+                }} />
+            </header>
+        )
+    }
+
     public render(): React.ReactNode {
-        const { posts } = this.props
+        const { discussions } = this.props
 
         return (
             <AsyncEntity
-                data={posts}
+                data={discussions}
                 success={() => (
                     <section className='panel__body__discussion'>
-                        <header className='panel__body__discussion__header'>
-                            <DataTable data={{ 'Diskusí': 16, 'Odpovědí': 93, 'Uživatelů': 4 }} />
-                            <DataTable data={{
-                                'Nejoblíbenější': 'Václav',
-                                'Nejaktivnější': 'Michal',
-                                '': this.renderToggleNewDiscussion
-                            }} />
-                        </header>
+                        {this.renderHeader()}
                         {this.renderNewDiscussion()}
                         <section className='panel__body__discussion__posts'>
-                            {this.renderPosts()}
+                            {this.renderDiscussions()}
                         </section>
                     </section>
                 )} />
@@ -84,8 +120,8 @@ class BodyTimeline extends StatelessComponent<IProps> {
 
 export default BodyTimeline.connect(
     ({ universe }: IStoreState) => ({
-        posts: universe.posts,
+        discussions: universe.discussions,
         isNewDiscussionExpanded: universe.isNewDiscussionExpanded
     }),
-    { toggleNewDiscussion }
+    { toggleNewDiscussion, getDiscussions }
 )

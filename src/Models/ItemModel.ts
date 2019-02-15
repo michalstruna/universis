@@ -12,7 +12,7 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
         this.dbModel = this.db.getModel(options.dbModel)
     }
 
-    public async add(items: New[]): Promise<string[]> {
+    public async add(items: New[]): Promise<Full[]> {
         const { add, notifications } = this.options
 
         if (add.onBefore) {
@@ -34,10 +34,10 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
             await Promise.all(items.map((item, i) => add.onAfter(addedItems[i], item)))
         }
 
-        return addedItems.map(item => item._id)
+        return addedItems
     }
 
-    public async addOne(item: New): Promise<string> {
+    public async addOne(item: New): Promise<Full> {
         const { add, notifications } = this.options
 
         if (add.onBefore) {
@@ -59,7 +59,7 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
             await add.onAfter(addedItem, item)
         }
 
-        return addedItem._id
+        return addedItem
     }
 
     public approve(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<number> {

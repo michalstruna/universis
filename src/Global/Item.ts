@@ -28,7 +28,7 @@ declare namespace Universis.Item {
          * @returns Promise with error INVALID, if values are invalid.
          * @returns Promise with error DUPLICATE, if there is duplicate unique value.
          */
-        add(items: New[]): Promise<string[]>
+        add(items: New[]): Promise<Full[]>
 
         /**
          * Create new item.
@@ -37,7 +37,7 @@ declare namespace Universis.Item {
          * @returns Promise with error INVALID, if values are invalid.
          * @returns Promise with error DUPLICATE, if there is duplicate unique value.
          */
-        addOne(item: New): Promise<string>
+        addOne(item: New): Promise<Full>
 
         /**
          * Approve all items with filter.

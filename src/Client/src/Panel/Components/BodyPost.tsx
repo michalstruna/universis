@@ -45,7 +45,7 @@ class BodyPost extends Component<IProps, IState> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        if (prevProps.post.answers.length !== this.props.post.answers.length) {
+        if (prevProps.post.answers && prevProps.post.answers.length !== this.props.post.answers.length) {
             this.updateHeight()
         }
     }
@@ -211,7 +211,7 @@ class BodyPost extends Component<IProps, IState> {
                     <section className='panel__body__discussion__metadata'>
                         {this.renderTitle()}
                         <span className='panel__body__discussion__author'>
-                            {post.user.name}
+                            {post.user ? post.user.name : post.ip}
                         </span>
                         <span className='panel__body__discussion__date'>
                             <RelativeTime date={post.date} />

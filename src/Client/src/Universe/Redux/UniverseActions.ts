@@ -1,5 +1,6 @@
 import { Request, Redux } from '../../Utils'
 import ActionTypes from './ActionTypes'
+import { Store } from '../../System'
 
 /**
  * Get all bodies.
@@ -96,7 +97,7 @@ export const getEvents = (bodyId: string) => (
 export const toggleAnswers = (discussionId: string, isExpanded: boolean) => (
     Redux.toggleAction(
         ActionTypes.TOGGLE_ANSWERS,
-        { posts: { payload: { $find: discussion => discussion._id === discussionId, isExpanded } } }
+        { discussions: { payload: { $find: discussion => discussion._id === discussionId, isExpanded } } }
     )
 )
 
@@ -129,7 +130,7 @@ export const vote = (score: number, isTrue: boolean, postId: string, parentId?: 
         return dispatch(
             Redux.setAction(
                 score > 0 ? ActionTypes.VOTE_UP : ActionTypes.VOTE_DOWN,
-                { posts: { payload: query } }
+                { discussions: { payload: query } }
             )
         )
     }
@@ -158,7 +159,7 @@ export const addAnswer = (answer: Universis.Answer.New) => (
             Redux.setAction(
                 ActionTypes.LOCAL_ADD_ANSWER,
                 {
-                    posts: {
+                    discussions: {
                         payload: {
                             $find: discussion => discussion._id === answer.discussionId,
                             answers: { $add: newAnswer }
@@ -171,39 +172,33 @@ export const addAnswer = (answer: Universis.Answer.New) => (
 )
 
 /**
+ * Get all discussions of body. // TODO: Paginator?
+ * @param bodyId ID of body.
+ */
+export const getDiscussions = (bodyId: string) => (
+    Redux.asyncAction(
+        ActionTypes.GET_DISCUSSIONS,
+        { discussions: Request.get(`bodies/${bodyId}/posts`) }
+    )
+)
+
+/**
  * Add new discussion to body.
  * @param discussion
  */
 export const addDiscussion = (discussion: Universis.Discussion.New) => (
     async dispatch => {
-        const newDiscussion = {
-            _id: Math.random().toString(), date: new Date().toISOString(), user: {
-                avatar: 'https://i.pinimg.com/originals/3d/af/bb/3dafbbca852add94c6b2af6e4c01881d.jpg',
-                name: 'Michal',
-                score: {
-                    gold: 12,
-                    silver: 1329,
-                    bronze: 12347,
-                    karma: 15
-                }
-            }, ...discussion, answers: [], agreements: [], disagreements: []
-        }
-
         const { bodyId, ...discussionToServer } = discussion
-
-        dispatch(
-            Redux.asyncAction(
-                ActionTypes.ADD_DISCUSSION,
-                { newDiscussion: Request.post(`bodies/${bodyId}`, discussionToServer) }
-            )
-        )
 
         dispatch(toggleNewDiscussion(false))
 
         return dispatch(
-            Redux.setAction(
-                ActionTypes.LOCAL_ADD_DISCUSSION,
-                { posts: { payload: { $addFirst: newDiscussion } } }
+            Redux.asyncAction(
+                ActionTypes.ADD_DISCUSSION,
+                { newDiscussion: Request.post(`bodies/${bodyId}/posts`, discussionToServer) },
+                discussion => dispatch(
+                    Redux.setAction(ActionTypes.LOCAL_ADD_DISCUSSION, { discussions: { payload: { $addFirst: discussion } } })
+                )
             )
         )
     }

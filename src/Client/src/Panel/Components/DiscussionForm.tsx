@@ -10,6 +10,7 @@ interface IProps {
     strings: IStrings
     identity: IAsyncEntity<Universis.User.Identity>
     addDiscussion: Universis.Consumer<Universis.Discussion.New>
+    body: IAsyncEntity<IBody>
 }
 
 interface IValues {
@@ -30,10 +31,10 @@ class DiscussionForm extends StatelessComponent<IProps & InjectedFormProps<IValu
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { strings, identity, form, addDiscussion, reset } = this.props
+        const { strings, identity, form, addDiscussion, reset, body } = this.props
 
         try {
-            addDiscussion({ ...data, bodyId: 'abc' })
+            addDiscussion({ ...data, bodyId: body.payload._id })
             reset()
         } catch (error) {
         }
@@ -76,9 +77,10 @@ class DiscussionForm extends StatelessComponent<IProps & InjectedFormProps<IValu
 export default reduxForm({
     form: DiscussionForm.NAME
 })(DiscussionForm.connect(
-    ({ system, user }: IStoreState) => ({
+    ({ system, user, universe }: IStoreState) => ({
         strings: system.strings.discussion,
-        identity: user.identity
+        identity: user.identity,
+        body: universe.body
     }),
     { addDiscussion }
 ))

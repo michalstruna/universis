@@ -40,6 +40,11 @@ declare namespace Universis {
          */
         isExpanded: boolean
 
+        /**
+         * IP of author.
+         */
+        ip: string
+
     }
 
     /**
@@ -75,7 +80,12 @@ declare namespace Universis {
         /**
          * Date of creation-
          */
-        date: string
+        date: string,
+
+        /**
+         * IP of author.
+         */
+        ip: string
 
     }
 

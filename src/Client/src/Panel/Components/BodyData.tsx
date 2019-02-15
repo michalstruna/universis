@@ -2,7 +2,6 @@ import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
 import { StatelessComponent, DataTable, Units } from '../../Utils'
-import { BodyPreview } from '../../Universe'
 import { DonutChart } from '../../Charts'
 
 interface IProps {

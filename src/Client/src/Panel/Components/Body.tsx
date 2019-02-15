@@ -60,7 +60,7 @@ class Body extends StatelessComponent<IProps> {
      * @returns Content.
      */
     private renderContent(): React.ReactNode {
-        const { location } = this.props
+        const { location, body } = this.props
         const currentTab = Url.getQuery(Queries.BODY_TAB, location.search)
 
         switch (currentTab) {
@@ -69,7 +69,7 @@ class Body extends StatelessComponent<IProps> {
             case Queries.BODY_TIMELINE:
                 return <BodyTimeline />
             case Queries.BODY_DISCUSSION:
-                return <BodyDiscussion />
+                return <BodyDiscussion bodyId={body.payload._id} />
             default:
                 return <BodyData />
         }

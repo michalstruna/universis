@@ -38,8 +38,13 @@ class Route {
     }
 
     private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorized: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
-        return (request, response) => (
-            action(request)
+        return (request, response) => {
+            const requestData = {
+                ...request,
+                ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+            }
+
+            return action(requestData)
                 .then(result => {
                     if (typeof resultMap === 'boolean') {
                         response.sendStatus(NO_CONTENT)
@@ -48,10 +53,9 @@ class Route {
                     }
                 })
                 .catch(error => {
-                    console.log(error)
                     response.status(error.code).send(error)
                 })
-        )
+        }
     }
 
     /**
@@ -101,24 +105,33 @@ class Route {
      * @param access Object of access points. It can be default function (Route.all, ...) or custom request handlers (Route.all(), ...).
      * @returns Route group.
      */ů
+
     public static getRouteGroupForAll(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
         const routeGroup: IObject<IRequestHandler> = {}
 
         // TODO: Map before and map after.
         if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(Route.getAllHandler(model))
+            routeGroup.get = access.get(({ query }) => (
+                model.get(
+                    Route.getFilterFromQuery(query),
+                    {
+                        sort: query.sort,
+                        reverse: query.reverse,
+                        limit: parseInt(query.limit),
+                        offset: parseInt(query.offset)
+                    }
+                )))
         }
 
-        if (access.post && typeof access.post !== 'object') {
-      /*      const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : item => item
+        if (access.post) {
+            const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : request => request.body
+            const mapAfter = 'mapAfter' in access.post ? access.post.mapAfter : item => item
             const handler = 'access' in access.post ? access.post.access : access.post
-            routeGroup.post = handler(request => mapBefore(request), _id => ({ _id }))*/
-
-            routeGroup.post = access.post(Route.addHandler(model), _id => ({ _id }))
+            routeGroup.post = handler(request => model.addOne(mapBefore(request)), mapAfter)
         }
 
         if (access.delete && typeof access.delete !== 'object') {
-            routeGroup.delete = access.delete(Route.deleteAllHandler(model), count => ({ count }))
+            routeGroup.delete = access.delete(() => model.remove({}), count => ({ count }))
         }
 
         return routeGroup
@@ -134,15 +147,15 @@ class Route {
         const routeGroup: IObject<IRequestHandler> = {}
 
         if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(Route.getByIdHandler(model))
+            routeGroup.get = access.get(({ params }) => model.getOne({ _id: params.bodyId }))
         }
 
         if (access.put && typeof access.put !== 'object') {
-            routeGroup.put = access.put(Route.updateByIdHandler(model), false)
+            routeGroup.put = access.put(({ params, body }) => model.updateOne({ _id: params.bodyId }, body), false)
         }
 
         if (access.delete && typeof access.delete !== 'object') {
-            routeGroup.delete = access.delete(Route.deleteByIdHandler(model), false)
+            routeGroup.delete = access.delete(({ params }) => model.removeOne({ _id: params.bodyId }), false)
         }
 
         return routeGroup
@@ -152,83 +165,11 @@ class Route {
         const routeGroup: IObject<IRequestHandler> = {}
 
         if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(Route.getCountHandler(model))
+            routeGroup.get = access.get(() => model.count({})) // TODO: Filter.
         }
 
         return routeGroup
     }
-
-    /**
-     * Get handler for getAll route.
-     * @param model Model for CRUD operations.
-     * @returns Default request handler.
-     */
-    public static getAllHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        ({ query }) => (
-            model.get(
-                Route.getFilterFromQuery(query),
-                {
-                    sort: query.sort,
-                    reverse: query.reverse,
-                    limit: parseInt(query.limit),
-                    offset: parseInt(query.offset)
-                }
-            ))
-    )
-
-    /**
-     * Get handler for add route.
-     * @param model Model for CRUD operations.
-     * @returns Default request handler.
-     */
-    private static addHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        ({ body }) => model.addOne(body) // TODO: Filter?
-    )
-
-    /**
-     * Get handler for deleteAll route.
-     * @param model Model for CRUD operations.
-     * @returns Default request handler.
-     */
-    private static deleteAllHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        () => model.remove({}) // TODO: Filter?
-    )
-
-    /**
-     * Get handler for getById route.
-     * @param model Model for CRUD operations.
-     * @returns Default request handler.
-     */
-    private static getByIdHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        ({ params }) => model.getOne({ _id: params.bodyId })
-    )
-
-    /**
-     * Get handler for updateById route.
-     * @param model Model for CRUD operations.
-     * @returns Default request handler.
-     */
-    private static updateByIdHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        ({ params, body }) => model.updateOne({ _id: params.bodyId }, body)
-    )
-
-    /**
-     * Get handler for deleteById route.
-     * @param model Model for CRUD operations.
-     * @returns Default request handler.
-     */
-    private static deleteByIdHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        ({ params }) => model.removeOne({ _id: params.bodyId })
-    )
-
-    /**
-     * Get handler for getCount route.
-     * @param model Model for CRUD operations.
-     * @returns Default request handler.
-     */
-    private static getCountHandler = (model: Universis.Model.Unspecified): IRouteAction => (
-        () => model.count({}) // TODO: Filter?
-    )
 
     public static getSwaggerRouteGroupForOne(tags: string[], schema: string, pathParameters: string[] = [], routes: string[] = ['get', 'put', 'delete']) {
         const result = { parameters: [], get: undefined, put: undefined, delete: undefined }

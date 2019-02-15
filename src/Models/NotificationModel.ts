@@ -8,14 +8,12 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
         this.dbModel = this.db.getModel(DatabaseModels.NOTIFICATION)
     }
 
-    public add(items: Universis.Notification.New[]): Promise<string[]> {
-        return this.dbModel
-            .add<Universis.Notification>(items)
-            .then(notifications => notifications.map(notification => notification._id))
+    public add(items: Universis.Notification.New[]): Promise<Universis.Notification[]> {
+        return this.dbModel.add<Universis.Notification>(items)
     }
 
-    public addOne(item: Universis.Notification.New): Promise<string> {
-        return this.dbModel.addOne<Universis.Notification>(item).then(notification => notification._id)
+    public addOne(item: Universis.Notification.New): Promise<Universis.Notification> {
+        return this.dbModel.addOne<Universis.Notification>(item)
     }
 
     public approve(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<number> {
