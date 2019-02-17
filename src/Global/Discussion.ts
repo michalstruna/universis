@@ -16,14 +16,9 @@ declare namespace Universis {
         user: Universis.User.Simple
 
         /**
-         * List of users that agree with post.
+         * List of votes.
          */
-        agreements: Universis.User.Simple[]
-
-        /**
-         * List of users that disagree with post.
-         */
-        disagreements: Universis.User.Simple[]
+        votes: Vote[]
 
         /**
          * List of answers.
@@ -125,6 +120,43 @@ declare namespace Universis {
              * Content of post.
              */
             content: string
+
+        }
+
+    }
+
+    export interface Vote extends Vote.New {
+
+        /**
+         * ID of vote.
+         */
+        _id: string
+
+        /**
+         * Date of creation-
+         */
+        date: string
+
+        /**
+         * ID of user.
+         */
+        userId: string
+
+    }
+
+    export namespace Vote {
+
+        export interface New {
+
+            /**
+             * Vote is positive (+1).
+             */
+            isPositive: boolean
+
+            /**
+             * ID of post.
+             */
+            postId: string
 
         }
 

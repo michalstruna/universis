@@ -2,12 +2,11 @@ import { Schema } from 'mongoose'
 
 import { DatabaseModels } from '../../Constants'
 
-const BodyPostSchema = new Schema({
+const PostVoteSchema = new Schema({
 
-    content: {
-        type: String,
-        required: true,
-        minlength: 1
+    isPositive: {
+        type: Boolean,
+        required: true
     },
 
     date: {
@@ -19,30 +18,13 @@ const BodyPostSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.USER,
-        required: false
-    },
-
-    title: {
-        type: String,
-        required: false,
-        minlength: 1
-    },
-
-    ip: {
-        type: String,
         required: true
     },
 
-    bodyId: {
-        type: Schema.Types.ObjectId,
-        ref: DatabaseModels.BODY,
-        required: false
-    },
-
-    discussionId: {
+    postId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.BODY_POST,
-        required: false
+        required: true
     },
 
     __v: {
@@ -52,4 +34,6 @@ const BodyPostSchema = new Schema({
 
 })
 
-export default BodyPostSchema
+PostVoteSchema.index({ userId: 1, postId: 1 }, { unique: true })
+
+export default PostVoteSchema

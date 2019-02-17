@@ -1,31 +1,25 @@
 import * as React from 'react'
 
-import { StatelessComponent, AsyncEntity, DataTable, DropdownArea, DropdownButton } from '../../Utils'
+import { StatelessComponent, DataTable, DropdownArea, DropdownButton } from '../../Utils'
 import BodyPost from './BodyPost'
-import { toggleNewDiscussion, getDiscussions } from '../../Universe'
+import { toggleNewDiscussion } from '../../Universe'
 import DiscussionForm from './DiscussionForm'
-import users from '../../../../Controllers/users'
 
 interface IProps {
     identity: IAsyncEntity<Universis.User.Identity>
     discussions: IAsyncEntity<Universis.Discussion[]>
     isNewDiscussionExpanded: boolean
     toggleNewDiscussion: Universis.Consumer<boolean>
-    getDiscussions: Universis.Consumer<string>
-    bodyId: string
+    body: IAsyncEntity<IBody>
+    strings: IStrings
 }
 
-class BodyTimeline extends StatelessComponent<IProps> {
-
-    public componentWillMount(): void {
-        const { discussions, getDiscussions, bodyId } = this.props
-        AsyncEntity.request(discussions, () => getDiscussions(bodyId))
-    }
+class BodyDiscussion extends StatelessComponent<IProps> {
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { discussions } = this.props
+        const { body } = this.props
 
-        if (prevProps.discussions.payload && discussions.payload && prevProps.discussions.payload.length !== discussions.payload.length) {
+        if (prevProps.body.payload && body.payload && prevProps.body.payload.discussions.length !== body.payload.discussions.length) {
             this.forceUpdate()
         }
     }
@@ -35,7 +29,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
      * @returns List of discussions.
      */
     private renderDiscussions(): React.ReactNode {
-        return this.props.discussions.payload.map((post, key) => (
+        return this.props.body.payload.discussions.map((post, key) => (
             <BodyPost post={post} key={key} />
         ))
     }
@@ -45,12 +39,12 @@ class BodyTimeline extends StatelessComponent<IProps> {
      * @returns Button.
      */
     private renderToggleNewDiscussion = (): React.ReactNode => {
-        const { isNewDiscussionExpanded, toggleNewDiscussion } = this.props
+        const { isNewDiscussionExpanded, toggleNewDiscussion, strings } = this.props
 
         return (
             <DropdownButton
                 isExpanded={isNewDiscussionExpanded}
-                label={'Založit novou diskusi'}
+                label={strings.newDiscussion}
                 onClick={() => toggleNewDiscussion(!isNewDiscussionExpanded)} />
         )
     }
@@ -66,11 +60,11 @@ class BodyTimeline extends StatelessComponent<IProps> {
     }
 
     private renderHeader(): React.ReactNode {
-        const { discussions } = this.props
+        const { body, strings } = this.props
 
         const users = []
 
-        for (const discussion of discussions.payload) {
+        for (const discussion of body.payload.discussions) {
             if ((discussion.user && !users.includes(discussion.user._id)) || !users.includes(discussion.ip)) {
                 users.push(discussion.user ? discussion.user._id : discussion.ip)
             }
@@ -85,13 +79,13 @@ class BodyTimeline extends StatelessComponent<IProps> {
         return (
             <header className='panel__body__discussion__header'>
                 <DataTable data={{
-                    'Diskusí': discussions.payload.length,
-                    'Odpovědí': discussions.payload.reduce((count, discussion) => count + discussion.answers.length, 0),
-                    'Uživatelů': users.length
+                    [strings.discussionsCount]: body.payload.discussions.length,
+                    [strings.answersCount]: body.payload.discussions.reduce((count, discussion) => count + discussion.answers.length, 0),
+                    [strings.usersCount]: users.length
                 }} />
                 <DataTable data={{
-                    'Nejoblíbenější': 'Václav',
-                    'Nejaktivnější': 'Michal',
+                    [strings.mostFavorite]: 'Václav',
+                    [strings.mostActive]: 'Michal',
                     '': this.renderToggleNewDiscussion
                 }} />
             </header>
@@ -99,29 +93,24 @@ class BodyTimeline extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { discussions } = this.props
-
         return (
-            <AsyncEntity
-                data={discussions}
-                success={() => (
-                    <section className='panel__body__discussion'>
-                        {this.renderHeader()}
-                        {this.renderNewDiscussion()}
-                        <section className='panel__body__discussion__posts'>
-                            {this.renderDiscussions()}
-                        </section>
-                    </section>
-                )} />
+            <section className='panel__body__discussion'>
+                {this.renderHeader()}
+                {this.renderNewDiscussion()}
+                <section className='panel__body__discussion__posts'>
+                    {this.renderDiscussions()}
+                </section>
+            </section>
         )
     }
 
 }
 
-export default BodyTimeline.connect(
-    ({ universe }: IStoreState) => ({
-        discussions: universe.discussions,
-        isNewDiscussionExpanded: universe.isNewDiscussionExpanded
+export default BodyDiscussion.connect(
+    ({ universe, system }: IStoreState) => ({
+        body: universe.body,
+        isNewDiscussionExpanded: universe.isNewDiscussionExpanded,
+        strings: system.strings.discussion
     }),
-    { toggleNewDiscussion, getDiscussions }
+    { toggleNewDiscussion }
 )

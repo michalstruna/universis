@@ -11,28 +11,28 @@ declare type IExpressResponse = any
 /**
  * Interface for promise method.
  */
-declare type IRouteAction = IFunction<any, Promise<any>>
+declare type IRouteAction = Universis.Function<any, Promise<any>>
 
 /**
  * Interface for function, that converts output of model to response data.
  */
-declare type IResultMap = boolean | IFunction<any, any>
+declare type IResultMap = boolean | Universis.Function<any, any>
 
 /**
  * Interface for express handler.
  */
-declare type IRequestHandler = IConsumer2<IExpressRequest, IExpressResponse>
+declare type IRequestHandler = Universis.Consumer2<IExpressRequest, IExpressResponse>
 
 /**
  * Interface for is authorized check.
  */
-declare type IIsAuthorized = IFunction<IUser, boolean>
+declare type IIsAuthorized = Universis.Function<IUser, boolean>
 
 /**
  * Function that say, who has access to route.
  */
-type IDefaultRouteAccess = (IFunction<IRouteAction, IRequestHandler> & IFunction2<IRouteAction, IResultMap, IRequestHandler>)
-declare type IRouteAccess = IDefaultRouteAccess | { access: IDefaultRouteAccess, mapBefore?: IFunction<any, any>, mapAfter?: IFunction<any, any> }
+type IDefaultRouteAccess = (Universis.Function<IRouteAction, IRequestHandler> & Universis.Function2<IRouteAction, IResultMap, IRequestHandler>)
+declare type IRouteAccess = IDefaultRouteAccess | { access: IDefaultRouteAccess, mapBefore?: Universis.Function<any, any>, mapAfter?: Universis.Function<any, any>, filter?: Universis.Function<any, any> }
 
 /**
  * Interface for route group access.

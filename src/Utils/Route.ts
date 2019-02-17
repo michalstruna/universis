@@ -53,6 +53,7 @@ class Route {
                     }
                 })
                 .catch(error => {
+                    console.log(error)
                     response.status(error.code).send(error)
                 })
         }
@@ -110,15 +111,18 @@ class Route {
         const routeGroup: IObject<IRequestHandler> = {}
 
         // TODO: Map before and map after.
-        if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(({ query }) => (
+        if (access.get) {
+            const handler = 'access' in access.get ? access.get.access : access.get
+            const filter = 'filter' in access.get ? access.get.filter : () => []
+
+            routeGroup.get = handler((request) => (
                 model.get(
-                    Route.getFilterFromQuery(query),
+                    { ...Route.getFilterFromQuery(request.query), ...filter(request) },
                     {
-                        sort: query.sort,
-                        reverse: query.reverse,
-                        limit: parseInt(query.limit),
-                        offset: parseInt(query.offset)
+                        sort: request.query.sort,
+                        reverse: request.query.reverse,
+                        limit: parseInt(request.query.limit),
+                        offset: parseInt(request.query.offset)
                     }
                 )))
         }

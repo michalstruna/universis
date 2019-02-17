@@ -60,7 +60,7 @@ class Body extends StatelessComponent<IProps> {
      * @returns Content.
      */
     private renderContent(): React.ReactNode {
-        const { location, body } = this.props
+        const { location } = this.props
         const currentTab = Url.getQuery(Queries.BODY_TAB, location.search)
 
         switch (currentTab) {
@@ -69,53 +69,52 @@ class Body extends StatelessComponent<IProps> {
             case Queries.BODY_TIMELINE:
                 return <BodyTimeline />
             case Queries.BODY_DISCUSSION:
-                return <BodyDiscussion bodyId={body.payload._id} />
+                return <BodyDiscussion />
             default:
                 return <BodyData />
         }
     }
 
     public render(): React.ReactNode {
-        const { bodies, body } = this.props
+        const { bodies, body, strings } = this.props
         const currentTab = Url.getQuery(Queries.BODY_TAB, location.search)
 
         return (
-            <section
-                className={ClassNames('panel__body', 'panel__window', { 'panel__body--title': currentTab === Queries.BODY_DATA })}>
-                <section className='panel__window__body'>
-                    <section className='panel__window__body--scroll'>
-                        <AsyncEntity
-                            data={bodies}
-                            success={() => (
-                                <AsyncEntity
-                                    data={body}
-                                    success={() => (
-                                        <>
-                                            <BodyPreview body={body.payload} width={400} height={300} />
-                                            {this.renderContent()}
-                                        </>
-                                    )} />
-                            )} />
-                    </section>
-                </section>
-                <QueryMenu
-                    query={Queries.BODY_TAB}
-                    links={{
-                        'Data': Queries.BODY_DATA,
-                        'Časová osa': Queries.BODY_TIMELINE,
-                        'Diskuse': Queries.BODY_DISCUSSION
-                    }}
-                    className='panel__window__menu' />
-            </section>
+            <AsyncEntity
+                data={bodies}
+                success={() => (
+                    <AsyncEntity
+                        data={body}
+                        success={() => (
+                            <section
+                                className={ClassNames('panel__body', 'panel__window', { 'panel__body--title': currentTab === Queries.BODY_DATA })}>
+                                <section className='panel__window__body'>
+                                    <section className='panel__window__body--scroll'>
+                                        <BodyPreview body={body.payload} width={400} height={300} />
+                                        {this.renderContent()}
+                                    </section>
+                                </section>
+                                <QueryMenu
+                                    query={Queries.BODY_TAB}
+                                    links={{
+                                        [strings.data]: Queries.BODY_DATA,
+                                        [`${strings.timeline} (${body.payload.events.length})`]: Queries.BODY_TIMELINE,
+                                        [`${strings.discussion} (${body.payload.discussions.length})`]: Queries.BODY_DISCUSSION
+                                    }}
+                                    className='panel__window__menu' />
+                            </section>
+                        )} />
+                )} />
         )
     }
 
 }
 
 export default Body.connect(
-    ({ universe }: IStoreState) => ({
+    ({ universe, system }: IStoreState) => ({
         bodies: universe.bodies,
-        body: universe.body
+        body: universe.body,
+        strings: system.strings.body
     }),
     { getBodies, getBodyById }
 )

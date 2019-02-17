@@ -6,7 +6,8 @@ enum DatabaseModels {
     BODY_POST = 'BodyPost',
     USER = 'User',
     TOKEN = 'Token',
-    NOTIFICATION = 'Notification'
+    NOTIFICATION = 'Notification',
+    POST_VOTE = 'PostVote'
 
 }
 

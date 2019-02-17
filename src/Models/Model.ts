@@ -10,6 +10,7 @@ import TokenSchema from '../Database/Schemas/TokenSchema'
 import NotificationSchema from '../Database/Schemas/NotificationSchema'
 import BodyEventSchema from '../Database/Schemas/BodyEventSchema'
 import BodyPostSchema from '../Database/Schemas/BodyPostSchema'
+import PostVoteSchema from '../Database/Schemas/PostVoteSchema'
 
 /**
  * Base model. This is parent of each another model.
@@ -57,7 +58,8 @@ abstract class Model implements IModel {
                 [DatabaseModels.TOKEN]: TokenSchema,
                 [DatabaseModels.NOTIFICATION]: NotificationSchema,
                 [DatabaseModels.BODY_EVENT]: BodyEventSchema,
-                [DatabaseModels.BODY_POST]: BodyPostSchema
+                [DatabaseModels.BODY_POST]: BodyPostSchema,
+                [DatabaseModels.POST_VOTE]: PostVoteSchema
             }
         })
     }

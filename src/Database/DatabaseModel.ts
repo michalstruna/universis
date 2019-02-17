@@ -107,6 +107,10 @@ class DatabaseModel implements Universis.Database.Model {
         ))
     }
 
+    public aggregate<T>(pipeline: Universis.Map<any>[]): Promise<T[]> {
+        return this.model.aggregate(pipeline).exec()
+    }
+
     /**
      * Apply query options to query.
      * @param query Query.

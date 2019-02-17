@@ -79,17 +79,6 @@ export const toggleOrbits = (areOrbitsVisible: boolean) => (
 )
 
 /**
- * Get body events.
- * @param bodyId ID of body.
- */
-export const getEvents = (bodyId: string) => (
-    Redux.asyncAction(
-        ActionTypes.GET_EVENTS,
-        { events: Request.get<Universis.Event>(`bodies/${bodyId}/events`) }
-    )
-)
-
-/**
  * Toggle answers.
  * @param discussionId ID of discussion.
  * @param isExpanded Answers of discussion should be visible.
@@ -97,89 +86,39 @@ export const getEvents = (bodyId: string) => (
 export const toggleAnswers = (discussionId: string, isExpanded: boolean) => (
     Redux.toggleAction(
         ActionTypes.TOGGLE_ANSWERS,
-        { discussions: { payload: { $find: discussion => discussion._id === discussionId, isExpanded } } }
+        { body: { payload: { discussions: { $find: discussion => discussion._id === discussionId, isExpanded } } } }
     )
 )
 
 /**
  * Toggle disagreement with post.
- * @param score Negative is vote down, positive is vote up.
+ * @param isPositive Negative is vote down, positive is vote up.
  * @param isTrue
  * @param postId
  * @param parentId
  */
-export const vote = (score: number, isTrue: boolean, postId: string, parentId?: string) => (
+export const vote = (isPositive: boolean, isTrue: boolean, postId: string, parentId?: string) => (
     dispatch => {
-        if (isTrue) {
-            dispatch(vote(-score, false, postId, parentId))
-        }
+        /*  const findParent = item => item._id === parentId
+          const findPost = item => item._id === postId
+          const group = score > 0 ? 'agreements' : 'disagreements'
 
-        const findParent = item => item._id === parentId
-        const findPost = item => item._id === postId
-        const group = score > 0 ? 'agreements' : 'disagreements'
+          let query: any = {
+              $find: findPost,
+              [group]: isTrue ? { $add: { _id: 'myself' } } : { $remove: item => item._id === 'myself' }
+          }
 
-        let query: any = {
-            $find: findPost,
-            [group]: isTrue ? { $add: { _id: 'myself' } } : { $remove: item => item._id === 'myself' }
-        }
+          if (parentId) {
+              query = { $find: findParent, answers: query }
+          }
 
-        if (parentId) {
-            query = { $find: findParent, answers: query }
-        }
-
-        return dispatch(
-            Redux.setAction(
-                score > 0 ? ActionTypes.VOTE_UP : ActionTypes.VOTE_DOWN,
-                { discussions: { payload: query } }
-            )
-        )
+          return dispatch(
+              Redux.setAction(
+                  ActionTypes.LOCAL_VOTE,
+                  { body: { payload: { discussions: query } } }
+              )
+          )*/
     }
-)
-
-/**
- * Add answer to discussion.
- * @param answer
- */
-export const addAnswer = (answer: Universis.Answer.New) => (
-    dispatch => {
-        const newAnswer = {
-            _id: Math.random().toString(), date: new Date().toISOString(), user: {
-                avatar: 'https://i.pinimg.com/originals/3d/af/bb/3dafbbca852add94c6b2af6e4c01881d.jpg',
-                name: 'Michal',
-                score: {
-                    gold: 12,
-                    silver: 1329,
-                    bronze: 12347,
-                    karma: 15
-                }
-            }, ...answer, answers: [], agreements: [], disagreements: []
-        }
-
-        return dispatch(
-            Redux.setAction(
-                ActionTypes.LOCAL_ADD_ANSWER,
-                {
-                    discussions: {
-                        payload: {
-                            $find: discussion => discussion._id === answer.discussionId,
-                            answers: { $add: newAnswer }
-                        }
-                    }
-                }
-            )
-        )
-    }
-)
-
-/**
- * Get all discussions of body. // TODO: Paginator?
- * @param bodyId ID of body.
- */
-export const getDiscussions = (bodyId: string) => (
-    Redux.asyncAction(
-        ActionTypes.GET_DISCUSSIONS,
-        { discussions: Request.get(`bodies/${bodyId}/posts`) }
-    )
 )
 
 /**
@@ -197,7 +136,40 @@ export const addDiscussion = (discussion: Universis.Discussion.New) => (
                 ActionTypes.ADD_DISCUSSION,
                 { newDiscussion: Request.post(`bodies/${bodyId}/posts`, discussionToServer) },
                 discussion => dispatch(
-                    Redux.setAction(ActionTypes.LOCAL_ADD_DISCUSSION, { discussions: { payload: { $addFirst: discussion } } })
+                    Redux.setAction(ActionTypes.LOCAL_ADD_DISCUSSION, {
+                        body: { payload: { discussions: { $addFirst: { ...discussion, answers: [] } } } }
+                    })
+                )
+            )
+        )
+    }
+)
+
+/**
+ * Add answer to discussion.
+ * @param answer
+ */
+export const addAnswer = (answer: Universis.Answer.New) => (
+    dispatch => {
+        const { discussionId, ...answerToServer } = answer
+
+        return dispatch(
+            Redux.asyncAction(
+                ActionTypes.ADD_ANSWER,
+                { newAnswer: Request.post(`posts/${discussionId}/posts`, answerToServer) },
+                answer => dispatch(
+                    Redux.setAction(
+                        ActionTypes.LOCAL_ADD_ANSWER,
+                        {
+                            body: {
+                                payload: {
+                                    discussions: {
+                                        $find: discussion => discussion._id === discussionId, answers: { $add: answer }
+                                    }
+                                }
+                            }
+                        }
+                    )
                 )
             )
         )

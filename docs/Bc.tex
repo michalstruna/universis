@@ -794,7 +794,7 @@ Uživatel se autentizuje při přihlášení svým emailem a heslem, čímž mu 
 
 \item \textbf{ID uživatele}: Jedná se o~nebezpečný postup. ID uživatele je veřejný údaj, ke kterému mají přístup i~všichni ostatní. Nic by tedy nebránilo útočníkovi poslat \textit{HTTP} požadavek s~ID libovolného uživatele.
 
-\item \textbf{Token}: Ideálním způsobem se zdá být vygenerování náhodného textového řetězce při přihlášení. Tímto řetězcem se po dobu přihlášení bude uživatel prokazovat. Protože tento řetězec nezná nikdo jiný, než uživatel sám, nikdo jiný se s~ním tedy nemůže autentizovat. Navíc proti zneužití má omezenou platnost, po jejímž vypršení je třeba požádat o~nový token.
+\item \textbf{Token}: Ideálním způsobem se zdá být vygenerování pseudonáhodného textového řetězce při přihlášení. Tímto řetězcem se po dobu přihlášení bude uživatel prokazovat. Protože tento řetězec nezná nikdo jiný, než uživatel sám, nikdo jiný se s~ním tedy nemůže autentizovat. Navíc proti zneužití má omezenou platnost, po jejímž vypršení je třeba požádat o~nový token.
 \end{itemize}
 
 V~aplikaci je využit poslední ze zmíněných způsobů. Token má platnost 30 minut. Je tedy zajištěna bezpečná autoritace. Každý může provádět pouze ty operace, na které má~skutečně právo.

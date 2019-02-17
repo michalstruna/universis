@@ -2,10 +2,10 @@ import Route from '../../../Utils/Route'
 import BodyPostModel from '../../../Models/BodyPostModel'
 
 export default Route.getRouteGroupForAll(BodyPostModel, {
-    get: { access: Route.all, filter: ({ params }) => ({ bodyId: params.bodyId }) },
+    get: { access: Route.all, filter: ({ params }) => ({ postId: params.postId }) },
     post: {
         access: Route.all,
-        mapBefore: ({ body, userId, ip, params }) => ({ ...body, userId, ip, bodyId: params.bodyId })
+        mapBefore: ({ body, userId, params }) => ({ ...body, userId, postId: params.postId })
     },
     delete: Route.all
 })

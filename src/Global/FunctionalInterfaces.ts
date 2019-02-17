@@ -26,6 +26,11 @@ declare namespace Universis {
     export type Consumer4<P1, P2, P3, P4> = (input1: P1, input2: P2, input3: P3, input4: P4) => void
 
     /**
+     * Consumer5 has five parameters, but not return value.
+     */
+    export type Consumer5<P1, P2, P3, P4, P5> = (input1: P1, input2: P2, input3: P3, input4: P4, input5: P5) => void
+
+    /**
      * Supplier has only return value, but not parameter.
      */
     export type Supplier<T> = () => T

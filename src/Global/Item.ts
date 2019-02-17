@@ -173,13 +173,13 @@ declare namespace Universis.Model {
              * Callback of before get item. (optional)
              * THere are query filter and query options in parameters.
              */
-            onBefore?: Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.Options>
+            onBefore?: Universis.Consumer3<Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
             /**
              * Callback of after get item. (optional)
              * There are item, query filter and query options in parameters.
              */
-            onAfter?: Universis.Consumer3<Full | Simple, Universis.Database.Query.Filter, Universis.Database.Query.Options>
+            onAfter?: Universis.Consumer4<any, Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
             /**
              * List of selected fields in getOne. (optional, default all fields)
@@ -200,6 +200,11 @@ declare namespace Universis.Model {
              * List of populated fields in get. (optional, default no fields)
              */
             joinAll?: string[]
+
+            /**
+             * Custom pipeline for get one item.
+             */
+            custom?: Universis.Function2<Universis.Database.Query.Filter, Universis.Database.Query.Options, Universis.Map<any>[]>
 
         }
 
@@ -222,13 +227,13 @@ declare namespace Universis.Model {
              * Callback of before add item.
              * THere are new item,in parameter.
              */
-            onBefore?: Universis.Consumer<New>
+            onBefore?: Universis.Consumer2<New, Item.Model<Full, Simple, New>>
 
             /**
              * Callback of add update item.
              * There are added item and new item in parameter.
              */
-            onAfter?: Universis.Consumer2<Full, New>
+            onAfter?: Universis.Consumer3<Full, New, Item.Model<Full, Simple, New>>
 
         }
 
@@ -251,13 +256,13 @@ declare namespace Universis.Model {
              * Callback of before update item.
              * THere are changes, query filter and query options in parameters.
              */
-            onBefore?: Universis.Consumer3<New, Universis.Database.Query.Filter, Universis.Database.Query.Options>
+            onBefore?: Universis.Consumer4<New, Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
             /**
              * Callback of after update item.
              * There are updated item, changes, query filter and query options in parameters.
              */
-            onAfter?: Universis.Consumer4<Full, New, Universis.Database.Query.Filter, Universis.Database.Query.Options>
+            onAfter?: Universis.Consumer5<Full, New, Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
         }
 
@@ -280,13 +285,13 @@ declare namespace Universis.Model {
              * Callback of before remove item.
              * THere are query filter and query options in parameters.
              */
-            onBefore?: Universis.Consumer2<Universis.Database.Query.Filter, Universis.Database.Query.Options>
+            onBefore?: Universis.Consumer3<Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
             /**
              * Callback of after remove item.
              * There are removed item, query filter and query options in parameters.
              */
-            onAfter?: Universis.Consumer3<Full, Universis.Database.Query.Filter, Universis.Database.Query.Options>
+            onAfter?: Universis.Consumer4<Full, Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
         }
 
