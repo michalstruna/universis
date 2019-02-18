@@ -1,5 +1,4 @@
 import { Urls } from '../../Utils'
-import { Operations, NotificationSubjects } from '../../../../Constants'
 
 export default {
 
@@ -104,6 +103,12 @@ export default {
         relativeTo: 'Relativně k'
     },
 
+    body: {
+        data: 'Data',
+        timeline: 'Časová osa',
+        discussion: 'Diskuse',
+    },
+
     bodyData: {
         size: 'Velikost',
         diameterX: 'Rov. průměr',
@@ -153,6 +158,21 @@ export default {
         discoverer: 'Objevitel',
         discoverDate: 'Datum objevu'
 
+    },
+
+    discussion: {
+        missingContent: 'Nelze odeslat prázdnou odpověď.',
+        contentLabel: 'Vaše odpověď...',
+        missingTitle: 'Zadejte titulek diskuse.',
+        titleLabel: 'Titulek vaší diskuse',
+        missingDiscussion: 'Popište problém, otázku či úvahu.',
+        discussionLabel: 'Podrobnosti...',
+        discussionsCount: 'Diskusí',
+        answersCount: 'Odpovědí',
+        usersCount: 'Uživatelů',
+        mostActive: 'Nejaktivnější',
+        mostFavorite: 'Nejoblíbenější',
+        newDiscussion: 'Založit novou diskusi'
     },
 
     notifications: {

@@ -18,6 +18,7 @@ export { default as ToggleLayout } from './Components/ToggleLayout'
 export { default as Menu } from './Components/Menu'
 export { default as RelativeTime } from './Components/RelativeTime'
 export { default as EventArea } from './Components/EventsArea'
+export { DropdownArea, DropdownButton } from './Components/Dropdown'
 
 /**
  * Constants.

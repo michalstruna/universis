@@ -19,6 +19,15 @@ class Arrays {
         return -1
     }
 
+    /**
+     * Get sum of all values in array.
+     * @param array Source array.
+     * @returns Sum.
+     */
+    public static sum = (array: number[]): number => {
+        return array.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    }
+
 }
 
 export default Arrays

@@ -22,7 +22,7 @@ class Strings {
      * @param string Source.
      * @returns String is email.
      */
-    public static isEmail(string: string): boolean {
+    public static isEmail = (string: string): boolean => {
         return Strings.EMAIL_PATTERN.test(string)
     }
 
@@ -31,7 +31,7 @@ class Strings {
      * @param string Source.
      * @returns String is password.
      */
-    public static isPassword(string: string): boolean {
+    public static isPassword = (string: string): boolean => {
         return Strings.PASSWORD_PATTERN.test(string)
     }
 

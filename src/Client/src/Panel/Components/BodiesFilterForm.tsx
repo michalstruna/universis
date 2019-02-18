@@ -2,7 +2,7 @@ import * as React from 'react'
 import { reduxForm, InjectedFormProps, formValueSelector, getFormValues, initialize } from 'redux-form'
 
 import { StatelessComponent, Filter, Url, Queries } from '../../Utils'
-import { TextField, Form, Select, FlexRow } from '../../Forms'
+import { Field, Form, Select, FlexRow } from '../../Forms'
 import Arrays from '../../../../Utils/Arrays'
 
 interface IProps {
@@ -106,7 +106,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
                     <Select
                         name={`relation[${i}]`}
                         options={BodiesFilterForm.RELATION_OPTIONS} />
-                    <TextField label={''} name={`value[${i}]`} />
+                    <Field name={`value[${i}]`} />
                     <button
                         className='form__button--remove'
                         onClick={event => this.handleRemoveRow(event, i)} />

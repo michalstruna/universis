@@ -3,41 +3,107 @@ import * as React from 'react'
 import { Field as ReduxField } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
+import Strings from '../../../../Utils/Strings'
 
-export interface ICustomFieldProps {
-    label: string
+interface IType {
     name: string
-
-    required?: string
-    invalid?: string
-
-    validate?: IFunction<string, string | undefined>
+    validator: Universis.Function<string | number | boolean, boolean>
 }
 
 interface IProps {
-    label: string
     name: string
-    validate: IFunction<string, string | undefined>
-    type: string
+    type?: IType
+    label?: string
+    validator?: Universis.Function<string | number | boolean, string | undefined>
+    required?: string
+    invalid?: string
 }
 
 /**
- * Component for rendering some field input (text, email, ...) in form.
+ * Form field for any input (text, number, email, password, ...).
  */
 class Field extends StatelessComponent<IProps> {
 
+    /**
+     * Plain text type.
+     */
+    public static TEXT = {
+        name: 'text',
+        validator: value => true
+    }
+
+    /**
+     * Password input.
+     */
+    public static PASSWORD = {
+        name: 'password',
+        validator: Strings.isPassword
+    }
+
+    /**
+     * Email input.
+     */
+    public static EMAIL = {
+        name: 'email',
+        validator: Strings.isEmail
+    }
+
+    /**
+     * Textarea input.
+     */
+    public static TEXT_AREA = {
+        name: 'textarea',
+        validator: value => true
+    }
+
+    public static defaultProps = {
+        type: Field.TEXT,
+        label: ''
+    }
+
+    /**
+     * Field validator.
+     * @param value Current value.
+     * @returns Error message or undefined.
+     */
+    private validator = (value: any) => {
+        const { required, invalid, validator, type } = this.props
+
+        if (validator) {
+            return validator(value)
+        } else if (required && !value) {
+            return required
+        } else if (!type.validator(value)) {
+            return invalid
+        }
+
+        return undefined
+    }
+
+    /**
+     * Render component.
+     * @param data
+     */
     private renderComponent = (data): React.ReactNode => {
         const { label, type } = this.props
-        const { touched, error } = data.meta
+        const { touched, error, value } = data.meta
+        const blockClassName = ClassNames('form__block', { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value })
+        const inputProps = { ...data.input, autoComplete: 'off', className: 'form__field form__field--' + type.name }
+
+        if (type === Field.TEXT_AREA) {
+            return (
+                <label className={blockClassName}>
+                    <textarea {...inputProps} />
+                    <p className='form__label'>
+                        {touched && error ? error : label}
+                    </p>
+                </label>
+            )
+        }
 
         return (
-            <label className={ClassNames('form__block', { 'form__block--error': touched && !!error })}>
-                <input
-                    {...data.input}
-                    autoComplete='off'
-                    className={'form__field form__field--' + type}
-                    type={type}
-                />
+            <label className={blockClassName}>
+                <input {...inputProps} type={type.name} />
                 <p className='form__label'>
                     {touched && error ? error : label}
                 </p>
@@ -46,19 +112,18 @@ class Field extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { label, name, type, validate } = this.props
+        const { label, name, type } = this.props
 
         return (
             <ReduxField
                 component={this.renderComponent}
                 label={label}
                 name={name}
-                validate={validate}
-                type={type}
-            />
+                validate={this.validator}
+                type={type} />
         )
     }
 
 }
 
-export default Field.connect()
+export default Field

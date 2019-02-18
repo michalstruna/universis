@@ -15,6 +15,13 @@ const FillBodyPlugin = (schema) => {
     schema.post('findOne', doc => {
         fillBody(doc)
     })
+
+    schema.post('aggregate', docs => {
+        for (const doc of docs) {
+            fillBody(doc)
+        }
+    })
+
 }
 
 const fillBody = (body: ISimpleBody) => {

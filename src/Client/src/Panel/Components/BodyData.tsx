@@ -2,7 +2,6 @@ import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
 import { StatelessComponent, DataTable, Units } from '../../Utils'
-import { BodyPreview } from '../../Universe'
 import { DonutChart } from '../../Charts'
 
 interface IProps {
@@ -33,9 +32,7 @@ class BodyData extends StatelessComponent<IProps> {
                             {body.description}
                         </p>
                     </section>
-                    <section className='panel__body__data__preview--right'>
-                        <BodyPreview body={body} size={300} />
-                    </section>
+                    <section className='panel__body__data__preview--right' />
                 </section>
                 <Masonry
                     className={'panel__body__data__masonry'}

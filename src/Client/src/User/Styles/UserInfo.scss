@@ -34,10 +34,15 @@ $user-info-height: 5rem;
     }
 
     &__avatar {
-        @include size($user-info-height);
         background-position: center center;
         background-size: cover;
         float: left;
+    }
+
+    &--large {
+        .user-info__avatar {
+            @include size($user-info-height !important);
+        }
     }
 
     &__name {

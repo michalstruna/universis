@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { UserInfo } from '../../User'
-import { ContextInfo } from '../../Controls'
 import { SimpleComponent } from '../../Utils'
 import QueryMenu from '../../Utils/Components/QueryMenu'
 import Queries from '../../Utils/Constants/Queries'
@@ -23,11 +22,7 @@ class Chat extends SimpleComponent {
                 <section
                     className={'panel__chat__message' + (Math.random() < 0.5 ? ' panel__chat__message--own' : '')}
                     key={i}>
-                    <ContextInfo
-                        className='panel__chat__avatar'
-                        content={<UserInfo type={UserInfo.TYPES.LARGE} />}>
-                        <UserInfo type={UserInfo.TYPES.SMALL} />
-                    </ContextInfo>
+                    <UserInfo type={UserInfo.TYPES.SMALL} />
                     <section className='panel__chat__message--inner'>
                         Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
                         je druhá

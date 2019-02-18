@@ -334,6 +334,16 @@ declare interface ISimpleBody {
  */
 declare interface IBody extends ISimpleBody {
 
+    /**
+     * Discussions about body.
+     */
+    discussions: Universis.Discussion[]
+
+    /**
+     * Timeline of body.
+     */
+    events: Universis.Event[]
+
 }
 
 declare interface IBodyRing {

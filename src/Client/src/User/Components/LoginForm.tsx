@@ -3,8 +3,8 @@ import { reduxForm, InjectedFormProps, SubmissionError, formValueSelector } from
 
 import { login } from '../Redux/UserActions'
 import UserInfo from './UserInfo'
-import { StatelessComponent, Url, Link } from '../../Utils'
-import { PasswordField, Form, Submit, Title, Back } from '../../Forms'
+import { StatelessComponent, Link } from '../../Utils'
+import { Form, Submit, Title, Back, Field } from '../../Forms'
 
 interface IProps {
     strings: IStrings
@@ -51,7 +51,8 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                     {strings.title}
                 </Title>
                 <UserInfo type={UserInfo.TYPES.LARGE} />
-                <PasswordField
+                <Field
+                    type={Field.PASSWORD}
                     label={strings.password}
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}

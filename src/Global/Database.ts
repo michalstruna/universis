@@ -170,6 +170,13 @@ declare namespace Universis {
              */
             updateOne<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): Promise<T>
 
+            /**
+             * Apply aggregation to DB model.
+             * @param pipeline
+             * @returns Promise with Result of aggregation.
+             */
+            aggregate<T>(pipeline: Universis.Map<any>[]): Promise<T[]>
+
         }
 
         export namespace Query {
@@ -177,7 +184,7 @@ declare namespace Universis {
             /**
              * Items filter.
              */
-            export type Filter = Universis.Map<string>
+            export type Filter = Universis.Map<string | any> // TODO: String or ObjectID.
 
             /**
              * Added or updated item.

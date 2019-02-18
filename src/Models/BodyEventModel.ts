@@ -5,7 +5,7 @@ export default new ItemModel<Universis.Event, Universis.Event, Universis.Event.N
     dbModel: DatabaseModels.BODY_EVENT,
     notifications: {
         textAccessor: notification => notification.title,
-        subjectType: NotificationSubjects.BODY_EVENT
+        subjectAccessor: () => NotificationSubjects.BODY_EVENT
     },
     add: {
         approval: true,

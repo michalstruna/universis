@@ -45,7 +45,7 @@ interface IProps<Item> {
 
 /**
  * Component Table.
- * @template Item Rendered item type.
+ * @template Item Rendered item type.git pull
  */
 class Table<Item> extends Component<IProps<Item>, IState> {
 

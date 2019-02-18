@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { StatelessComponent, Link, Units } from '../../Utils'
+import { ContextInfo } from '../../Controls'
 
 interface IProps {
     type: UserInfoTypes
@@ -85,11 +86,16 @@ class UserInfo extends StatelessComponent<IProps> {
     private renderSmall(): React.ReactNode {
         const user = this.getUser()
 
+
         return (
-            <Link
-                className='user-info__avatar'
-                target={Link.URLS.HOME}
-                style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
+            <ContextInfo
+                className='user-info--small'
+                content={<UserInfo type={UserInfo.TYPES.LARGE} user={user} />}>
+                <Link
+                    className='user-info__avatar'
+                    target={Link.URLS.HOME}
+                    style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
+            </ContextInfo>
         )
     }
 
