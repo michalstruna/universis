@@ -10,6 +10,8 @@ export default Redux.createReducer(
         areOrbitsVisible: true,
         bodies: Redux.EMPTY_ASYNC_ENTITY,
         body: Redux.EMPTY_ASYNC_ENTITY,
-        isNewDiscussionExpanded: false
+        isNewDiscussionExpanded: false,
+        newVote: Redux.EMPTY_ASYNC_ENTITY,
+        newUnvote: Redux.EMPTY_ASYNC_ENTITY
     }
 )

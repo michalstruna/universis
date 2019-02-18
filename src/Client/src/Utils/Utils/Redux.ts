@@ -36,7 +36,6 @@ class Redux {
     public static asyncAction<T>(type: string, changes: IObject<Promise<T>>, onSuccess?: IConsumer<T>, onFail?: IConsumer<Error>): IActionResult<T> {
         return dispatch => {
             const property = Object.keys(changes)[0]
-
             dispatch({ type: type + Redux.SUFFIXES.SENT, property, $async: {} })
 
             return changes[property]

@@ -58,14 +58,9 @@ declare namespace Universis {
         user: Universis.User.Simple
 
         /**
-         * List of users that agree with post.
+         * List of votes.
          */
-        agreements: Universis.User.Simple[]
-
-        /**
-         * List of users that disagree with post.
-         */
-        disagreements: Universis.User.Simple[]
+        votes: Vote[]
 
         /**
          * List of answers.
@@ -137,11 +132,6 @@ declare namespace Universis {
          */
         date: string
 
-        /**
-         * ID of user.
-         */
-        userId: string
-
     }
 
     export namespace Vote {
@@ -157,6 +147,11 @@ declare namespace Universis {
              * ID of post.
              */
             postId: string
+
+            /**
+             * ID of user.
+             */
+            userId: string
 
         }
 

@@ -172,6 +172,7 @@ class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New>
             })
         }
 
+
         if (remove.onAfter) {
             await remove.onAfter(item, filter, options, this)
         }

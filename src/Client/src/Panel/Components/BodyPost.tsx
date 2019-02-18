@@ -13,7 +13,7 @@ interface IProps {
     post: Universis.Discussion | Universis.Answer,
     toggleAnswers?: Universis.Consumer2<string, boolean>
     parentId?: string
-    vote: Universis.Consumer4<number, boolean, string, string>
+    vote: Universis.Consumer4<boolean, string, string, string>
 }
 
 interface IState {
@@ -173,28 +173,27 @@ class BodyPost extends Component<IProps, IState> {
     private renderControls(): React.ReactNode {
         const { post, parentId, vote } = this.props
 
-        const agree = this.isBetween(post.agreements)
-        const disagree = this.isBetween(post.disagreements)
+        const myVote = post.votes.find(vote => vote.userId === '5c682cc8f235006303459c60')
 
         return (
             <section className='panel__body__discussion__controls'>
                 <button
-                    onClick={() => vote(1, !agree, post._id, parentId)}
+                    onClick={() => vote(true, myVote && myVote.isPositive ? myVote._id : null, post._id, parentId)}
                     className={ClassNames(
                         'panel__body__discussion__up',
-                        { 'panel__body__discussion__up--active': agree }
+                        { 'panel__body__discussion__up--active': myVote && myVote.isPositive }
                     )} />
                 <span className='panel__body__discussion__up-count'>
-                            {post.agreements.length || ''}
+                            {post.votes.filter(vote => vote.isPositive).length || ''}
                         </span>
                 <button
-                    onClick={() => vote(-1, !disagree, post._id, parentId)}
+                    onClick={() => vote(false, myVote && !myVote.isPositive ? myVote._id : null, post._id, parentId)}
                     className={ClassNames(
                         'panel__body__discussion__down',
-                        { 'panel__body__discussion__down--active': disagree }
+                        { 'panel__body__discussion__down--active': myVote && !myVote.isPositive }
                     )} />
                 <span className='panel__body__discussion__down-count'>
-                            {post.disagreements.length || ''}
+                            {post.votes.filter(vote => !vote.isPositive).length || ''}
                         </span>
                 {this.renderExpand()}
             </section>

@@ -53,7 +53,6 @@ class Route {
                     }
                 })
                 .catch(error => {
-                    console.log(error)
                     response.status(error.code).send(error)
                 })
         }
@@ -159,7 +158,7 @@ class Route {
         }
 
         if (access.delete && typeof access.delete !== 'object') {
-            routeGroup.delete = access.delete(({ params }) => model.removeOne({ _id: params.bodyId }), false)
+            routeGroup.delete = access.delete(({ params }) => model.removeOne({ _id: params[Object.keys(params)[0]] }), false)
         }
 
         return routeGroup

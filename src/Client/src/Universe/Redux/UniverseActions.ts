@@ -93,31 +93,58 @@ export const toggleAnswers = (discussionId: string, isExpanded: boolean) => (
 /**
  * Toggle disagreement with post.
  * @param isPositive Negative is vote down, positive is vote up.
- * @param isTrue
+ * @param existingVoteId
  * @param postId
  * @param parentId
  */
-export const vote = (isPositive: boolean, isTrue: boolean, postId: string, parentId?: string) => (
+export const vote = (isPositive: boolean, existingVoteId: string | null, postId: string, parentId?: string) => (
     dispatch => {
-        /*  const findParent = item => item._id === parentId
-          const findPost = item => item._id === postId
-          const group = score > 0 ? 'agreements' : 'disagreements'
+        const getQuery = operation => {
+            let query: any = { $find: item => item._id === postId, votes: operation }
 
-          let query: any = {
-              $find: findPost,
-              [group]: isTrue ? { $add: { _id: 'myself' } } : { $remove: item => item._id === 'myself' }
-          }
+            if (parentId) {
+                query = { $find: item => item._id === parentId, answers: query }
+            }
 
-          if (parentId) {
-              query = { $find: findParent, answers: query }
-          }
+            return query
+        }
 
-          return dispatch(
-              Redux.setAction(
-                  ActionTypes.LOCAL_VOTE,
-                  { body: { payload: { discussions: query } } }
-              )
-          )*/
+        if (existingVoteId) {
+            return dispatch(
+                Redux.asyncAction(
+                    ActionTypes.UNVOTE,
+                    { newUnvote: Request.delete(`posts/votes/${existingVoteId}`) },
+                    () => dispatch(
+                        Redux.setAction(
+                            ActionTypes.LOCAL_UNVOTE,
+                            { body: { payload: { discussions: getQuery({ $remove: item => item._id === existingVoteId }) } } }
+                        )
+                    )
+                )
+            )
+        } else {
+            return dispatch(
+                Redux.asyncAction(
+                    ActionTypes.VOTE,
+                    { newVote: Request.post<Universis.Vote>(`posts/${postId}/votes`, { isPositive }) },
+                    newVote => {
+                        dispatch(
+                            Redux.setAction(
+                                ActionTypes.LOCAL_UNVOTE,
+                                { body: { payload: { discussions: getQuery({ $remove: vote => vote.userId === '5c682cc8f235006303459c60' && vote.postId === postId }) } } }
+                            )
+                        )
+
+                        dispatch(
+                            Redux.setAction(
+                                ActionTypes.LOCAL_VOTE,
+                                { body: { payload: { discussions: getQuery({ $add: newVote }) } } }
+                            )
+                        )
+                    }
+                )
+            )
+        }
     }
 )
 

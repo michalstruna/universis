@@ -80,7 +80,7 @@ class DatabaseModel implements Universis.Database.Model {
                 this.model.findOneAndRemove(filter),
                 options
             )
-                .then(removed => this.processResultForAll(removed, options))
+                .then(removed => resolve(removed))
                 .catch(error => reject(this.getError(error)))
         ))
     }
@@ -186,7 +186,6 @@ class DatabaseModel implements Universis.Database.Model {
      * @returns Http status code.
      */
     private getError(error: { code: number }): Universis.Error {
-        console.log(error)
         return Object.values(Errors).filter(error => error.mongo === error.code)[0] || Errors.INVALID
     }
 

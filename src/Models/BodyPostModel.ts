@@ -10,7 +10,10 @@ export default new ItemModel<Universis.Discussion | Universis.Answer, Universis.
     },
     add: {
         approval: true,
-        notification: true
+        notification: true,
+        onAfter: post => {
+            post.votes = []
+        }
     },
     get: {
         select: ['-bodyId -discussionId'],
