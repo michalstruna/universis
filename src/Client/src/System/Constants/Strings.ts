@@ -160,6 +160,13 @@ export default {
 
     },
 
+    events: {
+        title: 'Titulek',
+        description: 'Popis',
+        from: 'Od',
+        to: 'Do'
+    },
+
     discussion: {
         missingContent: 'Nelze odeslat prázdnou odpověď.',
         contentLabel: 'Vaše odpověď...',
@@ -191,6 +198,13 @@ export default {
             3: 'Diskuse',
             4: 'Uživatel'
         }
+
+    },
+
+    editor: {
+        add: '＋',
+        update: 'Upravit',
+        delete: 'Odstranit'
 
     }
 

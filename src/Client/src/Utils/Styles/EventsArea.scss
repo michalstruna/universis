@@ -44,7 +44,6 @@
     &__event {
         @include flex-center;
         background-color: $medium-dark-color;
-        box-shadow: #000 0 0 0.5rem;
         box-sizing: border-box;
         cursor: default;
         font-size: 90%;
@@ -52,6 +51,10 @@
         padding: 0.5rem;
         position: relative;
         text-align: center;
+
+        .form {
+            font-size: 90%;
+        }
 
         &__detail {
             @include size(12rem, auto);

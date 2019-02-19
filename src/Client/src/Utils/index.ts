@@ -19,6 +19,7 @@ export { default as Menu } from './Components/Menu'
 export { default as RelativeTime } from './Components/RelativeTime'
 export { default as EventArea } from './Components/EventsArea'
 export { DropdownArea, DropdownButton } from './Components/Dropdown'
+export { default as EditorControl } from './Components/EditorControl'
 
 /**
  * Constants.

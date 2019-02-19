@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, EditorControl } from '../../Utils'
+import EventForm from './EventForm'
 
 interface IProps {
     columnsCount: number
@@ -64,7 +65,6 @@ class EventsArea extends StatelessComponent <IProps> {
         const index = value < ticks[ticks.length - 1] ? ticks.length - 1 : ticks.findIndex(tick => tick < value)
         const after = ticks[index - 1]
         const before = ticks[index]
-
         const offset = 1 - (value - before) / (after - before)
 
         return 1 + (index - 1) * (minorTicksCount + 1) + Math.round(offset * (minorTicksCount + 1))
@@ -203,6 +203,33 @@ class EventsArea extends StatelessComponent <IProps> {
         )
     }
 
+    /**
+     * Render add button.
+     */
+    private renderAdd(): React.ReactNode {
+        const { formatDetailValue } = this.props
+        const column = 5
+        const to: number = 8
+        const from = 26
+        const title = 'title'
+
+        return (
+            <>
+                <section
+                    className={'events-area__event events-area__event--' + column}
+                    style={{ gridArea: `${to}/${column}/${from}/${column + 1}` }}>
+                    {title}
+                    <section className='events-area__event__detail'>
+                        <EventForm form={'event'} />
+                    </section>
+                </section>
+                <EditorControl
+                    type={EditorControl.ADD}
+                    onClick={() => console.log(Math.random())} />
+            </>
+        )
+    }
+
     public render(): React.ReactNode {
         const { tickHeight } = this.props
 
@@ -215,6 +242,7 @@ class EventsArea extends StatelessComponent <IProps> {
                 {this.renderHoverLine()}
                 {this.renderTicks()}
                 {this.renderEvents()}
+                {this.renderAdd()}
             </section>
         )
     }

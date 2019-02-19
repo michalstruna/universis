@@ -1,0 +1,23 @@
+.editor {
+
+    &__control {
+        color: $lightest-color;
+
+        &--add {
+            @include size(3rem);
+            background-color: $medium-dark-color;
+            bottom: 5rem;
+            box-shadow: #000 0 0.2rem 0.5rem;
+            font-size: 150%;
+            margin-left: 33rem;
+            position: fixed;
+            transition: box-shadow $medium-animation-duration;
+            z-index: 1000000;
+            
+            &:hover {
+                box-shadow: #000 0 0 2rem;
+            }
+        }
+    }
+
+}
