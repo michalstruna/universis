@@ -29,7 +29,7 @@
 \usepackage{float}
 
 \lstdefinelanguage{JavaScript}{
-  keywords={const, let, class, extends, export, default, public, static, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywords={this, const, let, class, extends, export, default, public, static, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
   keywordstyle=\color{blue}\bfseries,
   identifierstyle=\color{black},
   sensitive=false,
@@ -202,10 +202,10 @@ Program je vytvořen v~\textit{C++} a \textit{Lua}, což mu dovoluje výkon poč
 \begin{figure}[H]
   \centering
   \includegraphics[width=450pt]{Images/Celestia.png}
-  \caption[Ukázka JPL Solar System Simulator]{Ukázka JPL Solar Simulator   \footnotemark[1]}
+  \caption[Ukázka programu Celestia]{Ukázka JPL Solar Simulator  \footnotemark[1]}
 \end{figure}
 
-\footnotetext[1]{Fotografie pořízena z \url{https://space.jpl.nasa.gov/}.}
+\footnotetext[1]{Fotografie pořízena z programu Celestia (\url{https://celestia.space/}).}
 
 \subsection{Stellarium}
 
@@ -215,6 +215,12 @@ Obsahuje velice rozsáhlou databázi obsahující v~základní instalaci necelý
 
 Jedná se o~program napsaný v~\textit{C++}, což stejně jako u~programu Celestia vede k~vysokému výkonu, avšak nutnosti instalace. Je ovšem dostupný i~v~české lokalizaci a opět pro \textit{Windows}, \textit{Linux} i~\textit{macOS}.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=450pt]{Images/Stellarium.png}
+  \caption[Ukázka programu Stellarium]{Ukázka programu Stellarium  \footnotemark[1]}
+\end{figure}
+
 \subsection{NASA/JPL Solar System Simulator}
 
 Jedná se o~webovou aplikaci, která umožňuje zobrazit libovolné těleso v~databázi libovolnou dobu a~to z~libovolného jiného tělesa v~databázi. Obsahuje pouze tělesa z~naší sluneční soustavy. Umožňuje nastavit i~velikost zorného pole ve stupních. Vygenerovaný pohled je ale bohužel pouze statický a~nelze s~ním už dál nijak interagovat.
@@ -222,10 +228,11 @@ Jedná se o~webovou aplikaci, která umožňuje zobrazit libovolné těleso v~da
 \begin{figure}[H]
   \centering
   \includegraphics[width=450pt]{Images/JPLNasa.png}
-  \caption[Ukázka JPL Solar System Simulator]{Ukázka JPL Solar Simulator   \footnotemark[1]}
+  \caption[Ukázka JPL Solar System Simulator]{Ukázka JPL Solar Simulator   \footnotemark[2]}
 \end{figure}
 
-\footnotetext[1]{Fotografie pořízena z \url{https://space.jpl.nasa.gov/}.}
+\footnotetext[1]{Fotografie pořízena z programu Stellarium (\url{https://stellarium.org}).}
+\footnotetext[2]{Fotografie pořízena z \url{https://space.jpl.nasa.gov/}.}
 
 \subsection{Space Engine}
 \subsection{Universe Sandbox}
@@ -525,7 +532,7 @@ Modelové třídy většiny entit není nutné psát individuálně. Všechny ma
 
 \subsection{Databáze}
 
-Trvalá data se v~ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou MVC a~k~databázi mají tedy přístup pouze modelové třídy.
+Data v~aplikace se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou MVC a~k~databázi mají tedy přístup pouze modelové třídy.
 
 \subsubsection{Připojení do databáze}
 
@@ -537,7 +544,7 @@ Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla 
 
 \subsubsection{Mongoose schéma}
 
-Pomocí schématu lze určit strukturu databázové kolekce a nastavit validační pravidla. Veškerá konfigurace kolekce je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu.
+Pomocí schématu lze určit strukturu databázové kolekce a nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také zajistit např. unikátní kombinaci hodnot více polí.
 
 \lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.js}
 
@@ -547,13 +554,19 @@ Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložen�
 
 \lstinputlisting[caption={Vytvoření a~použití databázového pluginu}, language={JavaScript}]{SourceCodes/Hash.js}
 
-Ve zdrojovém kódu~12 je popsán plugin pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
+Ve zdrojovém kódu~12 je zobrazena část pluginu pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
 
-\subsubsection{Práce s databází}
+\subsubsection{Základní práce s databází}
 
 Databáze umožňuje provádět velké množství operací nad daty v~ní uloženými. Je možné vyhledávat podle konkrétní hodnoty, pole hodnot, regulárních výrazů nebo číselného rozsahu. Takto vyfiltrovaná data lze číst, smazat či editovat. Je také možné nastavit spoustu parametrů, např. maximální počet dokumentů (\textit{limit}), které vyhovují filtru. Mimo jiné je možné také provádět více dotazů do databáze jako atomické operace pomocí transakcí.
 
 \lstinputlisting[caption={CRUD operace nad kolekcí uživatelů}, language={JavaScript}]{SourceCodes/Database.js}
+
+\subsubsection{Aggregation Framework}
+
+V případě složitějších databázových dotazů, na které nestačí předpřipravené metody knihovny \textit{Mongoose}, je možno využít metodu \code{aggregate}, jež umožňuje pracovat s~\textit{Aggregation Frameworkem} databáze \textit{mongoDB}. Ten mimo jiné umožňuje v tzv. \textit{pipeline} dosadit sekvenci dotazů, které se nad daty postupně provedou. Je tak možné používat např. \code{\$match} (vyhledávání), \code {\$group} (seskupování) nebo \code{\$lookup} (spojování více kolekcí).
+
+V~aplikaci je tento způsob dotazování použit např. při požadavku \code{[GET] /bodies/{bodyId}}, kdy je třeba z~databáze kromě tělesa na základě jeho ID vybrat z jiných kolekcí i typ tělesa, události v~historii tělesa, diskuse o~tělese, komentáře k~diskusím a~nakonec i~uživatele a~hlasy patřící k~jednotlivým diskusím a~komentářům. Konkrétní podoba dotazu použitého v~aplikaci je zobrazena v~příloze~B~na konci tohoto dokumentu.
 
 \section{Rozvržení aplikace}
 
@@ -833,7 +846,7 @@ Pro vykreslení časové osy představené v~bodě \textit{4.5.4~Detail tělesa}
 
 Situace je o~to komplikovanější, že časová osa nemusí být lineární a~dokonce ani logaritmická. Komponenta proto na vstupu vedle pole událostí přijme i~pole hraničních souřadnic. Díky tomu je možné zobrazit roky 2019 až 0 jako jeden díl na časové ose a~o~něco níže naprosto stejný díl pro roky -1 až -10~000, stejně jako např. -5~mld. až -10~mld.
 
-Překrývání jednotlivých události je ošetřeno tak, že se vykreslí do různých sloupců. Je také možno nastavit počet mezistupňů mezi hraničními souřadnicemi. Ty lze nastylovat např. jako čáry na pravítku pro zlepšení přehlednosti. Při pohybu s kurzorem myši nad oblastí se zobrazuje horizontální čára s aktuální souřadnicí (rokem), nad kterou se kurzor nachází. Pro implementaci komponenty byla použita CSS vlastnost \textit{grid}.
+Překrývání jednotlivých události je ošetřeno tak, že se vykreslí do různých sloupců. Je také možno nastavit počet mezistupňů mezi hraničními souřadnicemi. Ty lze nastylovat např. jako čáry na pravítku pro zlepšení přehlednosti. Při pohybu s kurzorem myši nad oblastí se zobrazuje horizontální čára s aktuální souřadnicí (rokem), nad kterou se kurzor nachází. Pro implementaci komponenty byla použita \textit{CSS} vlastnost \textit{grid}.
 
 \lstinputlisting[caption={Příklad použití komponenty EventsArea}, language={JavaScript}]{SourceCodes/EventsArea.js}
 
@@ -879,8 +892,26 @@ BANKS, Alex and PORCELLO, Eve. Learning React: functional web development with R
 % PŘÍLOHY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \clearpage \phantomsection \addcontentsline{toc}{section}{Seznam příloh}
 \section*{Seznam příloh}
+
+\noindent Příloha~A -- Struktura databáze \dotfill \pageref{prilohaA}
+
+\noindent Příloha~B -- Využití aggregation frameworku \dotfill \pageref{prilohaB}
+
+% PŘÍLOHA A
+
+\clearpage \phantomsection\label{prilohaA} 
+% do obsahu i do záložek PDF:
+%\addcontentsline{toc}{section}{Příloha~A -- Uvozovky}
+% pouze do záložek PDF:
+%\pdfbookmark[1]{Příloha~A -- Struktura databáze}{prilohaA}	% záložka do PDF
+\section*{Příloha~A --  Struktura databáze}
+%\pdfbookmark[1]{Příloha~B -- Využití aggregation frameworku}{prilohaB}	% záložka do PDF
+\section*{Příloha~B --  Využití aggregation\newline frameworku}
+
+\lstinputlisting[nolol,language={JavaScript}]{SourceCodes/Aggregation.js}
 
 \clearpage \phantomsection \addcontentsline{toc}{section}{Seznam souborů zdrojových kódů na přiloženém nosiči}
 \section*{Seznam souborů zdrojových kódů na přiloženém nosiči}

@@ -40,8 +40,9 @@
 \contentsline {subsection}{\numberline {3.5}Datab\IeC {\'a}ze}{28}{subsection.3.5}
 \contentsline {subsubsection}{\numberline {3.5.1}P\IeC {\v r}ipojen\IeC {\'\i } do datab\IeC {\'a}ze}{28}{subsubsection.3.5.1}
 \contentsline {subsubsection}{\numberline {3.5.2}Mongoose sch\IeC {\'e}ma}{29}{subsubsection.3.5.2}
-\contentsline {subsubsection}{\numberline {3.5.3}Mongoose plugin}{29}{subsubsection.3.5.3}
-\contentsline {subsubsection}{\numberline {3.5.4}Pr\IeC {\'a}ce s datab\IeC {\'a}z\IeC {\'\i }}{30}{subsubsection.3.5.4}
+\contentsline {subsubsection}{\numberline {3.5.3}Mongoose plugin}{30}{subsubsection.3.5.3}
+\contentsline {subsubsection}{\numberline {3.5.4}Z\IeC {\'a}kladn\IeC {\'\i } pr\IeC {\'a}ce s datab\IeC {\'a}z\IeC {\'\i }}{30}{subsubsection.3.5.4}
+\contentsline {subsubsection}{\numberline {3.5.5}Aggregation Framework}{31}{subsubsection.3.5.5}
 \contentsline {section}{\numberline {4}Rozvr\IeC {\v z}en\IeC {\'\i } aplikace}{32}{section.4}
 \contentsline {subsection}{\numberline {4.1}Hlavn\IeC {\'\i } str\IeC {\'a}nka}{32}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}N\IeC {\'a}pov\IeC {\v e}da}{32}{subsection.4.2}
@@ -70,7 +71,7 @@
 \contentsline {subsubsection}{\numberline {5.3.2}Hashov\IeC {\'a}n\IeC {\'\i } hesel}{44}{subsubsection.5.3.2}
 \contentsline {subsection}{\numberline {5.4}Zobrazov\IeC {\'a}n\IeC {\'\i } hodnot fyzik\IeC {\'a}ln\IeC {\'\i }ch veli\IeC {\v c}in}{44}{subsection.5.4}
 \contentsline {subsection}{\numberline {5.5}Vykreslov\IeC {\'a}n\IeC {\'\i } \IeC {\v c}asov\IeC {\'e} osy}{46}{subsection.5.5}
-\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{47}{section*.26}
-\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{48}{section*.27}
-\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{49}{section*.28}
-\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{50}{section*.29}
+\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{47}{section*.27}
+\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{48}{section*.28}
+\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{49}{section*.29}
+\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{53}{section*.31}
