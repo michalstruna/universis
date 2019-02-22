@@ -242,29 +242,29 @@ Jedná se o~webovou aplikaci, která umožňuje zobrazit libovolné těleso v~da
 
 \subsection{Jazyk TypeScript}
 
-\textit{TypeScript} je programovací jazyk vyvinutý firmou \textit{Microsoft}. Jedná se o~nádstavbu jazyka \textit{JavaScript}, která přidává statické typování a~další vlastnosti objektového programování. Kód napsaný v~jazyce \textit{JavaScript} je kompatibilní s~\textit{typescriptovým} kódem. Pro kompatibilitu v~prohlížečích je nutné veškerý \textit{TypeScript} transpilovat do \textit{javascriptového} kódu.
+\textit{TypeScript} je programovací jazyk vyvinutý firmou \textit{Microsoft}. Jedná se o~nádstavbu jazyka \textit{JavaScript}, která přidává statické typování a~další vlastnosti objektového programování. Kód napsaný v~jazyce \textit{JavaScript} je kompatibilní s~\textit{typescriptovým} kódem. Pro kompatibilitu v~prohlížečích je nutné veškerý \textit{TypeScript} transpilovat do \textit{javascriptového} kódu.~\cite{typescript}
 
 \subsection{Knihovna React}
 
-Javascriptová knihovna \textit{React}, jejíž autorem je \textit{Facebook}, usnadňuje a~zefektivňuje tvorbu \textit{UI}. Přináší tzv. \textit{one-way data binding}, které zaručuje okamžitou aktualizaci \textit{UI} při změně stavu aplikace. \textit{React} si vytváří vlastní virtuální \textit{DOM}, který je na rozdíl od toho v~\textit{HTML} rychlejší. V tomto modelu pak React provádí všechny své operace. Teprve když je třeba provést změnu v~prohlížeči, je třeba  aktualizovat \textit{HTML}.
+Javascriptová knihovna \textit{React}, jejíž autorem je \textit{Facebook}, usnadňuje a~zefektivňuje tvorbu \textit{UI}.~\cite{react} Přináší tzv. \textit{one-way data binding}, které zaručuje okamžitou aktualizaci \textit{UI} při změně stavu aplikace.~\cite{onewaydatabinding} \textit{React} si vytváří vlastní virtuální \textit{DOM}, který je na rozdíl od toho v~\textit{HTML} rychlejší. V tomto modelu pak React provádí všechny své operace. Teprve když je třeba provést změnu v~prohlížeči, je třeba  aktualizovat \textit{HTML}.~\cite{virtualdom}
 
 \subsubsection{Syntaxe JSX}
 
-Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se často s~knihovnou \textit{React} používá i~syntaxe \textit{JSX}. Ta umožňuje psát \textit{javascriptový} kód v~podobě \textit{XML} tagů. \textit{JSX} syntaxi je z~důvodů kompatibility prohlížečů nutné transpilovat do nativního \textit{JavaScriptu}.
+Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se často s~knihovnou \textit{React} používá i~syntaxe \textit{JSX}. Ta umožňuje psát \textit{javascriptový} kód v~podobě \textit{XML} tagů. \textit{JSX} syntaxi je z~důvodů kompatibility prohlížečů nutné transpilovat do nativního \textit{JavaScriptu}.~\cite{jsxsyntax}
 
 \lstinputlisting[caption={Porovnání vykreslení komponenty ve standardním JavaScriptu a~v~JSX}, language={JavaScript}]{SourceCodes/JSX.js}
 
 \subsection{Knihovna Three.js}
 
-\textit{Three.js} je javascriptová knihovna pro vytváření 3D grafiky. Využívá aplikačního rozhraní \textit{WebGL}.
+\textit{Three.js} je javascriptová knihovna usnadňující práci s~\textit{WebGL}. To je rozhraní, které umožňuje přístup ke komponentám počítače specializovaných pro zpracování grafiky 2D a~3D grafiky přes \textit{JavaScript}. Veškerou tuto grafiku je možno vykreslovat v~prohlížeči za využití elementu \code{<canvas>}.~\cite{three}
 
 \subsection{Framework Node.js}
 
-Framework \textit{Node.js} umožňuje používání jazyka \textit{JavaScript} na serveru. Narozdíl od \textit{Javy} nebo \textit{PHP} pracuje pouze s~jediným vláknem a~funguje na asynchronním neblokujícím zpracování požadavků. Jakmile je dokončen požadavek, jeho callback uvedený v argumentu se zařadí do fronty.  Tzv. \textit{event loop} pak zjišťuje, zda je zásobník zpracovávaných operací prázdný. Pokud ano, vloží do něj první callback z~fronty. Tento cyklus se opakuje po celou dobu běhu serveru.
+Framework \textit{Node.js} umožňuje používání jazyka \textit{JavaScript} na serveru. Pracuje pouze s~jediným vláknem a~funguje na asynchronním neblokujícím zpracování požadavků. Jakmile je dokončen požadavek, jeho callback uvedený v argumentu se zařadí do fronty.  Tzv. \textit{event loop} pak zjišťuje, zda je zásobník zpracovávaných operací prázdný. Pokud ano, vloží do něj první callback z~fronty. Tento cyklus se opakuje po celou dobu běhu serveru.~\cite{node}
 
 \subsection{Databáze MongoDB}
 
-\textit{MongoDB} je \textit{NoSQL} multiplatformní dokumentová databáze s~otevřeným zdrojovým kódem. Narozdíl od relačních databází používá dokumenty ve formátu \textit{BSON}, který je podobný \textit{JSON}. Při vytváření dokumentů si databáze automaticky vytváří vlastní unikátní ID.  Uložené dokumenty lze vedle porovnávání hodnot vyhledávat na základě prvků v poli, podle rozsahu nebo podle regulárních výrazů. V \textit{MongoDB} je možné indexovat libovolné pole dokumentů. Indexy jsou koncepčně stejn, jako v relačních databázích.
+\textit{MongoDB} je \textit{NoSQL} multiplatformní dokumentová databáze s~otevřeným zdrojovým kódem. Narozdíl od relačních databází používá dokumenty ve formátu \textit{BSON}, který je podobný \textit{JSON}. Při vytváření dokumentů si databáze automaticky vytváří vlastní unikátní ID.  Uložené dokumenty lze vedle porovnávání hodnot vyhledávat na základě prvků v~poli, podle rozsahu nebo podle regulárních výrazů. V~\textit{MongoDB} je možné indexovat libovolné pole dokumentů. Indexy jsou koncepčně stejné, jako v~relačních databázích.~\cite{mongomongoose}
 
 \subsection{Knihovna Mongoose}
 Open-source knihovna \textit{Mongoose} zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat.
@@ -883,6 +883,41 @@ MARDAN, Azat. Practical Node.js: building real-world scalable web apps. Berkeley
 
 \bibitem{banks}
 BANKS, Alex and PORCELLO, Eve. Learning React: functional web development with React and Redux. Sebastopol, CA: O'Reilly Media, 2017 [cit. 25. 10. 2018]. ISBN: 978-1-4919-542-1.
+
+\bibitem{typescript}
+TypeScript. 
+\textit{TypeScript.} [online]. [cit.\,22.~2~ 2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
+
+\bibitem{react}
+React. 
+\textit{React.} [online]. [cit.\,22.~2.~ 2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://reactjs.org}}.
+
+\bibitem{virtualdom}
+React: The Virtual DOM.
+\textit{codeacademy.} [online]. [cit.\,22.~2.~ 2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://www.codecademy.com/articles/react-virtual-dom}}.
+
+\bibitem{onewaydatabinding}
+Thinking in React.
+\textit{React.} [online]. [cit.\,22.~2.~2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/thinking-in-react.html}}.
+
+\bibitem{jsxsyntax}
+Introducing JSX. 
+\textit{React.} [online]. [cit.\,22.~2.~ 2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/introducing-jsx.html}}.
+
+\bibitem{node}
+MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
+\textit{Zdroják.} [online]. 5.~10.~ 2012. [cit.\,22.~2.~ 2019].  ISSN 1803-5620.
+Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-architektura-a-prvni-hello-world/}}.
+
+\bibitem{node}
+MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
+\textit{Zdroják.} [online]. 5.~10.~ 2012. [cit.\,22.~2.~ 2019].  ISSN 1803-5620.
+Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-architektura-a-prvni-hello-world/}}.
 
 
 \end{thebibliography}

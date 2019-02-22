@@ -19,7 +19,7 @@
 \contentsline {subsection}{\numberline {2.5}Datab\IeC {\'a}ze MongoDB}{16}{subsection.2.5}
 \contentsline {subsection}{\numberline {2.6}Knihovna Mongoose}{16}{subsection.2.6}
 \contentsline {subsection}{\numberline {2.7}Framework Swagger}{16}{subsection.2.7}
-\contentsline {subsection}{\numberline {2.8}N\IeC {\'a}stroj Webpack}{16}{subsection.2.8}
+\contentsline {subsection}{\numberline {2.8}N\IeC {\'a}stroj Webpack}{17}{subsection.2.8}
 \contentsline {subsection}{\numberline {2.9}Verzovac\IeC {\'\i } syst\IeC {\'e}m Git}{17}{subsection.2.9}
 \contentsline {subsection}{\numberline {2.10}Bal\IeC {\'\i }\IeC {\v c}kovac\IeC {\'\i } syst\IeC {\'e}m NPM}{18}{subsection.2.10}
 \contentsline {subsection}{\numberline {2.11}Preprocesor SASS}{18}{subsection.2.11}
