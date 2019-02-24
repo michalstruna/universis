@@ -1,4 +1,5 @@
 import Physics from '../../Utils/Physics'
+import Units from '../../Client/src/Utils/Utils/Units'
 
 /**
  * Plugin to fill fields of body schema with calculated data.
@@ -24,6 +25,8 @@ const FillBodyPlugin = (schema) => {
 
 }
 
+// Za kolik let 360°?
+
 const fillBody = (body: ISimpleBody) => {
     body.diameter.y = Physics.getDiameterY(body)
     body.diameter.z = Physics.getDiameterZ(body)
@@ -41,6 +44,9 @@ const fillBody = (body: ISimpleBody) => {
         body.orbit.circuit = Physics.getOrbitCircuit(body)
         body.orbit.velocity = Physics.getOrbitVelocity(body)
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
+        body.temp = {
+            anglePerCycle: Units.convert(Units.TIME.S, Units.TIME.Y, Math.PI * 2 / body.orbit.period) / 25
+        }
     }
 }
 

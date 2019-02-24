@@ -326,6 +326,18 @@ declare interface ISimpleBody {
      */
     parentId?: string
 
+    /**
+     * Temporary data for animations.
+     */
+    temp?: {
+
+        /**
+         * Cont of radians per cycle.
+         */
+        anglePerCycle: number
+
+    }
+
 }
 
 /**

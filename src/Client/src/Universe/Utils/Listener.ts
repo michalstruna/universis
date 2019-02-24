@@ -1,6 +1,5 @@
 import ControlBar from '../Components/ControlBar'
 import Units from '../../Utils/Utils/Units'
-import Canvas from '../Components/Canvas'
 import { ViewSizeControl } from '../../Controls'
 
 /**
@@ -14,13 +13,15 @@ class Listener {
      */
     public static updateSimulatorViewSize: IConsumer<number>
 
+    public viewSizeElement: HTMLElement
+
     /**
      * When view size in simulator is changed, update UI.
      * @param {number} viewSize Changed view size.
      */
     public static changeViewSizeFromSimulator(viewSize: number): void {
-        if (ControlBar.viewSize) {
-            ControlBar.viewSize.innerHTML = Units.toFull(viewSize, Units.SIZE.KM, Units.SIZE)
+        if (Listener.viewSizeElement) {
+            Listener.viewSizeElement.innerHTML = Units.toFull(viewSize, Units.SIZE.KM, Units.SIZE)
         }
 
         if (ViewSizeControl.instance) {

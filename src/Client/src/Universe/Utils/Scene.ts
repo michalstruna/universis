@@ -16,7 +16,8 @@ const DEFAULT_OPTIONS = {
     maxDistance: Infinity,
     near: 1e-3,
     objects: [],
-    width: window.innerWidth
+    width: window.innerWidth,
+    onRenderInterval: 16
 }
 
 let tempObjectPosition = new THREE.Vector3()
@@ -44,6 +45,11 @@ class Scene implements IScene {
     private namedMeshes: THREE.Mesh[]
 
     /**
+     * Last timestamp of onRender callback.
+     */
+    private lastOnRenderTime: number
+
+    /**
      * THREE.js entities.
      */
     private scene: THREE.Scene
@@ -65,6 +71,7 @@ class Scene implements IScene {
             ...options
         }
 
+        this.lastOnRenderTime = new Date().getTime()
         this.namedMeshes = []
 
         this.createScene()
@@ -253,13 +260,15 @@ class Scene implements IScene {
      * Render loop.
      */
     private render = (): void => {
-        const { controllable, onRender, onZoom } = this.options
+        const { controllable, onRender, onZoom, onRenderInterval } = this.options
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera)
         this.updateCamera()
+        const now = new Date().getTime()
 
-        if (onRender) {
+        if (onRender && this.lastOnRenderTime + onRenderInterval < now) {
             onRender()
+            this.lastOnRenderTime = now
         }
 
         if (controllable) {

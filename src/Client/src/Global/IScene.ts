@@ -84,6 +84,11 @@ declare interface ISceneOptions {
     onRender?: IRunnable
 
     /**
+     * Interval of scene callback onRender [ms]. (optional, default 16)
+     */
+    onRenderInterval?: number
+
+    /**
      * Callback for change distance from camera target. There is current distance in parameter. (optional)
      */
     onZoom?: IConsumer<number>

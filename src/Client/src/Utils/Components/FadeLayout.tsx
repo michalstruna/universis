@@ -29,7 +29,7 @@ class FadeLayout extends Component<IProps, IState> {
 
         this.state = {
             isVisible: false,
-            isMounted: false
+            isMounted: props.mounted
         }
     }
 

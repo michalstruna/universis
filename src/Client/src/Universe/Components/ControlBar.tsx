@@ -7,11 +7,6 @@ import { SimpleComponent } from '../../Utils'
  */
 class ControlBar extends SimpleComponent {
 
-    /**
-     * Element for view size.
-     */
-    public static viewSize: HTMLElement
-
     public render(): React.ReactNode {
         return (
             <section className='universe__control-bar'>
@@ -28,12 +23,10 @@ class ControlBar extends SimpleComponent {
                     <section className='universe__speed__item' />
                 </section>
                 <section className='universe__time'>
-                    <section className='universe__time--inner'>
-                        23.08.2018 20:47
-                    </section>
+                    <section className='universe__time--inner' />
                 </section>
                 <section className='universe__view'>
-                    <section className='universe__view--inner' ref={ref => ControlBar.viewSize = ref} />
+                    <section className='universe__view--inner' />
                 </section>
             </section>
         )

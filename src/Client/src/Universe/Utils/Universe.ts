@@ -14,9 +14,11 @@ const rotationVector = new THREE.Vector3(0, 0, 1)
 
 interface IOptions {
     element: HTMLElement
+    timeElement: HTMLElement
     bodies: ISimpleBody[]
     onChangeViewSize: IConsumer<number>
     onSelectBody: IConsumer<string>
+    viewSizeElement: HTMLElement
 }
 
 class Universe implements IUniverse {
@@ -43,6 +45,12 @@ class Universe implements IUniverse {
     private scale: number
 
     private element: HTMLElement
+    private timeElement: HTMLElement
+
+    /**
+     * Simulation time [ms].
+     */
+    private simulationTime: number
 
     /**
      * Body factory.
@@ -52,7 +60,9 @@ class Universe implements IUniverse {
     public constructor(options: IOptions) {
         this.bodyFactory = new BodyFactory()
         this.element = options.element
+        this.timeElement = options.timeElement
         this.createBodies(options.bodies)
+        this.simulationTime = new Date().getTime()
 
         this.scene = new Scene({
             backgroundColor: 0x000000,
@@ -61,6 +71,7 @@ class Universe implements IUniverse {
             logarithmicDepth: true,
             objects: this.rootBodies,
             onRender: () => this.updateBodies(),
+            onRenderInterval: Config.RENDER_INTERVAL,
             onZoom: zoom => options.onChangeViewSize(zoom / Config.SIZE_RATIO),
             target: '5be60eee4143ef4fd8db9a77'
         })
@@ -101,6 +112,8 @@ class Universe implements IUniverse {
         }
 
         this.updateScale(this.scene.getDistanceFromCamera() * this.scale)
+        this.simulationTime += Config.RENDER_INTERVAL
+        this.timeElement.textContent = new Date(this.simulationTime).toLocaleString()
 
         for (const body of  this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
@@ -123,7 +136,7 @@ class Universe implements IUniverse {
 
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-                body.orbit.userData.angle += (0.00001 * Math.PI * 2 * 365 * 24 * 60 / 1893415560) / (body.data.orbit.period || 1)
+                body.orbit.userData.angle += body.data.temp.anglePerCycle * 25// * 31556926
 
                 if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
                     body.mesh.position.set(0, 0, 0)
