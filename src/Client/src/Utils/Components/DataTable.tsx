@@ -12,6 +12,23 @@ interface IProps {
  */
 class DataTable extends StatelessComponent<IProps> {
 
+    /**
+     * Return flex row.
+     * @returns {React.ReactNode}
+     * @constructor
+     */
+    public static FlexRow = ({ children }): React.ReactNode => {
+        return (
+            <section className='data-table__row--flex'>
+                {children.map(item => (
+                    <section className='data-table__cell'>
+                        {item}
+                    </section>
+                ))}
+            </section>
+        )
+    }
+
     private renderTitle(): React.ReactNode {
         const { title } = this.props
 
@@ -27,6 +44,7 @@ class DataTable extends StatelessComponent<IProps> {
             </section>
         )
     }
+
 
     private renderData(): React.ReactNode {
         const { data } = this.props

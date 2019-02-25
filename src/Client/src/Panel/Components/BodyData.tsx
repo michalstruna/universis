@@ -1,7 +1,7 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
-import { StatelessComponent, DataTable, Units } from '../../Utils'
+import { StatelessComponent, DataTable , Units } from '../../Utils'
 import { DonutChart } from '../../Charts'
 
 interface IProps {
@@ -70,7 +70,13 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.pericenter]: body.orbit ? Units.toFull(body.orbit.pericenter, Units.SIZE.KM) : null,
                             [strings.eccentricity]: body.orbit ? Units.toFull(body.orbit.eccentricity) : null,
                             [strings.orbitPeriod]: body.orbit ? Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME) : null,
-                            [strings.orbitVelocity]: body.orbit ? Units.toFull(body.orbit.velocity, Units.VELOCITY.KM_S) : null,
+                            [strings.orbitVelocity]: body.orbit ? () => (
+                                <DataTable.FlexRow>
+                                    {Units.toFull(body.orbit.velocity.min, Units.VELOCITY.KM_S)}
+                                    {Units.toFull(body.orbit.velocity.avg, Units.VELOCITY.KM_S)}
+                                    {Units.toFull(body.orbit.velocity.max, Units.VELOCITY.KM_S)}
+                                </DataTable.FlexRow>
+                            ) : null,
                             [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
                             [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null
                         }} />

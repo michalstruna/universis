@@ -86,23 +86,6 @@ declare interface ISimpleBody {
     satellitesCount: number
 
     /**
-     * Speed.
-     */
-    moveVelocity: {
-
-        /**
-         * Maximum speed.
-         */
-        max: number
-
-        /**
-         * Minimum speed.
-         */
-        min: number
-
-    }
-
-    /**
      * Magnitude.
      */
     magnitude: {
@@ -236,7 +219,7 @@ declare interface ISimpleBody {
         /**
          * Velocity of body around orbit.
          */
-        velocity: number
+        velocity: { max: number, avg: number, min: number }
 
     }
 

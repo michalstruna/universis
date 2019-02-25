@@ -113,12 +113,21 @@ class Physics {
      * @param body
      * @returns Velocity of body or null.
      */
-    public static getOrbitVelocity(body: ISimpleBody): number | null {
+    public static getOrbitVelocity(body: ISimpleBody): { min: number, avg: number, max: number } | null {
         if (!body.orbit) {
             return null
         }
 
-        return body.orbit.circuit / (body.orbit.period * 365.25 * 23.93 * 3600)
+        const a = (body.orbit.apocenter + body.orbit.pericenter) / 2
+        const b = a * Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2))
+        const S = Math.PI * a * b
+        const sPerSecond = S / (31556926 * body.orbit.period)
+
+        return {
+            min: 2 * sPerSecond / body.orbit.apocenter,
+            avg: 2 * sPerSecond / a,
+            max: 2 * sPerSecond / body.orbit.pericenter
+        }
     }
 
     /**
