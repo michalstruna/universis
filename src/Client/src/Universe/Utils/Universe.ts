@@ -5,6 +5,8 @@ import Visibility from '../Constants/Visibility'
 
 import Scene from '../Utils/Scene'
 import BodyFactory from './BodyFactory'
+import Physics from '../../../../Utils/Physics'
+import { Units } from '../../Utils'
 
 /**
  * Temp variables.
@@ -21,12 +23,12 @@ interface IOptions {
     viewSizeElement: HTMLElement
 }
 
-class Universe implements IUniverse {
+class Universe implements Universis.Universe {
 
     /**
      * Instance of THREE.js scene.
      */
-    private scene: IScene
+    private scene: Universis.Scene
 
     /**
      * List of all bodies in universe.
@@ -111,7 +113,7 @@ class Universe implements IUniverse {
             return
         }
 
-        this.updateScale(this.scene.getDistanceFromCamera() * this.scale)
+        this.updateScale(this.scene.getDistance(this.scene.getCameraTarget()) * this.scale)
         this.simulationTime += Config.RENDER_INTERVAL
         this.timeElement.textContent = new Date(this.simulationTime).toLocaleString()
 
@@ -136,7 +138,9 @@ class Universe implements IUniverse {
 
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-                body.orbit.userData.angle += body.data.temp.anglePerCycle * 25// * 31556926
+                const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.anglePerCycle, body.data.orbit.circuit, fromCenter) * 10000000000000000
+                body.label.innerHTML = body.data.name + '<br />' + Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE) + '<br />' + Units.toFull(this.scene.getDistance(body.mesh), Units.SIZE.KM, Units.SIZE)
 
                 if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
                     body.mesh.position.set(0, 0, 0)
@@ -144,7 +148,7 @@ class Universe implements IUniverse {
                     body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
                 }
 
-                body.mesh.rotateOnAxis(rotationVector, 0.001) // TODO: Only if rotate difference is bigger than 0.0001.
+                body.mesh.rotateOnAxis(rotationVector, 0.001)
                 body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
             }
         }
@@ -197,10 +201,10 @@ class Universe implements IUniverse {
      * @returns Body visibility.
      */
     private getVisibility(body: IBodyContainer): Visibility {
-        const viewSize = this.scene.getDistanceFromCamera()
+        const viewSize = this.scene.getDistance(this.scene.getCameraTarget())
 
         const min = viewSize / body.data.orbit.apocenter
-        const distance = this.scene.getDistanceFromCamera(body.mesh)
+        const distance = this.scene.getDistance(body.mesh)
         const max = viewSize / distance
 
         if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
@@ -228,7 +232,8 @@ class Universe implements IUniverse {
             this.element.appendChild(body.label)
 
             if (data.parentId) {
-                this.bodies.filter(body => body.data._id === data.parentId)[0].mesh.add(body.orbit)
+                body.parent = this.bodies.find(body => body.data._id === data.parentId)
+                this.bodies.find(body => body.data._id === data.parentId).mesh.add(body.orbit)
                 //this.scene.getObject(data.parentId).children[0].add(body.orbit)
             } else {
                 this.rootBodies.push(body.orbit)

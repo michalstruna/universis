@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { StatelessComponent, UILayout, Units } from '../../Utils'
+import { StatelessComponent, UILayout } from '../../Utils'
 import ControlBar from './ControlBar'
 import ControlPanel from './ControlPanel'
 import Universe from '../Utils/Universe'
@@ -28,16 +28,16 @@ class Simulator extends StatelessComponent<IProps> {
      * Elements.
      */
     private canvasElement: HTMLElement
-    private viewSizeElement: HTMLElement
 
     /**
      * Instance of universe.
      */
-    private universe: IUniverse
+    private universe: Universis.Universe
 
     public componentDidMount(): void {
         this.initializeUniverse()
-        this.viewSizeElement = document.querySelector('.universe__view--inner')
+        Listener.viewSizeElement = document.querySelector('.universe__view--inner')
+        Listener.viewSizeSlider = ViewSizeControl.instance
     }
 
     public componentDidUpdate(prevProps: IProps): void {
@@ -68,16 +68,6 @@ class Simulator extends StatelessComponent<IProps> {
         }
     }
 
-    private handleChangeViewSizeFromSimulator = (viewSize: number) => {
-        if (this.viewSizeElement) {
-            this.viewSizeElement.textContent = Units.toFull(viewSize, Units.SIZE.KM, Units.SIZE)
-        }
-
-        if (ViewSizeControl.instance) {
-            ViewSizeControl.instance.setState({ viewSize })
-        }
-    }
-
     /**
      * Initialize universe after load bodies.
      */
@@ -90,7 +80,7 @@ class Simulator extends StatelessComponent<IProps> {
                 timeElement: document.querySelector('.universe__time--inner'),
                 viewSizeElement: document.querySelector('.universe__view--inner'),
                 bodies: bodies.payload,
-                onChangeViewSize: this.handleChangeViewSizeFromSimulator,
+                onChangeViewSize: Listener.changeViewSizeFromSimulator,
                 onSelectBody: selectBody
             })
 

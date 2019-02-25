@@ -28,4 +28,9 @@ declare interface IBodyContainer {
      */
     readonly childrenContainer: THREE.Object3D
 
+    /**
+     * Parent.
+     */
+    parent?: IBodyContainer
+
 }

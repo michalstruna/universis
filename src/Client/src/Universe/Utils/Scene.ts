@@ -21,13 +21,15 @@ const DEFAULT_OPTIONS = {
 }
 
 let tempObjectPosition = new THREE.Vector3()
+let tempObject1Position = new THREE.Vector3()
+let tempObject2Position = new THREE.Vector3()
 let tempCameraPosition = new THREE.Vector3()
 let tempViewProjection = new THREE.Matrix4()
 
 /**
  * Utils for THREE.js scene.
  */
-class Scene implements IScene {
+class Scene implements Scene {
 
     /**
      * Scene options.
@@ -100,10 +102,10 @@ class Scene implements IScene {
         return this.target
     }
 
-    public getDistanceFromCamera(object: THREE.Mesh = this.target): number {
-        object.getWorldPosition(tempObjectPosition)
-        this.camera.getWorldPosition(tempCameraPosition)
-        return tempObjectPosition.distanceTo(tempCameraPosition)
+    public getDistance(object1: THREE.Object3D, object2: THREE.Object3D = this.camera): number {
+        object1.getWorldPosition(tempObject1Position)
+        object2.getWorldPosition(tempObject2Position)
+        return tempObject1Position.distanceTo(tempObject2Position)
     }
 
     public isInFov(object: THREE.Mesh): boolean {
@@ -272,7 +274,7 @@ class Scene implements IScene {
         }
 
         if (controllable) {
-            const fromCenter = this.getDistanceFromCamera()
+            const fromCenter = this.getDistance(this.target, this.camera)
             const isDifferent = !this.lastDistanceFromTarget || (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
 
             if (onZoom && isDifferent) {

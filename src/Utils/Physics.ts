@@ -122,6 +122,17 @@ class Physics {
     }
 
     /**
+     * Get angle velocity in point.
+     * @param areaPerSecond
+     * @param circuit
+     * @param distance
+     * @returns Angle velocity [rad].
+     */
+    public static getAngleVelocity(areaPerSecond: number, circuit: number, distance: number): number {
+        return 2 * Math.PI * (2 * areaPerSecond / distance) / circuit
+    }
+
+    /**
      * Get velocity of body around orbit.
      * @param body
      * @returns Velocity of body or null.

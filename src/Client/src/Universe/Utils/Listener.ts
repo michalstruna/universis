@@ -1,6 +1,5 @@
 import ControlBar from '../Components/ControlBar'
 import Units from '../../Utils/Utils/Units'
-import { ViewSizeControl } from '../../Controls'
 
 /**
  * Layer between real-time simulator and redux actions.
@@ -13,7 +12,15 @@ class Listener {
      */
     public static updateSimulatorViewSize: IConsumer<number>
 
-    public viewSizeElement: HTMLElement
+    /**
+     * View size element.
+     */
+    public static viewSizeElement: HTMLElement
+
+    /**
+     * View size slider.
+     */
+    public static viewSizeSlider: React.Component
 
     /**
      * When view size in simulator is changed, update UI.
@@ -24,8 +31,8 @@ class Listener {
             Listener.viewSizeElement.innerHTML = Units.toFull(viewSize, Units.SIZE.KM, Units.SIZE)
         }
 
-        if (ViewSizeControl.instance) {
-            ViewSizeControl.instance.setState({ viewSize })
+        if (Listener.viewSizeSlider) {
+            Listener.viewSizeSlider.setState({ viewSize })
         }
     }
 
@@ -34,8 +41,8 @@ class Listener {
             Listener.updateSimulatorViewSize(viewSize)
         }
 
-        if (ControlBar.viewSize) {
-            ControlBar.viewSize.innerHTML = Units.toFull(viewSize, Units.SIZE.KM, Units.SIZE)
+        if (Listener.viewSizeElement) {
+            Listener.viewSizeElement.innerHTML = Units.toFull(viewSize, Units.SIZE.KM, Units.SIZE)
         }
     }
 
