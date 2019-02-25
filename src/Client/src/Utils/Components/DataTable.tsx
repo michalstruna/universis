@@ -20,8 +20,8 @@ class DataTable extends StatelessComponent<IProps> {
     public static FlexRow = ({ children }): React.ReactNode => {
         return (
             <section className='data-table__row--flex'>
-                {children.map(item => (
-                    <section className='data-table__cell'>
+                {children.map((item, key) => (
+                    <section className='data-table__cell' key={key}>
                         {item}
                     </section>
                 ))}

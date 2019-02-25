@@ -95,16 +95,16 @@ class Units {
      * List of velocity units.
      */
     public static VELOCITY = {
-        KM_S: { value: 1, shortName: 'km/s' },
-        M_S: { value: 1000, shortName: 'm/s' }
+        M_S: { value: 1, shortName: 'm/s' },
+        KM_S: { value: 1000, shortName: 'km/s' }
     }
 
     /**
      * List of acceleration units.
      */
     public static ACCELERATION = {
-        KM_S2: { value: 1, shortName: 'km/s2' },
-        M_S2: { value: 1000, shortName: 'm/s2' }
+        M_S2: { value: 1, shortName: 'm/s2' },
+        KM_S2: { value: 1000, shortName: 'km/s2' }
     }
 
     private constructor() {
@@ -133,7 +133,10 @@ class Units {
             unit = temp.unit
         }
 
-        if (value < 1e-3) {
+
+        if (!value) {
+            return '0'
+        } else if (value < 1e-3) {
             return Units.toExponential(value, unit)
         }
 
@@ -195,9 +198,9 @@ class Units {
             unit = temp.unit
         }
 
-        if(!value) {
-           return '0'
-        } if (value < 1e-3) {
+        if (!value) {
+            return '0'
+        } else if (value < 1e-3) {
             return Units.toExponential(value, unit)
         } else if (value < 1) {
             return Units.toFull(value, unit)
@@ -238,7 +241,7 @@ class Units {
      */
     private static getCorrespondingUnit(value: number, unit: IUnit, units: IObject<IUnit>, threshold: number = 2): { value: number, unit: IUnit } {
         let newValue = Units.convert(unit, units[Object.keys(units)[0]], value)
-        let newUnit: IUnit
+        let newUnit: IUnit = units[Object.keys(unit)[0]]
 
         for (const i in units) {
             const unitNamesKeys = Object.keys(units)

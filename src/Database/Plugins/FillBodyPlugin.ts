@@ -44,8 +44,11 @@ const fillBody = (body: ISimpleBody) => {
         body.orbit.circuit = Physics.getOrbitCircuit(body)
         body.orbit.velocity = Physics.getOrbitVelocity(body)
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
+
+
+
         body.temp = {
-            anglePerCycle: Units.convert(Units.TIME.S, Units.TIME.Y, Math.PI * 2 / body.orbit.period) / 25
+            anglePerCycle: (body.orbit.period * Units.convert(Units.TIME.S, Units.TIME.Y))
         }
     }
 }

@@ -70,16 +70,16 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.pericenter]: body.orbit ? Units.toFull(body.orbit.pericenter, Units.SIZE.KM) : null,
                             [strings.eccentricity]: body.orbit ? Units.toFull(body.orbit.eccentricity) : null,
                             [strings.orbitPeriod]: body.orbit ? Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME) : null,
+                            [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
                             [strings.orbitVelocity]: body.orbit ? () => (
                                 <DataTable.FlexRow>
-                                    {Units.toFull(body.orbit.velocity.min, Units.VELOCITY.KM_S)}
-                                    {Units.toFull(body.orbit.velocity.avg, Units.VELOCITY.KM_S)}
-                                    {Units.toFull(body.orbit.velocity.max, Units.VELOCITY.KM_S)}
+                                    {Units.toFull(body.orbit.velocity.min, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toFull(body.orbit.velocity.avg, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toFull(body.orbit.velocity.max, Units.VELOCITY.KM_S, Units.VELOCITY)}
                                 </DataTable.FlexRow>
                             ) : null,
-                            [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
                             [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null
-                        }} />
+                        }} />\\
                     <DataTable
                         title={strings.axis}
                         data={{

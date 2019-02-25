@@ -109,6 +109,19 @@ class Physics {
     }
 
     /**
+     * Get area of orbit.
+     * @param apocenter
+     * @param pericenter
+     * @param eccentricity
+     * @returns Area of orbit.
+     */
+    public static getOrbitArea(apocenter: number, pericenter: number, eccentricity: number): number {
+        const a = (apocenter + pericenter) / 2
+        const b = a * Math.sqrt(1 - Math.pow(eccentricity, 2))
+        return Math.PI * a * b
+    }
+
+    /**
      * Get velocity of body around orbit.
      * @param body
      * @returns Velocity of body or null.
@@ -118,14 +131,12 @@ class Physics {
             return null
         }
 
-        const a = (body.orbit.apocenter + body.orbit.pericenter) / 2
-        const b = a * Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2))
-        const S = Math.PI * a * b
+        const S = Physics.getOrbitArea(body.orbit.apocenter, body.orbit.pericenter, body.orbit.eccentricity)
         const sPerSecond = S / (31556926 * body.orbit.period)
 
         return {
             min: 2 * sPerSecond / body.orbit.apocenter,
-            avg: 2 * sPerSecond / a,
+            avg: 2 * sPerSecond / ((body.orbit.apocenter + body.orbit.pericenter) / 2),
             max: 2 * sPerSecond / body.orbit.pericenter
         }
     }
