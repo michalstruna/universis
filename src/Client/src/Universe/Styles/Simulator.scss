@@ -1,0 +1,24 @@
+.universe {
+
+    &__label {
+        color: $lightest-color;
+        cursor: pointer;
+        font-size: 80%;
+        position: absolute;
+        top: 0;
+        z-index: 1000;
+    }
+
+    @each $item in (name, velocity, earth, camera, center) {
+        &__label__#{$item} {
+            display: none;
+        }
+
+        &__simulator--#{$item} {
+            .universe__label__#{$item} {
+                display: block;
+            }
+        }
+    }
+
+}

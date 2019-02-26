@@ -37,11 +37,6 @@ class Universe implements Universis.Universe {
     private rootBodies: THREE.Object3D[]
 
     /**
-     * Visibility of labels.
-     */
-    private areLabelsVisible: boolean
-
-    /**
      * Scale of scene.
      */
     private scale: number
@@ -55,6 +50,11 @@ class Universe implements Universis.Universe {
     private simulationTime: number
 
     /**
+     * Body container for our planet.
+     */
+    private earth: Universis.Universe.Body.Container
+
+    /**
      * Body factory.
      */
     private bodyFactory: Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container>
@@ -65,6 +65,7 @@ class Universe implements Universis.Universe {
         this.timeElement = options.timeElement
         this.createBodies(options.bodies)
         this.simulationTime = new Date().getTime()
+        this.earth = this.bodies.find(body => body.data.name === 'Země')
 
         this.scene = new Scene({
             backgroundColor: 0x000000,
@@ -89,10 +90,6 @@ class Universe implements Universis.Universe {
 
     public setViewSize = (viewSize: number): void => {
         this.scene.setCameraDistance(viewSize * Config.SIZE_RATIO)
-    }
-
-    public toggleLabels(areLabelsVisible: boolean): void {
-        this.areLabelsVisible = areLabelsVisible
     }
 
     public toggleLight(isLightVisible: boolean): void {
@@ -125,7 +122,7 @@ class Universe implements Universis.Universe {
             const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
             const isSelectedBody = body.data._id === this.scene.getCameraTarget().name
 
-            if (this.areLabelsVisible && (visibility === Visibility.VISIBLE && isVisible || isSelectedBody)) {
+            if (/*this.isNameVisible && */(visibility === Visibility.VISIBLE && isVisible || isSelectedBody)) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
@@ -139,7 +136,7 @@ class Universe implements Universis.Universe {
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
                 const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.anglePerCycle, body.data.orbit.circuit, fromCenter) * 1000000000000000000000
+                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.anglePerCycle, body.data.orbit.circuit, fromCenter)
                 body.label.innerHTML = this.getLabel(body, fromCenter)
 
                 if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
@@ -163,12 +160,12 @@ class Universe implements Universis.Universe {
      */
     private getLabel(body: Universis.Universe.Body.Container, fromCenter: number): string {
         const rows = []
-        rows.push(body.data.name)
-        rows.push(Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE))
-        rows.push(Units.toFull(this.scene.getDistance(body.mesh), Units.SIZE.KM, Units.SIZE))
-
-        rows.push(Units.toFull(Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter), Units.VELOCITY.KM_S, Units.VELOCITY))
-        return rows.join('<br />')
+        rows.push(`<div class="universe__label__name">${body.data.name}</div>`)
+        rows.push(`<div class="universe__label__center">${Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE)}</div>`)
+        rows.push(`<div class="universe__label__earth">${Units.toFull(this.scene.getDistance(body.mesh, this.earth.mesh), Units.SIZE.KM, Units.SIZE)}</div>`)
+        rows.push(`<div class="universe__label__camera">${Units.toFull(this.scene.getDistance(body.mesh), Units.SIZE.KM, Units.SIZE)}</div>`)
+        rows.push(`<div class="universe__label__velocity">${Units.toFull(Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter), Units.VELOCITY.KM_S, Units.VELOCITY)}</div>`)
+        return rows.join('')
     }
 
     /**
@@ -250,10 +247,8 @@ class Universe implements Universis.Universe {
             if (data.parentId) {
                 body.parent = this.bodies.find(body => body.data._id === data.parentId)
                 this.bodies.find(body => body.data._id === data.parentId).mesh.add(body.orbit)
-                //this.scene.getObject(data.parentId).children[0].add(body.orbit)
             } else {
                 this.rootBodies.push(body.orbit)
-                //this.scene.addObject(body.orbit)
             }
         }
 

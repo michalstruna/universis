@@ -166,8 +166,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      */
     private createLabel(body: Universis.Universe.Body.Simple): HTMLElement {
         const label = document.createElement('div')
-        label.className = 'text-label' // TODO: Rename.
-        label.innerHTML = body.name
+        label.className = 'universe__label'
         return label
     }
 

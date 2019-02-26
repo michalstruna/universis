@@ -64,14 +64,16 @@ export default {
 
     universe: {
         controls: {
-            name: 'Jméno',
-            size: 'Size',
             orbits: 'Orbity',
-            labels: 'Popisky',
+            labels: 'Názvy',
             panel: 'Panel',
             light: 'Světlo',
             now: 'Teď',
-            move: 'Pohyb'
+            move: 'Pohyb',
+            velocity: 'Rychlost',
+            earth: 'Od Země',
+            camera: 'Od kamery',
+            center: 'Od těžiště'
         }
     },
 

@@ -1,3 +1,4 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import { StatelessComponent, UILayout } from '../../Utils'
@@ -14,9 +15,13 @@ interface IProps {
     selectBody: Universis.Consumer<string>
     viewSize: number
     selectedBody: string
-    areLabelsVisible: boolean
+    isNameVisible: boolean
     isLightVisible: boolean
     areOrbitsVisible: boolean
+    isVelocityVisible: boolean
+    isFromEarthVisible: boolean
+    isFromCameraVisible: boolean
+    isFromCenterVisible: boolean
 }
 
 /**
@@ -41,7 +46,7 @@ class Simulator extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, areLabelsVisible, isLightVisible, areOrbitsVisible } = this.props
+        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -53,10 +58,6 @@ class Simulator extends StatelessComponent<IProps> {
 
         if (this.universe && prevProps.selectedBody !== selectedBody) {
             this.universe.selectBody(selectedBody)
-        }
-
-        if (prevProps.areLabelsVisible !== areLabelsVisible) {
-            this.universe.toggleLabels(areLabelsVisible)
         }
 
         if (prevProps.isLightVisible !== isLightVisible) {
@@ -72,7 +73,7 @@ class Simulator extends StatelessComponent<IProps> {
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        const { bodies, selectBody, areLabelsVisible } = this.props
+        const { bodies, selectBody } = this.props
 
         if (bodies.payload && !this.universe) {
             this.universe = new Universe({
@@ -84,15 +85,23 @@ class Simulator extends StatelessComponent<IProps> {
                 onSelectBody: selectBody
             })
 
-            this.universe.toggleLabels(areLabelsVisible)
             this.setOnResize(this.universe.resize)
             Listener.updateSimulatorViewSize = this.universe.setViewSize
         }
     }
 
     public render(): React.ReactNode {
+        const { isVelocityVisible, isNameVisible, isFromCameraVisible, isFromCenterVisible, isFromEarthVisible } = this.props
+
         return (
-            <section className='universe__simulator'>
+            <section className={ClassNames(
+                'universe__simulator',
+                { 'universe__simulator--velocity': isVelocityVisible },
+                { 'universe__simulator--name': isNameVisible },
+                { 'universe__simulator--earth': isFromEarthVisible },
+                { 'universe__simulator--camera': isFromCameraVisible },
+                { 'universe__simulator--center': isFromCenterVisible }
+            )}>
                 <section className='universe__space' ref={ref => this.canvasElement = ref} />
                 <UILayout>
                     <section className='universe__ui'>
@@ -113,9 +122,13 @@ export default Simulator.connect(
         bodies: universe.bodies,
         viewSize: universe.viewSize,
         selectedBody: universe.selectedBody,
-        areLabelsVisible: universe.areLabelsVisible,
+        isNameVisible: universe.isNameVisible,
         isLightVisible: universe.isLightVisible,
-        areOrbitsVisible: universe.areOrbitsVisible
+        areOrbitsVisible: universe.areOrbitsVisible,
+        isVelocityVisible: universe.isVelocityVisible,
+        isFromEarthVisible: universe.isFromEarthVisible,
+        isFromCameraVisible: universe.isFromCameraVisible,
+        isFromCenterVisible: universe.isFromCenterVisible
     }),
     { selectBody }
 )

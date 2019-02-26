@@ -47,12 +47,12 @@ export const changeViewSize = (viewSize: number) => (
 
 /**
  * Toggle visibility of labels.
- * @param areLabelsVisible Labels are visible.
+ * @param isNameVisible Labels are visible.
  */
-export const toggleLabels = (areLabelsVisible: boolean) => (
+export const toggleLabels = (isNameVisible: boolean) => (
     Redux.setAction(
         ActionTypes.TOGGLE_LABELS,
-        { areLabelsVisible }
+        { isNameVisible }
     )
 )
 
@@ -64,6 +64,50 @@ export const toggleLight = (isLightVisible: boolean) => (
     Redux.setAction(
         ActionTypes.TOGGLE_LABELS,
         { isLightVisible }
+    )
+)
+
+/**
+ * Toggle visibility of velocity.
+ * @param isVelocityVisible Velocity is visible.
+ */
+export const toggleVelocity = (isVelocityVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_VELOCITY,
+        { isVelocityVisible }
+    )
+)
+
+/**
+ * Toggle visibility of from Earth.
+ * @param isFromEarthVisible From Earth is visible.
+ */
+export const toggleFromEarth = (isFromEarthVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_FROM_EARTH,
+        { isFromEarthVisible }
+    )
+)
+
+/**
+ * Toggle visibility of from center.
+ * @param isFromCenterVisible From center is visible.
+ */
+export const toggleFromCenter = (isFromCenterVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_FROM_CENTER,
+        { isFromCenterVisible }
+    )
+)
+
+/**
+ * Toggle visibility of from camera.
+ * @param isFromCameraVisible From camera is visible.
+ */
+export const toggleFromCamera = (isFromCameraVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_FROM_CAMERA,
+        { isFromCameraVisible }
     )
 )
 

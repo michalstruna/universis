@@ -11,7 +11,11 @@ enum Keys {
     FASTER = 'W',
     SPEED = 'Q',
     NOW = 'N',
-    MOVE = 'M'
+    MOVE = 'M',
+    VELOCITY = 'R',
+    EARTH = 'E',
+    CAMERA = 'K',
+    CENTER = 'T'
 
 }
 

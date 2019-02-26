@@ -22,12 +22,6 @@ declare namespace Universis {
         selectBody(bodyId: string): void
 
         /**
-         * Toggle visibility of labels.
-         * @param areLabelsVisible Labels are visible.
-         */
-        toggleLabels(areLabelsVisible: boolean): void
-
-        /**
          * Toggle light.
          * @param isLightVisible Light is visible.
          */
