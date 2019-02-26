@@ -5,7 +5,7 @@ import { ContextInfo } from '../../Controls'
 
 interface IProps {
     type: UserInfoTypes
-    user?: IBaseUser
+    user?: Universis.User.Simple
 }
 
 /**
@@ -65,7 +65,7 @@ class UserInfo extends StatelessComponent<IProps> {
     /**
      * Get user.
      */
-    private getUser(): IBaseUser {
+    private getUser(): Universis.User.Simple {
         const { user } = this.props
 
         if (!user) {

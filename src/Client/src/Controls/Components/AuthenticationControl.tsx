@@ -6,9 +6,9 @@ import { StatelessComponent, Urls, Url } from '../../Utils'
 import { logout } from '../../User/Redux/UserActions'
 
 export interface IProps {
-    strings: IStrings
-    identity: IUserIdentity
-    logout: IRunnable
+    strings: Universis.Strings
+    identity: Universis.User.Identity
+    logout: Universis.Runnable
 }
 
 /**
@@ -63,7 +63,7 @@ class AuthentificationControl extends StatelessComponent<IProps> {
 }
 
 export default AuthentificationControl.connect(
-    ({ system, user }: IStoreState) => ({
+    ({ system, user }: Universis.Redux.StoreState) => ({
         strings: system.strings.controls,
         identity: user.identity.payload
     }),

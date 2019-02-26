@@ -24,13 +24,13 @@ interface IProps<Item> {
      * Handler for click on row.
      * There is clicked item in consumer parameter.
      */
-    onRowClick?: IConsumer<Item>
+    onRowClick?: Universis.Consumer<Item>
 
     /**
      * Handler for change sorting.
      * THere is index of sorted column and direction in consumer parameter.
      */
-    onSort?: IConsumer2<number, boolean>
+    onSort?: Universis.Consumer2<number, boolean>
 
     /**
      * Index of column which will be sorted.

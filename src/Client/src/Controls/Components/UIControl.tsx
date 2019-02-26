@@ -7,8 +7,8 @@ import { StatelessComponent } from '../../Utils'
 
 export interface IProps {
     isUIVisible: boolean,
-    strings: IStrings,
-    toggleUI: IConsumer<boolean>
+    strings: Universis.Strings,
+    toggleUI: Universis.Consumer<boolean>
 }
 
 /**
@@ -30,7 +30,7 @@ class UIControl extends StatelessComponent<IProps> {
 }
 
 export default UIControl.connect((
-    { system }: IStoreState) => ({
+    { system }: Universis.Redux.StoreState) => ({
         isUIVisible: system.isUIVisible,
         strings: system.strings.controls
     }),

@@ -8,7 +8,7 @@ import { Store } from '../../System'
 export const getBodies = () => (
     Redux.asyncAction(
         ActionTypes.GET_BODIES,
-        { bodies: Request.get<ISimpleBody[]>(`bodies`, { sort: '_id' }) }
+        { bodies: Request.get<Universis.Universe.Body.Simple[]>(`bodies`, { sort: '_id' }) }
     )
 )
 
@@ -19,7 +19,7 @@ export const getBodies = () => (
 export const getBodyById = (bodyId: string) => (
     Redux.asyncAction(
         ActionTypes.GET_BODY_BY_ID,
-        { body: Request.get<ISimpleBody>(`bodies/${bodyId}`) }
+        { body: Request.get<Universis.Universe.Body.Simple>(`bodies/${bodyId}`) }
     )
 )
 

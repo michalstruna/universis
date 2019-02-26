@@ -9,9 +9,9 @@ import { selectBody } from '../Redux/UniverseActions'
 import { ViewSizeControl } from '../../Controls'
 
 interface IProps {
-    bodies: IAsyncEntity<ISimpleBody[]>
-    getBodies: IRunnable
-    selectBody: IConsumer<string>
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    getBodies: Universis.Runnable
+    selectBody: Universis.Consumer<string>
     viewSize: number
     selectedBody: string
     areLabelsVisible: boolean
@@ -109,7 +109,7 @@ class Simulator extends StatelessComponent<IProps> {
 }
 
 export default Simulator.connect(
-    ({ universe }: IStoreState) => ({
+    ({ universe }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
         viewSize: universe.viewSize,
         selectedBody: universe.selectedBody,

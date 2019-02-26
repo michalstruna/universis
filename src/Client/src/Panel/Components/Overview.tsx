@@ -6,7 +6,7 @@ import UsersList from '../../User/Components/UsersList'
 import Notifications from './Notifications'
 
 interface IProps {
-    identity: IAsyncEntity<IUserIdentity>
+    identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
 }
 
 /**
@@ -41,7 +41,7 @@ class Overview extends StatelessComponent<IProps> {
 }
 
 export default Overview.connect(
-    ({ user }: IStoreState) => ({
+    ({ user }: Universis.Redux.StoreState) => ({
         identity: user.identity
     })
 )

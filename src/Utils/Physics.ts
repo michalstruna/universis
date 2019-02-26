@@ -23,7 +23,7 @@ class Physics {
      * @param body
      * @returns Polar diameter of body.
      */
-    public static getDiameterY(body: ISimpleBody): number {
+    public static getDiameterY(body: Universis.Universe.Body.Simple): number {
         return body.diameter.y || body.diameter.x
     }
 
@@ -32,7 +32,7 @@ class Physics {
      * @param body
      * @returns Second horizontal diameter of body.
      */
-    public static getDiameterZ(body: ISimpleBody): number {
+    public static getDiameterZ(body: Universis.Universe.Body.Simple): number {
         return body.diameter.z || body.diameter.x
     }
 
@@ -41,7 +41,7 @@ class Physics {
      * @param body
      * @returns Body circuit.
      */
-    public static getBodyCircuit(body: ISimpleBody): number {
+    public static getBodyCircuit(body: Universis.Universe.Body.Simple): number {
         return Physics.getCircuit(body.diameter.x, body.diameter.z)
     }
 
@@ -50,7 +50,7 @@ class Physics {
      * @param body
      * @returns Surface of body.
      */
-    public static getSurface(body: ISimpleBody): number {
+    public static getSurface(body: Universis.Universe.Body.Simple): number {
         return 4 * Math.PI * Math.pow(Physics.getAverageRadius(body), 2) // TODO: Get surface of ellipsoloid instead of sphere.
     }
 
@@ -59,7 +59,7 @@ class Physics {
      * @param body
      * @returns Volume of body.
      */
-    public static getVolume(body: ISimpleBody): number {
+    public static getVolume(body: Universis.Universe.Body.Simple): number {
         return (4 / 3) * Math.PI * Math.pow(Physics.getAverageRadius(body), 3) // TODO: Get volume of ellipsoloid instead of sphere.
     }
 
@@ -68,7 +68,7 @@ class Physics {
      * @param body
      * @returns Density of body or null.
      */
-    public static getDensity(body: ISimpleBody): number | null {
+    public static getDensity(body: Universis.Universe.Body.Simple): number | null {
         if (!body.mass || !body.volume) {
             return null
         }
@@ -81,7 +81,7 @@ class Physics {
      * @param body
      * @returns Escape velocity of body of null.
      */
-    public static getEscapeVelocity(body: ISimpleBody): number | null {
+    public static getEscapeVelocity(body: Universis.Universe.Body.Simple): number | null {
         if (!body.mass) {
             return null
         }
@@ -100,7 +100,7 @@ class Physics {
      * @param body
      * @returns Circuit of body orbit or null.
      */
-    public static getOrbitCircuit(body: ISimpleBody): number | null {
+    public static getOrbitCircuit(body: Universis.Universe.Body.Simple): number | null {
         if (!body.orbit) {
             return null
         }
@@ -110,15 +110,23 @@ class Physics {
 
     /**
      * Get area of orbit.
-     * @param apocenter
-     * @param pericenter
-     * @param eccentricity
+     * @param body
      * @returns Area of orbit.
      */
-    public static getOrbitArea(apocenter: number, pericenter: number, eccentricity: number): number {
-        const a = (apocenter + pericenter) / 2
-        const b = a * Math.sqrt(1 - Math.pow(eccentricity, 2))
+    public static getOrbitArea(body: Universis.Universe.Body.Simple): number {
+        const a = (body.orbit.apocenter + body.orbit.pericenter) / 2
+        const b = a * Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2))
         return Math.PI * a * b
+    }
+
+    /**
+     * Get velocity in point.
+     * @param areaPerSecond
+     * @param distance
+     * @returns Velocity.
+     */
+    public static getVelocity(areaPerSecond: number, distance: number): number {
+        return 2 * areaPerSecond / distance
     }
 
     /**
@@ -137,18 +145,15 @@ class Physics {
      * @param body
      * @returns Velocity of body or null.
      */
-    public static getOrbitVelocity(body: ISimpleBody): { min: number, avg: number, max: number } | null {
+    public static getOrbitVelocity(body: Universis.Universe.Body.Simple): { min: number, avg: number, max: number } | null {
         if (!body.orbit) {
             return null
         }
 
-        const S = Physics.getOrbitArea(body.orbit.apocenter, body.orbit.pericenter, body.orbit.eccentricity)
-        const sPerSecond = S / (31556926 * body.orbit.period)
-
         return {
-            min: 2 * sPerSecond / body.orbit.apocenter,
-            avg: 2 * sPerSecond / ((body.orbit.apocenter + body.orbit.pericenter) / 2),
-            max: 2 * sPerSecond / body.orbit.pericenter
+            min: 2 * body.temp.orbitAreaPerSecond / body.orbit.apocenter,
+            avg: 2 * body.temp.orbitAreaPerSecond / ((body.orbit.apocenter + body.orbit.pericenter) / 2),
+            max: 2 * body.temp.orbitAreaPerSecond / body.orbit.pericenter
         }
     }
 
@@ -157,7 +162,7 @@ class Physics {
      * @param body
      * @returns Flattening of body.
      */
-    public static getFlattening(body: ISimpleBody): number {
+    public static getFlattening(body: Universis.Universe.Body.Simple): number {
         return 1 - (Physics.getDiameterY(body) / body.diameter.x)
     }
 
@@ -166,7 +171,7 @@ class Physics {
      * @param body
      * @returns Luminosity of body.
      */
-    public static getLuminosity(body: ISimpleBody): number {
+    public static getLuminosity(body: Universis.Universe.Body.Simple): number {
         if (!body.temperature.outer) { // TODO: If emissive body.
             return null
         }
@@ -179,7 +184,7 @@ class Physics {
      * @param body
      * @returns Semi-major axis.
      */
-    public static getSemiMajorAxis(body: ISimpleBody): number {
+    public static getSemiMajorAxis(body: Universis.Universe.Body.Simple): number {
         if (!body.orbit) {
             return null
         }
@@ -187,7 +192,7 @@ class Physics {
         return Math.floor(Physics.getAverage(body.orbit.pericenter, body.orbit.apocenter))
     }
 
-    public static getAxisVelocity(body: ISimpleBody): number {
+    public static getAxisVelocity(body: Universis.Universe.Body.Simple): number {
         if (!body.axis.period) {
             return null
         }
@@ -204,7 +209,7 @@ class Physics {
      * @param body
      * @returns Average radius of body.
      */
-    private static getAverageRadius(body: ISimpleBody): number {
+    private static getAverageRadius(body: Universis.Universe.Body.Simple): number {
         return (body.diameter.x + Physics.getDiameterY(body) + Physics.getDiameterZ(body)) / 6
     }
 
@@ -213,7 +218,7 @@ class Physics {
      * @param body
      * @returns Gravitational acceleration.
      */
-    public static getGravitationalAcceleration(body: ISimpleBody): number {
+    public static getGravitationalAcceleration(body: Universis.Universe.Body.Simple): number {
         return Physics.G * body.mass / Math.pow(Physics.getAverageRadius(body) * 1e3, 2)
     }
 

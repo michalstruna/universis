@@ -8,7 +8,7 @@ import { StatelessComponent } from '../../Utils'
 
 interface IProps {
     isVisible: boolean
-    toggleContextMenu: IConsumer3<boolean, number, number>
+    toggleContextMenu: Universis.Consumer3<boolean, number, number>
     x: number
     y: number
 }
@@ -79,7 +79,7 @@ class ContextMenu extends StatelessComponent<IProps> {
 }
 
 export default ContextMenu.connect(
-    ({ system: { contextMenu } }: IStoreState) => ({
+    ({ system: { contextMenu } }: Universis.Redux.StoreState) => ({
         isVisible: contextMenu.isVisible,
         x: contextMenu.x,
         y: contextMenu.y

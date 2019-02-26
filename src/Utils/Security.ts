@@ -31,7 +31,7 @@ class Security {
      * @param payload Any data.
      * @returns Promise with token.
      */
-    public static sign(payload: IObject<any>): Promise<string> {
+    public static sign(payload: Universis.Map<any>): Promise<string> {
         return new Promise((resolve, reject) => (
             JWT.sign(payload, Config.security.token.secret, {
                 expiresIn: Config.security.token.expiration

@@ -4,8 +4,8 @@ import LoginForm from '../Components/LoginForm'
 import { Url, Urls, View } from '../../Utils'
 
 interface IProps {
-    unauthUser: IAsyncEntity<IBaseUser>
-    identity: IUserIdentity
+    unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
+    identity: Universis.User.Identity
 }
 
 /**
@@ -35,7 +35,7 @@ class LoginView extends View<IProps> {
 }
 
 export default LoginView.connect(
-    ({ user }: IStoreState) => ({
+    ({ user }: Universis.Redux.StoreState) => ({
         unauthUser: user.unauthUser,
         identity: user.identity.payload
     })

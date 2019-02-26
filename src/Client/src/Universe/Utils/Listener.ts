@@ -10,7 +10,7 @@ class Listener {
     /**
      * Function to update view size in simulator.
      */
-    public static updateSimulatorViewSize: IConsumer<number>
+    public static updateSimulatorViewSize: Universis.Consumer<number>
 
     /**
      * View size element.

@@ -8,7 +8,7 @@ interface IFormData {
 }
 
 interface IProps {
-    onSubmit: IConsumer<IFormData>
+    onSubmit: Universis.Consumer<IFormData>
     invalid: boolean
     sending: boolean
 }

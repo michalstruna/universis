@@ -17,9 +17,9 @@ const rotationVector = new THREE.Vector3(0, 0, 1)
 interface IOptions {
     element: HTMLElement
     timeElement: HTMLElement
-    bodies: ISimpleBody[]
-    onChangeViewSize: IConsumer<number>
-    onSelectBody: IConsumer<string>
+    bodies: Universis.Universe.Body.Simple[]
+    onChangeViewSize: Universis.Consumer<number>
+    onSelectBody: Universis.Consumer<string>
     viewSizeElement: HTMLElement
 }
 
@@ -33,7 +33,7 @@ class Universe implements Universis.Universe {
     /**
      * List of all bodies in universe.
      */
-    private bodies: IBodyContainer[]
+    private bodies: Universis.Universe.Body.Container[]
     private rootBodies: THREE.Object3D[]
 
     /**
@@ -57,7 +57,7 @@ class Universe implements Universis.Universe {
     /**
      * Body factory.
      */
-    private bodyFactory: IFactory<ISimpleBody, IBodyContainer>
+    private bodyFactory: Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container>
 
     public constructor(options: IOptions) {
         this.bodyFactory = new BodyFactory()
@@ -139,8 +139,8 @@ class Universe implements Universis.Universe {
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
                 const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.anglePerCycle, body.data.orbit.circuit, fromCenter) * 10000000000000000
-                body.label.innerHTML = body.data.name + '<br />' + Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE) + '<br />' + Units.toFull(this.scene.getDistance(body.mesh), Units.SIZE.KM, Units.SIZE)
+                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.anglePerCycle, body.data.orbit.circuit, fromCenter) * 1000000000000000000000
+                body.label.innerHTML = this.getLabel(body, fromCenter)
 
                 if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
                     body.mesh.position.set(0, 0, 0)
@@ -153,6 +153,22 @@ class Universe implements Universis.Universe {
             }
         }
 
+    }
+
+    /**
+     * Get label for body.
+     * @param body
+     * @param fromCenter
+     * @returns Label.
+     */
+    private getLabel(body: Universis.Universe.Body.Container, fromCenter: number): string {
+        const rows = []
+        rows.push(body.data.name)
+        rows.push(Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE))
+        rows.push(Units.toFull(this.scene.getDistance(body.mesh), Units.SIZE.KM, Units.SIZE))
+
+        rows.push(Units.toFull(Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter), Units.VELOCITY.KM_S, Units.VELOCITY))
+        return rows.join('<br />')
     }
 
     /**
@@ -173,7 +189,7 @@ class Universe implements Universis.Universe {
      * Convert size of bodies.
      * @param body Body data.
      */
-    private setScale(body: ISimpleBody): void {
+    private setScale(body: Universis.Universe.Body.Simple): void {
         const convert = (value: number) => (
             value * Config.SIZE_RATIO
         )
@@ -200,7 +216,7 @@ class Universe implements Universis.Universe {
      * @param body Body.
      * @returns Body visibility.
      */
-    private getVisibility(body: IBodyContainer): Visibility {
+    private getVisibility(body: Universis.Universe.Body.Container): Visibility {
         const viewSize = this.scene.getDistance(this.scene.getCameraTarget())
 
         const min = viewSize / body.data.orbit.apocenter
@@ -220,7 +236,7 @@ class Universe implements Universis.Universe {
      * Create bodies in universe and assign them to parents.
      * @param bodies List of all bodies.
      */
-    private createBodies(bodies: ISimpleBody[]): void {
+    private createBodies(bodies: Universis.Universe.Body.Simple[]): void {
         this.bodies = []
         this.rootBodies = []
 

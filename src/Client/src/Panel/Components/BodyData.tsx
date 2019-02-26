@@ -5,8 +5,8 @@ import { StatelessComponent, DataTable , Units } from '../../Utils'
 import { DonutChart } from '../../Charts'
 
 interface IProps {
-    body: IBody
-    strings: IStrings
+    body: Universis.Universe.Body
+    strings: Universis.Strings
 }
 
 class BodyData extends StatelessComponent<IProps> {
@@ -126,7 +126,7 @@ class BodyData extends StatelessComponent<IProps> {
 }
 
 export default BodyData.connect(
-    ({ system, universe }: IStoreState) => ({
+    ({ system, universe }: Universis.Redux.StoreState) => ({
         strings: system.strings.bodyData,
         body: universe.body.payload
     })

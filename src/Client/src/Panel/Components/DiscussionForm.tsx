@@ -7,10 +7,10 @@ import { addDiscussion } from '../../Universe'
 import { UserInfo } from '../../User'
 
 interface IProps {
-    strings: IStrings
-    identity: IAsyncEntity<Universis.User.Identity>
+    strings: Universis.Strings
+    identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
     addDiscussion: Universis.Consumer<Universis.Discussion.New>
-    body: IAsyncEntity<IBody>
+    body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
 }
 
 interface IValues {
@@ -77,7 +77,7 @@ class DiscussionForm extends StatelessComponent<IProps & InjectedFormProps<IValu
 export default reduxForm({
     form: DiscussionForm.NAME
 })(DiscussionForm.connect(
-    ({ system, user, universe }: IStoreState) => ({
+    ({ system, user, universe }: Universis.Redux.StoreState) => ({
         strings: system.strings.discussion,
         identity: user.identity,
         body: universe.body

@@ -1,12 +1,12 @@
 /**
  * Container for body.
  */
-class BodyContainer implements IBodyContainer {
+class BodyContainer implements Universis.Universe.Body.Container {
 
     /**
      * Data about body.
      */
-    private _data: ISimpleBody
+    private _data: Universis.Universe.Body.Simple
 
     /**
      * THREE mesh.
@@ -28,7 +28,7 @@ class BodyContainer implements IBodyContainer {
      */
     private _childrenContainer: THREE.Object3D
 
-    public constructor(data: ISimpleBody, mesh: THREE.Mesh, orbit: THREE.Object3D, label: HTMLElement, childrenContainer: THREE.Object3D) {
+    public constructor(data: Universis.Universe.Body.Simple, mesh: THREE.Mesh, orbit: THREE.Object3D, label: HTMLElement, childrenContainer: THREE.Object3D) {
         this._data = data
         this._mesh = mesh
         this._orbit = orbit
@@ -36,7 +36,7 @@ class BodyContainer implements IBodyContainer {
         this._childrenContainer = childrenContainer
     }
 
-    get data(): ISimpleBody {
+    get data(): Universis.Universe.Body.Simple {
         return this._data
     }
 

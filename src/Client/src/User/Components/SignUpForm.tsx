@@ -7,9 +7,9 @@ import { StatelessComponent, Url, Link } from '../../Utils'
 import { Field, Form, Submit, Title, Back } from '../../Forms'
 
 interface IProps {
-    strings: IStrings
-    signUp: IFunction2<string, string, Promise<IAsyncEntity<IUserIdentity>>>
-    unauthUser: IAsyncEntity<IBaseUser>
+    strings: Universis.Strings
+    signUp: Universis.Function2<string, string, Promise<Universis.Redux.AsyncEntity<Universis.User.Identity>>>
+    unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
     password: string
 }
 
@@ -82,7 +82,7 @@ class SignUpForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
 export default reduxForm({
     form: SignUpForm.NAME
 })(SignUpForm.connect(
-    (state: IStoreState) => ({
+    (state: Universis.Redux.StoreState) => ({
         strings: state.system.strings.signUp,
         unauthUser: state.user.unauthUser,
         password: SignUpForm.SELECTOR(state, 'password')

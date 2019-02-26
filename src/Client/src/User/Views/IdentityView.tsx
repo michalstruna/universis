@@ -4,7 +4,7 @@ import { Url, View, Urls } from '../../Utils'
 import { IdentityForm } from '../../User'
 
 interface IProps {
-    identity: IUserIdentity
+    identity: Universis.User.Identity
 }
 
 /**
@@ -31,7 +31,7 @@ class IdentityView extends View<IProps> {
 }
 
 export default IdentityView.connect(
-    ({ user }: IStoreState) => ({
+    ({ user }: Universis.Redux.StoreState) => ({
         identity: user.identity.payload
     })
 )

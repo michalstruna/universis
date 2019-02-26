@@ -34,7 +34,7 @@ class Scene implements Scene {
     /**
      * Scene options.
      */
-    private options: ISceneOptions
+    private options: Universis.Scene.Options
 
     /**
      * Camera target.
@@ -67,7 +67,7 @@ class Scene implements Scene {
     private startMouseX: number
     private startMouseY: number
 
-    constructor(options: ISceneOptions) {
+    constructor(options: Universis.Scene.Options) {
         this.options = {
             ...DEFAULT_OPTIONS,
             ...options

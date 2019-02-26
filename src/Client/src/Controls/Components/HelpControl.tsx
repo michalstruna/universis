@@ -25,6 +25,6 @@ class HelpControl extends StatelessComponent<IProps> {
 
 }
 
-export default HelpControl.connect(({ system }: IStoreState) => ({
+export default HelpControl.connect(({ system }: Universis.Redux.StoreState) => ({
     strings: system.strings.controls
 }))

@@ -7,9 +7,9 @@ import BodyContainer from './BodyContainer'
 /**
  * Class for generating bodies in universe.
  */
-class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
+class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container> {
 
-    public create(body: ISimpleBody): IBodyContainer {
+    public create(body: Universis.Universe.Body.Simple): Universis.Universe.Body.Container {
         const mesh = this.createMesh(body)
         const orbit = this.createOrbit(body)
         const label = this.createLabel(body)
@@ -40,7 +40,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns Mesh geometry.
      */
-    private createGeometry(body: ISimpleBody): THREE.SphereGeometry {
+    private createGeometry(body: Universis.Universe.Body.Simple): THREE.SphereGeometry {
         const geometry = new THREE.SphereGeometry(
             body.diameter.x / 2,
             Config.BODY_SEGMENTS,
@@ -66,7 +66,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns Mesh material.
      */
-    private createMaterial(body: ISimpleBody): THREE.MeshBasicMaterial {
+    private createMaterial(body: Universis.Universe.Body.Simple): THREE.MeshBasicMaterial {
         const texture = TextureStore.get(body.texture)
         let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial
 
@@ -94,7 +94,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * (Pivot point is always in center, but orbit is not always in center.)
      * @return THREE object.
      */
-    private createOrbit(body: ISimpleBody): THREE.Object3D {
+    private createOrbit(body: Universis.Universe.Body.Simple): THREE.Object3D {
         const outerOrbitMesh = new THREE.Object3D() as any
 
         if (body.orbit) {
@@ -124,7 +124,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * Calculate semi-major axes.
      * @return Semi-major axes.
      */
-    private calculateA(body: ISimpleBody): number {
+    private calculateA(body: Universis.Universe.Body.Simple): number {
         return (body.orbit.apocenter + body.orbit.pericenter) / 2
     }
 
@@ -133,7 +133,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param a Semi-majox axes.
      * @return Semi-minor axes.
      */
-    private calculateB(body: ISimpleBody, a: number): number {
+    private calculateB(body: Universis.Universe.Body.Simple, a: number): number {
         return Math.sqrt(-Math.pow(a, 2) * body.orbit.eccentricity + Math.pow(a, 2))
     }
 
@@ -142,7 +142,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns THREE mesh.
      */
-    private createMesh(body: ISimpleBody): THREE.Mesh {
+    private createMesh(body: Universis.Universe.Body.Simple): THREE.Mesh {
         const geometry = this.createGeometry(body)
         const material = this.createMaterial(body)
 
@@ -164,7 +164,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns HTML div.
      */
-    private createLabel(body: ISimpleBody): HTMLElement {
+    private createLabel(body: Universis.Universe.Body.Simple): HTMLElement {
         const label = document.createElement('div')
         label.className = 'text-label' // TODO: Rename.
         label.innerHTML = body.name
@@ -176,7 +176,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param ring Ring data.
      * @return THREE mesh.
      */
-    private createRing(ring: IBodyRing): THREE.Mesh {
+    private createRing(ring: Universis.Universe.Ring): THREE.Mesh {
         const geometry = new THREE.RingBufferGeometry(
             ring.diameter.min / 2,
             ring.diameter.max / 2,

@@ -1,7 +1,7 @@
 /**
  * Plugin to modify field of schema with custom function before insert to DB.
  * @param schema Schema.
- * @param options Options { field: string, function: IConsumer<Document>, update?: Boolean }.
+ * @param options Options { field: string, function: Universis.Consumer<Document>, update?: Boolean }.
  */
 const ModifyPlugin = (schema, options) => {
 

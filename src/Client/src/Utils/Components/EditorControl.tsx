@@ -5,7 +5,7 @@ import StatelessComponent from './StatelessComponent'
 interface IProps {
     type: string
     onClick: Universis.Runnable
-    strings: IStrings
+    strings: Universis.Strings
 }
 
 /**
@@ -43,7 +43,7 @@ class EditorControl extends StatelessComponent<IProps> {
 }
 
 export default EditorControl.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         strings: system.strings.editor
     })
 )

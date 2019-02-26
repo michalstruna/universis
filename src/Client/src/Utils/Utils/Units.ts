@@ -119,7 +119,7 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 149 597 870 km.
      */
-    public static toFull = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
+    public static toFull = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
         const minus = value < 0
         value = Math.abs(value)
 
@@ -152,7 +152,7 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 1.49e8 km.
      */
-    public static toExponential = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
+    public static toExponential = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
         if (value === null || value === undefined) {
             return null
         }
@@ -184,7 +184,7 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 149M km.
      */
-    public static toShort = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
+    public static toShort = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
         if (value === null || value === undefined) {
             return null
         }
@@ -227,7 +227,7 @@ class Units {
      * @param value Count of units. (optional, default 1)
      * @returns New unit.
      */
-    public static convert(from: IUnit, to: IUnit, value = 1): number {
+    public static convert(from: Universis.Unit, to: Universis.Unit, value = 1): number {
         return value * (from.value / to.value)
     }
 
@@ -239,9 +239,9 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional, default 2)
      * @returns Object with value and unit.
      */
-    private static getCorrespondingUnit(value: number, unit: IUnit, units: IObject<IUnit>, threshold: number = 2): { value: number, unit: IUnit } {
+    private static getCorrespondingUnit(value: number, unit: Universis.Unit, units: Universis.Map<Universis.Unit>, threshold: number = 2): { value: number, unit: Universis.Unit } {
         let newValue = Units.convert(unit, units[Object.keys(units)[0]], value)
-        let newUnit: IUnit = units[Object.keys(unit)[0]]
+        let newUnit = units[Object.keys(unit)[0]]
 
         for (const i in units) {
             const unitNamesKeys = Object.keys(units)
@@ -264,12 +264,12 @@ class Units {
      * @param unit Unit. (optional)
      * Value with unit.
      */
-    private static concatValueWithUnit(value: number | string, unit?: IUnit): string {
+    private static concatValueWithUnit(value: number | string, unit?: Universis.Unit): string {
         if (!unit) {
-            return value.toString()
+            return value.toString().replace('.', ',')
         }
 
-        return value + (unit.withSpace === false ? '' : ' ') + unit.shortName
+        return (value + (unit.withSpace === false ? '' : ' ') + unit.shortName).replace('.', ',')
     }
 
     /**

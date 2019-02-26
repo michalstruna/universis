@@ -6,7 +6,7 @@ export interface IProps {
     name: string
     label: string
     isVisible: boolean
-    onClick: IConsumer<React.MouseEvent<HTMLElement>>
+    onClick: Universis.Consumer<React.MouseEvent<HTMLElement>>
 }
 
 /**

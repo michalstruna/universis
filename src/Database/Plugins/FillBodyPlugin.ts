@@ -27,7 +27,7 @@ const FillBodyPlugin = (schema) => {
 
 // Za kolik let 360°?
 
-const fillBody = (body: ISimpleBody) => {
+const fillBody = (body: Universis.Universe.Body.Simple) => {
     body.diameter.y = Physics.getDiameterY(body)
     body.diameter.z = Physics.getDiameterZ(body)
     body.flattening = Physics.getFlattening(body)
@@ -42,14 +42,17 @@ const fillBody = (body: ISimpleBody) => {
 
     if (body.orbit) {
         body.orbit.circuit = Physics.getOrbitCircuit(body)
-        body.orbit.velocity = Physics.getOrbitVelocity(body)
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
 
-
+        const orbitArea = Physics.getOrbitArea(body)
 
         body.temp = {
-            anglePerCycle: (body.orbit.period * Units.convert(Units.TIME.S, Units.TIME.Y))
+            anglePerCycle: (body.orbit.period * Units.convert(Units.TIME.S, Units.TIME.Y)),
+            orbitArea,
+            orbitAreaPerSecond: orbitArea / (31556926 * body.orbit.period)
         }
+
+        body.orbit.velocity = Physics.getOrbitVelocity(body)
     }
 }
 

@@ -53,6 +53,7 @@ class Route {
                     }
                 })
                 .catch(error => {
+                    console.log(11111111111111111111111, error)
                     response.status(error.code).send(error)
                 })
         }
@@ -107,7 +108,7 @@ class Route {
      */ů
 
     public static getRouteGroupForAll(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
-        const routeGroup: IObject<IRequestHandler> = {}
+        const routeGroup: Universis.Map<IRequestHandler> = {}
 
         // TODO: Map before and map after.
         if (access.get) {
@@ -147,7 +148,7 @@ class Route {
      * @returns Route group.
      */
     public static getRouteGroupForOne(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ONE): IRouteGroupForOne {
-        const routeGroup: IObject<IRequestHandler> = {}
+        const routeGroup: Universis.Map<IRequestHandler> = {}
 
         if (access.get && typeof access.get !== 'object') {
             routeGroup.get = access.get(({ params }) => model.getOne({ _id: params.bodyId }))
@@ -165,7 +166,7 @@ class Route {
     }
 
     public static getRouteGroupForCount(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_COUNT): IRouteGroupForCount {
-        const routeGroup: IObject<IRequestHandler> = {}
+        const routeGroup: Universis.Map<IRequestHandler> = {}
 
         if (access.get && typeof access.get !== 'object') {
             routeGroup.get = access.get(() => model.count({})) // TODO: Filter.

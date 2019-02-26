@@ -143,12 +143,12 @@ declare namespace Universis {
             /**
              * Handler for click on object. There is ID of object in parameter. (optional)
              */
-            onChangeTarget?: IConsumer<string>
+            onChangeTarget?: Universis.Consumer<string>
 
             /**
              * Callback for render loop. (optional)
              */
-            onRender?: IRunnable
+            onRender?: Universis.Runnable
 
             /**
              * Interval of scene callback onRender [ms]. (optional, default 16)
@@ -158,7 +158,7 @@ declare namespace Universis {
             /**
              * Callback for change distance from camera target. There is current distance in parameter. (optional)
              */
-            onZoom?: IConsumer<number>
+            onZoom?: Universis.Consumer<number>
 
             /**
              * Width of canvas. (optional, default window.innerWidth)

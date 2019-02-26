@@ -5,8 +5,8 @@ import { getBodies } from '../Redux/UniverseActions'
 import Simulator from '../Components/Simulator'
 
 interface IProps {
-    bodies: IAsyncEntity<ISimpleBody[]>
-    getBodies: IRunnable
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    getBodies: Universis.Runnable
 }
 
 class UniverseView extends View<IProps> {
@@ -33,7 +33,7 @@ class UniverseView extends View<IProps> {
 }
 
 export default UniverseView.connect(
-    ({ universe }: IStoreState) => ({
+    ({ universe }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies
     }),
     { getBodies }

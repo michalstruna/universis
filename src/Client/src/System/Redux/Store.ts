@@ -17,6 +17,6 @@ const rootReducer = combineReducers({
 
 const middleware = applyMiddleware(Thunk)
 
-const store = createStore<IStoreState>(rootReducer, middleware)
+const store = createStore<Universis.Redux.StoreState>(rootReducer, middleware)
 
 export default store

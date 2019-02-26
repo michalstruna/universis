@@ -6,14 +6,14 @@ import { StatelessComponent } from '../../Utils'
 import { toggleLabels, toggleLight, toggleOrbits } from '../Redux/UniverseActions'
 
 interface IProps {
-    strings: IStrings
+    strings: Universis.Strings
     viewSize: number
     areLabelsVisible: boolean
-    toggleLabels: IConsumer<boolean>
+    toggleLabels: Universis.Consumer<boolean>
     isLightVisible: boolean
-    toggleLight: IConsumer<boolean>
+    toggleLight: Universis.Consumer<boolean>
     areOrbitsVisible: boolean
-    toggleOrbits: IConsumer<boolean>
+    toggleOrbits: Universis.Consumer<boolean>
 }
 
 /**
@@ -28,7 +28,7 @@ class ControlPanel extends StatelessComponent<IProps> {
      * @param isActive Button is active.
      * @returns Button.
      */
-    private renderButton(name: string, handleClick: IRunnable = () => null, isActive: boolean = false): React.ReactNode {
+    private renderButton(name: string, handleClick: Universis.Runnable = () => null, isActive: boolean = false): React.ReactNode {
         const className = ClassNames(
             'universe__controls__button',
             'universe__controls__button--' + name,
@@ -83,7 +83,7 @@ class ControlPanel extends StatelessComponent<IProps> {
 }
 
 export default ControlPanel.connect(
-    ({ system, universe }: IStoreState) => ({
+    ({ system, universe }: Universis.Redux.StoreState) => ({
         strings: system.strings.universe.controls,
         areLabelsVisible: universe.areLabelsVisible,
         isLightVisible: universe.isLightVisible,

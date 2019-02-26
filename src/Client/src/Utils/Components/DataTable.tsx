@@ -4,7 +4,7 @@ import StatelessComponent from './StatelessComponent'
 
 interface IProps {
     title?: string
-    data: IObject<any>
+    data: Universis.Map<any>
 }
 
 /**

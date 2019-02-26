@@ -104,7 +104,7 @@ class Request {
      * @param defaultData Default data.
      * @returns Promise with old or default data.
      */
-    public static setDefault<T>(defaultData: T): IFunction<T, Promise<T>> {
+    public static setDefault<T>(defaultData: T): Universis.Function<T, Promise<T>> {
         return (data: T) => new Promise(resolve => resolve(data ? data : defaultData))
     }
 

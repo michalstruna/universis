@@ -9,7 +9,7 @@ class Arrays {
      * @param condition Condition for searched item.
      * @returns Index of found item.
      */
-    public static findLastIndex<T>(array: T[], condition: IFunction<T, boolean>): number {
+    public static findLastIndex<T>(array: T[], condition: Universis.Function<T, boolean>): number {
         for (let i = array.length - 1; i >= 0; i--) {
             if (condition(array[i])) {
                 return i

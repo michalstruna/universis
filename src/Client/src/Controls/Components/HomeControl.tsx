@@ -25,6 +25,6 @@ class HomeControl extends StatelessComponent<IProps> {
 
 }
 
-export default HomeControl.connect(({ system }: IStoreState) => ({
+export default HomeControl.connect(({ system }: Universis.Redux.StoreState) => ({
     strings: system.strings.controls
 }))

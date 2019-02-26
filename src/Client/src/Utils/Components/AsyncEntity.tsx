@@ -4,10 +4,10 @@ import StatelessComponent from './StatelessComponent'
 import Loader from './Loader'
 
 interface IProps {
-    data: IAsyncEntity<any>
-    success?: ISupplier<React.ReactNode>
-    fail?: ISupplier<React.ReactNode>
-    sent?: ISupplier<React.ReactNode>
+    data: Universis.Redux.AsyncEntity<any>
+    success?: Universis.Supplier<React.ReactNode>
+    fail?: Universis.Supplier<React.ReactNode>
+    sent?: Universis.Supplier<React.ReactNode>
 }
 
 class AsyncEntity extends StatelessComponent<IProps> {
@@ -18,7 +18,7 @@ class AsyncEntity extends StatelessComponent<IProps> {
      * @param request Request.
      * @param {boolean} force Request is being sent also if data is already exists.
      */
-    public static request(entity: IAsyncEntity<any>, request: IRunnable, force: boolean = false) {
+    public static request(entity: Universis.Redux.AsyncEntity<any>, request: Universis.Runnable, force: boolean = false) {
         if (!entity.isSent && (!entity.payload || force)) {
             request()
         }
