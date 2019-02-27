@@ -153,6 +153,7 @@
 \item[DOM]	Document Object Model
 \item[HTML] Hypertext Markup Language
 \item[HTTP]	Hypertext Transfer Protocol
+\item[HW] 	Hardware
 \item[JPEG]		 Joint Photographic Experts Group
 \item[JS]		JavaScript
 \item[JSON]	JavaScript Object Notation
@@ -256,7 +257,7 @@ Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se 
 
 \subsection{Knihovna Three.js}
 
-\textit{Three.js} je javascriptová knihovna usnadňující práci s~\textit{WebGL}. To je rozhraní, které umožňuje přístup ke komponentám počítače specializovaných pro zpracování grafiky 2D a~3D grafiky přes \textit{JavaScript}. Veškerou tuto grafiku je možno vykreslovat v~prohlížeči za využití elementu \code{<canvas>}.~\cite{three}
+\textit{Three.js} je javascriptová knihovna usnadňující práci s~\textit{WebGL}. To je rozhraní, které umožňuje přístup k \textit{HW} komponentám počítače specializovaných pro zpracování grafiky 2D a~3D grafiky přes \textit{JavaScript}. Veškerou tuto grafiku je možno vykreslovat v~prohlížeči za využití elementu \code{canvas}.~\cite{three}
 
 \subsection{Framework Node.js}
 
@@ -267,29 +268,29 @@ Framework \textit{Node.js} umožňuje používání jazyka \textit{JavaScript} n
 \textit{MongoDB} je \textit{NoSQL} multiplatformní dokumentová databáze s~otevřeným zdrojovým kódem. Narozdíl od relačních databází používá dokumenty ve formátu \textit{BSON}, který je podobný \textit{JSON}. Při vytváření dokumentů si databáze automaticky vytváří vlastní unikátní ID.  Uložené dokumenty lze vedle porovnávání hodnot vyhledávat na základě prvků v~poli, podle rozsahu nebo podle regulárních výrazů. V~\textit{MongoDB} je možné indexovat libovolné pole dokumentů. Indexy jsou koncepčně stejné, jako v~relačních databázích.~\cite{mongomongoose}
 
 \subsection{Knihovna Mongoose}
-Open-source knihovna \textit{Mongoose} zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat.
+Open-source knihovna \textit{Mongoose} zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat.~\cite{mongomongoose}
 
 \subsection{Framework Swagger}
-\textit{Swagger} je nástroj pro vytváření \textit{REST API}.
+\textit{Swagger} je nástroj pro vyzualizaci \textit{REST API} z~\textit{Open API} specifikace.
 
 \subsection{Nástroj Webpack}
-Prohlížečový \textit{JavaScript} nativně nepodporuje rozdělování kódu do modulů (jako např. \textit{Java} do balíčků nebo \textit{C++} do jmenných prostorů). Jediným způsobem je importovat do \textit{HTML} větší množství \textit{javascriptových} souborů pomocí tagu \code{<script>}. Tento postup je ale špatnou praktikou a~na web má negativní dopady.
+Prohlížečový \textit{JavaScript} nativně nepodporuje rozdělování kódu do modulů (jako např. \textit{Java} do balíčků nebo \textit{C++} do jmenných prostorů). Jediným způsobem je importovat do \textit{HTML} větší množství \textit{javascriptových} souborů pomocí tagu \code{<script>}. Tento postup je ale špatnou praktikou a~na web má negativní dopady.~\cite{jsconcat}
 
-Díky nástroji \textit{Webpack} je možné v~\textit{JavaScriptu} využívat modulární systémy jako \textit{CommonJS}, \textit{AMD} nebo \textit{ES modules}. Je tak možné větší množství souborů propojit pomocí klauzulí \code{require} nebo \code{import}.
+Díky nástroji \textit{Webpack} je možné v~\textit{JavaScriptu} využívat modulární systémy jako \textit{CommonJS}, \textit{AMD} nebo \textit{ES modules}. Je tak možné větší množství souborů propojit pomocí klauzulí \code{require} nebo \code{import}.~\cite{webpack}
 
-\textit{Webpack} také umožňuje využívat tzv. \textit{loadery} třetích stran. To vede k možnosti podobně načítat, slučovat či parsovat i soubory jiných typů, např. \textit{CSS}, \textit{SVG} nebo \textit{JSON}. Zároveň za využití bohaté nabídky pluginů lze všechny tyto soubory modifikovat, např. převádět nový \textit{JavaScript} verze \textit{ES6} na starší, podporovaný prohlížeči.
+\textit{Webpack} také umožňuje využívat tzv. \textit{loadery} třetích stran. To vede k možnosti podobně načítat, slučovat či parsovat i soubory jiných typů, např. \textit{CSS}, \textit{SVG} nebo \textit{JSON}. Zároveň za využití bohaté nabídky pluginů lze všechny tyto soubory modifikovat, např. převádět nový \textit{JavaScript} verze \textit{ES6} na starší, podporovaný prohlížeči.~\cite{webpack}
 
 \lstinputlisting[caption={Konfigurace nástroje Webpack v souboru webpack.config.json}, language={JavaScript}]{SourceCodes/Webpack.js}.
 
 \subsection{Verzovací systém Git}
 
-\textit{Git} je systém správy verzí vytvořený \textit{Linusem Torvaldsem}. Při vytváření nové verze dat vytvoří snímky všech souborů tak, jak v daný okamžik vypadají a~na tyto snímky pak uloží reference. V~případě, že se soubor nijak nemění se nevytváří nový snímek, ale pouze se nastaví reference na ten předchozí, který je identitický.
+\textit{Git} je systém správy verzí vytvořený \textit{Linusem Torvaldsem}. Při vytváření nové verze dat vytvoří snímky všech souborů tak, jak v daný okamžik vypadají a~na tyto snímky pak uloží reference. V~případě, že se soubor nijak nemění se nevytváří nový snímek, ale pouze se nastaví reference na ten předchozí, který je identitický.~\cite{git}
 
-Pro spravované soubory používá tři stavy. Při změně souboru se nastaví jeho stav na \textit{modified}. Stav \textit{staged} znamená, že soubor byl označen k tomu, aby byl zapsán v další verzi. Zapsaný soubor je ve stavu \textit{commited}. Všechny tyto změny jsou však pouze lokální. Pro umístění změn do vzdáleného repozitáře je třeba všechny zapsané soubory odeslat \textit{(push)}. Ostatní s~přístupem do repozitáře si pak mohou tyto změny stáhnout \textit{(pull)}.
+Pro spravované soubory používá tři stavy. Při změně souboru se nastaví jeho stav na \textit{modified}. Stav \textit{staged} znamená, že soubor byl označen k tomu, aby byl zapsán v další verzi. Zapsaný soubor je ve stavu \textit{commited}. Všechny tyto změny jsou však pouze lokální. Pro umístění změn do vzdáleného repozitáře je třeba všechny zapsané soubory odeslat \textit{(push)}. Ostatní s~přístupem do repozitáře si pak mohou tyto změny stáhnout \textit{(pull)}.~\cite{git}
 
 \subsection{Balíčkovací systém NPM}
 
-\textit{NPM} je správce balíčků pro serverový i~klientský \textit{JavaScript}. Řídícím souborem v projektu je \textit{package.json}, který obsahuje informace o~projektu a~určuje, které balíčky jsou součástí projektu.  Všechny balíčky jsou umístěny do adresáře \textit{node\_modules} v~projektu. Součástí je také soubor \textit{package-lock.json}, který zachovává verze nainstalovaných balíčků.
+\textit{NPM} je správce balíčků pro serverový i~klientský \textit{JavaScript}. Řídícím souborem v projektu je \textit{package.json}, který obsahuje informace o~projektu a~určuje, které balíčky jsou součástí projektu.  Všechny balíčky jsou umístěny do adresáře \textit{node\_modules} v~projektu. Součástí je také soubor \textit{package-lock.json}, který zachovává verze nainstalovaných balíčků.~\cite{npm}
 
 \lstinputlisting[caption={Ukázka práce s~NPM}, language={JavaScript}]{SourceCodes/Npm.txt}.
 
@@ -886,17 +887,17 @@ BANKS, Alex and PORCELLO, Eve. Learning React: functional web development with R
 
 \bibitem{typescript}
 TypeScript. 
-\textit{TypeScript.} [online]. [cit.\,22.~2~ 2019]. 
+\textit{TypeScript.} [online]. [cit.\,22.~2~2019]. 
 Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
 
 \bibitem{react}
 React. 
-\textit{React.} [online]. [cit.\,22.~2.~ 2019]. 
+\textit{React.} [online]. [cit.\,22.~2.~2019]. 
 Dostupné\newline z:~{\ttfamily \url{https://reactjs.org}}.
 
 \bibitem{virtualdom}
 React: The Virtual DOM.
-\textit{codeacademy.} [online]. [cit.\,22.~2.~ 2019]. 
+\textit{codeacademy.} [online]. [cit.\,22.~2.~2019]. 
 Dostupné\newline z:~{\ttfamily \url{https://www.codecademy.com/articles/react-virtual-dom}}.
 
 \bibitem{onewaydatabinding}
@@ -906,19 +907,43 @@ Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/thinking-in-react.
 
 \bibitem{jsxsyntax}
 Introducing JSX. 
-\textit{React.} [online]. [cit.\,22.~2.~ 2019]. 
+\textit{React.} [online]. [cit.\,22.~2.~2019]. 
 Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/introducing-jsx.html}}.
 
 \bibitem{node}
 MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
-\textit{Zdroják.} [online]. 5.~10.~ 2012. [cit.\,22.~2.~ 2019].  ISSN 1803-5620.
+\textit{Zdroják.} [online]. 5.~10.~2012. [cit.\,22.~2.~2019].  ISSN 1803-5620.
 Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-architektura-a-prvni-hello-world/}}.
 
-\bibitem{node}
-MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
-\textit{Zdroják.} [online]. 5.~10.~ 2012. [cit.\,22.~2.~ 2019].  ISSN 1803-5620.
-Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-architektura-a-prvni-hello-world/}}.
+\bibitem{three}
+BOTMAN, Chris. An introduction to Three.js.
+\textit{Humaan.} [online]. 5.~02.~2016. [cit.\,22.~2.~2019].  ISSN 1803-5620.
+Dostupné\newline z:~{\ttfamily \url{https://humaan.com/blog/web-3d-graphics-using-three-js/}}.
 
+\bibitem{mongomongoose}
+MROZEK, Jakub. JavaScript na serveru: MongoDB, Mongoose a AngularJS.
+\textit{Zdroják.} [online]. 26.~10.~2012. [cit.\,22.~2.~2019].  ISSN 1803-5620.
+Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-mongodb-mongoose-angularjs/}}.
+
+\bibitem{git}
+Úvod - Základy systému Git.
+\textit{git.} [online]. [cit.\,22.~2.~2019]. 
+Dostupné z: {\ttfamily \url{https://git-scm.com/book/cs/v1/%C3%9Avod-Z%C3%A1klady-syst%C3%A9mu-Git}}.
+
+\bibitem{webpack}
+Concepts.
+\textit{webpack.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://webpack.js.org/concepts}}.
+
+\bibitem{jsconcat}
+Fantastic front-end performance.
+\textit{HACKS.} [online]. 20~2~2019. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://hacks.mozilla.org/2012/12/fantastic-front-end-performance-part-1-concatenate-compress-cache-a-node-js-holiday-season-part-4/}}.
+
+\bibitem{npm}
+MICHÁLEK, Martin. NPM: Průvodce začátky a základními příkazy.
+\textit{Vzhůru dolů.} [online]. 19.~11.~2019. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://www.vzhurudolu.cz/prirucka/npm}}.
 
 \end{thebibliography}
 

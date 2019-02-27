@@ -73,5 +73,5 @@
 \contentsline {subsection}{\numberline {5.5}Vykreslov\IeC {\'a}n\IeC {\'\i } \IeC {\v c}asov\IeC {\'e} osy}{46}{subsection.5.5}
 \contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{47}{section*.27}
 \contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{48}{section*.28}
-\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{49}{section*.29}
-\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{53}{section*.31}
+\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{50}{section*.29}
+\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{54}{section*.31}
