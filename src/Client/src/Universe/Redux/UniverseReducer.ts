@@ -16,6 +16,7 @@ export default Redux.createReducer(
         body: Redux.EMPTY_ASYNC_ENTITY,
         isNewDiscussionExpanded: false,
         newVote: Redux.EMPTY_ASYNC_ENTITY,
-        newUnvote: Redux.EMPTY_ASYNC_ENTITY
+        newUnvote: Redux.EMPTY_ASYNC_ENTITY,
+        timeSpeed: 1
     }
 )

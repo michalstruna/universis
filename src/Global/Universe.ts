@@ -329,19 +329,9 @@ declare namespace Universis {
                 temp?: {
 
                     /**
-                     * Count of km2.
-                     */
-                    orbitArea: number
-
-                    /**
                      * Count of km2 per second.
                      */
                     orbitAreaPerSecond: number
-
-                    /**
-                     * Count of radians per cycle.
-                     */
-                    anglePerCycle: number
 
                 }
 

@@ -257,3 +257,27 @@ export const toggleNewDiscussion = (isNewDiscussionExpanded: boolean) => (
         { isNewDiscussionExpanded }
     )
 )
+
+/**
+ * Change time speed.
+ * @param timeSpeed Current time speed.
+ * @param faster True if faster, false if slower.
+ */
+export const changeTimeSpeed = (timeSpeed: number, faster?: boolean) => (
+    dispatch => {
+        if (faster === true) {
+            timeSpeed = (timeSpeed === -1 ? 0 : (timeSpeed === 0 ? 1 : (timeSpeed > 0 ? timeSpeed * 10 : timeSpeed / 10)))
+        } else if (faster === false) {
+            timeSpeed = (timeSpeed === 1 ? 0 : (timeSpeed === 0 ? -1 : (timeSpeed < 0 ? timeSpeed * 10 : timeSpeed / 10)))
+        }
+
+        if (timeSpeed < 10e10 && timeSpeed > -10e10) {
+            dispatch(
+                Redux.setAction(
+                    ActionTypes.CHANGE_TIME_SPEED,
+                    { timeSpeed }
+                )
+            )
+        }
+    }
+)

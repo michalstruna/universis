@@ -22,6 +22,7 @@ interface IProps {
     isFromEarthVisible: boolean
     isFromCameraVisible: boolean
     isFromCenterVisible: boolean
+    timeSpeed: number
 }
 
 /**
@@ -46,7 +47,7 @@ class Simulator extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible } = this.props
+        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -66,6 +67,10 @@ class Simulator extends StatelessComponent<IProps> {
 
         if (prevProps.areOrbitsVisible !== areOrbitsVisible) {
             this.universe.toggleOrbits(areOrbitsVisible)
+        }
+
+        if(prevProps.timeSpeed !== timeSpeed) {
+            this.universe.setTimeSpeed(timeSpeed)
         }
     }
 
@@ -128,7 +133,8 @@ export default Simulator.connect(
         isVelocityVisible: universe.isVelocityVisible,
         isFromEarthVisible: universe.isFromEarthVisible,
         isFromCameraVisible: universe.isFromCameraVisible,
-        isFromCenterVisible: universe.isFromCenterVisible
+        isFromCenterVisible: universe.isFromCenterVisible,
+        timeSpeed: universe.timeSpeed
     }),
     { selectBody }
 )

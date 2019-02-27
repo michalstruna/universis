@@ -21,6 +21,7 @@ interface IOptions {
     onChangeViewSize: Universis.Consumer<number>
     onSelectBody: Universis.Consumer<string>
     viewSizeElement: HTMLElement
+    timeSpeed?: number
 }
 
 class Universe implements Universis.Universe {
@@ -55,6 +56,11 @@ class Universe implements Universis.Universe {
     private earth: Universis.Universe.Body.Container
 
     /**
+     * Current time speed.
+     */
+    private timeSpeed: number
+
+    /**
      * Body factory.
      */
     private bodyFactory: Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container>
@@ -66,6 +72,7 @@ class Universe implements Universis.Universe {
         this.createBodies(options.bodies)
         this.simulationTime = new Date().getTime()
         this.earth = this.bodies.find(body => body.data.name === 'Země')
+        this.timeSpeed = options.timeSpeed || 1
 
         this.scene = new Scene({
             backgroundColor: 0x000000,
@@ -102,6 +109,10 @@ class Universe implements Universis.Universe {
         }
     }
 
+    public setTimeSpeed(timeSpeed: number): void {
+        this.timeSpeed = timeSpeed
+    }
+
     /**
      * Update position of all bodies within render loop.
      */
@@ -111,7 +122,7 @@ class Universe implements Universis.Universe {
         }
 
         this.updateScale(this.scene.getDistance(this.scene.getCameraTarget()) * this.scale)
-        this.simulationTime += Config.RENDER_INTERVAL
+        this.simulationTime += Config.RENDER_INTERVAL * this.timeSpeed
         this.timeElement.textContent = new Date(this.simulationTime).toLocaleString()
 
         for (const body of  this.bodies) {
@@ -136,7 +147,7 @@ class Universe implements Universis.Universe {
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
                 const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.anglePerCycle, body.data.orbit.circuit, fromCenter)
+                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.orbitAreaPerSecond, body.data.orbit.circuit, fromCenter) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)
                 body.label.innerHTML = this.getLabel(body, fromCenter)
 
                 if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
@@ -145,8 +156,8 @@ class Universe implements Universis.Universe {
                     body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
                 }
 
-                body.mesh.rotateOnAxis(rotationVector, 0.001)
-                body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
+                //body.mesh.rotateOnAxis(rotationVector, 0.001)
+                //body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
             }
         }
 

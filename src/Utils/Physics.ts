@@ -137,7 +137,7 @@ class Physics {
      * @returns Angle velocity [rad].
      */
     public static getAngleVelocity(areaPerSecond: number, circuit: number, distance: number): number {
-        return 2 * Math.PI * (2 * areaPerSecond / distance) / circuit
+        return (2 * areaPerSecond / distance) / circuit
     }
 
     /**

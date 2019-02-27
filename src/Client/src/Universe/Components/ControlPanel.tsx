@@ -3,7 +3,16 @@ import * as React from 'react'
 
 import Keys from '../Constants/Keys'
 import { StatelessComponent } from '../../Utils'
-import { toggleLabels, toggleLight, toggleOrbits, toggleVelocity, toggleFromCamera, toggleFromCenter, toggleFromEarth } from '../Redux/UniverseActions'
+import {
+    toggleLabels,
+    toggleLight,
+    toggleOrbits,
+    toggleVelocity,
+    toggleFromCamera,
+    toggleFromCenter,
+    toggleFromEarth,
+    changeTimeSpeed
+} from '../Redux/UniverseActions'
 
 interface IProps {
     strings: Universis.Strings
@@ -22,6 +31,8 @@ interface IProps {
     toggleFromCamera: Universis.Consumer<boolean>
     isFromCenterVisible: boolean
     toggleFromCenter: Universis.Consumer<boolean>
+    timeSpeed: number,
+    changeTimeSpeed: (timeSpeed: number, faster?: boolean) => void
 }
 
 /**
@@ -57,7 +68,7 @@ class ControlPanel extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible, toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible, toggleFromCamera } = this.props
+        const { isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible, toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible, toggleFromCamera, timeSpeed, changeTimeSpeed } = this.props
 
         return (
             <section className='universe__controls'>
@@ -78,9 +89,9 @@ class ControlPanel extends StatelessComponent<IProps> {
                     {this.renderButton('light', () => toggleLight(!isLightVisible), isLightVisible)}
                 </section>
                 <section className='universe__controls__row'>
-                    {this.renderButton('slower')}
-                    {this.renderButton('speed')}
-                    {this.renderButton('faster')}
+                    {this.renderButton('slower', () => changeTimeSpeed(timeSpeed, false))}
+                    {this.renderButton('speed', () => changeTimeSpeed(1))}
+                    {this.renderButton('faster', () => changeTimeSpeed(timeSpeed, true))}
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('now')}
@@ -101,7 +112,17 @@ export default ControlPanel.connect(
         isVelocityVisible: universe.isVelocityVisible,
         isFromEarthVisible: universe.isFromEarthVisible,
         isFromCameraVisible: universe.isFromCameraVisible,
-        isFromCenterVisible: universe.isFromCenterVisible
+        isFromCenterVisible: universe.isFromCenterVisible,
+        timeSpeed: universe.timeSpeed
     }),
-    { toggleLight, toggleOrbits, toggleLabels, toggleVelocity, toggleFromCamera, toggleFromCenter, toggleFromEarth }
+    {
+        toggleLight,
+        toggleOrbits,
+        toggleLabels,
+        toggleVelocity,
+        toggleFromCamera,
+        toggleFromCenter,
+        toggleFromEarth,
+        changeTimeSpeed
+    }
 )

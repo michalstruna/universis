@@ -33,6 +33,12 @@ declare namespace Universis {
          */
         toggleOrbits(areOrbitsVisible: boolean): void
 
+        /**
+         * Set time speed.
+         * @param timeSpeed
+         */
+        setTimeSpeed(timeSpeed: number): void
+
     }
 
 }

@@ -44,12 +44,8 @@ const fillBody = (body: Universis.Universe.Body.Simple) => {
         body.orbit.circuit = Physics.getOrbitCircuit(body)
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
 
-        const orbitArea = Physics.getOrbitArea(body)
-
         body.temp = {
-            anglePerCycle: (body.orbit.period * Units.convert(Units.TIME.S, Units.TIME.Y)),
-            orbitArea,
-            orbitAreaPerSecond: orbitArea / (31556926 * body.orbit.period)
+            orbitAreaPerSecond: Physics.getOrbitArea(body) / (31556926 * body.orbit.period)
         }
 
         body.orbit.velocity = Physics.getOrbitVelocity(body)
