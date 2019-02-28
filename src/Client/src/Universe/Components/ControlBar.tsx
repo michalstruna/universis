@@ -19,13 +19,19 @@ class ControlBar extends StatelessComponent<IProps> {
     private renderArrows(): React.ReactNode {
         const { timeSpeed } = this.props
 
+        if (timeSpeed === 0) {
+            return (
+                <section className={'universe__speed__item universe__speed__item--pause'} />
+            )
+        }
+
         let count = Math.abs(timeSpeed)
         if (count > 1) {
             count = Math.log10(count) + 1
         }
 
         const arrows = []
-        const className = ClassNames('universe__speed__item', { 'universe__speed__item--positive': timeSpeed > 0 }, { 'universe__speed__item--negative': timeSpeed < 0 }, { 'universe__speed__item--stop': timeSpeed < 0 })
+        const className = ClassNames('universe__speed__item', { 'universe__speed__item--positive': timeSpeed > 0 }, { 'universe__speed__item--negative': timeSpeed < 0 })
 
         for (let i = 0; i < count; i++) {
             arrows.push(<section className={className} key={i} />)

@@ -51,6 +51,11 @@
             &--negative {
                 transform: rotate(180deg);
             }
+
+            &--pause {
+                @include svg("Universe/UI/Pause");
+                width: 1rem;
+            }
         }
     }
 
