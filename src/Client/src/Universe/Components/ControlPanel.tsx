@@ -2,7 +2,7 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import Keys from '../Constants/Keys'
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, Keyboard } from '../../Utils'
 import {
     toggleLabels,
     toggleLight,
@@ -39,6 +39,23 @@ interface IProps {
  * Component control panel.
  */
 class ControlPanel extends StatelessComponent<IProps> {
+
+    public componentDidMount(): void {
+        Keyboard.set({
+            [Keys.CAMERA]: () => this.props.toggleFromCamera(!this.props.isFromCameraVisible),
+            [Keys.CENTER]: () => this.props.toggleFromCenter(!this.props.isFromCenterVisible),
+            [Keys.EARTH]: () => this.props.toggleFromEarth(!this.props.isFromEarthVisible),
+            [Keys.VELOCITY]: () => this.props.toggleVelocity(!this.props.isVelocityVisible),
+            [Keys.LIGHT]: () => this.props.toggleLight(!this.props.isLightVisible),
+            [Keys.FASTER]: () => this.props.changeTimeSpeed(this.props.timeSpeed, true),
+            [Keys.SLOWER]: () => this.props.changeTimeSpeed(this.props.timeSpeed, false),
+            [Keys.SPEED]: () => this.props.changeTimeSpeed(1)
+        })
+    }
+
+    public componentWillUnmount(): void {
+        Keyboard.clear(...Object.keys(Keys))
+    }
 
     /**
      * Render button.
