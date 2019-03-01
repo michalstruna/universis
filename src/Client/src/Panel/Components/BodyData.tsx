@@ -59,8 +59,8 @@ class BodyData extends StatelessComponent<IProps> {
                                         data={DonutChart.buildData(body.composition, item => item.element, item => item.percentage)} />
                                 </section>
                             ),
-                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S),
-                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2)
+                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S, Units.VELOCITY),
+                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2, Units.ACCELERATION)
                         }} />
                     <DataTable
                         title={strings.orbit}

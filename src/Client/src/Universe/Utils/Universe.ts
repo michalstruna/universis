@@ -133,7 +133,7 @@ class Universe implements Universis.Universe {
             const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
             const isSelectedBody = body.data._id === this.scene.getCameraTarget().name
 
-            if (/*this.isNameVisible && */(visibility === Visibility.VISIBLE && isVisible || isSelectedBody)) {
+            if (visibility === Visibility.VISIBLE && isVisible || isSelectedBody) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
 
@@ -156,8 +156,8 @@ class Universe implements Universis.Universe {
                     body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
                 }
 
-                //body.mesh.rotateOnAxis(rotationVector, 0.001)
-                //body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
+                body.mesh.rotateOnAxis(rotationVector, 0.001)
+                body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
             }
         }
 
