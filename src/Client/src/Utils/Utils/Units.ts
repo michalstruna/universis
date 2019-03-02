@@ -31,7 +31,7 @@ class Units {
         M2: { value: 1, shortName: 'm2' },
         KM2: { value: 1e6, shortName: 'km2' },
         AU2: { value: 2.2e22, shortName: 'AU2' },
-        LY2: { value: 8.9e31, shortName: 'ly2' }
+        LY2: { value: 8.9e37, shortName: 'ly2' }
     }
 
     /**
@@ -40,8 +40,8 @@ class Units {
     public static VOLUME = {
         M3: { value: 1, shortName: 'm3' },
         KM3: { value: 1e9, shortName: 'km3' },
-        AU3: { value: 1e33, shortName: 'AU3' },
-        LY3: { value: 1e47, shortName: 'ly3' }
+        AU3: { value: 3.3e33, shortName: 'AU3' },
+        LY3: { value: 8.47e56, shortName: 'ly3' }
     }
 
     /**
