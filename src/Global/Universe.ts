@@ -331,7 +331,7 @@ declare namespace Universis {
                     /**
                      * Count of km2 per second.
                      */
-                    orbitAreaPerSecond: number
+                    orbitAreaPerSecond?: number
 
                 }
 

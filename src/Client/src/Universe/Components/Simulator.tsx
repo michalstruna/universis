@@ -47,7 +47,7 @@ class Simulator extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed } = this.props
+        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -69,8 +69,28 @@ class Simulator extends StatelessComponent<IProps> {
             this.universe.toggleOrbits(areOrbitsVisible)
         }
 
-        if(prevProps.timeSpeed !== timeSpeed) {
+        if (prevProps.timeSpeed !== timeSpeed) {
             this.universe.setTimeSpeed(timeSpeed)
+        }
+
+        if (prevProps.isNameVisible !== isNameVisible) {
+            this.universe.toggleName(isNameVisible)
+        }
+
+        if (prevProps.isFromEarthVisible !== isFromEarthVisible) {
+            this.universe.toggleFromEarth(isFromEarthVisible)
+        }
+
+        if (prevProps.isFromCenterVisible !== isFromCenterVisible) {
+            this.universe.toggleFromCenter(isFromCenterVisible)
+        }
+
+        if (prevProps.isFromCameraVisible !== isFromCameraVisible) {
+            this.universe.toggleFromCamera(isFromCameraVisible)
+        }
+
+        if (prevProps.isVelocityVisible !== isVelocityVisible) {
+            this.universe.toggleVelocity(isVelocityVisible)
         }
     }
 
@@ -78,7 +98,7 @@ class Simulator extends StatelessComponent<IProps> {
      * Initialize universe after load bodies.
      */
     private initializeUniverse(): void {
-        const { bodies, selectBody } = this.props
+        const { bodies, selectBody, isFromCameraVisible, isFromCenterVisible, isFromEarthVisible, isLightVisible, isVelocityVisible, isNameVisible, areOrbitsVisible } = this.props
 
         if (bodies.payload && !this.universe) {
             this.universe = new Universe({
@@ -87,7 +107,14 @@ class Simulator extends StatelessComponent<IProps> {
                 viewSizeElement: document.querySelector('.universe__view--inner'),
                 bodies: bodies.payload,
                 onChangeViewSize: Listener.changeViewSizeFromSimulator,
-                onSelectBody: selectBody
+                onSelectBody: selectBody,
+                isFromCameraVisible,
+                isFromCenterVisible,
+                isFromEarthVisible,
+                isLightVisible,
+                isVelocityVisible,
+                isNameVisible,
+                areOrbitsVisible
             })
 
             this.setOnResize(this.universe.resize)

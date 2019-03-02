@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import { Html } from '../../Utils'
+import { Html, Units } from '../../Utils'
 
 const TrackballControls = require('three-trackballcontrols')
 
@@ -275,7 +275,7 @@ class Scene implements Scene {
 
         if (controllable) {
             const fromCenter = this.getDistance(this.target, this.camera)
-            const isDifferent = !this.lastDistanceFromTarget || (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
+            const isDifferent = !this.lastDistanceFromTarget || Units.isDifferent(fromCenter, this.lastDistanceFromTarget)
 
             if (onZoom && isDifferent) {
                 this.lastDistanceFromTarget = fromCenter

@@ -221,6 +221,17 @@ class Units {
     }
 
     /**
+     * Check if values are different (ignores too small changes).
+     * @param value1
+     * @param value2
+     * @param coefficient
+     * @returns Values are different.
+     */
+    public static isDifferent(value1: number, value2: number, coefficient = 1): boolean {
+        return Math.max(value1, value2) / Math.min(value1, value2) > coefficient
+    }
+
+    /**
      * Convert unit to another unit.
      * @param from Initial unit.
      * @param to Target unit.

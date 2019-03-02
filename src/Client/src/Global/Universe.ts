@@ -39,6 +39,36 @@ declare namespace Universis {
          */
         setTimeSpeed(timeSpeed: number): void
 
+        /**
+         * Toggle visibility of body orbit velocity.
+         * @param isVelocityVisible
+         */
+        toggleVelocity(isVelocityVisible: boolean): void
+
+        /**
+         * Toggle visibility of body name.
+         * @param isNameVisible
+         */
+        toggleName(isNameVisible: boolean): void
+
+        /**
+         * Toggle visibility of distance from Earth.
+         * @param isFromEarthVisible
+         */
+        toggleFromEarth(isFromEarthVisible: boolean): void
+
+        /**
+         * Toggle visibility of distance from camera.
+         * @param isFromCameraVisible
+         */
+        toggleFromCamera(isFromCameraVisible: boolean): void
+
+        /**
+         * Toggle visibility of distance from center.
+         * @param isFromCenterVisible
+         */
+        toggleFromCenter(isFromCenterVisible: boolean): void
+
     }
 
 }
