@@ -173,12 +173,14 @@ class Universe implements Universis.Universe {
             const isVisible = this.scene.isInFov(body.mesh)
             const orbit = body.orbit.children[0] as any
             const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
-            const isSelectedBody = body.data._id === this.scene.getCameraTarget().name
 
-            if ((visibility === Visibility.VISIBLE && isVisible) || isSelectedBody) {
+            const target = this.scene.getCameraTarget()
+            const isSelectedBody = body.data._id === target.name
+            const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || target.userData.parent && target.userData.parent.data._id === body.data._id))
+
+            if (isFullyRenderable) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
-
                 body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
             } else {
                 body.label.style.transform = 'translateX(-1000px)'
@@ -194,14 +196,14 @@ class Universe implements Universis.Universe {
                     body.orbit.userData.angle += (Physics.getAngleVelocity(body.data.temp.orbitAreaPerSecond, body.data.orbit.circuit, fromCenter) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
                 }
 
-                if (isSelectedBody || visibility !== Visibility.INVISIBLE) {
-                    const limit = number => Math.min(number, 1e15 / this.scale)
+                if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
+                    const limit = number => Math.floor(Math.min(number, 1e13 / this.scale))
                     body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
                     this.updateLabel(body, fromCenter)
                 }
 
-                body.mesh.rotateOnAxis(rotationVector, 0.001)
-                body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
+                body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
+                body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
             }
         }
 
@@ -306,7 +308,8 @@ class Universe implements Universis.Universe {
 
             if (data.parentId) {
                 body.parent = this.bodies.find(body => body.data._id === data.parentId)
-                this.bodies.find(body => body.data._id === data.parentId).mesh.add(body.orbit)
+                body.mesh.userData.parent = body.parent
+                body.parent.mesh.add(body.orbit)
             } else {
                 this.rootBodies.push(body.orbit)
             }
