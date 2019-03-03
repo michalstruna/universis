@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import { Html } from '../../Utils'
+import { Html, Units } from '../../Utils'
 
 const TrackballControls = require('three-trackballcontrols')
 
@@ -25,6 +25,7 @@ let tempObject1Position = new THREE.Vector3()
 let tempObject2Position = new THREE.Vector3()
 let tempCameraPosition = new THREE.Vector3()
 let tempViewProjection = new THREE.Matrix4()
+var cameraViewProjectionMatrix = new THREE.Matrix4()
 
 /**
  * Utils for THREE.js scene.
@@ -109,6 +110,11 @@ class Scene implements Scene {
     }
 
     public isInFov(object: THREE.Mesh): boolean {
+        this.camera.updateMatrixWorld(false)
+        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
+        cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
+        this.frustum.setFromMatrix(cameraViewProjectionMatrix)
+
         return this.frustum.intersectsObject(object)
     }
 
@@ -275,7 +281,7 @@ class Scene implements Scene {
 
         if (controllable) {
             const fromCenter = this.getDistance(this.target, this.camera)
-            const isDifferent = !this.lastDistanceFromTarget || (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
+            const isDifferent = !this.lastDistanceFromTarget || Units.isDifferent(fromCenter, this.lastDistanceFromTarget)
 
             if (onZoom && isDifferent) {
                 this.lastDistanceFromTarget = fromCenter
@@ -285,10 +291,6 @@ class Scene implements Scene {
     }
 
     private updateCamera(): void {
-        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
-        tempViewProjection.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
-        this.frustum.setFromMatrix(tempViewProjection)
-
         if (this.controls) {
             this.controls.update()
         }

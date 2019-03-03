@@ -22,6 +22,14 @@ interface IOptions {
     onSelectBody: Universis.Consumer<string>
     viewSizeElement: HTMLElement
     timeSpeed?: number
+
+    isNameVisible: boolean
+    isLightVisible: boolean
+    areOrbitsVisible: boolean
+    isVelocityVisible: boolean
+    isFromEarthVisible: boolean
+    isFromCameraVisible: boolean
+    isFromCenterVisible: boolean
 }
 
 class Universe implements Universis.Universe {
@@ -40,7 +48,7 @@ class Universe implements Universis.Universe {
     /**
      * Scale of scene.
      */
-    private scale: number
+    private scale: number = 0.000000001
 
     private element: HTMLElement
     private timeElement: HTMLElement
@@ -59,6 +67,12 @@ class Universe implements Universis.Universe {
      * Current time speed.
      */
     private timeSpeed: number
+
+    private isFromCameraVisible: boolean
+    private isFromCenterVisible: boolean
+    private isFromEarthVisible: boolean
+    private isNameVisible: boolean
+    private isVelocityVisible: boolean
 
     /**
      * Body factory.
@@ -83,8 +97,18 @@ class Universe implements Universis.Universe {
             onRender: () => this.updateBodies(),
             onRenderInterval: Config.RENDER_INTERVAL,
             onZoom: zoom => options.onChangeViewSize(zoom / Config.SIZE_RATIO),
-            target: '5be60eee4143ef4fd8db9a77'
+            // target: '5be60eee4143ef4fd8db9979' // Mars
+            target: '5be60eee4143ef4fd8db9a77' // Země
+            // target: '5be60eee4143ef4fd8db9a81' // Mars
         })
+
+        this.toggleName(options.isNameVisible)
+        this.toggleFromCamera(options.isFromCameraVisible)
+        this.toggleFromCenter(options.isFromCenterVisible)
+        this.toggleFromEarth(options.isFromEarthVisible)
+        this.toggleVelocity(options.isVelocityVisible)
+        this.toggleLight(options.isLightVisible)
+        this.toggleOrbits(options.areOrbitsVisible)
     }
 
     public resize = (): void => {
@@ -105,12 +129,32 @@ class Universe implements Universis.Universe {
 
     public toggleOrbits(areOrbitsVisible: boolean): void {
         for (const body of this.bodies) {
-            (body.orbit.children[0] as any).material.visible = areOrbitsVisible
+            (body.orbit.children[0].children[0] as any).material.visible = areOrbitsVisible
         }
     }
 
     public setTimeSpeed(timeSpeed: number): void {
         this.timeSpeed = timeSpeed
+    }
+
+    public toggleFromCamera(isFromCameraVisible: boolean): void {
+        this.isFromCameraVisible = isFromCameraVisible
+    }
+
+    public toggleFromCenter(isFromCenterVisible: boolean): void {
+        this.isFromCenterVisible = isFromCenterVisible
+    }
+
+    public toggleFromEarth(isFromEarthVisible: boolean): void {
+        this.isFromEarthVisible = isFromEarthVisible
+    }
+
+    public toggleName(isNameVisible: boolean): void {
+        this.isNameVisible = isNameVisible
+    }
+
+    public toggleVelocity(isVelocityVisible: boolean): void {
+        this.isVelocityVisible = isVelocityVisible
     }
 
     /**
@@ -129,14 +173,15 @@ class Universe implements Universis.Universe {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = this.scene.projectCamera(tempVector)
             const isVisible = this.scene.isInFov(body.mesh)
-            const orbit = body.orbit.children[0] as any
+            const orbit = body.orbit.children[0].children[0] as any
             const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
-            const isSelectedBody = body.data._id === this.scene.getCameraTarget().name
+            const target = this.scene.getCameraTarget()
+            const isSelectedBody = body.data._id === target.name
+            const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || target.userData.parent && target.userData.parent.data._id === body.data._id))
 
-            if (visibility === Visibility.VISIBLE && isVisible || isSelectedBody) {
+            if (isFullyRenderable) {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
-
                 body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
             } else {
                 body.label.style.transform = 'translateX(-1000px)'
@@ -147,17 +192,19 @@ class Universe implements Universis.Universe {
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
                 const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-                body.orbit.userData.angle += Physics.getAngleVelocity(body.data.temp.orbitAreaPerSecond, body.data.orbit.circuit, fromCenter) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)
-                body.label.innerHTML = this.getLabel(body, fromCenter)
 
-                if (visibility === Visibility.INVISIBLE && !isSelectedBody && body.data.name === 'Slunce') {
-                    body.mesh.position.set(0, 0, 0)
-                } else {
-                    body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
+                if (fromCenter) {
+                    body.orbit.userData.angle += (Physics.getAngleVelocity(body.data.temp.orbitAreaPerSecond, body.data.orbit.circuit, fromCenter) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
                 }
 
-                body.mesh.rotateOnAxis(rotationVector, 0.001)
-                body.childrenContainer.rotateOnAxis(rotationVector, -0.001)
+                if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
+                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
+                    body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
+                    this.updateLabel(body, fromCenter)
+                }
+
+                  body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
+                  body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
             }
         }
 
@@ -169,14 +216,19 @@ class Universe implements Universis.Universe {
      * @param fromCenter
      * @returns Label.
      */
-    private getLabel(body: Universis.Universe.Body.Container, fromCenter: number): string {
+    private updateLabel(body: Universis.Universe.Body.Container, fromCenter: number): void {
+        const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
+        const fromCamera = this.scene.getDistance(body.mesh)
+        const velocity = Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter)
+
         const rows = []
-        rows.push(`<div class="universe__label__name">${body.data.name}</div>`)
-        rows.push(`<div class="universe__label__center">${Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE)}</div>`)
-        rows.push(`<div class="universe__label__earth">${Units.toFull(this.scene.getDistance(body.mesh, this.earth.mesh), Units.SIZE.KM, Units.SIZE)}</div>`)
-        rows.push(`<div class="universe__label__camera">${Units.toFull(this.scene.getDistance(body.mesh), Units.SIZE.KM, Units.SIZE)}</div>`)
-        rows.push(`<div class="universe__label__velocity">${Units.toFull(Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter), Units.VELOCITY.KM_S, Units.VELOCITY)}</div>`)
-        return rows.join('')
+        if (this.isNameVisible) rows.push(body.data.name)
+        if (this.isFromEarthVisible) rows.push(Units.toFull(fromEarth, Units.SIZE.KM, Units.SIZE))
+        if (this.isFromCameraVisible) rows.push(Units.toFull(fromCamera, Units.SIZE.KM, Units.SIZE))
+        if (this.isFromCenterVisible) rows.push(Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE))
+        if (this.isVelocityVisible) rows.push(Units.toFull(velocity, Units.VELOCITY.KM_S, Units.VELOCITY))
+
+        body.label.textContent = rows.join('\r\n')
     }
 
     /**
@@ -257,7 +309,8 @@ class Universe implements Universis.Universe {
 
             if (data.parentId) {
                 body.parent = this.bodies.find(body => body.data._id === data.parentId)
-                this.bodies.find(body => body.data._id === data.parentId).mesh.add(body.orbit)
+                body.mesh.userData.parent = body.parent
+                body.parent.mesh.add(body.orbit)
             } else {
                 this.rootBodies.push(body.orbit)
             }

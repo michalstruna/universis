@@ -38,7 +38,7 @@ export default {
     /**
      * Min camera distance.
      */
-    CAMERA_MIN_DISTANCE: 0.001,
+    CAMERA_MIN_DISTANCE: 1,
 
     /**
      * Max camera distance.

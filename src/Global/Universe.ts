@@ -331,7 +331,7 @@ declare namespace Universis {
                     /**
                      * Count of km2 per second.
                      */
-                    orbitAreaPerSecond: number
+                    orbitAreaPerSecond?: number
 
                 }
 
@@ -381,6 +381,11 @@ declare namespace Universis {
                      * If true, there will be two same textures on two sides.
                      */
                     halfTexture?: boolean
+
+                    /**
+                     * Body with this type is only not rendered pivot.
+                     */
+                    virtual?: boolean
 
                 }
 

@@ -22,7 +22,7 @@ declare namespace Universis {
                 /**
                  * Getter for THREE mesh orbit.
                  */
-                readonly orbit: THREE.Object3D
+                readonly orbit: THREE.Group
 
                 /**
                  * Getter for label.
@@ -32,7 +32,7 @@ declare namespace Universis {
                 /**
                  * Container for all children of body.
                  */
-                readonly childrenContainer: THREE.Object3D
+                readonly childrenContainer: THREE.Group
 
                 /**
                  * Parent.

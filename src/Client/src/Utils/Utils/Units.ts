@@ -31,7 +31,7 @@ class Units {
         M2: { value: 1, shortName: 'm2' },
         KM2: { value: 1e6, shortName: 'km2' },
         AU2: { value: 2.2e22, shortName: 'AU2' },
-        LY2: { value: 8.9e31, shortName: 'ly2' }
+        LY2: { value: 8.9e37, shortName: 'ly2' }
     }
 
     /**
@@ -40,8 +40,8 @@ class Units {
     public static VOLUME = {
         M3: { value: 1, shortName: 'm3' },
         KM3: { value: 1e9, shortName: 'km3' },
-        AU3: { value: 1e33, shortName: 'AU3' },
-        LY3: { value: 1e47, shortName: 'ly3' }
+        AU3: { value: 3.3e33, shortName: 'AU3' },
+        LY3: { value: 8.47e56, shortName: 'ly3' }
     }
 
     /**
@@ -67,7 +67,15 @@ class Units {
      * List of luminosity units.
      */
     public static LUMINOSITY = {
-        W: { value: 1, shortName: 'W' }
+        W: { value: 1, shortName: 'W' },
+        KW: { value: 1e3, shortName: 'kW' },
+        MW: { value: 1e6, shortName: 'MW' },
+        GW: { value: 1e9, shortName: 'GW' },
+        TW: { value: 1e12, shortName: 'TW' },
+        PW: { value: 1e15, shortName: 'PW' },
+        EW: { value: 1e18, shortName: 'EW' },
+        ZW: { value: 1e21, shortName: 'ZW' },
+        YW: { value: 1e24, shortName: 'YW' }
     }
 
     /**
@@ -218,6 +226,17 @@ class Units {
 
         return Units.toExponential(value, unit)
 
+    }
+
+    /**
+     * Check if values are different (ignores too small changes).
+     * @param value1
+     * @param value2
+     * @param coefficient
+     * @returns Values are different.
+     */
+    public static isDifferent(value1: number, value2: number, coefficient = 1): boolean {
+        return Math.max(value1, value2) / Math.min(value1, value2) > coefficient
     }
 
     /**
