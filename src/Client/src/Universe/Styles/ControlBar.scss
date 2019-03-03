@@ -19,6 +19,10 @@
         text-align: center;
     }
 
+    &__time {
+        width: 14rem;
+    }
+
     &__speed, &__view {
         &--inner {
             display: inline-block;
@@ -43,6 +47,15 @@
             @include size(0.7rem, 100%);
             @include svg("Universe/UI/Speed", 140% auto);
             display: inline-block;
+
+            &--negative {
+                transform: rotate(180deg);
+            }
+
+            &--pause {
+                @include svg("Universe/UI/Pause");
+                width: 1rem;
+            }
         }
     }
 

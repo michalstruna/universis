@@ -1,23 +1,27 @@
-/**
- * Interface for unit of some physics property.
- */
-declare interface IUnit {
+declare namespace Universis {
 
     /**
-     * Short name of unit like kg, m or kg/m3.
+     * Interface for unit of some physics property.
      */
-    shortName: string
+    export interface Unit {
 
-    /**
-     * Relative value against base unit of this property.
-     * kg is 1, because kg is main unit of mass.
-     * cm is 0.1, because m is main unit of size.
-     */
-    value: number
+        /**
+         * Short name of unit like kg, m or kg/m3.
+         */
+        shortName: string
 
-    /**
-     * Between unit and value is space. (optional, default true)
-     */
-    withSpace?: boolean
+        /**
+         * Relative value against base unit of this property.
+         * kg is 1, because kg is main unit of mass.
+         * cm is 0.1, because m is main unit of size.
+         */
+        value: number
+
+        /**
+         * Between unit and value is space. (optional, default true)
+         */
+        withSpace?: boolean
+
+    }
 
 }

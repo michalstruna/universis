@@ -6,7 +6,7 @@ import DatabaseModels from '../Constants/DatabaseModels'
 import UserModel from './UserModel'
 import Security from '../Utils/Security'
 
-class SecurityModel extends Model implements ISecurityModel {
+class SecurityModel extends Model implements Universis.SecurityModel {
 
     private userDbModel: Universis.Database.Model
 
@@ -16,7 +16,7 @@ class SecurityModel extends Model implements ISecurityModel {
         this.userDbModel = this.db.getModel(DatabaseModels.USER)
     }
 
-    public authenticate(email: string, secret: string): Promise<IUserIdentity> {
+    public authenticate(email: string, secret: string): Promise<Universis.User.Identity> {
         return new Promise(async (resolve, reject) => {
             const password = await this.userDbModel.getField<string>({ email }, 'password')
 
@@ -44,11 +44,11 @@ class SecurityModel extends Model implements ISecurityModel {
         return Security.isAuthenticated(secret, hashedSecret)
     }
 
-    public sign(payload: IObject<any>): Promise<string> {
+    public sign(payload: Universis.Map<any>): Promise<string> {
         return Security.sign(payload)
     }
 
-    public unsign(token: string): Promise<IObject<any>> {
+    public unsign(token: string): Promise<Universis.Map<any>> {
         return this.dbModel.count({ token }).then(count => {
             if (count === 1) {
                 JWT.verify(token, Config.security.token.secret, (error, payload) => (

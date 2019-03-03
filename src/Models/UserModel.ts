@@ -1,6 +1,6 @@
 import { DatabaseModels } from '../Constants'
 import ItemModel from './ItemModel'
 
-export default new ItemModel<IUser, IBaseUser, INewUser>({
+export default new ItemModel<Universis.User, Universis.User.Simple, Universis.User.New>({
     dbModel: DatabaseModels.USER
 })

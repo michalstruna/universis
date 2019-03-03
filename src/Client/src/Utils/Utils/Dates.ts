@@ -15,7 +15,7 @@ class Dates {
      * @param date ISO date.
      * @returns Date in format DD. MM. YYYY.
      */
-    public static formatISO(date: string, formatter: IFunction<Date, string>): string {
+    public static formatISO(date: string, formatter: Universis.Function<Date, string>): string {
         return formatter(new Date(date))
     }
 

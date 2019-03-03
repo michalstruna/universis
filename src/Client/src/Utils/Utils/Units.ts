@@ -17,11 +17,11 @@ class Units {
         M: { value: 1, shortName: 'm' },
         KM: { value: 1000, shortName: 'km' },
         AU: { value: 149597870700, shortName: 'AU' },
-        LY: { value: 9461e12, shortName: 'ly' },
-        KLY: { value: 9461e15, shortName: 'kly' },
-        MLY: { value: 9461e18, shortName: 'Mly' },
-        GLY: { value: 9461e21, shortName: 'Gly' },
-        TLY: { value: 9461e24, shortName: 'Tly' }
+        LY: { value: 9.461e15, shortName: 'ly' },
+        KLY: { value: 9.461e18, shortName: 'kly' },
+        MLY: { value: 9.461e21, shortName: 'Mly' },
+        GLY: { value: 9.461e24, shortName: 'Gly' },
+        TLY: { value: 9.461e27, shortName: 'Tly' }
     }
 
     /**
@@ -31,7 +31,7 @@ class Units {
         M2: { value: 1, shortName: 'm2' },
         KM2: { value: 1e6, shortName: 'km2' },
         AU2: { value: 2.2e22, shortName: 'AU2' },
-        LY2: { value: 8.9e31, shortName: 'ly2' }
+        LY2: { value: 8.9e37, shortName: 'ly2' }
     }
 
     /**
@@ -40,8 +40,8 @@ class Units {
     public static VOLUME = {
         M3: { value: 1, shortName: 'm3' },
         KM3: { value: 1e9, shortName: 'km3' },
-        AU3: { value: 1e33, shortName: 'AU3' },
-        LY3: { value: 1e47, shortName: 'ly3' }
+        AU3: { value: 3.3e33, shortName: 'AU3' },
+        LY3: { value: 8.47e56, shortName: 'ly3' }
     }
 
     /**
@@ -67,7 +67,15 @@ class Units {
      * List of luminosity units.
      */
     public static LUMINOSITY = {
-        W: { value: 1, shortName: 'W' }
+        W: { value: 1, shortName: 'W' },
+        KW: { value: 1e3, shortName: 'kW' },
+        MW: { value: 1e6, shortName: 'MW' },
+        GW: { value: 1e9, shortName: 'GW' },
+        TW: { value: 1e12, shortName: 'TW' },
+        PW: { value: 1e15, shortName: 'PW' },
+        EW: { value: 1e18, shortName: 'EW' },
+        ZW: { value: 1e21, shortName: 'ZW' },
+        YW: { value: 1e24, shortName: 'YW' }
     }
 
     /**
@@ -95,16 +103,16 @@ class Units {
      * List of velocity units.
      */
     public static VELOCITY = {
-        KM_S: { value: 1, shortName: 'km/s' },
-        M_S: { value: 1000, shortName: 'm/s' }
+        M_S: { value: 1, shortName: 'm/s' },
+        KM_S: { value: 1000, shortName: 'km/s' }
     }
 
     /**
      * List of acceleration units.
      */
     public static ACCELERATION = {
-        KM_S2: { value: 1, shortName: 'km/s2' },
-        M_S2: { value: 1000, shortName: 'm/s2' }
+        M_S2: { value: 1, shortName: 'm/s2' },
+        KM_S2: { value: 1000, shortName: 'km/s2' }
     }
 
     private constructor() {
@@ -119,7 +127,7 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 149 597 870 km.
      */
-    public static toFull = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
+    public static toFull = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
         const minus = value < 0
         value = Math.abs(value)
 
@@ -133,7 +141,10 @@ class Units {
             unit = temp.unit
         }
 
-        if (value < 1e-3) {
+
+        if (!value) {
+            return '0'
+        } else if (value < 1e-3) {
             return Units.toExponential(value, unit)
         }
 
@@ -149,7 +160,7 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 1.49e8 km.
      */
-    public static toExponential = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
+    public static toExponential = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
         if (value === null || value === undefined) {
             return null
         }
@@ -181,7 +192,7 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional)
      * @returns Formatted value like 149M km.
      */
-    public static toShort = (value: number, unit?: IUnit, correspondentUnits?: IObject<IUnit>, threshold?: number): string => {
+    public static toShort = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
         if (value === null || value === undefined) {
             return null
         }
@@ -195,9 +206,9 @@ class Units {
             unit = temp.unit
         }
 
-        if(!value) {
-           return '0'
-        } if (value < 1e-3) {
+        if (!value) {
+            return '0'
+        } else if (value < 1e-3) {
             return Units.toExponential(value, unit)
         } else if (value < 1) {
             return Units.toFull(value, unit)
@@ -218,13 +229,24 @@ class Units {
     }
 
     /**
+     * Check if values are different (ignores too small changes).
+     * @param value1
+     * @param value2
+     * @param coefficient
+     * @returns Values are different.
+     */
+    public static isDifferent(value1: number, value2: number, coefficient = 1): boolean {
+        return Math.max(value1, value2) / Math.min(value1, value2) > coefficient
+    }
+
+    /**
      * Convert unit to another unit.
      * @param from Initial unit.
      * @param to Target unit.
      * @param value Count of units. (optional, default 1)
      * @returns New unit.
      */
-    public static convert(from: IUnit, to: IUnit, value = 1): number {
+    public static convert(from: Universis.Unit, to: Universis.Unit, value = 1): number {
         return value * (from.value / to.value)
     }
 
@@ -236,9 +258,9 @@ class Units {
      * @param threshold Threshold of use bigger unit. If threshold is 2, km unit will be used only for values 2000 or bigger. (optional, default 2)
      * @returns Object with value and unit.
      */
-    private static getCorrespondingUnit(value: number, unit: IUnit, units: IObject<IUnit>, threshold: number = 2): { value: number, unit: IUnit } {
+    private static getCorrespondingUnit(value: number, unit: Universis.Unit, units: Universis.Map<Universis.Unit>, threshold: number = 2): { value: number, unit: Universis.Unit } {
         let newValue = Units.convert(unit, units[Object.keys(units)[0]], value)
-        let newUnit: IUnit
+        let newUnit = units[Object.keys(unit)[0]]
 
         for (const i in units) {
             const unitNamesKeys = Object.keys(units)
@@ -261,12 +283,12 @@ class Units {
      * @param unit Unit. (optional)
      * Value with unit.
      */
-    private static concatValueWithUnit(value: number | string, unit?: IUnit): string {
+    private static concatValueWithUnit(value: number | string, unit?: Universis.Unit): string {
         if (!unit) {
-            return value.toString()
+            return value.toString().replace('.', ',')
         }
 
-        return value + (unit.withSpace === false ? '' : ' ') + unit.shortName
+        return (value + (unit.withSpace === false ? '' : ' ') + unit.shortName).replace('.', ',')
     }
 
     /**

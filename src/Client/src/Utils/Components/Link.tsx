@@ -10,7 +10,7 @@ interface IProps {
     target?: string
     query?: { [name: string]: string }
     className?: string
-    onClick: IRunnable
+    onClick: Universis.Runnable
     style: { [property: string]: string | number }
 }
 

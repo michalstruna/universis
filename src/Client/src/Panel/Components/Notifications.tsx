@@ -5,9 +5,9 @@ import { StatelessComponent, Link, AsyncEntity, RelativeTime, Words } from '../.
 import { getNotifications } from '../Redux/PanelActions'
 
 interface IProps {
-    notifications: IAsyncEntity<Universis.Notification[]>
-    getNotifications: IConsumer<number>
-    strings: IStrings
+    notifications: Universis.Redux.AsyncEntity<Universis.Notification[]>
+    getNotifications: Universis.Consumer<number>
+    strings: Universis.Strings
 }
 
 const MASONRY_OPTIONS = {
@@ -76,7 +76,7 @@ class Notifications extends StatelessComponent<IProps> {
 }
 
 export default Notifications.connect(
-    ({ panel, system }: IStoreState) => ({
+    ({ panel, system }: Universis.Redux.StoreState) => ({
         notifications: panel.notifications,
         strings: system.strings.notifications
     }),

@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import StatelessComponent from './StatelessComponent'
-import Titles from '../Constants/Titles'
 import Strings from '../../../../Utils/Strings'
 
 /**

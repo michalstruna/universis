@@ -6,7 +6,7 @@ import { toggleAlert } from '../../System'
 interface IProps {
     buttons: ILinkButton[]
     content: string
-    toggleAlert: IConsumer<boolean>
+    toggleAlert: Universis.Consumer<boolean>
     isVisible: boolean
     title: string
 }
@@ -72,7 +72,7 @@ class Alert extends StatelessComponent<IProps> {
 }
 
 export default Alert.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         buttons: system.alert.buttons,
         content: system.alert.content,
         isVisible: system.isAlertVisible,

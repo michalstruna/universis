@@ -4,8 +4,8 @@ import SignUpForm from '../Components/SignUpForm'
 import { View, Url, Urls } from '../../Utils'
 
 interface IProps {
-    unauthUser: IAsyncEntity<IBaseUser>
-    identity: IUserIdentity
+    unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
+    identity: Universis.User.Identity
 }
 
 /**
@@ -35,7 +35,7 @@ class SignUpView extends View<IProps> {
 }
 
 export default SignUpView.connect(
-    ({ user }: IStoreState) => ({
+    ({ user }: Universis.Redux.StoreState) => ({
         unauthUser: user.unauthUser,
         identity: user.identity.payload
     })

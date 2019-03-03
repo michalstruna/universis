@@ -5,7 +5,7 @@ import 'chartjs-plugin-labels'
 import StatelessComponent from '../../Utils/Components/StatelessComponent'
 
 interface IProps {
-    data: IObject<number>
+    data: Universis.Map<number>
 }
 
 class DonutChart extends StatelessComponent<IProps> {
@@ -17,7 +17,7 @@ class DonutChart extends StatelessComponent<IProps> {
      * @param getValue FUnction to map item value.
      * @returns Data for donut chart.
      */
-    public static buildData(items: any[], getType: IFunction2<any, number, string>, getValue: IFunction2<any, number, number>): IObject<number> {
+    public static buildData(items: any[], getType: Universis.Function2<any, number, string>, getValue: Universis.Function2<any, number, number>): Universis.Map<number> {
         const result = {}
 
         for (const i in items) {

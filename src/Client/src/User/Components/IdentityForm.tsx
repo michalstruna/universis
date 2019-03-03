@@ -6,9 +6,9 @@ import { Form, Submit, Title, Field } from '../../Forms'
 import { getUnauthUser } from '../Redux/UserActions'
 
 interface IProps {
-    strings: IStrings
-    getUnauthUser: IFunction<string, Promise<IAsyncEntity<IBaseUser>>>
-    unauthUser: IAsyncEntity<IBaseUser>
+    strings: Universis.Strings
+    getUnauthUser: Universis.Function<string, Promise<Universis.Redux.AsyncEntity<Universis.User.Simple>>>
+    unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
 }
 
 interface IValues {
@@ -58,7 +58,7 @@ class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues
 export default reduxForm({
     form: 'identity'
 })(IdentityForm.connect(
-    ({ system, user }: IStoreState) => ({
+    ({ system, user }: Universis.Redux.StoreState) => ({
         strings: system.strings.identity,
         unauthUser: user.unauthUser
     }),

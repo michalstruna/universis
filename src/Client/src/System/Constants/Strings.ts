@@ -64,14 +64,16 @@ export default {
 
     universe: {
         controls: {
-            name: 'Jméno',
-            size: 'Size',
             orbits: 'Orbity',
-            labels: 'Popisky',
+            labels: 'Názvy',
             panel: 'Panel',
             light: 'Světlo',
             now: 'Teď',
-            move: 'Pohyb'
+            move: 'Pohyb',
+            velocity: 'Rychlost',
+            earth: 'Od Země',
+            camera: 'Od kamery',
+            center: 'Od těžiště'
         }
     },
 
@@ -146,7 +148,7 @@ export default {
 
         energy: 'Energie',
         innerTemperature: 'Vnitř. teplota',
-        outerTemperature: 'Vnějš. templota',
+        outerTemperature: 'Vnějš. teplota',
         luminosity: 'Zářivý výkon',
 
         axis: 'Osa',
@@ -158,6 +160,13 @@ export default {
         discoverer: 'Objevitel',
         discoverDate: 'Datum objevu'
 
+    },
+
+    events: {
+        title: 'Titulek',
+        description: 'Popis',
+        from: 'Od',
+        to: 'Do'
     },
 
     discussion: {
@@ -191,6 +200,13 @@ export default {
             3: 'Diskuse',
             4: 'Uživatel'
         }
+
+    },
+
+    editor: {
+        add: '＋',
+        update: 'Upravit',
+        delete: 'Odstranit'
 
     }
 

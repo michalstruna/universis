@@ -33,7 +33,7 @@ class Redux {
      * @param onFail Callback after fail.
      * @return Runnable dispatch.
      */
-    public static asyncAction<T>(type: string, changes: IObject<Promise<T>>, onSuccess?: IConsumer<T>, onFail?: IConsumer<Error>): IActionResult<T> {
+    public static asyncAction<T>(type: string, changes: Universis.Map<Promise<T>>, onSuccess?: Universis.Consumer<T>, onFail?: Universis.Consumer<Error>): Universis.Redux.ActionResult<T> {
         return dispatch => {
             const property = Object.keys(changes)[0]
             dispatch({ type: type + Redux.SUFFIXES.SENT, property, $async: {} })
@@ -68,7 +68,7 @@ class Redux {
      * @param callback Callback after toggle  (only first toggled value).
      * @returns Toggle action.
      */
-    public static toggleAction(type: string, changes: IObject<any>, callback?: IRunnable): ISetAction {
+    public static toggleAction(type: string, changes: Universis.Map<any>, callback?: Universis.Runnable): Universis.Redux.SetAction {
         const isTrue = Redux.getFirstValue<boolean>(changes)
         const { ON, OFF } = Redux.SUFFIXES
         return Redux.setAction(type + (isTrue ? ON : OFF), changes, callback)
@@ -81,7 +81,7 @@ class Redux {
      * @param callback Callback after change state.
      * @returns Action.
      */
-    public static setAction(type: string, changes: IObject<any>, callback?: IRunnable): ISetAction {
+    public static setAction(type: string, changes: Universis.Map<any>, callback?: Universis.Runnable): Universis.Redux.SetAction {
         return { type, $set: changes, $callback: callback }
     }
 
@@ -91,8 +91,8 @@ class Redux {
      * @param initialState Initial state of reducer.
      * @returns Reducer.
      */
-    public static createReducer(actionTypes: string[], initialState: IStoreState = {}) {
-        return <T>(state: IStoreState = initialState, action: ISetAction | IAsyncAction<T>) => {
+    public static createReducer(actionTypes: string[], initialState: Universis.Redux.StoreState = {}) {
+        return <T>(state: Universis.Redux.StoreState = initialState, action: Universis.Redux.SetAction | Universis.Redux.AsyncAction<T>) => {
             if (actionTypes.includes(Redux.removeSuffixFromActionType(action.type))) {
                 if ('$set' in action) {
                     state = Redux.applySetAction(state, action)
@@ -119,7 +119,7 @@ class Redux {
      * @param action Action.
      * @returns New store state.
      */
-    private static applySetAction(state: IStoreState, action: ISetAction): IStoreState {
+    private static applySetAction(state: Universis.Redux.StoreState, action: Universis.Redux.SetAction): Universis.Redux.StoreState {
         const applyNestedChange = (source: any, change: any) => {
             if (change.$find) {
                 const index = source.findIndex(change.$find)
@@ -157,7 +157,7 @@ class Redux {
      * @param action Action.
      * @returns New store state.
      */
-    private static applyAsyncAction<T>(state: IStoreState, action: IAsyncAction<T>): IStoreState {
+    private static applyAsyncAction<T>(state: Universis.Redux.StoreState, action: Universis.Redux.AsyncAction<T>): Universis.Redux.StoreState {
         const { SENT, SUCCESS, FAIL } = Redux.SUFFIXES
 
         if (Redux.hasSuffix(action.type, SENT)) {
@@ -220,7 +220,7 @@ class Redux {
      * @param value State object.
      * @returns Nested boolean value.
      */
-    private static getFirstValue<T>(value: IObject<any>): T {
+    private static getFirstValue<T>(value: Universis.Map<any>): T {
         let result = value
 
         while (typeof result === 'object') {

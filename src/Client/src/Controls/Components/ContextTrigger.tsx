@@ -6,7 +6,7 @@ import { Component } from '../../Utils'
 interface IProps {
     toggleContextMenu: (isVisible: boolean, x?: number, y?: number) => void,
     isContextVisible: boolean
-    showContext: IConsumer2<number, number>
+    showContext: Universis.Consumer2<number, number>
     className?: string
 }
 
@@ -54,7 +54,7 @@ class ContextTrigger extends Component<IProps, IState> {
 }
 
 export default ContextTrigger.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         isContextVisible: system.contextMenu.isVisible
     }),
     { toggleContextMenu }

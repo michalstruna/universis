@@ -4,8 +4,8 @@ import { withRouter, RouteProps } from 'react-router-dom'
 
 interface IComponentProps {
     history?: {
-        push: IConsumer<string | { pathname?: string, search?: string }>,
-        replace: IConsumer<string | { pathname?: string, search?: string }>
+        push: Universis.Consumer<string | { pathname?: string, search?: string }>,
+        replace: Universis.Consumer<string | { pathname?: string, search?: string }>
     }
     location?: Location
 }
@@ -18,7 +18,7 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
     /**
      * Callback after resize window.
      */
-    private handleResize: IRunnable
+    private handleResize: Universis.Runnable
 
     /**
      * Interval.
@@ -53,7 +53,7 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
      * Set resize handler.
      * @param callback Handler.
      */
-    protected setOnResize(callback: IRunnable): void {
+    protected setOnResize(callback: Universis.Runnable): void {
         this.handleResize = callback
         window.addEventListener('resize', this.handleResize)
     }
@@ -63,7 +63,7 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
      * @param callback Callback.
      * @param interval Interval in milliseconds.
      */
-    protected setInterval(callback: IRunnable, interval: number) {
+    protected setInterval(callback: Universis.Runnable, interval: number) {
         this.interval = window.setInterval(callback, interval)
     }
 

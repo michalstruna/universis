@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import { Html } from '../../Utils'
+import { Html, Units } from '../../Utils'
 
 const TrackballControls = require('three-trackballcontrols')
 
@@ -16,22 +16,26 @@ const DEFAULT_OPTIONS = {
     maxDistance: Infinity,
     near: 1e-3,
     objects: [],
-    width: window.innerWidth
+    width: window.innerWidth,
+    onRenderInterval: 16
 }
 
 let tempObjectPosition = new THREE.Vector3()
+let tempObject1Position = new THREE.Vector3()
+let tempObject2Position = new THREE.Vector3()
 let tempCameraPosition = new THREE.Vector3()
 let tempViewProjection = new THREE.Matrix4()
+var cameraViewProjectionMatrix = new THREE.Matrix4()
 
 /**
  * Utils for THREE.js scene.
  */
-class Scene implements IScene {
+class Scene implements Scene {
 
     /**
      * Scene options.
      */
-    private options: ISceneOptions
+    private options: Universis.Scene.Options
 
     /**
      * Camera target.
@@ -42,6 +46,11 @@ class Scene implements IScene {
      * List of all named meshes in scene.
      */
     private namedMeshes: THREE.Mesh[]
+
+    /**
+     * Last timestamp of onRender callback.
+     */
+    private lastOnRenderTime: number
 
     /**
      * THREE.js entities.
@@ -59,12 +68,13 @@ class Scene implements IScene {
     private startMouseX: number
     private startMouseY: number
 
-    constructor(options: ISceneOptions) {
+    constructor(options: Universis.Scene.Options) {
         this.options = {
             ...DEFAULT_OPTIONS,
             ...options
         }
 
+        this.lastOnRenderTime = new Date().getTime()
         this.namedMeshes = []
 
         this.createScene()
@@ -93,13 +103,18 @@ class Scene implements IScene {
         return this.target
     }
 
-    public getDistanceFromCamera(object: THREE.Mesh = this.target): number {
-        object.getWorldPosition(tempObjectPosition)
-        this.camera.getWorldPosition(tempCameraPosition)
-        return tempObjectPosition.distanceTo(tempCameraPosition)
+    public getDistance(object1: THREE.Object3D, object2: THREE.Object3D = this.camera): number {
+        object1.getWorldPosition(tempObject1Position)
+        object2.getWorldPosition(tempObject2Position)
+        return tempObject1Position.distanceTo(tempObject2Position)
     }
 
     public isInFov(object: THREE.Mesh): boolean {
+        this.camera.updateMatrixWorld(false)
+        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
+        cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
+        this.frustum.setFromMatrix(cameraViewProjectionMatrix)
+
         return this.frustum.intersectsObject(object)
     }
 
@@ -253,18 +268,20 @@ class Scene implements IScene {
      * Render loop.
      */
     private render = (): void => {
-        const { controllable, onRender, onZoom } = this.options
+        const { controllable, onRender, onZoom, onRenderInterval } = this.options
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera)
         this.updateCamera()
+        const now = new Date().getTime()
 
-        if (onRender) {
+        if (onRender && this.lastOnRenderTime + onRenderInterval < now) {
             onRender()
+            this.lastOnRenderTime = now
         }
 
         if (controllable) {
-            const fromCenter = this.getDistanceFromCamera()
-            const isDifferent = !this.lastDistanceFromTarget || (Math.max(fromCenter, this.lastDistanceFromTarget) / Math.min(fromCenter, this.lastDistanceFromTarget)) > 1.01
+            const fromCenter = this.getDistance(this.target, this.camera)
+            const isDifferent = !this.lastDistanceFromTarget || Units.isDifferent(fromCenter, this.lastDistanceFromTarget)
 
             if (onZoom && isDifferent) {
                 this.lastDistanceFromTarget = fromCenter
@@ -274,10 +291,6 @@ class Scene implements IScene {
     }
 
     private updateCamera(): void {
-        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
-        tempViewProjection.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
-        this.frustum.setFromMatrix(tempViewProjection)
-
         if (this.controls) {
             this.controls.update()
         }

@@ -19,6 +19,7 @@ export { default as Menu } from './Components/Menu'
 export { default as RelativeTime } from './Components/RelativeTime'
 export { default as EventArea } from './Components/EventsArea'
 export { DropdownArea, DropdownButton } from './Components/Dropdown'
+export { default as EditorControl } from './Components/EditorControl'
 
 /**
  * Constants.
@@ -38,3 +39,4 @@ export { default as Redux } from './Utils/Redux'
 export { default as Request } from './Utils/Request'
 export { default as Dates } from './Utils/Dates'
 export { default as Words } from './Utils/Words'
+export { default as Keyboard } from './Utils/Keyboard'

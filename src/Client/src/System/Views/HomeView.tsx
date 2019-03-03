@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Urls, View, Menu } from '../../Utils'
 
 interface IProps {
-    strings: IStrings
+    strings: Universis.Strings
 }
 
 /**
@@ -34,7 +34,7 @@ class HomeView extends View<IProps> {
 }
 
 export default HomeView.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         strings: system.strings.home
     })
 )

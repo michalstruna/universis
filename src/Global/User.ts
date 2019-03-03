@@ -21,7 +21,7 @@ declare namespace Universis {
             /**
              * Password of user.
              */
-            password: string
+            password?: string
 
         }
 

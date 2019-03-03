@@ -6,8 +6,8 @@ interface IProps {
     className?: string,
     duration?: number,
     mounted: boolean,
-    onClick?: IConsumer<React.MouseEvent<HTMLElement>>,
-    onContextMenu?: IConsumer<React.MouseEvent<HTMLElement>>
+    onClick?: Universis.Consumer<React.MouseEvent<HTMLElement>>,
+    onContextMenu?: Universis.Consumer<React.MouseEvent<HTMLElement>>
 }
 
 interface IState {
@@ -29,7 +29,7 @@ class FadeLayout extends Component<IProps, IState> {
 
         this.state = {
             isVisible: false,
-            isMounted: false
+            isMounted: props.mounted
         }
     }
 

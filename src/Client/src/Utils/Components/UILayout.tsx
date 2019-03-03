@@ -26,7 +26,7 @@ class UILayout extends StatelessComponent<IProps> {
 }
 
 export default UILayout.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         isUIVisible: system.isUIVisible
     })
 )

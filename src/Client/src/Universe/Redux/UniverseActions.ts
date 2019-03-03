@@ -8,7 +8,7 @@ import { Store } from '../../System'
 export const getBodies = () => (
     Redux.asyncAction(
         ActionTypes.GET_BODIES,
-        { bodies: Request.get<ISimpleBody[]>(`bodies`, { sort: '_id' }) }
+        { bodies: Request.get<Universis.Universe.Body.Simple[]>(`bodies`, { sort: '_id' }) }
     )
 )
 
@@ -19,7 +19,7 @@ export const getBodies = () => (
 export const getBodyById = (bodyId: string) => (
     Redux.asyncAction(
         ActionTypes.GET_BODY_BY_ID,
-        { body: Request.get<ISimpleBody>(`bodies/${bodyId}`) }
+        { body: Request.get<Universis.Universe.Body.Simple>(`bodies/${bodyId}`) }
     )
 )
 
@@ -47,12 +47,12 @@ export const changeViewSize = (viewSize: number) => (
 
 /**
  * Toggle visibility of labels.
- * @param areLabelsVisible Labels are visible.
+ * @param isNameVisible Labels are visible.
  */
-export const toggleLabels = (areLabelsVisible: boolean) => (
+export const toggleLabels = (isNameVisible: boolean) => (
     Redux.setAction(
         ActionTypes.TOGGLE_LABELS,
-        { areLabelsVisible }
+        { isNameVisible }
     )
 )
 
@@ -64,6 +64,50 @@ export const toggleLight = (isLightVisible: boolean) => (
     Redux.setAction(
         ActionTypes.TOGGLE_LABELS,
         { isLightVisible }
+    )
+)
+
+/**
+ * Toggle visibility of velocity.
+ * @param isVelocityVisible Velocity is visible.
+ */
+export const toggleVelocity = (isVelocityVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_VELOCITY,
+        { isVelocityVisible }
+    )
+)
+
+/**
+ * Toggle visibility of from Earth.
+ * @param isFromEarthVisible From Earth is visible.
+ */
+export const toggleFromEarth = (isFromEarthVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_FROM_EARTH,
+        { isFromEarthVisible }
+    )
+)
+
+/**
+ * Toggle visibility of from center.
+ * @param isFromCenterVisible From center is visible.
+ */
+export const toggleFromCenter = (isFromCenterVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_FROM_CENTER,
+        { isFromCenterVisible }
+    )
+)
+
+/**
+ * Toggle visibility of from camera.
+ * @param isFromCameraVisible From camera is visible.
+ */
+export const toggleFromCamera = (isFromCameraVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_FROM_CAMERA,
+        { isFromCameraVisible }
     )
 )
 
@@ -212,4 +256,28 @@ export const toggleNewDiscussion = (isNewDiscussionExpanded: boolean) => (
         ActionTypes.TOGGLE_NEW_DISCUSSION,
         { isNewDiscussionExpanded }
     )
+)
+
+/**
+ * Change time speed.
+ * @param timeSpeed Current time speed.
+ * @param faster True if faster, false if slower.
+ */
+export const changeTimeSpeed = (timeSpeed: number, faster?: boolean) => (
+    dispatch => {
+        if (faster === true) {
+            timeSpeed = (timeSpeed === -1 ? 0 : (timeSpeed === 0 ? 1 : (timeSpeed > 0 ? timeSpeed * 10 : timeSpeed / 10)))
+        } else if (faster === false) {
+            timeSpeed = (timeSpeed === 1 ? 0 : (timeSpeed === 0 ? -1 : (timeSpeed < 0 ? timeSpeed * 10 : timeSpeed / 10)))
+        }
+
+        if (timeSpeed < 10e10 && timeSpeed > -10e10) {
+            dispatch(
+                Redux.setAction(
+                    ActionTypes.CHANGE_TIME_SPEED,
+                    { timeSpeed }
+                )
+            )
+        }
+    }
 )

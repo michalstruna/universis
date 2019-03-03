@@ -1,5 +1,5 @@
 // BodyModel.ts
-export default new ItemModel<IBody, ISimpleBody, INewBody>(
+export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Simple, Universis.Universe.Body.New>(
     dbModel: DatabaseModels.BODY,
     get: {
         selectAll: ['name', 'orbit'],

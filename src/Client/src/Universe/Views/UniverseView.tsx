@@ -2,12 +2,11 @@ import * as React from 'react'
 
 import { View, AsyncEntity } from '../../Utils'
 import { getBodies } from '../Redux/UniverseActions'
-import Canvas from '../Components/Canvas'
-import UI from '../Components/UI'
+import Simulator from '../Components/Simulator'
 
 interface IProps {
-    bodies: IAsyncEntity<ISimpleBody[]>
-    getBodies: IRunnable
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    getBodies: Universis.Runnable
 }
 
 class UniverseView extends View<IProps> {
@@ -25,10 +24,7 @@ class UniverseView extends View<IProps> {
                 <AsyncEntity
                     data={bodies}
                     success={() => (
-                        <React.Fragment>
-                            <Canvas />
-                            <UI />
-                        </React.Fragment>
+                        <Simulator />
                     )} />
             </section>
         )
@@ -37,7 +33,7 @@ class UniverseView extends View<IProps> {
 }
 
 export default UniverseView.connect(
-    ({ universe }: IStoreState) => ({
+    ({ universe }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies
     }),
     { getBodies }

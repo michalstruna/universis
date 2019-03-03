@@ -1,4 +1,5 @@
 import Physics from '../../Utils/Physics'
+import Units from '../../Client/src/Utils/Utils/Units'
 
 /**
  * Plugin to fill fields of body schema with calculated data.
@@ -24,7 +25,9 @@ const FillBodyPlugin = (schema) => {
 
 }
 
-const fillBody = (body: ISimpleBody) => {
+// Za kolik let 360°?
+
+const fillBody = (body: Universis.Universe.Body.Simple) => {
     body.diameter.y = Physics.getDiameterY(body)
     body.diameter.z = Physics.getDiameterZ(body)
     body.flattening = Physics.getFlattening(body)
@@ -39,8 +42,13 @@ const fillBody = (body: ISimpleBody) => {
 
     if (body.orbit) {
         body.orbit.circuit = Physics.getOrbitCircuit(body)
-        body.orbit.velocity = Physics.getOrbitVelocity(body)
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
+
+        body.temp = {
+            orbitAreaPerSecond: Physics.getOrbitArea(body) / (31556926 * body.orbit.period)
+        }
+
+        body.orbit.velocity = Physics.getOrbitVelocity(body)
     }
 }
 

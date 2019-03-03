@@ -5,7 +5,7 @@ import BodyFactory from '../Utils/BodyFactory'
 import Scene from '../Utils/Scene'
 
 interface IProps {
-    body: ISimpleBody
+    body: Universis.Universe.Body.Simple
     height: number
     width: number
 }
@@ -14,7 +14,7 @@ class BodyPreview extends StatelessComponent<IProps> {
 
     private parent: HTMLElement
 
-    private bodyFactory: IFactory<ISimpleBody, IBodyContainer>
+    private bodyFactory: Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container>
 
     constructor(props) {
         super(props)

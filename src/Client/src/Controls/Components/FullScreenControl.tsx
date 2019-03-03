@@ -5,9 +5,9 @@ import { toggleFullScreen } from '../../System'
 import { StatelessComponent } from '../../Utils'
 
 export interface IProps {
-    toggleFullScreen: IConsumer<boolean>
+    toggleFullScreen: Universis.Consumer<boolean>
     isFullScreen: boolean
-    strings: IStrings
+    strings: Universis.Strings
 }
 
 /**
@@ -29,7 +29,7 @@ class FullScreenControl extends StatelessComponent<IProps> {
 }
 
 export default FullScreenControl.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         isFullScreen: system.isFullScreen,
         strings: system.strings.controls
     }),
