@@ -8,11 +8,11 @@ import BodyTimeline from './BodyTimeline'
 import BodyDiscussion from './BodyDiscussion'
 
 interface IProps {
-    strings: IStrings
-    bodies: IAsyncEntity<ISimpleBody[]>
-    body: IAsyncEntity<IBody>
-    getBodies: IRunnable
-    getBodyById: IConsumer<string>
+    strings: Universis.Strings
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
+    getBodies: Universis.Runnable
+    getBodyById: Universis.Consumer<string>
 }
 
 /**
@@ -111,7 +111,7 @@ class Body extends StatelessComponent<IProps> {
 }
 
 export default Body.connect(
-    ({ universe, system }: IStoreState) => ({
+    ({ universe, system }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
         body: universe.body,
         strings: system.strings.body

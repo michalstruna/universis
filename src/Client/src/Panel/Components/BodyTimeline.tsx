@@ -4,8 +4,8 @@ import { StatelessComponent, Units, AsyncEntity, EventArea } from '../../Utils'
 import { LineChart } from '../../Charts'
 
 interface IProps {
-    strings: IStrings
-    body: IAsyncEntity<IBody>
+    strings: Universis.Strings
+    body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
 }
 
 const generateYears = (): number[] => {
@@ -87,7 +87,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
 }
 
 export default BodyTimeline.connect(
-    ({ system, universe }: IStoreState) => ({
+    ({ system, universe }: Universis.Redux.StoreState) => ({
         strings: system.strings.bodyData,
         body: universe.body
     })

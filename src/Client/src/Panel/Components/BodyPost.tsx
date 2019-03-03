@@ -9,7 +9,7 @@ import Arrays from '../../../../Utils/Arrays'
 import AnswerForm from './AnswerForm'
 
 interface IProps {
-    identity: IAsyncEntity<Universis.User.Identity>
+    identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
     post: Universis.Discussion | Universis.Answer,
     toggleAnswers?: Universis.Consumer2<string, boolean>
     parentId?: string
@@ -229,7 +229,7 @@ class BodyPost extends Component<IProps, IState> {
 }
 
 export default BodyPost.connect(
-    ({ user, universe }: IStoreState) => ({
+    ({ user, universe }: Universis.Redux.StoreState) => ({
         identity: user.identity,
         posts: universe.posts
     }),

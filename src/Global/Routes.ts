@@ -26,7 +26,7 @@ declare type IRequestHandler = Universis.Consumer2<IExpressRequest, IExpressResp
 /**
  * Interface for is authorized check.
  */
-declare type IIsAuthorized = Universis.Function<IUser, boolean>
+declare type IIsAuthorized = Universis.Function<Universis.User, boolean>
 
 /**
  * Function that say, who has access to route.

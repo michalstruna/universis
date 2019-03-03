@@ -21,7 +21,7 @@ class Filter {
      * @param filter
      * @returns Filtered items.
      */
-    public static apply(items: any[], filter: IFilter): any[] {
+    public static apply(items: any[], filter: Universis.Filter): any[] {
         if (!Filter.isValidFilter(filter)) {
             return items
         }
@@ -43,7 +43,7 @@ class Filter {
      * @param index Index of rule to be removed.
      * @returns Filter without nth rule.
      */
-    public static removeNthRule(filter: IFilter, index: number): IFilter {
+    public static removeNthRule(filter: Universis.Filter, index: number): Universis.Filter {
         const newFilter = Filter.getInitialFilter()
 
         for (let i = 0; i < filter.relation.length; i++) {
@@ -61,7 +61,7 @@ class Filter {
      * Get empty filter.
      * @returns Empty filter.
      */
-    public static getInitialFilter(): IFilter {
+    public static getInitialFilter(): Universis.Filter {
         return {
             property: [],
             relation: [],
@@ -77,7 +77,7 @@ class Filter {
      * @param initialValue
      * @param length Length of filter (optional, default is length of largest part of filter).
      */
-    public static fillFilter(filter: IFilter, initialProperty: string, initialRelation: string, initialValue: string, length?: number): IFilter {
+    public static fillFilter(filter: Universis.Filter, initialProperty: string, initialRelation: string, initialValue: string, length?: number): Universis.Filter {
         if (!Filter.isValidFilter(filter)) {
             return filter
         }
@@ -100,7 +100,7 @@ class Filter {
      * @param filter Filter.
      * @returns Item matches filter.
      */
-    private static isMatch(item: IObject<any>, filter: IFilter): boolean {
+    private static isMatch(item: Universis.Map<any>, filter: Universis.Filter): boolean {
         for (const i in filter.value) {
             if (filter.value && filter.relation && filter.property && filter.value[i] && filter.relation[i] && filter.property[i]) {
                 let property = Filter.getProperty(item, filter.property[i])
@@ -114,7 +114,7 @@ class Filter {
         return true
     }
 
-    private static isMatchValue(filter: IFilter, property: any, i: string): boolean {
+    private static isMatchValue(filter: Universis.Filter, property: any, i: string): boolean {
         if (Number.isInteger(property) || typeof property === 'number') {
             switch (filter.relation[i]) {
                 case Filter.RELATIONS.CONTAINS:
@@ -159,7 +159,7 @@ class Filter {
      * @param key Key. For nested properties there is "." delimiter.
      * @returns Value of property.
      */
-    private static getProperty(item: IObject<any>, key: string): any {
+    private static getProperty(item: Universis.Map<any>, key: string): any {
         let property = item
         const keys = key.split('.')
 
@@ -179,7 +179,7 @@ class Filter {
      * @param filter Filter.
      * @returns Filter is valid.
      */
-    private static isValidFilter(filter: IFilter) {
+    private static isValidFilter(filter: Universis.Filter) {
         return filter && filter.property && filter.value && filter.relation
     }
 

@@ -1,12 +1,12 @@
 /**
  * Container for body.
  */
-class BodyContainer implements IBodyContainer {
+class BodyContainer implements Universis.Universe.Body.Container {
 
     /**
      * Data about body.
      */
-    private _data: ISimpleBody
+    private _data: Universis.Universe.Body.Simple
 
     /**
      * THREE mesh.
@@ -16,7 +16,7 @@ class BodyContainer implements IBodyContainer {
     /**
      * Outer orbit.
      */
-    private _orbit: THREE.Object3D
+    private _orbit: THREE.Group
 
     /**
      * Label.
@@ -26,9 +26,9 @@ class BodyContainer implements IBodyContainer {
     /**
      * Container for all children of body.
      */
-    private _childrenContainer: THREE.Object3D
+    private _childrenContainer: THREE.Group
 
-    public constructor(data: ISimpleBody, mesh: THREE.Mesh, orbit: THREE.Object3D, label: HTMLElement, childrenContainer: THREE.Object3D) {
+    public constructor(data: Universis.Universe.Body.Simple, mesh: THREE.Mesh, orbit: THREE.Group, label: HTMLElement, childrenContainer: THREE.Group) {
         this._data = data
         this._mesh = mesh
         this._orbit = orbit
@@ -36,7 +36,7 @@ class BodyContainer implements IBodyContainer {
         this._childrenContainer = childrenContainer
     }
 
-    get data(): ISimpleBody {
+    get data(): Universis.Universe.Body.Simple {
         return this._data
     }
 
@@ -44,7 +44,7 @@ class BodyContainer implements IBodyContainer {
         return this._mesh
     }
 
-    get orbit(): THREE.Object3D {
+    get orbit(): THREE.Group {
         return this._orbit
     }
 
@@ -52,7 +52,7 @@ class BodyContainer implements IBodyContainer {
         return this._label
     }
 
-    get childrenContainer(): THREE.Object3D {
+    get childrenContainer(): THREE.Group {
         return this._childrenContainer
     }
 }

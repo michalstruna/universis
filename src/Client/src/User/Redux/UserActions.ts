@@ -11,7 +11,7 @@ export const getUnauthUser = (email: string) => (
         {
             unauthUser: (
                 Request
-                    .get<IBaseUser[]>('users', { email, limit: 1 })
+                    .get<Universis.User.Simple[]>('users', { email, limit: 1 })
                     .then(Request.unwind)
                     .then(Request.setDefault({ email }))
             )
@@ -28,7 +28,7 @@ export const getUnauthUser = (email: string) => (
 export const login = (email: string, password: string) => (
     Redux.asyncAction(
         ActionTypes.LOGIN,
-        { identity: Request.post<IUserIdentity>('login', { email, password }) }, // TODO: Another data? First will be always async request.
+        { identity: Request.post<Universis.User.Identity>('login', { email, password }) }, // TODO: Another data? First will be always async request.
         identity => {
             Cookies.set(Cookies.KEYS.IDENTITY, identity, Cookies.EXPIRATIONS.IDENTITY)
             Url.push({ pathname: Urls.HOME })

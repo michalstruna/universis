@@ -1,64 +1,66 @@
-/**
- * Interface for redux action.
- */
-declare interface IAction {
-    type: string
-    $callback?: IRunnable
-}
+declare namespace Universis {
 
-declare interface IBaseAction extends IAction {
-    $set?: IObject<any>
-    $toggle?: IObject<any>
-    $async?: IObject<any>
-}
+    export namespace Redux {
 
-/**
- * Interface for async action.
- */
-declare interface IAsyncAction<T> extends IAction {
-    property: string
-    $async: IAsyncEntity<T>
-}
+        /**
+         * Interface for redux action.
+         */
+        export interface Action {
+            type: string
+            $callback?: Universis.Runnable
+        }
 
-/**
- * Interface for set action.
- */
-declare interface ISetAction extends IAction {
-    $set: IObject<any>
-}
+        /**
+         * Interface for async action.
+         */
+        export interface AsyncAction<T> extends Action {
+            property: string
+            $async: AsyncEntity<T>
+        }
 
-/**
- * Type for async action result.
- */
-declare type IActionResult<T> = IFunction<IConsumer<IAsyncAction<T>>, Promise<T>>
+        /**
+         * Interface for set action.
+         */
+        export interface SetAction extends Action {
+            $set: Universis.Map<any>
+        }
 
-/**
- * Type for redux store state.
- */
-declare type IStoreState = any
+        /**
+         * Type for async action result.
+         */
+        export type ActionResult<T> = Universis.Function<Universis.Consumer<AsyncAction<T>>, Promise<T>>
 
-/**
- * Interface for async data container.
- */
-declare interface IAsyncEntity<T> {
-    payload?: T
-    isSent?: boolean
-    error?: number
-}
+        /**
+         * Type for redux store state.
+         */
+        export type StoreState = any
 
-/**
- * Interface for router location.
- */
-declare interface ILocation {
-    hash: string
-    pathname: string
-    search: string
-}
+        /**
+         * Interface for async data container.
+         */
+        export interface AsyncEntity<T> {
+            payload?: T
+            isSent?: boolean
+            error?: number
+        }
 
-/**
- * Interface for location target.
- */
-declare interface ILocationTarget {
-    pathname?: string
-    query?: IObject<string>
+        /**
+         * Interface for router location.
+         */
+        export interface Location {
+            hash: string
+            pathname: string
+            search: string
+        }
+
+        /**
+         * Interface for location target.
+         */
+        export interface LocationTarget {
+            pathname?: string
+            query?: Universis.Map<string>
+        }
+
+    }
+
 }

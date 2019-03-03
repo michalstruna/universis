@@ -6,7 +6,7 @@ import Link from './Link'
 import Url from '../Utils/Url'
 
 interface IProps {
-    links: IObject<string>
+    links: Universis.Map<string>
     query: string
     className?: string
 }

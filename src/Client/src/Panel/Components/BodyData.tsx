@@ -1,12 +1,12 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
-import { StatelessComponent, DataTable, Units } from '../../Utils'
+import { StatelessComponent, DataTable , Units } from '../../Utils'
 import { DonutChart } from '../../Charts'
 
 interface IProps {
-    body: IBody
-    strings: IStrings
+    body: Universis.Universe.Body
+    strings: Universis.Strings
 }
 
 class BodyData extends StatelessComponent<IProps> {
@@ -59,8 +59,8 @@ class BodyData extends StatelessComponent<IProps> {
                                         data={DonutChart.buildData(body.composition, item => item.element, item => item.percentage)} />
                                 </section>
                             ),
-                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S),
-                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2)
+                            [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S, Units.VELOCITY),
+                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2, Units.ACCELERATION)
                         }} />
                     <DataTable
                         title={strings.orbit}
@@ -70,10 +70,16 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.pericenter]: body.orbit ? Units.toFull(body.orbit.pericenter, Units.SIZE.KM) : null,
                             [strings.eccentricity]: body.orbit ? Units.toFull(body.orbit.eccentricity) : null,
                             [strings.orbitPeriod]: body.orbit ? Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME) : null,
-                            [strings.orbitVelocity]: body.orbit ? Units.toFull(body.orbit.velocity, Units.VELOCITY.KM_S) : null,
                             [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
+                            [strings.orbitVelocity]: body.orbit ? () => (
+                                <DataTable.FlexRow>
+                                    {Units.toFull(body.orbit.velocity.min, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toFull(body.orbit.velocity.avg, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toFull(body.orbit.velocity.max, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                </DataTable.FlexRow>
+                            ) : null,
                             [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null
-                        }} />
+                        }} />\\
                     <DataTable
                         title={strings.axis}
                         data={{
@@ -104,7 +110,7 @@ class BodyData extends StatelessComponent<IProps> {
                         data={{
                             [strings.innerTemperature]: Units.toFull(body.temperature.inner, Units.TEMPERATURE.K),
                             [strings.outerTemperature]: Units.toFull(body.temperature.outer, Units.TEMPERATURE.K),
-                            [strings.luminosity]: body.luminosity ? Units.toShort(body.luminosity, Units.LUMINOSITY.W) : null
+                            [strings.luminosity]: body.luminosity ? Units.toShort(body.luminosity, Units.LUMINOSITY.W, Units.LUMINOSITY) : null
                         }} />
                     <DataTable
                         title={strings.discover}
@@ -120,7 +126,7 @@ class BodyData extends StatelessComponent<IProps> {
 }
 
 export default BodyData.connect(
-    ({ system, universe }: IStoreState) => ({
+    ({ system, universe }: Universis.Redux.StoreState) => ({
         strings: system.strings.bodyData,
         body: universe.body.payload
     })

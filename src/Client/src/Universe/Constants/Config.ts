@@ -38,7 +38,7 @@ export default {
     /**
      * Min camera distance.
      */
-    CAMERA_MIN_DISTANCE: 0.001,
+    CAMERA_MIN_DISTANCE: 1,
 
     /**
      * Max camera distance.
@@ -49,6 +49,11 @@ export default {
      * Field of visibility.
      */
     CAMERA_FOV: 50,
+
+    /**
+     * Interval of onRender callback [ms].
+     */
+    RENDER_INTERVAL: 40,
 
     /**
      * Relative size of three meshes and distances.

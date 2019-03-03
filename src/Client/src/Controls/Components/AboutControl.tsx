@@ -10,7 +10,7 @@ export interface IProps {
         content: string
         buttons: ILinkButton[]
     }
-    toggleAlert: IConsumer4<boolean, string, string, ILinkButton[]>
+    toggleAlert: Universis.Consumer4<boolean, string, string, ILinkButton[]>
     strings: {
         about: string
     }
@@ -41,7 +41,7 @@ class AboutControl extends StatelessComponent<IProps> {
 }
 
 export default AboutControl.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         strings: system.strings.controls,
         alert: system.strings.alert.about
     }),

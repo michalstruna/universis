@@ -9,7 +9,7 @@ class Html {
      * @param filter Filter for parents.
      * @returns Nearest parent, that matches filter.
      */
-    public static findParent(element: HTMLElement, filter: IFunction<HTMLElement, boolean>): HTMLElement | null {
+    public static findParent(element: HTMLElement, filter: Universis.Function<HTMLElement, boolean>): HTMLElement | null {
         while (element) {
             if (filter(element)) {
                 return element
@@ -27,7 +27,7 @@ class Html {
      * @param filter Filter for parents.
      * @returns Element has parent.
      */
-    public static hasParent(element: HTMLElement, filter: IFunction<HTMLElement, boolean>): boolean {
+    public static hasParent(element: HTMLElement, filter: Universis.Function<HTMLElement, boolean>): boolean {
         return !!Html.findParent(element, filter)
     }
 

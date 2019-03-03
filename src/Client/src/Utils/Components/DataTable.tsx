@@ -4,13 +4,30 @@ import StatelessComponent from './StatelessComponent'
 
 interface IProps {
     title?: string
-    data: IObject<any>
+    data: Universis.Map<any>
 }
 
 /**
  * Two-layout table for pair (property -> value).
  */
 class DataTable extends StatelessComponent<IProps> {
+
+    /**
+     * Return flex row.
+     * @returns {React.ReactNode}
+     * @constructor
+     */
+    public static FlexRow = ({ children }): React.ReactNode => {
+        return (
+            <section className='data-table__row--flex'>
+                {children.map((item, key) => (
+                    <section className='data-table__cell' key={key}>
+                        {item}
+                    </section>
+                ))}
+            </section>
+        )
+    }
 
     private renderTitle(): React.ReactNode {
         const { title } = this.props
@@ -27,6 +44,7 @@ class DataTable extends StatelessComponent<IProps> {
             </section>
         )
     }
+
 
     private renderData(): React.ReactNode {
         const { data } = this.props

@@ -9,9 +9,9 @@ import Body from './Body'
 import QueryMenu from '../../Utils/Components/QueryMenu'
 
 interface IProps {
-    strings: IStrings
+    strings: Universis.Strings
     tab: string
-    setTab: IConsumer<string>
+    setTab: Universis.Consumer<string>
 }
 
 /**
@@ -109,7 +109,7 @@ class Panel extends StatelessComponent<IProps> {
 }
 
 export default Panel.connect(
-    ({ system, panel }: IStoreState) => ({
+    ({ system, panel }: Universis.Redux.StoreState) => ({
         strings: system.strings.home,
         tab: panel.tab
     }),

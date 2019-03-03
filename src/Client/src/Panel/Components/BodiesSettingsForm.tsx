@@ -5,17 +5,17 @@ import { StatelessComponent, Url, Queries } from '../../Utils'
 import { Form, Select, FlexRow } from '../../Forms'
 
 interface IProps {
-    strings: IStrings
-    values: IFilter
-    setValues: IConsumer<IFilter>
-    bodies: IAsyncEntity<ISimpleBody[]>
+    strings: Universis.Strings
+    values: Universis.Filter
+    setValues: Universis.Consumer<Universis.Filter>
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
 }
 
 /**
  * Form for login user.
  * There is only password input.
  */
-class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<IFilter>> {
+class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<Universis.Filter>> {
 
     public static readonly NAME = 'bodiesSettings'
     public static readonly SELECTOR = formValueSelector(BodiesSettingsForm.NAME) // TODO: public static getValue(), private selector, LoginForm extends Form autobind this.selector = selector(this.NAME).
@@ -28,7 +28,7 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<I
     /**
      * // TODO: Remove?
      */
-    private handleSubmit = async (data: IFilter) => {
+    private handleSubmit = async (data: Universis.Filter) => {
 
     }
 
@@ -72,7 +72,7 @@ export default reduxForm({
     form: BodiesSettingsForm.NAME,
     initialValues: Url.getJsonQuery(Queries.BODIES_SETTINGS) || {}
 })(BodiesSettingsForm.connect(
-    ({ form, universe, system }: IStoreState) => ({
+    ({ form, universe, system }: Universis.Redux.StoreState) => ({
         values: getFormValues(BodiesSettingsForm.NAME)({ form }),
         bodies: universe.bodies,
         strings: system.strings.bodies

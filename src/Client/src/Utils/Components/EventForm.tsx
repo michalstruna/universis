@@ -5,7 +5,7 @@ import StatelessComponent from './StatelessComponent'
 import { Field, Form, Submit } from '../../Forms'
 
 interface IProps {
-    strings: IStrings
+    strings: Universis.Strings
 }
 
 interface IValues {
@@ -70,7 +70,7 @@ class EventForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
 export default reduxForm({
     form: EventForm.NAME
 })(EventForm.connect(
-    ({ system, user }: IStoreState) => ({
+    ({ system, user }: Universis.Redux.StoreState) => ({
         strings: system.strings.events
     })
 ))

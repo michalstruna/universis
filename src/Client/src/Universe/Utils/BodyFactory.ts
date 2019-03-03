@@ -7,9 +7,9 @@ import BodyContainer from './BodyContainer'
 /**
  * Class for generating bodies in universe.
  */
-class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
+class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container> {
 
-    public create(body: ISimpleBody): IBodyContainer {
+    public create(body: Universis.Universe.Body.Simple): Universis.Universe.Body.Container {
         const mesh = this.createMesh(body)
         const orbit = this.createOrbit(body)
         const label = this.createLabel(body)
@@ -20,7 +20,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
             mesh.add(this.createRing(ring))
         }
 
-        orbit.children[0].add(mesh)
+        (orbit.children[0].children[0] || orbit.children[0]).add(mesh)
 
         return new BodyContainer(
             body,
@@ -31,8 +31,8 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
         )
     }
 
-    private createChildrenContainer(): THREE.Object3D {
-        return new THREE.Object3D()
+    private createChildrenContainer(): THREE.Group {
+        return new THREE.Group()
     }
 
     /**
@@ -40,7 +40,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns Mesh geometry.
      */
-    private createGeometry(body: ISimpleBody): THREE.SphereGeometry {
+    private createGeometry(body: Universis.Universe.Body.Simple): THREE.SphereGeometry {
         const geometry = new THREE.SphereGeometry(
             body.diameter.x / 2,
             Config.BODY_SEGMENTS,
@@ -66,13 +66,13 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns Mesh material.
      */
-    private createMaterial(body: ISimpleBody): THREE.MeshBasicMaterial {
+    private createMaterial(body: Universis.Universe.Body.Simple): THREE.MeshBasicMaterial {
         const texture = TextureStore.get(body.texture)
         let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial
 
         if (typeof body.type.emissiveColor === 'number') {
             material = new THREE.MeshBasicMaterial({
-                map: texture,
+                map: texture
                 //side: THREE.DoubleSide // TODO: Universe background?
             })
         } else {
@@ -92,10 +92,10 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * Render orbit of body.
      * There must be outer body and inner body because of transformations.
      * (Pivot point is always in center, but orbit is not always in center.)
-     * @return THREE object.
+     * @return THREE group.
      */
-    private createOrbit(body: ISimpleBody): THREE.Object3D {
-        const outerOrbitMesh = new THREE.Object3D() as any
+    private createOrbit(body: Universis.Universe.Body.Simple): THREE.Group {
+        const outerOrbitMesh = new THREE.Group()
 
         if (body.orbit) {
             const a = this.calculateA(body)
@@ -105,10 +105,14 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
             const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
             material.transparent = true
 
+            const midOrbitMesh = new THREE.Group()
+            outerOrbitMesh.add(midOrbitMesh)
+            midOrbitMesh.rotateOnAxis(new THREE.Vector3(0, 0, 1), THREE.Math.degToRad(body.orbit.rotation || 0))
+
             const orbitMesh = new THREE.Line(geometry, material)
             orbitMesh.position.x = (body.orbit.apocenter - body.orbit.pericenter) / 2
-            outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), THREE.Math.degToRad(body.orbit.rotation || 0))
-            outerOrbitMesh.add(orbitMesh)
+            outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), 0)
+            midOrbitMesh.add(orbitMesh)
 
             outerOrbitMesh.userData.path = path
             outerOrbitMesh.userData.angle = 0 // TODO: Add initial angle.
@@ -124,7 +128,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * Calculate semi-major axes.
      * @return Semi-major axes.
      */
-    private calculateA(body: ISimpleBody): number {
+    private calculateA(body: Universis.Universe.Body.Simple): number {
         return (body.orbit.apocenter + body.orbit.pericenter) / 2
     }
 
@@ -133,7 +137,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param a Semi-majox axes.
      * @return Semi-minor axes.
      */
-    private calculateB(body: ISimpleBody, a: number): number {
+    private calculateB(body: Universis.Universe.Body.Simple, a: number): number {
         return Math.sqrt(-Math.pow(a, 2) * body.orbit.eccentricity + Math.pow(a, 2))
     }
 
@@ -142,7 +146,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns THREE mesh.
      */
-    private createMesh(body: ISimpleBody): THREE.Mesh {
+    private createMesh(body: Universis.Universe.Body.Simple): THREE.Mesh {
         const geometry = this.createGeometry(body)
         const material = this.createMaterial(body)
 
@@ -164,10 +168,9 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param body Source body.
      * @returns HTML div.
      */
-    private createLabel(body: ISimpleBody): HTMLElement {
+    private createLabel(body: Universis.Universe.Body.Simple): HTMLElement {
         const label = document.createElement('div')
-        label.className = 'text-label' // TODO: Rename.
-        label.innerHTML = body.name
+        label.className = 'universe__label'
         return label
     }
 
@@ -176,7 +179,7 @@ class BodyFactory implements IFactory<ISimpleBody, IBodyContainer> {
      * @param ring Ring data.
      * @return THREE mesh.
      */
-    private createRing(ring: IBodyRing): THREE.Mesh {
+    private createRing(ring: Universis.Universe.Ring): THREE.Mesh {
         const geometry = new THREE.RingBufferGeometry(
             ring.diameter.min / 2,
             ring.diameter.max / 2,

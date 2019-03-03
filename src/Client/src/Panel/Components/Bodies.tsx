@@ -6,11 +6,11 @@ import { getBodies } from '../../Universe'
 import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries, Dates, Units } from '../../Utils'
 
 interface IProps {
-    bodies: IAsyncEntity<ISimpleBody[]>
-    selectBody: IConsumer<string>
-    filter: IFilter
-    getBodies: IRunnable
-    strings: IStrings
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    selectBody: Universis.Consumer<string>
+    filter: Universis.Filter
+    getBodies: Universis.Runnable
+    strings: Universis.Strings
 }
 
 /**
@@ -23,7 +23,7 @@ class Bodies extends StatelessComponent<IProps> {
         AsyncEntity.request(bodies, getBodies)
     }
 
-    private getColumns(): IColumn<ISimpleBody>[] {
+    private getColumns(): IColumn<Universis.Universe.Body.Simple>[] {
         const { strings } = this.props
 
         return [
@@ -132,7 +132,7 @@ class Bodies extends StatelessComponent<IProps> {
      * @param render Render absolute value. (optional)
      * @returns Table column definition.
      */
-    private getTableColumn(accessor: IColumnAccesor<ISimpleBody>, title: string, render: IRenderColumn<ISimpleBody> = value => Units.toShort(value)): IColumn<ISimpleBody> {
+    private getTableColumn(accessor: IColumnAccesor<Universis.Universe.Body.Simple>, title: string, render: IRenderColumn<Universis.Universe.Body.Simple> = value => Units.toShort(value)): IColumn<Universis.Universe.Body.Simple> {
         const { bodies, location } = this.props
         const bodySettings = Url.getJsonQuery(Queries.BODIES_SETTINGS, location.search)
         const relativeTo = bodySettings ? bodies.payload.find(body => body._id === bodySettings.valuesType) : null
@@ -177,7 +177,7 @@ class Bodies extends StatelessComponent<IProps> {
      * Handler for table row click.
      * @param body Clicked body.
      */
-    private handleBodyClick = (body: ISimpleBody) => {
+    private handleBodyClick = (body: Universis.Universe.Body.Simple) => {
         Url.push({ query: { [Queries.PANEL]: Queries.BODY, [Queries.BODY]: body.name } })
     }
 
@@ -220,7 +220,7 @@ class Bodies extends StatelessComponent<IProps> {
 }
 
 export default Bodies.connect(
-    ({ universe, system }: IStoreState) => ({
+    ({ universe, system }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
         strings: system.strings.bodies
     }),

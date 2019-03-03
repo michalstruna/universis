@@ -20,6 +20,10 @@ const BodyTypeSchema = new Schema({
         default: false
     },
 
+    virtual: {
+        type: Boolean
+    },
+
     __v: {
         type: Number,
         select: false

@@ -6,12 +6,12 @@ import { toggleNewDiscussion } from '../../Universe'
 import DiscussionForm from './DiscussionForm'
 
 interface IProps {
-    identity: IAsyncEntity<Universis.User.Identity>
-    discussions: IAsyncEntity<Universis.Discussion[]>
+    identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
+    discussions: Universis.Redux.AsyncEntity<Universis.Discussion[]>
     isNewDiscussionExpanded: boolean
     toggleNewDiscussion: Universis.Consumer<boolean>
-    body: IAsyncEntity<IBody>
-    strings: IStrings
+    body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
+    strings: Universis.Strings
 }
 
 class BodyDiscussion extends StatelessComponent<IProps> {
@@ -107,7 +107,7 @@ class BodyDiscussion extends StatelessComponent<IProps> {
 }
 
 export default BodyDiscussion.connect(
-    ({ universe, system }: IStoreState) => ({
+    ({ universe, system }: Universis.Redux.StoreState) => ({
         body: universe.body,
         isNewDiscussionExpanded: universe.isNewDiscussionExpanded,
         strings: system.strings.discussion

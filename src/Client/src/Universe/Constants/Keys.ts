@@ -4,14 +4,18 @@
 enum Keys {
 
     ORBITS = 'O',
-    LABELS = 'L',
+    LABELS = 'N',
     PANEL = 'P',
     LIGHT = 'J',
     SLOWER = 'S',
     FASTER = 'W',
     SPEED = 'Q',
-    NOW = 'N',
-    MOVE = 'M'
+    NOW = 'A',
+    MOVE = 'M',
+    VELOCITY = 'R',
+    EARTH = 'Z',
+    CAMERA = 'K',
+    CENTER = 'T'
 
 }
 

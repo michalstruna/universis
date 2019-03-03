@@ -16,7 +16,7 @@ export const setTab = (tab: string) => (
  * Set body filter.
  * @param bodyFilter Filter.
  */
-export const setBodyFilter = (bodyFilter: IObject<any>) => (
+export const setBodyFilter = (bodyFilter: Universis.Map<any>) => (
     Redux.setAction(
         ActionTypes.SET_BODY_FILTER,
         { bodyFilter }

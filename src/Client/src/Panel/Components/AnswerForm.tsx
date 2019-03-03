@@ -6,8 +6,8 @@ import { Field, Form, Submit } from '../../Forms'
 import { addAnswer } from '../../Universe'
 
 interface IProps {
-    strings: IStrings
-    identity: IAsyncEntity<Universis.User.Identity>
+    strings: Universis.Strings
+    identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
     form: string,
     addAnswer: Universis.Consumer<Universis.Answer.New>
 }
@@ -56,7 +56,7 @@ class AnswerForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
 }
 
 export default reduxForm({})(AnswerForm.connect(
-    ({ system, user }: IStoreState) => ({
+    ({ system, user }: Universis.Redux.StoreState) => ({
         strings: system.strings.discussion,
         identity: user.identity
     }),

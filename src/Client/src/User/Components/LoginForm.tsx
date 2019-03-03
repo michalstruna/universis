@@ -7,9 +7,9 @@ import { StatelessComponent, Link } from '../../Utils'
 import { Form, Submit, Title, Back, Field } from '../../Forms'
 
 interface IProps {
-    strings: IStrings
-    login: IFunction2<string, string, Promise<IAsyncEntity<IUserIdentity>>>
-    unauthUser: IAsyncEntity<IBaseUser>
+    strings: Universis.Strings
+    login: Universis.Function2<string, string, Promise<Universis.Redux.AsyncEntity<Universis.User.Identity>>>
+    unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
 }
 
 interface IValues {
@@ -72,7 +72,7 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
 export default reduxForm({
     form: LoginForm.NAME
 })(LoginForm.connect(
-    ({ system, user }: IStoreState) => ({
+    ({ system, user }: Universis.Redux.StoreState) => ({
         strings: system.strings.login,
         unauthUser: user.unauthUser
     }),

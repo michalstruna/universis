@@ -57,7 +57,7 @@ class Url {
      * @param target Object with optional pathname and query parameters.
      * @returns New location.
      */
-    public static link(location: ILocation, target: ILocationTarget): string {
+    public static link(location: Universis.Redux.Location, target: Universis.Redux.LocationTarget): string {
         const pathname = target.pathname || location.pathname
         let query = location.search || ''
 
@@ -74,7 +74,7 @@ class Url {
      * Push new location to history.
      * @param target New location.
      */
-    public static push(target: ILocationTarget): void {
+    public static push(target: Universis.Redux.LocationTarget): void {
         history.push(Url.link(history.location, target))
     }
 
@@ -83,7 +83,7 @@ class Url {
      * Replace last location to new location in history.
      * @param target New location.
      */
-    public static replace(target: ILocationTarget): void {
+    public static replace(target: Universis.Redux.LocationTarget): void {
         history.replace(Url.link(history.location, target))
     }
 

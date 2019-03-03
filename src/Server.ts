@@ -9,7 +9,7 @@ import * as Path from "path";
 import { Config } from './Constants'
 import SwaggerDocument from "./Swagger"
 
-class Server implements IServer {
+class Server implements Universis.Server {
 
     /**
      * @var express Instance of Express framework.
@@ -41,7 +41,7 @@ class Server implements IServer {
         this.express.use(Express.static(path))
     }
 
-    public setRoutes(document: IObject<any>, controllersPath: string, docPath: string): void {
+    public setRoutes(document: Universis.Map<any>, controllersPath: string, docPath: string): void {
         this.express.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerDocument))
 
         OpenApi.initialize({

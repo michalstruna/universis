@@ -76,7 +76,7 @@ class App extends StatelessComponent<IProps> {
 }
 
 export default App.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         isPanelVisible: system.isPanelVisible
     })
 )

@@ -53,7 +53,7 @@ class BlurLayout extends StatelessComponent<IProps> {
 }
 
 export default BlurLayout.connect(
-    ({ system }: IStoreState) => ({
+    ({ system }: Universis.Redux.StoreState) => ({
         isAlertVisible: system.alert.isVisible
     })
 )

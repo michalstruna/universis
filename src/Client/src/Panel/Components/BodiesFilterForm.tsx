@@ -6,16 +6,16 @@ import { Field, Form, Select, FlexRow } from '../../Forms'
 import Arrays from '../../../../Utils/Arrays'
 
 interface IProps {
-    strings: IStrings
-    values: IFilter
-    setValues: IConsumer<IFilter>
+    strings: Universis.Strings
+    values: Universis.Filter
+    setValues: Universis.Consumer<Universis.Filter>
 }
 
 /**
  * Form for login user.
  * There is only password input.
  */
-class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFilter>> {
+class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<Universis.Filter>> {
 
     public static readonly NAME = 'bodyFilter'
     public static readonly SELECTOR = formValueSelector(BodiesFilterForm.NAME) // TODO: public static getValue(), private selector, LoginForm extends Form autobind this.selector = selector(this.NAME).
@@ -62,7 +62,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
     /**
      * // TODO: Remove?
      */
-    private handleSubmit = async (data: IFilter) => {
+    private handleSubmit = async (data: Universis.Filter) => {
 
     }
 
@@ -73,7 +73,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
         setValues(newFilter)
     }
 
-    private updateValues(filter: IFilter = this.props.values): void {
+    private updateValues(filter: Universis.Filter = this.props.values): void {
         const { setValues } = this.props
 
         setValues(
@@ -87,7 +87,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<IFi
         )
     }
 
-    private getLastFilledIndex(values: IFilter = this.props.values): number {
+    private getLastFilledIndex(values: Universis.Filter = this.props.values): number {
         return values && values.value ? Math.max(1, Arrays.findLastIndex(values.value, value => !!value) + 2) : 1
     }
 
@@ -136,7 +136,7 @@ export default reduxForm({
     form: BodiesFilterForm.NAME,
     initialValues: Url.getJsonQuery(Queries.BODIES_FILTER) || Filter.getInitialFilter()
 })(BodiesFilterForm.connect(
-    (state: IStoreState) => ({
+    (state: Universis.Redux.StoreState) => ({
         values: getFormValues(BodiesFilterForm.NAME)(state)
     }),
     dispatch => ({

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Link, StatelessComponent } from '../../Utils'
 
 interface IProps {
-    links: IObject<string>
+    links: Universis.Map<string>
     className?: string
 }
 

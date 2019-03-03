@@ -3,6 +3,11 @@
 
     &__row {
         display: flex;
+
+        &--flex {
+            display: flex;
+            justify-content: center;
+        }
     }
 
     &__cell {
