@@ -25,6 +25,7 @@ let tempObject1Position = new THREE.Vector3()
 let tempObject2Position = new THREE.Vector3()
 let tempCameraPosition = new THREE.Vector3()
 let tempViewProjection = new THREE.Matrix4()
+var cameraViewProjectionMatrix = new THREE.Matrix4()
 
 /**
  * Utils for THREE.js scene.
@@ -109,6 +110,11 @@ class Scene implements Scene {
     }
 
     public isInFov(object: THREE.Mesh): boolean {
+        this.camera.updateMatrixWorld(false)
+        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
+        cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
+        this.frustum.setFromMatrix(cameraViewProjectionMatrix)
+
         return this.frustum.intersectsObject(object)
     }
 
@@ -285,10 +291,6 @@ class Scene implements Scene {
     }
 
     private updateCamera(): void {
-        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
-        tempViewProjection.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
-        this.frustum.setFromMatrix(tempViewProjection)
-
         if (this.controls) {
             this.controls.update()
         }

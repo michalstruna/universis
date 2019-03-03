@@ -97,7 +97,9 @@ class Universe implements Universis.Universe {
             onRender: () => this.updateBodies(),
             onRenderInterval: Config.RENDER_INTERVAL,
             onZoom: zoom => options.onChangeViewSize(zoom / Config.SIZE_RATIO),
-            target: '5be60eee4143ef4fd8db9a77'
+            // target: '5be60eee4143ef4fd8db9979' // Mars
+            target: '5be60eee4143ef4fd8db9a77' // Země
+            // target: '5be60eee4143ef4fd8db9a81' // Mars
         })
 
         this.toggleName(options.isNameVisible)
@@ -127,7 +129,7 @@ class Universe implements Universis.Universe {
 
     public toggleOrbits(areOrbitsVisible: boolean): void {
         for (const body of this.bodies) {
-            (body.orbit.children[0] as any).material.visible = areOrbitsVisible
+            (body.orbit.children[0].children[0] as any).material.visible = areOrbitsVisible
         }
     }
 
@@ -171,9 +173,8 @@ class Universe implements Universis.Universe {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = this.scene.projectCamera(tempVector)
             const isVisible = this.scene.isInFov(body.mesh)
-            const orbit = body.orbit.children[0] as any
+            const orbit = body.orbit.children[0].children[0] as any
             const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
-
             const target = this.scene.getCameraTarget()
             const isSelectedBody = body.data._id === target.name
             const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || target.userData.parent && target.userData.parent.data._id === body.data._id))
@@ -197,13 +198,13 @@ class Universe implements Universis.Universe {
                 }
 
                 if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
-                    const limit = number => Math.floor(Math.min(number, 1e13 / this.scale))
+                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
                     body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
                     this.updateLabel(body, fromCenter)
                 }
 
-                body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
-                body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
+                  body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
+                  body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
             }
         }
 

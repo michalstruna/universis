@@ -148,7 +148,7 @@ export default {
 
         energy: 'Energie',
         innerTemperature: 'Vnitř. teplota',
-        outerTemperature: 'Vnějš. templota',
+        outerTemperature: 'Vnějš. teplota',
         luminosity: 'Zářivý výkon',
 
         axis: 'Osa',

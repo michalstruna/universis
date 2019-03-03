@@ -110,7 +110,7 @@ class BodyData extends StatelessComponent<IProps> {
                         data={{
                             [strings.innerTemperature]: Units.toFull(body.temperature.inner, Units.TEMPERATURE.K),
                             [strings.outerTemperature]: Units.toFull(body.temperature.outer, Units.TEMPERATURE.K),
-                            [strings.luminosity]: body.luminosity ? Units.toShort(body.luminosity, Units.LUMINOSITY.W) : null
+                            [strings.luminosity]: body.luminosity ? Units.toShort(body.luminosity, Units.LUMINOSITY.W, Units.LUMINOSITY) : null
                         }} />
                     <DataTable
                         title={strings.discover}

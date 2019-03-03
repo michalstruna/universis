@@ -20,7 +20,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             mesh.add(this.createRing(ring))
         }
 
-        orbit.children[0].add(mesh)
+        (orbit.children[0].children[0] || orbit.children[0]).add(mesh)
 
         return new BodyContainer(
             body,
@@ -31,8 +31,8 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         )
     }
 
-    private createChildrenContainer(): THREE.Object3D {
-        return new THREE.Object3D()
+    private createChildrenContainer(): THREE.Group {
+        return new THREE.Group()
     }
 
     /**
@@ -72,7 +72,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
 
         if (typeof body.type.emissiveColor === 'number') {
             material = new THREE.MeshBasicMaterial({
-                map: texture,
+                map: texture
                 //side: THREE.DoubleSide // TODO: Universe background?
             })
         } else {
@@ -92,10 +92,10 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * Render orbit of body.
      * There must be outer body and inner body because of transformations.
      * (Pivot point is always in center, but orbit is not always in center.)
-     * @return THREE object.
+     * @return THREE group.
      */
-    private createOrbit(body: Universis.Universe.Body.Simple): THREE.Object3D {
-        const outerOrbitMesh = new THREE.Object3D() as any
+    private createOrbit(body: Universis.Universe.Body.Simple): THREE.Group {
+        const outerOrbitMesh = new THREE.Group()
 
         if (body.orbit) {
             const a = this.calculateA(body)
@@ -105,10 +105,14 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
             material.transparent = true
 
+            const midOrbitMesh = new THREE.Group()
+            outerOrbitMesh.add(midOrbitMesh)
+            midOrbitMesh.rotateOnAxis(new THREE.Vector3(0, 0, 1), THREE.Math.degToRad(body.orbit.rotation || 0))
+
             const orbitMesh = new THREE.Line(geometry, material)
             orbitMesh.position.x = (body.orbit.apocenter - body.orbit.pericenter) / 2
-            outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), THREE.Math.degToRad(body.orbit.rotation || 0))
-            outerOrbitMesh.add(orbitMesh)
+            outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), 0)
+            midOrbitMesh.add(orbitMesh)
 
             outerOrbitMesh.userData.path = path
             outerOrbitMesh.userData.angle = 0 // TODO: Add initial angle.

@@ -67,7 +67,15 @@ class Units {
      * List of luminosity units.
      */
     public static LUMINOSITY = {
-        W: { value: 1, shortName: 'W' }
+        W: { value: 1, shortName: 'W' },
+        KW: { value: 1e3, shortName: 'kW' },
+        MW: { value: 1e6, shortName: 'MW' },
+        GW: { value: 1e9, shortName: 'GW' },
+        TW: { value: 1e12, shortName: 'TW' },
+        PW: { value: 1e15, shortName: 'PW' },
+        EW: { value: 1e18, shortName: 'EW' },
+        ZW: { value: 1e21, shortName: 'ZW' },
+        YW: { value: 1e24, shortName: 'YW' }
     }
 
     /**
