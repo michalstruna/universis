@@ -383,9 +383,9 @@ declare namespace Universis {
                     halfTexture?: boolean
 
                     /**
-                     * Body with this type is only not rendered pivot.
+                     * Body with virtual flag is not rendered.
                      */
-                    virtual?: boolean
+                    virtualFlag?: number
 
                 }
 

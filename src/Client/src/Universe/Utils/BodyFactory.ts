@@ -4,6 +4,84 @@ import Config from '../Constants/Config'
 import TextureStore from './TextureStore'
 import BodyContainer from './BodyContainer'
 
+function exponential(mean) {
+    var r = Math.random();
+    return - mean * Math.log(r);
+}
+
+function normal(mean, std) {
+    var x = 0
+    for (var i = 1; i <= 12; i++) {
+        x += Math.random()
+    }
+    return (x - 6)*std + mean
+}
+
+
+
+const generateRing = (min, max) => {
+    const geometry = new THREE.Geometry()
+
+    for (let i = 0; i < 3000; i++) {
+        const distance = normal(149597870 * ((max + min) / 2), 149597870 * ((max - min) / 4))
+        const vertex = new THREE.Vector3()
+        const phi = THREE.Math.randFloatSpread(360)
+
+        vertex.x = distance * Math.cos(phi)
+        vertex.y = distance * Math.sin(phi)
+        vertex.z = normal(0, 100000000)
+
+        geometry.vertices.push(vertex)
+    }
+
+    return new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: 1e4 }))
+}
+
+const generateSphere = (min, max) => {
+    const geometry = new THREE.Geometry()
+
+    for (let i = 0; i < 3000; i++) {
+        let distance = exponential((max * 149597870 - min * 149597870) + min * 149597870)
+
+        const vertex = new THREE.Vector3()
+        const phi = THREE.Math.randFloatSpread(360)
+        const theta = THREE.Math.randFloatSpread(360)
+
+        vertex.x = distance * Math.cos(phi) * Math.cos(theta)
+        vertex.y = distance * Math.sin(phi) * Math.cos(theta)
+        vertex.z = distance * Math.sin(theta)
+
+        geometry.vertices.push(vertex)
+    }
+
+    return new THREE.Points(geometry, new THREE.PointsMaterial({
+        color: 0xaaaaaa,
+        size: 1e4,
+       // map: createCanvasMaterial(0xaaaaaa, 256),
+        //transparent: true,
+        //depthWrite: false
+    }))
+}
+
+function createCanvasMaterial(color, size) {
+    var matCanvas = document.createElement('canvas')
+    matCanvas.width = matCanvas.height = size
+    var matContext = matCanvas.getContext('2d')
+    // create exture object from canvas.
+    var texture = new THREE.Texture(matCanvas)
+    // Draw a circle
+    var center = size / 2
+    matContext.beginPath()
+    matContext.arc(center, center, size / 2, 0, 2 * Math.PI, false)
+    matContext.closePath()
+    matContext.fillStyle = color
+    matContext.fill()
+    // need to set needsUpdate
+    texture.needsUpdate = true
+    // return a texture made from the canvas
+    return texture
+}
+
 /**
  * Class for generating bodies in universe.
  */
@@ -15,6 +93,14 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         const label = this.createLabel(body)
         const childrenContainer = this.createChildrenContainer()
         mesh.add(childrenContainer)
+
+
+        /*if (body.name === 'Slunce') {
+            childrenContainer.add(generateRing(2, 4))
+            childrenContainer.add(generateRing(38, 48))
+            childrenContainer.add(generateSphere(2000, 150000))
+        }*/
+
 
         for (const ring of body.rings) {
             mesh.add(this.createRing(ring))
@@ -146,7 +232,11 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * @param body Source body.
      * @returns THREE mesh.
      */
-    private createMesh(body: Universis.Universe.Body.Simple): THREE.Mesh {
+    private createMesh(body: Universis.Universe.Body.Simple): THREE.Mesh | THREE.Group | THREE.Points {
+        if(body.type.virtualFlag === 2) {
+            return this.createBelt(body)
+        }
+
         const geometry = this.createGeometry(body)
         const material = this.createMaterial(body)
 
@@ -161,6 +251,24 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         mesh.rotation.set(0, THREE.Math.degToRad(body.axis.tilt) || 0, 0)
 
         return mesh
+    }
+
+    private createBelt(body: Universis.Universe.Body.Simple): THREE.Mesh | THREE.Group | THREE.Points {
+        const geometry = new THREE.Geometry()
+
+        for (let i = 0; i < 3000; i++) {
+            const distance = normal((body.diameter.x - body.virtualData.thickness) / 2, body.virtualData.thickness / 4)
+            const vertex = new THREE.Vector3()
+            const phi = THREE.Math.randFloatSpread(360)
+
+            vertex.x = distance * Math.cos(phi)
+            vertex.y = distance * Math.sin(phi)
+            vertex.z = normal(0, body.diameter.y / 2)
+
+            geometry.vertices.push(vertex)
+        }
+
+        return new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: 1e4 }))
     }
 
     /**

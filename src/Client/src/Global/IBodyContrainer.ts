@@ -17,7 +17,7 @@ declare namespace Universis {
                 /**
                  * Getter for THREE mesh.
                  */
-                readonly mesh: THREE.Mesh
+                readonly mesh: THREE.Object3D
 
                 /**
                  * Getter for THREE mesh orbit.

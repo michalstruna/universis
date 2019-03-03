@@ -20,8 +20,8 @@ const BodyTypeSchema = new Schema({
         default: false
     },
 
-    virtual: {
-        type: Boolean
+    virtualFLag: {
+        type: Number
     },
 
     __v: {

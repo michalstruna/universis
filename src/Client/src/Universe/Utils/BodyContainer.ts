@@ -11,7 +11,7 @@ class BodyContainer implements Universis.Universe.Body.Container {
     /**
      * THREE mesh.
      */
-    private _mesh: THREE.Mesh
+    private _mesh: THREE.Object3D
 
     /**
      * Outer orbit.
@@ -28,7 +28,7 @@ class BodyContainer implements Universis.Universe.Body.Container {
      */
     private _childrenContainer: THREE.Group
 
-    public constructor(data: Universis.Universe.Body.Simple, mesh: THREE.Mesh, orbit: THREE.Group, label: HTMLElement, childrenContainer: THREE.Group) {
+    public constructor(data: Universis.Universe.Body.Simple, mesh: THREE.Object3D, orbit: THREE.Group, label: HTMLElement, childrenContainer: THREE.Group) {
         this._data = data
         this._mesh = mesh
         this._orbit = orbit
@@ -40,7 +40,7 @@ class BodyContainer implements Universis.Universe.Body.Container {
         return this._data
     }
 
-    get mesh(): THREE.Mesh {
+    get mesh(): THREE.Object3D {
         return this._mesh
     }
 
