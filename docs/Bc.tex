@@ -29,7 +29,7 @@
 \usepackage{float}
 
 \lstdefinelanguage{JavaScript}{
-  keywords={this, const, let, class, extends, export, default, public, static, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywords={this, const, let, class, extends, export, default, public, static, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, import},
   keywordstyle=\color{blue}\bfseries,
   identifierstyle=\color{black},
   sensitive=false,
@@ -270,7 +270,7 @@ Framework \textit{Node.js} umožňuje používání jazyka \textit{JavaScript} n
 \subsection{Knihovna Mongoose}
 Open-source knihovna \textit{Mongoose} zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat.~\cite{mongomongoose}
 
-\subsection{Framework Swagger}
+\subsection{Nástroj Swagger UI}
 \textit{Swagger} je nástroj pro vyzualizaci \textit{REST API} z~\textit{Open API} specifikace.
 
 \subsection{Nástroj Webpack}
@@ -296,16 +296,17 @@ Pro spravované soubory používá tři stavy. Při změně souboru se nastaví 
 
 \subsection{Preprocesor SASS}
 
-Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování selektorů, proměnné, funkce, podmínky a~další vlastnosti zlepšující čitelnost kódu. Pro kompatibilitu s~prohlížeči je nutné ho transpilovat do \textit{CSS}.
+Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování selektorů, proměnné, funkce, podmínky a~další vlastnosti zlepšující čitelnost kódu. Pro kompatibilitu s~prohlížeči je nutné ho transpilovat do \textit{CSS}.~\cite{sass}
 
 \section{Návrh a~vývoj aplikace}
 
 \subsection{Struktura projektu}
 
-React nepřichází s~žádnou doporučenou strukturou projektu. Proto došlo k~vytvoření vlastní struktury. Vzhledem k~velkému množství souborů je celý obsah projektu členěn do podadresářů a~modulů.
+React nepřichází s~žádnou doporučenou strukturou projektu.~\cite{filestructure} Proto došlo k~vytvoření vlastní struktury. Vzhledem k~velkému množství souborů je celý obsah projektu členěn do adresářů a~modulů.
 
 \begin{itemize}
 \item \textbf{dist}: Produkční sestavení aplikace. Veškerý obsah adresáře se generuje automaticky.
+\item \textbf{docs}:  Teoretická část bakalářské práce včetně zdrojových souborů pro LaTeX.
 \item \textbf{node\_modules}: Externí knihovny pro serverovou část.
 \item \textbf{src}: Zdrojové soubory aplikace.
 
@@ -351,8 +352,6 @@ React nepřichází s~žádnou doporučenou strukturou projektu. Proto došlo k~
 \item \textbf{Utils}:  Pomocné třídy.
 \end{itemize} 
 
-\item \textbf{docs}:  Teoretická část bakalářské práce včetně zdrojových souborů pro LaTeX.
-
 \end{itemize} 
 
 Moduly obsažené zejména v~klientské části projektu jsou adresářové celky, které mohou obsahovat další strukturu:
@@ -373,9 +372,9 @@ Každý modul obsahuje mapování a~export všech souborů, které mají být ve
 
 \subsection{Uživatelské rozhraní}
 
-Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v~tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Kdykoliv se změní stav aplikace, dojde k~automatickému překreslení těch částí \textit{UI}, které změněná data obsahují.
+Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v~tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Kdykoliv se změní stav aplikace, dojde k~automatickému překreslení těch částí \textit{UI}, které změněná data obsahují.~\cite{sass}
 
-Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.
+Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.~\cite{sass}
 
 \begin{figure}[H]
 \begin{center}
@@ -387,7 +386,7 @@ Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumen
 
 \footnotetext[1]{Vytvořeno v \url{https://www.draw.io}.}
 
-Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav. Je složen obvykle z~přepínače s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.
+Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav. Je složen obvykle z~přepínače s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.~\cite{sass}
 
 \lstinputlisting[caption={Ukázka architektury Redux}, language={JavaScript}]{SourceCodes/Redux.js}
 
@@ -415,7 +414,7 @@ V~kódu pak použití asynchronní akce vypadá následovně. Automaticky je zaj
 
 \subsubsection{Reducer}
 
-Reducer je běžně funkce, která obsahuje \textit{switch} s~výčtem všech akcí a~jejich modifikací stavu aplikace. Díky vlastní knihovně to ale není nutné. Stačí uvést pole všech akcí a~případně i~počáteční stav \textit{store}.
+Reducer je běžně funkce, která obsahuje \textit{switch} s~výčtem všech akcí a~jejich modifikací stavu aplikace.~\cite{sass} Díky vlastní knihovně to ale není nutné. Stačí uvést pole všech akcí a~případně i~počáteční stav \textit{store}.
 
 \lstinputlisting[caption={Redux reducer za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxReducer.js}
 
@@ -446,14 +445,14 @@ Samotné těleso je reprezentováno koulí, tedy objektem s~geometrií \textit{T
 
 \subsubsection{Orbita}
 
-Orbita je objekt s geometrií \textit{THREE.BufferGeometry}, jejíž tvar je vypočten na základě nejbližší vzdálenosti tělesa od těžiště (pericentrum), nejvzdálenější vzdálenosti tělesa od těžiště (apocentrum) a~výstřednosti dráhy (excentricita). Pro materiál je použit\newline \textit{THREE.LineMaterial} s jedinou barvou namísto textury.
+Orbita je objekt s geometrií \textit{THREE.BufferGeometry}, jejíž tvar je vypočten na základě nejmenší (pericentrum) a~největší (apocentrum) vzdálenosti tělesa od těžiště  a~výstřednosti dráhy (excentricita). Pro materiál je použit \textit{THREE.LineMaterial} s~jedinou barvou namísto textury.
 
 \lstinputlisting[caption={Výpočet geometrie orbity tělesa}, language={JavaScript}]{SourceCodes/Orbit.js}
 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=300pt]{Images/OrbitData.png}
+\includegraphics[width=350pt]{Images/OrbitData.png}
 \caption[Jednoznačná definice orbity tělesa]{Jednoznačná definice orbity tělesa \footnotemark[1]}
 \end{center}
 \end{figure}
@@ -480,11 +479,28 @@ Prstenec je objekt s~geometrií \textit{THREE.BufferRingGeometry}, materiálem\n
 
 Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicován na stejné souřadnice, jako je vykreslované těleso. Kromě názvu tělesa obsahuje i~vzdálenost od Země a~vzdálenost od kamery.
 
+\subsubsection{Částice}
+Protože aplikace obsahuje řádově pouze desítky až stovky těles, je nemožné zobrazit rozsáhlejší struktury, které jsou jinak typické pro danou oblast ve vesmíru. Příkladem může být \textit{Kuiperův pás} nebo \textit{Oortův oblak} v~naší sluneční soustavě. Tato uskupení obsahují řádově až biliony planetek, komet nebo~dalších těles. // TODO: Zdroj.
+
+Pro tyto účely se v aplikaci využívá náhodné generování částic pomocí \textit{THREE.Points}. V~závislosti na typu tělesa (pás, oblak, hvězdokupa, ...) je využito pro rozmístění částic buď rovnoměrné, normální nebo exponenciální rozdělení.  Protože zde ale figuruje náhoda, nemusí takto vygenerovaná tělesa odpovídat realitě a~jedná se spíše pouze o~vizuální doplnění prázdného prostoru. Uživatel může zobrazení částic kdykoliv vypnout. // TODO: Fotka
+
+\subsubsection{Omezení}
+
+Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem může být vysoká výpočetní náročnost pro prohlížeč nebo složitost implementace. V~důsledku toho může v~simulátoru docházet k~nepřesnostem a~omezeným možnostem vykreslování těles.
+
+\begin{itemize}
+\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tedy není ovlivněno tělesy obíhajícími. Oběh je počítán na základě 1. a~2. Keplerova zákona a~není třeba řešit např. problém tří těles.
+\item Tělesa s neperiodickou nebo neeliptickou oběžnou dráhou mají pevně nastavenou pozici a~nepohybují se.
+\item Pericentrum se vždy nachází přímo na opačné straně elipsy, než apocentrum. Pokud je oběžná dráha příliš excentrická, může se pozice skutečně nejbližšího bodu k~těžišti dráhy a~pericentra v~aplikaci mírně lišit.
+
+\item Jsou zanedbány dlouhodobé události, např. postupné vzdalování Měsíce od Země o~38~cm za rok nebo cyklus změny sklonu zemské osy s~periodou 2100 let. // TODO: Zdroje.
+\end{itemize}
+
 \subsection{Serverová část}
 
 \subsubsection{Zachycení HTTP požadavku}
 
-Server vystavuje \textit{REST~API}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
+Server vystavuje \textit{REST~API}~\cite{rest}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
 
 \lstinputlisting[caption={Definice cesty v REST~API}, language={JavaScript}]{SourceCodes/Route.js}
 
@@ -523,39 +539,53 @@ V~aplikaci byla vyvinuta vlastní knihovna, která všechny ze zmíněných proc
 
 \end{itemize}
 
-Samotná definice přístupových bodů pak může vypadat následovně. U každé přístupové metody je možné určit, jaká oprávnění musí mít uživatel, aby tuto metodu nad daným zdrojem mohl vykonat.
+Samotná definice přístupových bodů pak může vypadat následovně. U~každé přístupové metody je možné určit, jaká oprávnění musí mít uživatel, aby tuto metodu nad daným zdrojem mohl vykonat.
 
 \lstinputlisting[caption={Zpracování HTTP požadavku}, language={JavaScript}]{SourceCodes/RouteUtils.js}
 
-Modelové třídy většiny entit není nutné psát individuálně. Všechny mají za úkol poskytnout \textit{CRUD operace} nad danou entitou (např. \textit{BodyModel} nad tělesy). Jediné, co se liší, je název databázové kolekce, vybrané sloupce při výpisu detailu entity a~při výpisu všech entit, popř. další parametry. Veškerá logika komunikace s~databází byla ukryta do třídy \textit{ItemModel}. Většina dalších modelů je pak pouhou instancí této třídy s~konkrétními parametry. \textit{ItemModel} vedle \textit{CRUD} operací automatizuje i vytváření notifikací a~schvalovací proces administrátora.
+Modelové třídy většiny entit není nutné psát individuálně. Všechny mají za úkol poskytnout \textit{CRUD operace} nad danou entitou (např. \textit{BodyModel} nad tělesy), případně generovat notifikace či umožnit práci se schvalovacím procesem. Jediné, co se liší, je název databázové kolekce, vybrané sloupce při výpisu detailu entity a~při výpisu všech entit, popř. další parametry. Veškerá logika komunikace s~databází byla ukryta do třídy \textit{ItemModel}. Většina dalších modelů je pak pouhou instancí této třídy s~konkrétními parametry. \textit{ItemModel} vedle \textit{CRUD} operací automatizuje i vytváření notifikací a~schvalovací proces administrátora.
 
 \lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.js}
 
 \subsection{Databáze}
 
-Data v~aplikace se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou MVC a~k~databázi mají tedy přístup pouze modelové třídy.
+Data v~aplikace se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou \textit{MVC} a~k~databázi mají tedy přístup pouze modelové třídy. Struktura databáze je zobrazena v~příloze A na konci tohoto dokumentu.
 
 \subsubsection{Připojení do databáze}
 
-Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, cluster a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.
+Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{dbconnection}
 
-Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
+Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru~\cite{static}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
 \lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.js}
 
 \subsubsection{Mongoose schéma}
 
-Pomocí schématu lze určit strukturu databázové kolekce a nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také zajistit např. unikátní kombinaci hodnot více polí.
+Pomocí schématu lze určit strukturu databázové kolekce a~nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také vytvořit např. indexy přes více polí.~\cite{schema}
 
 \lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.js}
 
 \subsubsection{Mongoose plugin}
 
-Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, které dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.
+Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, které dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.~\cite{schema}
 
 \lstinputlisting[caption={Vytvoření a~použití databázového pluginu}, language={JavaScript}]{SourceCodes/Hash.js}
 
-Ve zdrojovém kódu~12 je zobrazena část pluginu pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
+Ve zdrojovém kódu výše je zobrazena část pluginu pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
+
+Dalším pluginem v aplikaci je \textit{FillBodyPlugin}. Aplikace se snaží o největší možnou automatizaci a je tedy žádoucí, aby se do databáze ukládala pouze nejnutnější data. Ostatní data jsou automaticky dopočítána z~těch v~databázi. Níže je ukázán výpočet únikové rychlosti \code{v\textsubscript{u}} z tělesa.
+
+$$v\textsubscript{u}= \sqrt{\frac{2 * G * m}{r}}$$
+\begin{center}
+\textit{G – gravitační konstanta, m – hmotnost tělesa, r – poloměr tělesa}
+\end{center}
+
+Poněkud složitější je např. vzorec pro výpočet okamžité rychlosti pohybu tělesa po eliptické dráze kolem těžiště. Pro výpočet v různých vzdálenostech od centrálního tělesa je možné měnit pouze hodnotu \code{d}.
+
+$$v\textsubscript{max} = \frac{const.}{d} = \frac{2 * S}{T * d} = \frac{2 *  \pi * a * b}{T *d}  = \frac{2 *  \pi  * (\frac{d\textsubscript{max} + d\textsubscript{min}}{2})^2 * \sqrt{1 - e^2}}{T * d}$$
+\begin{center}
+\textit{S – plocha oběžné dráhy, T – perioda oběhu, d – vzdálenost od tělesa, d\textsubscript{max} – apocentrum, d\textsubscript{min} – pericentrum, a – velká poloosa, b – malá poloosa, e – excentricita}
+\end{center}
 
 \subsubsection{Základní práce s databází}
 
@@ -565,9 +595,11 @@ Databáze umožňuje provádět velké množství operací nad daty v~ní ulože
 
 \subsubsection{Aggregation Framework}
 
-V případě složitějších databázových dotazů, na které nestačí předpřipravené metody knihovny \textit{Mongoose}, je možno využít metodu \code{aggregate}, jež umožňuje pracovat s~\textit{Aggregation Frameworkem} databáze \textit{mongoDB}. Ten mimo jiné umožňuje v tzv. \textit{pipeline} dosadit sekvenci dotazů, které se nad daty postupně provedou. Je tak možné používat např. \code{\$match} (vyhledávání), \code {\$group} (seskupování) nebo \code{\$lookup} (spojování více kolekcí).
+V případě složitějších databázových dotazů, na které nestačí předpřipravené metody knihovny \textit{Mongoose}, je možno využít metodu \code{aggregate}, jež umožňuje pracovat s~\textit{Aggregation Frameworkem} databáze \textit{mongoDB}. Ten mimo jiné umožňuje v tzv. \textit{pipeline} dosadit sekvenci dotazů, které se nad daty postupně provedou. Je tak možné používat např. \code{\$match} (vyhledávání), \code {\$group} (seskupování) nebo \code{\$lookup} (spojování více kolekcí).~\cite{aggregation}
 
-V~aplikaci je tento způsob dotazování použit např. při požadavku \code{[GET] /bodies/{bodyId}}, kdy je třeba z~databáze kromě tělesa na základě jeho ID vybrat z jiných kolekcí i typ tělesa, události v~historii tělesa, diskuse o~tělese, komentáře k~diskusím a~nakonec i~uživatele a~hlasy patřící k~jednotlivým diskusím a~komentářům. Konkrétní podoba dotazu použitého v~aplikaci je zobrazena v~příloze~B~na konci tohoto dokumentu.
+V~aplikaci je tento způsob dotazování použit např. v ~\code{[GET] /bodies/{bodyId}}, kdy je třeba z~databáze kromě tělesa na základě jeho ID vybrat z jiných kolekcí i typ tělesa, události v~historii tělesa, diskuse o~tělese, komentáře k~diskusím a~nakonec i~uživatele a~hlasy patřící k~jednotlivým diskusím a~komentářům. Konkrétní podoba dotazu použitého v~aplikaci je zobrazena v~příloze~B~na konci tohoto dokumentu.
+
+I přes skutečnost, \textit{že mongoDB} jakožto dokumentová databáze umožňuje zanořování struktur do sebe~\cite{mongomongoose}, pro jednodušší práci byly pro tělesa, události, komentáře a hlasy vytvořeny samostatné kolekce.
 
 \section{Rozvržení aplikace}
 
@@ -582,10 +614,6 @@ Hlavní stránka aplikace obsahuje pouze nezbytné odkazy do dalších částí 
 \label{BodiesList}
 \end{center}
 \end{figure}
-
-\subsection{Nápověda}
-
-V~nápovědě je shromážděno několik článků, které mohou pomoci novým uživatelům lépe se orientovat v~aplikaci. Mezi jednotlivými sekcemi nápovědy lze přepínat pomocí menu v~levé části obrazovky.
 
 \subsection{Autentifikace uživatele}
 
@@ -944,6 +972,46 @@ Dostupné z: {\ttfamily \url{https://hacks.mozilla.org/2012/12/fantastic-front-e
 MICHÁLEK, Martin. NPM: Průvodce začátky a základními příkazy.
 \textit{Vzhůru dolů.} [online]. 19.~11.~2019. [cit.\,22.~2.~2019].
 Dostupné z: {\ttfamily \url{https://www.vzhurudolu.cz/prirucka/npm}}.
+
+\bibitem{sass}
+Sass Basics.
+\textit{Sass.} [online]. [cit.\,22.~2.~2019].
+Dostupné z:\newline{\ttfamily \url{https://sass-lang.com/guide}}.
+
+\bibitem{filestructure}
+File Structure.
+\textit{React.} [online]. [cit.\,22.~2.~2019].
+Dostupné z:\newline{\ttfamily \url{https://reactjs.org/docs/faq-structure.html}}.
+
+\bibitem{redux}
+RANDUS, Tomáš. Redux + React – Redux.
+\textit{Zdroják.} [online]. 6.~6.~2016 [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://www.zdrojak.cz/clanky/redux-react-23-redux}}. ISSN~1803-5620.
+
+\bibitem{rest}
+MALÝ, Martin. REST: architektura pro webové API.
+\textit{Zdroják.} [online]. 3.~8.~2009 [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://www.zdrojak.cz/clanky/rest-architektura-pro-webove-api}}. ISSN~1803-5620.
+
+\bibitem{dbconnection}
+Connections.
+\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/connections.html}}.
+
+\bibitem{static}
+static.
+\textit{MDN web docs.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static}}.
+
+\bibitem{schema}
+Schemas.
+\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/guide.html}}.
+
+\bibitem{aggregation}
+Aggregate.
+\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/api.html#Aggregate}}.
 
 \end{thebibliography}
 
