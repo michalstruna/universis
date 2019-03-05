@@ -20,7 +20,7 @@ const BodyTypeSchema = new Schema({
         default: false
     },
 
-    virtualFLag: {
+    virtualFlag: {
         type: Number
     },
 

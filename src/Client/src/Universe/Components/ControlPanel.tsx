@@ -50,7 +50,8 @@ class ControlPanel extends StatelessComponent<IProps> {
             [Keys.FASTER]: () => this.props.changeTimeSpeed(this.props.timeSpeed, true),
             [Keys.SLOWER]: () => this.props.changeTimeSpeed(this.props.timeSpeed, false),
             [Keys.SPEED]: () => this.props.changeTimeSpeed(1),
-            [Keys.LABELS]: () => this.props.toggleLabels(!this.props.isNameVisible)
+            [Keys.LABELS]: () => this.props.toggleLabels(!this.props.isNameVisible),
+            [Keys.ORBITS]: () => this.props.toggleOrbits(!this.props.areOrbitsVisible)
         })
     }
 

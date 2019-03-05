@@ -22,7 +22,7 @@ declare namespace Universis {
         /**
          * Check if object is in field of vision of camera.
          */
-        isInFov(object: THREE.Mesh): boolean
+        isInFov(object: THREE.Object3D): boolean
 
         /**
          * Project camera on vector.
@@ -47,7 +47,7 @@ declare namespace Universis {
          * Set camera target.
          * @param objectId ID of target object. It could be string ID or whole object.
          */
-        setCameraTarget(objectId: THREE.Mesh | string): void
+        setCameraTarget(objectId: THREE.Object3D | string): void
 
         /**
          * Enable or disable controls.

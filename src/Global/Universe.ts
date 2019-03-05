@@ -257,6 +257,28 @@ declare namespace Universis {
                      */
                     distance: number
 
+                },
+
+                /**
+                 * Data for virtual bodies.
+                 */
+                particles?: {
+
+                    /**
+                     * Thickness of belt.
+                     */
+                    thickness?: number
+
+                    /**
+                     * Particles size.
+                     */
+                    size?: number
+
+                    /**
+                     * Count of particles.
+                     */
+                    count?: number
+
                 }
 
                 /**
@@ -383,9 +405,9 @@ declare namespace Universis {
                     halfTexture?: boolean
 
                     /**
-                     * Body with virtual flag is not rendered.
+                     * Body
                      */
-                    virtualFlag?: number
+                    particlesGenerator?: string
 
                 }
 

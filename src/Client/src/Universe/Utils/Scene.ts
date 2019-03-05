@@ -109,7 +109,11 @@ class Scene implements Scene {
         return tempObject1Position.distanceTo(tempObject2Position)
     }
 
-    public isInFov(object: THREE.Mesh): boolean {
+    public isInFov(object: THREE.Object3D): boolean {
+        if (!('geometry' in object)) {
+            return false // TODO
+        }
+
         this.camera.updateMatrixWorld(false)
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
