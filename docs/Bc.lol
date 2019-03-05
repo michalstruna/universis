@@ -10,7 +10,7 @@
 \contentsline {lstlisting}{\numberline {10}Definice cesty v REST~API}{27}{lstlisting.10}
 \contentsline {lstlisting}{\numberline {11}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{28}{lstlisting.11}
 \contentsline {lstlisting}{\numberline {12}Automatizovan\IeC {\'a} tvorba modelov\IeC {\'y}ch t\IeC {\v r}\IeC {\'\i }d}{29}{lstlisting.12}
-\contentsline {lstlisting}{\numberline {13}P\IeC {\v r}ipojen\IeC {\'\i } k datab\IeC {\'a}zi v~aplikaci}{29}{lstlisting.13}
+\contentsline {lstlisting}{\numberline {13}P\IeC {\v r}ipojen\IeC {\'\i } k datab\IeC {\'a}zi v~aplikaci}{30}{lstlisting.13}
 \contentsline {lstlisting}{\numberline {14}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{30}{lstlisting.14}
 \contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{31}{lstlisting.15}
 \contentsline {lstlisting}{\numberline {16}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{32}{lstlisting.16}
