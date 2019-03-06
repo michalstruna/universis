@@ -42,7 +42,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
                 geometry.vertices.push(new THREE.Vector3(x, y, z))
             }
 
-            return new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: 1e4 }))
+            return new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: body.particles.size }))
         } else {
             const geometry = this.createGeometry(body)
             const material = this.createMaterial(body)

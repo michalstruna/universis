@@ -272,12 +272,12 @@ declare namespace Universis {
                     /**
                      * Particles size.
                      */
-                    size?: number
+                    size: number
 
                     /**
                      * Count of particles.
                      */
-                    count?: number
+                    count: number
 
                 }
 
