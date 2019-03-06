@@ -324,13 +324,11 @@ class Scene implements Scene {
     private getTargetSize(): number {
         const geometry = this.target.geometry as any
 
-        if (geometry) {
-            if (geometry.parameters.radius) {
-                return geometry.parameters.radius * 2
-            }
+        if (geometry && geometry.parameters && geometry.parameters.radius) {
+            return geometry.parameters.radius * 2
         }
 
-        return null
+        return 1
     }
 
     /**

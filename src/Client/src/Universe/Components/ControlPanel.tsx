@@ -142,7 +142,7 @@ export default ControlPanel.connect(
         isFromCameraVisible: universe.isFromCameraVisible,
         isFromCenterVisible: universe.isFromCenterVisible,
         timeSpeed: universe.timeSpeed,
-        areParticlesVisible: universe.areParticlesVisible
+        areParticlesVisible: universe.areParticlesVisible,
     }),
     {
         toggleLight,

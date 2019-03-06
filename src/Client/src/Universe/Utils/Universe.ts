@@ -186,7 +186,7 @@ class Universe implements Universis.Universe {
             const target = this.scene.getCameraTarget()
             const isSelectedBody = body.data._id === target.name
 
-            const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || target.userData.parent && target.userData.parent.data._id === body.data._id))
+            const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
 
             orbit.material.opacity = visibility
             let fromCenter
@@ -292,15 +292,17 @@ class Universe implements Universis.Universe {
     private getVisibility(body: Universis.Universe.Body.Container): Visibility {
         const viewSize = this.scene.getDistance(this.scene.getCameraTarget())
         const distance = this.scene.getDistance(body.mesh)
+        const isTooLargeOrSmall = distance < body.data.diameter.x / 2 || distance > body.data.diameter.x * Config.INVISIBILITY_EDGE
+
 
         if (!body.data.orbit) {
-            return distance > body.data.diameter.x / 2 ? Visibility.VISIBLE : Visibility.INVISIBLE
+            return isTooLargeOrSmall ? Visibility.INVISIBLE : Visibility.VISIBLE
         }
 
         const min = viewSize / body.data.orbit.apocenter
         const max = viewSize / distance
 
-        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE) || distance < body.data.diameter.x / 2) {
+        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
             return Visibility.INVISIBLE
         } else if (min > Config.SEMI_VISIBILITY_EDGE || Math.min(max, min) < (1 / Config.SEMI_VISIBILITY_EDGE)) {
             return Visibility.SEMI_VISIBLE
