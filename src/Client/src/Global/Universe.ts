@@ -69,6 +69,12 @@ declare namespace Universis {
          */
         toggleFromCenter(isFromCenterVisible: boolean): void
 
+        /**
+         * Toggle visibility of particles.
+         * @param areParticlesVisible
+         */
+        toggleParticles(areParticlesVisible: boolean): void
+
     }
 
 }

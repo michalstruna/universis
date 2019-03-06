@@ -157,6 +157,14 @@ class Universe implements Universis.Universe {
         this.isVelocityVisible = isVelocityVisible
     }
 
+    public toggleParticles(areParticlesVisible: boolean): void {
+        for (const body of this.bodies) {
+            if (body.data.type.particlesGenerator) {
+                (body.mesh as THREE.Points).material.visible = areParticlesVisible
+            }
+        }
+    }
+
     /**
      * Update position of all bodies within render loop.
      */
@@ -203,8 +211,8 @@ class Universe implements Universis.Universe {
                     this.updateLabel(body, fromCenter)
                 }
 
-                  body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
-                  body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
+                body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
+                body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
             }
         }
 

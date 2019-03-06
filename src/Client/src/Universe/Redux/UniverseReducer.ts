@@ -12,6 +12,7 @@ export default Redux.createReducer(
         isFromEarthVisible: false,
         isFromCenterVisible: false,
         isFromCameraVisible: false,
+        areParticlesVisible: true,
         bodies: Redux.EMPTY_ASYNC_ENTITY,
         body: Redux.EMPTY_ASYNC_ENTITY,
         isNewDiscussionExpanded: false,

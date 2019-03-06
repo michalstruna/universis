@@ -11,7 +11,8 @@ import {
     toggleFromCamera,
     toggleFromCenter,
     toggleFromEarth,
-    changeTimeSpeed
+    changeTimeSpeed,
+    toggleParticles
 } from '../Redux/UniverseActions'
 
 interface IProps {
@@ -33,6 +34,8 @@ interface IProps {
     toggleFromCenter: Universis.Consumer<boolean>
     timeSpeed: number,
     changeTimeSpeed: (timeSpeed: number, faster?: boolean) => void
+    areParticlesVisible: boolean
+    toggleParticles: Universis.Consumer<boolean>
 }
 
 /**
@@ -51,7 +54,8 @@ class ControlPanel extends StatelessComponent<IProps> {
             [Keys.SLOWER]: () => this.props.changeTimeSpeed(this.props.timeSpeed, false),
             [Keys.SPEED]: () => this.props.changeTimeSpeed(1),
             [Keys.LABELS]: () => this.props.toggleLabels(!this.props.isNameVisible),
-            [Keys.ORBITS]: () => this.props.toggleOrbits(!this.props.areOrbitsVisible)
+            [Keys.ORBITS]: () => this.props.toggleOrbits(!this.props.areOrbitsVisible),
+            [Keys.PARTICLES]: () => this.props.toggleParticles(!this.props.areParticlesVisible)
         })
     }
 
@@ -87,10 +91,15 @@ class ControlPanel extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible, toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible, toggleFromCamera, timeSpeed, changeTimeSpeed } = this.props
+        const { isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible,
+            toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible,
+            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible } = this.props
 
         return (
             <section className='universe__controls'>
+                <section className='universe__controls__row'>
+                    {this.renderButton('panel')}
+                </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('camera', () => toggleFromCamera(!isFromCameraVisible), isFromCameraVisible)}
                     {this.renderButton('center', () => toggleFromCenter(!isFromCenterVisible), isFromCenterVisible)}
@@ -104,7 +113,7 @@ class ControlPanel extends StatelessComponent<IProps> {
                     {this.renderButton('labels', () => toggleLabels(!isNameVisible), isNameVisible)}
                 </section>
                 <section className='universe__controls__row'>
-                    {this.renderButton('panel')}
+                    {this.renderButton('particles', () => toggleParticles(!areParticlesVisible), areParticlesVisible)}
                     {this.renderButton('light', () => toggleLight(!isLightVisible), isLightVisible)}
                 </section>
                 <section className='universe__controls__row'>
@@ -132,7 +141,8 @@ export default ControlPanel.connect(
         isFromEarthVisible: universe.isFromEarthVisible,
         isFromCameraVisible: universe.isFromCameraVisible,
         isFromCenterVisible: universe.isFromCenterVisible,
-        timeSpeed: universe.timeSpeed
+        timeSpeed: universe.timeSpeed,
+        areParticlesVisible: universe.areParticlesVisible
     }),
     {
         toggleLight,
@@ -142,6 +152,7 @@ export default ControlPanel.connect(
         toggleFromCamera,
         toggleFromCenter,
         toggleFromEarth,
-        changeTimeSpeed
+        changeTimeSpeed,
+        toggleParticles
     }
 )

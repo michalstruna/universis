@@ -15,7 +15,8 @@ enum Keys {
     VELOCITY = 'R',
     EARTH = 'Z',
     CAMERA = 'K',
-    CENTER = 'T'
+    CENTER = 'T',
+    PARTICLES = 'C'
 
 }
 

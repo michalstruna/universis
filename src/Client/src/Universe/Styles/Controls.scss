@@ -33,7 +33,7 @@
                 opacity: 1;
             }
 
-            @each $button in (Light, Move, Faster, Slower, Speed, Now, Panel, Orbits, Labels, Velocity, Earth, Camera, Center) {
+            @each $button in (Light, Move, Faster, Slower, Speed, Now, Panel, Orbits, Labels, Velocity, Earth, Camera, Center, Particles) {
                 &--#{to_lower_case($button)} {
                     .universe__controls__button__icon {
                         @include svg("Universe/UI/#{$button}");

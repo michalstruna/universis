@@ -123,6 +123,17 @@ export const toggleOrbits = (areOrbitsVisible: boolean) => (
 )
 
 /**
+ * Toggle visibility of particles.
+ * @param areParticlesVisible Particles are visible.
+ */
+export const toggleParticles = (areParticlesVisible: boolean) => (
+    Redux.setAction(
+        ActionTypes.TOGGLE_PARTICLES,
+        { areParticlesVisible }
+    )
+)
+
+/**
  * Toggle answers.
  * @param discussionId ID of discussion.
  * @param isExpanded Answers of discussion should be visible.
