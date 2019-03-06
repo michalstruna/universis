@@ -15,11 +15,6 @@ const BodyTypeSchema = new Schema({
         type: Number
     },
 
-    halfTexture: {
-        type: Boolean,
-        default: false
-    },
-
     virtualFlag: {
         type: Number
     },

@@ -400,11 +400,6 @@ declare namespace Universis {
                     emissiveColor?: number
 
                     /**
-                     * If true, there will be two same textures on two sides.
-                     */
-                    halfTexture?: boolean
-
-                    /**
                      * Body
                      */
                     particlesGenerator?: string
