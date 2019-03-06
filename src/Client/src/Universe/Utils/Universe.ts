@@ -182,24 +182,18 @@ class Universe implements Universis.Universe {
             const vector = this.scene.projectCamera(tempVector)
             const isVisible = this.scene.isInFov(body.mesh)
             const orbit = body.orbit.children[0].children[0] as any
-            const visibility = body.data.orbit ? this.getVisibility(body) : Visibility.INVISIBLE
+            const visibility = this.getVisibility(body)
             const target = this.scene.getCameraTarget()
             const isSelectedBody = body.data._id === target.name
+
             const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || target.userData.parent && target.userData.parent.data._id === body.data._id))
 
-            if (isFullyRenderable) {
-                vector.x = (vector.x + 1) / 2 * window.innerWidth
-                vector.y = -(vector.y - 1) / 2 * window.innerHeight
-                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-            } else {
-                body.label.style.transform = 'translateX(-1000px)'
-            }
-
             orbit.material.opacity = visibility
+            let fromCenter
 
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-                const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
 
                 if (fromCenter) {
                     body.orbit.userData.angle += (Physics.getAngleVelocity(body.data.temp.orbitAreaPerSecond, body.data.orbit.circuit, fromCenter) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
@@ -208,11 +202,19 @@ class Universe implements Universis.Universe {
                 if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
                     const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
                     body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
-                    this.updateLabel(body, fromCenter)
                 }
 
                 body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
                 body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
+            }
+
+            if (isFullyRenderable) {
+                vector.x = (vector.x + 1) / 2 * window.innerWidth
+                vector.y = -(vector.y - 1) / 2 * window.innerHeight
+                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
+                this.updateLabel(body, fromCenter)
+            } else {
+                body.label.style.transform = 'translateX(-1000px)'
             }
         }
 
@@ -224,17 +226,20 @@ class Universe implements Universis.Universe {
      * @param fromCenter
      * @returns Label.
      */
-    private updateLabel(body: Universis.Universe.Body.Container, fromCenter: number): void {
+    private updateLabel(body: Universis.Universe.Body.Container, fromCenter?: number): void {
         const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
         const fromCamera = this.scene.getDistance(body.mesh)
-        const velocity = Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter)
 
         const rows = []
         if (this.isNameVisible) rows.push(body.data.name)
         if (this.isFromEarthVisible) rows.push(Units.toFull(fromEarth, Units.SIZE.KM, Units.SIZE))
         if (this.isFromCameraVisible) rows.push(Units.toFull(fromCamera, Units.SIZE.KM, Units.SIZE))
-        if (this.isFromCenterVisible) rows.push(Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE))
-        if (this.isVelocityVisible) rows.push(Units.toFull(velocity, Units.VELOCITY.KM_S, Units.VELOCITY))
+
+        if (fromCenter) {
+            const velocity = Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter)
+            if (this.isFromCenterVisible) rows.push(Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE))
+            if (this.isVelocityVisible) rows.push(Units.toFull(velocity, Units.VELOCITY.KM_S, Units.VELOCITY))
+        }
 
         body.label.textContent = rows.join('\r\n')
     }
@@ -286,12 +291,16 @@ class Universe implements Universis.Universe {
      */
     private getVisibility(body: Universis.Universe.Body.Container): Visibility {
         const viewSize = this.scene.getDistance(this.scene.getCameraTarget())
+        const distance = this.scene.getDistance(body.mesh)
+
+        if (!body.data.orbit) {
+            return distance > body.data.diameter.x / 2 ? Visibility.VISIBLE : Visibility.INVISIBLE
+        }
 
         const min = viewSize / body.data.orbit.apocenter
-        const distance = this.scene.getDistance(body.mesh)
         const max = viewSize / distance
 
-        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
+        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE) || distance < body.data.diameter.x / 2) {
             return Visibility.INVISIBLE
         } else if (min > Config.SEMI_VISIBILITY_EDGE || Math.min(max, min) < (1 / Config.SEMI_VISIBILITY_EDGE)) {
             return Visibility.SEMI_VISIBLE

@@ -25,6 +25,11 @@ const NotificationSchema = new Schema({
         type: String,
         required: true,
         default: () => new Date().toISOString()
+    },
+
+    __v: {
+        type: Number,
+        select: false
     }
 
 })

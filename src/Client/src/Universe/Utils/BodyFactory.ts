@@ -132,6 +132,10 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             const midOrbitMesh = new THREE.Group()
             midOrbitMesh.add(orbitMesh)
             outerOrbitMesh.add(midOrbitMesh)
+
+            if (body.position) {
+                outerOrbitMesh.position.x = body.position.distance
+            }
         }
 
         return outerOrbitMesh
