@@ -9,9 +9,21 @@
 \usepackage{vskpupa}	% globální nastavení pro text VŠKP UPa
 \usepackage{listings}
 \def\code#1{\texttt{#1}}
-\setlist{itemsep=0pt,topsep=2pt} % TODO: Refactor.
+\setlist{itemsep=0pt,topsep=2pt}
 \renewcommand{\lstlistingname}{Zdrojový kód}
 \renewcommand{\lstlistlistingname}{Seznam zdrojových kódů}
+%\lstset{numberbychapter=false}
+
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
+  \do\-}
+
+\let\oldlstlistoflistings\lstlistoflistings
+\renewcommand{\lstlistoflistings}{%
+  \begingroup%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{\lstlistingname~\oldnumberline}%
+  \oldlstlistoflistings%
+  \endgroup}
 
 \usepackage{color}
 \definecolor{lightgray}{rgb}{.9,.9,.9}
@@ -129,6 +141,7 @@
 % ZADÁNÍ
 %\generujZadani[2]	% parametr je počet stran, výchozí (neuvede-li se) je 2
 \generujProhlaseni		% prohlášení
+\podekovaniDolu
 \generujPodekovani		% poděkování
 \generujAnotaci			% anotace
 \generujAnnotation		% anotace anglicky
@@ -138,7 +151,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SEZNAM ZKRATEK
 
-\clearpage \phantomsection \addcontentsline{toc}{section}{Seznam zdrojových kódů}
 \lstlistoflistings
 
 \seznamZkratek			% titulek a řádek do obsahu
@@ -156,11 +168,14 @@
 \item[HW] 	Hardware
 \item[JPEG]		 Joint Photographic Experts Group
 \item[JS]		JavaScript
+\item[JSX]	JavaScript XML
 \item[JSON]	JavaScript Object Notation
+\item[MVC] 	Model-view-controller
 \item[PNG]		Portable Network Graphics
 \item[REST]	Representational State Transfer
 \item[SASS]	Syntactically awesome style sheets
 \item[TS]		TypeScript
+\item[TSX]	TypeScript XML
 \item[UI]		User Interface
 \item[URI]		Uniform Resource Identifier 
 \item[XML]	Extensible Markup Language
@@ -192,7 +207,11 @@ Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat
 
 \section{3D simulace a jejich řešení}
 
+Vedle simulací je možné se setkat i~s~emulacemi. Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace.~\cite{kepler} U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém pouze umožní práci s~původním systémem, který nemusí být k~dostupný.
 
+Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jako na simulátor i~emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl vzájemnou polohu či rychlost v určitém čase.
+
+Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kepler} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů.
 
 \subsection{Celestia}
 
@@ -224,7 +243,7 @@ Jedná se o~program napsaný v~\textit{C++}, což stejně jako u~programu Celest
 
 \subsection{NASA/JPL Solar System Simulator}
 
-Jedná se o~webovou aplikaci, která umožňuje zobrazit libovolné těleso v~databázi libovolnou dobu a~to z~libovolného jiného tělesa v~databázi. Obsahuje pouze tělesa z~naší sluneční soustavy. Umožňuje nastavit i~velikost zorného pole ve stupních. Vygenerovaný pohled je ale bohužel pouze statický a~nelze s~ním už dál nijak interagovat.
+Jedná se o~web, který umožňuje zobrazit libovolné těleso v~databázi libovolný čas a~to z~libovolného jiného tělesa v~databázi. Obsahuje pouze tělesa z~naší sluneční soustavy. Umožňuje nastavit i~velikost zorného pole ve stupních. Vygenerovaný pohled je statický a~nelze s~ním už dál nijak interagovat.~\cite{nasasimulator}
 
 \begin{figure}[H]
   \centering
@@ -247,13 +266,13 @@ Jedná se o~webovou aplikaci, která umožňuje zobrazit libovolné těleso v~da
 
 \subsection{Knihovna React}
 
-Javascriptová knihovna \textit{React}, jejíž autorem je \textit{Facebook}, usnadňuje a~zefektivňuje tvorbu \textit{UI}.~\cite{react} Přináší tzv. \textit{one-way data binding}, které zaručuje okamžitou aktualizaci \textit{UI} při změně stavu aplikace.~\cite{onewaydatabinding} \textit{React} si vytváří vlastní virtuální \textit{DOM}, který je na rozdíl od toho v~\textit{HTML} rychlejší. V tomto modelu pak React provádí všechny své operace. Teprve když je třeba provést změnu v~prohlížeči, je třeba  aktualizovat \textit{HTML}.~\cite{virtualdom}
+Javascriptová knihovna \textit{React}, jejíž autorem je \textit{Facebook}, usnadňuje a~zefektivňuje tvorbu \textit{UI}.~\cite{reactbook} Přináší tzv. \textit{one-way data binding}, které zaručuje okamžitou aktualizaci \textit{UI} při změně stavu aplikace.~\cite{onewaydatabinding} \textit{React} si vytváří vlastní virtuální \textit{DOM}, který je na rozdíl od toho v~\textit{HTML} rychlejší. V tomto modelu pak React provádí všechny své operace. Teprve když je třeba provést změnu v~prohlížeči, je třeba  aktualizovat \textit{HTML}.~\cite{reactbook}
 
-\subsubsection{Syntaxe JSX}
+\subsubsection{Syntaxe TSX}
 
-Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se často s~knihovnou \textit{React} používá i~syntaxe \textit{JSX}. Ta umožňuje psát \textit{javascriptový} kód v~podobě \textit{XML} tagů. \textit{JSX} syntaxi je z~důvodů kompatibility prohlížečů nutné transpilovat do nativního \textit{JavaScriptu}.~\cite{jsxsyntax}
+Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se často s~knihovnou \textit{React} používá i~syntaxe \textit{JSX}. Ta umožňuje psát \textit{javascriptový} kód v~podobě \textit{XML} tagů. \textit{JSX} syntaxi je z~důvodů kompatibility prohlížečů nutné transpilovat do nativního \textit{JavaScriptu}.~\cite{reactbook} TSX je pak obdoba JSX v~jazyce TypeScript.
 
-\lstinputlisting[caption={Porovnání vykreslení komponenty ve standardním JavaScriptu a~v~JSX}, language={JavaScript}]{SourceCodes/JSX.js}
+\lstinputlisting[caption={Porovnání JS a~JSX}, language={JavaScript}]{SourceCodes/JSX.js}
 
 \subsection{Knihovna Three.js}
 
@@ -265,13 +284,13 @@ Framework \textit{Node.js} umožňuje používání jazyka \textit{JavaScript} n
 
 \subsection{Databáze MongoDB}
 
-\textit{MongoDB} je \textit{NoSQL} multiplatformní dokumentová databáze s~otevřeným zdrojovým kódem. Narozdíl od relačních databází používá dokumenty ve formátu \textit{BSON}, který je podobný \textit{JSON}. Při vytváření dokumentů si databáze automaticky vytváří vlastní unikátní ID.  Uložené dokumenty lze vedle porovnávání hodnot vyhledávat na základě prvků v~poli, podle rozsahu nebo podle regulárních výrazů. V~\textit{MongoDB} je možné indexovat libovolné pole dokumentů. Indexy jsou koncepčně stejné, jako v~relačních databázích.~\cite{mongomongoose}
+\textit{MongoDB} je \textit{NoSQL} multiplatformní dokumentová databáze s~otevřeným zdrojovým kódem. Narozdíl od relačních databází používá dokumenty ve formátu \textit{BSON}, což je binární obdobou \textit{JSON}. Při vytváření dokumentů si databáze automaticky vytváří vlastní unikátní ID.  Uložené dokumenty lze mimo jiné vyhledávat na základě prvků v~poli, podle rozsahu nebo podle regulárních výrazů. V~\textit{MongoDB} je možné indexovat libovolné pole. Indexy jsou koncepčně podobné, jako v~relačních databázích.~\cite{mongomongoose}
 
 \subsection{Knihovna Mongoose}
-Open-source knihovna \textit{Mongoose} zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat.~\cite{mongomongoose}
+Knihovna \textit{Mongoose} pro JavaScript zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat. Umožňuje práci s pluginy, což jsou uživatelské funkce, které po zaregistrování na daném schématu mohou zautomatizovaně provádět předem definované činnosti nebo reagovat na různé událost.~\cite{mongomongoose}
 
 \subsection{Nástroj Swagger UI}
-\textit{Swagger} je nástroj pro vyzualizaci \textit{REST API} z~\textit{Open API} specifikace.
+\textit{Swagger UI} je nástroj pro vizualizaci specifikace \textit{Open API}. Vygenerovaný interaktivní webový dokument umožňuje vytvářet \textit{HTTP} požadavky na cílové rozhraní a~zobrazit výsledek těchto požadavků.~\cite{swagger} 
 
 \subsection{Nástroj Webpack}
 Prohlížečový \textit{JavaScript} nativně nepodporuje rozdělování kódu do modulů (jako např. \textit{Java} do balíčků nebo \textit{C++} do jmenných prostorů). Jediným způsobem je importovat do \textit{HTML} větší množství \textit{javascriptových} souborů pomocí tagu \code{<script>}. Tento postup je ale špatnou praktikou a~na web má negativní dopady.~\cite{jsconcat}
@@ -280,7 +299,7 @@ Díky nástroji \textit{Webpack} je možné v~\textit{JavaScriptu} využívat mo
 
 \textit{Webpack} také umožňuje využívat tzv. \textit{loadery} třetích stran. To vede k možnosti podobně načítat, slučovat či parsovat i soubory jiných typů, např. \textit{CSS}, \textit{SVG} nebo \textit{JSON}. Zároveň za využití bohaté nabídky pluginů lze všechny tyto soubory modifikovat, např. převádět nový \textit{JavaScript} verze \textit{ES6} na starší, podporovaný prohlížeči.~\cite{webpack}
 
-\lstinputlisting[caption={Konfigurace nástroje Webpack v souboru webpack.config.json}, language={JavaScript}]{SourceCodes/Webpack.js}.
+\lstinputlisting[caption={Konfigurace nástroje Webpack}, language={JavaScript}]{SourceCodes/Webpack.js}.
 
 \subsection{Verzovací systém Git}
 
@@ -306,7 +325,6 @@ React nepřichází s~žádnou doporučenou strukturou projektu.~\cite{filestruc
 
 \begin{itemize}
 \item \textbf{dist}: Produkční sestavení aplikace. Veškerý obsah adresáře se generuje automaticky.
-\item \textbf{docs}:  Teoretická část bakalářské práce včetně zdrojových souborů pro LaTeX.
 \item \textbf{node\_modules}: Externí knihovny pro serverovou část.
 \item \textbf{src}: Zdrojové soubory aplikace.
 
@@ -372,21 +390,20 @@ Každý modul obsahuje mapování a~export všech souborů, které mají být ve
 
 \subsection{Uživatelské rozhraní}
 
-Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v~tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Kdykoliv se změní stav aplikace, dojde k~automatickému překreslení těch částí \textit{UI}, které změněná data obsahují.~\cite{sass}
+Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v~tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Kdykoliv se změní stav aplikace, dojde k~automatickému překreslení těch částí \textit{UI}, které změněná data obsahují.~\cite{reactbook}
 
-Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.~\cite{sass}
+Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.~\cite{reactbook}
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=350pt]{Images/Redux.png}
 \caption[Životní cyklus architektury Redux]{Životní cyklus architektury Redux \footnotemark}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
 \footnotetext[1]{Vytvořeno v \url{https://www.draw.io}.}
 
-Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav. Je složen obvykle z~přepínače s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.~\cite{sass}
+Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav.  Obsahem \textit{reduceru} je často rozsáhlý \textit{switch} s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.~\cite{sass}
 
 \lstinputlisting[caption={Ukázka architektury Redux}, language={JavaScript}]{SourceCodes/Redux.js}
 
@@ -420,9 +437,9 @@ Reducer je běžně funkce, která obsahuje \textit{switch} s~výčtem všech ak
 
 \subsection{3D grafika}
 
-Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z~datových objektů těles vytvoří kontejnery obsahující kromě samotných dat z~databáze také objekty pro vykreslení.
+Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z~datových objektů těles vytvoří kontejnery obsahující kromě samotných dat z~databáze také objekty pro vykreslení popsané v~podkapitolách této kapitoly.
 
-Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. Počítat absolutní pozici tělesa by proto bylo více než náročné.
+Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. Počítat absolutní pozici tělesa by proto bylo více než náročné.// TODO: zdroj. Knížka?
 
 Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, kolem kterého zdánlivě obíhá. Tím je dosaženo dědičnosti a~souřadnice není nutné uvádět absolutně vzhledem k~vesmíru, ale pouze vzhledem k~rodičovskému tělesu. Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní knihovna \textit{Scene}. Ta v~každém průběhu vykreslovací smyčky vypočítá pozice a~rotace těles a~aktualizuje je.
 
@@ -475,7 +492,7 @@ Prstenec je objekt s~geometrií \textit{THREE.BufferRingGeometry}, materiálem\n
 
 \subsubsection{Popisek}
 
-Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicován na stejné souřadnice, jako je vykreslované těleso. Kromě názvu tělesa obsahuje i~vzdálenost od Země a~vzdálenost od kamery.
+Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicován na stejné souřadnice, jako je vykreslované těleso. Kromě názvu tělesa obsahuje i~aktuální rychlost pohybu, vzdálenost od Země, vzdálenost od kamery a~vzdálenost od centrálního tělesa.
 
 \subsubsection{Částice}
 Protože aplikace obsahuje řádově pouze desítky až stovky těles, je nemožné zobrazit rozsáhlejší struktury, které jsou jinak typické pro danou oblast ve vesmíru. Příkladem může být \textit{Kuiperův pás} nebo \textit{Oortův oblak} v~naší sluneční soustavě. Tato uskupení obsahují až biliony planetek, komet nebo~dalších těles. \cite{oortcloud}
@@ -611,7 +628,6 @@ Hlavní stránka aplikace obsahuje pouze nezbytné odkazy do dalších částí 
 \begin{center}
 \includegraphics[width=450pt]{Images/MainPage.png}
 \caption{Hlavní stránka}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -693,7 +709,6 @@ Na dolním okraji obrazovky je lišta zobrazující aktuální nastavení a~čas
 \begin{center}
 \includegraphics[width=450pt]{Images/Simulator.png}
 \caption{Simulátor}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -709,7 +724,6 @@ Výchozí položka v~uživatelském panelu zobrazuje poslední události na webu
 \begin{center}
 \includegraphics[width=350pt]{Images/Overview.png}
 \caption{Přehled}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -719,9 +733,8 @@ Chat slouží pro vzájemnou komunikaci uživatelů. Zprávy jsou zobrazovány o
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=350pt]{Images/Overview.png}
-\caption{Uživatelský chat}
-\label{BodiesList}
+%\includegraphics[width=350pt]{Images/Overview.png}
+%\caption{Uživatelský chat}
 \end{center}
 \end{figure}
 
@@ -750,23 +763,21 @@ Tělesa lze řadit vzestupně i~sestupně podle libovolného kritéria a~takté�
 \begin{center}
 \includegraphics[width=350pt]{Images/Bodies.png}
 \caption{Seznam těles}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
 \subsubsection{Detail tělesa}
 
-Detail tělesa se skládá ze čtyř záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká charakteristika tělesa a~jeho 3D vizualizace.
+Detail tělesa se skládá ze tří záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká slovní charakteristika tělesa a~jeho 3D vizualizace.
 
 Na druhé záložce se nachází časová osa, na které jsou vyneseny historické události spojené s~tělesem. Každá událost obsahuje rok, ve kterém nastala, název a~po najetí kurzorem  i~krátký popis. Je zde i stručný graf zobrazující počet výskytů události v~jednotlivých časových obdobích.
 
-Třetí záložka je určena pro diskuse. Každý zde může reagovat na již existující diskuse, nebo může založit vlastní vlákno. Všechny příspěvky uživatelů lze kladně nebo záporně hodnotit, v důsledku čehož se bude přičítat nebo odečítat reputace autora.
+Třetí a~poslední záložka je určena pro diskuse. Každý zde může reagovat na již existující diskuse, nebo může založit vlastní vlákno. Všechny příspěvky uživatelů lze kladně nebo záporně hodnotit, v důsledku čehož se bude přičítat nebo odečítat reputace autora.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=350pt]{Images/Body.png}
 \caption{Detail tělesa}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -774,7 +785,6 @@ Třetí záložka je určena pro diskuse. Každý zde může reagovat na již ex
 \begin{center}
 \includegraphics[width=350pt]{Images/Timeline.png}
 \caption{Časová osa tělesa}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -782,7 +792,6 @@ Třetí záložka je určena pro diskuse. Každý zde může reagovat na již ex
 \begin{center}
 \includegraphics[width=350pt]{Images/Discussion.png}
 \caption{Diskuse o tělese}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -799,7 +808,7 @@ V~databázi je uloženo velké množství těles. Pokud by se popisky a~dráhy v
 \item \textbf{Vzdálenost od tělesa je 1000krát větší než vzdálenost od centrálního tělesa}: Dráha ani popisky se nebudou zobrazovat.
 \end{itemize} 
 
-První dva body řeší případy, kdy je těleso příliš oddálené nebo příliš přiblížené. Poslední dva body řeší situaci, ve které má uživatel sice přiměřené přiblížení kamery, nicméně se od tělesa nachází příliš daleko. Příkladem může být situace, kdy si uživatel prohlíží ze vzdálenosti 400~tisíc km prstence planety Saturn. Dráha zemského Měsíce je přiměřeně velká (406~tisíc km), ale přesto by se neměla vykreslovat. Od Saturnu je totiž vzdálena 1,2~miliardy km.
+První dva body řeší případy, kdy je těleso příliš oddálené nebo příliš přiblížené. Poslední dva body řeší situaci, ve které má uživatel sice přiměřené přiblížení kamery, nicméně se od tělesa nachází příliš daleko. Příkladem může být situace, kdy si uživatel prohlíží ze vzdálenosti 400~tisíc km prstence planety Saturn. Dráha zemského Měsíce je přiměřeně velká (406~tisíc km), ale přesto by se neměla vykreslovat. Od Saturnu je totiž vzdálena 1,2~miliardy km.~\cite{rees}
 
 \subsection{Sestavení aplikace a~optimalizace}
 
@@ -829,7 +838,7 @@ Pro ještě větší redukci přenesených dat je dobré nastavit Node.js server
 
 \subsubsection{Autentizace pomocí tokenu}
 
-Uživatel se autentizuje při přihlášení svým emailem a heslem, čímž mu je umožněn přístup na jeho účet. Nicméně uživatele je třeba znovu autentizovat i~během jeho relace po přihlášení, kdykoliv komunikuje se serverem. Tím lze omezit provádění určitých operací (např. editování tělesa, schvalování úprav, ...) pouze na konkrétní uživatele nebo skupiny uživatelů (např. pouze přihlášení, administrátoři, ...). Nabízí se několik možností v tom, co na server posílat vždy, když je třeba autentifikace:
+Uživatel se autentizuje při přihlášení svým emailem a heslem, čímž mu je umožněn přístup na jeho účet. Nicméně uživatele je třeba znovu autentizovat i~během jeho relace po přihlášení, kdykoliv komunikuje se serverem. Tím lze zabezpečit autorizaci a~omezit provádění určitých operací (např. editování tělesa, schvalování úprav, ...) pouze na konkrétní uživatele nebo skupiny uživatelů (např. pouze přihlášení, administrátoři, ...). Nabízí se několik možností v tom, co na server posílat vždy, když je třeba autentifikace:
 
 \begin{itemize}
 \item \textbf{Email a heslo}: Nechat uživatele zadávat přihlašovací údaje pokaždé, když je třeba komunikovat se serverem, by bylo obtěžující. A~ukládat heslo na straně klienta není zas bezpečné, protože by zde muselo být v~čitelné podobě.
@@ -871,7 +880,7 @@ Není nutné používat předdefinované jednotky v~této třídě a~lze si vytv
 
 \subsection{Vykreslování časové osy}
 
-Pro vykreslení časové osy představené v~bodě \textit{4.5.4~Detail tělesa} byla v~rámci projektu vytvořena komponenta \textit{EventsArea}. Ta umožňuje vykreslit pole událostí na \textit{2D} ploše v~podobě čtyřúhelníků tak, aby si souřadnice jednotlivých událostí odpovídaly. V~případě časové osy jsou těmito souřadnicemi počáteční a~koncový rok události.
+Pro vykreslení časové osy představené v~podkapitole \textit{4.5.4~Detail tělesa} byla v~rámci projektu vytvořena komponenta \textit{EventsArea}. Ta umožňuje vykreslit pole událostí na \textit{2D} ploše v~podobě čtyřúhelníků tak, aby si souřadnice jednotlivých událostí odpovídaly. V~případě časové osy jsou těmito souřadnicemi počáteční a~koncový rok události.
 
 Situace je o~to komplikovanější, že časová osa nemusí být lineární a~dokonce ani logaritmická. Komponenta proto na vstupu vedle pole událostí přijme i~pole hraničních souřadnic. Díky tomu je možné zobrazit roky 2019 až 0 jako jeden díl na časové ose a~o~něco níže naprosto stejný díl pro roky -1 až -10~000, stejně jako např. -5~mld. až -10~mld.
 
@@ -910,33 +919,18 @@ JPL Solar System Dynamics. \textit{JPL Solar System Dynamics} [online]. [cit. 25
 \bibitem{mardan}
 MARDAN, Azat. Practical Node.js: building real-world scalable web apps. Berkeley, California: Apress, [2014]. Expert‘s voice in Web development. ISBN 978-1-4302- 6595-5.
 
-\bibitem{banks}
-BANKS, Alex and PORCELLO, Eve. Learning React: functional web development with React and Redux. Sebastopol, CA: O'Reilly Media, 2017 [cit. 25. 10. 2018]. ISBN: 978-1-4919-542-1.
+\bibitem{reactbook}
+BANKS, Alex, PORCELLO, Eve. Learning React: functional web development with React and Redux. Sebastopol, CA: O'Reilly Media, 2017 [cit. 25. 10. 2018]. ISBN: 978-1-4919-5462-1.
 
 \bibitem{typescript}
 TypeScript. 
 \textit{TypeScript.} [online]. [cit.\,22.~2~2019]. 
 Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
 
-\bibitem{react}
-React. 
-\textit{React.} [online]. [cit.\,22.~2.~2019]. 
-Dostupné\newline z:~{\ttfamily \url{https://reactjs.org}}.
-
-\bibitem{virtualdom}
-React: The Virtual DOM.
-\textit{codeacademy.} [online]. [cit.\,22.~2.~2019]. 
-Dostupné\newline z:~{\ttfamily \url{https://www.codecademy.com/articles/react-virtual-dom}}.
-
 \bibitem{onewaydatabinding}
 Thinking in React.
 \textit{React.} [online]. [cit.\,22.~2.~2019]. 
 Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/thinking-in-react.html}}.
-
-\bibitem{jsxsyntax}
-Introducing JSX. 
-\textit{React.} [online]. [cit.\,22.~2.~2019]. 
-Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/introducing-jsx.html}}.
 
 \bibitem{node}
 MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
@@ -946,12 +940,12 @@ Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na
 \bibitem{three}
 BOTMAN, Chris. An introduction to Three.js.
 \textit{Humaan.} [online]. 5.~02.~2016. [cit.\,22.~2.~2019].  ISSN 1803-5620.
-Dostupné\newline z:~{\ttfamily \url{https://humaan.com/blog/web-3d-graphics-using-three-js/}}.
+Dostupné\newline z:~{\ttfamily \url{https://humaan.com/blog/web-3d-graphics-using-three-js}}.
 
 \bibitem{mongomongoose}
 MROZEK, Jakub. JavaScript na serveru: MongoDB, Mongoose a AngularJS.
 \textit{Zdroják.} [online]. 26.~10.~2012. [cit.\,22.~2.~2019].  ISSN 1803-5620.
-Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-mongodb-mongoose-angularjs/}}.
+Dostupné z:\newline{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-mongodb-mongoose-angularjs}}.
 
 \bibitem{git}
 Úvod - Základy systému Git.
@@ -983,11 +977,6 @@ File Structure.
 \textit{React.} [online]. [cit.\,22.~2.~2019].
 Dostupné z:\newline{\ttfamily \url{https://reactjs.org/docs/faq-structure.html}}.
 
-\bibitem{redux}
-RANDUS, Tomáš. Redux + React – Redux.
-\textit{Zdroják.} [online]. 6.~6.~2016 [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://www.zdrojak.cz/clanky/redux-react-23-redux}}. ISSN~1803-5620.
-
 \bibitem{rest}
 MALÝ, Martin. REST: architektura pro webové API.
 \textit{Zdroják.} [online]. 3.~8.~2009 [cit.\,22.~2.~2019].
@@ -1008,6 +997,11 @@ Schemas.
 \textit{mongoose.} [online]. [cit.\,22.~2.~2019].
 Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/guide.html}}.
 
+\bibitem{kepler}
+KRYNICKÝ, Martin. Keplerovy zákony.
+\textit{realisticky.} [online]. c2010. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{http://www.realisticky.cz/hodina.php?id=913}}.
+
 \bibitem{aggregation}
 Aggregate.
 \textit{mongoose.} [online]. [cit.\,22.~2.~2019].
@@ -1017,6 +1011,20 @@ Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/api.html#Aggregate}}.
 WEISSMAN, Paul. The Oort cloud.
 \textit{Nature.} [online]. 22.~4.~1990. [cit.\,22.~2.~2019].
 Dostupné z: {\ttfamily \url{https://www.nature.com/articles/344825a0}}. ISSN 1476-4687
+
+\bibitem{swagger}
+WEISSMAN, Paul. The Oort cloud.
+\textit{Nature.} [online]. 22.~4.~1990. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://www.nature.com/articles/344825a0}}. ISSN 1476-4687
+
+\bibitem{nasasimulator}
+Solar System Simulator. \textit{Jet propulsion laboratory.} [online]. [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://space.jpl.nasa.gov/}}.
+
+\bibitem{swaggerui}
+JOHNSON, Tom. Swagger UI tutorial. \textit{Documenting APIs.}. [online]. c2019 [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://idratherbewriting.com/learnapidoc/pubapis_swagger.html}}.
+
+\bibitem{simulations}
+KAVIČKA, Antonín. Pardubice. Elektronické sylaby přednášek předmětu Modelování a~simulace. [cit.\,22.~2.~2019].
 
 \end{thebibliography}
 
@@ -1049,7 +1057,7 @@ Dostupné z: {\ttfamily \url{https://www.nature.com/articles/344825a0}}. ISSN 14
 \clearpage \phantomsection \addcontentsline{toc}{section}{Seznam souborů zdrojových kódů na přiloženém nosiči}
 \section*{Seznam souborů zdrojových kódů na přiloženém nosiči}
 
-.gitignore\newline docs/Bc.aux\newline docs/Bc.lof\newline docs/Bc.log\newline docs/Bc.lol\newline docs/Bc.out\newline docs/Bc.pdf\newline docs/Bc.synctex.gz\newline docs/Bc.tex\newline docs/Bc.toc\newline docs/Images/Bodies.png\newline docs/Images/Body.png\newline docs/Images/BodyData.png\newline docs/Images/Celestia.png\newline docs/Images/Discussion.png\newline docs/Images/Identity.png\newline docs/Images/JPLNasa.png\newline docs/Images/MainPage.png\newline docs/Images/OrbitData.png\newline docs/Images/OrbitData.xml\newline docs/Images/Overview.png\newline docs/Images/Redux.png\newline docs/Images/RingData.png\newline docs/Images/SignIn.png\newline docs/Images/SignUp.png\newline docs/Images/Simulator.png\newline docs/Images/Stellarium.png\newline docs/Images/Timeline.png\newline docs/Images/Webpack.png\newline docs/Images/zadani1.jpg\newline docs/Images/zadani2.jpg\newline docs/SourceCodes/Aggregation.js\newline docs/SourceCodes/CreateUnits.js\newline docs/SourceCodes/Database.js\newline docs/SourceCodes/DatabaseConnection.js\newline docs/SourceCodes/EventsArea.js\newline docs/SourceCodes/Hash.js\newline docs/SourceCodes/ImportFromModule.js\newline docs/SourceCodes/JSX.js\newline docs/SourceCodes/Model.js\newline docs/SourceCodes/Npm.txt\newline docs/SourceCodes/Orbit.js\newline docs/SourceCodes/Redux.js\newline docs/SourceCodes/ReduxAction.js\newline docs/SourceCodes/ReduxReducer.js\newline docs/SourceCodes/Round.js\newline docs/SourceCodes/Route.js\newline docs/SourceCodes/RouteUtils.js\newline docs/SourceCodes/Scene.js\newline docs/SourceCodes/Schema.js\newline docs/SourceCodes/Units.js\newline docs/SourceCodes/Webpack.js\newline docs/vskpupa.sty\newline package-lock.json\newline package.json\newline src/Client/package-lock.json\newline src/Client/package.json\newline src/Client/postcss.config.js\newline src/Client/src/Charts/Components/DonutChart.tsx\newline src/Client/src/Charts/Components/LineChart.tsx\newline src/Client/src/Charts/index.ts\newline src/Client/src/Controls/Components/AboutControl.tsx\newline src/Client/src/Controls/Components/Alert.tsx\newline src/Client/src/Controls/Components/AuthenticationControl.tsx\newline src/Client/src/Controls/Components/ContextInfo.tsx\newline src/Client/src/Controls/Components/ContextMenu.tsx\newline src/Client/src/Controls/Components/ContextTrigger.tsx\newline src/Client/src/Controls/Components/Control.tsx\newline src/Client/src/Controls/Components/ControlLink.tsx\newline src/Client/src/Controls/Components/ControlPanel.tsx\newline src/Client/src/Controls/Components/FullScreenControl.tsx\newline src/Client/src/Controls/Components/HelpControl.tsx\newline src/Client/src/Controls/Components/HomeControl.tsx\newline src/Client/src/Controls/Components/UIControl.tsx\newline src/Client/src/Controls/Components/ViewSizeControl.tsx\newline src/Client/src/Controls/Styles/Alert.scss\newline src/Client/src/Controls/Styles/Context.scss\newline src/Client/src/Controls/Styles/ContextInfo.scss\newline src/Client/src/Controls/Styles/ControlPanel.scss\newline src/Client/src/Controls/Styles/Controls.scss\newline src/Client/src/Controls/index.scss\newline src/Client/src/Controls/index.ts\newline src/Client/src/Forms/Components/Back.tsx\newline src/Client/src/Forms/Components/Field.tsx\newline src/Client/src/Forms/Components/FlexRow.tsx\newline src/Client/src/Forms/Components/Form.tsx\newline src/Client/src/Forms/Components/Note.tsx\newline src/Client/src/Forms/Components/Select.tsx\newline src/Client/src/Forms/Components/Submit.tsx\newline src/Client/src/Forms/Components/Title.tsx\newline src/Client/src/Forms/index.scss\newline src/Client/src/Forms/index.ts\newline src/Client/src/Global/IBodyContrainer.ts\newline src/Client/src/Global/IFilter.ts\newline src/Client/src/Global/ILinkButton.ts\newline src/Client/src/Global/IScene.ts\newline src/Client/src/Global/IStrings.ts\newline src/Client/src/Global/IUniverse.ts\newline src/Client/src/Global/IUserScore.ts\newline src/Client/src/Global/Redux.ts\newline src/Client/src/Global/Select.ts\newline src/Client/src/Global/Table.ts\newline src/Client/src/Global/Units.ts\newline src/Client/src/Panel/Components/AnswerForm.tsx\newline src/Client/src/Panel/Components/Bodies.tsx\newline src/Client/src/Panel/Components/BodiesFilterForm.tsx\newline src/Client/src/Panel/Components/BodiesSettingsForm.tsx\newline src/Client/src/Panel/Components/Body.tsx\newline src/Client/src/Panel/Components/BodyData.tsx\newline src/Client/src/Panel/Components/BodyDiscussion.tsx\newline src/Client/src/Panel/Components/BodyPost.tsx\newline src/Client/src/Panel/Components/BodyTimeline.tsx\newline src/Client/src/Panel/Components/Chat.tsx\newline src/Client/src/Panel/Components/DiscussionForm.tsx\newline src/Client/src/Panel/Components/Notifications.tsx\newline src/Client/src/Panel/Components/Overview.tsx\newline src/Client/src/Panel/Components/Panel.tsx\newline src/Client/src/Panel/Components/People.tsx\newline src/Client/src/Panel/Redux/ActionTypes.ts\newline src/Client/src/Panel/Redux/PanelActions.ts\newline src/Client/src/Panel/Redux/PanelReducer.ts\newline src/Client/src/Panel/Styles/Bodies.scss\newline src/Client/src/Panel/Styles/Body.scss\newline src/Client/src/Panel/Styles/Chat.scss\newline src/Client/src/Panel/Styles/Notifications.scss\newline src/Client/src/Panel/Styles/Overview.scss\newline src/Client/src/Panel/Styles/Panel.scss\newline src/Client/src/Panel/Styles/People.scss\newline src/Client/src/Panel/index.scss\newline src/Client/src/Panel/index.tsx\newline src/Client/src/System/Components/AnimatedBackground.tsx\newline src/Client/src/System/Components/App.tsx\newline src/Client/src/System/Constants/Strings.ts\newline src/Client/src/System/Redux/ActionTypes.ts\newline src/Client/src/System/Redux/Store.ts\newline src/Client/src/System/Redux/SystemActions.ts\newline src/Client/src/System/Redux/SystemReducer.ts\newline src/Client/src/System/Styles/AnimatedBackground.scss\newline src/Client/src/System/Styles/Home.scss\newline src/Client/src/System/Views/HomeView.tsx\newline src/Client/src/System/index.scss\newline src/Client/src/System/index.ts\newline src/Client/src/Universe/Components/BodyPreview.tsx\newline src/Client/src/Universe/Components/Canvas.tsx\newline src/Client/src/Universe/Components/ControlBar.tsx\newline src/Client/src/Universe/Components/ControlPanel.tsx\newline src/Client/src/Universe/Components/UI.tsx\newline src/Client/src/Universe/Constants/Config.ts\newline src/Client/src/Universe/Constants/Keys.ts\newline src/Client/src/Universe/Constants/Visibility.ts\newline src/Client/src/Universe/Redux/ActionTypes.ts\newline src/Client/src/Universe/Redux/UniverseActions.ts\newline src/Client/src/Universe/Redux/UniverseReducer.ts\newline src/Client/src/Universe/Styles/ControlBar.scss\newline src/Client/src/Universe/Styles/Controls.scss\newline src/Client/src/Universe/Styles/UI.scss\newline src/Client/src/Universe/Utils/BodyContainer.ts\newline src/Client/src/Universe/Utils/BodyFactory.ts\newline src/Client/src/Universe/Utils/Listener.ts\newline src/Client/src/Universe/Utils/Scene.ts\newline src/Client/src/Universe/Utils/TextureStore.ts\newline src/Client/src/Universe/Utils/Universe.ts\newline src/Client/src/Universe/Views/UniverseView.tsx\newline src/Client/src/Universe/index.scss\newline src/Client/src/Universe/index.ts\newline src/Client/src/User/Components/IdentityForm.tsx\newline src/Client/src/User/Components/LoginForm.tsx\newline src/Client/src/User/Components/SignUpForm.tsx\newline src/Client/src/User/Components/UserInfo.tsx\newline src/Client/src/User/Components/UsersList.tsx\newline src/Client/src/User/Redux/ActionTypes.ts\newline src/Client/src/User/Redux/UserActions.ts\newline src/Client/src/User/Redux/UserReducer.ts\newline src/Client/src/User/Styles/UserInfo.scss\newline src/Client/src/User/Views/IdentityView.tsx\newline src/Client/src/User/Views/LoginView.tsx\newline src/Client/src/User/Views/SignUpView.tsx\newline src/Client/src/User/index.scss\newline src/Client/src/User/index.ts\newline src/Client/src/Utils/Components/AsyncEntity.tsx\newline src/Client/src/Utils/Components/BlurLayout.tsx\newline src/Client/src/Utils/Components/Component.tsx\newline src/Client/src/Utils/Components/DataTable.tsx\newline src/Client/src/Utils/Components/Dropdown.tsx\newline src/Client/src/Utils/Components/EventsArea.tsx\newline src/Client/src/Utils/Components/FadeLayout.tsx\newline src/Client/src/Utils/Components/Link.tsx\newline src/Client/src/Utils/Components/Loader.tsx\newline src/Client/src/Utils/Components/Menu.tsx\newline src/Client/src/Utils/Components/QueryMenu.tsx\newline src/Client/src/Utils/Components/RelativeTime.tsx\newline src/Client/src/Utils/Components/SimpleComponent.tsx\newline src/Client/src/Utils/Components/StatelessComponent.tsx\newline src/Client/src/Utils/Components/Table.tsx\newline src/Client/src/Utils/Components/ToggleLayout.tsx\newline src/Client/src/Utils/Components/UILayout.tsx\newline src/Client/src/Utils/Components/View.tsx\newline src/Client/src/Utils/Constants/Config.ts\newline src/Client/src/Utils/Constants/CookieExpirations.ts\newline src/Client/src/Utils/Constants/Cookies.ts\newline src/Client/src/Utils/Constants/Queries.ts\newline src/Client/src/Utils/Constants/Titles.ts\newline src/Client/src/Utils/Constants/Urls.ts\newline src/Client/src/Utils/Styles/BlurLayout.scss\newline src/Client/src/Utils/Styles/Constants.scss\newline src/Client/src/Utils/Styles/DataTable.scss\newline src/Client/src/Utils/Styles/Default.scss\newline src/Client/src/Utils/Styles/Dropdown.scss\newline src/Client/src/Utils/Styles/EventsArea.scss\newline src/Client/src/Utils/Styles/Loader.scss\newline src/Client/src/Utils/Styles/Table.scss\newline src/Client/src/Utils/Styles/ToggleLayout.scss\newline src/Client/src/Utils/Styles/Utils.scss\newline src/Client/src/Utils/Utils/Cookies.ts\newline src/Client/src/Utils/Utils/Dates.ts\newline src/Client/src/Utils/Utils/Filter.ts\newline src/Client/src/Utils/Utils/Html.ts\newline src/Client/src/Utils/Utils/Redux.ts\newline src/Client/src/Utils/Utils/Request.ts\newline src/Client/src/Utils/Utils/Units.ts\newline src/Client/src/Utils/Utils/Url.ts\newline src/Client/src/Utils/Utils/Words.tsx\newline src/Client/src/Utils/index.scss\newline src/Client/src/Utils/index.ts\newline src/Client/src/index.scss\newline src/Client/src/index.tsx\newline src/Client/webpack.config.js\newline src/Constants/Config.ts\newline src/Constants/DatabaseModels.ts\newline src/Constants/Errors.ts\newline src/Constants/NotificationSubjects.ts\newline src/Constants/Operations.ts\newline src/Constants/index.ts\newline src/Controllers/bodies.ts\newline src/Controllers/bodies/count.ts\newline src/Controllers/bodies/events/{eventId}.ts\newline src/Controllers/bodies/{bodyId}.ts\newline src/Controllers/bodies/{bodyId}/count.ts\newline src/Controllers/bodies/{bodyId}/events.ts\newline src/Controllers/bodies/{bodyId}/posts.ts\newline src/Controllers/bodyTypes.ts\newline src/Controllers/bodyTypes/count.ts\newline src/Controllers/bodyTypes/{bodyTypeId}.ts\newline src/Controllers/login.ts\newline src/Controllers/notifications.ts\newline src/Controllers/posts/votes/{voteId}.ts\newline src/Controllers/posts/{postId}/posts.ts\newline src/Controllers/posts/{postId}/votes.ts\newline src/Controllers/users.ts\newline src/Controllers/users/count.ts\newline src/Controllers/users/{userId}.ts\newline src/Database/Database.ts\newline src/Database/DatabaseModel.ts\newline src/Database/Plugins/FillBodyPlugin.ts\newline src/Database/Plugins/HashPlugin.ts\newline src/Database/Plugins/ModifyPlugin.ts\newline src/Database/Schemas/BodyEventSchema.ts\newline src/Database/Schemas/BodyPostSchema.ts\newline src/Database/Schemas/BodySchema.ts\newline src/Database/Schemas/BodyTypeSchema.ts\newline src/Database/Schemas/NotificationSchema.ts\newline src/Database/Schemas/PostVoteSchema.ts\newline src/Database/Schemas/TokenSchema.ts\newline src/Database/Schemas/UnapprovedSchema.ts\newline src/Database/Schemas/UserSchema.ts\newline src/Global/Database.ts\newline src/Global/Discussion.ts\newline src/Global/Error.ts\newline src/Global/Event.ts\newline src/Global/FunctionalInterfaces.ts\newline src/Global/Functions.ts\newline src/Global/IBody.ts\newline src/Global/IBodyType.ts\newline src/Global/IFactory.ts\newline src/Global/IModel.ts\newline src/Global/IObject.ts\newline src/Global/ISecurityModel.ts\newline src/Global/IServer.ts\newline src/Global/IUser.ts\newline src/Global/Item.ts\newline src/Global/Notification.ts\newline src/Global/Routes.ts\newline src/Global/Structures.ts\newline src/Global/Universe.ts\newline src/Global/User.tsx\newline src/Models/BodyEventModel.ts\newline src/Models/BodyModel.ts\newline src/Models/BodyPostModel.ts\newline src/Models/BodyTypeModel.ts\newline src/Models/ItemModel.ts\newline src/Models/Model.ts\newline src/Models/NotificationModel.ts\newline src/Models/PostVoteModel.ts\newline src/Models/SecurityModel.ts\newline src/Models/UserModel.ts\newline src/Public/Fonts/LatoHairline.ttf\newline src/Public/Fonts/MontserratExtraLight.ttf\newline src/Public/Fonts/MontserratHairline.ttf\newline src/Public/Images/AnimatedBackground/Stars0.png\newline src/Public/Images/AnimatedBackground/Stars1.png\newline src/Public/Images/AnimatedBackground/Stars2.png\newline src/Public/Images/Controls/CloseAlert.svg\newline src/Public/Images/Controls/Help.svg\newline src/Public/Images/Controls/HideUI.svg\newline src/Public/Images/Controls/Home.svg\newline src/Public/Images/Controls/Login.svg\newline src/Public/Images/Controls/Logout.svg\newline src/Public/Images/Controls/Maximalize.svg\newline src/Public/Images/Controls/Minimize.svg\newline src/Public/Images/Controls/ShowUI.svg\newline src/Public/Images/Forms/Back.svg\newline src/Public/Images/Forms/InvalidPassword.svg\newline src/Public/Images/Forms/Next.svg\newline src/Public/Images/Forms/Password.svg\newline src/Public/Images/General/LeftBoldArrow.svg\newline src/Public/Images/Loader/Ring.svg\newline src/Public/Images/Loader/Spinner.svg\newline src/Public/Images/Loader/Wave.svg\newline src/Public/Images/Panel/Bodies/Remove.svg\newline src/Public/Images/Panel/Body/Send.svg\newline src/Public/Images/Panel/Body/ThumbDown.svg\newline src/Public/Images/Panel/Body/ThumbUp.svg\newline src/Public/Images/Panel/Chat/Send.svg\newline src/Public/Images/Panel/Overview/Clean.svg\newline src/Public/Images/Panel/Toggle.svg\newline src/Public/Images/Universe/Textures/Earth.jpg\newline src/Public/Images/Universe/Textures/Jupiter.jpg\newline src/Public/Images/Universe/Textures/Mars.jpg\newline src/Public/Images/Universe/Textures/Mercury.jpg\newline src/Public/Images/Universe/Textures/MilkyWay.png\newline src/Public/Images/Universe/Textures/Moon.jpg\newline src/Public/Images/Universe/Textures/Neptune.jpg\newline src/Public/Images/Universe/Textures/Saturn.jpg\newline src/Public/Images/Universe/Textures/SaturnRings.jpg\newline src/Public/Images/Universe/Textures/Sun.jpg\newline src/Public/Images/Universe/Textures/Universe.jpg\newline src/Public/Images/Universe/Textures/Uranus.jpg\newline src/Public/Images/Universe/Textures/Venus.jpg\newline src/Public/Images/Universe/UI/Faster.svg\newline src/Public/Images/Universe/UI/Labels.svg\newline src/Public/Images/Universe/UI/Light.svg\newline src/Public/Images/Universe/UI/Move.svg\newline src/Public/Images/Universe/UI/Name.svg\newline src/Public/Images/Universe/UI/Now.svg\newline src/Public/Images/Universe/UI/Orbits.svg\newline src/Public/Images/Universe/UI/Panel.svg\newline src/Public/Images/Universe/UI/ResetSpeed.svg\newline src/Public/Images/Universe/UI/Size.svg\newline src/Public/Images/Universe/UI/Slower.svg\newline src/Public/Images/Universe/UI/Speed.svg\newline src/Public/Images/Universe/UI/Time.svg\newline src/Public/Images/Universe/UI/View.svg\newline src/Public/Images/User/Avatar.svg\newline src/Public/index.html\newline src/Server.ts\newline src/Swagger.ts\newline src/Utils/Arrays.ts\newline src/Utils/Dates.ts\newline src/Utils/Physics.ts\newline src/Utils/Route.ts\newline src/Utils/Security.ts\newline src/Utils/Strings.ts\newline src/index.ts\newline tsconfig.json\newline
+.gitignore\newline /Bc.aux\newline package-lock.json\newline package.json\newline src/Client/package-lock.json\newline src/Client/package.json\newline src/Client/postcss.config.js\newline src/Client/src/Charts/Components/DonutChart.tsx\newline src/Client/src/Charts/Components/LineChart.tsx\newline src/Client/src/Charts/index.ts\newline src/Client/src/Controls/Components/AboutControl.tsx\newline src/Client/src/Controls/Components/Alert.tsx\newline src/Client/src/Controls/Components/AuthenticationControl.tsx\newline src/Client/src/Controls/Components/ContextInfo.tsx\newline src/Client/src/Controls/Components/ContextMenu.tsx\newline src/Client/src/Controls/Components/ContextTrigger.tsx\newline src/Client/src/Controls/Components/Control.tsx\newline src/Client/src/Controls/Components/ControlLink.tsx\newline src/Client/src/Controls/Components/ControlPanel.tsx\newline src/Client/src/Controls/Components/FullScreenControl.tsx\newline src/Client/src/Controls/Components/HelpControl.tsx\newline src/Client/src/Controls/Components/HomeControl.tsx\newline src/Client/src/Controls/Components/UIControl.tsx\newline src/Client/src/Controls/Components/ViewSizeControl.tsx\newline src/Client/src/Controls/Styles/Alert.scss\newline src/Client/src/Controls/Styles/Context.scss\newline src/Client/src/Controls/Styles/ContextInfo.scss\newline src/Client/src/Controls/Styles/ControlPanel.scss\newline src/Client/src/Controls/Styles/Controls.scss\newline src/Client/src/Controls/index.scss\newline src/Client/src/Controls/index.ts\newline src/Client/src/Forms/Components/Back.tsx\newline src/Client/src/Forms/Components/Field.tsx\newline src/Client/src/Forms/Components/FlexRow.tsx\newline src/Client/src/Forms/Components/Form.tsx\newline src/Client/src/Forms/Components/Note.tsx\newline src/Client/src/Forms/Components/Select.tsx\newline src/Client/src/Forms/Components/Submit.tsx\newline src/Client/src/Forms/Components/Title.tsx\newline src/Client/src/Forms/index.scss\newline src/Client/src/Forms/index.ts\newline src/Client/src/Global/IBodyContrainer.ts\newline src/Client/src/Global/IFilter.ts\newline src/Client/src/Global/ILinkButton.ts\newline src/Client/src/Global/IScene.ts\newline src/Client/src/Global/IStrings.ts\newline src/Client/src/Global/IUniverse.ts\newline src/Client/src/Global/IUserScore.ts\newline src/Client/src/Global/Redux.ts\newline src/Client/src/Global/Select.ts\newline src/Client/src/Global/Table.ts\newline src/Client/src/Global/Units.ts\newline src/Client/src/Panel/Components/AnswerForm.tsx\newline src/Client/src/Panel/Components/Bodies.tsx\newline src/Client/src/Panel/Components/BodiesFilterForm.tsx\newline src/Client/src/Panel/Components/BodiesSettingsForm.tsx\newline src/Client/src/Panel/Components/Body.tsx\newline src/Client/src/Panel/Components/BodyData.tsx\newline src/Client/src/Panel/Components/BodyDiscussion.tsx\newline src/Client/src/Panel/Components/BodyPost.tsx\newline src/Client/src/Panel/Components/BodyTimeline.tsx\newline src/Client/src/Panel/Components/Chat.tsx\newline src/Client/src/Panel/Components/DiscussionForm.tsx\newline src/Client/src/Panel/Components/Notifications.tsx\newline src/Client/src/Panel/Components/Overview.tsx\newline src/Client/src/Panel/Components/Panel.tsx\newline src/Client/src/Panel/Components/People.tsx\newline src/Client/src/Panel/Redux/ActionTypes.ts\newline src/Client/src/Panel/Redux/PanelActions.ts\newline src/Client/src/Panel/Redux/PanelReducer.ts\newline src/Client/src/Panel/Styles/Bodies.scss\newline src/Client/src/Panel/Styles/Body.scss\newline src/Client/src/Panel/Styles/Chat.scss\newline src/Client/src/Panel/Styles/Notifications.scss\newline src/Client/src/Panel/Styles/Overview.scss\newline src/Client/src/Panel/Styles/Panel.scss\newline src/Client/src/Panel/Styles/People.scss\newline src/Client/src/Panel/index.scss\newline src/Client/src/Panel/index.tsx\newline src/Client/src/System/Components/AnimatedBackground.tsx\newline src/Client/src/System/Components/App.tsx\newline src/Client/src/System/Constants/Strings.ts\newline src/Client/src/System/Redux/ActionTypes.ts\newline src/Client/src/System/Redux/Store.ts\newline src/Client/src/System/Redux/SystemActions.ts\newline src/Client/src/System/Redux/SystemReducer.ts\newline src/Client/src/System/Styles/AnimatedBackground.scss\newline src/Client/src/System/Styles/Home.scss\newline src/Client/src/System/Views/HomeView.tsx\newline src/Client/src/System/index.scss\newline src/Client/src/System/index.ts\newline src/Client/src/Universe/Components/BodyPreview.tsx\newline src/Client/src/Universe/Components/Canvas.tsx\newline src/Client/src/Universe/Components/ControlBar.tsx\newline src/Client/src/Universe/Components/ControlPanel.tsx\newline src/Client/src/Universe/Components/UI.tsx\newline src/Client/src/Universe/Constants/Config.ts\newline src/Client/src/Universe/Constants/Keys.ts\newline src/Client/src/Universe/Constants/Visibility.ts\newline src/Client/src/Universe/Redux/ActionTypes.ts\newline src/Client/src/Universe/Redux/UniverseActions.ts\newline src/Client/src/Universe/Redux/UniverseReducer.ts\newline src/Client/src/Universe/Styles/ControlBar.scss\newline src/Client/src/Universe/Styles/Controls.scss\newline src/Client/src/Universe/Styles/UI.scss\newline src/Client/src/Universe/Utils/BodyContainer.ts\newline src/Client/src/Universe/Utils/BodyFactory.ts\newline src/Client/src/Universe/Utils/Listener.ts\newline src/Client/src/Universe/Utils/Scene.ts\newline src/Client/src/Universe/Utils/TextureStore.ts\newline src/Client/src/Universe/Utils/Universe.ts\newline src/Client/src/Universe/Views/UniverseView.tsx\newline src/Client/src/Universe/index.scss\newline src/Client/src/Universe/index.ts\newline src/Client/src/User/Components/IdentityForm.tsx\newline src/Client/src/User/Components/LoginForm.tsx\newline src/Client/src/User/Components/SignUpForm.tsx\newline src/Client/src/User/Components/UserInfo.tsx\newline src/Client/src/User/Components/UsersList.tsx\newline src/Client/src/User/Redux/ActionTypes.ts\newline src/Client/src/User/Redux/UserActions.ts\newline src/Client/src/User/Redux/UserReducer.ts\newline src/Client/src/User/Styles/UserInfo.scss\newline src/Client/src/User/Views/IdentityView.tsx\newline src/Client/src/User/Views/LoginView.tsx\newline src/Client/src/User/Views/SignUpView.tsx\newline src/Client/src/User/index.scss\newline src/Client/src/User/index.ts\newline src/Client/src/Utils/Components/AsyncEntity.tsx\newline src/Client/src/Utils/Components/BlurLayout.tsx\newline src/Client/src/Utils/Components/Component.tsx\newline src/Client/src/Utils/Components/DataTable.tsx\newline src/Client/src/Utils/Components/Dropdown.tsx\newline src/Client/src/Utils/Components/EventsArea.tsx\newline src/Client/src/Utils/Components/FadeLayout.tsx\newline src/Client/src/Utils/Components/Link.tsx\newline src/Client/src/Utils/Components/Loader.tsx\newline src/Client/src/Utils/Components/Menu.tsx\newline src/Client/src/Utils/Components/QueryMenu.tsx\newline src/Client/src/Utils/Components/RelativeTime.tsx\newline src/Client/src/Utils/Components/SimpleComponent.tsx\newline src/Client/src/Utils/Components/StatelessComponent.tsx\newline src/Client/src/Utils/Components/Table.tsx\newline src/Client/src/Utils/Components/ToggleLayout.tsx\newline src/Client/src/Utils/Components/UILayout.tsx\newline src/Client/src/Utils/Components/View.tsx\newline src/Client/src/Utils/Constants/Config.ts\newline src/Client/src/Utils/Constants/CookieExpirations.ts\newline src/Client/src/Utils/Constants/Cookies.ts\newline src/Client/src/Utils/Constants/Queries.ts\newline src/Client/src/Utils/Constants/Titles.ts\newline src/Client/src/Utils/Constants/Urls.ts\newline src/Client/src/Utils/Styles/BlurLayout.scss\newline src/Client/src/Utils/Styles/Constants.scss\newline src/Client/src/Utils/Styles/DataTable.scss\newline src/Client/src/Utils/Styles/Default.scss\newline src/Client/src/Utils/Styles/Dropdown.scss\newline src/Client/src/Utils/Styles/EventsArea.scss\newline src/Client/src/Utils/Styles/Loader.scss\newline src/Client/src/Utils/Styles/Table.scss\newline src/Client/src/Utils/Styles/ToggleLayout.scss\newline src/Client/src/Utils/Styles/Utils.scss\newline src/Client/src/Utils/Utils/Cookies.ts\newline src/Client/src/Utils/Utils/Dates.ts\newline src/Client/src/Utils/Utils/Filter.ts\newline src/Client/src/Utils/Utils/Html.ts\newline src/Client/src/Utils/Utils/Redux.ts\newline src/Client/src/Utils/Utils/Request.ts\newline src/Client/src/Utils/Utils/Units.ts\newline src/Client/src/Utils/Utils/Url.ts\newline src/Client/src/Utils/Utils/Words.tsx\newline src/Client/src/Utils/index.scss\newline src/Client/src/Utils/index.ts\newline src/Client/src/index.scss\newline src/Client/src/index.tsx\newline src/Client/webpack.config.js\newline src/Constants/Config.ts\newline src/Constants/DatabaseModels.ts\newline src/Constants/Errors.ts\newline src/Constants/NotificationSubjects.ts\newline src/Constants/Operations.ts\newline src/Constants/index.ts\newline src/Controllers/bodies.ts\newline src/Controllers/bodies/count.ts\newline src/Controllers/bodies/events/{eventId}.ts\newline src/Controllers/bodies/{bodyId}.ts\newline src/Controllers/bodies/{bodyId}/count.ts\newline src/Controllers/bodies/{bodyId}/events.ts\newline src/Controllers/bodies/{bodyId}/posts.ts\newline src/Controllers/bodyTypes.ts\newline src/Controllers/bodyTypes/count.ts\newline src/Controllers/bodyTypes/{bodyTypeId}.ts\newline src/Controllers/login.ts\newline src/Controllers/notifications.ts\newline src/Controllers/posts/votes/{voteId}.ts\newline src/Controllers/posts/{postId}/posts.ts\newline src/Controllers/posts/{postId}/votes.ts\newline src/Controllers/users.ts\newline src/Controllers/users/count.ts\newline src/Controllers/users/{userId}.ts\newline src/Database/Database.ts\newline src/Database/DatabaseModel.ts\newline src/Database/Plugins/FillBodyPlugin.ts\newline src/Database/Plugins/HashPlugin.ts\newline src/Database/Plugins/ModifyPlugin.ts\newline src/Database/Schemas/BodyEventSchema.ts\newline src/Database/Schemas/BodyPostSchema.ts\newline src/Database/Schemas/BodySchema.ts\newline src/Database/Schemas/BodyTypeSchema.ts\newline src/Database/Schemas/NotificationSchema.ts\newline src/Database/Schemas/PostVoteSchema.ts\newline src/Database/Schemas/TokenSchema.ts\newline src/Database/Schemas/UnapprovedSchema.ts\newline src/Database/Schemas/UserSchema.ts\newline src/Global/Database.ts\newline src/Global/Discussion.ts\newline src/Global/Error.ts\newline src/Global/Event.ts\newline src/Global/FunctionalInterfaces.ts\newline src/Global/Functions.ts\newline src/Global/IBody.ts\newline src/Global/IBodyType.ts\newline src/Global/IFactory.ts\newline src/Global/IModel.ts\newline src/Global/IObject.ts\newline src/Global/ISecurityModel.ts\newline src/Global/IServer.ts\newline src/Global/IUser.ts\newline src/Global/Item.ts\newline src/Global/Notification.ts\newline src/Global/Routes.ts\newline src/Global/Structures.ts\newline src/Global/Universe.ts\newline src/Global/User.tsx\newline src/Models/BodyEventModel.ts\newline src/Models/BodyModel.ts\newline src/Models/BodyPostModel.ts\newline src/Models/BodyTypeModel.ts\newline src/Models/ItemModel.ts\newline src/Models/Model.ts\newline src/Models/NotificationModel.ts\newline src/Models/PostVoteModel.ts\newline src/Models/SecurityModel.ts\newline src/Models/UserModel.ts\newline src/Public/Fonts/LatoHairline.ttf\newline src/Public/Fonts/MontserratExtraLight.ttf\newline src/Public/Fonts/MontserratHairline.ttf\newline src/Public/Images/AnimatedBackground/Stars0.png\newline src/Public/Images/AnimatedBackground/Stars1.png\newline src/Public/Images/AnimatedBackground/Stars2.png\newline src/Public/Images/Controls/CloseAlert.svg\newline src/Public/Images/Controls/Help.svg\newline src/Public/Images/Controls/HideUI.svg\newline src/Public/Images/Controls/Home.svg\newline src/Public/Images/Controls/Login.svg\newline src/Public/Images/Controls/Logout.svg\newline src/Public/Images/Controls/Maximalize.svg\newline src/Public/Images/Controls/Minimize.svg\newline src/Public/Images/Controls/ShowUI.svg\newline src/Public/Images/Forms/Back.svg\newline src/Public/Images/Forms/InvalidPassword.svg\newline src/Public/Images/Forms/Next.svg\newline src/Public/Images/Forms/Password.svg\newline src/Public/Images/General/LeftBoldArrow.svg\newline src/Public/Images/Loader/Ring.svg\newline src/Public/Images/Loader/Spinner.svg\newline src/Public/Images/Loader/Wave.svg\newline src/Public/Images/Panel/Bodies/Remove.svg\newline src/Public/Images/Panel/Body/Send.svg\newline src/Public/Images/Panel/Body/ThumbDown.svg\newline src/Public/Images/Panel/Body/ThumbUp.svg\newline src/Public/Images/Panel/Chat/Send.svg\newline src/Public/Images/Panel/Overview/Clean.svg\newline src/Public/Images/Panel/Toggle.svg\newline src/Public/Images/Universe/Textures/Earth.jpg\newline src/Public/Images/Universe/Textures/Jupiter.jpg\newline src/Public/Images/Universe/Textures/Mars.jpg\newline src/Public/Images/Universe/Textures/Mercury.jpg\newline src/Public/Images/Universe/Textures/MilkyWay.png\newline src/Public/Images/Universe/Textures/Moon.jpg\newline src/Public/Images/Universe/Textures/Neptune.jpg\newline src/Public/Images/Universe/Textures/Saturn.jpg\newline src/Public/Images/Universe/Textures/SaturnRings.jpg\newline src/Public/Images/Universe/Textures/Sun.jpg\newline src/Public/Images/Universe/Textures/Universe.jpg\newline src/Public/Images/Universe/Textures/Uranus.jpg\newline src/Public/Images/Universe/Textures/Venus.jpg\newline src/Public/Images/Universe/UI/Faster.svg\newline src/Public/Images/Universe/UI/Labels.svg\newline src/Public/Images/Universe/UI/Light.svg\newline src/Public/Images/Universe/UI/Move.svg\newline src/Public/Images/Universe/UI/Name.svg\newline src/Public/Images/Universe/UI/Now.svg\newline src/Public/Images/Universe/UI/Orbits.svg\newline src/Public/Images/Universe/UI/Panel.svg\newline src/Public/Images/Universe/UI/ResetSpeed.svg\newline src/Public/Images/Universe/UI/Size.svg\newline src/Public/Images/Universe/UI/Slower.svg\newline src/Public/Images/Universe/UI/Speed.svg\newline src/Public/Images/Universe/UI/Time.svg\newline src/Public/Images/Universe/UI/View.svg\newline src/Public/Images/User/Avatar.svg\newline src/Public/index.html\newline src/Server.ts\newline src/Swagger.ts\newline src/Utils/Arrays.ts\newline src/Utils/Dates.ts\newline src/Utils/Physics.ts\newline src/Utils/Route.ts\newline src/Utils/Security.ts\newline src/Utils/Strings.ts\newline src/index.ts\newline tsconfig.json\newline
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

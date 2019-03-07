@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.11.7)  5 MAR 2019 15:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.11.7)  7 MAR 2019 18:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -605,58 +605,34 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lipsum/lipsum.sty
 Package: lipsum 2014/07/27 v1.3 150 paragraphs of Lorem Ipsum dummy text
 \c@lips@count=\count131
-) (./Bc.aux
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-
-LaTeX Warning: Label `BodiesList' multiply defined.
-
-)
+) (./Bc.aux)
 \openout1 = `Bc.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 121.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 121.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 133.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 133.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 133.
 
- (/usr/local/texlive/2018/texmf-dist/tex/latex/base/ts1cmr.fd
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 121.
+LaTeX Font Info:    ... okay on input line 133.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 133.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -726,7 +702,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box64
-Package hyperref Info: Link coloring OFF on input line 121.
+Package hyperref Info: Link coloring OFF on input line 133.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -736,9 +712,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count138
 )
-LaTeX Info: Redefining \ref on input line 121.
-LaTeX Info: Redefining \pageref on input line 121.
-LaTeX Info: Redefining \nameref on input line 121.
+LaTeX Info: Redefining \ref on input line 133.
+LaTeX Info: Redefining \pageref on input line 133.
+LaTeX Info: Redefining \nameref on input line 133.
 
 (./Bc.out) (./Bc.out)
 \@outlinefile=\write3
@@ -758,34 +734,34 @@ Package caption Info: End \AtBeginDocument code.
 ] [4
 
 ] (./Bc.toc
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 8.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 7.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )<<ot1.cmap>>
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 8.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 7.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )<<oml.cmap>>
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 8.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 7.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )<<oms.cmap>>
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 8.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 7.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 8.
+(Font)              <12> on input line 7.
 <<omx.cmap>>
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 8.
+(Font)              <8> on input line 7.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 8.
-LaTeX Font Info:    Try loading font information for U+wasy on input line 8.
+(Font)              <6> on input line 7.
+LaTeX Font Info:    Try loading font information for U+wasy on input line 7.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/wasysym/uwasy.fd
 File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
@@ -810,7 +786,6 @@ File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 
  [9
 
-
 ] [10
 
 
@@ -818,291 +793,258 @@ File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 
 
 ]
-<Images/Celestia.png, id=536, 805.0075pt x 482.80376pt>
+<Images/Celestia.png, id=531, 805.0075pt x 482.80376pt>
 File: Images/Celestia.png Graphic file (type png)
 <use Images/Celestia.png>
-Package pdftex.def Info: Images/Celestia.png  used on input line 205.
+Package pdftex.def Info: Images/Celestia.png  used on input line 224.
 (pdftex.def)             Requested size: 450.0pt x 269.8894pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 206.
+(Font)              <10> on input line 225.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 206.
+(Font)              <7> on input line 225.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 206.
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 209.
+(Font)              <5> on input line 225.
+ [12
+
+]
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 228.
 
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [12
-
- <./Images/Celestia.png>]
-<Images/Stellarium.png, id=548, 1023.825pt x 640.3925pt>
+)
+<Images/Stellarium.png, id=540, 1023.825pt x 640.3925pt>
 File: Images/Stellarium.png Graphic file (type png)
 <use Images/Stellarium.png>
-Package pdftex.def Info: Images/Stellarium.png  used on input line 221.
+Package pdftex.def Info: Images/Stellarium.png  used on input line 240.
 (pdftex.def)             Requested size: 450.0pt x 281.47064pt.
-<Images/JPLNasa.png, id=549, 799.98875pt x 449.68pt>
+ [13 <./Images/Celestia.png>]
+<Images/JPLNasa.png, id=551, 799.98875pt x 449.68pt>
 File: Images/JPLNasa.png Graphic file (type png)
 <use Images/JPLNasa.png>
-Package pdftex.def Info: Images/JPLNasa.png  used on input line 231.
+Package pdftex.def Info: Images/JPLNasa.png  used on input line 250.
 (pdftex.def)             Requested size: 450.0pt x 252.95123pt.
- [13 <./Images/Stellarium.png>] [14 <./Images/JPLNasa.png>]
+ [14 <./Images/Stellarium.png>] [15 <./Images/JPLNasa.png>]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 256.
+nput line 275.
 
-(./SourceCodes/JSX.js) [15
+(./SourceCodes/JSX.js) [16
 
-] [16] (./SourceCodes/Webpack.js) [17]
-(./SourceCodes/Npm.txt) [18]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 308.
+] [17] (./SourceCodes/Webpack.js) [18]
+(./SourceCodes/Npm.txt) [19]
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 327.
 
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [19
+) [20
 
 ]
 (./SourceCodes/ImportFromModule.js
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 1.
 )
-<Images/Redux.png, id=643, 941.5175pt x 242.9075pt>
+<Images/Redux.png, id=645, 941.5175pt x 242.9075pt>
 File: Images/Redux.png Graphic file (type png)
 <use Images/Redux.png>
-Package pdftex.def Info: Images/Redux.png  used on input line 381.
+Package pdftex.def Info: Images/Redux.png  used on input line 399.
 (pdftex.def)             Requested size: 350.0pt x 90.29689pt.
- [20] (./SourceCodes/Redux.js) [21 <./Images/Redux.png>] (./SourceCodes/ReduxAc
+ [21] (./SourceCodes/Redux.js) [22 <./Images/Redux.png>] (./SourceCodes/ReduxAc
 tion.js) (./SourceCodes/ReduxReducer.js
-[22]) (./SourceCodes/Scene.js)
-Overfull \hbox (8.79913pt too wide) in paragraph at lines 433--434
+[23]) (./SourceCodes/Scene.js)
+Overfull \hbox (8.79913pt too wide) in paragraph at lines 450--451
 \T1/lmr/m/n/12 Samotné t¥-leso je re-pre-zen-to-váno koulí, tedy ob-jek-tem s g
 e-o-me-t-rií \T1/lmr/m/it/12 THREE.SphereGeometry\T1/lmr/m/n/12 .
  []
 
-[23]
-<Images/BodyData.png, id=718, 507.8975pt x 296.10625pt>
+[24]
+<Images/BodyData.png, id=720, 507.8975pt x 296.10625pt>
 File: Images/BodyData.png Graphic file (type png)
 <use Images/BodyData.png>
-Package pdftex.def Info: Images/BodyData.png  used on input line 437.
+Package pdftex.def Info: Images/BodyData.png  used on input line 454.
 (pdftex.def)             Requested size: 370.0pt x 215.71748pt.
  (./SourceCodes/Orbit.js)
-<Images/OrbitData.png, id=720, 450.68375pt x 317.185pt>
+<Images/OrbitData.png, id=722, 450.68375pt x 317.185pt>
 File: Images/OrbitData.png Graphic file (type png)
 <use Images/OrbitData.png>
-Package pdftex.def Info: Images/OrbitData.png  used on input line 453.
+Package pdftex.def Info: Images/OrbitData.png  used on input line 470.
 (pdftex.def)             Requested size: 350.0pt x 246.33852pt.
- [24 <./Images/BodyData.png>]
-<Images/RingData.png, id=732, 372.39125pt x 218.8175pt>
+ [25 <./Images/BodyData.png>]
+<Images/RingData.png, id=735, 372.39125pt x 218.8175pt>
 File: Images/RingData.png Graphic file (type png)
 <use Images/RingData.png>
-Package pdftex.def Info: Images/RingData.png  used on input line 469.
+Package pdftex.def Info: Images/RingData.png  used on input line 486.
 (pdftex.def)             Requested size: 300.0pt x 176.28627pt.
- [25 <./Images/OrbitData.png> <./Images/RingData.png>] [26] (./SourceCodes/Rout
-e.js) [27]
-(./SourceCodes/RouteUtils.js) [28] (./SourceCodes/Model.js) [29]
-(./SourceCodes/DatabaseConnection.js) (./SourceCodes/Schema.js) [30]
-(./SourceCodes/Hash.js) [31] (./SourceCodes/Database.js) [32] [33]
-<Images/MainPage.png, id=879, 1927.2pt x 1084.05pt>
+ [26 <./Images/OrbitData.png> <./Images/RingData.png>] [27] (./SourceCodes/Rout
+e.js) [28]
+(./SourceCodes/RouteUtils.js) [29] (./SourceCodes/Model.js) [30]
+(./SourceCodes/DatabaseConnection.js) (./SourceCodes/Schema.js) [31]
+(./SourceCodes/Hash.js) [32] (./SourceCodes/Database.js) [33] [34]
+<Images/MainPage.png, id=881, 1927.2pt x 1084.05pt>
 File: Images/MainPage.png Graphic file (type png)
 <use Images/MainPage.png>
-Package pdftex.def Info: Images/MainPage.png  used on input line 612.
+Package pdftex.def Info: Images/MainPage.png  used on input line 629.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
-<Images/Identity.png, id=880, 401.5pt x 247.92625pt>
+<Images/Identity.png, id=882, 401.5pt x 247.92625pt>
 File: Images/Identity.png Graphic file (type png)
 <use Images/Identity.png>
-Package pdftex.def Info: Images/Identity.png  used on input line 626.
+Package pdftex.def Info: Images/Identity.png  used on input line 642.
 (pdftex.def)             Requested size: 250.0pt x 154.3785pt.
- [34
+ [35
 
  <./Images/MainPage.png>]
-<Images/SignIn.png, id=886, 402.50375pt x 356.33125pt>
+<Images/SignIn.png, id=888, 402.50375pt x 356.33125pt>
 File: Images/SignIn.png Graphic file (type png)
 <use Images/SignIn.png>
-Package pdftex.def Info: Images/SignIn.png  used on input line 638.
+Package pdftex.def Info: Images/SignIn.png  used on input line 654.
 (pdftex.def)             Requested size: 250.0pt x 221.31999pt.
-<Images/SignUp.png, id=887, 401.5pt x 436.63126pt>
+<Images/SignUp.png, id=889, 401.5pt x 436.63126pt>
 File: Images/SignUp.png Graphic file (type png)
 <use Images/SignUp.png>
-Package pdftex.def Info: Images/SignUp.png  used on input line 650.
+Package pdftex.def Info: Images/SignUp.png  used on input line 666.
 (pdftex.def)             Requested size: 250.0pt x 271.88116pt.
- [35 <./Images/Identity.png> <./Images/SignIn.png>] [36 <./Images/SignUp.png>]
-<Images/Simulator.png, id=899, 1927.2pt x 1084.05pt>
+ [36 <./Images/Identity.png> <./Images/SignIn.png>] [37 <./Images/SignUp.png>]
+<Images/Simulator.png, id=902, 1927.2pt x 1084.05pt>
 File: Images/Simulator.png Graphic file (type png)
 <use Images/Simulator.png>
-Package pdftex.def Info: Images/Simulator.png  used on input line 694.
+Package pdftex.def Info: Images/Simulator.png  used on input line 710.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
- [37]
-<Images/Overview.png, id=905, 640.3925pt x 434.62375pt>
+ [38]
+<Images/Overview.png, id=907, 640.3925pt x 434.62375pt>
 File: Images/Overview.png Graphic file (type png)
 <use Images/Overview.png>
-Package pdftex.def Info: Images/Overview.png  used on input line 710.
+Package pdftex.def Info: Images/Overview.png  used on input line 725.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
- [38 <./Images/Simulator.png>]
-File: Images/Overview.png Graphic file (type png)
-<use Images/Overview.png>
-Package pdftex.def Info: Images/Overview.png  used on input line 722.
-(pdftex.def)             Requested size: 350.0pt x 237.545pt.
- [39 <./Images/Overview.png>]
-<Images/Bodies.png, id=916, 640.3925pt x 441.65pt>
+ [39 <./Images/Simulator.png>] [40 <./Images/Overview.png>]
+<Images/Bodies.png, id=919, 640.3925pt x 441.65pt>
 File: Images/Bodies.png Graphic file (type png)
 <use Images/Bodies.png>
-Package pdftex.def Info: Images/Bodies.png  used on input line 751.
+Package pdftex.def Info: Images/Bodies.png  used on input line 764.
 (pdftex.def)             Requested size: 350.0pt x 241.38522pt.
-[40 <./Images/Bodies.png>]
-<Images/Body.png, id=922, 624.3325pt x 556.0775pt>
+<Images/Body.png, id=920, 624.3325pt x 556.0775pt>
 File: Images/Body.png Graphic file (type png)
 <use Images/Body.png>
-Package pdftex.def Info: Images/Body.png  used on input line 767.
+Package pdftex.def Info: Images/Body.png  used on input line 779.
 (pdftex.def)             Requested size: 350.0pt x 311.74068pt.
-<Images/Timeline.png, id=923, 626.34pt x 483.8075pt>
+[41 <./Images/Bodies.png>]
+<Images/Timeline.png, id=926, 626.34pt x 483.8075pt>
 File: Images/Timeline.png Graphic file (type png)
 <use Images/Timeline.png>
-Package pdftex.def Info: Images/Timeline.png  used on input line 775.
+Package pdftex.def Info: Images/Timeline.png  used on input line 786.
 (pdftex.def)             Requested size: 350.0pt x 270.36191pt.
- [41 <./Images/Body.png>]
-<Images/Discussion.png, id=929, 625.33624pt x 449.68pt>
+<Images/Discussion.png, id=927, 625.33624pt x 449.68pt>
 File: Images/Discussion.png Graphic file (type png)
 <use Images/Discussion.png>
-Package pdftex.def Info: Images/Discussion.png  used on input line 783.
+Package pdftex.def Info: Images/Discussion.png  used on input line 793.
 (pdftex.def)             Requested size: 350.0pt x 251.6887pt.
- [42 <./Images/Timeline.png> <./Images/Discussion.png>]
-<Images/Webpack.png, id=936, 888.31876pt x 689.57625pt>
+ [42 <./Images/Body.png> <./Images/Timeline.png>]
+[43 <./Images/Discussion.png>]
+<Images/Webpack.png, id=942, 888.31876pt x 689.57625pt>
 File: Images/Webpack.png Graphic file (type png)
 <use Images/Webpack.png>
-Package pdftex.def Info: Images/Webpack.png  used on input line 808.
+Package pdftex.def Info: Images/Webpack.png  used on input line 817.
 (pdftex.def)             Requested size: 280.0pt x 217.35445pt.
- [43
+ [44
 
-] [44 <./Images/Webpack.png>] [45]
-(./SourceCodes/Hash.js) [46] (./SourceCodes/Units.js) (./SourceCodes/Round.js)
-(./SourceCodes/CreateUnits.js) [47] (./SourceCodes/EventsArea.js) [48] [49
-
-
-]
-Overfull \hbox (111.64511pt too wide) in paragraph at lines 942--945
-\T1/lmr/m/n/12 z: []$\T1/lmtt/m/n/12 https : / / www . zdrojak . cz / clanky / 
-javascript-[]na-[]serveru-[]architektura-[]a-[]prvni-[]hello-[]world/$[]\T1/lmr
-/m/n/12 . 
- []
-
-[50
+] [45 <./Images/Webpack.png>] [46]
+(./SourceCodes/Hash.js) [47] (./SourceCodes/Units.js) (./SourceCodes/Round.js)
+(./SourceCodes/CreateUnits.js) [48] (./SourceCodes/EventsArea.js) [49] [50
 
 
 ]
-Underfull \hbox (badness 1014) in paragraph at lines 952--955
+Underfull \hbox (badness 1014) in paragraph at lines 946--949
 []\T1/lmr/m/n/12 MROZEK, Ja-kub. Ja-vaScript na ser-veru: Mon-goDB, Mon-go-ose 
 a An-gu-larJS.
  []
 
 
-Overfull \hbox (73.5951pt too wide) in paragraph at lines 952--955
-\T1/lmr/m/n/12 z: []$\T1/lmtt/m/n/12 https : / / www . zdrojak . cz / clanky / 
-javascript-[]na-[]serveru-[]mongodb-[]mongoose-[]angularjs/$[]\T1/lmr/m/n/12 . 
+Underfull \hbox (badness 10000) in paragraph at lines 946--949
+[]$\T1/lmtt/m/n/12 https : / / www . zdrojak . cz / clanky / javascript -[] na 
+-[] serveru -[] mongodb -[] mongoose -[]
+ []
 
+[51
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 961--964
+\T1/lmr/m/n/12 Do-stupné z: []$\T1/lmtt/m/n/12 https : / / hacks . mozilla . or
+g / 2012 / 12 / fantastic -[] front -[] end -[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 967--970
-[]\T1/lmr/m/n/12 Fantastic front-end per-for-mance. \T1/lmr/m/it/12 HACKS. \T1/
-lmr/m/n/12 [on-line]. 20 2 2019.
+Underfull \hbox (badness 10000) in paragraph at lines 961--964
+\T1/lmtt/m/n/12 performance -[] part -[] 1 -[] concatenate -[] compress -[] cac
+he -[] a -[] node -[] js -[] holiday -[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 967--970
-\T1/lmr/m/n/12 [cit.22. 2. 2019]. Do-stupné z: []$\T1/lmtt/m/n/12 https : / / h
-acks . mozilla . org / 2012 / 12 /
- []
-
-
-Overfull \hbox (184.8231pt too wide) in paragraph at lines 967--970
-\T1/lmtt/m/n/12 fantastic-[]front-[]end-[]performance-[]part-[]1-[]concatenate-
-[]compress-[]cache-[]a-[]node-[]js-[]holiday-[]season-[]part-[]4/$[]\T1/lmr/m/n
-/12 . 
- []
-
-
-Underfull \hbox (badness 2027) in paragraph at lines 987--990
-[]\T1/lmr/m/n/12 RANDUS, To-má². Re-dux + Re-act ^^U Re-dux. \T1/lmr/m/it/12 Zd
-ro-ják. \T1/lmr/m/n/12 [on-line]. 6. 6. 2016
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 987--990
-\T1/lmr/m/n/12 [cit.22. 2. 2019]. Do-stupné z: []$\T1/lmtt/m/n/12 https : / / w
-ww . zdrojak . cz / clanky /
- []
-
-
-Underfull \hbox (badness 6978) in paragraph at lines 992--995
+Underfull \hbox (badness 6978) in paragraph at lines 981--984
 []\T1/lmr/m/n/12 MALÝ, Mar-tin. REST: ar-chi-tek-tura pro webové API. \T1/lmr/m
 /it/12 Zdro-ják. \T1/lmr/m/n/12 [on-line].
  []
 
 
-Underfull \hbox (badness 1502) in paragraph at lines 992--995
-\T1/lmr/m/n/12 3. 8. 2009 [cit.22. 2. 2019]. Do-stupné z: []$\T1/lmtt/m/n/12 ht
-tps : / / www . zdrojak . cz / clanky /
- []
-
-
-Underfull \hbox (badness 4819) in paragraph at lines 997--1000
+Underfull \hbox (badness 4819) in paragraph at lines 986--989
 []\T1/lmr/m/n/12 Connections. \T1/lmr/m/it/12 mon-go-ose. \T1/lmr/m/n/12 [on-li
 ne]. [cit.22. 2. 2019]. Do-stupné z: []$\T1/lmtt/m/n/12 https : / /
  []
 
-[51] [52]
+[52]
+Underfull \hbox (badness 2680) in paragraph at lines 1024--1025
+[]\T1/lmr/m/n/12 JOHNSON, Tom. Swag-ger UI tu-to-rial. \T1/lmr/m/it/12 Do-cu-me
+n-ting APIs.\T1/lmr/m/n/12 . [on-line]. c2019
+ []
 
-LaTeX Warning: Reference `prilohaB' on page 53 undefined on input line 1034.
+[53]
 
-[53
+LaTeX Warning: Reference `prilohaB' on page 54 undefined on input line 1042.
+
+[54
 
 
-] [54
+] [55
 
 
-] (./SourceCodes/Aggregation.js [55
+] (./SourceCodes/Aggregation.js [56
 
-]) [56]
-Overfull \hbox (16.84169pt too wide) in paragraph at lines 1050--1050
+]) [57]
+Overfull \hbox (16.84169pt too wide) in paragraph at lines 1058--1058
 |\T1/lmr/bx/n/17.28 SEZNAM SOU-BOR— ZDRO-JO-VÝCH KÓD— NA PI-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1052--1053
+Underfull \hbox (badness 10000) in paragraph at lines 1060--1061
 
  []
 
-[57
+[58
 
 
-] [58] [59] [60] [61] [62] [63] [64] [65] [66] [67]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1059.
- [68]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1059.
+] [59] [60] [61] [62] [63] [64] [65] [66]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1067.
+ [67]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1067.
  (./Bc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1059.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1059.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1067.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1067.
 
 Package rerunfilecheck Info: File `Bc.out' has not changed.
-(rerunfilecheck)             Checksum: C18BF33647136FEB67FA4570E04E8CAC;13811.
+(rerunfilecheck)             Checksum: 7D2765F81CAF9404F912DD03331D63A9;13631.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1059.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1067.
  ) 
 Here is how much of TeX's memory you used:
  15492 strings out of 492649
- 221036 string characters out of 6129622
- 481289 words of memory out of 5000000
- 18568 multiletter control sequences out of 15000+600000
+ 221076 string characters out of 6129622
+ 481278 words of memory out of 5000000
+ 18569 multiletter control sequences out of 15000+600000
  64953 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,9n,42p,16117b,1878s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,9n,42p,14463b,1878s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1131,10 +1073,10 @@ ist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/lm/lmtk10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publ
 ic/lm/lmtt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtt
 12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Bc.pdf (68 pages, 5293402 bytes).
+Output written on Bc.pdf (67 pages, 5294011 bytes).
 PDF statistics:
- 1353 PDF objects out of 1440 (max. 8388607)
+ 1352 PDF objects out of 1440 (max. 8388607)
  1210 compressed objects within 13 object streams
- 470 named destinations out of 1000 (max. 500000)
- 743 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 469 named destinations out of 1000 (max. 500000)
+ 735 words of extra memory for PDF output out of 10000 (max. 10000000)
 
