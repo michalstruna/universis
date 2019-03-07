@@ -204,8 +204,10 @@ class Universe implements Universis.Universe {
                     body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
                 }
 
-                body.mesh.rotateOnAxis(rotationVector, 0.001 * this.timeSpeed)
-                body.childrenContainer.rotateOnAxis(rotationVector, -0.001 * this.timeSpeed)
+                const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
+
+                body.mesh.rotateOnAxis(rotationVector, angle)
+                body.childrenContainer.rotateOnAxis(rotationVector, -angle)
             }
 
             if (isFullyRenderable) {
