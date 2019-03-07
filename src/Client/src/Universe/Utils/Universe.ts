@@ -96,6 +96,7 @@ class Universe implements Universis.Universe {
             objects: this.rootBodies,
             onRender: () => this.updateBodies(),
             onRenderInterval: Config.RENDER_INTERVAL,
+            onChangeTarget: options.onSelectBody,
             onZoom: zoom => options.onChangeViewSize(zoom / Config.SIZE_RATIO),
             // target: '5be60eee4143ef4fd8db9979' // Mars
             target: '5be60eee4143ef4fd8db9a77' // Země

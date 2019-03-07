@@ -2,7 +2,7 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import Keys from '../Constants/Keys'
-import { StatelessComponent, Keyboard } from '../../Utils'
+import { StatelessComponent, Keyboard, Url, Queries } from '../../Utils'
 import {
     toggleLabels,
     toggleLight,
@@ -36,6 +36,8 @@ interface IProps {
     changeTimeSpeed: (timeSpeed: number, faster?: boolean) => void
     areParticlesVisible: boolean
     toggleParticles: Universis.Consumer<boolean>
+    selectedBody: string
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
 }
 
 /**
@@ -55,7 +57,8 @@ class ControlPanel extends StatelessComponent<IProps> {
             [Keys.SPEED]: () => this.props.changeTimeSpeed(1),
             [Keys.LABELS]: () => this.props.toggleLabels(!this.props.isNameVisible),
             [Keys.ORBITS]: () => this.props.toggleOrbits(!this.props.areOrbitsVisible),
-            [Keys.PARTICLES]: () => this.props.toggleParticles(!this.props.areParticlesVisible)
+            [Keys.PARTICLES]: () => this.props.toggleParticles(!this.props.areParticlesVisible),
+            [Keys.PANEL]: () => this.togglePanel()
         })
     }
 
@@ -90,15 +93,31 @@ class ControlPanel extends StatelessComponent<IProps> {
         )
     }
 
+    private togglePanel = () => {
+        const { selectedBody, bodies, location } = this.props
+
+        const isPanelOpened = Url.hasQuery(Queries.PANEL, location.search)
+        const bodyName = bodies.payload.find(body => body._id === selectedBody).name
+
+        Url.push({
+            query: {
+                [Queries.PANEL]: isPanelOpened ? null : Queries.BODY,
+                [Queries.BODY]: isPanelOpened ? null : bodyName
+            }
+        })
+    }
+
     public render(): React.ReactNode {
-        const { isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible,
+        const {
+            isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible,
             toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible,
-            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible } = this.props
+            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible
+        } = this.props
 
         return (
             <section className='universe__controls'>
                 <section className='universe__controls__row'>
-                    {this.renderButton('panel')}
+                    {this.renderButton('panel', this.togglePanel, Url.hasQuery(Queries.PANEL, location.search))}
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('camera', () => toggleFromCamera(!isFromCameraVisible), isFromCameraVisible)}
@@ -143,6 +162,8 @@ export default ControlPanel.connect(
         isFromCenterVisible: universe.isFromCenterVisible,
         timeSpeed: universe.timeSpeed,
         areParticlesVisible: universe.areParticlesVisible,
+        selectedBody: universe.selectedBody,
+        bodies: universe.bodies
     }),
     {
         toggleLight,

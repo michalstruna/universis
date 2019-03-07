@@ -151,7 +151,7 @@ class Scene implements Scene {
     }
 
     public setCameraTarget(objectId: string | THREE.Mesh): void {
-        const { controllable, globalCamera } = this.options
+        const { controllable, globalCamera, onChangeTarget } = this.options
         let object = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
 
         if (!globalCamera) {
@@ -167,6 +167,10 @@ class Scene implements Scene {
         }
 
         this.setCameraDistance(targetSize)
+
+        if (onChangeTarget) {
+            onChangeTarget(object.name)
+        }
     }
 
     public setCameraDistance(distance: number): void {
@@ -364,17 +368,11 @@ class Scene implements Scene {
      * @param event Mouse event.
      */
     private handleMouseUp = (event: MouseEvent): void => {
-        const { onChangeTarget } = this.options
-
         if (event.pageX === this.startMouseX && event.pageY === this.startMouseY) {
             const mesh = this.select(event.pageX, event.pageY)
 
             if (mesh) {
                 this.setCameraTarget(mesh)
-
-                if (onChangeTarget) {
-                    onChangeTarget(mesh.name)
-                }
             }
         }
     }
