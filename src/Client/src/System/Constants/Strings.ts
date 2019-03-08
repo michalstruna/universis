@@ -74,7 +74,8 @@ export default {
             earth: 'Od Země',
             camera: 'Od kamery',
             center: 'Od těžiště',
-            particles: 'Částice'
+            particles: 'Částice',
+            follow: 'Sledovat'
         }
     },
 

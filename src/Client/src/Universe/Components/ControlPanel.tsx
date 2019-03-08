@@ -118,6 +118,7 @@ class ControlPanel extends StatelessComponent<IProps> {
             <section className='universe__controls'>
                 <section className='universe__controls__row'>
                     {this.renderButton('panel', this.togglePanel, Url.hasQuery(Queries.PANEL, location.search))}
+                    {this.renderButton('follow', this.togglePanel, Url.hasQuery(Queries.PANEL, location.search))}
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('camera', () => toggleFromCamera(!isFromCameraVisible), isFromCameraVisible)}

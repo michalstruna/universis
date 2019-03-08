@@ -136,7 +136,14 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             outerOrbitMesh.add(midOrbitMesh)
 
             if (body.position) {
-                outerOrbitMesh.position.x = body.position.distance
+                const alpha = THREE.Math.degToRad(body.position.alpha)
+                const beta = THREE.Math.degToRad(body.position.beta)
+
+                outerOrbitMesh.position.set(
+                    body.position.distance * Math.sin(alpha) * Math.sin(beta),
+                    body.position.distance * Math.sin(alpha) * Math.cos(beta),
+                    body.position.distance * Math.cos(alpha)
+                )
             }
         }
 

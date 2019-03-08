@@ -20,17 +20,14 @@ const DEFAULT_OPTIONS = {
     onRenderInterval: 16
 }
 
-let tempObjectPosition = new THREE.Vector3()
 let tempObject1Position = new THREE.Vector3()
 let tempObject2Position = new THREE.Vector3()
-let tempCameraPosition = new THREE.Vector3()
-let tempViewProjection = new THREE.Matrix4()
 var cameraViewProjectionMatrix = new THREE.Matrix4()
 
 /**
  * Utils for THREE.js scene.
  */
-class Scene implements Scene {
+class Scene implements Universis.Scene {
 
     /**
      * Scene options.
@@ -175,6 +172,10 @@ class Scene implements Scene {
 
     public setCameraDistance(distance: number): void {
         this.camera.position.normalize().multiplyScalar(distance)
+    }
+
+    public getCameraPosition(): THREE.Vector3 {
+        return this.camera.position
     }
 
     /**

@@ -20,6 +20,12 @@ declare namespace Universis {
         getDistance(object1: THREE.Object3D, object2?: THREE.Object3D): number
 
         /**
+         * Get camera position.
+         * @returns Camera position.
+         */
+        getCameraPosition(): THREE.Vector3
+
+        /**
          * Check if object is in field of vision of camera.
          */
         isInFov(object: THREE.Object3D): boolean
