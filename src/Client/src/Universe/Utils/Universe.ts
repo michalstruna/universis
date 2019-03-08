@@ -205,10 +205,11 @@ class Universe implements Universis.Universe {
                     body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
                 }
 
-                const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
-
-                body.mesh.rotateOnAxis(rotationVector, angle)
-                body.childrenContainer.rotateOnAxis(rotationVector, -angle)
+                if (body.data.axis.period) {
+                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
+                    body.mesh.rotateOnAxis(rotationVector, angle)
+                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
+                }
             }
 
             if (isFullyRenderable) {
@@ -332,7 +333,7 @@ class Universe implements Universis.Universe {
             if (data.parentId) {
                 body.parent = this.bodies.find(body => body.data._id === data.parentId)
                 body.mesh.userData.parent = body.parent
-                body.parent.mesh.add(body.orbit)
+                body.parent.mesh.children[0].add(body.orbit)
             } else {
                 this.rootBodies.push(body.orbit)
             }

@@ -155,7 +155,7 @@ class Scene implements Scene {
         let object = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
 
         if (!globalCamera) {
-            object.add(this.camera)
+            object.children[0].add(this.camera)
         } // TODO: Else set coordinates.
 
         this.target = object

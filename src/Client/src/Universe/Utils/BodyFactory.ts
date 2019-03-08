@@ -11,11 +11,10 @@ import { Random } from '../../Utils'
 class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container> {
 
     public create(body: Universis.Universe.Body.Simple): Universis.Universe.Body.Container {
-        const mesh = this.createMesh(body)
+        const childrenContainer = new THREE.Group()
+        const mesh = this.createMesh(body, childrenContainer)
         const orbit = this.createOrbit(body)
         const label = this.createLabel(body)
-        const childrenContainer = new THREE.Group()
-        mesh.add(childrenContainer)
 
         for (const ring of body.rings) {
             mesh.add(this.createRing(ring))
@@ -28,9 +27,10 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
     /**
      * Create body.
      * @param body Body data.
+     * @param child
      * @returns Body.
      */
-    private createMesh(body: Universis.Universe.Body.Simple): THREE.Mesh | THREE.Group | THREE.Points {
+    private createMesh(body: Universis.Universe.Body.Simple, child: THREE.Group): THREE.Mesh | THREE.Group | THREE.Points {
         let mesh
 
         if (body.type.particlesGenerator) {
@@ -42,12 +42,14 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
                 geometry.vertices.push(new THREE.Vector3(x, y, z))
             }
 
-            return new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: body.particles.size }))
+            mesh = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: body.particles.size }))
         } else {
             const geometry = this.createGeometry(body)
             const material = this.createMaterial(body)
             mesh = new THREE.Mesh(geometry, material)
         }
+
+        mesh.add(child)
 
         if (body.type.emissiveColor) {
             mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000000)) // TODO: Calc distance from size of body.
