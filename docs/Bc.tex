@@ -163,6 +163,8 @@
 \item[CSS]	Cascading Style Sheets
 \item[CRUD]	Create, Read, Update, Delete
 \item[DOM]	Document Object Model
+\item[ES] ECMAScript
+\item[FPS] 	Frames Per Seconds
 \item[HTML] Hypertext Markup Language
 \item[HTTP]	Hypertext Transfer Protocol
 \item[HW] 	Hardware
@@ -170,7 +172,7 @@
 \item[JS]		JavaScript
 \item[JSX]	JavaScript XML
 \item[JSON]	JavaScript Object Notation
-\item[MVC] 	Model-view-controller
+\item[MVC] 	Model View Controller
 \item[PNG]		Portable Network Graphics
 \item[REST]	Representational State Transfer
 \item[SASS]	Syntactically awesome style sheets
@@ -178,6 +180,7 @@
 \item[TSX]	TypeScript XML
 \item[UI]		User Interface
 \item[URI]		Uniform Resource Identifier 
+\item[WebGL]		Web Graphics Library
 \item[XML]	Extensible Markup Language
 \end{description}
 
@@ -207,56 +210,43 @@ Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat
 
 \section{3D simulace a jejich řešení}
 
-Vedle simulací je možné se setkat i~s~emulacemi. Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace.~\cite{kepler} U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém pouze umožní práci s~původním systémem, který nemusí být k~dostupný.
+\subsection{Principy počítačové 3D grafiky}
 
-Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jako na simulátor i~emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl vzájemnou polohu či rychlost v určitém čase.
+
+
+\subsubsection{Modelování}
+
+\subsubsection{Texturování}
+
+\subsection{WebGL}
+
+\textit{WebGL} je obdoba \textit{OpenGL} určená pro web. Jedná se o~javascriptové rozhraní pro zobrazování nativní 2D a~3D grafiky.~\cite{graphic}
+
+\subsubsection{Grafický řetězec}
+
+Každý pixel prochází před vykreslením několika fázemi, které ovlivňují jeho výslednou barvu. Příkladem může být stínování, osvětlení nebo hloubkový test. Tyto fáze dohromady tvoří grafický řetězec \textit{(graphics pipeline)}.~\cite{graphic}
+
+Dříve (ve verzi \textit{OpenGL 1.1}) existoval pouze \textit{fixed-function pipeline}. Ten umožňoval jednotlivé fáze povolit nebo zakázat, ale neumožňoval je upravovat. Později (\textit{OpenGL 2.0}) byl představen programovatelný grafický řetězec. Programátor tedy může jednotlivé fáze nahradit svým vlastním programem. Tento program se nazývá \textit{shader}.~\cite{graphic}
+
+\subsubsection{Shader}
+
+\textit{WebGL} se vedle javascriptového řídícího kódu skládá i~z~programu \textit{shader} určený přímo pro grafický procesor. \textit{Shader} je napsán v~\textit{OpenGL Shader Language}, který vychází z~jazyka C~a~do velké míry přebírá i~jeho syntaxi. Samotný \textit{shader} se skládá z~navzájem oddělených programů \textit{vertex shader} a~\textit{fragment shader}. Je možné je umístit do samostatného souboru nebo jako textový řetězec do hlavního programu.~\cite{graphic}
+
+Oba programy mají vlastní funkci \code{main}, která je vstupním bodem.
+
+\subsubsection{Kontext}
+
+Pro práci s~\textit{WebGL} v~prohlížeči je třeba získat tzv. grafický kontext. To je v~tomto případě javascriptový objekt implementující rozhraní \textit{WebGL}. Pro tento účel existuje metoda \code{canvas.getContext('webgl')} dostupná na \textit{HTML} elementu \code{canvas}.~\cite{graphic}
+
+\subsection{Simulace a emulace}
+
+Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace.~\cite{simulations} 
+
+Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém pouze umožní práci s~původním systémem, který nemusí být k~dostupný.
+
+Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl vzájemnou polohu či rychlost v určitém čase.
 
 Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kepler} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů.
-
-\subsection{Celestia}
-
-\textit{Celestia} je \textit{open-source} 3D program zobrazující tělesa ve vesmíru v reálném čase. Podobně jako tato bakalářská práce obsahuje databázi těles od těch nejmenších meteoritů až po celé galaxie. Vzhledem k tomu, že program Celestia vyvíjí komunita a~nikoliv jednotlivec je tato databáze mnohem rozsáhlejší a~lze si dodatečně stáhnout více jak 10 GB dat.
-
-Program je vytvořen v~\textit{C++} a \textit{Lua}, což mu dovoluje výkon počítače využívat podstatně lépe, než webová aplikace. Navzdory tomu je nutno tento program nejdříve nainstalovat, což může některé uživatele odradit. Je však dostupný jak pro \textit{Windows}, tak i~pro \textit{Linux} a~\textit{macOS}. Neobsahuje ovšem češtinu. 
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=450pt]{Images/Celestia.png}
-  \caption[Ukázka programu Celestia]{Ukázka JPL Solar Simulator  \footnotemark[1]}
-\end{figure}
-
-\footnotetext[1]{Fotografie pořízena z programu Celestia (\url{https://celestia.space/}).}
-
-\subsection{Stellarium}
-
-\textit{Stellarium} je dalším z řady \textit{open-source} astronomických programů. Není zde však možné se volně pohybovat prostorem. Program se specializuje na zobrazování oblohy, a~to v~jakoukoliv dobu jakéhokoliv dne z~jakéhokoliv místa na Zemi.
-
-Obsahuje velice rozsáhlou databázi obsahující v~základní instalaci necelý milion těles. Je však možné si dodatečně nainstalovat katalogy s~více jak 200 miliony tělesy. U každého tělesa je možné si zobrazit stručné informace, především co se jejich polohy a~vzdálenosti od Země týče.
-
-Jedná se o~program napsaný v~\textit{C++}, což stejně jako u~programu Celestia vede k~vysokému výkonu, avšak nutnosti instalace. Je ovšem dostupný i~v~české lokalizaci a opět pro \textit{Windows}, \textit{Linux} i~\textit{macOS}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=450pt]{Images/Stellarium.png}
-  \caption[Ukázka programu Stellarium]{Ukázka programu Stellarium  \footnotemark[1]}
-\end{figure}
-
-\subsection{NASA/JPL Solar System Simulator}
-
-Jedná se o~web, který umožňuje zobrazit libovolné těleso v~databázi libovolný čas a~to z~libovolného jiného tělesa v~databázi. Obsahuje pouze tělesa z~naší sluneční soustavy. Umožňuje nastavit i~velikost zorného pole ve stupních. Vygenerovaný pohled je statický a~nelze s~ním už dál nijak interagovat.~\cite{nasasimulator}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=450pt]{Images/JPLNasa.png}
-  \caption[Ukázka JPL Solar System Simulator]{Ukázka JPL Solar Simulator   \footnotemark[2]}
-\end{figure}
-
-\footnotetext[1]{Fotografie pořízena z programu Stellarium (\url{https://stellarium.org}).}
-\footnotetext[2]{Fotografie pořízena z \url{https://space.jpl.nasa.gov/}.}
-
-\subsection{Space Engine}
-\subsection{Universe Sandbox}
-
 
 \section{Použité technologie}
 
@@ -276,7 +266,7 @@ Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se 
 
 \subsection{Knihovna Three.js}
 
-\textit{Three.js} je javascriptová knihovna usnadňující práci s~\textit{WebGL}. To je rozhraní, které umožňuje přístup k \textit{HW} komponentám počítače specializovaných pro zpracování grafiky 2D a~3D grafiky přes \textit{JavaScript}. Veškerou tuto grafiku je možno vykreslovat v~prohlížeči za využití elementu \code{canvas}.~\cite{three}
+\textit{Three.js} je javascriptová knihovna usnadňující práci s~\textit{WebGL}. To je rozhraní, které umožňuje přístup k \textit{HW} komponentám počítače specializovaných pro zpracování grafiky 2D a~3D grafiky přes \textit{JavaScript}. Veškerou tuto grafiku je možno vykreslovat v~prohlížeči za využití elementu \code{canvas}.~\cite{graphic}
 
 \subsection{Framework Node.js}
 
@@ -445,6 +435,22 @@ Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, 
 
 \lstinputlisting[caption={Práce s vlastní knihovnou pro 3D grafiku}, language={JavaScript}]{SourceCodes/Scene.js}
 
+V~každém cyklu dojde u každého z~vykreslovaných těles k~následujícím krokům:
+
+\begin{itemize}
+\item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
+
+\item \textbf{Výpočet okamžité rychlosti} dosazením vzdálenosti od těžiště do vzorce představeném v kapitole 3.5.5,
+
+\item \textbf{Výpočet procentuální části obvodu dráhy}, kterou těleso urazí za jednotku času (dáno dle FPS, v ideálním případě za 16 ms).
+
+\item \textbf{Nastavení nových souřadnic} tělesa získaných z metody  \textit{orbitPath.getPoint(angle)},
+
+\item \textbf{Pootočení tělesa kolem osy} o~úhel za jednotku času vypočtený z rotační periody,
+
+\item \textbf{Aktualizace viditelnosti, obsahu a~pozice popisku} a~orbity tělesa.
+\end{itemize}
+
 \subsubsection{Těleso}
 
 Samotné těleso je reprezentováno koulí, tedy objektem s~geometrií \textit{THREE.SphereGeometry}. Pokud má těleso rozdílný rovníkový a~polární průměr, je výsledné zploštění řešeno transformaci \textit{new THREE.Matrix4().makeScale()}. Materiálem je \textit{THREE.MeshBasicMaterial} (tělesa emitující světlo) nebo \textit{THREE.MeshPhongMaterial} (tělesa pohlcující světlo). Povrch tělesa tvoří 2D~textura \textit{THREE.Texture} ve formátu \textit{JPG} nebo \textit{PNG}.
@@ -460,7 +466,7 @@ Samotné těleso je reprezentováno koulí, tedy objektem s~geometrií \textit{T
 
 \subsubsection{Orbita}
 
-Orbita je objekt s geometrií \textit{THREE.BufferGeometry}, jejíž tvar je vypočten na základě nejmenší (pericentrum) a~největší (apocentrum) vzdálenosti tělesa od těžiště  a~výstřednosti dráhy (excentricita). Jako materiál je použit \textit{THREE.LineMaterial}.
+Orbita je objekt s geometrií \textit{THREE.BufferGeometry}, jejíž tvar je vypočten na základě nejmenší (periapsida) a~největší (apoapsida) vzdálenosti tělesa od těžiště  a~výstřednosti dráhy (excentricita). Jako materiál je použit \textit{THREE.LineMaterial}.
 
 \lstinputlisting[caption={Výpočet geometrie orbity tělesa}, language={JavaScript}]{SourceCodes/Orbit.js}
 
@@ -508,7 +514,7 @@ Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem
 \begin{itemize}
 \item Hmotnost obíhajících těles je zanedbána. Centrální těleso tedy není ovlivněno tělesy obíhajícími. Oběh je počítán na základě 1. a~2. Keplerova zákona a~není třeba řešit např. problém tří těles.
 \item Tělesa s neperiodickou nebo neeliptickou oběžnou dráhou mají pevně nastavenou pozici a~nepohybují se.
-\item Pericentrum se vždy nachází přímo na opačné straně elipsy, než apocentrum. Pokud je oběžná dráha příliš excentrická, může se pozice skutečně nejbližšího bodu k~těžišti dráhy a~pericentra v~aplikaci lišit.
+\item Periapsida se vždy nachází přímo na opačné straně elipsy, než apoapsida. Pokud je oběžná dráha příliš excentrická, může se pozice skutečně nejbližšího bodu k~těžišti dráhy a~pericentra v~aplikaci lišit.
 
 \item Jsou zanedbány dlouhodobé události, např. postupné vzdalování Měsíce od Země o~38~cm za rok nebo cyklus změny sklonu zemské osy s~periodou 2100 let. // TODO: Zdroje.
 \end{itemize}
@@ -601,7 +607,7 @@ Poněkud složitější je např. vzorec pro výpočet okamžité rychlosti pohy
 
 $$v\textsubscript{max} = \frac{const.}{d} = \frac{2 * S}{T * d} = \frac{2 *  \pi * a * b}{T *d}  = \frac{2 *  \pi  * (\frac{d\textsubscript{max} + d\textsubscript{min}}{2})^2 * \sqrt{1 - e^2}}{T * d}$$
 \begin{center}
-\textit{S – plocha oběžné dráhy, T – perioda oběhu, d – vzdálenost od tělesa, d\textsubscript{max} – apocentrum, d\textsubscript{min} – pericentrum, a – velká poloosa, b – malá poloosa, e – excentricita}
+\textit{S – plocha oběžné dráhy, T – perioda oběhu, d – vzdálenost od tělesa, d\textsubscript{max} – apoapsida, d\textsubscript{min} – periapsida, a – velká poloosa, b – malá poloosa, e – excentricita}
 \end{center}
 
 \subsubsection{Základní práce s databází}
@@ -690,7 +696,7 @@ Hlavní náplní aplikace je právě tato stránka. Na 3D scéně zobrazuje těl
 V~pravém dolním rohu se nachází ovládací panel, jenž umožňuje měnit některá nastavení simulátoru. Všechna z~nich jsou dostupná i~pod klávesovými zkratkami.
 
 \begin{itemize}
-\item \textbf{Jména} (N): Zobrazí nebo skryje názvy těles.
+\item \textbf{Názvy} (N): Zobrazí nebo skryje názvy těles.
 \item \textbf{Vzdálenosti od kamery} (C): Zobrazí nebo skryje vzdálenosti těles od kamery.
 \item \textbf{Vzdálenosti od Země} (E): Zobrazí nebo skryje vzdálenosti těles od Země.
 \item \textbf{Zrychlit} (W): Pokud je čas kladný, zrychlí ho 10krát. Jinak ho 10krát zpomalí.
@@ -913,6 +919,9 @@ KLECZEK, Josip. Velká encyklopedie vesmíru. Praha: Academia, 2002s [cit. 25. 1
 \bibitem{rees}
 REES, Martin, Vesmír. Přeložil Pavel PŘÍHODA. Praha: Knižní klub, 2006 [cit. 25. 10. 2018]. ISBN 80-242-1668-x.
 
+\bibitem{graphic}
+ECK, David. \textit{Introduction to Computer Graphics.} [online]. Version 1.2, January 2018. [cit.\,22.~2.~2019]. Dostupné z \url{http://math.hws.edu/eck/cs424/downloads/graphicsbook-linked.pdf}.
+
 \bibitem{jpl}
 JPL Solar System Dynamics. \textit{JPL Solar System Dynamics} [online]. [cit. 25. 10. 2018] Dostupné z: \url{https://ssd.jpl.nasa.gov}.
 
@@ -936,11 +945,6 @@ Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/thinking-in-react.
 MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
 \textit{Zdroják.} [online]. 5.~10.~2012. [cit.\,22.~2.~2019].  ISSN 1803-5620.
 Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-architektura-a-prvni-hello-world/}}.
-
-\bibitem{three}
-BOTMAN, Chris. An introduction to Three.js.
-\textit{Humaan.} [online]. 5.~02.~2016. [cit.\,22.~2.~2019].  ISSN 1803-5620.
-Dostupné\newline z:~{\ttfamily \url{https://humaan.com/blog/web-3d-graphics-using-three-js}}.
 
 \bibitem{mongomongoose}
 MROZEK, Jakub. JavaScript na serveru: MongoDB, Mongoose a AngularJS.
@@ -1016,9 +1020,6 @@ Dostupné z: {\ttfamily \url{https://www.nature.com/articles/344825a0}}. ISSN 14
 WEISSMAN, Paul. The Oort cloud.
 \textit{Nature.} [online]. 22.~4.~1990. [cit.\,22.~2.~2019].
 Dostupné z: {\ttfamily \url{https://www.nature.com/articles/344825a0}}. ISSN 1476-4687
-
-\bibitem{nasasimulator}
-Solar System Simulator. \textit{Jet propulsion laboratory.} [online]. [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://space.jpl.nasa.gov/}}.
 
 \bibitem{swaggerui}
 JOHNSON, Tom. Swagger UI tutorial. \textit{Documenting APIs.}. [online]. c2019 [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://idratherbewriting.com/learnapidoc/pubapis_swagger.html}}.
