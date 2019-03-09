@@ -9,9 +9,21 @@
 \usepackage{vskpupa}	% globální nastavení pro text VŠKP UPa
 \usepackage{listings}
 \def\code#1{\texttt{#1}}
-\setlist{itemsep=0pt,topsep=2pt} % TODO: Refactor.
+\setlist{itemsep=0pt,topsep=2pt}
 \renewcommand{\lstlistingname}{Zdrojový kód}
 \renewcommand{\lstlistlistingname}{Seznam zdrojových kódů}
+%\lstset{numberbychapter=false}
+
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
+  \do\-}
+
+\let\oldlstlistoflistings\lstlistoflistings
+\renewcommand{\lstlistoflistings}{%
+  \begingroup%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{\lstlistingname~\oldnumberline}%
+  \oldlstlistoflistings%
+  \endgroup}
 
 \usepackage{color}
 \definecolor{lightgray}{rgb}{.9,.9,.9}
@@ -29,7 +41,7 @@
 \usepackage{float}
 
 \lstdefinelanguage{JavaScript}{
-  keywords={const, let, class, extends, export, default, public, static, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywords={this, const, let, class, extends, export, default, public, static, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, import},
   keywordstyle=\color{blue}\bfseries,
   identifierstyle=\color{black},
   sensitive=false,
@@ -129,6 +141,7 @@
 % ZADÁNÍ
 %\generujZadani[2]	% parametr je počet stran, výchozí (neuvede-li se) je 2
 \generujProhlaseni		% prohlášení
+\podekovaniDolu
 \generujPodekovani		% poděkování
 \generujAnotaci			% anotace
 \generujAnnotation		% anotace anglicky
@@ -138,7 +151,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SEZNAM ZKRATEK
 
-\clearpage \phantomsection \addcontentsline{toc}{section}{Seznam zdrojových kódů}
 \lstlistoflistings
 
 \seznamZkratek			% titulek a řádek do obsahu
@@ -151,17 +163,24 @@
 \item[CSS]	Cascading Style Sheets
 \item[CRUD]	Create, Read, Update, Delete
 \item[DOM]	Document Object Model
+\item[ES] ECMAScript
+\item[FPS] 	Frames Per Seconds
 \item[HTML] Hypertext Markup Language
 \item[HTTP]	Hypertext Transfer Protocol
+\item[HW] 	Hardware
 \item[JPEG]		 Joint Photographic Experts Group
 \item[JS]		JavaScript
+\item[JSX]	JavaScript XML
 \item[JSON]	JavaScript Object Notation
+\item[MVC] 	Model View Controller
 \item[PNG]		Portable Network Graphics
 \item[REST]	Representational State Transfer
 \item[SASS]	Syntactically awesome style sheets
 \item[TS]		TypeScript
+\item[TSX]	TypeScript XML
 \item[UI]		User Interface
 \item[URI]		Uniform Resource Identifier 
+\item[WebGL]		Web Graphics Library
 \item[XML]	Extensible Markup Language
 \end{description}
 
@@ -191,110 +210,108 @@ Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat
 
 \section{3D simulace a jejich řešení}
 
+\subsection{Principy počítačové 3D grafiky}
 
 
-\subsection{Celestia}
 
-\textit{Celestia} je \textit{open-source} 3D program zobrazující tělesa ve vesmíru v reálném čase. Podobně jako tato bakalářská práce obsahuje databázi těles od těch nejmenších meteoritů až po celé galaxie. Vzhledem k tomu, že program Celestia vyvíjí komunita a~nikoliv jednotlivec je tato databáze mnohem rozsáhlejší a~lze si dodatečně stáhnout více jak 10 GB dat.
+\subsubsection{Modelování}
 
-Program je vytvořen v~\textit{C++} a \textit{Lua}, což mu dovoluje výkon počítače využívat podstatně lépe, než webová aplikace. Navzdory tomu je nutno tento program nejdříve nainstalovat, což může některé uživatele odradit. Je však dostupný jak pro \textit{Windows}, tak i~pro \textit{Linux} a~\textit{macOS}. Neobsahuje ovšem češtinu. 
+\subsubsection{Texturování}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=450pt]{Images/Celestia.png}
-  \caption[Ukázka JPL Solar System Simulator]{Ukázka JPL Solar Simulator   \footnotemark[1]}
-\end{figure}
+\subsection{WebGL}
 
-\footnotetext[1]{Fotografie pořízena z \url{https://space.jpl.nasa.gov/}.}
+\textit{WebGL} je obdoba \textit{OpenGL} určená pro web. Jedná se o~javascriptové rozhraní pro zobrazování nativní 2D a~3D grafiky.~\cite{graphic}
 
-\subsection{Stellarium}
+\subsubsection{Grafický řetězec}
 
-\textit{Stellarium} je dalším z řady \textit{open-source} astronomických programů. Není zde však možné se volně pohybovat prostorem. Program se specializuje na zobrazování oblohy, a~to v~jakoukoliv dobu jakéhokoliv dne z~jakéhokoliv místa na Zemi.
+Každý pixel prochází před vykreslením několika fázemi, které ovlivňují jeho výslednou barvu. Příkladem může být stínování, osvětlení nebo hloubkový test. Tyto fáze dohromady tvoří grafický řetězec \textit{(graphics pipeline)}.~\cite{graphic}
 
-Obsahuje velice rozsáhlou databázi obsahující v~základní instalaci necelý milion těles. Je však možné si dodatečně nainstalovat katalogy s~více jak 200 miliony tělesy. U každého tělesa je možné si zobrazit stručné informace, především co se jejich polohy a~vzdálenosti od Země týče.
+Dříve (ve verzi \textit{OpenGL 1.1}) existoval pouze \textit{fixed-function pipeline}. Ten umožňoval jednotlivé fáze povolit nebo zakázat, ale neumožňoval je upravovat. Později (\textit{OpenGL 2.0}) byl představen programovatelný grafický řetězec. Programátor tedy může jednotlivé fáze nahradit svým vlastním programem. Tento program se nazývá \textit{shader}.~\cite{graphic}
 
-Jedná se o~program napsaný v~\textit{C++}, což stejně jako u~programu Celestia vede k~vysokému výkonu, avšak nutnosti instalace. Je ovšem dostupný i~v~české lokalizaci a opět pro \textit{Windows}, \textit{Linux} i~\textit{macOS}.
+\subsubsection{Shader}
 
-\subsection{NASA/JPL Solar System Simulator}
+\textit{WebGL} se vedle javascriptového řídícího kódu skládá i~z~programu \textit{shader}, jenž je určený přímo pro grafický procesor. \textit{Shader} je napsán v~\textit{OpenGL Shader Language}, který vychází z~jazyka C~a~do velké míry přebírá i~jeho syntaxi. Samotný \textit{shader} se skládá z~navzájem oddělených programů \textit{vertex shader} a~\textit{fragment shader}. Je možné je umístit do samostatného souboru nebo jako textový řetězec do hlavního programu.~\cite{graphic}
 
-Jedná se o~webovou aplikaci, která umožňuje zobrazit libovolné těleso v~databázi libovolnou dobu a~to z~libovolného jiného tělesa v~databázi. Obsahuje pouze tělesa z~naší sluneční soustavy. Umožňuje nastavit i~velikost zorného pole ve stupních. Vygenerovaný pohled je ale bohužel pouze statický a~nelze s~ním už dál nijak interagovat.
+Oba programy mají vlastní funkci \code{main}, která je vstupním bodem.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=450pt]{Images/JPLNasa.png}
-  \caption[Ukázka JPL Solar System Simulator]{Ukázka JPL Solar Simulator   \footnotemark[1]}
-\end{figure}
+\subsubsection{Kontext}
 
-\footnotetext[1]{Fotografie pořízena z \url{https://space.jpl.nasa.gov/}.}
+Pro práci s~\textit{WebGL} v~prohlížeči je třeba získat tzv. grafický kontext. To je v~tomto případě javascriptový objekt implementující rozhraní \textit{WebGL}. Pro tento účel existuje metoda \code{canvas.getContext('webgl')} dostupná na \textit{HTML} elementu \code{canvas}.~\cite{graphic}
 
-\subsection{Space Engine}
-\subsection{Universe Sandbox}
+\subsection{Simulace a emulace}
 
+Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace.~\cite{simulations} 
+
+Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém pouze umožní práci s~původním systémem, který nemusí být k~dostupný.
+
+Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl vzájemnou polohu či rychlost v určitém čase.
+
+Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů.
 
 \section{Použité technologie}
 
 \subsection{Jazyk TypeScript}
 
-\textit{TypeScript} je programovací jazyk vyvinutý firmou \textit{Microsoft}. Jedná se o~nádstavbu jazyka \textit{JavaScript}, která přidává statické typování a~další vlastnosti objektového programování. Kód napsaný v~jazyce \textit{JavaScript} je kompatibilní s~\textit{typescriptovým} kódem. Pro kompatibilitu v~prohlížečích je nutné veškerý \textit{TypeScript} transpilovat do \textit{javascriptového} kódu.
+\textit{TypeScript} je programovací jazyk vyvinutý firmou \textit{Microsoft}. Jedná se o~nádstavbu jazyka \textit{JavaScript}, která přidává statické typování a~další vlastnosti objektového programování. Kód napsaný v~jazyce \textit{JavaScript} je kompatibilní s~\textit{typescriptovým} kódem. Pro kompatibilitu v~prohlížečích je nutné veškerý \textit{TypeScript} transpilovat do \textit{javascriptového} kódu.~\cite{typescript}
 
 \subsection{Knihovna React}
 
-Javascriptová knihovna \textit{React}, jejíž autorem je \textit{Facebook}, usnadňuje a~zefektivňuje tvorbu \textit{UI}. Přináší tzv. \textit{one-way data binding}, které zaručuje okamžitou aktualizaci \textit{UI} při změně stavu aplikace. \textit{React} si vytváří vlastní virtuální \textit{DOM}, který je na rozdíl od toho v~\textit{HTML} rychlejší. V tomto modelu pak React provádí všechny své operace. Teprve když je třeba provést změnu v~prohlížeči, je třeba  aktualizovat \textit{HTML}.
+Javascriptová knihovna \textit{React}, jejíž autorem je \textit{Facebook}, usnadňuje a~zefektivňuje tvorbu \textit{UI}.~\cite{reactbook} Přináší tzv. \textit{one-way data binding}, které zaručuje okamžitou aktualizaci \textit{UI} při změně stavu aplikace.~\cite{onewaydatabinding} \textit{React} si vytváří vlastní virtuální \textit{DOM}, který je na rozdíl od toho v~\textit{HTML} rychlejší. V tomto modelu pak React provádí všechny své operace. Teprve když je třeba provést změnu v~prohlížeči, je třeba  aktualizovat \textit{HTML}.~\cite{reactbook}
 
-\subsubsection{Syntaxe JSX}
+\subsubsection{Syntaxe TSX}
 
-Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se často s~knihovnou \textit{React} používá i~syntaxe \textit{JSX}. Ta umožňuje psát \textit{javascriptový} kód v~podobě \textit{XML} tagů. \textit{JSX} syntaxi je z~důvodů kompatibility prohlížečů nutné transpilovat do nativního \textit{JavaScriptu}.
+Vytvářet zanořovací strukturu komponent může být nepřehledné. Proto se často s~knihovnou \textit{React} používá i~syntaxe \textit{JSX}. Ta umožňuje psát \textit{javascriptový} kód v~podobě \textit{XML} tagů. \textit{JSX} syntaxi je z~důvodů kompatibility prohlížečů nutné transpilovat do nativního \textit{JavaScriptu}.~\cite{reactbook} TSX je pak obdoba JSX v~jazyce TypeScript.
 
-\lstinputlisting[caption={Porovnání vykreslení komponenty ve standardním JavaScriptu a~v~JSX}, language={JavaScript}]{SourceCodes/JSX.js}
+\lstinputlisting[caption={Porovnání JS a~JSX}, language={JavaScript}]{SourceCodes/JSX.js}
 
 \subsection{Knihovna Three.js}
 
-\textit{Three.js} je javascriptová knihovna pro vytváření 3D grafiky. Využívá aplikačního rozhraní \textit{WebGL}.
+\textit{Three.js} je javascriptová knihovna usnadňující práci s~\textit{WebGL}. To je rozhraní, které umožňuje přístup k \textit{HW} komponentám počítače specializovaných pro zpracování grafiky 2D a~3D grafiky přes \textit{JavaScript}. Veškerou tuto grafiku je možno vykreslovat v~prohlížeči za využití elementu \code{canvas}.~\cite{graphic}
 
 \subsection{Framework Node.js}
 
-Framework \textit{Node.js} umožňuje používání jazyka \textit{JavaScript} na serveru. Narozdíl od \textit{Javy} nebo \textit{PHP} pracuje pouze s~jediným vláknem a~funguje na asynchronním neblokujícím zpracování požadavků. Jakmile je dokončen požadavek, jeho callback uvedený v argumentu se zařadí do fronty.  Tzv. \textit{event loop} pak zjišťuje, zda je zásobník zpracovávaných operací prázdný. Pokud ano, vloží do něj první callback z~fronty. Tento cyklus se opakuje po celou dobu běhu serveru.
+Framework \textit{Node.js} umožňuje používání jazyka \textit{JavaScript} na serveru. Pracuje pouze s~jediným vláknem a~funguje na asynchronním neblokujícím zpracování požadavků. Jakmile je dokončen požadavek, jeho callback uvedený v argumentu se zařadí do fronty.  Tzv. \textit{event loop} pak zjišťuje, zda je zásobník zpracovávaných operací prázdný. Pokud ano, vloží do něj první callback z~fronty. Tento cyklus se opakuje po celou dobu běhu serveru.~\cite{node}
 
 \subsection{Databáze MongoDB}
 
-\textit{MongoDB} je \textit{NoSQL} multiplatformní dokumentová databáze s~otevřeným zdrojovým kódem. Narozdíl od relačních databází používá dokumenty ve formátu \textit{BSON}, který je podobný \textit{JSON}. Při vytváření dokumentů si databáze automaticky vytváří vlastní unikátní ID.  Uložené dokumenty lze vedle porovnávání hodnot vyhledávat na základě prvků v poli, podle rozsahu nebo podle regulárních výrazů. V \textit{MongoDB} je možné indexovat libovolné pole dokumentů. Indexy jsou koncepčně stejn, jako v relačních databázích.
+\textit{MongoDB} je \textit{NoSQL} multiplatformní dokumentová databáze s~otevřeným zdrojovým kódem. Narozdíl od relačních databází používá dokumenty ve formátu \textit{BSON}, což je binární obdobou \textit{JSON}. Při vytváření dokumentů si databáze automaticky vytváří vlastní unikátní ID.  Uložené dokumenty lze mimo jiné vyhledávat na základě prvků v~poli, podle rozsahu nebo podle regulárních výrazů. V~\textit{MongoDB} je možné indexovat libovolné pole. Indexy jsou koncepčně podobné, jako v~relačních databázích.~\cite{mongomongoose}
 
 \subsection{Knihovna Mongoose}
-Open-source knihovna \textit{Mongoose} zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat.
+Knihovna \textit{Mongoose} pro JavaScript zjednodušuje práci s~MongoDB, zejména pak vytváření schémat a~validaci dat. Umožňuje práci s pluginy, což jsou uživatelské funkce, které po zaregistrování na daném schématu mohou zautomatizovaně provádět předem definované činnosti nebo reagovat na různé událost.~\cite{mongomongoose}
 
-\subsection{Framework Swagger}
-\textit{Swagger} je nástroj pro vytváření \textit{REST API}.
+\subsection{Nástroj Swagger UI}
+\textit{Swagger UI} je nástroj pro vizualizaci specifikace \textit{Open API}. Vygenerovaný interaktivní webový dokument umožňuje vytvářet \textit{HTTP} požadavky na cílové rozhraní a~zobrazit výsledek těchto požadavků.~\cite{swagger} 
 
 \subsection{Nástroj Webpack}
-Prohlížečový \textit{JavaScript} nativně nepodporuje rozdělování kódu do modulů (jako např. \textit{Java} do balíčků nebo \textit{C++} do jmenných prostorů). Jediným způsobem je importovat do \textit{HTML} větší množství \textit{javascriptových} souborů pomocí tagu \code{<script>}. Tento postup je ale špatnou praktikou a~na web má negativní dopady.
+Prohlížečový \textit{JavaScript} nativně nepodporuje rozdělování kódu do modulů (jako např. \textit{Java} do balíčků nebo \textit{C++} do jmenných prostorů). Jediným způsobem je importovat do \textit{HTML} větší množství \textit{javascriptových} souborů pomocí tagu \code{<script>}. Tento postup je ale špatnou praktikou a~na web má negativní dopady.~\cite{jsconcat}
 
-Díky nástroji \textit{Webpack} je možné v~\textit{JavaScriptu} využívat modulární systémy jako \textit{CommonJS}, \textit{AMD} nebo \textit{ES modules}. Je tak možné větší množství souborů propojit pomocí klauzulí \code{require} nebo \code{import}.
+Díky nástroji \textit{Webpack} je možné v~\textit{JavaScriptu} využívat modulární systémy jako \textit{CommonJS}, \textit{AMD} nebo \textit{ES modules}. Je tak možné větší množství souborů propojit pomocí klauzulí \code{require} nebo \code{import}.~\cite{webpack}
 
-\textit{Webpack} také umožňuje využívat tzv. \textit{loadery} třetích stran. To vede k možnosti podobně načítat, slučovat či parsovat i soubory jiných typů, např. \textit{CSS}, \textit{SVG} nebo \textit{JSON}. Zároveň za využití bohaté nabídky pluginů lze všechny tyto soubory modifikovat, např. převádět nový \textit{JavaScript} verze \textit{ES6} na starší, podporovaný prohlížeči.
+\textit{Webpack} také umožňuje využívat tzv. \textit{loadery} třetích stran. To vede k možnosti podobně načítat, slučovat či parsovat i soubory jiných typů, např. \textit{CSS}, \textit{SVG} nebo \textit{JSON}. Zároveň za využití bohaté nabídky pluginů lze všechny tyto soubory modifikovat, např. převádět nový \textit{JavaScript} verze \textit{ES6} na starší, podporovaný prohlížeči.~\cite{webpack}
 
-\lstinputlisting[caption={Konfigurace nástroje Webpack v souboru webpack.config.json}, language={JavaScript}]{SourceCodes/Webpack.js}.
+\lstinputlisting[caption={Konfigurace nástroje Webpack}, language={JavaScript}]{SourceCodes/Webpack.js}.
 
 \subsection{Verzovací systém Git}
 
-\textit{Git} je systém správy verzí vytvořený \textit{Linusem Torvaldsem}. Při vytváření nové verze dat vytvoří snímky všech souborů tak, jak v daný okamžik vypadají a~na tyto snímky pak uloží reference. V~případě, že se soubor nijak nemění se nevytváří nový snímek, ale pouze se nastaví reference na ten předchozí, který je identitický.
+\textit{Git} je systém správy verzí vytvořený \textit{Linusem Torvaldsem}. Při vytváření nové verze dat vytvoří snímky všech souborů tak, jak v daný okamžik vypadají a~na tyto snímky pak uloží reference. V~případě, že se soubor nijak nemění se nevytváří nový snímek, ale pouze se nastaví reference na ten předchozí, který je identitický.~\cite{git}
 
-Pro spravované soubory používá tři stavy. Při změně souboru se nastaví jeho stav na \textit{modified}. Stav \textit{staged} znamená, že soubor byl označen k tomu, aby byl zapsán v další verzi. Zapsaný soubor je ve stavu \textit{commited}. Všechny tyto změny jsou však pouze lokální. Pro umístění změn do vzdáleného repozitáře je třeba všechny zapsané soubory odeslat \textit{(push)}. Ostatní s~přístupem do repozitáře si pak mohou tyto změny stáhnout \textit{(pull)}.
+Pro spravované soubory používá tři stavy. Při změně souboru se nastaví jeho stav na \textit{modified}. Stav \textit{staged} znamená, že soubor byl označen k tomu, aby byl zapsán v další verzi. Zapsaný soubor je ve stavu \textit{commited}. Všechny tyto změny jsou však pouze lokální. Pro umístění změn do vzdáleného repozitáře je třeba všechny zapsané soubory odeslat \textit{(push)}. Ostatní s~přístupem do repozitáře si pak mohou tyto změny stáhnout \textit{(pull)}.~\cite{git}
 
 \subsection{Balíčkovací systém NPM}
 
-\textit{NPM} je správce balíčků pro serverový i~klientský \textit{JavaScript}. Řídícím souborem v projektu je \textit{package.json}, který obsahuje informace o~projektu a~určuje, které balíčky jsou součástí projektu.  Všechny balíčky jsou umístěny do adresáře \textit{node\_modules} v~projektu. Součástí je také soubor \textit{package-lock.json}, který zachovává verze nainstalovaných balíčků.
+\textit{NPM} je správce balíčků pro serverový i~klientský \textit{JavaScript}. Řídícím souborem v projektu je \textit{package.json}, který obsahuje informace o~projektu a~určuje, které balíčky jsou součástí projektu.  Všechny balíčky jsou umístěny do adresáře \textit{node\_modules} v~projektu. Součástí je také soubor \textit{package-lock.json}, který zachovává verze nainstalovaných balíčků.~\cite{nodebook}
 
 \lstinputlisting[caption={Ukázka práce s~NPM}, language={JavaScript}]{SourceCodes/Npm.txt}.
 
 \subsection{Preprocesor SASS}
 
-Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování selektorů, proměnné, funkce, podmínky a~další vlastnosti zlepšující čitelnost kódu. Pro kompatibilitu s~prohlížeči je nutné ho transpilovat do \textit{CSS}.
+Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování selektorů, proměnné, funkce, podmínky a~další vlastnosti zlepšující čitelnost kódu. Pro kompatibilitu s~prohlížeči je nutné ho transpilovat do \textit{CSS}.~\cite{sass}
 
 \section{Návrh a~vývoj aplikace}
 
 \subsection{Struktura projektu}
 
-React nepřichází s~žádnou doporučenou strukturou projektu. Proto došlo k~vytvoření vlastní struktury. Vzhledem k~velkému množství souborů je celý obsah projektu členěn do podadresářů a~modulů.
+React nepřichází s~žádnou doporučenou strukturou projektu.~\cite{filestructure} Proto došlo k~vytvoření vlastní struktury. Vzhledem k~velkému množství souborů je celý obsah projektu členěn do adresářů a~modulů.
 
 \begin{itemize}
 \item \textbf{dist}: Produkční sestavení aplikace. Veškerý obsah adresáře se generuje automaticky.
@@ -343,8 +360,6 @@ React nepřichází s~žádnou doporučenou strukturou projektu. Proto došlo k~
 \item \textbf{Utils}:  Pomocné třídy.
 \end{itemize} 
 
-\item \textbf{docs}:  Teoretická část bakalářské práce včetně zdrojových souborů pro LaTeX.
-
 \end{itemize} 
 
 Moduly obsažené zejména v~klientské části projektu jsou adresářové celky, které mohou obsahovat další strukturu:
@@ -365,21 +380,20 @@ Každý modul obsahuje mapování a~export všech souborů, které mají být ve
 
 \subsection{Uživatelské rozhraní}
 
-Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v~tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Kdykoliv se změní stav aplikace, dojde k~automatickému překreslení těch částí \textit{UI}, které změněná data obsahují.
+Klientská část aplikace dodržuje architekturu \textit{Redux}. Všechen stav aplikace je na jednom místě v~tzv. \textit{store}, odkud ho mohou číst všechny komponenty, jež jsou na \textit{store} napojené. Kdykoliv se změní stav aplikace, dojde k~automatickému překreslení těch částí \textit{UI}, které změněná data obsahují.~\cite{reactbook}
 
-Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.
+Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumentem bude právě prováděná akce. Akce je prostým objektem, který obsahuje povinnou vlastnost \code{type} s~typem akce a~libovolné další vlastnosti. Jelikož akce by měly být znovupoužitelné, jsou často umístěny v~\textit{action creator}. To je funkce, která akci vrací.~\cite{reactbook}
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=350pt]{Images/Redux.png}
 \caption[Životní cyklus architektury Redux]{Životní cyklus architektury Redux \footnotemark}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
 \footnotetext[1]{Vytvořeno v \url{https://www.draw.io}.}
 
-Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav. Je složen obvykle z~přepínače s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.
+Samotná změna stavu je pak provedena ve funkci \textit{reducer}. Ten ze starého stavu aplikace a~akce vytvoří a~vrátí nový stav.  Obsahem \textit{reduceru} je často rozsáhlý \textit{switch} s~výčtem všech akcí, kde je u~každé akce uvedena její modifikace stavu. Aby změna stavu aktualizovala všechny komponenty, které tomuto stavu naslouchají, je nutné, aby \textit{reducer} vracel vždy nově vytvořený objekt, nikoliv pouze pozměněný ten starý.~\cite{sass}
 
 \lstinputlisting[caption={Ukázka architektury Redux}, language={JavaScript}]{SourceCodes/Redux.js}
 
@@ -407,21 +421,35 @@ V~kódu pak použití asynchronní akce vypadá následovně. Automaticky je zaj
 
 \subsubsection{Reducer}
 
-Reducer je běžně funkce, která obsahuje \textit{switch} s~výčtem všech akcí a~jejich modifikací stavu aplikace. Díky vlastní knihovně to ale není nutné. Stačí uvést pole všech akcí a~případně i~počáteční stav \textit{store}.
+Reducer je běžně funkce, která obsahuje \textit{switch} s~výčtem všech akcí a~jejich modifikací stavu aplikace.~\cite{sass} Díky vlastní knihovně to ale není nutné. Stačí uvést pole všech akcí a~případně i~počáteční stav \textit{store}.
 
 \lstinputlisting[caption={Redux reducer za využití vlastní knihovny}, language={JavaScript}]{SourceCodes/ReduxReducer.js}
 
 \subsection{3D grafika}
 
-Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z~datových objektů těles vytvoří kontejnery obsahující kromě samotných dat z~databáze také objekty pro vykreslení.
+Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z~datových objektů těles vytvoří kontejnery obsahující kromě samotných dat z~databáze také objekty pro vykreslení popsané v~podkapitolách této kapitoly.
 
-Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. Počítat absolutní pozici tělesa by proto bylo více než náročné.
+Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. Počítat absolutní pozici tělesa by proto bylo více než náročné.// TODO: zdroj. Knížka?
 
-Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, kolem kterého zdánlivě obíhá. Tím je dosaženo dědičnosti a~souřadnice není nutné uvádět absolutně vzhledem k~vesmíru, ale pouze vzhledem k~rodičovskému tělesu. Pokud je pozice Slunce [1000,~0,~0], stačí uvést souřadnice Země [5,~0,~0] a~knihovna \textit{Three} si už sama dopočítá skutečnou polohu Země [1005,~0,~0].
-
-Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní knihovna \textit{Scene}. Ta v~každém průběhu vykreslovací smyčky vypočítá pozice a~rotace těles a~aktualizuje je.
+Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, kolem kterého zdánlivě obíhá. Tím je dosaženo dědičnosti a~souřadnice není nutné uvádět absolutně vzhledem k~vesmíru, ale pouze vzhledem k~rodičovskému tělesu. Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní knihovna \textit{Scene}. Ta v~každém průběhu vykreslovací smyčky vypočítá pozice a~rotace těles a~aktualizuje je.
 
 \lstinputlisting[caption={Práce s vlastní knihovnou pro 3D grafiku}, language={JavaScript}]{SourceCodes/Scene.js}
+
+V~každém cyklu dojde u každého z~vykreslovaných těles k~následujícím krokům:
+
+\begin{itemize}
+\item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
+
+\item \textbf{Výpočet okamžité rychlosti} dosazením vzdálenosti od těžiště do vzorce představeném v kapitole 3.5.5,
+
+\item \textbf{Výpočet procentuální části obvodu dráhy}, kterou těleso urazí za jednotku času (dáno dle FPS, v ideálním případě za 16 ms).
+
+\item \textbf{Nastavení nových souřadnic} tělesa získaných z metody  \textit{orbitPath.getPoint(angle)},
+
+\item \textbf{Pootočení tělesa kolem osy} o~úhel za jednotku času vypočtený z rotační periody,
+
+\item \textbf{Aktualizace viditelnosti, obsahu a~pozice popisku} a~orbity tělesa.
+\end{itemize}
 
 \subsubsection{Těleso}
 
@@ -438,14 +466,14 @@ Samotné těleso je reprezentováno koulí, tedy objektem s~geometrií \textit{T
 
 \subsubsection{Orbita}
 
-Orbita je objekt s geometrií \textit{THREE.BufferGeometry}, jejíž tvar je vypočten na základě nejbližší vzdálenosti tělesa od těžiště (pericentrum), nejvzdálenější vzdálenosti tělesa od těžiště (apocentrum) a~výstřednosti dráhy (excentricita). Pro materiál je použit\newline \textit{THREE.LineMaterial} s jedinou barvou namísto textury.
+Orbita je objekt s geometrií \textit{THREE.BufferGeometry}, jejíž tvar je vypočten na základě nejmenší (periapsida) a~největší (apoapsida) vzdálenosti tělesa od těžiště  a~výstřednosti dráhy (excentricita). Jako materiál je použit \textit{THREE.LineMaterial}.
 
 \lstinputlisting[caption={Výpočet geometrie orbity tělesa}, language={JavaScript}]{SourceCodes/Orbit.js}
 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=300pt]{Images/OrbitData.png}
+\includegraphics[width=350pt]{Images/OrbitData.png}
 \caption[Jednoznačná definice orbity tělesa]{Jednoznačná definice orbity tělesa \footnotemark[1]}
 \end{center}
 \end{figure}
@@ -470,13 +498,32 @@ Prstenec je objekt s~geometrií \textit{THREE.BufferRingGeometry}, materiálem\n
 
 \subsubsection{Popisek}
 
-Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicován na stejné souřadnice, jako je vykreslované těleso. Kromě názvu tělesa obsahuje i~vzdálenost od Země a~vzdálenost od kamery.
+Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicován na stejné souřadnice, jako je vykreslované těleso. Kromě názvu tělesa obsahuje i~aktuální rychlost pohybu, vzdálenost od Země, vzdálenost od kamery a~vzdálenost od centrálního tělesa.
+
+\subsubsection{Částice}
+Protože aplikace obsahuje řádově pouze desítky až stovky těles, je nemožné zobrazit rozsáhlejší struktury, které jsou jinak typické pro danou oblast ve vesmíru. Příkladem může být \textit{Kuiperův pás} nebo \textit{Oortův oblak} v~naší sluneční soustavě. Tato uskupení obsahují až biliony planetek, komet nebo~dalších těles. \cite{kleczek}
+
+Pro tyto účely se v aplikaci využívá náhodné generování částic pomocí \textit{THREE.Points}. V~závislosti na typu tělesa (pás, oblak, hvězdokupa, ...) je využito pro rozmístění částic buď rovnoměrné, normální nebo exponenciální rozdělení.  Protože zde ale figuruje náhoda, nemusí takto vygenerovaná tělesa odpovídat realitě a~jedná se pouze o~vizuální doplnění prázdného prostoru. Uživatel může zobrazení částic kdykoliv vypnout. // TODO: Fotka
+
+Funkce pro generování částic je uložena v~databázové kolekci typů těles jako textový řetězec. Je možné tak vytvořit jedinou funkci, např. pro generování spirálních galaxií, a~z~tohoto typu pak vytvářet instance těles o~stejném tvaru, lišících se v ostatních fyzikálních vlastnostech. Protože ale administrátor vše musí nejdříve schválit, je tím zároveň ošetřena bezpečnostní hrozba, kdy by uživatel do generující funkce umístil škodlivý kód.
+
+\subsubsection{Omezení}
+
+Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem může být vysoká výpočetní náročnost pro prohlížeč nebo složitost implementace. V~důsledku toho může v~simulátoru docházet k~nepřesnostem a~omezeným možnostem vykreslování těles.
+
+\begin{itemize}
+\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tedy není ovlivněno tělesy obíhajícími. Oběh je počítán na základě 1. a~2. Keplerova zákona a~není třeba řešit např. problém tří těles.
+\item Tělesa s neperiodickou nebo neeliptickou oběžnou dráhou mají pevně nastavenou pozici a~nepohybují se.
+\item Periapsida se vždy nachází přímo na opačné straně elipsy, než apoapsida. Pokud je oběžná dráha příliš excentrická, může se pozice skutečně nejbližšího bodu k~těžišti dráhy a~pericentra v~aplikaci lišit.
+
+\item Jsou zanedbány dlouhodobé události, např. postupné vzdalování Měsíce od Země o~38~cm za rok nebo cyklus změny sklonu zemské osy s~periodou 2100 let. // TODO: Zdroje.
+\end{itemize}
 
 \subsection{Serverová část}
 
 \subsubsection{Zachycení HTTP požadavku}
 
-Server vystavuje \textit{REST~API}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
+Server vystavuje \textit{REST~API}~\cite{nodebook}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
 
 \lstinputlisting[caption={Definice cesty v REST~API}, language={JavaScript}]{SourceCodes/Route.js}
 
@@ -515,45 +562,67 @@ V~aplikaci byla vyvinuta vlastní knihovna, která všechny ze zmíněných proc
 
 \end{itemize}
 
-Samotná definice přístupových bodů pak může vypadat následovně. U každé přístupové metody je možné určit, jaká oprávnění musí mít uživatel, aby tuto metodu nad daným zdrojem mohl vykonat.
+Samotná definice přístupových bodů pak může vypadat následovně. U~každé přístupové metody je možné určit, jaká oprávnění musí mít uživatel, aby tuto metodu nad daným zdrojem mohl vykonat.
 
 \lstinputlisting[caption={Zpracování HTTP požadavku}, language={JavaScript}]{SourceCodes/RouteUtils.js}
 
-Modelové třídy většiny entit není nutné psát individuálně. Všechny mají za úkol poskytnout \textit{CRUD operace} nad danou entitou (např. \textit{BodyModel} nad tělesy). Jediné, co se liší, je název databázové kolekce, vybrané sloupce při výpisu detailu entity a~při výpisu všech entit, popř. další parametry. Veškerá logika komunikace s~databází byla ukryta do třídy \textit{ItemModel}. Většina dalších modelů je pak pouhou instancí této třídy s~konkrétními parametry. \textit{ItemModel} vedle \textit{CRUD} operací automatizuje i vytváření notifikací a~schvalovací proces administrátora.
+Modelové třídy většiny entit není nutné psát individuálně. Všechny mají za úkol poskytnout \textit{CRUD operace} nad danou entitou (např. \textit{BodyModel} nad tělesy), případně generovat notifikace či umožnit práci se schvalovacím procesem. Jediné, co se liší, je název databázové kolekce, vybrané sloupce při výpisu detailu entity a~při výpisu všech entit, popř. další parametry. Veškerá logika komunikace s~databází byla ukryta do třídy \textit{ItemModel}. Většina dalších modelů je pak pouhou instancí této třídy s~konkrétními parametry. \textit{ItemModel} vedle \textit{CRUD} operací automatizuje i vytváření notifikací a~schvalovací proces administrátora.
 
 \lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.js}
 
 \subsection{Databáze}
 
-Trvalá data se v~ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou MVC a~k~databázi mají tedy přístup pouze modelové třídy.
+Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou \textit{MVC} a~k~databázi mají tedy přístup pouze modelové třídy. Struktura databáze je zobrazena v~příloze A na konci tohoto dokumentu.
 
 \subsubsection{Připojení do databáze}
 
-Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, cluster a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.
+Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
 
-Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
+Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru~\cite{nodebook}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
 \lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.js}
 
 \subsubsection{Mongoose schéma}
 
-Pomocí schématu lze určit strukturu databázové kolekce a nastavit validační pravidla. Veškerá konfigurace kolekce je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu.
+Pomocí schématu lze určit strukturu databázové kolekce a~nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také vytvořit např. indexy přes více polí.~\cite{nodebook}
 
 \lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.js}
 
 \subsubsection{Mongoose plugin}
 
-Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, které dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.
+Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, které dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.~\cite{nodebook}
 
 \lstinputlisting[caption={Vytvoření a~použití databázového pluginu}, language={JavaScript}]{SourceCodes/Hash.js}
 
-Ve zdrojovém kódu~12 je popsán plugin pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
+Ve zdrojovém kódu výše je zobrazena část pluginu pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
 
-\subsubsection{Práce s databází}
+Dalším pluginem v aplikaci je \textit{FillBodyPlugin}. Aplikace se snaží o největší možnou automatizaci a je tedy žádoucí, aby se do databáze ukládala pouze nejnutnější data. Ostatní data jsou automaticky dopočítána z~těch v~databázi. Níže je ukázán výpočet únikové rychlosti \code{v\textsubscript{u}} z tělesa.
+
+$$v\textsubscript{u}= \sqrt{\frac{2 * G * m}{r}}$$
+\begin{center}
+\textit{G – gravitační konstanta, m – hmotnost tělesa, r – poloměr tělesa}
+\end{center}
+
+Poněkud složitější je např. vzorec pro výpočet okamžité rychlosti pohybu tělesa po eliptické dráze kolem těžiště. Pro výpočet v různých vzdálenostech od centrálního tělesa je možné měnit pouze hodnotu \code{d}.
+
+$$v\textsubscript{max} = \frac{const.}{d} = \frac{2 * S}{T * d} = \frac{2 *  \pi * a * b}{T *d}  = \frac{2 *  \pi  * (\frac{d\textsubscript{max} + d\textsubscript{min}}{2})^2 * \sqrt{1 - e^2}}{T * d}$$
+\begin{center}
+\textit{S – plocha oběžné dráhy, T – perioda oběhu, d – vzdálenost od tělesa, d\textsubscript{max} – apoapsida, d\textsubscript{min} – periapsida, a – velká poloosa, b – malá poloosa, e – excentricita}
+\end{center}
+
+\subsubsection{Základní práce s databází}
 
 Databáze umožňuje provádět velké množství operací nad daty v~ní uloženými. Je možné vyhledávat podle konkrétní hodnoty, pole hodnot, regulárních výrazů nebo číselného rozsahu. Takto vyfiltrovaná data lze číst, smazat či editovat. Je také možné nastavit spoustu parametrů, např. maximální počet dokumentů (\textit{limit}), které vyhovují filtru. Mimo jiné je možné také provádět více dotazů do databáze jako atomické operace pomocí transakcí.
 
 \lstinputlisting[caption={CRUD operace nad kolekcí uživatelů}, language={JavaScript}]{SourceCodes/Database.js}
+
+\subsubsection{Aggregation Framework}
+
+V případě složitějších databázových dotazů, na které nestačí předpřipravené metody knihovny \textit{Mongoose}, je možno využít metodu \code{aggregate}, jež umožňuje pracovat s~\textit{Aggregation Frameworkem} databáze \textit{mongoDB}. Ten mimo jiné umožňuje v tzv. \textit{pipeline} dosadit sekvenci dotazů, které se nad daty postupně provedou. Je tak možné používat např. \code{\$match} (vyhledávání), \code {\$group} (seskupování) nebo \code{\$lookup} (spojování více kolekcí).~\cite{aggregation}
+
+V~aplikaci je tento způsob dotazování použit např. v ~\code{[GET] /bodies/{bodyId}}, kdy je třeba z~databáze kromě tělesa na základě jeho ID vybrat z jiných kolekcí i typ tělesa, události v~historii tělesa, diskuse o~tělese, komentáře k~diskusím a~nakonec i~uživatele a~hlasy patřící k~jednotlivým diskusím a~komentářům. Konkrétní podoba dotazu použitého v~aplikaci je zobrazena v~příloze~B~na konci tohoto dokumentu.
+
+I přes skutečnost, \textit{že mongoDB} jakožto dokumentová databáze umožňuje zanořování struktur do sebe~\cite{mongomongoose}, pro jednodušší práci byly pro tělesa, události, komentáře a hlasy vytvořeny samostatné kolekce.
 
 \section{Rozvržení aplikace}
 
@@ -565,13 +634,8 @@ Hlavní stránka aplikace obsahuje pouze nezbytné odkazy do dalších částí 
 \begin{center}
 \includegraphics[width=450pt]{Images/MainPage.png}
 \caption{Hlavní stránka}
-\label{BodiesList}
 \end{center}
 \end{figure}
-
-\subsection{Nápověda}
-
-V~nápovědě je shromážděno několik článků, které mohou pomoci novým uživatelům lépe se orientovat v~aplikaci. Mezi jednotlivými sekcemi nápovědy lze přepínat pomocí menu v~levé části obrazovky.
 
 \subsection{Autentifikace uživatele}
 
@@ -632,7 +696,7 @@ Hlavní náplní aplikace je právě tato stránka. Na 3D scéně zobrazuje těl
 V~pravém dolním rohu se nachází ovládací panel, jenž umožňuje měnit některá nastavení simulátoru. Všechna z~nich jsou dostupná i~pod klávesovými zkratkami.
 
 \begin{itemize}
-\item \textbf{Jména} (N): Zobrazí nebo skryje názvy těles.
+\item \textbf{Názvy} (N): Zobrazí nebo skryje názvy těles.
 \item \textbf{Vzdálenosti od kamery} (C): Zobrazí nebo skryje vzdálenosti těles od kamery.
 \item \textbf{Vzdálenosti od Země} (E): Zobrazí nebo skryje vzdálenosti těles od Země.
 \item \textbf{Zrychlit} (W): Pokud je čas kladný, zrychlí ho 10krát. Jinak ho 10krát zpomalí.
@@ -651,7 +715,6 @@ Na dolním okraji obrazovky je lišta zobrazující aktuální nastavení a~čas
 \begin{center}
 \includegraphics[width=450pt]{Images/Simulator.png}
 \caption{Simulátor}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -667,7 +730,6 @@ Výchozí položka v~uživatelském panelu zobrazuje poslední události na webu
 \begin{center}
 \includegraphics[width=350pt]{Images/Overview.png}
 \caption{Přehled}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -677,9 +739,8 @@ Chat slouží pro vzájemnou komunikaci uživatelů. Zprávy jsou zobrazovány o
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=350pt]{Images/Overview.png}
-\caption{Uživatelský chat}
-\label{BodiesList}
+%\includegraphics[width=350pt]{Images/Overview.png}
+%\caption{Uživatelský chat}
 \end{center}
 \end{figure}
 
@@ -708,23 +769,21 @@ Tělesa lze řadit vzestupně i~sestupně podle libovolného kritéria a~takté�
 \begin{center}
 \includegraphics[width=350pt]{Images/Bodies.png}
 \caption{Seznam těles}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
 \subsubsection{Detail tělesa}
 
-Detail tělesa se skládá ze čtyř záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká charakteristika tělesa a~jeho 3D vizualizace.
+Detail tělesa se skládá ze tří záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká slovní charakteristika tělesa a~jeho 3D vizualizace.
 
 Na druhé záložce se nachází časová osa, na které jsou vyneseny historické události spojené s~tělesem. Každá událost obsahuje rok, ve kterém nastala, název a~po najetí kurzorem  i~krátký popis. Je zde i stručný graf zobrazující počet výskytů události v~jednotlivých časových obdobích.
 
-Třetí záložka je určena pro diskuse. Každý zde může reagovat na již existující diskuse, nebo může založit vlastní vlákno. Všechny příspěvky uživatelů lze kladně nebo záporně hodnotit, v důsledku čehož se bude přičítat nebo odečítat reputace autora.
+Třetí a~poslední záložka je určena pro diskuse. Každý zde může reagovat na již existující diskuse, nebo může založit vlastní vlákno. Všechny příspěvky uživatelů lze kladně nebo záporně hodnotit, v důsledku čehož se bude přičítat nebo odečítat reputace autora.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=350pt]{Images/Body.png}
 \caption{Detail tělesa}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -732,7 +791,6 @@ Třetí záložka je určena pro diskuse. Každý zde může reagovat na již ex
 \begin{center}
 \includegraphics[width=350pt]{Images/Timeline.png}
 \caption{Časová osa tělesa}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -740,7 +798,6 @@ Třetí záložka je určena pro diskuse. Každý zde může reagovat na již ex
 \begin{center}
 \includegraphics[width=350pt]{Images/Discussion.png}
 \caption{Diskuse o tělese}
-\label{BodiesList}
 \end{center}
 \end{figure}
 
@@ -757,7 +814,7 @@ V~databázi je uloženo velké množství těles. Pokud by se popisky a~dráhy v
 \item \textbf{Vzdálenost od tělesa je 1000krát větší než vzdálenost od centrálního tělesa}: Dráha ani popisky se nebudou zobrazovat.
 \end{itemize} 
 
-První dva body řeší případy, kdy je těleso příliš oddálené nebo příliš přiblížené. Poslední dva body řeší situaci, ve které má uživatel sice přiměřené přiblížení kamery, nicméně se od tělesa nachází příliš daleko. Příkladem může být situace, kdy si uživatel prohlíží ze vzdálenosti 400~tisíc km prstence planety Saturn. Dráha zemského Měsíce je přiměřeně velká (406~tisíc km), ale přesto by se neměla vykreslovat. Od Saturnu je totiž vzdálena 1,2~miliardy km.
+První dva body řeší případy, kdy je těleso příliš oddálené nebo příliš přiblížené. Poslední dva body řeší situaci, ve které má uživatel sice přiměřené přiblížení kamery, nicméně se od tělesa nachází příliš daleko. Příkladem může být situace, kdy si uživatel prohlíží ze vzdálenosti 400~tisíc km prstence planety Saturn. Dráha zemského Měsíce je přiměřeně velká (406~tisíc km), ale přesto by se neměla vykreslovat. Od Saturnu je totiž vzdálena 1,2~miliardy km.~\cite{rees}
 
 \subsection{Sestavení aplikace a~optimalizace}
 
@@ -787,7 +844,7 @@ Pro ještě větší redukci přenesených dat je dobré nastavit Node.js server
 
 \subsubsection{Autentizace pomocí tokenu}
 
-Uživatel se autentizuje při přihlášení svým emailem a heslem, čímž mu je umožněn přístup na jeho účet. Nicméně uživatele je třeba znovu autentizovat i~během jeho relace po přihlášení, kdykoliv komunikuje se serverem. Tím lze omezit provádění určitých operací (např. editování tělesa, schvalování úprav, ...) pouze na konkrétní uživatele nebo skupiny uživatelů (např. pouze přihlášení, administrátoři, ...). Nabízí se několik možností v tom, co na server posílat vždy, když je třeba autentifikace:
+Uživatel se autentizuje při přihlášení svým emailem a heslem, čímž mu je umožněn přístup na jeho účet. Nicméně uživatele je třeba znovu autentizovat i~během jeho relace po přihlášení, kdykoliv komunikuje se serverem. Tím lze zabezpečit autorizaci a~omezit provádění určitých operací (např. editování tělesa, schvalování úprav, ...) pouze na konkrétní uživatele nebo skupiny uživatelů (např. pouze přihlášení, administrátoři, ...). Nabízí se několik možností v tom, co na server posílat vždy, když je třeba autentifikace:
 
 \begin{itemize}
 \item \textbf{Email a heslo}: Nechat uživatele zadávat přihlašovací údaje pokaždé, když je třeba komunikovat se serverem, by bylo obtěžující. A~ukládat heslo na straně klienta není zas bezpečné, protože by zde muselo být v~čitelné podobě.
@@ -829,11 +886,11 @@ Není nutné používat předdefinované jednotky v~této třídě a~lze si vytv
 
 \subsection{Vykreslování časové osy}
 
-Pro vykreslení časové osy představené v~bodě \textit{4.5.4~Detail tělesa} byla v~rámci projektu vytvořena komponenta \textit{EventsArea}. Ta umožňuje vykreslit pole událostí na \textit{2D} ploše v~podobě čtyřúhelníků tak, aby si souřadnice jednotlivých událostí odpovídaly. V~případě časové osy jsou těmito souřadnicemi počáteční a~koncový rok události.
+Pro vykreslení časové osy představené v~podkapitole \textit{4.5.4~Detail tělesa} byla v~rámci projektu vytvořena komponenta \textit{EventsArea}. Ta umožňuje vykreslit pole událostí na \textit{2D} ploše v~podobě čtyřúhelníků tak, aby si souřadnice jednotlivých událostí odpovídaly. V~případě časové osy jsou těmito souřadnicemi počáteční a~koncový rok události.
 
 Situace je o~to komplikovanější, že časová osa nemusí být lineární a~dokonce ani logaritmická. Komponenta proto na vstupu vedle pole událostí přijme i~pole hraničních souřadnic. Díky tomu je možné zobrazit roky 2019 až 0 jako jeden díl na časové ose a~o~něco níže naprosto stejný díl pro roky -1 až -10~000, stejně jako např. -5~mld. až -10~mld.
 
-Překrývání jednotlivých události je ošetřeno tak, že se vykreslí do různých sloupců. Je také možno nastavit počet mezistupňů mezi hraničními souřadnicemi. Ty lze nastylovat např. jako čáry na pravítku pro zlepšení přehlednosti. Při pohybu s kurzorem myši nad oblastí se zobrazuje horizontální čára s aktuální souřadnicí (rokem), nad kterou se kurzor nachází. Pro implementaci komponenty byla použita CSS vlastnost \textit{grid}.
+Překrývání jednotlivých události je ošetřeno tak, že se vykreslí do různých sloupců. Je také možno nastavit počet mezistupňů mezi hraničními souřadnicemi. Ty lze nastylovat např. jako čáry na pravítku pro zlepšení přehlednosti. Při pohybu s kurzorem myši nad oblastí se zobrazuje horizontální čára s aktuální souřadnicí (rokem), nad kterou se kurzor nachází. Pro implementaci komponenty byla použita \textit{CSS} vlastnost \textit{grid}.
 
 \lstinputlisting[caption={Příklad použití komponenty EventsArea}, language={JavaScript}]{SourceCodes/EventsArea.js}
 
@@ -862,15 +919,73 @@ KLECZEK, Josip. Velká encyklopedie vesmíru. Praha: Academia, 2002s [cit. 25. 1
 \bibitem{rees}
 REES, Martin, Vesmír. Přeložil Pavel PŘÍHODA. Praha: Knižní klub, 2006 [cit. 25. 10. 2018]. ISBN 80-242-1668-x.
 
+\bibitem{graphic}
+ECK, David. \textit{Introduction to Computer Graphics.} [online]. Version 1.2, January 2018. [cit.\,22.~2.~2019]. Dostupné z \url{http://math.hws.edu/eck/cs424/downloads/graphicsbook-linked.pdf}.
+
 \bibitem{jpl}
 JPL Solar System Dynamics. \textit{JPL Solar System Dynamics} [online]. [cit. 25. 10. 2018] Dostupné z: \url{https://ssd.jpl.nasa.gov}.
 
-\bibitem{mardan}
+\bibitem{nodebook}
 MARDAN, Azat. Practical Node.js: building real-world scalable web apps. Berkeley, California: Apress, [2014]. Expert‘s voice in Web development. ISBN 978-1-4302- 6595-5.
 
-\bibitem{banks}
-BANKS, Alex and PORCELLO, Eve. Learning React: functional web development with React and Redux. Sebastopol, CA: O'Reilly Media, 2017 [cit. 25. 10. 2018]. ISBN: 978-1-4919-542-1.
+\bibitem{reactbook}
+BANKS, Alex, PORCELLO, Eve. Learning React: functional web development with React and Redux. Sebastopol, CA: O'Reilly Media, 2017 [cit. 25. 10. 2018]. ISBN: 978-1-4919-5462-1.
 
+\bibitem{typescript}
+TypeScript. 
+\textit{TypeScript.} [online]. [cit.\,22.~2~2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
+
+\bibitem{onewaydatabinding}
+Thinking in React.
+\textit{React.} [online]. [cit.\,22.~2.~2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/thinking-in-react.html}}.
+
+\bibitem{node}
+MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
+\textit{Zdroják.} [online]. 5.~10.~2012. [cit.\,22.~2.~2019].  ISSN 1803-5620.
+Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-architektura-a-prvni-hello-world/}}.
+
+\bibitem{mongomongoose}
+MROZEK, Jakub. JavaScript na serveru: MongoDB, Mongoose a AngularJS.
+\textit{Zdroják.} [online]. 26.~10.~2012. [cit.\,22.~2.~2019].  ISSN 1803-5620.
+Dostupné z:\newline{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-mongodb-mongoose-angularjs}}.
+
+\bibitem{git}
+Úvod - Základy systému Git.
+\textit{git.} [online]. [cit.\,22.~2.~2019]. 
+Dostupné z: {\ttfamily \url{https://git-scm.com/book/cs/v1/%C3%9Avod-Z%C3%A1klady-syst%C3%A9mu-Git}}.
+
+\bibitem{webpack}
+Concepts.
+\textit{webpack.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://webpack.js.org/concepts}}.
+
+\bibitem{jsconcat}
+Fantastic front-end performance.
+\textit{HACKS.} [online]. 20~2~2019. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://hacks.mozilla.org/2012/12/fantastic-front-end-performance-part-1-concatenate-compress-cache-a-node-js-holiday-season-part-4/}}.
+
+\bibitem{sass}
+Sass Basics.
+\textit{Sass.} [online]. [cit.\,22.~2.~2019].
+Dostupné z:\newline{\ttfamily \url{https://sass-lang.com/guide}}.
+
+\bibitem{filestructure}
+File Structure.
+\textit{React.} [online]. [cit.\,22.~2.~2019].
+Dostupné z:\newline{\ttfamily \url{https://reactjs.org/docs/faq-structure.html}}.
+
+\bibitem{aggregation}
+Aggregate.
+\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/api.html#Aggregate}}.
+
+\bibitem{swaggerui}
+JOHNSON, Tom. Swagger UI tutorial. \textit{Documenting APIs.}. [online]. c2019 [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://idratherbewriting.com/learnapidoc/pubapis_swagger.html}}.
+
+\bibitem{simulations}
+KAVIČKA, Antonín. Pardubice. Elektronické sylaby přednášek předmětu Modelování a~simulace. [cit.\,22.~2.~2019].
 
 \end{thebibliography}
 
@@ -879,13 +994,32 @@ BANKS, Alex and PORCELLO, Eve. Learning React: functional web development with R
 % PŘÍLOHY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \clearpage \phantomsection \addcontentsline{toc}{section}{Seznam příloh}
 \section*{Seznam příloh}
+
+\noindent Příloha~A -- Struktura databáze \dotfill \pageref{prilohaA}
+
+\noindent Příloha~B -- Využití aggregation frameworku \dotfill \pageref{prilohaB}
+
+% PŘÍLOHA A
+
+\clearpage \phantomsection\label{prilohaA} 
+% do obsahu i do záložek PDF:
+%\addcontentsline{toc}{section}{Příloha~A -- Uvozovky}
+% pouze do záložek PDF:
+%\pdfbookmark[1]{Příloha~A -- Struktura databáze}{prilohaA}	% záložka do PDF
+\section*{Příloha~A --  Struktura databáze}
+%\pdfbookmark[1]{Příloha~B -- Využití aggregation frameworku}{prilohaB}	% záložka do PDF
+\section*{Příloha~B --  Využití aggregation\newline frameworku}
+
+\lstinputlisting[nolol,language={JavaScript}]{SourceCodes/Aggregation.js}
 
 \clearpage \phantomsection \addcontentsline{toc}{section}{Seznam souborů zdrojových kódů na přiloženém nosiči}
 \section*{Seznam souborů zdrojových kódů na přiloženém nosiči}
 
-\noindent Příloha~A \dotfill \pageref{prilohaA}
+.gitignore\newline /Bc.aux\newline package-lock.json\newline package.json\newline src/Client/package-lock.json\newline src/Client/package.json\newline src/Client/postcss.config.js\newline src/Client/src/Charts/Components/DonutChart.tsx\newline src/Client/src/Charts/Components/LineChart.tsx\newline src/Client/src/Charts/index.ts\newline src/Client/src/Controls/Components/AboutControl.tsx\newline src/Client/src/Controls/Components/Alert.tsx\newline src/Client/src/Controls/Components/AuthenticationControl.tsx\newline src/Client/src/Controls/Components/ContextInfo.tsx\newline src/Client/src/Controls/Components/ContextMenu.tsx\newline src/Client/src/Controls/Components/ContextTrigger.tsx\newline src/Client/src/Controls/Components/Control.tsx\newline src/Client/src/Controls/Components/ControlLink.tsx\newline src/Client/src/Controls/Components/ControlPanel.tsx\newline src/Client/src/Controls/Components/FullScreenControl.tsx\newline src/Client/src/Controls/Components/HelpControl.tsx\newline src/Client/src/Controls/Components/HomeControl.tsx\newline src/Client/src/Controls/Components/UIControl.tsx\newline src/Client/src/Controls/Components/ViewSizeControl.tsx\newline src/Client/src/Controls/Styles/Alert.scss\newline src/Client/src/Controls/Styles/Context.scss\newline src/Client/src/Controls/Styles/ContextInfo.scss\newline src/Client/src/Controls/Styles/ControlPanel.scss\newline src/Client/src/Controls/Styles/Controls.scss\newline src/Client/src/Controls/index.scss\newline src/Client/src/Controls/index.ts\newline src/Client/src/Forms/Components/Back.tsx\newline src/Client/src/Forms/Components/Field.tsx\newline src/Client/src/Forms/Components/FlexRow.tsx\newline src/Client/src/Forms/Components/Form.tsx\newline src/Client/src/Forms/Components/Note.tsx\newline src/Client/src/Forms/Components/Select.tsx\newline src/Client/src/Forms/Components/Submit.tsx\newline src/Client/src/Forms/Components/Title.tsx\newline src/Client/src/Forms/index.scss\newline src/Client/src/Forms/index.ts\newline src/Client/src/Global/IBodyContrainer.ts\newline src/Client/src/Global/IFilter.ts\newline src/Client/src/Global/ILinkButton.ts\newline src/Client/src/Global/IScene.ts\newline src/Client/src/Global/IStrings.ts\newline src/Client/src/Global/IUniverse.ts\newline src/Client/src/Global/IUserScore.ts\newline src/Client/src/Global/Redux.ts\newline src/Client/src/Global/Select.ts\newline src/Client/src/Global/Table.ts\newline src/Client/src/Global/Units.ts\newline src/Client/src/Panel/Components/AnswerForm.tsx\newline src/Client/src/Panel/Components/Bodies.tsx\newline src/Client/src/Panel/Components/BodiesFilterForm.tsx\newline src/Client/src/Panel/Components/BodiesSettingsForm.tsx\newline src/Client/src/Panel/Components/Body.tsx\newline src/Client/src/Panel/Components/BodyData.tsx\newline src/Client/src/Panel/Components/BodyDiscussion.tsx\newline src/Client/src/Panel/Components/BodyPost.tsx\newline src/Client/src/Panel/Components/BodyTimeline.tsx\newline src/Client/src/Panel/Components/Chat.tsx\newline src/Client/src/Panel/Components/DiscussionForm.tsx\newline src/Client/src/Panel/Components/Notifications.tsx\newline src/Client/src/Panel/Components/Overview.tsx\newline src/Client/src/Panel/Components/Panel.tsx\newline src/Client/src/Panel/Components/People.tsx\newline src/Client/src/Panel/Redux/ActionTypes.ts\newline src/Client/src/Panel/Redux/PanelActions.ts\newline src/Client/src/Panel/Redux/PanelReducer.ts\newline src/Client/src/Panel/Styles/Bodies.scss\newline src/Client/src/Panel/Styles/Body.scss\newline src/Client/src/Panel/Styles/Chat.scss\newline src/Client/src/Panel/Styles/Notifications.scss\newline src/Client/src/Panel/Styles/Overview.scss\newline src/Client/src/Panel/Styles/Panel.scss\newline src/Client/src/Panel/Styles/People.scss\newline src/Client/src/Panel/index.scss\newline src/Client/src/Panel/index.tsx\newline src/Client/src/System/Components/AnimatedBackground.tsx\newline src/Client/src/System/Components/App.tsx\newline src/Client/src/System/Constants/Strings.ts\newline src/Client/src/System/Redux/ActionTypes.ts\newline src/Client/src/System/Redux/Store.ts\newline src/Client/src/System/Redux/SystemActions.ts\newline src/Client/src/System/Redux/SystemReducer.ts\newline src/Client/src/System/Styles/AnimatedBackground.scss\newline src/Client/src/System/Styles/Home.scss\newline src/Client/src/System/Views/HomeView.tsx\newline src/Client/src/System/index.scss\newline src/Client/src/System/index.ts\newline src/Client/src/Universe/Components/BodyPreview.tsx\newline src/Client/src/Universe/Components/Canvas.tsx\newline src/Client/src/Universe/Components/ControlBar.tsx\newline src/Client/src/Universe/Components/ControlPanel.tsx\newline src/Client/src/Universe/Components/UI.tsx\newline src/Client/src/Universe/Constants/Config.ts\newline src/Client/src/Universe/Constants/Keys.ts\newline src/Client/src/Universe/Constants/Visibility.ts\newline src/Client/src/Universe/Redux/ActionTypes.ts\newline src/Client/src/Universe/Redux/UniverseActions.ts\newline src/Client/src/Universe/Redux/UniverseReducer.ts\newline src/Client/src/Universe/Styles/ControlBar.scss\newline src/Client/src/Universe/Styles/Controls.scss\newline src/Client/src/Universe/Styles/UI.scss\newline src/Client/src/Universe/Utils/BodyContainer.ts\newline src/Client/src/Universe/Utils/BodyFactory.ts\newline src/Client/src/Universe/Utils/Listener.ts\newline src/Client/src/Universe/Utils/Scene.ts\newline src/Client/src/Universe/Utils/TextureStore.ts\newline src/Client/src/Universe/Utils/Universe.ts\newline src/Client/src/Universe/Views/UniverseView.tsx\newline src/Client/src/Universe/index.scss\newline src/Client/src/Universe/index.ts\newline src/Client/src/User/Components/IdentityForm.tsx\newline src/Client/src/User/Components/LoginForm.tsx\newline src/Client/src/User/Components/SignUpForm.tsx\newline src/Client/src/User/Components/UserInfo.tsx\newline src/Client/src/User/Components/UsersList.tsx\newline src/Client/src/User/Redux/ActionTypes.ts\newline src/Client/src/User/Redux/UserActions.ts\newline src/Client/src/User/Redux/UserReducer.ts\newline src/Client/src/User/Styles/UserInfo.scss\newline src/Client/src/User/Views/IdentityView.tsx\newline src/Client/src/User/Views/LoginView.tsx\newline src/Client/src/User/Views/SignUpView.tsx\newline src/Client/src/User/index.scss\newline src/Client/src/User/index.ts\newline src/Client/src/Utils/Components/AsyncEntity.tsx\newline src/Client/src/Utils/Components/BlurLayout.tsx\newline src/Client/src/Utils/Components/Component.tsx\newline src/Client/src/Utils/Components/DataTable.tsx\newline src/Client/src/Utils/Components/Dropdown.tsx\newline src/Client/src/Utils/Components/EventsArea.tsx\newline src/Client/src/Utils/Components/FadeLayout.tsx\newline src/Client/src/Utils/Components/Link.tsx\newline src/Client/src/Utils/Components/Loader.tsx\newline src/Client/src/Utils/Components/Menu.tsx\newline src/Client/src/Utils/Components/QueryMenu.tsx\newline src/Client/src/Utils/Components/RelativeTime.tsx\newline src/Client/src/Utils/Components/SimpleComponent.tsx\newline src/Client/src/Utils/Components/StatelessComponent.tsx\newline src/Client/src/Utils/Components/Table.tsx\newline src/Client/src/Utils/Components/ToggleLayout.tsx\newline src/Client/src/Utils/Components/UILayout.tsx\newline src/Client/src/Utils/Components/View.tsx\newline src/Client/src/Utils/Constants/Config.ts\newline src/Client/src/Utils/Constants/CookieExpirations.ts\newline src/Client/src/Utils/Constants/Cookies.ts\newline src/Client/src/Utils/Constants/Queries.ts\newline src/Client/src/Utils/Constants/Titles.ts\newline src/Client/src/Utils/Constants/Urls.ts\newline src/Client/src/Utils/Styles/BlurLayout.scss\newline src/Client/src/Utils/Styles/Constants.scss\newline src/Client/src/Utils/Styles/DataTable.scss\newline src/Client/src/Utils/Styles/Default.scss\newline src/Client/src/Utils/Styles/Dropdown.scss\newline src/Client/src/Utils/Styles/EventsArea.scss\newline src/Client/src/Utils/Styles/Loader.scss\newline src/Client/src/Utils/Styles/Table.scss\newline src/Client/src/Utils/Styles/ToggleLayout.scss\newline src/Client/src/Utils/Styles/Utils.scss\newline src/Client/src/Utils/Utils/Cookies.ts\newline src/Client/src/Utils/Utils/Dates.ts\newline src/Client/src/Utils/Utils/Filter.ts\newline src/Client/src/Utils/Utils/Html.ts\newline src/Client/src/Utils/Utils/Redux.ts\newline src/Client/src/Utils/Utils/Request.ts\newline src/Client/src/Utils/Utils/Units.ts\newline src/Client/src/Utils/Utils/Url.ts\newline src/Client/src/Utils/Utils/Words.tsx\newline src/Client/src/Utils/index.scss\newline src/Client/src/Utils/index.ts\newline src/Client/src/index.scss\newline src/Client/src/index.tsx\newline src/Client/webpack.config.js\newline src/Constants/Config.ts\newline src/Constants/DatabaseModels.ts\newline src/Constants/Errors.ts\newline src/Constants/NotificationSubjects.ts\newline src/Constants/Operations.ts\newline src/Constants/index.ts\newline src/Controllers/bodies.ts\newline src/Controllers/bodies/count.ts\newline src/Controllers/bodies/events/{eventId}.ts\newline src/Controllers/bodies/{bodyId}.ts\newline src/Controllers/bodies/{bodyId}/count.ts\newline src/Controllers/bodies/{bodyId}/events.ts\newline src/Controllers/bodies/{bodyId}/posts.ts\newline src/Controllers/bodyTypes.ts\newline src/Controllers/bodyTypes/count.ts\newline src/Controllers/bodyTypes/{bodyTypeId}.ts\newline src/Controllers/login.ts\newline src/Controllers/notifications.ts\newline src/Controllers/posts/votes/{voteId}.ts\newline src/Controllers/posts/{postId}/posts.ts\newline src/Controllers/posts/{postId}/votes.ts\newline src/Controllers/users.ts\newline src/Controllers/users/count.ts\newline src/Controllers/users/{userId}.ts\newline src/Database/Database.ts\newline src/Database/DatabaseModel.ts\newline src/Database/Plugins/FillBodyPlugin.ts\newline src/Database/Plugins/HashPlugin.ts\newline src/Database/Plugins/ModifyPlugin.ts\newline src/Database/Schemas/BodyEventSchema.ts\newline src/Database/Schemas/BodyPostSchema.ts\newline src/Database/Schemas/BodySchema.ts\newline src/Database/Schemas/BodyTypeSchema.ts\newline src/Database/Schemas/NotificationSchema.ts\newline src/Database/Schemas/PostVoteSchema.ts\newline src/Database/Schemas/TokenSchema.ts\newline src/Database/Schemas/UnapprovedSchema.ts\newline src/Database/Schemas/UserSchema.ts\newline src/Global/Database.ts\newline src/Global/Discussion.ts\newline src/Global/Error.ts\newline src/Global/Event.ts\newline src/Global/FunctionalInterfaces.ts\newline src/Global/Functions.ts\newline src/Global/IBody.ts\newline src/Global/IBodyType.ts\newline src/Global/IFactory.ts\newline src/Global/IModel.ts\newline src/Global/IObject.ts\newline src/Global/ISecurityModel.ts\newline src/Global/IServer.ts\newline src/Global/IUser.ts\newline src/Global/Item.ts\newline src/Global/Notification.ts\newline src/Global/Routes.ts\newline src/Global/Structures.ts\newline src/Global/Universe.ts\newline src/Global/User.tsx\newline src/Models/BodyEventModel.ts\newline src/Models/BodyModel.ts\newline src/Models/BodyPostModel.ts\newline src/Models/BodyTypeModel.ts\newline src/Models/ItemModel.ts\newline src/Models/Model.ts\newline src/Models/NotificationModel.ts\newline src/Models/PostVoteModel.ts\newline src/Models/SecurityModel.ts\newline src/Models/UserModel.ts\newline src/Public/Fonts/LatoHairline.ttf\newline src/Public/Fonts/MontserratExtraLight.ttf\newline src/Public/Fonts/MontserratHairline.ttf\newline src/Public/Images/AnimatedBackground/Stars0.png\newline src/Public/Images/AnimatedBackground/Stars1.png\newline src/Public/Images/AnimatedBackground/Stars2.png\newline src/Public/Images/Controls/CloseAlert.svg\newline src/Public/Images/Controls/Help.svg\newline src/Public/Images/Controls/HideUI.svg\newline src/Public/Images/Controls/Home.svg\newline src/Public/Images/Controls/Login.svg\newline src/Public/Images/Controls/Logout.svg\newline src/Public/Images/Controls/Maximalize.svg\newline src/Public/Images/Controls/Minimize.svg\newline src/Public/Images/Controls/ShowUI.svg\newline src/Public/Images/Forms/Back.svg\newline src/Public/Images/Forms/InvalidPassword.svg\newline src/Public/Images/Forms/Next.svg\newline src/Public/Images/Forms/Password.svg\newline src/Public/Images/General/LeftBoldArrow.svg\newline src/Public/Images/Loader/Ring.svg\newline src/Public/Images/Loader/Spinner.svg\newline src/Public/Images/Loader/Wave.svg\newline src/Public/Images/Panel/Bodies/Remove.svg\newline src/Public/Images/Panel/Body/Send.svg\newline src/Public/Images/Panel/Body/ThumbDown.svg\newline src/Public/Images/Panel/Body/ThumbUp.svg\newline src/Public/Images/Panel/Chat/Send.svg\newline src/Public/Images/Panel/Overview/Clean.svg\newline src/Public/Images/Panel/Toggle.svg\newline src/Public/Images/Universe/Textures/Earth.jpg\newline src/Public/Images/Universe/Textures/Jupiter.jpg\newline src/Public/Images/Universe/Textures/Mars.jpg\newline src/Public/Images/Universe/Textures/Mercury.jpg\newline src/Public/Images/Universe/Textures/MilkyWay.png\newline src/Public/Images/Universe/Textures/Moon.jpg\newline src/Public/Images/Universe/Textures/Neptune.jpg\newline src/Public/Images/Universe/Textures/Saturn.jpg\newline src/Public/Images/Universe/Textures/SaturnRings.jpg\newline src/Public/Images/Universe/Textures/Sun.jpg\newline src/Public/Images/Universe/Textures/Universe.jpg\newline src/Public/Images/Universe/Textures/Uranus.jpg\newline src/Public/Images/Universe/Textures/Venus.jpg\newline src/Public/Images/Universe/UI/Faster.svg\newline src/Public/Images/Universe/UI/Labels.svg\newline src/Public/Images/Universe/UI/Light.svg\newline src/Public/Images/Universe/UI/Move.svg\newline src/Public/Images/Universe/UI/Name.svg\newline src/Public/Images/Universe/UI/Now.svg\newline src/Public/Images/Universe/UI/Orbits.svg\newline src/Public/Images/Universe/UI/Panel.svg\newline src/Public/Images/Universe/UI/ResetSpeed.svg\newline src/Public/Images/Universe/UI/Size.svg\newline src/Public/Images/Universe/UI/Slower.svg\newline src/Public/Images/Universe/UI/Speed.svg\newline src/Public/Images/Universe/UI/Time.svg\newline src/Public/Images/Universe/UI/View.svg\newline src/Public/Images/User/Avatar.svg\newline src/Public/index.html\newline src/Server.ts\newline src/Swagger.ts\newline src/Utils/Arrays.ts\newline src/Utils/Dates.ts\newline src/Utils/Physics.ts\newline src/Utils/Route.ts\newline src/Utils/Security.ts\newline src/Utils/Strings.ts\newline src/index.ts\newline tsconfig.json\newline
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % KONEC DOKUMENTU

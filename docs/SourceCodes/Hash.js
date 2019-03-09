@@ -2,6 +2,8 @@
 UserSchema.plugin(HashPlugin, { field: 'password' })
 
 // HashPlugin.ts
-const HashPlugin = Plugins.onChange(async (doc, options) => {
-    doc[options.field] = await Security.hash(doc[options.field])
-}, options.field)
+const HashPlugin = (schema, options) => {
+    schema.pre('save', async function () {
+        this[options.field] = await Security.hash(this[options.field])
+    })
+}

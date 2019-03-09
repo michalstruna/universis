@@ -1,76 +1,80 @@
 \babel@toc {czech}{}
 \babel@toc {czech}{}
 \contentsline {section}{Seznam obr\'azk\r {u}}{8}{section*.4}
-\contentsline {section}{Seznam zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u}}{9}{section*.5}
-\contentsline {section}{Seznam zkratek}{10}{section*.6}
-\contentsline {section}{\IeC {\'U}vod}{11}{section*.7}
+\contentsline {section}{Seznam zkratek}{10}{section*.5}
+\contentsline {section}{\IeC {\'U}vod}{11}{section*.6}
 \contentsline {section}{\numberline {1}3D simulace a jejich \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{12}{section.1}
-\contentsline {subsection}{\numberline {1.1}Celestia}{12}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}Stellarium}{13}{subsection.1.2}
-\contentsline {subsection}{\numberline {1.3}NASA/JPL Solar System Simulator}{13}{subsection.1.3}
-\contentsline {subsection}{\numberline {1.4}Space Engine}{14}{subsection.1.4}
-\contentsline {subsection}{\numberline {1.5}Universe Sandbox}{14}{subsection.1.5}
-\contentsline {section}{\numberline {2}Pou\IeC {\v z}it\IeC {\'e} technologie}{15}{section.2}
-\contentsline {subsection}{\numberline {2.1}Jazyk TypeScript}{15}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Knihovna React}{15}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}Syntaxe JSX}{15}{subsubsection.2.2.1}
-\contentsline {subsection}{\numberline {2.3}Knihovna Three.js}{16}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Framework Node.js}{16}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Datab\IeC {\'a}ze MongoDB}{16}{subsection.2.5}
-\contentsline {subsection}{\numberline {2.6}Knihovna Mongoose}{16}{subsection.2.6}
-\contentsline {subsection}{\numberline {2.7}Framework Swagger}{16}{subsection.2.7}
+\contentsline {subsection}{\numberline {1.1}Principy po\IeC {\v c}\IeC {\'\i }ta\IeC {\v c}ov\IeC {\'e} 3D grafiky}{12}{subsection.1.1}
+\contentsline {subsubsection}{\numberline {1.1.1}Modelov\IeC {\'a}n\IeC {\'\i }}{12}{subsubsection.1.1.1}
+\contentsline {subsubsection}{\numberline {1.1.2}Texturov\IeC {\'a}n\IeC {\'\i }}{12}{subsubsection.1.1.2}
+\contentsline {subsection}{\numberline {1.2}WebGL}{12}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.2.1}Grafick\IeC {\'y} \IeC {\v r}et\IeC {\v e}zec}{12}{subsubsection.1.2.1}
+\contentsline {subsubsection}{\numberline {1.2.2}Shader}{12}{subsubsection.1.2.2}
+\contentsline {subsubsection}{\numberline {1.2.3}Kontext}{12}{subsubsection.1.2.3}
+\contentsline {subsection}{\numberline {1.3}Simulace a emulace}{13}{subsection.1.3}
+\contentsline {section}{\numberline {2}Pou\IeC {\v z}it\IeC {\'e} technologie}{14}{section.2}
+\contentsline {subsection}{\numberline {2.1}Jazyk TypeScript}{14}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Knihovna React}{14}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Syntaxe TSX}{14}{subsubsection.2.2.1}
+\contentsline {subsection}{\numberline {2.3}Knihovna Three.js}{15}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Framework Node.js}{15}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Datab\IeC {\'a}ze MongoDB}{15}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Knihovna Mongoose}{15}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}N\IeC {\'a}stroj Swagger UI}{16}{subsection.2.7}
 \contentsline {subsection}{\numberline {2.8}N\IeC {\'a}stroj Webpack}{16}{subsection.2.8}
 \contentsline {subsection}{\numberline {2.9}Verzovac\IeC {\'\i } syst\IeC {\'e}m Git}{17}{subsection.2.9}
-\contentsline {subsection}{\numberline {2.10}Bal\IeC {\'\i }\IeC {\v c}kovac\IeC {\'\i } syst\IeC {\'e}m NPM}{18}{subsection.2.10}
-\contentsline {subsection}{\numberline {2.11}Preprocesor SASS}{18}{subsection.2.11}
-\contentsline {section}{\numberline {3}N\IeC {\'a}vrh a~v\IeC {\'y}voj aplikace}{19}{section.3}
-\contentsline {subsection}{\numberline {3.1}Struktura projektu}{19}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}U\IeC {\v z}ivatelsk\IeC {\'e} rozhran\IeC {\'\i }}{20}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Akce}{22}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Reducer}{22}{subsubsection.3.2.2}
-\contentsline {subsection}{\numberline {3.3}3D grafika}{23}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}T\IeC {\v e}leso}{24}{subsubsection.3.3.1}
+\contentsline {subsection}{\numberline {2.10}Bal\IeC {\'\i }\IeC {\v c}kovac\IeC {\'\i } syst\IeC {\'e}m NPM}{17}{subsection.2.10}
+\contentsline {subsection}{\numberline {2.11}Preprocesor SASS}{17}{subsection.2.11}
+\contentsline {section}{\numberline {3}N\IeC {\'a}vrh a~v\IeC {\'y}voj aplikace}{18}{section.3}
+\contentsline {subsection}{\numberline {3.1}Struktura projektu}{18}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}U\IeC {\v z}ivatelsk\IeC {\'e} rozhran\IeC {\'\i }}{19}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Akce}{21}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Reducer}{21}{subsubsection.3.2.2}
+\contentsline {subsection}{\numberline {3.3}3D grafika}{22}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}T\IeC {\v e}leso}{23}{subsubsection.3.3.1}
 \contentsline {subsubsection}{\numberline {3.3.2}Orbita}{24}{subsubsection.3.3.2}
-\contentsline {subsubsection}{\numberline {3.3.3}Sv\IeC {\v e}tlo}{25}{subsubsection.3.3.3}
+\contentsline {subsubsection}{\numberline {3.3.3}Sv\IeC {\v e}tlo}{24}{subsubsection.3.3.3}
 \contentsline {subsubsection}{\numberline {3.3.4}Prstence}{25}{subsubsection.3.3.4}
-\contentsline {subsubsection}{\numberline {3.3.5}Popisek}{26}{subsubsection.3.3.5}
+\contentsline {subsubsection}{\numberline {3.3.5}Popisek}{25}{subsubsection.3.3.5}
+\contentsline {subsubsection}{\numberline {3.3.6}\IeC {\v C}\IeC {\'a}stice}{25}{subsubsection.3.3.6}
+\contentsline {subsubsection}{\numberline {3.3.7}Omezen\IeC {\'\i }}{26}{subsubsection.3.3.7}
 \contentsline {subsection}{\numberline {3.4}Serverov\IeC {\'a} \IeC {\v c}\IeC {\'a}st}{26}{subsection.3.4}
 \contentsline {subsubsection}{\numberline {3.4.1}Zachycen\IeC {\'\i } HTTP po\IeC {\v z}adavku}{26}{subsubsection.3.4.1}
-\contentsline {subsubsection}{\numberline {3.4.2}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{26}{subsubsection.3.4.2}
-\contentsline {subsection}{\numberline {3.5}Datab\IeC {\'a}ze}{28}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}P\IeC {\v r}ipojen\IeC {\'\i } do datab\IeC {\'a}ze}{28}{subsubsection.3.5.1}
-\contentsline {subsubsection}{\numberline {3.5.2}Mongoose sch\IeC {\'e}ma}{29}{subsubsection.3.5.2}
-\contentsline {subsubsection}{\numberline {3.5.3}Mongoose plugin}{29}{subsubsection.3.5.3}
-\contentsline {subsubsection}{\numberline {3.5.4}Pr\IeC {\'a}ce s datab\IeC {\'a}z\IeC {\'\i }}{30}{subsubsection.3.5.4}
-\contentsline {section}{\numberline {4}Rozvr\IeC {\v z}en\IeC {\'\i } aplikace}{32}{section.4}
-\contentsline {subsection}{\numberline {4.1}Hlavn\IeC {\'\i } str\IeC {\'a}nka}{32}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}N\IeC {\'a}pov\IeC {\v e}da}{32}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Autentifikace u\IeC {\v z}ivatele}{33}{subsection.4.3}
-\contentsline {subsubsection}{\numberline {4.3.1}Identita}{33}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}P\IeC {\v r}ihl\IeC {\'a}\IeC {\v s}en\IeC {\'\i }}{33}{subsubsection.4.3.2}
-\contentsline {subsubsection}{\numberline {4.3.3}Registrace}{34}{subsubsection.4.3.3}
-\contentsline {subsubsection}{\numberline {4.3.4}Zapomenut\IeC {\'e} heslo}{34}{subsubsection.4.3.4}
-\contentsline {subsubsection}{\numberline {4.3.5}Reset hesla}{34}{subsubsection.4.3.5}
-\contentsline {subsection}{\numberline {4.4}U\IeC {\v z}ivatel}{35}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Detail u\IeC {\v z}ivatele}{35}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}Editace u\IeC {\v z}ivatele}{35}{subsubsection.4.4.2}
-\contentsline {subsection}{\numberline {4.5}Simul\IeC {\'a}tor}{35}{subsection.4.5}
-\contentsline {subsection}{\numberline {4.6}U\IeC {\v z}ivatelsk\IeC {\'y} panel}{36}{subsection.4.6}
-\contentsline {subsubsection}{\numberline {4.6.1}P\IeC {\v r}ehled}{36}{subsubsection.4.6.1}
-\contentsline {subsubsection}{\numberline {4.6.2}Chat}{37}{subsubsection.4.6.2}
-\contentsline {subsubsection}{\numberline {4.6.3}Seznam t\IeC {\v e}les}{38}{subsubsection.4.6.3}
-\contentsline {subsubsection}{\numberline {4.6.4}Detail t\IeC {\v e}lesa}{39}{subsubsection.4.6.4}
-\contentsline {section}{\numberline {5}Probl\IeC {\'e}my \IeC {\v r}e\IeC {\v s}en\IeC {\'e} p\IeC {\v r}i implementaci}{41}{section.5}
-\contentsline {subsection}{\numberline {5.1}Omezen\IeC {\'\i } viditelnosti t\IeC {\v e}les}{41}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Sestaven\IeC {\'\i } aplikace a~optimalizace}{42}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Transpilace a~slou\IeC {\v c}en\IeC {\'\i } JS a~CSS soubor\IeC {\r u}}{42}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}Minifikace a~GZIP komprese}{43}{subsubsection.5.2.2}
-\contentsline {subsection}{\numberline {5.3}Bezpe\IeC {\v c}nost a~ochrana dat}{43}{subsection.5.3}
-\contentsline {subsubsection}{\numberline {5.3.1}Autentizace pomoc\IeC {\'\i } tokenu}{43}{subsubsection.5.3.1}
-\contentsline {subsubsection}{\numberline {5.3.2}Hashov\IeC {\'a}n\IeC {\'\i } hesel}{44}{subsubsection.5.3.2}
-\contentsline {subsection}{\numberline {5.4}Zobrazov\IeC {\'a}n\IeC {\'\i } hodnot fyzik\IeC {\'a}ln\IeC {\'\i }ch veli\IeC {\v c}in}{44}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}Vykreslov\IeC {\'a}n\IeC {\'\i } \IeC {\v c}asov\IeC {\'e} osy}{46}{subsection.5.5}
-\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{47}{section*.26}
-\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{48}{section*.27}
-\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{49}{section*.28}
-\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{50}{section*.29}
+\contentsline {subsubsection}{\numberline {3.4.2}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{27}{subsubsection.3.4.2}
+\contentsline {subsection}{\numberline {3.5}Datab\IeC {\'a}ze}{29}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}P\IeC {\v r}ipojen\IeC {\'\i } do datab\IeC {\'a}ze}{29}{subsubsection.3.5.1}
+\contentsline {subsubsection}{\numberline {3.5.2}Mongoose sch\IeC {\'e}ma}{30}{subsubsection.3.5.2}
+\contentsline {subsubsection}{\numberline {3.5.3}Mongoose plugin}{30}{subsubsection.3.5.3}
+\contentsline {subsubsection}{\numberline {3.5.4}Z\IeC {\'a}kladn\IeC {\'\i } pr\IeC {\'a}ce s datab\IeC {\'a}z\IeC {\'\i }}{31}{subsubsection.3.5.4}
+\contentsline {subsubsection}{\numberline {3.5.5}Aggregation Framework}{32}{subsubsection.3.5.5}
+\contentsline {section}{\numberline {4}Rozvr\IeC {\v z}en\IeC {\'\i } aplikace}{33}{section.4}
+\contentsline {subsection}{\numberline {4.1}Hlavn\IeC {\'\i } str\IeC {\'a}nka}{33}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Autentifikace u\IeC {\v z}ivatele}{33}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Identita}{33}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}P\IeC {\v r}ihl\IeC {\'a}\IeC {\v s}en\IeC {\'\i }}{34}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Registrace}{34}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Zapomenut\IeC {\'e} heslo}{35}{subsubsection.4.2.4}
+\contentsline {subsubsection}{\numberline {4.2.5}Reset hesla}{35}{subsubsection.4.2.5}
+\contentsline {subsection}{\numberline {4.3}U\IeC {\v z}ivatel}{36}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Detail u\IeC {\v z}ivatele}{36}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}Editace u\IeC {\v z}ivatele}{36}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.4}Simul\IeC {\'a}tor}{36}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}U\IeC {\v z}ivatelsk\IeC {\'y} panel}{37}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.5.1}P\IeC {\v r}ehled}{37}{subsubsection.4.5.1}
+\contentsline {subsubsection}{\numberline {4.5.2}Chat}{38}{subsubsection.4.5.2}
+\contentsline {subsubsection}{\numberline {4.5.3}Seznam t\IeC {\v e}les}{38}{subsubsection.4.5.3}
+\contentsline {subsubsection}{\numberline {4.5.4}Detail t\IeC {\v e}lesa}{39}{subsubsection.4.5.4}
+\contentsline {section}{\numberline {5}Probl\IeC {\'e}my \IeC {\v r}e\IeC {\v s}en\IeC {\'e} p\IeC {\v r}i implementaci}{42}{section.5}
+\contentsline {subsection}{\numberline {5.1}Omezen\IeC {\'\i } viditelnosti t\IeC {\v e}les}{42}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Sestaven\IeC {\'\i } aplikace a~optimalizace}{43}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Transpilace a~slou\IeC {\v c}en\IeC {\'\i } JS a~CSS soubor\IeC {\r u}}{43}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Minifikace a~GZIP komprese}{44}{subsubsection.5.2.2}
+\contentsline {subsection}{\numberline {5.3}Bezpe\IeC {\v c}nost a~ochrana dat}{44}{subsection.5.3}
+\contentsline {subsubsection}{\numberline {5.3.1}Autentizace pomoc\IeC {\'\i } tokenu}{44}{subsubsection.5.3.1}
+\contentsline {subsubsection}{\numberline {5.3.2}Hashov\IeC {\'a}n\IeC {\'\i } hesel}{45}{subsubsection.5.3.2}
+\contentsline {subsection}{\numberline {5.4}Zobrazov\IeC {\'a}n\IeC {\'\i } hodnot fyzik\IeC {\'a}ln\IeC {\'\i }ch veli\IeC {\v c}in}{45}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Vykreslov\IeC {\'a}n\IeC {\'\i } \IeC {\v c}asov\IeC {\'e} osy}{47}{subsection.5.5}
+\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{48}{section*.23}
+\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{49}{section*.24}
+\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{51}{section*.25}
+\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{55}{section*.27}
