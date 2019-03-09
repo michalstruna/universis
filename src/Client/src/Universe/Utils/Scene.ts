@@ -26,6 +26,7 @@ const DEFAULT_OPTIONS = {
 let tempObject1Position = new THREE.Vector3()
 let tempObject2Position = new THREE.Vector3()
 var cameraViewProjectionMatrix = new THREE.Matrix4()
+const ZERO_VECTOR = new THREE.Vector3(0, 0, 0)
 
 /**
  * Utils for THREE.js scene.
@@ -157,8 +158,10 @@ class Scene implements Universis.Scene {
 
         if (follow === Follow.MOVE) {
             this.target.children[0].add(this.camera)
+            this.controls.target = ZERO_VECTOR
         } else if (follow === Follow.MOVE_AND_ROTATION) {
             this.target.add(this.camera)
+            this.controls.target = ZERO_VECTOR
         } else {
             const newCameraPosition = new Vector3()
             newCameraPosition.copy(this.camera.position)
