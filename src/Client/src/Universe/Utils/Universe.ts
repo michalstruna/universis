@@ -13,8 +13,6 @@ import { Units } from '../../Utils'
  */
 const tempVector = new THREE.Vector3()
 const rotationVector = new THREE.Vector3(0, 0, 1)
-const oldPosition = new THREE.Vector3()
-const newPosition = new THREE.Vector3()
 
 interface IOptions {
     element: HTMLElement
@@ -168,6 +166,10 @@ class Universe implements Universis.Universe {
         }
     }
 
+    public setFollow(follow: number): void {
+        this.scene.setFollow(follow)
+    }
+
     /**
      * Update position of all bodies within render loop.
      */
@@ -209,15 +211,7 @@ class Universe implements Universis.Universe {
 
                 if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
                     const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
-
-                    oldPosition.copy(body.mesh.position)
                     body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
-
-                    if (this.scene.getCameraTarget() === body.mesh) {
-                        newPosition.copy(body.mesh.position)
-                        newPosition.sub(oldPosition)
-                        this.scene.getCameraPosition().sub(newPosition)
-                    }
                 }
 
                 if (body.data.axis.period) {

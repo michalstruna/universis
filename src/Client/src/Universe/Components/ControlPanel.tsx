@@ -2,18 +2,20 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import Keys from '../Constants/Keys'
-import { StatelessComponent, Keyboard, Url, Queries } from '../../Utils'
+import { Keyboard, Queries, StatelessComponent, Url } from '../../Utils'
 import {
-    toggleLabels,
-    toggleLight,
-    toggleOrbits,
-    toggleVelocity,
+    changeFollow,
+    changeTimeSpeed,
     toggleFromCamera,
     toggleFromCenter,
     toggleFromEarth,
-    changeTimeSpeed,
-    toggleParticles
+    toggleLabels,
+    toggleLight,
+    toggleOrbits,
+    toggleParticles,
+    toggleVelocity
 } from '../Redux/UniverseActions'
+import Follow from '../Constants/Follow'
 
 interface IProps {
     strings: Universis.Strings
@@ -38,6 +40,8 @@ interface IProps {
     toggleParticles: Universis.Consumer<boolean>
     selectedBody: string
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    changeFollow: Universis.Runnable
+    follow: Follow
 }
 
 /**
@@ -58,7 +62,8 @@ class ControlPanel extends StatelessComponent<IProps> {
             [Keys.LABELS]: () => this.props.toggleLabels(!this.props.isNameVisible),
             [Keys.ORBITS]: () => this.props.toggleOrbits(!this.props.areOrbitsVisible),
             [Keys.PARTICLES]: () => this.props.toggleParticles(!this.props.areParticlesVisible),
-            [Keys.PANEL]: () => this.togglePanel()
+            [Keys.PANEL]: () => this.togglePanel(),
+            [Keys.FOLLOW]: () => this.props.changeFollow()
         })
     }
 
@@ -71,13 +76,15 @@ class ControlPanel extends StatelessComponent<IProps> {
      * @param name Class name suffix.
      * @param handleClick Callback after click.
      * @param isActive Button is active.
+     * @param isSemiActive Button is semi-active. (optional, default false)
      * @returns Button.
      */
-    private renderButton(name: string, handleClick: Universis.Runnable = () => null, isActive: boolean = false): React.ReactNode {
+    private renderButton(name: string, handleClick: Universis.Runnable = () => null, isActive: boolean = false, isSemiActive: boolean = false): React.ReactNode {
         const className = ClassNames(
             'universe__controls__button',
             'universe__controls__button--' + name,
-            { 'universe__controls__button--active': isActive }
+            { 'universe__controls__button--active': isActive },
+            { 'universe__controls__button--semi-active': isSemiActive }
         )
 
         return (
@@ -111,14 +118,14 @@ class ControlPanel extends StatelessComponent<IProps> {
         const {
             isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible,
             toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible,
-            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible
+            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible, changeFollow, follow
         } = this.props
 
         return (
             <section className='universe__controls'>
                 <section className='universe__controls__row'>
                     {this.renderButton('panel', this.togglePanel, Url.hasQuery(Queries.PANEL, location.search))}
-                    {this.renderButton('follow', this.togglePanel, Url.hasQuery(Queries.PANEL, location.search))}
+                    {this.renderButton('follow', changeFollow, follow === Follow.MOVE_AND_ROTATION, follow === Follow.MOVE)}
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('camera', () => toggleFromCamera(!isFromCameraVisible), isFromCameraVisible)}
@@ -164,7 +171,8 @@ export default ControlPanel.connect(
         timeSpeed: universe.timeSpeed,
         areParticlesVisible: universe.areParticlesVisible,
         selectedBody: universe.selectedBody,
-        bodies: universe.bodies
+        bodies: universe.bodies,
+        follow: universe.follow
     }),
     {
         toggleLight,
@@ -175,6 +183,7 @@ export default ControlPanel.connect(
         toggleFromCenter,
         toggleFromEarth,
         changeTimeSpeed,
-        toggleParticles
+        toggleParticles,
+        changeFollow
     }
 )

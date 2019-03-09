@@ -21,16 +21,35 @@
         }
 
         &__button {
-            @include opacity-hover;
             @include size;
-            background-color: $dark-color;
+            background-color: $semitransparent-medium-color;
             color: $lightest-color;
             font-size: 90%;
             letter-spacing: 0.05em;
+            overflow: hidden;
             position: relative;
+            z-index: 1;
 
-            &--active {
-                opacity: 1;
+            &:before {
+                @include absolute-position;
+                @include size(200%, 400%);
+                background-color: $medium-dark-color;
+                content: "";
+                transform: rotate(60deg) translateY(115%) translateX(-42%);
+                transition: transform $medium-animation-duration;
+                z-index: -1;
+            }
+
+            &--semi-active {
+                &:before {
+                    transform: rotate(60deg) translateY(70%) translateX(-42%);
+                }
+            }
+
+            &:hover, &--active {
+                &:before {
+                    transform: rotate(60deg) translateY(20%) translateX(-42%);
+                }
             }
 
             @each $button in (Light, Move, Faster, Slower, Speed, Now, Panel, Orbits, Labels, Velocity, Earth, Camera, Center, Particles, Follow) {

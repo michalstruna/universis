@@ -1,6 +1,7 @@
 import { Request, Redux } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import { Store } from '../../System'
+import Follow from '../Constants/Follow'
 
 /**
  * Get all bodies.
@@ -291,4 +292,14 @@ export const changeTimeSpeed = (timeSpeed: number, faster?: boolean) => (
             )
         }
     }
+)
+
+/**
+ * Increase follow level (camera -> body).
+ */
+export const changeFollow = () => (
+    Redux.setAction(
+        ActionTypes.CHANGE_FOLLOW,
+        ({ universe }) => ({ follow: universe.follow < Follow.MOVE_AND_ROTATION ? universe.follow + 1 : Follow.NO })
+    )
 )

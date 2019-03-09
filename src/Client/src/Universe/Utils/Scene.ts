@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 
 import { Html, Units } from '../../Utils'
+import Follow from '../Constants/Follow'
+import { Vector3 } from 'three'
 
 const TrackballControls = require('three-trackballcontrols')
 
@@ -9,6 +11,7 @@ const DEFAULT_OPTIONS = {
     backgroundColor: null,
     cameraDistance: 1,
     far: 1e50,
+    follow: Follow.MOVE,
     fov: 50,
     height: window.innerHeight,
     globalCamera: false,
@@ -148,25 +151,36 @@ class Scene implements Universis.Scene {
     }
 
     public setCameraTarget(objectId: string | THREE.Mesh): void {
-        const { controllable, globalCamera, onChangeTarget } = this.options
-        let object = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
+        const { controllable, follow, onChangeTarget } = this.options
+        const oldTarget = this.target
+        this.target = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
 
-        if (!globalCamera) {
-            object.children[0].add(this.camera)
-        } // TODO: Else set coordinates.
+        if (follow === Follow.MOVE) {
+            this.target.children[0].add(this.camera)
+        } else if (follow === Follow.MOVE_AND_ROTATION) {
+            this.target.add(this.camera)
+        } else {
+            const newCameraPosition = new Vector3()
+            newCameraPosition.copy(this.camera.position)
+            newCameraPosition.add(this.target.position)
 
-        this.target = object
-
-        const targetSize = this.getTargetSize()
-
-        if (controllable && targetSize) {
-            this.controls.minDistance = targetSize
+            this.target.parent.add(this.camera)
+            this.camera.position.copy(newCameraPosition)
+            this.controls.target = this.target.position
         }
 
-        this.setCameraDistance(targetSize)
+        if (oldTarget !== this.target) {
+            const targetSize = this.getTargetSize()
+
+            if (controllable && targetSize) {
+                this.controls.minDistance = targetSize
+            }
+
+            this.setCameraDistance(targetSize)
+        }
 
         if (onChangeTarget) {
-            onChangeTarget(object.name)
+            onChangeTarget(this.target.name)
         }
     }
 
@@ -176,6 +190,11 @@ class Scene implements Universis.Scene {
 
     public getCameraPosition(): THREE.Vector3 {
         return this.camera.position
+    }
+
+    public setFollow(follow: number): void {
+        this.options.follow = follow
+        this.setCameraTarget(this.target)
     }
 
     /**

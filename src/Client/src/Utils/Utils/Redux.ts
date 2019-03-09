@@ -1,3 +1,5 @@
+import { Store } from '../../System'
+
 /**
  * Utils for Redux.
  *
@@ -36,11 +38,11 @@ class Redux {
     public static asyncAction<T>(type: string, changes: Universis.Map<Promise<T>>, onSuccess?: Universis.Consumer<T>, onFail?: Universis.Consumer<Error>): Universis.Redux.ActionResult<T> {
         return dispatch => {
             const property = Object.keys(changes)[0]
-            dispatch({ type: type + Redux.SUFFIXES.SENT, property, $async: {} })
+            dispatch({ type: type + this.SUFFIXES.SENT, property, $async: {} })
 
             return changes[property]
                 .then(payload => {
-                    dispatch({ type: type + Redux.SUFFIXES.SUCCESS, property, $async: { payload } })
+                    dispatch({ type: type + this.SUFFIXES.SUCCESS, property, $async: { payload } })
 
                     if (onSuccess) {
                         onSuccess(payload)
@@ -49,7 +51,7 @@ class Redux {
                     return Promise.resolve(payload)
                 })
                 .catch(error => {
-                    dispatch({ type: type + Redux.SUFFIXES.FAIL, property, $async: { error } })
+                    dispatch({ type: type + this.SUFFIXES.FAIL, property, $async: { error } })
 
                     if (onFail) {
                         onFail(error)
@@ -68,10 +70,10 @@ class Redux {
      * @param callback Callback after toggle  (only first toggled value).
      * @returns Toggle action.
      */
-    public static toggleAction(type: string, changes: Universis.Map<any>, callback?: Universis.Runnable): Universis.Redux.SetAction {
-        const isTrue = Redux.getFirstValue<boolean>(changes)
-        const { ON, OFF } = Redux.SUFFIXES
-        return Redux.setAction(type + (isTrue ? ON : OFF), changes, callback)
+    public static toggleAction(type: string, changes: Universis.Redux.Changes, callback?: Universis.Runnable): Universis.Redux.SetAction {
+        const isTrue = this.getFirstValue<boolean>(this.getChanges(changes))
+        const { ON, OFF } = this.SUFFIXES
+        return this.setAction(type + (isTrue ? ON : OFF), changes, callback)
     }
 
     /**
@@ -81,8 +83,8 @@ class Redux {
      * @param callback Callback after change state.
      * @returns Action.
      */
-    public static setAction(type: string, changes: Universis.Map<any>, callback?: Universis.Runnable): Universis.Redux.SetAction {
-        return { type, $set: changes, $callback: callback }
+    public static setAction(type: string, changes: Universis.Redux.Changes, callback?: Universis.Runnable): Universis.Redux.SetAction {
+        return { type, $set: this.getChanges(changes), $callback: callback }
     }
 
     /**
@@ -93,13 +95,13 @@ class Redux {
      */
     public static createReducer(actionTypes: string[], initialState: Universis.Redux.StoreState = {}) {
         return <T>(state: Universis.Redux.StoreState = initialState, action: Universis.Redux.SetAction | Universis.Redux.AsyncAction<T>) => {
-            if (actionTypes.includes(Redux.removeSuffixFromActionType(action.type))) {
+            if (actionTypes.includes(this.removeSuffixFromActionType(action.type))) {
                 if ('$set' in action) {
-                    state = Redux.applySetAction(state, action)
+                    state = this.applySetAction(state, action)
                 }
 
                 if ('$async' in action) {
-                    state = Redux.applyAsyncAction<T>(state, action)
+                    state = this.applyAsyncAction<T>(state, action)
                 }
 
                 if (action.$callback) {
@@ -158,16 +160,16 @@ class Redux {
      * @returns New store state.
      */
     private static applyAsyncAction<T>(state: Universis.Redux.StoreState, action: Universis.Redux.AsyncAction<T>): Universis.Redux.StoreState {
-        const { SENT, SUCCESS, FAIL } = Redux.SUFFIXES
+        const { SENT, SUCCESS, FAIL } = this.SUFFIXES
 
-        if (Redux.hasSuffix(action.type, SENT)) {
+        if (this.hasSuffix(action.type, SENT)) {
             return {
                 ...state,
                 [action.property]: {
                     isSent: true
                 }
             }
-        } else if (Redux.hasSuffix(action.type, SUCCESS)) {
+        } else if (this.hasSuffix(action.type, SUCCESS)) {
             return {
                 ...state,
                 [action.property]: {
@@ -177,7 +179,7 @@ class Redux {
                     payload: action.$async.payload
                 }
             }
-        } else if (Redux.hasSuffix(action.type, FAIL)) {
+        } else if (this.hasSuffix(action.type, FAIL)) {
             return {
                 ...state,
                 [action.property]: {
@@ -198,7 +200,7 @@ class Redux {
      * @returns Action type without suffix.
      */
     private static removeSuffixFromActionType(actionType: string): string {
-        const suffixes = Object.values(Redux.SUFFIXES).join('|')
+        const suffixes = Object.values(this.SUFFIXES).join('|')
         const regExp = new RegExp('(' + suffixes + ')$')
         return actionType.replace(regExp, '')
     }
@@ -229,6 +231,14 @@ class Redux {
         }
 
         return result
+    }
+
+    /**
+     * Return plain object changes.
+     * @param changes Plain or functional changes.
+     */
+    private static getChanges(changes: Universis.Redux.Changes): Universis.Redux.Changes.Plain {
+        return typeof changes === 'function' ? changes(Store.getState()) : changes
     }
 
 }

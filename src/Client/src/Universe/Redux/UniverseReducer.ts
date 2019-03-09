@@ -1,5 +1,6 @@
 import ActionTypes from './ActionTypes'
 import { Redux } from '../../Utils'
+import Follow from '../Constants/Follow'
 
 export default Redux.createReducer(
     Object.values(ActionTypes),
@@ -18,6 +19,7 @@ export default Redux.createReducer(
         isNewDiscussionExpanded: false,
         newVote: Redux.EMPTY_ASYNC_ENTITY,
         newUnvote: Redux.EMPTY_ASYNC_ENTITY,
-        timeSpeed: 1
+        timeSpeed: 1,
+        follow: Follow.MOVE
     }
 )

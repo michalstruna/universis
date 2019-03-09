@@ -67,6 +67,12 @@ declare namespace Universis {
          */
         setCameraDistance(distance: number): void
 
+        /**
+         * Set follow level (0 = no, 1 = move, 2 = move and rotation).
+         * @param follow
+         */
+        setFollow(follow: number): void
+
     }
 
     export namespace Scene {
@@ -100,6 +106,11 @@ declare namespace Universis {
              * Farest visibility of camera. (optional, default 1e50)
              */
             far?: number
+
+            /**
+             * Follow level. (optional, default 1)
+             */
+            follow?: number
 
             /**
              * Field of camera vision [°]. (optional, default 75)

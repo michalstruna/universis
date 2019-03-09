@@ -8,6 +8,7 @@ import Universe from '../Utils/Universe'
 import Listener from '../Utils/Listener'
 import { selectBody } from '../Redux/UniverseActions'
 import { ViewSizeControl } from '../../Controls'
+import Follow from '../Constants/Follow'
 
 interface IProps {
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
@@ -24,6 +25,7 @@ interface IProps {
     isFromCenterVisible: boolean
     timeSpeed: number,
     areParticlesVisible: boolean
+    follow: Follow
 }
 
 /**
@@ -48,7 +50,7 @@ class Simulator extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible } = this.props
+        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible, follow } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -96,6 +98,10 @@ class Simulator extends StatelessComponent<IProps> {
 
         if (prevProps.areParticlesVisible !== areParticlesVisible) {
             this.universe.toggleParticles(areParticlesVisible)
+        }
+
+        if(prevProps.follow !== follow) {
+            this.universe.setFollow(follow)
         }
     }
 
@@ -167,7 +173,8 @@ export default Simulator.connect(
         isFromCameraVisible: universe.isFromCameraVisible,
         isFromCenterVisible: universe.isFromCenterVisible,
         timeSpeed: universe.timeSpeed,
-        areParticlesVisible: universe.areParticlesVisible
+        areParticlesVisible: universe.areParticlesVisible,
+        follow: universe.follow
     }),
     { selectBody }
 )

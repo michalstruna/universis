@@ -22,6 +22,12 @@ declare namespace Universis {
         selectBody(bodyId: string): void
 
         /**
+         * Set follow.
+         * @param follow
+         */
+        setFollow(follow: number): void
+
+        /**
          * Toggle light.
          * @param isLightVisible Light is visible.
          */
