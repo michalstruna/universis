@@ -20,9 +20,15 @@ declare namespace Universis {
         getDistance(object1: THREE.Object3D, object2?: THREE.Object3D): number
 
         /**
+         * Get camera position.
+         * @returns Camera position.
+         */
+        getCameraPosition(): THREE.Vector3
+
+        /**
          * Check if object is in field of vision of camera.
          */
-        isInFov(object: THREE.Mesh): boolean
+        isInFov(object: THREE.Object3D): boolean
 
         /**
          * Project camera on vector.
@@ -47,7 +53,7 @@ declare namespace Universis {
          * Set camera target.
          * @param objectId ID of target object. It could be string ID or whole object.
          */
-        setCameraTarget(objectId: THREE.Mesh | string): void
+        setCameraTarget(objectId: THREE.Object3D | string): void
 
         /**
          * Enable or disable controls.
@@ -60,6 +66,12 @@ declare namespace Universis {
          * @param distance
          */
         setCameraDistance(distance: number): void
+
+        /**
+         * Set follow level (0 = no, 1 = move, 2 = move and rotation).
+         * @param follow
+         */
+        setFollow(follow: number): void
 
     }
 
@@ -94,6 +106,11 @@ declare namespace Universis {
              * Farest visibility of camera. (optional, default 1e50)
              */
             far?: number
+
+            /**
+             * Follow level. (optional, default 1)
+             */
+            follow?: number
 
             /**
              * Field of camera vision [°]. (optional, default 75)

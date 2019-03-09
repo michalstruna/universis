@@ -13,6 +13,7 @@ interface IProps {
     body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
     getBodies: Universis.Runnable
     getBodyById: Universis.Consumer<string>
+    location: any
 }
 
 /**
@@ -35,9 +36,15 @@ class Body extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { bodies } = this.props
+        const { bodies, location } = this.props
 
         if (!prevProps.bodies.payload && bodies.payload) {
+            this.getBody()
+        }
+
+        const body = Url.getQuery(Queries.BODY, location.search)
+
+        if (body && body !== Url.getQuery(Queries.BODY, prevProps.location.search)) {
             this.getBody()
         }
     }

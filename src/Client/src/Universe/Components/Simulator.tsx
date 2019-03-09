@@ -8,6 +8,7 @@ import Universe from '../Utils/Universe'
 import Listener from '../Utils/Listener'
 import { selectBody } from '../Redux/UniverseActions'
 import { ViewSizeControl } from '../../Controls'
+import Follow from '../Constants/Follow'
 
 interface IProps {
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
@@ -22,7 +23,9 @@ interface IProps {
     isFromEarthVisible: boolean
     isFromCameraVisible: boolean
     isFromCenterVisible: boolean
-    timeSpeed: number
+    timeSpeed: number,
+    areParticlesVisible: boolean
+    follow: Follow
 }
 
 /**
@@ -47,7 +50,7 @@ class Simulator extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible } = this.props
+        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible, follow } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -91,6 +94,14 @@ class Simulator extends StatelessComponent<IProps> {
 
         if (prevProps.isVelocityVisible !== isVelocityVisible) {
             this.universe.toggleVelocity(isVelocityVisible)
+        }
+
+        if (prevProps.areParticlesVisible !== areParticlesVisible) {
+            this.universe.toggleParticles(areParticlesVisible)
+        }
+
+        if(prevProps.follow !== follow) {
+            this.universe.setFollow(follow)
         }
     }
 
@@ -161,7 +172,9 @@ export default Simulator.connect(
         isFromEarthVisible: universe.isFromEarthVisible,
         isFromCameraVisible: universe.isFromCameraVisible,
         isFromCenterVisible: universe.isFromCenterVisible,
-        timeSpeed: universe.timeSpeed
+        timeSpeed: universe.timeSpeed,
+        areParticlesVisible: universe.areParticlesVisible,
+        follow: universe.follow
     }),
     { selectBody }
 )

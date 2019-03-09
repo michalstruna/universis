@@ -1,4 +1,4 @@
-import { Texture, TextureLoader, RepeatWrapping } from 'three'
+import { Texture, TextureLoader } from 'three'
 
 import Config from '../Constants/Config'
 

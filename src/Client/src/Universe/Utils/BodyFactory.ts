@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import Config from '../Constants/Config'
 import TextureStore from './TextureStore'
 import BodyContainer from './BodyContainer'
+import { Random } from '../../Utils'
 
 /**
  * Class for generating bodies in universe.
@@ -10,29 +11,55 @@ import BodyContainer from './BodyContainer'
 class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, Universis.Universe.Body.Container> {
 
     public create(body: Universis.Universe.Body.Simple): Universis.Universe.Body.Container {
-        const mesh = this.createMesh(body)
+        const childrenContainer = new THREE.Group()
+        const mesh = this.createMesh(body, childrenContainer)
         const orbit = this.createOrbit(body)
         const label = this.createLabel(body)
-        const childrenContainer = this.createChildrenContainer()
-        mesh.add(childrenContainer)
 
         for (const ring of body.rings) {
             mesh.add(this.createRing(ring))
         }
 
-        (orbit.children[0].children[0] || orbit.children[0]).add(mesh)
-
-        return new BodyContainer(
-            body,
-            mesh,
-            orbit,
-            label,
-            childrenContainer
-        )
+        orbit.children[0].children[0].add(mesh)
+        return new BodyContainer(body, mesh, orbit, label, childrenContainer)
     }
 
-    private createChildrenContainer(): THREE.Group {
-        return new THREE.Group()
+    /**
+     * Create body.
+     * @param body Body data.
+     * @param child
+     * @returns Body.
+     */
+    private createMesh(body: Universis.Universe.Body.Simple, child: THREE.Group): THREE.Mesh | THREE.Group | THREE.Points {
+        let mesh
+
+        if (body.type.particlesGenerator) {
+            const geometry = new THREE.Geometry()
+            const particleGenerator = new Function('body', 'Random', body.type.particlesGenerator)
+
+            for (let i = 0; i < body.particles.count; i++) {
+                let [x, y, z] = particleGenerator(body, Random)
+                geometry.vertices.push(new THREE.Vector3(x, y, z))
+            }
+
+            mesh = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: body.particles.size }))
+        } else {
+            const geometry = this.createGeometry(body)
+            const material = this.createMaterial(body)
+            mesh = new THREE.Mesh(geometry, material)
+        }
+
+        mesh.add(child)
+
+        if (body.type.emissiveColor) {
+            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000000)) // TODO: Calc distance from size of body.
+        }
+
+        mesh.name = body._id
+        mesh.position.set(0, 0, 0)
+        mesh.rotation.set(0, THREE.Math.degToRad(body.axis.tilt) || 0, 0)
+
+        return mesh
     }
 
     /**
@@ -41,23 +68,9 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * @returns Mesh geometry.
      */
     private createGeometry(body: Universis.Universe.Body.Simple): THREE.SphereGeometry {
-        const geometry = new THREE.SphereGeometry(
-            body.diameter.x / 2,
-            Config.BODY_SEGMENTS,
-            Config.BODY_SEGMENTS
-        )
-
-        geometry.applyMatrix(new THREE.Matrix4().makeScale(
-            1,
-            body.diameter.y / body.diameter.x,
-            1
-        ))
-
-
-        geometry.applyMatrix(new THREE.Matrix4().makeRotationX(
-            Math.PI / 2
-        ))
-
+        const geometry = new THREE.SphereGeometry(body.diameter.x / 2, Config.BODY_SEGMENTS, Config.BODY_SEGMENTS)
+        geometry.applyMatrix(new THREE.Matrix4().makeScale(1, body.diameter.y / body.diameter.x, 1))
+        geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 2))
         return geometry
     }
 
@@ -115,10 +128,23 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             midOrbitMesh.add(orbitMesh)
 
             outerOrbitMesh.userData.path = path
-            outerOrbitMesh.userData.angle = 0 // TODO: Add initial angle.
+            outerOrbitMesh.userData.angle = (body.orbit.startAngle || 0) / 360
         } else {
             const orbitMesh = new THREE.Mesh()
-            outerOrbitMesh.add(orbitMesh)
+            const midOrbitMesh = new THREE.Group()
+            midOrbitMesh.add(orbitMesh)
+            outerOrbitMesh.add(midOrbitMesh)
+
+            if (body.position) {
+                const alpha = THREE.Math.degToRad(body.position.alpha)
+                const beta = THREE.Math.degToRad(body.position.beta)
+
+                outerOrbitMesh.position.set(
+                    body.position.distance * Math.sin(alpha) * Math.sin(beta),
+                    body.position.distance * Math.sin(alpha) * Math.cos(beta),
+                    body.position.distance * Math.cos(alpha)
+                )
+            }
         }
 
         return outerOrbitMesh
@@ -139,28 +165,6 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      */
     private calculateB(body: Universis.Universe.Body.Simple, a: number): number {
         return Math.sqrt(-Math.pow(a, 2) * body.orbit.eccentricity + Math.pow(a, 2))
-    }
-
-    /**
-     * Create mesh of body.
-     * @param body Source body.
-     * @returns THREE mesh.
-     */
-    private createMesh(body: Universis.Universe.Body.Simple): THREE.Mesh {
-        const geometry = this.createGeometry(body)
-        const material = this.createMaterial(body)
-
-        const mesh = new THREE.Mesh(geometry, material)
-        mesh.name = body._id
-
-        if (body.type.emissiveColor) {
-            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000000)) // TODO: Calc distance from size of body.
-        }
-
-        mesh.position.set(0, 0, 0)
-        mesh.rotation.set(0, THREE.Math.degToRad(body.axis.tilt) || 0, 0)
-
-        return mesh
     }
 
     /**

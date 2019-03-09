@@ -22,6 +22,12 @@ declare namespace Universis {
         selectBody(bodyId: string): void
 
         /**
+         * Set follow.
+         * @param follow
+         */
+        setFollow(follow: number): void
+
+        /**
          * Toggle light.
          * @param isLightVisible Light is visible.
          */
@@ -68,6 +74,12 @@ declare namespace Universis {
          * @param isFromCenterVisible
          */
         toggleFromCenter(isFromCenterVisible: boolean): void
+
+        /**
+         * Toggle visibility of particles.
+         * @param areParticlesVisible
+         */
+        toggleParticles(areParticlesVisible: boolean): void
 
     }
 

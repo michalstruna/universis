@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 
 import { Html, Units } from '../../Utils'
+import Follow from '../Constants/Follow'
+import { Vector3 } from 'three'
 
 const TrackballControls = require('three-trackballcontrols')
 
@@ -9,6 +11,7 @@ const DEFAULT_OPTIONS = {
     backgroundColor: null,
     cameraDistance: 1,
     far: 1e50,
+    follow: Follow.MOVE,
     fov: 50,
     height: window.innerHeight,
     globalCamera: false,
@@ -20,17 +23,15 @@ const DEFAULT_OPTIONS = {
     onRenderInterval: 16
 }
 
-let tempObjectPosition = new THREE.Vector3()
 let tempObject1Position = new THREE.Vector3()
 let tempObject2Position = new THREE.Vector3()
-let tempCameraPosition = new THREE.Vector3()
-let tempViewProjection = new THREE.Matrix4()
 var cameraViewProjectionMatrix = new THREE.Matrix4()
+const ZERO_VECTOR = new THREE.Vector3(0, 0, 0)
 
 /**
  * Utils for THREE.js scene.
  */
-class Scene implements Scene {
+class Scene implements Universis.Scene {
 
     /**
      * Scene options.
@@ -109,7 +110,11 @@ class Scene implements Scene {
         return tempObject1Position.distanceTo(tempObject2Position)
     }
 
-    public isInFov(object: THREE.Mesh): boolean {
+    public isInFov(object: THREE.Object3D): boolean {
+        if (!('geometry' in object)) {
+            return false // TODO
+        }
+
         this.camera.updateMatrixWorld(false)
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld)
         cameraViewProjectionMatrix.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse)
@@ -147,26 +152,52 @@ class Scene implements Scene {
     }
 
     public setCameraTarget(objectId: string | THREE.Mesh): void {
-        const { controllable, globalCamera } = this.options
-        let object = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
+        const { controllable, follow, onChangeTarget } = this.options
+        const oldTarget = this.target
+        this.target = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
 
-        if (!globalCamera) {
-            object.add(this.camera)
-        } // TODO: Else set coordinates.
+        if (follow === Follow.MOVE) {
+            this.target.children[0].add(this.camera)
+            this.controls.target = ZERO_VECTOR
+        } else if (follow === Follow.MOVE_AND_ROTATION) {
+            this.target.add(this.camera)
+            this.controls.target = ZERO_VECTOR
+        } else {
+            const newCameraPosition = new Vector3()
+            newCameraPosition.copy(this.camera.position)
+            newCameraPosition.add(this.target.position)
 
-        this.target = object
-
-        const targetSize = this.getTargetSize()
-
-        if (controllable && targetSize) {
-            this.controls.minDistance = targetSize
+            this.target.parent.add(this.camera)
+            this.camera.position.copy(newCameraPosition)
+            this.controls.target = this.target.position
         }
 
-        this.setCameraDistance(targetSize)
+        if (oldTarget !== this.target) {
+            const targetSize = this.getTargetSize()
+
+            if (controllable && targetSize) {
+                this.controls.minDistance = targetSize
+            }
+
+            this.setCameraDistance(targetSize)
+        }
+
+        if (onChangeTarget) {
+            onChangeTarget(this.target.name)
+        }
     }
 
     public setCameraDistance(distance: number): void {
         this.camera.position.normalize().multiplyScalar(distance)
+    }
+
+    public getCameraPosition(): THREE.Vector3 {
+        return this.camera.position
+    }
+
+    public setFollow(follow: number): void {
+        this.options.follow = follow
+        this.setCameraTarget(this.target)
     }
 
     /**
@@ -320,13 +351,11 @@ class Scene implements Scene {
     private getTargetSize(): number {
         const geometry = this.target.geometry as any
 
-        if (geometry) {
-            if (geometry.parameters.radius) {
-                return geometry.parameters.radius * 2
-            }
+        if (geometry && geometry.parameters && geometry.parameters.radius) {
+            return geometry.parameters.radius * 2
         }
 
-        return null
+        return 1
     }
 
     /**
@@ -362,17 +391,11 @@ class Scene implements Scene {
      * @param event Mouse event.
      */
     private handleMouseUp = (event: MouseEvent): void => {
-        const { onChangeTarget } = this.options
-
         if (event.pageX === this.startMouseX && event.pageY === this.startMouseY) {
             const mesh = this.select(event.pageX, event.pageY)
 
             if (mesh) {
                 this.setCameraTarget(mesh)
-
-                if (onChangeTarget) {
-                    onChangeTarget(mesh.name)
-                }
             }
         }
     }

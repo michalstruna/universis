@@ -257,6 +257,28 @@ declare namespace Universis {
                      */
                     distance: number
 
+                },
+
+                /**
+                 * Data for virtual bodies.
+                 */
+                particles?: {
+
+                    /**
+                     * Thickness of belt.
+                     */
+                    thickness?: number
+
+                    /**
+                     * Particles size.
+                     */
+                    size: number
+
+                    /**
+                     * Count of particles.
+                     */
+                    count: number
+
                 }
 
                 /**
@@ -378,14 +400,9 @@ declare namespace Universis {
                     emissiveColor?: number
 
                     /**
-                     * If true, there will be two same textures on two sides.
+                     * Body
                      */
-                    halfTexture?: boolean
-
-                    /**
-                     * Body with this type is only not rendered pivot.
-                     */
-                    virtual?: boolean
+                    particlesGenerator?: string
 
                 }
 

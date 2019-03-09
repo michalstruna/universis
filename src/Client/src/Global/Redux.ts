@@ -3,6 +3,19 @@ declare namespace Universis {
     export namespace Redux {
 
         /**
+         * Type of action body.
+         * There can be object of changes or function, that accept state in parameter and returns changes.
+         */
+        export type Changes = Changes.Plain | Changes.Functional
+
+        export namespace Changes {
+
+            export type Plain = any
+            export type Functional = any
+
+        }
+
+        /**
          * Interface for redux action.
          */
         export interface Action {

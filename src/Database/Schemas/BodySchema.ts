@@ -254,6 +254,25 @@ const BodySchema = new Schema({
         default: ''
     },
 
+    particles: {
+
+        thickness: {
+            type: Number,
+            required: false
+        },
+
+        count: {
+            type: Number,
+            required: true
+        },
+
+        size: {
+            type: Number,
+            required: true
+        }
+
+    },
+
     __v: {
         type: Number,
         select: false

@@ -73,7 +73,9 @@ export default {
             velocity: 'Rychlost',
             earth: 'Od Země',
             camera: 'Od kamery',
-            center: 'Od těžiště'
+            center: 'Od těžiště',
+            particles: 'Částice',
+            follow: 'Sledovat'
         }
     },
 

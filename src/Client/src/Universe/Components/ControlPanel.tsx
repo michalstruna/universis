@@ -2,17 +2,20 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import Keys from '../Constants/Keys'
-import { StatelessComponent, Keyboard } from '../../Utils'
+import { Keyboard, Queries, StatelessComponent, Url } from '../../Utils'
 import {
-    toggleLabels,
-    toggleLight,
-    toggleOrbits,
-    toggleVelocity,
+    changeFollow,
+    changeTimeSpeed,
     toggleFromCamera,
     toggleFromCenter,
     toggleFromEarth,
-    changeTimeSpeed
+    toggleLabels,
+    toggleLight,
+    toggleOrbits,
+    toggleParticles,
+    toggleVelocity
 } from '../Redux/UniverseActions'
+import Follow from '../Constants/Follow'
 
 interface IProps {
     strings: Universis.Strings
@@ -33,6 +36,12 @@ interface IProps {
     toggleFromCenter: Universis.Consumer<boolean>
     timeSpeed: number,
     changeTimeSpeed: (timeSpeed: number, faster?: boolean) => void
+    areParticlesVisible: boolean
+    toggleParticles: Universis.Consumer<boolean>
+    selectedBody: string
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    changeFollow: Universis.Runnable
+    follow: Follow
 }
 
 /**
@@ -50,7 +59,11 @@ class ControlPanel extends StatelessComponent<IProps> {
             [Keys.FASTER]: () => this.props.changeTimeSpeed(this.props.timeSpeed, true),
             [Keys.SLOWER]: () => this.props.changeTimeSpeed(this.props.timeSpeed, false),
             [Keys.SPEED]: () => this.props.changeTimeSpeed(1),
-            [Keys.LABELS]: () => this.props.toggleLabels(!this.props.isNameVisible)
+            [Keys.LABELS]: () => this.props.toggleLabels(!this.props.isNameVisible),
+            [Keys.ORBITS]: () => this.props.toggleOrbits(!this.props.areOrbitsVisible),
+            [Keys.PARTICLES]: () => this.props.toggleParticles(!this.props.areParticlesVisible),
+            [Keys.PANEL]: () => this.togglePanel(),
+            [Keys.FOLLOW]: () => this.props.changeFollow()
         })
     }
 
@@ -63,13 +76,15 @@ class ControlPanel extends StatelessComponent<IProps> {
      * @param name Class name suffix.
      * @param handleClick Callback after click.
      * @param isActive Button is active.
+     * @param isSemiActive Button is semi-active. (optional, default false)
      * @returns Button.
      */
-    private renderButton(name: string, handleClick: Universis.Runnable = () => null, isActive: boolean = false): React.ReactNode {
+    private renderButton(name: string, handleClick: Universis.Runnable = () => null, isActive: boolean = false, isSemiActive: boolean = false): React.ReactNode {
         const className = ClassNames(
             'universe__controls__button',
             'universe__controls__button--' + name,
-            { 'universe__controls__button--active': isActive }
+            { 'universe__controls__button--active': isActive },
+            { 'universe__controls__button--semi-active': isSemiActive }
         )
 
         return (
@@ -85,11 +100,33 @@ class ControlPanel extends StatelessComponent<IProps> {
         )
     }
 
+    private togglePanel = () => {
+        const { selectedBody, bodies, location } = this.props
+
+        const isPanelOpened = Url.hasQuery(Queries.PANEL, location.search)
+        const bodyName = bodies.payload.find(body => body._id === selectedBody).name
+
+        Url.push({
+            query: {
+                [Queries.PANEL]: isPanelOpened ? null : Queries.BODY,
+                [Queries.BODY]: isPanelOpened ? null : bodyName
+            }
+        })
+    }
+
     public render(): React.ReactNode {
-        const { isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible, toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible, toggleFromCamera, timeSpeed, changeTimeSpeed } = this.props
+        const {
+            isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible,
+            toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible,
+            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible, changeFollow, follow
+        } = this.props
 
         return (
             <section className='universe__controls'>
+                <section className='universe__controls__row'>
+                    {this.renderButton('panel', this.togglePanel, Url.hasQuery(Queries.PANEL, location.search))}
+                    {this.renderButton('follow', changeFollow, follow === Follow.MOVE_AND_ROTATION, follow === Follow.MOVE)}
+                </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('camera', () => toggleFromCamera(!isFromCameraVisible), isFromCameraVisible)}
                     {this.renderButton('center', () => toggleFromCenter(!isFromCenterVisible), isFromCenterVisible)}
@@ -103,7 +140,7 @@ class ControlPanel extends StatelessComponent<IProps> {
                     {this.renderButton('labels', () => toggleLabels(!isNameVisible), isNameVisible)}
                 </section>
                 <section className='universe__controls__row'>
-                    {this.renderButton('panel')}
+                    {this.renderButton('particles', () => toggleParticles(!areParticlesVisible), areParticlesVisible)}
                     {this.renderButton('light', () => toggleLight(!isLightVisible), isLightVisible)}
                 </section>
                 <section className='universe__controls__row'>
@@ -131,7 +168,11 @@ export default ControlPanel.connect(
         isFromEarthVisible: universe.isFromEarthVisible,
         isFromCameraVisible: universe.isFromCameraVisible,
         isFromCenterVisible: universe.isFromCenterVisible,
-        timeSpeed: universe.timeSpeed
+        timeSpeed: universe.timeSpeed,
+        areParticlesVisible: universe.areParticlesVisible,
+        selectedBody: universe.selectedBody,
+        bodies: universe.bodies,
+        follow: universe.follow
     }),
     {
         toggleLight,
@@ -141,6 +182,8 @@ export default ControlPanel.connect(
         toggleFromCamera,
         toggleFromCenter,
         toggleFromEarth,
-        changeTimeSpeed
+        changeTimeSpeed,
+        toggleParticles,
+        changeFollow
     }
 )
