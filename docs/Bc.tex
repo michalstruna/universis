@@ -230,7 +230,7 @@ Dříve (ve verzi \textit{OpenGL 1.1}) existoval pouze \textit{fixed-function pi
 
 \subsubsection{Shader}
 
-\textit{WebGL} se vedle javascriptového řídícího kódu skládá i~z~programu \textit{shader} určený přímo pro grafický procesor. \textit{Shader} je napsán v~\textit{OpenGL Shader Language}, který vychází z~jazyka C~a~do velké míry přebírá i~jeho syntaxi. Samotný \textit{shader} se skládá z~navzájem oddělených programů \textit{vertex shader} a~\textit{fragment shader}. Je možné je umístit do samostatného souboru nebo jako textový řetězec do hlavního programu.~\cite{graphic}
+\textit{WebGL} se vedle javascriptového řídícího kódu skládá i~z~programu \textit{shader}, jenž je určený přímo pro grafický procesor. \textit{Shader} je napsán v~\textit{OpenGL Shader Language}, který vychází z~jazyka C~a~do velké míry přebírá i~jeho syntaxi. Samotný \textit{shader} se skládá z~navzájem oddělených programů \textit{vertex shader} a~\textit{fragment shader}. Je možné je umístit do samostatného souboru nebo jako textový řetězec do hlavního programu.~\cite{graphic}
 
 Oba programy mají vlastní funkci \code{main}, která je vstupním bodem.
 
@@ -246,7 +246,7 @@ Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všech
 
 Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl vzájemnou polohu či rychlost v určitém čase.
 
-Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kepler} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů.
+Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů.
 
 \section{Použité technologie}
 
@@ -299,7 +299,7 @@ Pro spravované soubory používá tři stavy. Při změně souboru se nastaví 
 
 \subsection{Balíčkovací systém NPM}
 
-\textit{NPM} je správce balíčků pro serverový i~klientský \textit{JavaScript}. Řídícím souborem v projektu je \textit{package.json}, který obsahuje informace o~projektu a~určuje, které balíčky jsou součástí projektu.  Všechny balíčky jsou umístěny do adresáře \textit{node\_modules} v~projektu. Součástí je také soubor \textit{package-lock.json}, který zachovává verze nainstalovaných balíčků.~\cite{npm}
+\textit{NPM} je správce balíčků pro serverový i~klientský \textit{JavaScript}. Řídícím souborem v projektu je \textit{package.json}, který obsahuje informace o~projektu a~určuje, které balíčky jsou součástí projektu.  Všechny balíčky jsou umístěny do adresáře \textit{node\_modules} v~projektu. Součástí je také soubor \textit{package-lock.json}, který zachovává verze nainstalovaných balíčků.~\cite{nodebook}
 
 \lstinputlisting[caption={Ukázka práce s~NPM}, language={JavaScript}]{SourceCodes/Npm.txt}.
 
@@ -501,7 +501,7 @@ Prstenec je objekt s~geometrií \textit{THREE.BufferRingGeometry}, materiálem\n
 Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicován na stejné souřadnice, jako je vykreslované těleso. Kromě názvu tělesa obsahuje i~aktuální rychlost pohybu, vzdálenost od Země, vzdálenost od kamery a~vzdálenost od centrálního tělesa.
 
 \subsubsection{Částice}
-Protože aplikace obsahuje řádově pouze desítky až stovky těles, je nemožné zobrazit rozsáhlejší struktury, které jsou jinak typické pro danou oblast ve vesmíru. Příkladem může být \textit{Kuiperův pás} nebo \textit{Oortův oblak} v~naší sluneční soustavě. Tato uskupení obsahují až biliony planetek, komet nebo~dalších těles. \cite{oortcloud}
+Protože aplikace obsahuje řádově pouze desítky až stovky těles, je nemožné zobrazit rozsáhlejší struktury, které jsou jinak typické pro danou oblast ve vesmíru. Příkladem může být \textit{Kuiperův pás} nebo \textit{Oortův oblak} v~naší sluneční soustavě. Tato uskupení obsahují až biliony planetek, komet nebo~dalších těles. \cite{kleczek}
 
 Pro tyto účely se v aplikaci využívá náhodné generování částic pomocí \textit{THREE.Points}. V~závislosti na typu tělesa (pás, oblak, hvězdokupa, ...) je využito pro rozmístění částic buď rovnoměrné, normální nebo exponenciální rozdělení.  Protože zde ale figuruje náhoda, nemusí takto vygenerovaná tělesa odpovídat realitě a~jedná se pouze o~vizuální doplnění prázdného prostoru. Uživatel může zobrazení částic kdykoliv vypnout. // TODO: Fotka
 
@@ -523,7 +523,7 @@ Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem
 
 \subsubsection{Zachycení HTTP požadavku}
 
-Server vystavuje \textit{REST~API}~\cite{rest}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
+Server vystavuje \textit{REST~API}~\cite{nodebook}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
 
 \lstinputlisting[caption={Definice cesty v REST~API}, language={JavaScript}]{SourceCodes/Route.js}
 
@@ -576,21 +576,21 @@ Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovn
 
 \subsubsection{Připojení do databáze}
 
-Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{dbconnection}
+Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
 
-Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru~\cite{static}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
+Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru~\cite{nodebook}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
 \lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.js}
 
 \subsubsection{Mongoose schéma}
 
-Pomocí schématu lze určit strukturu databázové kolekce a~nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také vytvořit např. indexy přes více polí.~\cite{schema}
+Pomocí schématu lze určit strukturu databázové kolekce a~nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také vytvořit např. indexy přes více polí.~\cite{nodebook}
 
 \lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.js}
 
 \subsubsection{Mongoose plugin}
 
-Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, které dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.~\cite{schema}
+Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, které dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.~\cite{nodebook}
 
 \lstinputlisting[caption={Vytvoření a~použití databázového pluginu}, language={JavaScript}]{SourceCodes/Hash.js}
 
@@ -925,7 +925,7 @@ ECK, David. \textit{Introduction to Computer Graphics.} [online]. Version 1.2, J
 \bibitem{jpl}
 JPL Solar System Dynamics. \textit{JPL Solar System Dynamics} [online]. [cit. 25. 10. 2018] Dostupné z: \url{https://ssd.jpl.nasa.gov}.
 
-\bibitem{mardan}
+\bibitem{nodebook}
 MARDAN, Azat. Practical Node.js: building real-world scalable web apps. Berkeley, California: Apress, [2014]. Expert‘s voice in Web development. ISBN 978-1-4302- 6595-5.
 
 \bibitem{reactbook}
@@ -966,11 +966,6 @@ Fantastic front-end performance.
 \textit{HACKS.} [online]. 20~2~2019. [cit.\,22.~2.~2019].
 Dostupné z: {\ttfamily \url{https://hacks.mozilla.org/2012/12/fantastic-front-end-performance-part-1-concatenate-compress-cache-a-node-js-holiday-season-part-4/}}.
 
-\bibitem{npm}
-MICHÁLEK, Martin. NPM: Průvodce začátky a základními příkazy.
-\textit{Vzhůru dolů.} [online]. 19.~11.~2019. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://www.vzhurudolu.cz/prirucka/npm}}.
-
 \bibitem{sass}
 Sass Basics.
 \textit{Sass.} [online]. [cit.\,22.~2.~2019].
@@ -981,45 +976,10 @@ File Structure.
 \textit{React.} [online]. [cit.\,22.~2.~2019].
 Dostupné z:\newline{\ttfamily \url{https://reactjs.org/docs/faq-structure.html}}.
 
-\bibitem{rest}
-MALÝ, Martin. REST: architektura pro webové API.
-\textit{Zdroják.} [online]. 3.~8.~2009 [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://www.zdrojak.cz/clanky/rest-architektura-pro-webove-api}}. ISSN~1803-5620.
-
-\bibitem{dbconnection}
-Connections.
-\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/connections.html}}.
-
-\bibitem{static}
-static.
-\textit{MDN web docs.} [online]. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static}}.
-
-\bibitem{schema}
-Schemas.
-\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/guide.html}}.
-
-\bibitem{kepler}
-KRYNICKÝ, Martin. Keplerovy zákony.
-\textit{realisticky.} [online]. c2010. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{http://www.realisticky.cz/hodina.php?id=913}}.
-
 \bibitem{aggregation}
 Aggregate.
 \textit{mongoose.} [online]. [cit.\,22.~2.~2019].
 Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/api.html#Aggregate}}.
-
-\bibitem{oortcloud}
-WEISSMAN, Paul. The Oort cloud.
-\textit{Nature.} [online]. 22.~4.~1990. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://www.nature.com/articles/344825a0}}. ISSN 1476-4687
-
-\bibitem{swagger}
-WEISSMAN, Paul. The Oort cloud.
-\textit{Nature.} [online]. 22.~4.~1990. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://www.nature.com/articles/344825a0}}. ISSN 1476-4687
 
 \bibitem{swaggerui}
 JOHNSON, Tom. Swagger UI tutorial. \textit{Documenting APIs.}. [online]. c2019 [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://idratherbewriting.com/learnapidoc/pubapis_swagger.html}}.
