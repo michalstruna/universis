@@ -41,11 +41,10 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^2.2.0",
-    "@types/react": "^16.4.15",
+    "@types/react": "^16.8.7",
     "@types/react-dom": "^16.0.8",
     "@types/react-redux": "^5.0.21",
     "@types/react-router-dom": "^4.3.1",
-    "@types/react-table": "^6.7.12",
     "@types/redux-form": "^7.4.8",
     "@types/three": "^0.92.24",
     "@types/webpack-dev-server": "^2.9.6",

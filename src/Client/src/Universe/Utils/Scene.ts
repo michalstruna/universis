@@ -158,10 +158,20 @@ class Scene implements Universis.Scene {
 
         if (follow === Follow.MOVE) {
             this.target.children[0].add(this.camera)
-            this.controls.target = ZERO_VECTOR
+
+            if (this.controls) {
+                this.controls.target = ZERO_VECTOR
+            } else {
+                this.camera.lookAt(ZERO_VECTOR)
+            }
         } else if (follow === Follow.MOVE_AND_ROTATION) {
             this.target.add(this.camera)
-            this.controls.target = ZERO_VECTOR
+
+            if (this.controls) {
+                this.controls.target = ZERO_VECTOR
+            } else {
+                this.camera.lookAt(ZERO_VECTOR)
+            }
         } else {
             const newCameraPosition = new Vector3()
             newCameraPosition.copy(this.camera.position)
@@ -169,8 +179,15 @@ class Scene implements Universis.Scene {
 
             this.target.parent.add(this.camera)
             this.camera.position.copy(newCameraPosition)
-            this.controls.target = this.target.position
+
+            if (this.controls) {
+                this.controls.target = this.target.position
+            } else {
+                this.camera.lookAt(this.target.position)
+            }
         }
+
+        console.log(this.camera)
 
         if (oldTarget !== this.target) {
             const targetSize = this.getTargetSize()

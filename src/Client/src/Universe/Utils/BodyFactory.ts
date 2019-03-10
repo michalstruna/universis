@@ -114,7 +114,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             const a = this.calculateA(body)
             const b = this.calculateB(body, a)
             const path = new THREE.EllipseCurve(0, 0, a, b, 0, 2 * Math.PI, false, 0)
-            const geometry = new THREE.BufferGeometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
+            const geometry = new THREE.Geometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
             const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
             material.transparent = true
 
@@ -205,7 +205,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         }
 
         const texture = TextureStore.get(ring.texture)
-        const material = new THREE.MeshLambertMaterial({
+        const material = new THREE.MeshPhongMaterial({
             map: texture,
             side: THREE.DoubleSide,
             specularMap: texture,
