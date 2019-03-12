@@ -77,4 +77,7 @@
 \contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{49}{section*.23}
 \contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{50}{section*.24}
 \contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{52}{section*.25}
-\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{58}{section*.28}
+\contentsline {section}{P\IeC {\v r}\IeC {\'\i }loha~A -- Struktura datab\IeC {\'a}ze}{53}{section*.26}
+\contentsline {section}{P\IeC {\v r}\IeC {\'\i }loha~B -- Vyu\IeC {\v z}it\IeC {\'\i } aggregation frameworku}{55}{section*.28}
+\contentsline {section}{P\IeC {\v r}\IeC {\'\i }loha~C -- Extern\IeC {\'\i } bal\IeC {\'\i }\IeC {\v c}ky NPM pou\IeC {\v z}it\IeC {\'e} v aplikaci}{57}{section*.29}
+\contentsline {section}{P\IeC {\v r}\IeC {\'\i }loha~D -- Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{59}{section*.30}
