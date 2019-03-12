@@ -37,6 +37,7 @@
 
         &--inner {
             background-color: $medium-dark-color;
+            box-sizing: border-box;
             display: inline-block;
             line-height: 1.5em;
             padding: 0.5rem;
@@ -44,9 +45,11 @@
         }
 
         &--own {
+            text-align: right;
+
             .user-info--small {
                 float: right !important;
-                margin-left: 1rem;
+                margin-left: 0.5rem !important;
                 margin-right: 0 !important;
             }
         }

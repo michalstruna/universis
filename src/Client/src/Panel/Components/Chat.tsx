@@ -2,8 +2,6 @@ import * as React from 'react'
 
 import { UserInfo } from '../../User'
 import { SimpleComponent } from '../../Utils'
-import QueryMenu from '../../Utils/Components/QueryMenu'
-import Queries from '../../Utils/Constants/Queries'
 
 /**
  * Components for chat.
@@ -48,7 +46,7 @@ class Chat extends SimpleComponent {
                             2 d
                         </span>
                             </section>
-                            Ahoj! Toto je druhá zpráva. Ahoj! Toto je druhá zpráva. Ahoj! Toto
+                            Ahoj! Toto je druhá zpráva.
                             je druhá
                             zpráva.
                         </section>
@@ -63,7 +61,6 @@ class Chat extends SimpleComponent {
     public render(): React.ReactNode {
         return (
             <section className='panel__chat'>
-                <section className='panel__window__body'>
                     <section className='panel__window__body--scroll'>
                         <section className='panel__window__body--inner'>
                             {this.renderMessages()}
@@ -73,13 +70,6 @@ class Chat extends SimpleComponent {
                         <input className='panel__chat__input' type='text' placeholder='Vaše zpráva, @uživatel...' />
                         <button className='panel__chat__send' />
                     </section>
-                </section>
-                <QueryMenu
-                    query={Queries.CHAT_TAB}
-                    links={{
-                        'Veřejný chat': null
-                    }}
-                    className='panel__window__menu' />
             </section>
         )
     }
