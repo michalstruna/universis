@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  12 MAR 2019 11:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  12 MAR 2019 18:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1303,65 +1303,31 @@ n-ting APIs.\T1/lmr/m/n/12 . [on-line]. c2019
 
 
 ]
-*geometry* verbose mode - [ newgeometry ] result:
-* driver: pdftex
-* paper: a4paper
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: 
-* h-part:(L,W,R)=(0.0pt, 507.88078pt, 89.62709pt)
-* v-part:(T,H,B)=(0.0pt, 743.6402pt, 101.40665pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=507.88078pt
-* \textheight=743.6402pt
-* \oddsidemargin=-72.26999pt
-* \evensidemargin=-72.26999pt
-* \topmargin=-109.26999pt
-* \headheight=12.0pt
-* \headsep=25.0pt
-* \topskip=12.0pt
-* \footskip=30.0pt
-* \marginparwidth=35.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-<Images/DB.png, id=1091, 738.76pt x 1047.915pt>
+<Images/DB.png, id=1091, 730.73pt x 1047.915pt>
 File: Images/DB.png Graphic file (type png)
 <use Images/DB.png>
-Package pdftex.def Info: Images/DB.png  used on input line 1055.
-(pdftex.def)             Requested size: 500.0pt x 709.24687pt.
+Package pdftex.def Info: Images/DB.png  used on input line 1050.
+(pdftex.def)             Requested size: 500.0pt x 717.03395pt.
  [53
 
 
-
 ]
-Overfull \vbox (29.48712pt too high) has occurred while \output is active []
+Overfull \vbox (49.67859pt too high) has occurred while \output is active []
 
 
 [54 <./Images/DB.png>] (./SourceCodes/Aggregation.js [55
-
 
 
 ]) [56] [57
 
 
 ] [58]
-Overfull \hbox (1.60646pt too wide) in paragraph at lines 1125--1125
+Overfull \hbox (1.60646pt too wide) in paragraph at lines 1117--1117
 |\T1/lmr/bx/n/17.28 PÍLOHA D -- SE-ZNAM SOU-BOR— ZDRO-JO-VÝCH
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1127--1128
+Underfull \hbox (badness 10000) in paragraph at lines 1119--1120
 
  []
 
@@ -1369,16 +1335,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 1127--1128
 
 
 ] [60] [61] [62] [63] [64] [65]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1134.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1126.
  [66]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1134.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1126.
  (./Bc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1134.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1134.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1126.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1126.
 
 Package rerunfilecheck Info: File `Bc.out' has not changed.
 (rerunfilecheck)             Checksum: 52AB52B01B0426659FDF275307ED4956;15192.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1134.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1126.
  ) 
 Here is how much of TeX's memory you used:
  15841 strings out of 494848
@@ -1387,7 +1353,7 @@ Here is how much of TeX's memory you used:
  18345 multiletter control sequences out of 15000+600000
  64953 words of font info for 57 fonts, out of 8000000 for 9000
  46 hyphenation exceptions out of 8191
- 43i,9n,42p,11404b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,9n,42p,11285b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1411,7 +1377,7 @@ xmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri
 s/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/typ
 e1/public/lm/lmtt12.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Bc.pdf (66 pages, 2822042 bytes).
+Output written on Bc.pdf (66 pages, 2828523 bytes).
 PDF statistics:
  1370 PDF objects out of 1440 (max. 8388607)
  1231 compressed objects within 13 object streams
