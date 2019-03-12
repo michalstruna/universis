@@ -37,13 +37,10 @@ class Chat extends SimpleComponent {
 
     public render(): React.ReactNode {
         return (
-            <section className='panel__chat panel__window'>
+            <section className='panel__chat'>
                 <section className='panel__window__body'>
                     <section className='panel__window__body--scroll'>
                         <section className='panel__window__body--inner'>
-                            <section className='panel__chat__start'>
-                                Toto je počátek konverzace.
-                            </section>
                             {this.renderMessages()}
                         </section>
                     </section>

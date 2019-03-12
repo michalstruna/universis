@@ -3,7 +3,7 @@ import * as React from 'react'
 import { StatelessComponent, Link, ToggleLayout } from '../../Utils'
 import { UserInfo } from '../../User'
 import UsersList from '../../User/Components/UsersList'
-import Notifications from './Notifications'
+import Chat from './Chat'
 
 interface IProps {
     identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
@@ -31,7 +31,7 @@ class Overview extends StatelessComponent<IProps> {
                     </button>
                 </section>
                 <ToggleLayout>
-                    <Notifications />
+                    <Chat />
                     <UsersList />
                 </ToggleLayout>
             </section>

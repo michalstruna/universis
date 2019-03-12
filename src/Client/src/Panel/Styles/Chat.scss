@@ -1,26 +1,31 @@
 .panel__chat {
-    &__start {
-        font-size: 80%;
-        margin: 2rem 0;
-        text-align: center;
-    }
+    @include size(31.7rem, 100%);
 
     .user-info--small {
         float: left;
-        margin-right: 1rem;
+        margin: 0 !important;
+        margin-right: 0.5rem !important;
         overflow: hidden;
         position: relative;
     }
 
     &__message {
-        margin: 1rem;
+        margin: 1rem 0.5rem;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
 
         &--inner {
-            background-color: $dark-color;
+            background-color: $medium-color;
             display: inline-block;
             line-height: 1.5em;
-            padding: 1rem;
-            max-width: calc(100% - 6rem);
+            padding: 0.5rem;
+            max-width: calc(100% - 4.5rem);
         }
 
         &--own {

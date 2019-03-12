@@ -61,7 +61,7 @@
 \contentsline {subsubsection}{\numberline {4.3.2}Editace u\IeC {\v z}ivatele}{37}{subsubsection.4.3.2}
 \contentsline {subsection}{\numberline {4.4}Simul\IeC {\'a}tor}{37}{subsection.4.4}
 \contentsline {subsection}{\numberline {4.5}U\IeC {\v z}ivatelsk\IeC {\'y} panel}{38}{subsection.4.5}
-\contentsline {subsubsection}{\numberline {4.5.1}P\IeC {\v r}ehled}{38}{subsubsection.4.5.1}
+\contentsline {subsubsection}{\numberline {4.5.1}P\IeC {\v r}ehled}{39}{subsubsection.4.5.1}
 \contentsline {subsubsection}{\numberline {4.5.2}Seznam t\IeC {\v e}les}{39}{subsubsection.4.5.2}
 \contentsline {subsubsection}{\numberline {4.5.3}Detail t\IeC {\v e}lesa}{40}{subsubsection.4.5.3}
 \contentsline {section}{\numberline {5}Probl\IeC {\'e}my \IeC {\v r}e\IeC {\v s}en\IeC {\'e} p\IeC {\v r}i implementaci}{43}{section.5}
@@ -77,4 +77,4 @@
 \contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{49}{section*.23}
 \contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{50}{section*.24}
 \contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{52}{section*.25}
-\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{58}{section*.27}
+\contentsline {section}{Seznam soubor\IeC {\r u} zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u} na p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}m nosi\IeC {\v c}i}{58}{section*.28}
