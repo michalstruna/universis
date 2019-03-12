@@ -16,7 +16,6 @@
 %\lstset{numberbychapter=false}
 
 
-
 \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
   \do\-}
 
@@ -77,7 +76,7 @@
 % cesty k obrázkům zadání, je-li zadání naskenováno
 \def\prefixZadani{Images/zadani}	% cesta a začátek jména, bude doplněno číslo strany
 \def\suffixZadani{.jpg}		% doplní se ke každému jménu souboru zadání
-\def\datumOdevzdaniPrace{?.\,?.\,2019}
+\def\datumOdevzdaniPrace{1.\,5.\,2019}
 
 \usepackage{lipsum}		% \lipsum[číslo] vloží jeden odstavec Lorem ipsum…
 % \usepackage[none]{hyphenat}
@@ -216,15 +215,52 @@ Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat
 
 \subsection{Principy počítačové 3D grafiky}
 
-\subsubsection{Pixel, Voxel a Shader}
+Počítačová 3D grafika je grafika, která pracuje se 3D objekty. Protože ale výstupní periferie dnešních počítačů zobrazují především dvourozměrný obraz, je nutné uskutečnit před zobrazením 3D objektů jejich vhodnou transformaci na 2D objekty.~\cite{graphic} Z~tohoto důvodu budou v~této kapitole také krátce popsány i~základy počítačové grafiky obecně.
+
+\subsubsection{Pixel}
+
+Vykreslovaný obraz je složen z~tzv. pixelů. Jedná se o~nejmenší jednotku rastrové grafiky. Každý pixel má vlastní \textit{2D} souřadnice \textit{x} a~\textit{y} a~také svou barvu. Barvu i~souřadnice lze reprezentovat čísly. Množství pixelů udává rozlišení zobrazovacího zařízení. Velikost informace určující barvu pixelu zas udává barevná hloubka.~\cite{graphic}
+
+\subsubsection{Antialiasing}
+
+I~přesto, že se pixely stále zmenšují a~jejich hustota na palec (\textit{DPI}) v~dnešní době často dosahuje na monitorech či displejích několik stovek, lidské oko by přesto mohlo rozeznat dva sousední pixely, jejichž barva by byla příliš kontrastní. Vyhlazení těchto kontrastních přechodů řeší antialiasing. Ten přichází s myšlenkou, že by výsledná barva pixelu měla být složena z~barvy útvaru a~z~barvy pozadí. Původně černá čára na bílém pozadí tak bude obklopena šedými pixely a~přechod mezi~černou a bílou nebude tak ostrý.~\cite{graphic}
+
+\subsubsection{Barevné modely}
+
+V~dnešní době existuje několik způsobů, jak vytvořit barvu pomocí jejího složení z~několika složek. Jedním z~nich je model \textit{RGB}, jehož složky jsou tvořeny červenou, zelenou a~modrou barvou. Funguje na principu sčítání barev. Pokud jsou tedy všechny složky nulové, je výsledná barva černá. Přidáváním jednotlivých složek se výsledná barva postupně zesvětluje a~pokud jsou všechny 3~složky na maximu, tvoří bílou barvu.~\cite{graphic}
+
+Zcela jiná situace je u tiskáren. Využívat všechny 3 složky na celý papír jen proto, aby měl bílou barvu, by bylo nevýhodné. Proto se zde využívá model \textit{CMYK}, jehož složky tvoří purpurová, azurová a~žlutá barva. Model funguje na principu odčítání barev. Tedy původní bílá barva se při přidávání jednotlivých složek ztmavuje a~pokud jsou využity všechny složky, vznikne barva podobná černé. Protože ale nikdy nevznikne dokonalá černá a~navíc by bylo drahé využívat 3 složky pro vykreslení černé, je dodatečnou složkou tohoto modelu i~černá barva.~\cite{graphic}
 
 \subsubsection{Modelování}
 
-\subsubsection{Texturování}
+Pro vykreslení 3D objektu je třeba nejdříve vytvořit jeho tvar. Různé grafické systémy umožňují vykreslovat různé elementární objekty, tzv. grafická primitiva. V případě OpenGL jimi jsou např. úsečky či trojúhelníky. Všechny složitější útvary jako křivky nebo zakřivené povrchy je nutno složit z~těchto primitiv. Geometrická primitiva jsou definována jejich vrcholy. To jsou prosté body ve \textit{3D} prostoru.~\cite{graphic}
+
+Se zvětšujícím se počtem objektů na scéně může být obtížné explicitně udávat vrcholy každého existujícího primitiva. Např. pokud scéna obsahuje planety, přičemž několik z~nich má prstence, není nutné vytvářet každý prstenec znovu z geometrických primitiv. Jako vhodné řešení se jeví vytvořit znovupoužitelnou komponentu pro vykreslení prstence a~tu s~různými parametry použít pro všechny planety. Tento postup se nazývá hierarchické modelování.~\cite{graphic}
+
+Vytvořené komponenty pak usnadňují situaci o~to více, pokud je scéna dynamická a~mění se v~čase. Pokud by se planeta s~prstencem pohyhovala po orbitě kolem těžiště, souřadnice všech primitiv prstence by se musely přenastavit pokaždé, když by došlo k~vykreslování. Z~tohoto důvodu existují geometrické transformace. Ty umožňují přiřadit změnu komponentě jako celku. Tato změna se pak podle nějakého algoritmu zcela automaticky aplikuje na všechna grafická primitiva, ze kterých se komponenta skládá. Mezi nejčastější geometrické transformace patří posunutí, rotace nebo změna velikosti.~\cite{graphic}
+
+\subsubsection{Vizualizace}
+
+Geometrie sama o~sobě nemá žádnou reprezentaci ve viditelném světě. Jedná se pouze o~sadu matematických předpisů určujících tvar objektu. Geometrické tvary je tedy nutné nějakým způsobem zobrazit. Tím nejjednodušším by bylo jim přiřadit nějakou barvu. Protože ale objekty reálného světa vizuálně disponují zřídkakdy jedinou barvou, pro realističtější vzhled bude třeba použít pokročilejší techniky.~\cite{graphic}
+
+V~rámci \textit{3D} grafiky mluvíme v~souvislosti s~těmito technikami o~materiálu. Ten definuje výslednou podobu povrchu objektu. Mimo skutečné podoby určuje také to, jak bude objekt reagovat s~vnějšími vlivy, např. se světlem.~\cite{graphic}
+
+Jednou z~nejdůležitějších vlastností materiálu je textura. Textura přiřazuje jednotlivým bodům na povrchu objektu specifické vlastnosti. Tím je často docíleno \textit{2D} obrázkem, který je použit jako povrch objektu. Textura však umožňuje měnit i~další vlastnosti materiálu, např. průhlednost. Navíc se nemusí jednat pouze o~2D útvar.~\cite{graphic}
+
+\subsubsection{Obraz}
+
+Jak bylo naznačeno v~úvodu kapitoly o~\textit{3D} grafice, současné počítače, resp. jejich výstupní periferie, umožňují zobrazovat především \textit{2D} grafiku. I přes to, že již máme vytvořenou scénu a tvary objektů i~s~jejich materiály, je nutno provést projekci 3D objektů na 2D objekty. Tomuto procesu se někdy také říká renderování.
+
+Při tomto procesu je do 3D scény vložena \textit{virtuální kamera}, jež „vyfotí“ svůj pohled. Je proto důležité určit tzv. pozici diváka, tedy souřadnice a~směr natočení kamery. Posledním krokem k~vytvoření obrazu je rasterizace. Ta spočívá v~přiřazení barvám jednotlivým pixelům.~\cite{graphic}
+
+\subsubsection{Scéna, kamera a~renderer}
+
+Scéna je množina všech objektů, které tvoří daný \textit{3D} svět. To vedle klasických objektů zahrnuje i~světla a~kamery. Kamera představená v~předchozí kapitole je speciální typ objektu, který určuje zorné pole, ze kterého se ve \textit{3D} světě bude vytvářet výsledný \textit{2D} obraz. Renderer je objekt, který převádí \textit{3D} scénu na \textit{2D} obraz.~\cite{graphic}
+
 
 \subsection{WebGL}
 
-\textit{WebGL} je verze \textit{OpenGL} určená pro web. Jedná se o~javascriptové rozhraní pro zobrazování nativní 2D a~3D grafiky. Program pracující s~\textit{WebGL} se skládá z~javascriptového řídícího kódu a~z~tzv. \textit{shaderu}.~\cite{graphic}
+\textit{WebGL} je verze \textit{OpenGL} určená pro web. Jedná se o~javascriptové rozhraní pro zobrazování nativní 2D a~3D grafiky. Protože se jedná o~nativní grafiku, odpadá povinnost využívat zásuvné moduly třetích stran. Program pracující s~\textit{WebGL} se skládá z~javascriptového řídícího kódu a~z~tzv. \textit{shaderu}.~\cite{graphic}
 
 \subsubsection{Grafický řetězec}
 
@@ -244,13 +280,13 @@ Pro práci s~\textit{WebGL} v~prohlížeči je třeba získat tzv. grafický kon
 
 \subsection{Simulace a emulace}
 
-Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace.~\cite{simulations} 
+Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace. Důležitou vlastností dynamického systému je narozdíl od statického systému absence abstrakce času. Dynamický systém tedy čas nezanedbává.~\cite{simulations} 
 
-Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém pouze umožní práci s~původním systémem, který nemusí být k~dostupný.
+Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém má za cíl umožnit práci s~původním systémem, který nemusí být~dostupný.~\cite{emulations}
 
-Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl vzájemnou polohu či rychlost v určitém čase.
+Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl okamžitou rychlost či vzájemnou polohu těles v~určitém čase.
 
-Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů.
+Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů. V~případě, že by se zde nebeská mechanika počítala na základě vzájemného gravitačního ovlivňování všech těles, nemohlo by být zaručitelné, že by bylo možné při vzrůstajícím počtu těles výkonově umožnit běh aplikace v~prohlížeči na běžných počítačích.
 
 \section{Použité technologie}
 
@@ -489,7 +525,7 @@ Orbita je objekt s geometrií \textit{THREE.Geometry}, jejíž eliptický tvar j
 
 \subsubsection{Světlo}
 
-Pokud je těleso zdrojem světla, je mezi jeho potomky navíc také bodové světlo\newline \textit{THREE.PointLight}, které emituje světlo o~stejné barvě a~intenzitě, jakou má reálné těleso.
+Pokud je těleso zdrojem viditelného světla, je mezi jeho potomky navíc také bodové světlo\newline \textit{THREE.PointLight}, které emituje světlo o~stejné barvě a~intenzitě, jakou má reálné těleso.
 
 \subsubsection{Prstence}
 
@@ -620,12 +656,12 @@ $$v\textsubscript{u}= \sqrt{\frac{2 * G * m}{r}}$$
 \textit{G – gravitační konstanta, m – hmotnost tělesa, r – poloměr tělesa}~\cite{kleczek}
 \end{center}
 
-Poněkud složitější je např. vzorec pro výpočet okamžité rychlosti pohybu tělesa po eliptické dráze kolem těžiště. Pro výpočet v různých vzdálenostech od centrálního tělesa je možné měnit pouze hodnotu \code{d}.
+Poněkud složitější je např. vzorec pro výpočet okamžité orbitální rychlosti pohybu tělesa po eliptické dráze kolem těžiště. Pro výpočet v různých vzdálenostech od centrálního tělesa je možné měnit pouze hodnotu \code{d}.
 
-$$v\textsubscript{max} = \frac{const.}{d} = \frac{2 * S}{T * d} = \frac{2 *  \pi * a * b}{T *d}  = \frac{2 *  \pi  * (\frac{d\textsubscript{max} + d\textsubscript{min}}{2})^2 * \sqrt{1 - e^2}}{T * d}$$
+$$v\textsubscript{o} = \frac{const.}{d} = \frac{2 * S}{T * d} = \frac{2 *  \pi * a * b}{T *d}  = \frac{2 *  \pi  * (\frac{d\textsubscript{max} + d\textsubscript{min}}{2})^2 * \sqrt{1 - e^2}}{T * d}$$
 \begin{center}
-\textit{S – plocha oběžné dráhy, T – perioda oběhu, d – vzdálenost od tělesa, d\textsubscript{max} – apoapsida, d\textsubscript{min} – periapsida, a – velká poloosa, b – malá poloosa, e – excentricita}
-\end{center} TODO: Zdroj.
+\textit{S – plocha oběžné dráhy, T – perioda oběhu, d – vzdálenost od tělesa, d\textsubscript{max} – apoapsida, d\textsubscript{min} – periapsida, a – velká poloosa, b – malá poloosa, e – excentricita}~\cite{kleczek}
+\end{center}
 
 \subsubsection{Základní práce s databází}
 
@@ -707,8 +743,6 @@ Stránka obsahuje formulář pro nastavení a~potvrzení nového hesla. Pro úsp
 Na stránce detailu uživatele jsou zobrazeny informace, které o sobě uživatel zveřejnil. Je zde možné tak vidět např. pohlaví, věk, bydliště, profilový text nebo adresu webové stránky. Mimo to se zde zobrazují i~uživatelské statistiky, jež obsahují následující informace:
 
 \begin{itemize}
-\item Jaká tělesa upravil nebo přidal do databáze,
-\item Jaké události těles upravil nebo přidal do databáze,
 \item Kolik diskusí a~komentářů má u každého tělesa,
 \item Kolik kladných a~záporných hlasů rozdal,
 \item Kolik kladných a~záporných hlasů obdržel,
@@ -765,7 +799,7 @@ Uživatelský panel je sekundární okno, ve kterém si uživatel může zobrazo
 
 \subsubsection{Přehled}
 
-Výchozí položka v~uživatelském panelu je rozdělena na 2 části. Nalevo se zobrazuje posledních 50 událostí a~zpráv uživatelů. Je zde i~formulář pro napsání nové zprávy. V~případě, že zpráva začíná zavináčem ve tvaru „@uživatel“, bude se jednat o~soukromou zprávu pro dále specifikovaného uživatele. Na pravé straně je pak seznam všech uživatelů, které lze řadit buď podle poslední aktivity nebo podle reputace. Přihlášený uživatel zde také vidí stručné informace o~svém účtu.
+Výchozí položka v~uživatelském panelu je rozdělena na 2 části. Nalevo se zobrazuje posledních 50 událostí a~zpráv uživatelů. Nachází se zde i~formulář pro napsání nové zprávy. V~případě, že zpráva začíná zavináčem ve tvaru „@uživatel“, bude se jednat o~soukromou zprávu pro dále specifikovaného uživatele. Na pravé straně je pak seznam všech uživatelů, které lze řadit buď podle poslední aktivity nebo podle reputace. Přihlášený uživatel zde také vidí stručné informace o~svém účtu.
 
 \begin{figure}[H]
 \begin{center}
@@ -829,6 +863,12 @@ Třetí a~poslední záložka je určena pro diskuse. Každý zde může reagova
 \caption{Diskuse o tělese}
 \end{center}
 \end{figure}
+
+\subsection{Podmínky užití}
+
+Tato stránka obsahuje právní ustanovení, která určují, jak mohou potenciální uživatelé zacházet s~aplikací. Píše se zde zejména o~tom, že se na aplikaci vztahují práva a~povinnosti uvedená v~prohlášení autora na začátku tohoto dokumentu. Zároveň jsou zde také uvedeny všechny ty části aplikace, které nevytvořil sám autor a~mohly by se na ně vztahovat další licenční podmínky.
+
+Konkrétně se jedná o~všechny grafické soubory, zejména pak textury planet, které jsou brány ze zdrojů, jež umožňují jejich volné užívání a~ikony. Všechny ikony jsou převzaty z~webu \url{https://www.flaticon.com}, který umožňuje ve standardní edici zdarma využívat ikony za podmínky uvedení autora. Další část aplikace, kterou nevytvořil autor, tvoří balíčky NPM uvedené v~příloze C~na konci tohoto dokumentu. Protože uživatelé mohou přidávat vlastní obsah, je zde uvedeno také zřeknutí se za vše, co uživatelé nahrají.
 
 \section{Problémy řešené při implementaci}
 
@@ -942,33 +982,46 @@ Překrývání jednotlivých události je ošetřeno tak, že se vykreslí do r�
 
 % nezlomitelné spojovníky lze zapisovat zkratkou "- nebo příkazem \babelhyphen{nobreak}
 
-\bibitem{kleczek}
-KLECZEK, Josip. Velká encyklopedie vesmíru. Praha: Academia, 2002s [cit. 25. 10. 2018]. ISBN 80-200-0906-x.
-
-\bibitem{rees}
-REES, Martin, Vesmír. Přeložil Pavel PŘÍHODA. Praha: Knižní klub, 2006 [cit. 25. 10. 2018]. ISBN 80-242-1668-x.
-
-\bibitem{graphic}
-ECK, David. \textit{Introduction to Computer Graphics.} [online]. Version 1.2, January 2018. [cit.\,22.~2.~2019]. Dostupné z \url{http://math.hws.edu/eck/cs424/downloads/graphicsbook-linked.pdf}.
-
-\bibitem{jpl}
-JPL Solar System Dynamics. \textit{JPL Solar System Dynamics} [online]. [cit. 25. 10. 2018] Dostupné z: \url{https://ssd.jpl.nasa.gov}.
-
-\bibitem{nodebook}
-MARDAN, Azat. Practical Node.js: building real-world scalable web apps. Berkeley, California: Apress, [2014]. Expert‘s voice in Web development. ISBN 978-1-4302- 6595-5.
+\bibitem{aggregation}
+Aggregate.
+\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/api.html#Aggregate}}.
 
 \bibitem{reactbook}
 BANKS, Alex, PORCELLO, Eve. Learning React: functional web development with React and Redux. Sebastopol, CA: O'Reilly Media, 2017 [cit. 25. 10. 2018]. ISBN: 978-1-4919-5462-1.
 
-\bibitem{typescript}
-TypeScript. 
-\textit{TypeScript.} [online]. [cit.\,22.~2~2019]. 
-Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
+\bibitem{webpack}
+Concepts.
+\textit{webpack.} [online]. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://webpack.js.org/concepts}}.
 
-\bibitem{onewaydatabinding}
-Thinking in React.
-\textit{React.} [online]. [cit.\,22.~2.~2019]. 
-Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/thinking-in-react.html}}.
+\bibitem{graphic}
+ECK, David. \textit{Introduction to Computer Graphics.} [online]. Version 1.2, January 2018. [cit.\,22.~2.~2019]. Dostupné z \url{http://math.hws.edu/eck/cs424/downloads/graphicsbook-linked.pdf}.
+
+\bibitem{jsconcat}
+Fantastic front-end performance.
+\textit{HACKS.} [online]. 20~2~2019. [cit.\,22.~2.~2019].
+Dostupné z: {\ttfamily \url{https://hacks.mozilla.org/2012/12/fantastic-front-end-performance-part-1-concatenate-compress-cache-a-node-js-holiday-season-part-4/}}.
+
+\bibitem{filestructure}
+File Structure.
+\textit{React.} [online]. [cit.\,22.~2.~2019].
+Dostupné z:\newline{\ttfamily \url{https://reactjs.org/docs/faq-structure.html}}.
+
+\bibitem{swaggerui}
+JOHNSON, Tom. Swagger UI tutorial. \textit{Documenting APIs.}. [online]. c2019 [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://idratherbewriting.com/learnapidoc/pubapis_swagger.html}}
+
+\bibitem{jpl}
+JPL Solar System Dynamics. \textit{JPL Solar System Dynamics} [online]. [cit. 25. 10. 2018] Dostupné z: \url{https://ssd.jpl.nasa.gov}..
+
+\bibitem{simulations}
+KAVIČKA, Antonín. Pardubice. Elektronické sylaby přednášek předmětu Modelování a~simulace. [cit.\,22.~2.~2019].
+
+\bibitem{kleczek}
+KLECZEK, Josip. Velká encyklopedie vesmíru. Praha: Academia, 2002s [cit. 25. 10. 2018]. ISBN 80-200-0906-x.
+
+\bibitem{nodebook}
+MARDAN, Azat. Practical Node.js: building real-world scalable web apps. Berkeley, California: Apress, [2014]. Expert‘s voice in Web development. ISBN 978-1-4302- 6595-5.
 
 \bibitem{node}
 MROZEK, Jakub. JavaScript na serveru: Architektura a první Hello World.
@@ -977,44 +1030,34 @@ Dostupné\newline z:~{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na
 
 \bibitem{mongomongoose}
 MROZEK, Jakub. JavaScript na serveru: MongoDB, Mongoose a AngularJS.
-\textit{Zdroják.} [online]. 26.~10.~2012. [cit.\,22.~2.~2019].  ISSN 1803-5620.
+\textit{Zdroják.} [online]. 26.~10.~2012. [cit.\,22.~2.~2019]. ISSN 1803-5620.
 Dostupné z:\newline{\ttfamily \url{https://www.zdrojak.cz/clanky/javascript-na-serveru-mongodb-mongoose-angularjs}}.
 
-\bibitem{git}
-Úvod - Základy systému Git.
-\textit{git.} [online]. [cit.\,22.~2.~2019]. 
-Dostupné z: {\ttfamily \url{https://git-scm.com/book/cs/v1/%C3%9Avod-Z%C3%A1klady-syst%C3%A9mu-Git}}.
+\bibitem{emulations}
+PETERKA, Jiří. Simulace vs. emulace. \textit{earchiv.cz}. [online]. 1992. [cit.~22.~2.~2019]. Dostupné z:~{\ttfamily\url{http://www.earchiv.cz/a92/a210c120.php3}}.
 
-\bibitem{webpack}
-Concepts.
-\textit{webpack.} [online]. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://webpack.js.org/concepts}}.
-
-\bibitem{jsconcat}
-Fantastic front-end performance.
-\textit{HACKS.} [online]. 20~2~2019. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://hacks.mozilla.org/2012/12/fantastic-front-end-performance-part-1-concatenate-compress-cache-a-node-js-holiday-season-part-4/}}.
+\bibitem{rees}
+REES, Martin, Vesmír. Přeložil Pavel PŘÍHODA. Praha: Knižní klub, 2006 [cit. 25. 10. 2018]. ISBN 80-242-1668-x.
 
 \bibitem{sass}
 Sass Basics.
 \textit{Sass.} [online]. [cit.\,22.~2.~2019].
 Dostupné z:\newline{\ttfamily \url{https://sass-lang.com/guide}}.
 
-\bibitem{filestructure}
-File Structure.
-\textit{React.} [online]. [cit.\,22.~2.~2019].
-Dostupné z:\newline{\ttfamily \url{https://reactjs.org/docs/faq-structure.html}}.
+\bibitem{onewaydatabinding}
+Thinking in React.
+\textit{React.} [online]. [cit.\,22.~2.~2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://reactjs.org/docs/thinking-in-react.html}}.
 
-\bibitem{aggregation}
-Aggregate.
-\textit{mongoose.} [online]. [cit.\,22.~2.~2019].
-Dostupné z: {\ttfamily \url{https://mongoosejs.com/docs/api.html#Aggregate}}.
+\bibitem{typescript}
+TypeScript. 
+\textit{TypeScript.} [online]. [cit.\,22.~2~2019]. 
+Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
 
-\bibitem{swaggerui}
-JOHNSON, Tom. Swagger UI tutorial. \textit{Documenting APIs.}. [online]. c2019 [cit.\,22.~2.~2019]. Dostupné z: {\ttfamily \url{https://idratherbewriting.com/learnapidoc/pubapis_swagger.html}}.
-
-\bibitem{simulations}
-KAVIČKA, Antonín. Pardubice. Elektronické sylaby přednášek předmětu Modelování a~simulace. [cit.\,22.~2.~2019].
+\bibitem{git}
+Úvod - Základy systému Git.
+\textit{git.} [online]. [cit.\,22.~2.~2019]. 
+Dostupné z: {\ttfamily \url{https://git-scm.com/book/cs/v1/%C3%9Avod-Z%C3%A1klady-syst%C3%A9mu-Git}}.
 
 \end{thebibliography}
 
@@ -1041,25 +1084,25 @@ KAVIČKA, Antonín. Pardubice. Elektronické sylaby přednášek předmětu Mode
 %\addcontentsline{toc}{section}{Příloha~A -- Uvozovky}
 % pouze do záložek PDF:
 %\pdfbookmark[1]{Příloha~A -- Struktura databáze}{prilohaA}	% záložka do 
-\addcontentsline{toc}{section}{Příloha~A -- Struktura databáze}
+%\addcontentsline{toc}{section}{Příloha~A -- Struktura databáze}
 \section*{Příloha~A --  Struktura databáze}
 %\pdfbookmark[1]{Příloha~B -- Využití aggregation frameworku}{prilohaB}	% záložka do PDF
 
 \begin{figure}[H]
-\vspace{-1cm}\hspace{-2cm}
-\includegraphics[width=500pt]{Images/DB.png}
+\vspace{-0.5cm}\hspace{-1cm}
+\includegraphics[width=450pt]{Images/DB.png}
 \end{figure}
 
 \clearpage \phantomsection\label{prilohaB} 
 
-\addcontentsline{toc}{section}{Příloha~B -- Využití aggregation frameworku}
+%\addcontentsline{toc}{section}{Příloha~B -- Využití aggregation frameworku}
 \section*{Příloha~B --  Využití aggregation\newline frameworku}
 
 \lstinputlisting[nolol,language={JavaScript}]{SourceCodes/Aggregation.js}
 
 \clearpage \phantomsection\label{prilohaC} 
 
-\addcontentsline{toc}{section}{Příloha~C -- Externí balíčky NPM použité v aplikaci}
+%\addcontentsline{toc}{section}{Příloha~C -- Externí balíčky NPM použité v aplikaci}
 \section*{Příloha~C --  Externí balíčky NPM\newline použité v aplikaci}
 
 \subsection*{Backend}
@@ -1113,7 +1156,7 @@ webpack-dev-server \textasciicircum3.1.9 (@types/webpack-dev-server \textasciici
 
 \clearpage \phantomsection\label{prilohaD} 
 
-\addcontentsline{toc}{section}{Příloha~D -- Seznam souborů zdrojových kódů na přiloženém nosiči}
+%\addcontentsline{toc}{section}{Příloha~D -- Seznam souborů zdrojových kódů na přiloženém nosiči}
 \section*{Příloha~D --  Seznam souborů zdrojových kódů na přiloženém nosiči}
 
 .gitignore\newline package-lock.json\newline package.json\newline src/Client/package-lock.json\newline src/Client/package.json\newline src/Client/postcss.config.js\newline src/Client/src/Charts/Components/DonutChart.tsx\newline src/Client/src/Charts/Components/LineChart.tsx\newline src/Client/src/Charts/index.ts\newline src/Client/src/Controls/Components/AboutControl.tsx\newline src/Client/src/Controls/Components/Alert.tsx\newline src/Client/src/Controls/Components/AuthenticationControl.tsx\newline src/Client/src/Controls/Components/ContextInfo.tsx\newline src/Client/src/Controls/Components/ContextMenu.tsx\newline src/Client/src/Controls/Components/ContextTrigger.tsx\newline src/Client/src/Controls/Components/Control.tsx\newline src/Client/src/Controls/Components/ControlLink.tsx\newline src/Client/src/Controls/Components/ControlPanel.tsx\newline src/Client/src/Controls/Components/FullScreenControl.tsx\newline src/Client/src/Controls/Components/HelpControl.tsx\newline src/Client/src/Controls/Components/HomeControl.tsx\newline src/Client/src/Controls/Components/UIControl.tsx\newline src/Client/src/Controls/Components/ViewSizeControl.tsx\newline src/Client/src/Controls/Styles/Alert.scss\newline src/Client/src/Controls/Styles/Context.scss\newline src/Client/src/Controls/Styles/ContextInfo.scss\newline src/Client/src/Controls/Styles/ControlPanel.scss\newline src/Client/src/Controls/Styles/Controls.scss\newline src/Client/src/Controls/index.scss\newline src/Client/src/Controls/index.ts\newline src/Client/src/Forms/Components/Back.tsx\newline src/Client/src/Forms/Components/Field.tsx\newline src/Client/src/Forms/Components/FlexRow.tsx\newline src/Client/src/Forms/Components/Form.tsx\newline src/Client/src/Forms/Components/Note.tsx\newline src/Client/src/Forms/Components/Select.tsx\newline src/Client/src/Forms/Components/Submit.tsx\newline src/Client/src/Forms/Components/Title.tsx\newline src/Client/src/Forms/index.scss\newline src/Client/src/Forms/index.ts\newline src/Client/src/Global/IBodyContrainer.ts\newline src/Client/src/Global/IFilter.ts\newline src/Client/src/Global/ILinkButton.ts\newline src/Client/src/Global/IScene.ts\newline src/Client/src/Global/IStrings.ts\newline src/Client/src/Global/IUniverse.ts\newline src/Client/src/Global/IUserScore.ts\newline src/Client/src/Global/Redux.ts\newline src/Client/src/Global/Select.ts\newline src/Client/src/Global/Table.ts\newline src/Client/src/Global/Units.ts\newline src/Client/src/Panel/Components/AnswerForm.tsx\newline src/Client/src/Panel/Components/Bodies.tsx\newline src/Client/src/Panel/Components/BodiesFilterForm.tsx\newline src/Client/src/Panel/Components/BodiesSettingsForm.tsx\newline src/Client/src/Panel/Components/Body.tsx\newline src/Client/src/Panel/Components/BodyData.tsx\newline src/Client/src/Panel/Components/BodyDiscussion.tsx\newline src/Client/src/Panel/Components/BodyPost.tsx\newline src/Client/src/Panel/Components/BodyTimeline.tsx\newline src/Client/src/Panel/Components/Chat.tsx\newline src/Client/src/Panel/Components/DiscussionForm.tsx\newline src/Client/src/Panel/Components/Overview.tsx\newline src/Client/src/Panel/Components/Panel.tsx\newline src/Client/src/Panel/Redux/ActionTypes.ts\newline src/Client/src/Panel/Redux/PanelActions.ts\newline src/Client/src/Panel/Redux/PanelReducer.ts\newline src/Client/src/Panel/Styles/Bodies.scss\newline src/Client/src/Panel/Styles/Body.scss\newline src/Client/src/Panel/Styles/Chat.scss\newline src/Client/src/Panel/Styles/Overview.scss\newline src/Client/src/Panel/Styles/Panel.scss\newline src/Client/src/Panel/index.scss\newline src/Client/src/Panel/index.tsx\newline src/Client/src/System/Components/AnimatedBackground.tsx\newline src/Client/src/System/Components/App.tsx\newline src/Client/src/System/Constants/Strings.ts\newline src/Client/src/System/Redux/ActionTypes.ts\newline src/Client/src/System/Redux/Store.ts\newline src/Client/src/System/Redux/SystemActions.ts\newline src/Client/src/System/Redux/SystemReducer.ts\newline src/Client/src/System/Styles/AnimatedBackground.scss\newline src/Client/src/System/Styles/Home.scss\newline src/Client/src/System/Views/HomeView.tsx\newline src/Client/src/System/index.scss\newline src/Client/src/System/index.ts\newline src/Client/src/Universe/Components/BodyPreview.tsx\newline src/Client/src/Universe/Components/Canvas.tsx\newline src/Client/src/Universe/Components/ControlBar.tsx\newline src/Client/src/Universe/Components/ControlPanel.tsx\newline src/Client/src/Universe/Components/UI.tsx\newline src/Client/src/Universe/Constants/Config.ts\newline src/Client/src/Universe/Constants/Keys.ts\newline src/Client/src/Universe/Constants/Visibility.ts\newline src/Client/src/Universe/Redux/ActionTypes.ts\newline src/Client/src/Universe/Redux/UniverseActions.ts\newline src/Client/src/Universe/Redux/UniverseReducer.ts\newline src/Client/src/Universe/Styles/ControlBar.scss\newline src/Client/src/Universe/Styles/Controls.scss\newline src/Client/src/Universe/Styles/UI.scss\newline src/Client/src/Universe/Utils/BodyContainer.ts\newline src/Client/src/Universe/Utils/BodyFactory.ts\newline src/Client/src/Universe/Utils/Listener.ts\newline src/Client/src/Universe/Utils/Scene.ts\newline src/Client/src/Universe/Utils/TextureStore.ts\newline src/Client/src/Universe/Utils/Universe.ts\newline src/Client/src/Universe/Views/UniverseView.tsx\newline src/Client/src/Universe/index.scss\newline src/Client/src/Universe/index.ts\newline src/Client/src/User/Components/IdentityForm.tsx\newline src/Client/src/User/Components/LoginForm.tsx\newline src/Client/src/User/Components/SignUpForm.tsx\newline src/Client/src/User/Components/UserInfo.tsx\newline src/Client/src/User/Components/UsersList.tsx\newline src/Client/src/User/Redux/ActionTypes.ts\newline src/Client/src/User/Redux/UserActions.ts\newline src/Client/src/User/Redux/UserReducer.ts\newline src/Client/src/User/Styles/UserInfo.scss\newline src/Client/src/User/Views/IdentityView.tsx\newline src/Client/src/User/Views/LoginView.tsx\newline src/Client/src/User/Views/SignUpView.tsx\newline src/Client/src/User/index.scss\newline src/Client/src/User/index.ts\newline src/Client/src/Utils/Components/AsyncEntity.tsx\newline src/Client/src/Utils/Components/BlurLayout.tsx\newline src/Client/src/Utils/Components/Component.tsx\newline src/Client/src/Utils/Components/DataTable.tsx\newline src/Client/src/Utils/Components/Dropdown.tsx\newline src/Client/src/Utils/Components/EventsArea.tsx\newline src/Client/src/Utils/Components/FadeLayout.tsx\newline src/Client/src/Utils/Components/Link.tsx\newline src/Client/src/Utils/Components/Loader.tsx\newline src/Client/src/Utils/Components/Menu.tsx\newline src/Client/src/Utils/Components/QueryMenu.tsx\newline src/Client/src/Utils/Components/RelativeTime.tsx\newline src/Client/src/Utils/Components/SimpleComponent.tsx\newline src/Client/src/Utils/Components/StatelessComponent.tsx\newline src/Client/src/Utils/Components/Table.tsx\newline src/Client/src/Utils/Components/ToggleLayout.tsx\newline src/Client/src/Utils/Components/UILayout.tsx\newline src/Client/src/Utils/Components/View.tsx\newline src/Client/src/Utils/Constants/Config.ts\newline src/Client/src/Utils/Constants/CookieExpirations.ts\newline src/Client/src/Utils/Constants/Cookies.ts\newline src/Client/src/Utils/Constants/Queries.ts\newline src/Client/src/Utils/Constants/Titles.ts\newline src/Client/src/Utils/Constants/Urls.ts\newline src/Client/src/Utils/Styles/BlurLayout.scss\newline src/Client/src/Utils/Styles/Constants.scss\newline src/Client/src/Utils/Styles/DataTable.scss\newline src/Client/src/Utils/Styles/Default.scss\newline src/Client/src/Utils/Styles/Dropdown.scss\newline src/Client/src/Utils/Styles/EventsArea.scss\newline src/Client/src/Utils/Styles/Loader.scss\newline src/Client/src/Utils/Styles/Table.scss\newline src/Client/src/Utils/Styles/ToggleLayout.scss\newline src/Client/src/Utils/Styles/Utils.scss\newline src/Client/src/Utils/Utils/Cookies.ts\newline src/Client/src/Utils/Utils/Dates.ts\newline src/Client/src/Utils/Utils/Filter.ts\newline src/Client/src/Utils/Utils/Html.ts\newline src/Client/src/Utils/Utils/Redux.ts\newline src/Client/src/Utils/Utils/Request.ts\newline src/Client/src/Utils/Utils/Units.ts\newline src/Client/src/Utils/Utils/Url.ts\newline src/Client/src/Utils/index.scss\newline src/Client/src/Utils/index.ts\newline src/Client/src/index.scss\newline src/Client/src/index.tsx\newline src/Client/webpack.config.js\newline src/Constants/Config.ts\newline src/Constants/DatabaseModels.ts\newline src/Constants/Errors.ts\newline src/Constants/NotificationSubjects.ts\newline src/Constants/Operations.ts\newline src/Constants/index.ts\newline src/Controllers/bodies.ts\newline src/Controllers/bodies/count.ts\newline src/Controllers/bodies/events/{eventId}.ts\newline src/Controllers/bodies/{bodyId}.ts\newline src/Controllers/bodies/{bodyId}/count.ts\newline src/Controllers/bodies/{bodyId}/events.ts\newline src/Controllers/bodies/{bodyId}/posts.ts\newline src/Controllers/bodyTypes.ts\newline src/Controllers/bodyTypes/count.ts\newline src/Controllers/bodyTypes/{bodyTypeId}.ts\newline src/Controllers/login.ts\newline src/Controllers/messages.ts\newline src/Controllers/posts/votes/{voteId}.ts\newline src/Controllers/posts/{postId}/posts.ts\newline src/Controllers/posts/{postId}/votes.ts\newline src/Controllers/users.ts\newline src/Controllers/users/count.ts\newline src/Controllers/users/{userId}.ts\newline src/Database/Database.ts\newline src/Database/DatabaseModel.ts\newline src/Database/Plugins/FillBodyPlugin.ts\newline src/Database/Plugins/HashPlugin.ts\newline src/Database/Plugins/ModifyPlugin.ts\newline src/Database/Schemas/BodyEventSchema.ts\newline src/Database/Schemas/BodyPostSchema.ts\newline src/Database/Schemas/BodySchema.ts\newline src/Database/Schemas/BodyTypeSchema.ts\newline src/Database/Schemas/MessageSchema.ts\newline src/Database/Schemas/PostVoteSchema.ts\newline src/Database/Schemas/TokenSchema.ts\newline src/Database/Schemas/UnapprovedSchema.ts\newline src/Database/Schemas/UserSchema.ts\newline src/Global/Database.ts\newline src/Global/Discussion.ts\newline src/Global/Error.ts\newline src/Global/Event.ts\newline src/Global/FunctionalInterfaces.ts\newline src/Global/Functions.ts\newline src/Global/IBody.ts\newline src/Global/IBodyType.ts\newline src/Global/IFactory.ts\newline src/Global/IObject.ts\newline src/Global/ISecurityModel.ts\newline src/Global/IServer.ts\newline src/Global/IUser.ts\newline src/Global/Item.ts\newline src/Global/Message.ts\newline src/Global/Routes.ts\newline src/Global/Structures.ts\newline src/Global/Universe.ts\newline src/Global/User.tsx\newline src/Models/BodyEventModel.ts\newline src/Models/BodyModel.ts\newline src/Models/BodyPostModel.ts\newline src/Models/BodyTypeModel.ts\newline src/Models/ItemModel.ts\newline src/Models/Model.ts\newline src/Models/MessagesModel.ts\newline src/Models/PostVoteModel.ts\newline src/Models/SecurityModel.ts\newline src/Models/UserModel.ts\newline src/Public/index.html\newline src/Server.ts\newline src/Swagger.ts\newline src/Utils/Arrays.ts\newline src/Utils/Dates.ts\newline src/Utils/Physics.ts\newline src/Utils/Route.ts\newline src/Utils/Security.ts\newline src/Utils/Strings.ts\newline src/index.ts\newline tsconfig.json\newline

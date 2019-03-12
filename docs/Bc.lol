@@ -1,22 +1,22 @@
-\contentsline {lstlisting}{\numberline {1}Porovn\IeC {\'a}n\IeC {\'\i } JS a~JSX}{14}{lstlisting.1}
-\contentsline {lstlisting}{\numberline {2}Konfigurace n\IeC {\'a}stroje Webpack}{16}{lstlisting.2}
-\contentsline {lstlisting}{\numberline {3}Uk\IeC {\'a}zka pr\IeC {\'a}ce s~NPM}{17}{lstlisting.3}
-\contentsline {lstlisting}{\numberline {4}Spr\IeC {\'a}vn\IeC {\'e} a~nespr\IeC {\'a}vn\IeC {\'e} pou\IeC {\v z}it\IeC {\'\i } importu souboru z~modulu}{19}{lstlisting.4}
-\contentsline {lstlisting}{\numberline {5}Uk\IeC {\'a}zka architektury Redux}{20}{lstlisting.5}
-\contentsline {lstlisting}{\numberline {6}Redux akce za vyu\IeC {\v z}it\IeC {\'\i } vlastn\IeC {\'\i } knihovny}{21}{lstlisting.6}
-\contentsline {lstlisting}{\numberline {7}Redux reducer za vyu\IeC {\v z}it\IeC {\'\i } vlastn\IeC {\'\i } knihovny}{21}{lstlisting.7}
-\contentsline {lstlisting}{\numberline {8}Pr\IeC {\'a}ce s vlastn\IeC {\'\i } knihovnou pro 3D grafiku}{22}{lstlisting.8}
-\contentsline {lstlisting}{\numberline {9}V\IeC {\'y}po\IeC {\v c}et geometrie orbity t\IeC {\v e}lesa}{24}{lstlisting.9}
-\contentsline {lstlisting}{\numberline {10}Napln\IeC {\v e}n\IeC {\'\i } geometrie \IeC {\v c}\IeC {\'a}sticemi ve tvaru koule}{26}{lstlisting.10}
-\contentsline {lstlisting}{\numberline {11}Definice cesty v REST~API}{27}{lstlisting.11}
-\contentsline {lstlisting}{\numberline {12}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{28}{lstlisting.12}
-\contentsline {lstlisting}{\numberline {13}Automatizovan\IeC {\'a} tvorba modelov\IeC {\'y}ch t\IeC {\v r}\IeC {\'\i }d}{29}{lstlisting.13}
-\contentsline {lstlisting}{\numberline {14}P\IeC {\v r}ipojen\IeC {\'\i } k datab\IeC {\'a}zi v~aplikaci}{30}{lstlisting.14}
-\contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{30}{lstlisting.15}
-\contentsline {lstlisting}{\numberline {16}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{31}{lstlisting.16}
-\contentsline {lstlisting}{\numberline {17}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{32}{lstlisting.17}
-\contentsline {lstlisting}{\numberline {18}Hashov\IeC {\'a}n\IeC {\'\i } hesel v Mongoose sch\IeC {\'e}matu}{46}{lstlisting.18}
-\contentsline {lstlisting}{\numberline {19}Uk\IeC {\'a}zka form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } jednotek}{47}{lstlisting.19}
-\contentsline {lstlisting}{\numberline {20}Uk\IeC {\'a}zka zaokrouhlov\IeC {\'a}n\IeC {\'\i } hodnot}{47}{lstlisting.20}
-\contentsline {lstlisting}{\numberline {21}Tvorba vlastn\IeC {\'\i }ch jednotek}{47}{lstlisting.21}
-\contentsline {lstlisting}{\numberline {22}P\IeC {\v r}\IeC {\'\i }klad pou\IeC {\v z}it\IeC {\'\i } komponenty EventsArea}{48}{lstlisting.22}
+\contentsline {lstlisting}{\numberline {1}Porovn\IeC {\'a}n\IeC {\'\i } JS a~JSX}{17}{lstlisting.1}
+\contentsline {lstlisting}{\numberline {2}Konfigurace n\IeC {\'a}stroje Webpack}{19}{lstlisting.2}
+\contentsline {lstlisting}{\numberline {3}Uk\IeC {\'a}zka pr\IeC {\'a}ce s~NPM}{20}{lstlisting.3}
+\contentsline {lstlisting}{\numberline {4}Spr\IeC {\'a}vn\IeC {\'e} a~nespr\IeC {\'a}vn\IeC {\'e} pou\IeC {\v z}it\IeC {\'\i } importu souboru z~modulu}{22}{lstlisting.4}
+\contentsline {lstlisting}{\numberline {5}Uk\IeC {\'a}zka architektury Redux}{23}{lstlisting.5}
+\contentsline {lstlisting}{\numberline {6}Redux akce za vyu\IeC {\v z}it\IeC {\'\i } vlastn\IeC {\'\i } knihovny}{24}{lstlisting.6}
+\contentsline {lstlisting}{\numberline {7}Redux reducer za vyu\IeC {\v z}it\IeC {\'\i } vlastn\IeC {\'\i } knihovny}{24}{lstlisting.7}
+\contentsline {lstlisting}{\numberline {8}Pr\IeC {\'a}ce s vlastn\IeC {\'\i } knihovnou pro 3D grafiku}{25}{lstlisting.8}
+\contentsline {lstlisting}{\numberline {9}V\IeC {\'y}po\IeC {\v c}et geometrie orbity t\IeC {\v e}lesa}{27}{lstlisting.9}
+\contentsline {lstlisting}{\numberline {10}Napln\IeC {\v e}n\IeC {\'\i } geometrie \IeC {\v c}\IeC {\'a}sticemi ve tvaru koule}{29}{lstlisting.10}
+\contentsline {lstlisting}{\numberline {11}Definice cesty v REST~API}{30}{lstlisting.11}
+\contentsline {lstlisting}{\numberline {12}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{31}{lstlisting.12}
+\contentsline {lstlisting}{\numberline {13}Automatizovan\IeC {\'a} tvorba modelov\IeC {\'y}ch t\IeC {\v r}\IeC {\'\i }d}{32}{lstlisting.13}
+\contentsline {lstlisting}{\numberline {14}P\IeC {\v r}ipojen\IeC {\'\i } k datab\IeC {\'a}zi v~aplikaci}{33}{lstlisting.14}
+\contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{33}{lstlisting.15}
+\contentsline {lstlisting}{\numberline {16}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{34}{lstlisting.16}
+\contentsline {lstlisting}{\numberline {17}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{35}{lstlisting.17}
+\contentsline {lstlisting}{\numberline {18}Hashov\IeC {\'a}n\IeC {\'\i } hesel v Mongoose sch\IeC {\'e}matu}{49}{lstlisting.18}
+\contentsline {lstlisting}{\numberline {19}Uk\IeC {\'a}zka form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } jednotek}{50}{lstlisting.19}
+\contentsline {lstlisting}{\numberline {20}Uk\IeC {\'a}zka zaokrouhlov\IeC {\'a}n\IeC {\'\i } hodnot}{50}{lstlisting.20}
+\contentsline {lstlisting}{\numberline {21}Tvorba vlastn\IeC {\'\i }ch jednotek}{50}{lstlisting.21}
+\contentsline {lstlisting}{\numberline {22}P\IeC {\v r}\IeC {\'\i }klad pou\IeC {\v z}it\IeC {\'\i } komponenty EventsArea}{51}{lstlisting.22}
