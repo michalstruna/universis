@@ -20,8 +20,24 @@
             margin-bottom: 0;
         }
 
+        &__metadata {
+            font-size: 80%;
+            line-height: 1.5em;
+        }
+
+        &__author, &__date {
+            color: $light-color;
+            font-weight: 100;
+            vertical-align: top;
+        }
+
+        &__date {
+            margin-left: 1rem;
+        }
+
         &--inner {
-            background-color: $medium-color;
+            background-color: $medium-dark-color;
+            box-sizing: border-box;
             display: inline-block;
             line-height: 1.5em;
             padding: 0.5rem;
@@ -29,14 +45,27 @@
         }
 
         &--own {
-            .panel__chat__message--inner {
-                background-color: #3F4750;
-            }
+            text-align: right;
 
-            .panel__chat__avatar {
-                float: right;
-                margin-left: 1rem;
-                margin-right: 0;
+            .user-info--small {
+                float: right !important;
+                margin-left: 0.5rem !important;
+                margin-right: 0 !important;
+            }
+        }
+
+        &--event {
+            .panel__chat__message {
+                &--inner {
+                    background-color: $medium-color;
+                    font-weight: bold;
+                    width: 100%;
+                    max-width: none;
+                }
+
+                &__date {
+                    margin: 0;
+                }
             }
         }
     }
