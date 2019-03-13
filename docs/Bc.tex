@@ -223,13 +223,13 @@ Vykreslovaný obraz je složen z~tzv. pixelů. Jedná se o~nejmenší jednotku r
 
 \subsubsection{Antialiasing}
 
-I~přesto, že se pixely stále zmenšují a~jejich hustota na palec (\textit{DPI}) v~dnešní době často dosahuje na monitorech či displejích několik stovek, lidské oko by přesto mohlo rozeznat dva sousední pixely, jejichž barva by byla příliš kontrastní. Vyhlazení těchto kontrastních přechodů řeší antialiasing. Ten přichází s myšlenkou, že by výsledná barva pixelu měla být složena z~barvy útvaru a~z~barvy pozadí. Původně černá čára na bílém pozadí tak bude obklopena šedými pixely a~přechod mezi~černou a bílou nebude tak ostrý.~\cite{graphic}
+I~přesto, že se pixely stále zmenšují a~jejich hustota na palec (\textit{DPI}) v~dnešní době běžně dosahuje na monitorech či displejích několik stovek, lidské oko by přesto mohlo rozeznat dva sousední pixely, jejichž barva by byla příliš kontrastní. Vyhlazení těchto kontrastních přechodů řeší antialiasing. Ten přichází s myšlenkou, že by výsledná barva pixelu měla být složena z~barvy útvaru a~z~barvy pozadí. Původně černá čára na bílém pozadí tak bude obklopena šedými pixely a~přechod mezi~černou a bílou nebude tak ostrý.~\cite{graphic}
 
 \subsubsection{Barevné modely}
 
-V~dnešní době existuje několik způsobů, jak vytvořit barvu pomocí jejího složení z~několika složek. Jedním z~nich je model \textit{RGB}, jehož složky jsou tvořeny červenou, zelenou a~modrou barvou. Funguje na principu sčítání barev. Pokud jsou tedy všechny složky nulové, je výsledná barva černá. Přidáváním jednotlivých složek se výsledná barva postupně zesvětluje a~pokud jsou všechny 3~složky na maximu, tvoří bílou barvu.~\cite{graphic}
+V~dnešní době existuje několik způsobů, jak vytvořit barvu pomocí jejího složení z~několika složek. Jedním z~nich je model \textit{RGB}, jehož složky jsou tvořeny červenou, zelenou a~modrou barvou. Funguje na principu sčítání barev. Pokud jsou všechny složky nulové, je výsledná barva černá. Přidáváním jednotlivých složek se výsledná barva postupně zesvětluje a~pokud jsou všechny 3~složky na maximu, tvoří bílou barvu.~\cite{graphic}
 
-Zcela jiná situace je u tiskáren. Využívat všechny 3 složky na celý papír jen proto, aby měl bílou barvu, by bylo nevýhodné. Proto se zde využívá model \textit{CMYK}, jehož složky tvoří purpurová, azurová a~žlutá barva. Model funguje na principu odčítání barev. Tedy původní bílá barva se při přidávání jednotlivých složek ztmavuje a~pokud jsou využity všechny složky, vznikne barva podobná černé. Protože ale nikdy nevznikne dokonalá černá a~navíc by bylo drahé využívat 3 složky pro vykreslení černé, je dodatečnou složkou tohoto modelu i~černá barva.~\cite{graphic}
+Zcela jiná situace je u tiskáren. Využívat všechny 3 složky na celý papír jen proto, aby měl bílou barvu, by bylo nevýhodné. Proto se zde využívá model \textit{CMYK}, jehož složky tvoří purpurová, azurová a~žlutá barva. Model funguje na principu odčítání barev. Původní bílá barva se při přidávání jednotlivých složek ztmavuje a~pokud jsou využity všechny složky, vznikne barva podobná černé. Protože ale nikdy nevznikne dokonalá černá a~navíc by bylo drahé využívat 3 složky pro vykreslení černé, je dodatečnou složkou tohoto modelu i~černá barva.~\cite{graphic}
 
 \subsubsection{Modelování}
 
@@ -241,17 +241,17 @@ Vytvořené komponenty pak usnadňují situaci o~to více, pokud je scéna dynam
 
 \subsubsection{Vizualizace}
 
-Geometrie sama o~sobě nemá žádnou reprezentaci ve viditelném světě. Jedná se pouze o~sadu matematických předpisů určujících tvar objektu. Geometrické tvary je tedy nutné nějakým způsobem zobrazit. Tím nejjednodušším by bylo jim přiřadit nějakou barvu. Protože ale objekty reálného světa vizuálně disponují zřídkakdy jedinou barvou, pro realističtější vzhled bude třeba použít pokročilejší techniky.~\cite{graphic}
+Geometrie sama o~sobě nemá žádnou reprezentaci ve viditelném světě. Jedná se pouze o~sadu matematických předpisů určujících tvar objektu. Geometrické tvary je nutné nějakým způsobem zobrazit. Tím nejjednodušším by bylo jim přiřadit nějakou barvu. Protože ale objekty reálného světa vizuálně disponují zřídkakdy jedinou barvou, pro realističtější vzhled bude třeba použít pokročilejší techniky.~\cite{graphic}
 
 V~rámci \textit{3D} grafiky mluvíme v~souvislosti s~těmito technikami o~materiálu. Ten definuje výslednou podobu povrchu objektu. Mimo skutečné podoby určuje také to, jak bude objekt reagovat s~vnějšími vlivy, např. se světlem.~\cite{graphic}
 
-Jednou z~nejdůležitějších vlastností materiálu je textura. Textura přiřazuje jednotlivým bodům na povrchu objektu specifické vlastnosti. Tím je často docíleno \textit{2D} obrázkem, který je použit jako povrch objektu. Textura však umožňuje měnit i~další vlastnosti materiálu, např. průhlednost. Navíc se nemusí jednat pouze o~2D útvar.~\cite{graphic}
+Jednou z~nejdůležitějších vlastností materiálu je textura. Textura přiřazuje jednotlivým bodům na povrchu objektu specifické vlastnosti. To je často docíleno \textit{2D} obrázkem, který je použit jako povrch objektu. Textura však umožňuje měnit i~další vlastnosti materiálu, např. průhlednost. Navíc se nemusí jednat pouze o~2D útvar.~\cite{graphic}
 
 \subsubsection{Obraz}
 
-Jak bylo naznačeno v~úvodu kapitoly o~\textit{3D} grafice, současné počítače, resp. jejich výstupní periferie, umožňují zobrazovat především \textit{2D} grafiku. I přes to, že již máme vytvořenou scénu a tvary objektů i~s~jejich materiály, je nutno provést projekci 3D objektů na 2D objekty. Tomuto procesu se někdy také říká renderování.
+Jak bylo naznačeno v~úvodu kapitoly o~\textit{3D} grafice, současné počítače, resp. jejich výstupní periferie, umožňují zobrazovat především \textit{2D} grafiku. I přes to, že již máme vytvořenou scénu a tvary objektů i~s~jejich materiály, je nutno provést projekci 3D objektů na 2D objekty. Tomuto procesu se někdy také říká renderování.~\cite{graphic}
 
-Při tomto procesu je do 3D scény vložena \textit{virtuální kamera}, jež „vyfotí“ svůj pohled. Je proto důležité určit tzv. pozici diváka, tedy souřadnice a~směr natočení kamery. Posledním krokem k~vytvoření obrazu je rasterizace. Ta spočívá v~přiřazení barvám jednotlivým pixelům.~\cite{graphic}
+Při tomto procesu je do 3D scény vložena \textit{virtuální kamera}, jež „vyfotí“ svůj pohled. Je proto důležité určit tzv. pozici diváka -- souřadnice a~směr natočení kamery. Posledním krokem k~vytvoření obrazu je rasterizace. Ta spočívá v~přiřazení barvám jednotlivým pixelům.~\cite{graphic}
 
 \subsubsection{Scéna, kamera a~renderer}
 
@@ -266,13 +266,13 @@ Scéna je množina všech objektů, které tvoří daný \textit{3D} svět. To v
 
 Každý pixel prochází před vykreslením několika fázemi, které ovlivňují jeho výslednou barvu. Příkladem může být stínování, osvětlení nebo hloubkový test. Tyto fáze dohromady tvoří grafický řetězec \textit{(graphics pipeline)}.~\cite{graphic}
 
-Dříve (ve verzi \textit{OpenGL 1.1}) existoval pouze \textit{fixed-function pipeline}. Ten umožňoval jednotlivé fáze povolit nebo zakázat, ale neumožňoval je upravovat. Později (\textit{OpenGL 2.0}) byl představen programovatelný grafický řetězec. Programátor tedy může jednotlivé fáze nahradit svým vlastním programem. Tento program se nazývá \textit{shader}.~\cite{graphic}
+Dříve (ve verzi \textit{OpenGL 1.1}) existoval pouze \textit{fixed-function pipeline}. Ten umožňoval jednotlivé fáze povolit nebo zakázat, ale neumožňoval je upravovat. Později (\textit{OpenGL 2.0}) byl představen programovatelný grafický řetězec, v němž programátor může jednotlivé fáze nahradit svým vlastním programem. Tento program se nazývá \textit{shader}.~\cite{graphic}
 
 \subsubsection{Shader}
 
 \textit{Shader}, je program určený přímo pro grafický procesor. Je napsán v~\textit{OpenGL Shader Language}, který vychází z~jazyka C~a~do velké míry přebírá i~jeho syntaxi. Samotný \textit{shader} se skládá z~navzájem oddělených programů \textit{vertex shader} a~\textit{fragment shader}. Je možné je umístit do samostatného souboru nebo jako textový řetězec do hlavního programu.~\cite{graphic}
 
-Oba programy mají vlastní funkci \code{main}, která je vstupním bodem. \textit{Vertex shader} se provede nad každým vrcholem grafického primitiva. Vstupem i~výstupem je vždy jeden vrchol. Nelze tedy přidávat nebo odebírat vrcholy. Je možné pouze uplatňovat různé operace, např. transformace, na již existující vrcholy. \textit{Fragment shader}, někdy také \textit{pixel shader}, je prováděn nad každým pixelem grafického primitiva. Vedle těchto programů jsou zde obsaženy i~některé původní fáze z~\textit{fixed-function pipeline}.~\cite{graphic}
+Oba programy mají vlastní funkci \code{main}, která je vstupním bodem. \textit{Vertex shader} se provede nad každým vrcholem grafického primitiva. Vstupem i~výstupem je vždy jeden vrchol, nelze přidávat nebo odebírat vrcholy. Je možné pouze uplatňovat různé operace, např. transformace, na již existující vrcholy. \textit{Fragment shader}, někdy také \textit{pixel shader}, je prováděn nad každým pixelem grafického primitiva. Vedle těchto programů jsou zde obsaženy i~některé původní fáze z~\textit{fixed-function pipeline}.~\cite{graphic}
 
 \subsubsection{Kontext}
 
@@ -280,13 +280,13 @@ Pro práci s~\textit{WebGL} v~prohlížeči je třeba získat tzv. grafický kon
 
 \subsection{Simulace a emulace}
 
-Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace. Důležitou vlastností dynamického systému je narozdíl od statického systému absence abstrakce času. Dynamický systém tedy čas nezanedbává.~\cite{simulations} 
+Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simulujícím systémem za účelem zjistit o~původním systému nějaké informace. Důležitou vlastností dynamického systému je narozdíl od statického systému absence abstrakce času. Dynamický systém čas nezanedbává.~\cite{simulations} 
 
 Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém má za cíl umožnit práci s~původním systémem, který nemusí být~dostupný.~\cite{emulations}
 
 Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl okamžitou rychlost či vzájemnou polohu těles v~určitém čase.
 
-Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace tedy reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů. V~případě, že by se zde nebeská mechanika počítala na základě vzájemného gravitačního ovlivňování všech těles, nemohlo by být zaručitelné, že by bylo možné při vzrůstajícím počtu těles výkonově umožnit běh aplikace v~prohlížeči na běžných počítačích.
+Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace proto reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů. V~případě, že by se zde nebeská mechanika počítala na základě vzájemného gravitačního ovlivňování všech těles, nemohlo by být zaručitelné, že by bylo možné při vzrůstajícím počtu těles výkonově umožnit běh aplikace v~prohlížeči na běžných počítačích.
 
 \section{Použité technologie}
 
@@ -412,7 +412,7 @@ Moduly obsažené zejména v~klientské části projektu jsou adresářové celk
 \item \textbf{Views}: Pohledy.
 \end{itemize} 
 
-Každý modul obsahuje mapování a~export všech souborů, které mají být veřejné. Z~vnějšku tedy není nutné znát strukturu daného modulu a~adresu hledaného souboru uvnitř modulu.
+Každý modul obsahuje mapování a~export všech souborů, které mají být veřejné. Z~vnějšku není nutné znát strukturu daného modulu a~adresu hledaného souboru uvnitř modulu.
 
 
 \lstinputlisting[caption={Správné a~nesprávné použití importu souboru z~modulu}, language={JavaScript}]{SourceCodes/ImportFromModule.js}
@@ -471,7 +471,7 @@ Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat
 
 Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. \cite{kleczek}  Počítat absolutní pozici tělesa by proto bylo více než náročné.
 
-Je tedy důležité, aby každé těleso bylo umístěno mezi potomky tělesa, kolem kterého zdánlivě obíhá. Tím je dosaženo dědičnosti a~souřadnice není nutné uvádět absolutně vzhledem k~vesmíru, ale pouze vzhledem k~rodičovskému tělesu. Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní třída \textit{Scene}. Ta v~každém průběhu vykreslovací smyčky vypočítá pozice a~rotace těles a~aktualizuje je.
+Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, kolem kterého zdánlivě obíhá. Tím je dosaženo dědičnosti a~souřadnice není nutné uvádět absolutně vzhledem k~vesmíru, ale pouze vzhledem k~rodičovskému tělesu. Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní třída \textit{Scene}. Ta v~každém průběhu vykreslovací smyčky vypočítá pozice a~rotace těles a~aktualizuje je.
 
 \lstinputlisting[caption={Práce s vlastní knihovnou pro 3D grafiku}, language={JavaScript}]{SourceCodes/Scene.js}
 
@@ -565,7 +565,7 @@ Funkce pro generování částic je uložena v~databázové kolekci typů těles
 Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem může být vysoká výpočetní náročnost pro prohlížeč nebo složitost implementace. V~důsledku toho může v~simulátoru docházet k~nepřesnostem nebo omezeným možnostem vykreslování těles.
 
 \begin{itemize}
-\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tedy není ovlivněno tělesy obíhajícími. Oběh je počítán na základě 1. a~2. Keplerova zákona a není třeba řešit vzájemné gravitační ovlivňování těles.
+\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tak není ovlivněno tělesy obíhajícími. Oběh je počítán na základě 1. a~2. Keplerova zákona a není třeba řešit vzájemné gravitační ovlivňování těles.
 \item Tělesa s~neperiodickou nebo neeliptickou oběžnou dráhou mají pevně nastavenou pozici a~nepohybují se.
 \item Periapsida se vždy nachází přímo na opačné straně elipsy, než apoapsida. Pokud je oběžná dráha příliš excentrická, může se pozice skutečně nejbližšího bodu k~těžišti dráhy a~periapsidy v~aplikaci lišit.
 
@@ -625,13 +625,13 @@ Modelové třídy většiny entit není nutné psát individuálně. Všechny ma
 
 \subsection{Databáze}
 
-Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou \textit{MVC} a~k~databázi mají tedy přístup pouze modelové třídy. Struktura databáze je zobrazena v~příloze A na konci tohoto dokumentu.
+Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou \textit{MVC} a~k~databázi mají přístup pouze modelové třídy. Struktura databáze je zobrazena v~příloze A na konci tohoto dokumentu.
 
 \subsubsection{Připojení do databáze}
 
 Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
 
-Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (tedy pouze jednou, při spuštění serveru~\cite{nodebook}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
+Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (pouze jednou, při spuštění serveru~\cite{nodebook}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
 \lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.js}
 
@@ -649,7 +649,7 @@ Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložen�
 
 Ve zdrojovém kódu výše je zobrazena část pluginu pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
 
-Dalším pluginem v aplikaci je \textit{FillBodyPlugin}. Aplikace se snaží o největší možnou automatizaci a je tedy žádoucí, aby se do databáze ukládala pouze nejnutnější data. Ostatní data jsou automaticky dopočítána z~těch v~databázi. Níže je ukázán výpočet únikové rychlosti \code{v\textsubscript{u}} z tělesa.
+Dalším pluginem v aplikaci je \textit{FillBodyPlugin}. Aplikace se snaží o největší možnou automatizaci a je žádoucí, aby se do databáze ukládala pouze nejnutnější data. Ostatní data jsou automaticky dopočítána z~těch v~databázi. Níže je ukázán výpočet únikové rychlosti \code{v\textsubscript{u}} z tělesa.
 
 $$v\textsubscript{u}= \sqrt{\frac{2 * G * m}{r}}$$
 \begin{center}
@@ -868,7 +868,7 @@ Třetí a~poslední záložka je určena pro diskuse. Každý zde může reagova
 
 Tato stránka obsahuje právní ustanovení, která určují, jak mohou potenciální uživatelé zacházet s~aplikací. Píše se zde zejména o~tom, že se na aplikaci vztahují práva a~povinnosti uvedená v~prohlášení autora na začátku tohoto dokumentu. Zároveň jsou zde také uvedeny všechny ty části aplikace, které nevytvořil sám autor a~mohly by se na ně vztahovat další licenční podmínky.
 
-Konkrétně se jedná o~všechny grafické soubory, zejména pak textury planet, které jsou brány ze zdrojů, jež umožňují jejich volné užívání a~ikony. Všechny ikony jsou převzaty z~webu \url{https://www.flaticon.com}, který umožňuje ve standardní edici zdarma využívat ikony za podmínky uvedení autora. Další část aplikace, kterou nevytvořil autor, tvoří balíčky NPM uvedené v~příloze C~na konci tohoto dokumentu. Protože uživatelé mohou přidávat vlastní obsah, je zde uvedeno také zřeknutí se za vše, co uživatelé nahrají.
+Konkrétně se jedná o~všechny grafické soubory, zejména pak textury těles, které jsou brány ze zdrojů, jež umožňují jejich volné užívání a~ikony. Všechny ikony jsou převzaty z~webu \url{https://www.flaticon.com}, který umožňuje ve standardní edici zdarma využívat ikony za podmínky uvedení autora. Další část aplikace, kterou nevytvořil autor, tvoří balíčky NPM uvedené v~příloze C~na konci tohoto dokumentu. Protože uživatelé mohou přidávat vlastní obsah, je zde uvedeno také zřeknutí se za vše, co uživatelé nahrají.
 
 \section{Problémy řešené při implementaci}
 
@@ -903,7 +903,7 @@ V~projektu se nachází velké množství souborů s~typescriptovým kódem a~so
 
 Ze všeho nejdříve je ale nutné transpilovat zdrojové kódy do nativních jazyků. Prohlížeče totiž TypeScriptu ani SASSu nerozumí. TypeScript se transpiluje do JavaScriptu za využití transpilátoru, jenž je dodáván společně s~TypeScriptem. Pro převod SASS na CSS slouží Webpack. Ten následně také všechny takto transpilovaného soubory slouží do jediného javascriptového souboru.
 
-\subsubsection{Minifikace a~GZIP komprese}
+\subsubsection{Minifikace a~komprese GZIP}
 
 I přesto, že jsou všechny zdrojové soubory sloučené do jednoho, stále se jedná o~velký objem dat. Je proto vhodné celý soubor pomocí nástroje Webpack minifikovat~–~odebrat z~něj přebytečné mezery, komentáře a~zkrátit názvy lokálních proměnných.
 
@@ -918,12 +918,12 @@ Uživatel se autentizuje při přihlášení svým emailem a heslem, čímž mu 
 \begin{itemize}
 \item \textbf{Email a heslo}: Nechat uživatele zadávat přihlašovací údaje pokaždé, když je třeba komunikovat se serverem, by bylo obtěžující. A~ukládat heslo na straně klienta není zas bezpečné, protože by zde muselo být v~čitelné podobě.
 
-\item \textbf{ID uživatele}: Jedná se o~nebezpečný postup. ID uživatele je veřejný údaj, ke kterému mají přístup i~všichni ostatní. Nic by tedy nebránilo útočníkovi poslat \textit{HTTP} požadavek s~ID libovolného uživatele.
+\item \textbf{ID uživatele}: Jedná se o~nebezpečný postup. ID uživatele je veřejný údaj, ke kterému mají přístup i~všichni ostatní. Nic by nebránilo útočníkovi poslat \textit{HTTP} požadavek s~ID libovolného uživatele.
 
-\item \textbf{Token}: Ideálním způsobem se zdá být vygenerování pseudonáhodného textového řetězce při přihlášení. Tímto řetězcem se po dobu přihlášení bude uživatel prokazovat. Protože tento řetězec nezná nikdo jiný, než uživatel sám, nikdo jiný se s~ním tedy nemůže autentizovat. Navíc proti zneužití má omezenou platnost, po jejímž vypršení je třeba požádat o~nový token.
+\item \textbf{Token}: Ideálním způsobem se zdá být vygenerování pseudonáhodného textového řetězce při přihlášení. Tímto řetězcem se po dobu přihlášení bude uživatel prokazovat. Protože tento řetězec nezná nikdo jiný, než uživatel sám, nikdo jiný se s~ním nemůže autentizovat. Navíc proti zneužití má omezenou platnost, po jejímž vypršení je třeba požádat o~nový token.
 \end{itemize}
 
-V~aplikaci je využit poslední ze zmíněných způsobů. Token má platnost 30 minut. Je tedy zajištěna bezpečná autoritace. Každý může provádět pouze ty operace, na které má~skutečně právo.
+V~aplikaci je využit poslední ze zmíněných způsobů. Token má platnost 30 minut a~je zajištěna bezpečná autoritace. Každý může provádět pouze ty operace, na které má skutečně právo.
 
 \subsubsection{Hashování hesel}
 
