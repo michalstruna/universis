@@ -5,6 +5,6 @@ for (let i = 0; i < 1000; i++) {
     geometry.vertices.push(new THREE.Vector3(
         radius * Math.sin(angle1) * Math.cos(angle2),
         radius * Math.sin(angle1) * Math.sin(angle2),
-        radius * Math.sin(angle1)
+        radius * Math.cos(angle1)
     ))
 }
