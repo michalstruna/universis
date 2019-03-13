@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { reduxForm, InjectedFormProps } from 'redux-form'
 
-import { RelativeTime, StatelessComponent } from '../../Utils'
-import { Field, Form, Submit } from '../../Forms'
+import { StatelessComponent } from '../../Utils'
+import { Field, Form, } from '../../Forms'
 import { addDiscussion } from '../../Universe'
 import { UserInfo } from '../../User'
 
@@ -64,7 +64,7 @@ class DiscussionForm extends StatelessComponent<IProps & InjectedFormProps<IValu
                                 required={strings.missingDiscussion}
                                 name='content'
                                 type={Field.TEXT_AREA} />
-                            <Submit />
+                            <Form.Submit />
                         </section>
                     </Form>
                 </section>
