@@ -34,7 +34,10 @@ class DatabaseModel implements Universis.Database.Model {
             this.model
                 .create(item)
                 .then(item => resolve(item.toObject()))
-                .catch(error => reject(this.getError(error)))
+                .catch(error => {
+                    console.log(error)
+                    reject(this.getError(error))
+                })
         ))
     }
 
@@ -55,11 +58,13 @@ class DatabaseModel implements Universis.Database.Model {
             this.model.findOne(filter),
             options
         )
-            .then(items => this.processResultForOne<T>(items, options))
+            .then(items => {
+                return this.processResultForOne<T>(items, options)
+            })
     }
 
     public getField<T>(filter: Universis.Database.Query.Filter, fieldName: string): Promise<T> {
-        return this.getOne<{ [fieldName: string]: T }>(filter, { select: [fieldName, '-_id'] })
+        return this.getOne<{ [fieldName: string]: T }>(filter, { select: ['-_id', fieldName] })
             .then(item => item[fieldName])
     }
 
@@ -136,7 +141,7 @@ class DatabaseModel implements Universis.Database.Model {
             }
 
             if (options.select) {
-                query = query.select([...(options.join || []), options.select].join(' '))
+                query = query.select([...(options.join || []), ...options.select].join(' '))
             }
 
             query = query.lean()

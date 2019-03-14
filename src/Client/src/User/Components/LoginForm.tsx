@@ -40,7 +40,7 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
     }
 
     public render(): React.ReactNode {
-        const { strings, handleSubmit, invalid, submitting } = this.props
+        const { strings, handleSubmit, invalid, submitting, unauthUser } = this.props
 
         return (
             <Form
@@ -50,7 +50,7 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                 <Form.Title>
                     {strings.title}
                 </Form.Title>
-                <UserInfo type={UserInfo.TYPES.LARGE} />
+                <UserInfo type={UserInfo.TYPES.LARGE} user={unauthUser.payload} />
                 <Field
                     type={Field.PASSWORD}
                     label={strings.password}

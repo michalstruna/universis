@@ -2,35 +2,34 @@ import { Schema } from 'mongoose'
 
 import Strings from '../../Utils/Strings'
 import HashPlugin from '../Plugins/HashPlugin'
-import ModifyPlugin from '../Plugins/ModifyPlugin'
 
 /**
- * DB schema for user.
+ * DB schema for users.
+ * There should be { select: false } in option for password field.
+ * Name by user is by default part of email before '@' char. // TODO: Duplicate names?
  */
 const UserSchema = new Schema({
 
     email: {
         type: String,
-        required: [true, 'Email is required.'],
+        required: true,
         unique: true,
-        validate: {
-            validator: Strings.isEmail,
-            message: 'Email must be in name@domain form.'
-        }
+        validate: { validator: Strings.isEmail }
     },
 
     password: {
         type: String,
-        required: [true, 'Password hash is required.'], // TODO: Remove messages?
+        required: true,
         select: false
     },
 
     name: {
-        type: String
-    },
-
-    avatar: {
-        type: String
+        type: String,
+        unique: true,
+        required: true,
+        default: function () {
+            return Strings.capitalize(Strings.getPrefix(this.email, '@'))
+        }
     },
 
     score: {
@@ -56,6 +55,40 @@ const UserSchema = new Schema({
         }
     },
 
+    avatar: {
+        type: String
+    },
+
+    birth: {
+        type: String
+    },
+
+    isFemale: {
+        type: Boolean
+    },
+
+    profileText: {
+        type: String
+    },
+
+    publicEmail: {
+        type: String
+    },
+
+    website: {
+        type: String
+    },
+
+    role: {
+        type: Number,
+        default: 0
+    },
+
+    lastOnline: {
+        type: String,
+        default: () => new Date().toISOString()
+    },
+
     __v: {
         type: Number,
         select: false
@@ -64,9 +97,5 @@ const UserSchema = new Schema({
 })
 
 UserSchema.plugin(HashPlugin, { field: 'password' })
-
-UserSchema.plugin(ModifyPlugin, {
-    field: 'name', function: user => Strings.capitalize(Strings.getPrefix(user.email, '@'))
-})
 
 export default UserSchema
