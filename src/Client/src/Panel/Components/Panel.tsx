@@ -49,7 +49,7 @@ class Panel extends StatelessComponent<IProps> {
     }
 
     private getBodyNameFromUrl = () => (
-        Url.getQuery(Queries.BODY) || 'Merkur' // TODO: Get from config.
+        Url.getQuery(Queries.BODY) || 'Země' // TODO: Get from config.
     )
 
     /**
