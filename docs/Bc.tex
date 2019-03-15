@@ -288,6 +288,24 @@ Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nah
 
 Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace proto reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů. V~případě, že by se zde nebeská mechanika počítala na základě vzájemného gravitačního ovlivňování všech těles, nemohlo by být zaručitelné, že by bylo možné při vzrůstajícím počtu těles výkonově umožnit běh aplikace v~prohlížeči na běžných počítačích.
 
+\subsection{Fyzikální a~astronomické pojmy}
+
+Pro popis geometrických, astronomických či jiných fyzikálních vlastností těles a~jejich eliptických orbit jsou určeny odborné termíny. V~této kapitole je stručně popsán význam některých z nich.
+
+// TODO: Zdroje
+
+\begin{itemize}
+\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (popř. k~těžišti). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.
+
+\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se téměř o~kružnici.
+
+\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (popř. k~těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.
+
+\item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdáleností, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.
+
+\item \textbf{Velká poloosa (a)} -- Největší možný poloměr orbity. Jedná se o~aritmetický průměr z~apoapsidy a~periapsidy. V případě Země tato velikost činí 149~597~887~km. Z~této vzdálenosti byla dříve odvozena astronomická jednotka (AU). Definice této jednotky se ale časem vyvíjela a nakonec se ustálila na hodnotě 149~597~870~700~m.
+\end{itemize}
+
 \section{Použité technologie}
 
 \subsection{Jazyk TypeScript}
@@ -452,7 +470,7 @@ V~projektu byla proto vytvořena vlastní knihovna \textit{Redux} v~modulu \text
 \begin{itemize}
 \item \textbf{setAction}: Nastavení hodnoty,
 \item \textbf{toggleAction}: Přepnutí hodnoty (generuje \textit{ON/OFF}),
-\item \textbf{asyncAction}: Asynchroní požadavek (generuje \textit{SENT/SUCCESS/FAIL}).
+\item \textbf{asyncAction}: Asynchronní požadavek (generuje \textit{SENT/SUCCESS/FAIL}).
 \end{itemize}
 
 V~kódu pak použití asynchronní akce vypadá následovně. Automaticky je zajištěno sledování průběhu požadavku a~je tudíž je jednoduše možné zobrazit např. načítací animaci.
@@ -559,6 +577,26 @@ Pro tyto účely se v aplikaci využívá pseudonáhodné generování částic 
 Funkce pro generování částic je uložena v~databázové kolekci typů těles jako textový řetězec. Je možné tak vytvořit jedinou funkci, např. pro generování spirálních galaxií, a~z~tohoto typu pak vytvářet instance těles o~stejném tvaru, lišících se v ostatních fyzikálních vlastnostech. Protože ale administrátor vše musí nejdříve schválit, je tím zároveň ošetřena bezpečnostní hrozba, kdy by uživatel do generující funkce umístil škodlivý kód.
 
 \lstinputlisting[caption={Naplnění geometrie částicemi ve tvaru koule}, language={JavaScript}]{SourceCodes/Particles.js}
+
+\subsection{Pohyb těles}
+
+Pohyb těles po eliptických drahách je v~aplikaci řešen především na základě Keplerových zákonů. V~této kapitole jsou uvedeny kompletní vzorce, v~aplikaci jsou ale samozřejmě výpočty optimalizované a~konstantní mezivýpočty jsou u~každého tělesa vypočteny pouze jednou a~uloženy do pomocného objektu.
+
+Při načtení scény je nejprve nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum dne, v němž těleso prošlo periapsidou.  Následně dojde k výpočtu rozdílu dnešního data a~data průchodu periapsidou. Nyní zbývá určit excentrickou anomálii -- úhel, jenž svírá spojnice periapsidy se středem orbity a~spojnice aktuální pozice tělesa se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=450pt]{Images/Initial.png}
+\caption[Výpočet výchozí pozice tělesa]{Výpočet výchozí pozice tělesa (poměry velikosti nejsou realistické) \footnotemark[1]}
+\end{center}
+\end{figure}
+
+$$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * (t - t\textsubscript{0})$$
+\begin{center}
+\textit{E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0} -- čas v~pericentru}~\cite{kleczek}\newline
+\end{center}
+
+\footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
 \subsubsection{Omezení}
 
@@ -907,7 +945,7 @@ Ze všeho nejdříve je ale nutné transpilovat zdrojové kódy do nativních ja
 
 I přesto, že jsou všechny zdrojové soubory sloučené do jednoho, stále se jedná o~velký objem dat. Je proto vhodné celý soubor pomocí nástroje Webpack minifikovat~–~odebrat z~něj přebytečné mezery, komentáře a~zkrátit názvy lokálních proměnných.
 
-Pro ještě větší redukci přenesených dat je dobré nastavit Node.js server tak, aby na všechny odeslané soubory uplatnil GZIP kompresi.
+Pro ještě větší redukci přenesených dat je dobré nastavit Node.js server tak, aby na všechny odeslané soubory uplatnil kompresi GZIP.
 
 \subsection{Bezpečnost a~ochrana dat}
 
