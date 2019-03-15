@@ -44,16 +44,18 @@
 \contentsline {subsubsection}{\numberline {3.3.5}Popisek}{29}{subsubsection.3.3.5}
 \contentsline {subsubsection}{\numberline {3.3.6}\IeC {\v C}\IeC {\'a}stice}{29}{subsubsection.3.3.6}
 \contentsline {subsection}{\numberline {3.4}Pohyb t\IeC {\v e}les}{31}{subsection.3.4}
-\contentsline {subsubsection}{\numberline {3.4.1}Omezen\IeC {\'\i }}{32}{subsubsection.3.4.1}
-\contentsline {subsection}{\numberline {3.5}Serverov\IeC {\'a} \IeC {\v c}\IeC {\'a}st}{32}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}Zachycen\IeC {\'\i } HTTP po\IeC {\v z}adavku}{32}{subsubsection.3.5.1}
-\contentsline {subsubsection}{\numberline {3.5.2}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{33}{subsubsection.3.5.2}
-\contentsline {subsection}{\numberline {3.6}Datab\IeC {\'a}ze}{34}{subsection.3.6}
-\contentsline {subsubsection}{\numberline {3.6.1}P\IeC {\v r}ipojen\IeC {\'\i } do datab\IeC {\'a}ze}{35}{subsubsection.3.6.1}
-\contentsline {subsubsection}{\numberline {3.6.2}Mongoose sch\IeC {\'e}ma}{35}{subsubsection.3.6.2}
-\contentsline {subsubsection}{\numberline {3.6.3}Mongoose plugin}{36}{subsubsection.3.6.3}
-\contentsline {subsubsection}{\numberline {3.6.4}Z\IeC {\'a}kladn\IeC {\'\i } pr\IeC {\'a}ce s datab\IeC {\'a}z\IeC {\'\i }}{37}{subsubsection.3.6.4}
-\contentsline {subsubsection}{\numberline {3.6.5}Aggregation Framework}{38}{subsubsection.3.6.5}
+\contentsline {subsection}{\numberline {3.5}Inicializace pozice}{31}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Vykreslovac\IeC {\'\i } smy\IeC {\v c}ka}{32}{subsection.3.6}
+\contentsline {subsubsection}{\numberline {3.6.1}Omezen\IeC {\'\i }}{32}{subsubsection.3.6.1}
+\contentsline {subsection}{\numberline {3.7}Serverov\IeC {\'a} \IeC {\v c}\IeC {\'a}st}{32}{subsection.3.7}
+\contentsline {subsubsection}{\numberline {3.7.1}Zachycen\IeC {\'\i } HTTP po\IeC {\v z}adavku}{32}{subsubsection.3.7.1}
+\contentsline {subsubsection}{\numberline {3.7.2}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{33}{subsubsection.3.7.2}
+\contentsline {subsection}{\numberline {3.8}Datab\IeC {\'a}ze}{35}{subsection.3.8}
+\contentsline {subsubsection}{\numberline {3.8.1}P\IeC {\v r}ipojen\IeC {\'\i } do datab\IeC {\'a}ze}{35}{subsubsection.3.8.1}
+\contentsline {subsubsection}{\numberline {3.8.2}Mongoose sch\IeC {\'e}ma}{36}{subsubsection.3.8.2}
+\contentsline {subsubsection}{\numberline {3.8.3}Mongoose plugin}{36}{subsubsection.3.8.3}
+\contentsline {subsubsection}{\numberline {3.8.4}Z\IeC {\'a}kladn\IeC {\'\i } pr\IeC {\'a}ce s datab\IeC {\'a}z\IeC {\'\i }}{37}{subsubsection.3.8.4}
+\contentsline {subsubsection}{\numberline {3.8.5}Aggregation Framework}{38}{subsubsection.3.8.5}
 \contentsline {section}{\numberline {4}Rozvr\IeC {\v z}en\IeC {\'\i } aplikace}{39}{section.4}
 \contentsline {subsection}{\numberline {4.1}Hlavn\IeC {\'\i } str\IeC {\'a}nka}{39}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Autentifikace u\IeC {\v z}ivatele}{39}{subsection.4.2}

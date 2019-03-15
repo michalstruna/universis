@@ -295,11 +295,11 @@ Pro popis geometrických, astronomických či jiných fyzikálních vlastností 
 // TODO: Zdroje
 
 \begin{itemize}
-\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (popř. k~těžišti). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.
+\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (těžiště). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.
 
-\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se téměř o~kružnici.
+\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se tak téměř o~kružnici.
 
-\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (popř. k~těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.
+\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.
 
 \item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdáleností, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.
 
@@ -582,7 +582,14 @@ Funkce pro generování částic je uložena v~databázové kolekci typů těles
 
 Pohyb těles po eliptických drahách je v~aplikaci řešen především na základě Keplerových zákonů. V~této kapitole jsou uvedeny kompletní vzorce, v~aplikaci jsou ale samozřejmě výpočty optimalizované a~konstantní mezivýpočty jsou u~každého tělesa vypočteny pouze jednou a~uloženy do pomocného objektu.
 
+\subsection{Inicializace pozice}
+
 Při načtení scény je nejprve nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum dne, v němž těleso prošlo periapsidou.  Následně dojde k výpočtu rozdílu dnešního data a~data průchodu periapsidou. Nyní zbývá určit excentrickou anomálii -- úhel, jenž svírá spojnice periapsidy se středem orbity a~spojnice aktuální pozice tělesa se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.
+
+$$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * (t - t\textsubscript{0})$$
+\begin{center}
+\textit{E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0} -- čas v~pericentru}~\cite{kleczek}
+\end{center}
 
 \begin{figure}[H]
 \begin{center}
@@ -591,12 +598,9 @@ Při načtení scény je nejprve nutno inicializovat pozici všech těles. V~dat
 \end{center}
 \end{figure}
 
-$$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * (t - t\textsubscript{0})$$
-\begin{center}
-\textit{E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0} -- čas v~pericentru}~\cite{kleczek}\newline 
-\end{center}
-
 \footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
+
+\subsection{Vykreslovací smyčka}
 
 \subsubsection{Omezení}
 

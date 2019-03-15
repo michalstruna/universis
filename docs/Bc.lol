@@ -12,7 +12,7 @@
 \contentsline {lstlisting}{\numberline {12}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{33}{lstlisting.12}
 \contentsline {lstlisting}{\numberline {13}Automatizovan\IeC {\'a} tvorba modelov\IeC {\'y}ch t\IeC {\v r}\IeC {\'\i }d}{34}{lstlisting.13}
 \contentsline {lstlisting}{\numberline {14}P\IeC {\v r}ipojen\IeC {\'\i } k datab\IeC {\'a}zi v~aplikaci}{35}{lstlisting.14}
-\contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{35}{lstlisting.15}
+\contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{36}{lstlisting.15}
 \contentsline {lstlisting}{\numberline {16}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{36}{lstlisting.16}
 \contentsline {lstlisting}{\numberline {17}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{37}{lstlisting.17}
 \contentsline {lstlisting}{\numberline {18}Hashov\IeC {\'a}n\IeC {\'\i } hesel v Mongoose sch\IeC {\'e}matu}{51}{lstlisting.18}
