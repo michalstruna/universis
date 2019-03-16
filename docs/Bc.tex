@@ -290,20 +290,18 @@ Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se
 
 \subsection{Fyzikální a~astronomické pojmy}
 
-Pro popis geometrických, astronomických či jiných fyzikálních vlastností těles a~jejich eliptických orbit jsou určeny odborné termíny. V~této kapitole je stručně popsán význam některých z nich.
-
-// TODO: Zdroje
+Pro popis geometrických, astronomických či jiných fyzikálních vlastností těles a~jejich eliptických orbit jsou určeny odborné termíny. V~této kapitole je stručně popsán význam některých z nich.~\cite{kleczek}
 
 \begin{itemize}
-\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (těžiště). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.
+\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (těžiště). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
 
-\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se tak téměř o~kružnici.
+\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se tak téměř o~kružnici.~\cite{kleczek}
 
-\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.
+\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
 
-\item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdáleností, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.
+\item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdálenosti, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.~\cite{kleczek}
 
-\item \textbf{Velká poloosa (a)} -- Největší možný poloměr orbity. Jedná se o~aritmetický průměr z~apoapsidy a~periapsidy. V případě Země tato velikost činí 149~597~887~km. Z~této vzdálenosti byla dříve odvozena astronomická jednotka (AU). Definice této jednotky se ale časem vyvíjela a nakonec se ustálila na hodnotě 149~597~870~700~m.
+\item \textbf{Velká poloosa (a)} -- Největší možný poloměr orbity. Jedná se o~aritmetický průměr z~apoapsidy a~periapsidy. V případě Země tato velikost činí 149~597~887~km. Z~této vzdálenosti byla dříve odvozena astronomická jednotka (AU). Definice této jednotky se ale časem vyvíjela a nakonec se ustálila na hodnotě 149~597~870~700~m.~\cite{kleczek}
 \end{itemize}
 
 \section{Použité technologie}
@@ -493,26 +491,6 @@ Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, 
 
 \lstinputlisting[caption={Práce s vlastní knihovnou pro 3D grafiku}, language={JavaScript}]{SourceCodes/Scene.js}
 
-V~každém cyklu dojde u každého z~vykreslovaných těles k~následujícím krokům:
-
-\begin{itemize}
-\item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
-
-\item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
-
-\item \textbf{Výpočet okamžité rychlosti} dosazením vzdálenosti od těžiště do vzorce představeném v kapitole 3.5.5,
-
-\item \textbf{Výpočet procentuální části obvodu dráhy}, kterou těleso urazí za jednotku času (dáno dle FPS, v ideálním případě za 16 ms).
-
-\item \textbf{Nastavení nových souřadnic} tělesa získaných z metody  \textit{orbitPath.getPoint(angle)},
-
-\item \textbf{Pootočení tělesa kolem osy} o~úhel za jednotku času vypočtený z rotační periody,
-
-\item \textbf{Výpočet vzdáleností} od kamery a~od Země,
-
-\item \textbf{Aktualizace viditelnosti, obsahu a~pozice popisku} a~orbity tělesa.
-\end{itemize}
-
 \subsubsection{Těleso}
 
 Samotné těleso je reprezentováno koulí, tedy objektem s~geometrií \textit{THREE.SphereGeometry}. Pokud má těleso rozdílný rovníkový a~polární průměr, je výsledné zploštění řešeno transformaci \textit{new THREE.Matrix4().makeScale()}. Materiálem je \textit{THREE.MeshBasicMaterial} (tělesa emitující světlo) nebo \textit{THREE.MeshPhongMaterial} (tělesa pohlcující světlo). Povrch tělesa tvoří 2D~textura \textit{THREE.Texture} tvořená obrázkem ve formátu \textit{JPG}.
@@ -580,27 +558,84 @@ Funkce pro generování částic je uložena v~databázové kolekci typů těles
 
 \subsection{Pohyb těles}
 
-Pohyb těles po eliptických drahách je v~aplikaci řešen především na základě Keplerových zákonů. V~této kapitole jsou uvedeny kompletní vzorce, v~aplikaci jsou ale samozřejmě výpočty optimalizované a~konstantní mezivýpočty jsou u~každého tělesa vypočteny pouze jednou a~uloženy do pomocného objektu.
+Pohyb těles po eliptických drahách je v~aplikaci řešen především na základě Keplerových zákonů. V~této kapitole jsou uvedeny kompletní vzorce, v~aplikaci jsou ale samozřejmě výpočty optimalizované a~konstantní mezivýpočty jsou u~každého tělesa provedeny pouze jednou a~uloženy do pomocného objektu.
 
-\subsection{Inicializace pozice}
+\subsubsection{Inicializace pozice}
 
-Při načtení scény je nejprve nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum dne, v němž těleso prošlo periapsidou.  Následně dojde k výpočtu rozdílu dnešního data a~data průchodu periapsidou. Nyní zbývá určit excentrickou anomálii -- úhel, jenž svírá spojnice periapsidy se středem orbity a~spojnice aktuální pozice tělesa se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.
+Při načtení scény je nejprve nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum, v němž těleso prošlo periapsidou. Následně dojde k~výpočtu rozdílu dnešního data a~data průchodu periapsidou. Dalším krokem je výpočet excentrické anomálie E~--~úhlu, jenž svírá spojnice periapsidy se středem orbity a~spojnice pozice tělesa na pomyslné kruhové orbitě se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.~\cite{kleczek}
 
-$$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * (t - t\textsubscript{0})$$
+$$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * ((t - t\textsubscript{0})~mod~T)$$
 \begin{center}
 \textit{E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0} -- čas v~pericentru}~\cite{kleczek}
 \end{center}
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=450pt]{Images/Initial.png}
+\includegraphics[width=350pt]{Images/Initial.png}
 \caption[Výpočet výchozí pozice tělesa]{Výpočet výchozí pozice tělesa (poměry velikosti nejsou realistické) \footnotemark[1]}
 \end{center}
 \end{figure}
 
 \footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
-\subsection{Vykreslovací smyčka}
+Vyjádření excentrické anomálie E~z~Keplerovy rovnice ovšem není možné. Pro výpočet byla proto zvolena Newtonova iterační metoda, pomocí níž se výsledek jednotlivými kroky stále zpřesňuje, až dokud přesnost nedosáhne požadované hranice.
+
+$$E\textsubscript{n} = \frac{2 * \pi}{T} + \epsilon * sin(E\textsubscript{n - 1})$$
+\begin{center}
+\textit{E\textsubscript{n} -- excentrická anomálie n-té iterace, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu}~\cite{michalrepik}
+\end{center}
+
+Z~vypočtené excentrické anomálie je možné získat skutečnou anomálii \textit{v} -- úhel mezi spojnicí těžiště a~periapsidy a~spojnicí těžiště a~tělesa.
+
+$$v = 2 * arctg\Bigg(\sqrt{\frac{1 + \epsilon}{1 - \epsilon}} * tg\bigg(\frac{E}{2}\bigg)\Bigg)$$
+\begin{center}
+\textit{E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita}~\cite{michalrepik}
+\end{center}
+
+Pro další účely je ovšem třeba úhel mezi spojnicemi středu a~periapsidy a~středu a~tělesa. K tomu poslouží jednoduchá úprava // TODO.
+
+\subsubsection{Inicializace rotace}
+
+Inicializace rotace je mnohem elementárnější problém, než inicializace pozice, protože se počítá s~tím, že rychlost rotace tělesa je (v~rámci stejného místa na povrchu) konstantní. V~databázi je uložen úhel rotace tělesa kolem své osy k~1.~1.~2019 v~0.00:00. Následně dojde ke zjištění času, který od této doby uplynul a~k~výpočtu úhlu, o~něhož se stihlo za tento rozdíl časů těleso pootočit kolem své osy.
+
+$$\alpha = \alpha\textsubscript{0} + \Bigg(\frac{2 * \pi}{T} * \bigg((t - t\textsubscript{0})~mod~T\bigg)\Bigg)$$
+\begin{center}
+\textit{$\alpha$ -- aktuální úhel rotace, $\alpha\textsubscript{0}$ -- inicializační úhel rotace, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0} -- inicializační čas}
+\end{center}
+
+\subsubsection{Vykreslovací smyčka}
+
+V~každém cyklu dojde u každého z~vykreslovaných těles k~následujícím krokům:
+
+\begin{itemize}
+\item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
+
+\begin{center}
+$\Delta t = t - t\textsubscript{0}$
+
+\textit{t -- aktuální čas, t\textsubscript{0} -- čas posledního vykreslení}
+\end{center}
+
+\item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
+
+\item \textbf{Výpočet okamžité rychlosti} na základě plochy orbity, kterou těleso urazí za jednotku času a~aktuální vzdálenosti od těžiště (2.~Keplerův zákon),
+
+\begin{center}
+$$v = \frac{2 * \pi}{T * d}  * \Bigg(\frac{d\textsubscript{max} + d\textsubscript{min}}{2}\Bigg) ^2 * \sqrt{1 - e^2}$$
+
+\textit{v -- rychlost, T -- perioda oběhu, d -- vzdálenost od tělesa, d\textsubscript{max}~--~apoapsida, d\textsubscript{min}~--~periapsida, e -- excentricita}~\cite{kleczek}
+\end{center}
+
+\item \textbf{Výpočet procentuální části obvodu dráhy}, kterou těleso urazí za jednotku času (dáno dle FPS, v ideálním případě za 16 ms).
+
+\item \textbf{Nastavení nových souřadnic} tělesa získaných z metody  \textit{orbitPath.getPoint(angle)},
+
+\item \textbf{Pootočení tělesa kolem osy} o~úhel za jednotku času vypočtený z rotační periody,
+
+\item \textbf{Výpočet vzdáleností} od kamery a~od Země,
+
+\item \textbf{Aktualizace viditelnosti, obsahu a~pozice popisku} a~orbity tělesa.
+\end{itemize}
 
 \subsubsection{Omezení}
 
@@ -1081,6 +1116,9 @@ PETERKA, Jiří. Simulace vs. emulace. \textit{earchiv.cz}. [online]. 1992. [cit
 \bibitem{rees}
 REES, Martin, Vesmír. Přeložil Pavel PŘÍHODA. Praha: Knižní klub, 2006 [cit. 25. 10. 2018]. ISBN 80-242-1668-x.
 
+\bibitem{michalrepik}
+ŘEPÍK, Michal. Keplerova rovnice. \textit{Michal Řepík}. [online]. 22.~12.~2014. [cit. 16.~3.~2019]. Dostupné z:~{\ttfamily\url{http://www.michalrepik.cz/matematika/keplerova_rovnice.html}}.
+
 \bibitem{sass}
 Sass Basics.
 \textit{Sass.} [online]. [cit.\,22.~2.~2019].
@@ -1100,6 +1138,8 @@ Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
 Úvod - Základy systému Git.
 \textit{git.} [online]. [cit.\,22.~2.~2019]. 
 Dostupné z: {\ttfamily \url{https://git-scm.com/book/cs/v1/%C3%9Avod-Z%C3%A1klady-syst%C3%A9mu-Git}}.
+
+
 
 \end{thebibliography}
 
