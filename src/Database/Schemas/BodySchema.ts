@@ -173,16 +173,9 @@ const BodySchema = new Schema({
             max: 360
         },
 
-        startAngle: {
-            type: Number,
-            required: false,
-            min: 0, max: 360
-        },
-
-        period: {
-            type: Number,
-            required: false,
-            min: 0
+        periapsisDate: {
+            type: String,
+            required: false
         },
 
         rotation: {

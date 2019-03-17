@@ -8,15 +8,15 @@
 \contentsline {lstlisting}{\numberline {8}Pr\IeC {\'a}ce s vlastn\IeC {\'\i } knihovnou pro 3D grafiku}{26}{lstlisting.8}
 \contentsline {lstlisting}{\numberline {9}V\IeC {\'y}po\IeC {\v c}et geometrie orbity t\IeC {\v e}lesa}{27}{lstlisting.9}
 \contentsline {lstlisting}{\numberline {10}Napln\IeC {\v e}n\IeC {\'\i } geometrie \IeC {\v c}\IeC {\'a}sticemi ve tvaru koule}{30}{lstlisting.10}
-\contentsline {lstlisting}{\numberline {11}Definice cesty v REST~API}{33}{lstlisting.11}
-\contentsline {lstlisting}{\numberline {12}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{34}{lstlisting.12}
-\contentsline {lstlisting}{\numberline {13}Automatizovan\IeC {\'a} tvorba modelov\IeC {\'y}ch t\IeC {\v r}\IeC {\'\i }d}{35}{lstlisting.13}
-\contentsline {lstlisting}{\numberline {14}P\IeC {\v r}ipojen\IeC {\'\i } k datab\IeC {\'a}zi v~aplikaci}{36}{lstlisting.14}
-\contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{36}{lstlisting.15}
-\contentsline {lstlisting}{\numberline {16}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{37}{lstlisting.16}
-\contentsline {lstlisting}{\numberline {17}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{38}{lstlisting.17}
-\contentsline {lstlisting}{\numberline {18}Hashov\IeC {\'a}n\IeC {\'\i } hesel v Mongoose sch\IeC {\'e}matu}{52}{lstlisting.18}
-\contentsline {lstlisting}{\numberline {19}Uk\IeC {\'a}zka form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } jednotek}{53}{lstlisting.19}
-\contentsline {lstlisting}{\numberline {20}Uk\IeC {\'a}zka zaokrouhlov\IeC {\'a}n\IeC {\'\i } hodnot}{53}{lstlisting.20}
-\contentsline {lstlisting}{\numberline {21}Tvorba vlastn\IeC {\'\i }ch jednotek}{53}{lstlisting.21}
-\contentsline {lstlisting}{\numberline {22}P\IeC {\v r}\IeC {\'\i }klad pou\IeC {\v z}it\IeC {\'\i } komponenty EventsArea}{54}{lstlisting.22}
+\contentsline {lstlisting}{\numberline {11}Definice cesty v REST~API}{35}{lstlisting.11}
+\contentsline {lstlisting}{\numberline {12}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{36}{lstlisting.12}
+\contentsline {lstlisting}{\numberline {13}Automatizovan\IeC {\'a} tvorba modelov\IeC {\'y}ch t\IeC {\v r}\IeC {\'\i }d}{36}{lstlisting.13}
+\contentsline {lstlisting}{\numberline {14}P\IeC {\v r}ipojen\IeC {\'\i } k datab\IeC {\'a}zi v~aplikaci}{37}{lstlisting.14}
+\contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{38}{lstlisting.15}
+\contentsline {lstlisting}{\numberline {16}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{39}{lstlisting.16}
+\contentsline {lstlisting}{\numberline {17}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{40}{lstlisting.17}
+\contentsline {lstlisting}{\numberline {18}Hashov\IeC {\'a}n\IeC {\'\i } hesel v Mongoose sch\IeC {\'e}matu}{54}{lstlisting.18}
+\contentsline {lstlisting}{\numberline {19}Uk\IeC {\'a}zka form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } jednotek}{55}{lstlisting.19}
+\contentsline {lstlisting}{\numberline {20}Uk\IeC {\'a}zka zaokrouhlov\IeC {\'a}n\IeC {\'\i } hodnot}{55}{lstlisting.20}
+\contentsline {lstlisting}{\numberline {21}Tvorba vlastn\IeC {\'\i }ch jednotek}{55}{lstlisting.21}
+\contentsline {lstlisting}{\numberline {22}P\IeC {\v r}\IeC {\'\i }klad pou\IeC {\v z}it\IeC {\'\i } komponenty EventsArea}{56}{lstlisting.22}

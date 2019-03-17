@@ -128,6 +128,7 @@ export default {
         composition: 'Složení',
         escapeVelocity: 'Úniková rychlost',
         gravitationalAcceleration: 'Gravit. zrychlení',
+        gravitationalParameter: 'Gravit. parametr',
 
         orbit: 'Dráha',
         semiMajorAxis: 'Velká poloosa',

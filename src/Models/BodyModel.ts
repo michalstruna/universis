@@ -17,6 +17,8 @@ export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Si
             { $match: filter },
             { $lookup: { from: 'bodytypes', localField: 'typeId', foreignField: '_id', as: 'type' } },
             { $lookup: { from: 'bodyevents', localField: '_id', foreignField: 'bodyId', as: 'events' } },
+            { $lookup: { from: 'bodies', localField: 'parentId', foreignField: '_id', as: 'parent' } },
+            { $unwind: '$parent' },
             {
                 $lookup: {
                     from: 'bodyposts',

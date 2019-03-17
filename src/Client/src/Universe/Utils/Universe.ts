@@ -195,6 +195,7 @@ class Universe implements Universis.Universe {
 
             orbit.material.opacity = visibility
             let fromCenter
+            let velocity
 
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
@@ -206,7 +207,8 @@ class Universe implements Universis.Universe {
                 fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
 
                 if (fromCenter) {
-                    body.orbit.userData.angle += (Physics.getAngleVelocity(body.data.temp.orbitAreaPerSecond, body.data.orbit.circuit, fromCenter) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
+                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
+                    body.orbit.userData.angle += (Physics.getOrbitAngleVelocity(body.data, velocity) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
                 }
 
                 if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
@@ -225,7 +227,7 @@ class Universe implements Universis.Universe {
                 vector.x = (vector.x + 1) / 2 * window.innerWidth
                 vector.y = -(vector.y - 1) / 2 * window.innerHeight
                 body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-                this.updateLabel(body, fromCenter)
+                this.updateLabel(body, fromCenter, velocity)
             } else {
                 body.label.style.transform = 'translateX(-1000px)'
             }
@@ -237,9 +239,10 @@ class Universe implements Universis.Universe {
      * Get label for body.
      * @param body
      * @param fromCenter
+     * @param velocity
      * @returns Label.
      */
-    private updateLabel(body: Universis.Universe.Body.Container, fromCenter?: number): void {
+    private updateLabel(body: Universis.Universe.Body.Container, fromCenter?: number, velocity?: number): void {
         const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
         const fromCamera = this.scene.getDistance(body.mesh)
 
@@ -249,7 +252,6 @@ class Universe implements Universis.Universe {
         if (this.isFromCameraVisible) rows.push(Units.toFull(fromCamera, Units.SIZE.KM, Units.SIZE))
 
         if (fromCenter) {
-            const velocity = Physics.getVelocity(body.data.temp.orbitAreaPerSecond, fromCenter)
             if (this.isFromCenterVisible) rows.push(Units.toFull(fromCenter, Units.SIZE.KM, Units.SIZE))
             if (this.isVelocityVisible) rows.push(Units.toFull(velocity, Units.VELOCITY.KM_S, Units.VELOCITY))
         }

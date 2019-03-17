@@ -53,6 +53,7 @@ class Route {
                     }
                 })
                 .catch(error => {
+                    console.log(error)
                     response.status(error.code).send(error)
                 })
         }

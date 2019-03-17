@@ -85,6 +85,11 @@ declare namespace Universis {
                 mass: number
 
                 /**
+                 * Standard gravitational parameter [km^3/s^2].
+                 */
+                gravitationalParameter: number
+
+                /**
                  * Density of body [kg/m^3].
                  */
                 density: number
@@ -194,11 +199,15 @@ declare namespace Universis {
                      */
                     pericenter: number
 
-
                     /**
-                     * Semi-major axis of body [km].
+                     * Semi-major axis of orbit [km].
                      */
                     semiMajorAxis: number
+
+                    /**
+                     * Semi-minor axis of orbit [km].
+                     */
+                    semiMinorAxis: number
 
                     /**
                      * Eccentricity of orbit.
@@ -346,16 +355,9 @@ declare namespace Universis {
                 parentId?: string
 
                 /**
-                 * Temporary data for animations.
+                 * Parent of body.
                  */
-                temp?: {
-
-                    /**
-                     * Count of km2 per second.
-                     */
-                    orbitAreaPerSecond?: number
-
-                }
+                parent?: Simple
 
             }
 

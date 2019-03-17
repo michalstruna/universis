@@ -60,7 +60,8 @@ class BodyData extends StatelessComponent<IProps> {
                                 </section>
                             ),
                             [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S, Units.VELOCITY),
-                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2, Units.ACCELERATION)
+                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2, Units.ACCELERATION),
+                            [strings.gravitationalParameter]: Units.toFull(body.gravitationalParameter, Units.GRAVITATIONAL_PARAMETER.KM3_S2)
                         }} />
                     <DataTable
                         title={strings.orbit}

@@ -1,5 +1,4 @@
 import Physics from '../../Utils/Physics'
-import Units from '../../Client/src/Utils/Utils/Units'
 
 /**
  * Plugin to fill fields of body schema with calculated data.
@@ -9,7 +8,7 @@ const FillBodyPlugin = (schema) => {
 
     schema.post('find', docs => {
         for (const doc of docs) {
-            fillBody(doc)
+            fillBody(doc, docs)
         }
     })
 
@@ -27,28 +26,33 @@ const FillBodyPlugin = (schema) => {
 
 // Za kolik let 360°?
 
-const fillBody = (body: Universis.Universe.Body.Simple) => {
+const fillBody = (body: Universis.Universe.Body.Simple, bodies?: Universis.Universe.Body.Simple[]) => {
+    const parent = bodies ? bodies.find(item => (body.parentId && item._id.toString() === body.parentId.toString())) : body.parent
     body.diameter.y = Physics.getDiameterY(body)
     body.diameter.z = Physics.getDiameterZ(body)
-    body.flattening = Physics.getFlattening(body)
     body.circuit = Physics.getBodyCircuit(body)
-    body.surface = Physics.getSurface(body)
     body.volume = Physics.getVolume(body)
+    body.surface = Physics.getSurface(body)
+    body.flattening = Physics.getFlattening(body)
     body.density = Physics.getDensity(body)
-    body.escapeVelocity = Physics.getEscapeVelocity(body)
-    body.luminosity = Physics.getLuminosity(body)
-    body.gravitationalAcceleration = Physics.getGravitationalAcceleration(body)
     body.axis.velocity = Physics.getAxisVelocity(body)
+    body.escapeVelocity = Physics.getEscapeVelocity(body)
+    body.gravitationalAcceleration = Physics.getGravitationalAcceleration(body)
+    body.luminosity = Physics.getLuminosity(body)
+    body.gravitationalParameter = Physics.getGravitationalParameter(body)
 
-    if (body.orbit) {
-        body.orbit.circuit = Physics.getOrbitCircuit(body)
+    if (body.orbit && parent) {
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
+        body.orbit.semiMinorAxis = Physics.getSemiMinorAxis(body)
+        body.orbit.circuit = Physics.getOrbitCircuit(body)
+        // TODO: Obsah orbity?
+        body.orbit.period = Physics.getOrbitPeriod(body, parent)
 
-        body.temp = {
-            orbitAreaPerSecond: Physics.getOrbitArea(body) / (31556926 * body.orbit.period)
+        body.orbit.velocity = {
+            min: Physics.getOrbitVelocity(body, parent, body.orbit.apocenter),
+            avg: Physics.getOrbitVelocity(body, parent, body.orbit.semiMajorAxis),
+            max: Physics.getOrbitVelocity(body, parent, body.orbit.semiMinorAxis)
         }
-
-        body.orbit.velocity = Physics.getOrbitVelocity(body)
     }
 }
 

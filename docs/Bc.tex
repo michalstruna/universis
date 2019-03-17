@@ -13,8 +13,6 @@
 \setlist{itemsep=0pt,topsep=2pt}
 \renewcommand{\lstlistingname}{Zdrojový kód}
 \renewcommand{\lstlistlistingname}{Seznam zdrojových kódů}
-%\lstset{numberbychapter=false}
-
 
 \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
   \do\-}
@@ -297,6 +295,14 @@ Pro popis geometrických, astronomických či jiných fyzikálních vlastností 
 
 \item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se tak téměř o~kružnici.~\cite{kleczek}
 
+\item \textbf{Keplerovy zákony} -- Jedná se o~3 zákony popisující pohyb planet kolem Slunce. Je možné je aplikovat i~na jiná tělesa pohybující se po eliptické oběžné dráze.
+
+\begin{enumerate}
+\item „Dráha planety je elipsa, v jejímž jednom ohnisku se nachází Slunce.“
+\item „Plochy opsané průvodičem planety jsou za stejnou dobu konstantní.“
+\item „Druhé mocniny oběžných dob planet jsou ve stejném poměru, jako třetí mocniny velkých poloos.“
+\end{enumerate}
+
 \item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
 
 \item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdálenosti, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.~\cite{kleczek}
@@ -359,6 +365,7 @@ Pro spravované soubory používá tři stavy. Při změně souboru se nastaví 
 
 \lstinputlisting[caption={Ukázka práce s~NPM}, language={JavaScript}]{SourceCodes/Npm.txt}.
 
+\vspace*{-1.5cm}
 \subsection{Preprocesor SASS}
 
 Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování selektorů, proměnné, funkce, podmínky a~další vlastnosti zlepšující čitelnost kódu. Pro kompatibilitu s~prohlížeči je nutné ho transpilovat do \textit{CSS}.~\cite{sass}
@@ -518,7 +525,6 @@ Orbita je objekt s geometrií \textit{THREE.Geometry}, jejíž eliptický tvar j
 \end{center}
 \end{figure}
 
-
 \subsubsection{Světlo}
 
 Pokud je těleso zdrojem viditelného světla, je mezi jeho potomky navíc také bodové světlo\newline \textit{THREE.PointLight}, které emituje světlo o~stejné barvě a~intenzitě, jakou má reálné těleso.
@@ -558,12 +564,62 @@ Funkce pro generování částic je uložena v~databázové kolekci typů těles
 
 \subsection{Pohyb těles}
 
-Pohyb těles po eliptických drahách je v~aplikaci řešen především na základě Keplerových zákonů. V~této kapitole jsou uvedeny kompletní vzorce, v~aplikaci jsou ale samozřejmě výpočty optimalizované a~konstantní mezivýpočty jsou u~každého tělesa provedeny pouze jednou a~uloženy do pomocného objektu.
+\subsubsection{Výpočet konstatních dat}
+
+K~vypočtení konstantních hodnot dojde pouze jednou při načtení těles z~databáze. Pro úplnost jsou zde uvedeny i~výpočty, které přímo nesouvisí s~pohybem tělesa. O~jejich dopočítání se stará \textit{FillBodyPlugin} zaregistrovaný na schématu těles. Ten je popsán v~kapitole \textit{3.6.3 Mongoose plugin}. Jako první jsou u~každého tělesa dopočítány \textbf{poloosy orbity} a~\textbf{gravitační parametr}:
+
+\vspace*{-0.5cm}
+$$a = \frac{d_{max} - d_{min}}{2}~~~~~~~~~~b = a - \sqrt{1 - e^2}~~~~~~~~~~\mu = M * G$$
+\begin{center}
+\textit{a -- hlavní poloosa, b -- vedlejší poloosa, $d_{max}$ -- apoapsida, $d_{min}$ -- periapsida, e~--~excentricita, $\mu$ -- gravitační parametr, M -- hmotnost tělesa}
+\end{center}
+
+Výpočet \textbf{obvodu} a~\textbf{obsahu orbity} a~\textbf{oběžné doby}:
+
+\vspace*{-0.5cm}
+$$O \approx \pi * \sqrt{2 * (a^2 + b^2)}~~~~~~~~~~S = \pi * a * b~~~~~~~~~~T = 2 * \pi * \sqrt{\frac{a^3}{\mu}}$$
+\begin{center}
+\textit{O -- obvod orbity, S -- obsah orbity, a -- hlavní poloosa, b -- vedlejší poloosa, T -- oběžná doba, $\mu$ -- gravitační parametr}
+\end{center}
+
+Výpočet \textbf{rovníkového obvodu}, \textbf{objemu} a~odhadovaného \textbf{povrchu tělesa}:
+
+\vspace*{-0.5cm}
+$$O \approx \pi * \sqrt{2 * (r_{x}^2 + r_{z}^2)}~~~~~~~~~~V \doteq \frac{4}{3} * \pi * r_{x} * r_{y} * r_{z}~~~~~~~~~~S \doteq 4 * \pi * r_{x} * r_{y}$$
+\begin{center}
+\textit{V -- objem tělesa, r -- poloměr telesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}
+\end{center}
+
+Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo ~\textbf{minimální orbitální rychlosti}:
+
+\vspace*{-0.5cm}
+$$\varrho = \frac{M}{V}~~~~~~~~~~f = 1 - \frac{r_{y}}{r_{x}}~~~~~~~~~~v_{max} = \sqrt{\mu * \frac{2}{d_{min}} - \frac{1}{a}}$$
+\begin{center}
+\textit{$\varrho$ -- hustota, V -- objem tělesa, r -- poloměr tělesa, O -- rovníkový obvod, S -- povrch tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- maximální rychlost, $d_{min}$, periapsida}
+\end{center}
+
+Výpočet \textbf{gravitačního zrychlení}, \textbf{únikové rychlosti} a~pokud těleso emituje viditelné světlo, tak i~\textbf{svítivosti}:
+
+\vspace*{-0.5cm}
+$$a = G * M * r^2~~~~~~~~~~v = \sqrt{\frac{2 * \mu}{r}}~~~~~~~~~~L = 4 * \pi * r^2 * \sigma * T^4$$
+\begin{center}
+\textit{a -- gravitační zrychlení, M -- hmotnost, r -- poloměr, v -- úniková rychlost, $\mu$ -- gravitační parametr, L -- svítivost, $\sigma$ -- Stefan-Boltzmannova konstanta, T -- povrchová teplota}
+\end{center}
+
+Výpočet \textbf{rovníkové rychlosti rotace} a~\textbf{úhlové rychlosti}:
+
+\vspace*{-0.5cm}
+$$v = \frac{O}{T}~~~~~~~~~~\omega = \frac{2 * \pi}{T}$$
+\begin{center}
+\textit{v -- rychlost rotace, O -- rovníkový obvod, T -- perioda rotace, $\omega$ -- úhlová rychlost}
+\end{center}
+
 
 \subsubsection{Inicializace pozice}
 
-Při načtení scény je nejprve nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum, v němž těleso prošlo periapsidou. Následně dojde k~výpočtu rozdílu dnešního data a~data průchodu periapsidou. Dalším krokem je výpočet excentrické anomálie E~--~úhlu, jenž svírá spojnice periapsidy se středem orbity a~spojnice pozice tělesa na pomyslné kruhové orbitě se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.~\cite{kleczek}
+Při načtení scény je nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum, v~němž těleso prošlo periapsidou. Následně dojde k~výpočtu rozdílu dnešního data a~data průchodu periapsidou. Dále dojde k výpočtu excentrické anomálie E~--~úhlu, jenž svírá spojnice periapsidy se středem orbity a~spojnice pozice tělesa na pomyslné kruhové orbitě se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.~\cite{kleczek}
 
+\vspace*{-0.5cm}
 $$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * ((t - t\textsubscript{0})~mod~T)$$
 \begin{center}
 \textit{E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0} -- čas v~pericentru}~\cite{kleczek}
@@ -572,49 +628,82 @@ $$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * ((t - t\textsubscript{0})~mod~T)$
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=350pt]{Images/Initial.png}
-\caption[Výpočet výchozí pozice tělesa]{Výpočet výchozí pozice tělesa (poměry velikosti nejsou realistické) \footnotemark[1]}
+\caption[Výpočet výchozí pozice tělesa]{Výpočet výchozí pozice tělesa (poměry velikostí nejsou realistické) \footnotemark[1]}
 \end{center}
 \end{figure}
 
 \footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
-Vyjádření excentrické anomálie E~z~Keplerovy rovnice ovšem není možné. Pro výpočet byla proto zvolena Newtonova iterační metoda, pomocí níž se výsledek jednotlivými kroky stále zpřesňuje, až dokud přesnost nedosáhne požadované hranice.
+\vspace*{-0.5cm}
+Vyjádření excentrické anomálie E~z~Keplerovy rovnice není možné. Pro přibližný výpočet byla proto zvolena Newtonova iterační metoda, pomocí níž se výsledek jednotlivými kroky stále zpřesňuje, až dokud přesnost nedosáhne požadované hranice přesnosti, což je v tomto případě miliontina radiánu.
 
+\vspace*{-0.5cm}
 $$E\textsubscript{n} = \frac{2 * \pi}{T} + \epsilon * sin(E\textsubscript{n - 1})$$
 \begin{center}
 \textit{E\textsubscript{n} -- excentrická anomálie n-té iterace, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu}~\cite{michalrepik}
 \end{center}
 
-Z~vypočtené excentrické anomálie je možné získat skutečnou anomálii \textit{v} -- úhel mezi spojnicí těžiště a~periapsidy a~spojnicí těžiště a~tělesa.
+Z~E~je možné získat \textbf{skutečnou anomálii} \textit{v} -- úhel periapsida-Slunce-Země.
 
+\vspace*{-0.5cm}
 $$v = 2 * arctg\Bigg(\sqrt{\frac{1 + \epsilon}{1 - \epsilon}} * tg\bigg(\frac{E}{2}\bigg)\Bigg)$$
 \begin{center}
-\textit{E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita}~\cite{michalrepik}
+\textit{v -- skutečná anomálie, E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita}~\cite{michalrepik}
 \end{center}
 
-Pro další účely je ovšem třeba úhel mezi spojnicemi středu a~periapsidy a~středu a~tělesa. K tomu poslouží jednoduchá úprava // TODO.
+Dále je třeba \textbf{úhel mezi spojnicemi střed-periapsida a~střed-těleso}. To je problém trojúhelníku střed-Slunce-Země, na který se aplikuje kosinová věta.
+
+\vspace*{-0.5cm}
+%$$|SZ| = \sqrt{\epsilon^2 + d^2 * 2 * \epsilon * d * cos(\pi - v)}$$
+$$\varphi = arccos\Bigg(\frac{d^2 - \epsilon^2 - d\textsubscript{s}^2}{2 * \epsilon * d\textsubscript{s}}\Bigg)$$
+\begin{center}
+\textit{d -- |Země-těžiště|, d\textsubscript{s} -- |Země-střed|, $\epsilon$ -- absolutní excentricita}~\cite{michalrepik}
+\end{center}
+
+Knihovna THREE.js umožňuje získat souřadnice bodu na elipse podle zadaného úhlu. Těleso tak může být umístěno do výchozí pozice odpovídající úhlu $\varphi$ v~rámci jeho orbity.
 
 \subsubsection{Inicializace rotace}
 
-Inicializace rotace je mnohem elementárnější problém, než inicializace pozice, protože se počítá s~tím, že rychlost rotace tělesa je (v~rámci stejného místa na povrchu) konstantní. V~databázi je uložen úhel rotace tělesa kolem své osy k~1.~1.~2019 v~0.00:00. Následně dojde ke zjištění času, který od této doby uplynul a~k~výpočtu úhlu, o~něhož se stihlo za tento rozdíl časů těleso pootočit kolem své osy.
+U inicializace rotace se počítá s~tím, že rychlost rotace tělesa je (v~rámci stejného místa na povrchu) konstantní. V~databázi je uložen úhel rotace tělesa kolem své osy k~1.~1.~2019 v~0.00:00. Následně dojde ke zjištění času, který od této doby uplynul a~k~výpočtu úhlu, o~něhož se stihlo za tento rozdíl časů těleso pootočit kolem své osy.
 
+\vspace*{-0.5cm}
 $$\alpha = \alpha\textsubscript{0} + \Bigg(\frac{2 * \pi}{T} * \bigg((t - t\textsubscript{0})~mod~T\bigg)\Bigg)$$
 \begin{center}
-\textit{$\alpha$ -- aktuální úhel rotace, $\alpha\textsubscript{0}$ -- inicializační úhel rotace, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0} -- inicializační čas}
+\textit{$\alpha$ -- úhel rotace, $\alpha\textsubscript{0}$ -- výchozí úhel, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0}~--~výchozí čas}
 \end{center}
 
 \subsubsection{Vykreslovací smyčka}
 
-V~každém cyklu dojde u každého z~vykreslovaných těles k~následujícím krokům:
-
-\begin{itemize}
-\item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
+Jakmile jsou pozice a rotace těles inicializovány, je třeba je s~ubíhajícím časem aktualizovat. Nejdříve je nutné zjistit, \textbf{kolik milisekund uplynulo} od posledního vykreslení.
 
 \begin{center}
 $\Delta t = t - t\textsubscript{0}$
 
 \textit{t -- aktuální čas, t\textsubscript{0} -- čas posledního vykreslení}
 \end{center}
+
+Dalším důležitým údajem je aktuální \textbf{vzdálenost tělesa od těžiště}. Celý výpočet uskuteční knihovní metoda v THREE.js \code{bodyPosition.distanceTo(parentPosition)}. Pokud víme, jaký obsah má orbita
+
+\vspace*{-0.5cm}
+$$S = \pi * a * b = \pi * \Bigg(\frac{d\textsubscript{max} - d\textsubscript{min}}{2}\Bigg)^2 * \sqrt{1 - e^2}$$
+\begin{center}
+\textit{S -- plocha orbity, a -- velká poloosa, b -- malá poloosa, d\textsubscript{min} -- periapsida, d\textsubscript{max}~--~apoapsida, e -- excentricita}~\cite{kleczek}
+\end{center}
+
+ a~jakou orbitální periodu má těleso, jsme schopni i~určit, jakou \textbf{plochu} musí opsat průvodič \textbf{za jednotku času}. Dle 2. Keplerova zákona je plošná rychlost konstantní.~\cite{kleczek}
+
+\vspace*{-0.5cm}
+$$v\textsubscript{S} = \frac{S}{T}$$
+\begin{center}
+\textit{v\textsubscript{S} -- plošná rychlost, S -- plocha orbity, T -- perioda oběhu}
+\end{center}
+
+Nyní je třeba vypočítat, 
+
+\begin{itemize}
+\item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
+
+
 
 \item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
 

@@ -19,6 +19,89 @@ class Physics {
     private static STEFAN_BOLTZMANN = 5.670367e-8
 
     /**
+     * Calculate semi-major axis.
+     * @param body
+     * @returns Semi-major axis.
+     */
+    public static getSemiMajorAxis(body: Universis.Universe.Body.Simple): number {
+        if (!body.orbit) {
+            return null
+        }
+
+        return Math.floor((body.orbit.apocenter + body.orbit.pericenter) / 2)
+    }
+
+    /**
+     * Calculate semi-major axis.
+     * @param body
+     * @returns Semi-major axis.
+     */
+    public static getSemiMinorAxis(body: Universis.Universe.Body.Simple): number {
+        if (!body.orbit) {
+            return null
+        }
+
+        if (body.orbit.semiMinorAxis) {
+            body.orbit.semiMajorAxis = this.getSemiMajorAxis(body)
+        }
+
+        return Math.floor(body.orbit.semiMajorAxis - Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2)))
+    }
+
+    /**
+     * Calculate gravitational parameter mi.
+     * @param body
+     * @param parent
+     * @returns Standard gravitational parameter.
+     */
+    public static getGravitationalParameter(body: Universis.Universe.Body.Simple): number {
+        if (!body.orbit) {
+            return null
+        }
+
+        return this.G * body.mass / 10e8
+    }
+
+    /**
+     * Get orbit period of body.
+     * @param body Body.
+     * @param parent Parent body.
+     * @returns Orbit period [years].
+     */
+    public static getOrbitPeriod(body: Universis.Universe.Body.Simple, parent: Universis.Universe.Body.Simple): number {
+        if (!body.orbit || !parent) {
+            return null
+        }
+
+        if (!parent.gravitationalParameter) {
+            parent.gravitationalParameter = this.getGravitationalParameter(parent)
+        }
+
+        return 2 * Math.PI * Math.sqrt(Math.pow(body.orbit.semiMajorAxis, 3) / parent.gravitationalParameter) / 31556926 // TODO: Seconds to years.
+    }
+
+    /**
+     * Get circuit of body orbit.
+     * @param body
+     * @returns Circuit of body orbit or null.
+     */
+    public static getOrbitCircuit(body: Universis.Universe.Body.Simple): number | null {
+        if (!body.orbit) {
+            return null
+        }
+
+        if (!body.orbit.semiMajorAxis) {
+            body.orbit.semiMajorAxis = this.getSemiMajorAxis(body)
+        }
+
+        if (!body.orbit.semiMinorAxis) {
+            body.orbit.semiMinorAxis = this.getSemiMinorAxis(body)
+        }
+
+        return Math.PI * Math.sqrt(2 * (Math.pow(body.orbit.semiMajorAxis, 2) + Math.pow(body.orbit.semiMinorAxis, 2)))
+    }
+
+    /**
      * Get polar diameter of body.
      * @param body
      * @returns Polar diameter of body.
@@ -42,7 +125,7 @@ class Physics {
      * @returns Body circuit.
      */
     public static getBodyCircuit(body: Universis.Universe.Body.Simple): number {
-        return Physics.getCircuit(body.diameter.x, body.diameter.z)
+        return Math.PI * Math.sqrt(2 * Math.pow(body.diameter.x, 2) + Math.pow(body.diameter.y, 2))
     }
 
     /**
@@ -51,7 +134,7 @@ class Physics {
      * @returns Surface of body.
      */
     public static getSurface(body: Universis.Universe.Body.Simple): number {
-        return 4 * Math.PI * Math.pow(Physics.getAverageRadius(body), 2) // TODO: Get surface of ellipsoloid instead of sphere.
+        return 4 * Math.PI * (body.diameter.x / 2) * (body.diameter.z / 2)
     }
 
     /**
@@ -60,7 +143,7 @@ class Physics {
      * @returns Volume of body.
      */
     public static getVolume(body: Universis.Universe.Body.Simple): number {
-        return (4 / 3) * Math.PI * Math.pow(Physics.getAverageRadius(body), 3) // TODO: Get volume of ellipsoloid instead of sphere.
+        return (4 / 3) * Math.PI * (body.diameter.x / 2) * (body.diameter.y / 2) * (body.diameter.z / 2)
     }
 
     /**
@@ -86,37 +169,7 @@ class Physics {
             return null
         }
 
-        const velocity = Math.sqrt(2 * Physics.G * body.mass / (Physics.getAverageRadius(body) * 10e8))
-
-        if (velocity > Physics.C) {
-            return null
-        }
-
-        return velocity
-    }
-
-    /**
-     * Get circuit of body orbit.
-     * @param body
-     * @returns Circuit of body orbit or null.
-     */
-    public static getOrbitCircuit(body: Universis.Universe.Body.Simple): number | null {
-        if (!body.orbit) {
-            return null
-        }
-
-        return Math.PI * Math.sqrt(2 * (Math.pow(body.orbit.apocenter, 2) + Math.pow(body.orbit.pericenter, 2)))
-    }
-
-    /**
-     * Get area of orbit.
-     * @param body
-     * @returns Area of orbit.
-     */
-    public static getOrbitArea(body: Universis.Universe.Body.Simple): number {
-        const a = (body.orbit.apocenter + body.orbit.pericenter) / 2
-        const b = a * Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2))
-        return Math.PI * a * b
+        return Math.sqrt(2 * Physics.G * body.mass / (Physics.getAverageRadius(body) * 10e8))
     }
 
     /**
@@ -131,30 +184,27 @@ class Physics {
 
     /**
      * Get angle velocity in point.
-     * @param areaPerSecond
-     * @param circuit
-     * @param distance
-     * @returns Angle velocity [rad].
+     * @param body
+     * @param velocity
+     * @returns Angle velocity.
      */
-    public static getAngleVelocity(areaPerSecond: number, circuit: number, distance: number): number {
-        return (2 * areaPerSecond / distance) / circuit
+    public static getOrbitAngleVelocity(body: Universis.Universe.Body.Simple, velocity: number): number {
+        return velocity / body.orbit.circuit
     }
 
     /**
      * Get velocity of body around orbit.
      * @param body
+     * @param parent
+     * @param distance
      * @returns Velocity of body or null.
      */
-    public static getOrbitVelocity(body: Universis.Universe.Body.Simple): { min: number, avg: number, max: number } | null {
+    public static getOrbitVelocity(body: Universis.Universe.Body.Simple, parent: Universis.Universe.Body.Simple, distance: number): number {
         if (!body.orbit) {
             return null
         }
 
-        return {
-            min: 2 * body.temp.orbitAreaPerSecond / body.orbit.apocenter,
-            avg: 2 * body.temp.orbitAreaPerSecond / ((body.orbit.apocenter + body.orbit.pericenter) / 2),
-            max: 2 * body.temp.orbitAreaPerSecond / body.orbit.pericenter
-        }
+        return Math.sqrt(parent.gravitationalParameter * ((2 / distance) - (1 / body.orbit.semiMajorAxis)))
     }
 
     /**
@@ -172,24 +222,11 @@ class Physics {
      * @returns Luminosity of body.
      */
     public static getLuminosity(body: Universis.Universe.Body.Simple): number {
-        if (!body.temperature.outer) { // TODO: If emissive body.
+        if (!body.temperature.outer && (!body.type || !body.type.emissiveColor)) {
             return null
         }
 
         return 4 * Math.PI * Math.pow(Physics.getAverageRadius(body) * 1e3, 2) * Physics.STEFAN_BOLTZMANN * Math.pow(body.temperature.outer, 4)
-    }
-
-    /**
-     * Get semi-major axis.
-     * @param body
-     * @returns Semi-major axis.
-     */
-    public static getSemiMajorAxis(body: Universis.Universe.Body.Simple): number {
-        if (!body.orbit) {
-            return null
-        }
-
-        return Math.floor(Physics.getAverage(body.orbit.pericenter, body.orbit.apocenter))
     }
 
     public static getAxisVelocity(body: Universis.Universe.Body.Simple): number {
@@ -220,30 +257,6 @@ class Physics {
      */
     public static getGravitationalAcceleration(body: Universis.Universe.Body.Simple): number {
         return Physics.G * body.mass / Math.pow(Physics.getAverageRadius(body) * 1e3, 2)
-    }
-
-    /**
-     * Get circuit of ellipse.
-     * @param diameters All diameters dimensions.
-     * @returns circuit.
-     */
-    private static getCircuit(...diameters: number[]): number {
-        return Math.PI * Physics.getAverage(...diameters)
-    }
-
-    /**
-     * Get average value of array of numbers.
-     * @param values
-     * @returns Average value.
-     */
-    private static getAverage(...values: number[]): number {
-        let sum = 0
-
-        for (const dimension of values) {
-            sum += dimension
-        }
-
-        return sum / values.length
     }
 
 }
