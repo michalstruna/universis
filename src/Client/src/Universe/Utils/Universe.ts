@@ -190,12 +190,9 @@ class Universe implements Universis.Universe {
             const visibility = this.getVisibility(body)
             const target = this.scene.getCameraTarget()
             const isSelectedBody = body.data._id === target.name
-
             const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
-
             orbit.material.opacity = visibility
-            let fromCenter
-            let velocity
+            let fromCenter, velocity
 
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)

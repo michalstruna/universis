@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  17 MAR 2019 19:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  17 MAR 2019 20:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1190,14 +1190,14 @@ File: Images/Initial.png Graphic file (type png)
 <use Images/Initial.png>
 Package pdftex.def Info: Images/Initial.png  used on input line 630.
 (pdftex.def)             Requested size: 350.0pt x 287.14146pt.
- [31] [32 <./Images/Initial.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 708--709
+ [31] [32 <./Images/Initial.png>] [33]
+Underfull \hbox (badness 10000) in paragraph at lines 720--721
 []\T1/lmr/bx/n/12 Zji²t¥ní vzdá-le-nosti \T1/lmr/m/n/12 t¥-lesa od t¥-ºi²t¥ po-
 mocí kni-hovní me-tody
  []
 
-[33]
-Overfull \hbox (4.3855pt too wide) in paragraph at lines 720--721
+
+Overfull \hbox (4.3855pt too wide) in paragraph at lines 732--733
 []\T1/lmr/bx/n/12 Nastavení no-vých sou-°ad-nic \T1/lmr/m/n/12 t¥-lesa zís-ka-n
 ých z me-tody \T1/lmr/m/it/12 or-bit-Path.getPoint(angle)\T1/lmr/m/n/12 , 
  []
@@ -1209,12 +1209,12 @@ Overfull \hbox (4.3855pt too wide) in paragraph at lines 720--721
 <Images/MainPage.png, id=1023, 1927.2pt x 1084.05pt>
 File: Images/MainPage.png Graphic file (type png)
 <use Images/MainPage.png>
-Package pdftex.def Info: Images/MainPage.png  used on input line 854.
+Package pdftex.def Info: Images/MainPage.png  used on input line 866.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
 <Images/Identity.png, id=1024, 401.5pt x 247.92625pt>
 File: Images/Identity.png Graphic file (type png)
 <use Images/Identity.png>
-Package pdftex.def Info: Images/Identity.png  used on input line 867.
+Package pdftex.def Info: Images/Identity.png  used on input line 879.
 (pdftex.def)             Requested size: 250.0pt x 154.3785pt.
  [42
 
@@ -1222,54 +1222,54 @@ Package pdftex.def Info: Images/Identity.png  used on input line 867.
 <Images/SignIn.png, id=1030, 402.50375pt x 356.33125pt>
 File: Images/SignIn.png Graphic file (type png)
 <use Images/SignIn.png>
-Package pdftex.def Info: Images/SignIn.png  used on input line 879.
+Package pdftex.def Info: Images/SignIn.png  used on input line 891.
 (pdftex.def)             Requested size: 250.0pt x 221.31999pt.
 <Images/SignUp.png, id=1031, 401.5pt x 436.63126pt>
 File: Images/SignUp.png Graphic file (type png)
 <use Images/SignUp.png>
-Package pdftex.def Info: Images/SignUp.png  used on input line 891.
+Package pdftex.def Info: Images/SignUp.png  used on input line 903.
 (pdftex.def)             Requested size: 250.0pt x 271.88116pt.
  [43 <./Images/Identity.png> <./Images/SignIn.png>] [44 <./Images/SignUp.png>] 
 [45]
 <Images/Simulator.png, id=1048, 1927.2pt x 1084.05pt>
 File: Images/Simulator.png Graphic file (type png)
 <use Images/Simulator.png>
-Package pdftex.def Info: Images/Simulator.png  used on input line 957.
+Package pdftex.def Info: Images/Simulator.png  used on input line 969.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
  [46 <./Images/Simulator.png>]
 <Images/Overview.png, id=1055, 640.3925pt x 434.62375pt>
 File: Images/Overview.png Graphic file (type png)
 <use Images/Overview.png>
-Package pdftex.def Info: Images/Overview.png  used on input line 972.
+Package pdftex.def Info: Images/Overview.png  used on input line 984.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
  [47 <./Images/Overview.png>]
 <Images/Bodies.png, id=1061, 640.3925pt x 441.65pt>
 File: Images/Bodies.png Graphic file (type png)
 <use Images/Bodies.png>
-Package pdftex.def Info: Images/Bodies.png  used on input line 999.
+Package pdftex.def Info: Images/Bodies.png  used on input line 1011.
 (pdftex.def)             Requested size: 350.0pt x 241.38522pt.
 <Images/Body.png, id=1062, 624.3325pt x 556.0775pt>
 File: Images/Body.png Graphic file (type png)
 <use Images/Body.png>
-Package pdftex.def Info: Images/Body.png  used on input line 1014.
+Package pdftex.def Info: Images/Body.png  used on input line 1026.
 (pdftex.def)             Requested size: 350.0pt x 311.74068pt.
  [48 <./Images/Bodies.png>]
 <Images/Timeline.png, id=1068, 626.34pt x 483.8075pt>
 File: Images/Timeline.png Graphic file (type png)
 <use Images/Timeline.png>
-Package pdftex.def Info: Images/Timeline.png  used on input line 1021.
+Package pdftex.def Info: Images/Timeline.png  used on input line 1033.
 (pdftex.def)             Requested size: 350.0pt x 270.36191pt.
 <Images/Discussion.png, id=1069, 625.33624pt x 449.68pt>
 File: Images/Discussion.png Graphic file (type png)
 <use Images/Discussion.png>
-Package pdftex.def Info: Images/Discussion.png  used on input line 1028.
+Package pdftex.def Info: Images/Discussion.png  used on input line 1040.
 (pdftex.def)             Requested size: 350.0pt x 251.6887pt.
 
 [49 <./Images/Body.png> <./Images/Timeline.png>] [50 <./Images/Discussion.png>]
 <Images/Webpack.png, id=1084, 888.31876pt x 689.57625pt>
 File: Images/Webpack.png Graphic file (type png)
 <use Images/Webpack.png>
-Package pdftex.def Info: Images/Webpack.png  used on input line 1058.
+Package pdftex.def Info: Images/Webpack.png  used on input line 1070.
 (pdftex.def)             Requested size: 280.0pt x 217.35445pt.
 [51
 
@@ -1279,19 +1279,19 @@ Package pdftex.def Info: Images/Webpack.png  used on input line 1058.
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1168--1171
+Underfull \hbox (badness 10000) in paragraph at lines 1180--1183
 \T1/lmr/m/n/12 Do-stupné z: []$\T1/lmtt/m/n/12 https : / / hacks . mozilla . or
 g / 2012 / 12 / fantastic -[] front -[] end -[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1168--1171
+Underfull \hbox (badness 10000) in paragraph at lines 1180--1183
 \T1/lmtt/m/n/12 performance -[] part -[] 1 -[] concatenate -[] compress -[] cac
 he -[] a -[] node -[] js -[] holiday -[]
  []
 
 
-Underfull \hbox (badness 2680) in paragraph at lines 1178--1179
+Underfull \hbox (badness 2680) in paragraph at lines 1190--1191
 []\T1/lmr/m/n/12 JOHNSON, Tom. Swag-ger UI tu-to-rial. \T1/lmr/m/it/12 Do-cu-me
 n-ting APIs.\T1/lmr/m/n/12 . [on-line]. c2019
  []
@@ -1300,13 +1300,13 @@ n-ting APIs.\T1/lmr/m/n/12 . [on-line]. c2019
 
 
 ]
-Underfull \hbox (badness 1014) in paragraph at lines 1198--1201
+Underfull \hbox (badness 1014) in paragraph at lines 1210--1213
 []\T1/lmr/m/n/12 MROZEK, Ja-kub. Ja-vaScript na ser-veru: Mon-goDB, Mon-go-ose 
 a An-gu-larJS.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1198--1201
+Underfull \hbox (badness 10000) in paragraph at lines 1210--1213
 []$\T1/lmtt/m/n/12 https : / / www . zdrojak . cz / clanky / javascript -[] na 
 -[] serveru -[] mongodb -[] mongoose -[]
  []
@@ -1318,7 +1318,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1198--1201
 <Images/DB.png, id=1208, 758.835pt x 1047.915pt>
 File: Images/DB.png Graphic file (type png)
 <use Images/DB.png>
-Package pdftex.def Info: Images/DB.png  used on input line 1264.
+Package pdftex.def Info: Images/DB.png  used on input line 1276.
 (pdftex.def)             Requested size: 450.0pt x 621.43048pt.
  [61
 
@@ -1331,12 +1331,12 @@ Package pdftex.def Info: Images/DB.png  used on input line 1264.
 
 
 ] [65]
-Overfull \hbox (1.60646pt too wide) in paragraph at lines 1331--1331
+Overfull \hbox (1.60646pt too wide) in paragraph at lines 1343--1343
 |\T1/lmr/bx/n/17.28 PÍLOHA D -- SE-ZNAM SOU-BOR— ZDRO-JO-VÝCH
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1333--1334
+Underfull \hbox (badness 10000) in paragraph at lines 1345--1346
 
  []
 
@@ -1344,16 +1344,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 1333--1334
 
 
 ] [67] [68] [69] [70] [71] [72]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1340.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1352.
  [73]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1340.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1352.
  (./Bc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1340.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1340.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1352.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1352.
 
 Package rerunfilecheck Info: File `Bc.out' has not changed.
 (rerunfilecheck)             Checksum: 43998B08AF7811D34DCB06FF9000B107;15871.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1340.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1352.
  ) 
 Here is how much of TeX's memory you used:
  15882 strings out of 494848
@@ -1386,7 +1386,7 @@ xmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri
 s/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/typ
 e1/public/lm/lmtt12.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Bc.pdf (73 pages, 2880976 bytes).
+Output written on Bc.pdf (73 pages, 2881604 bytes).
 PDF statistics:
  1489 PDF objects out of 1728 (max. 8388607)
  1340 compressed objects within 14 object streams

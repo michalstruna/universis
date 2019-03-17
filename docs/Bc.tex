@@ -667,9 +667,9 @@ Knihovna THREE.js umožňuje získat souřadnice bodu na elipse podle zadaného 
 U inicializace rotace se počítá s~tím, že rychlost rotace tělesa je (v~rámci stejného místa na povrchu) konstantní. V~databázi je uložen úhel rotace tělesa kolem své osy k~1.~1.~2019 v~0.00:00. Následně dojde ke zjištění času, který od této doby uplynul a~k~výpočtu úhlu, o~něhož se stihlo za tento rozdíl časů těleso pootočit kolem své osy.
 
 \vspace*{-0.5cm}
-$$\alpha = \alpha\textsubscript{0} + \Bigg(\frac{2 * \pi}{T} * \bigg((t - t\textsubscript{0})~mod~T\bigg)\Bigg)$$
+$$\varphi = \varphi\textsubscript{0} + \Bigg(\frac{2 * \pi}{T} * \bigg((t - t\textsubscript{0})~mod~T\bigg)\Bigg)$$
 \begin{center}
-\textit{$\alpha$ -- úhel rotace, $\alpha\textsubscript{0}$ -- výchozí úhel, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0}~--~výchozí čas}
+\textit{$\varphi$ -- úhel rotace, $\alpha\textsubscript{0}$ -- výchozí úhel, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0}~--~výchozí čas}
 \end{center}
 
 \subsubsection{Vykreslovací smyčka}
@@ -698,7 +698,19 @@ $$v\textsubscript{S} = \frac{S}{T}$$
 \textit{v\textsubscript{S} -- plošná rychlost, S -- plocha orbity, T -- perioda oběhu}
 \end{center}
 
-Nyní je třeba vypočítat, 
+\vspace*{-0.5cm}
+$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}~~~~~~~~~~\omega = \frac{v}{O}$$
+\begin{center}
+\textit{v -- okamžitá rychlost, d, aktuální vzdálenost od těžiště}
+\end{center}
+
+Dojde také k~aktualizaci rotace tělesa kolem osy. Ta je uskutečněna jednoduchým přičtením úhlu, o~nějž se těleso otočí za dobu, která uplynula od posledního vykreslení, k~aktuálnímu úhlu.
+
+\vspace*{-0.5cm}
+$$\varphi = \varphi + \omega * \Delta t$$
+\begin{center}
+\textit{$\varphi$ -- úhel rotace, $\omega$ -- úhlová rychlost rotace, $\Delta t$ -- čas od posledního vykreslení}
+\end{center}
 
 \begin{itemize}
 \item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
