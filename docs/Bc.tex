@@ -827,19 +827,7 @@ Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložen�
 
 Ve zdrojovém kódu výše je zobrazena část pluginu pro automatické hashování hesla. Ten při každé změně daného pole nový obsah zahashuje a~teprve onen hash uloží do databáze namísto původní hodnoty. Protože ale není vyloučené, že bude někdy třeba tento plugin použít také v~jiném schématu a~na jiném poli, plugin byl vytvořen univerzálně. Jméno pole je proto určeno parametrem v~pluginu.
 
-Dalším pluginem v aplikaci je \textit{FillBodyPlugin}. Aplikace se snaží o největší možnou automatizaci a je žádoucí, aby se do databáze ukládala pouze nejnutnější data. Ostatní data jsou automaticky dopočítána z~těch v~databázi. Níže je ukázán výpočet únikové rychlosti \code{v\textsubscript{u}} z tělesa.
-
-$$v\textsubscript{u}= \sqrt{\frac{2 * G * m}{r}}$$
-\begin{center}
-\textit{G – gravitační konstanta, m – hmotnost tělesa, r – poloměr tělesa}~\cite{kleczek}
-\end{center}
-
-Poněkud složitější je např. vzorec pro výpočet okamžité orbitální rychlosti pohybu tělesa po eliptické dráze kolem těžiště. Pro výpočet v různých vzdálenostech od centrálního tělesa je možné měnit pouze hodnotu \code{d}.
-
-$$v\textsubscript{o} = \frac{const.}{d} = \frac{2 * S}{T * d} = \frac{2 *  \pi * a * b}{T *d}  = \frac{2 *  \pi  * (\frac{d\textsubscript{max} + d\textsubscript{min}}{2})^2 * \sqrt{1 - e^2}}{T * d}$$
-\begin{center}
-\textit{S – plocha oběžné dráhy, T – perioda oběhu, d – vzdálenost od tělesa, d\textsubscript{max} – apoapsida, d\textsubscript{min} – periapsida, a – velká poloosa, b – malá poloosa, e – excentricita}~\cite{kleczek}
-\end{center}
+Dalším pluginem v~aplikaci je \textit{FillBodyPlugin}. Aplikace se snaží o~největší možnou automatizaci a~je žádoucí, aby se do databáze ukládala pouze nejnutnější data. Ostatní data jsou automaticky dopočítána z~těch v~databázi. Dopočítaná data jsou popsána v~kapitole 3.4 -- Pohyb tělesa.
 
 \subsubsection{Základní práce s databází}
 
@@ -854,6 +842,22 @@ V případě složitějších databázových dotazů, na které nestačí předp
 V~aplikaci je tento způsob dotazování použit např. v~\code{[GET] /bodies/{bodyId}}, kdy je třeba z~databáze kromě tělesa na základě jeho ID vybrat z jiných kolekcí i typ tělesa, události v~historii tělesa, diskuse o~tělese, komentáře k~diskusím a~nakonec i~uživatele a~hlasy patřící k~jednotlivým diskusím a~komentářům. Konkrétní podoba dotazu použitého v~aplikaci je zobrazena v~příloze~B~na konci tohoto dokumentu.
 
 I přes skutečnost, \textit{že MongoDB} jakožto dokumentová databáze umožňuje zanořování struktur do sebe~\cite{mongomongoose}, pro jednodušší práci byly pro tělesa, události, komentáře a hlasy vytvořeny samostatné kolekce.
+
+\subsection{Nainstalování a~spuštění aplikace}
+
+Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}.
+
+V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
+
+Dále je třeba spustit databázi a~skript, který do ní vloží základní data.
+
+\lstinputlisting[caption={Sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
+
+Po úspěšně instalaci je třeba v~rámci této aplikace nainstalovat externí balíčky \textit{NPM} pro server i~pro klienta, transpilovat zdrojové kódy do nativního \textit{JavaScriptu} a~spustit server. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10. V~terminálu je třeba z~kořenového adresáře této aplikace spustit příkaz:
+
+\lstinputlisting[caption={Sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
+
+Po krátké chvíli bude aplikace dostupná na adrese \url{http://localhost:3000}, resp. \url{http://localhost:3000/api-docs}.
 
 \section{Rozvržení aplikace}
 

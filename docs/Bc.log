@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  17 MAR 2019 20:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  19 MAR 2019 00:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1136,7 +1136,7 @@ nput line 327.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 1.
 )
-<Images/Redux.png, id=737, 941.5175pt x 242.9075pt>
+<Images/Redux.png, id=746, 941.5175pt x 242.9075pt>
 File: Images/Redux.png Graphic file (type png)
 <use Images/Redux.png>
 Package pdftex.def Info: Images/Redux.png  used on input line 452.
@@ -1156,19 +1156,19 @@ e-o-me-t-rií \T1/lmr/m/it/12 THREE.SphereGeometry\T1/lmr/m/n/12 .
  []
 
 [26]
-<Images/BodyData.png, id=817, 507.8975pt x 296.10625pt>
+<Images/BodyData.png, id=826, 507.8975pt x 296.10625pt>
 File: Images/BodyData.png Graphic file (type png)
 <use Images/BodyData.png>
 Package pdftex.def Info: Images/BodyData.png  used on input line 507.
 (pdftex.def)             Requested size: 370.0pt x 215.71748pt.
  (./SourceCodes/Orbit.js)
-<Images/OrbitData.png, id=820, 450.68375pt x 317.185pt>
+<Images/OrbitData.png, id=829, 450.68375pt x 317.185pt>
 File: Images/OrbitData.png Graphic file (type png)
 <use Images/OrbitData.png>
 Package pdftex.def Info: Images/OrbitData.png  used on input line 523.
 (pdftex.def)             Requested size: 350.0pt x 246.33852pt.
  [27 <./Images/BodyData.png>]
-<Images/RingData.png, id=831, 372.39125pt x 218.8175pt>
+<Images/RingData.png, id=840, 372.39125pt x 218.8175pt>
 File: Images/RingData.png Graphic file (type png)
 <use Images/RingData.png>
 Package pdftex.def Info: Images/RingData.png  used on input line 538.
@@ -1179,13 +1179,13 @@ Overfull \hbox (28.86697pt too wide) in paragraph at lines 552--553
 -ro-vání £ás-tic po-mocí \T1/lmr/m/it/12 THREE.Points\T1/lmr/m/n/12 .
  []
 
-<Images/Particles.png, id=840, 602.25pt x 348.30125pt>
+<Images/Particles.png, id=849, 602.25pt x 348.30125pt>
 File: Images/Particles.png Graphic file (type png)
 <use Images/Particles.png>
 Package pdftex.def Info: Images/Particles.png  used on input line 556.
 (pdftex.def)             Requested size: 450.0pt x 260.25803pt.
 [29 <./Images/Particles.png>] (./SourceCodes/Particles.js) [30]
-<Images/Initial.png, id=869, 413.545pt x 339.2675pt>
+<Images/Initial.png, id=878, 413.545pt x 339.2675pt>
 File: Images/Initial.png Graphic file (type png)
 <use Images/Initial.png>
 Package pdftex.def Info: Images/Initial.png  used on input line 630.
@@ -1204,72 +1204,73 @@ Overfull \hbox (4.3855pt too wide) in paragraph at lines 732--733
 
 [34] (./SourceCodes/Route.js) [35] (./SourceCodes/RouteUtils.js)
 (./SourceCodes/Model.js [36]) (./SourceCodes/DatabaseConnection.js [37])
-(./SourceCodes/Schema.js) [38] (./SourceCodes/Hash.js) [39]
-(./SourceCodes/Database.js) [40] [41]
-<Images/MainPage.png, id=1023, 1927.2pt x 1084.05pt>
+(./SourceCodes/Schema.js) [38] (./SourceCodes/Hash.js)
+(./SourceCodes/Database.js [39]) [40] (./SourceCodes/Installation.js)
+(./SourceCodes/Installation.js) [41]
+<Images/MainPage.png, id=1044, 1927.2pt x 1084.05pt>
 File: Images/MainPage.png Graphic file (type png)
 <use Images/MainPage.png>
-Package pdftex.def Info: Images/MainPage.png  used on input line 866.
+Package pdftex.def Info: Images/MainPage.png  used on input line 870.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
-<Images/Identity.png, id=1024, 401.5pt x 247.92625pt>
+<Images/Identity.png, id=1045, 401.5pt x 247.92625pt>
 File: Images/Identity.png Graphic file (type png)
 <use Images/Identity.png>
-Package pdftex.def Info: Images/Identity.png  used on input line 879.
+Package pdftex.def Info: Images/Identity.png  used on input line 883.
 (pdftex.def)             Requested size: 250.0pt x 154.3785pt.
  [42
 
  <./Images/MainPage.png>]
-<Images/SignIn.png, id=1030, 402.50375pt x 356.33125pt>
+<Images/SignIn.png, id=1052, 402.50375pt x 356.33125pt>
 File: Images/SignIn.png Graphic file (type png)
 <use Images/SignIn.png>
-Package pdftex.def Info: Images/SignIn.png  used on input line 891.
+Package pdftex.def Info: Images/SignIn.png  used on input line 895.
 (pdftex.def)             Requested size: 250.0pt x 221.31999pt.
-<Images/SignUp.png, id=1031, 401.5pt x 436.63126pt>
+<Images/SignUp.png, id=1053, 401.5pt x 436.63126pt>
 File: Images/SignUp.png Graphic file (type png)
 <use Images/SignUp.png>
-Package pdftex.def Info: Images/SignUp.png  used on input line 903.
+Package pdftex.def Info: Images/SignUp.png  used on input line 907.
 (pdftex.def)             Requested size: 250.0pt x 271.88116pt.
  [43 <./Images/Identity.png> <./Images/SignIn.png>] [44 <./Images/SignUp.png>] 
 [45]
-<Images/Simulator.png, id=1048, 1927.2pt x 1084.05pt>
+<Images/Simulator.png, id=1070, 1927.2pt x 1084.05pt>
 File: Images/Simulator.png Graphic file (type png)
 <use Images/Simulator.png>
-Package pdftex.def Info: Images/Simulator.png  used on input line 969.
+Package pdftex.def Info: Images/Simulator.png  used on input line 973.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
  [46 <./Images/Simulator.png>]
-<Images/Overview.png, id=1055, 640.3925pt x 434.62375pt>
+<Images/Overview.png, id=1076, 640.3925pt x 434.62375pt>
 File: Images/Overview.png Graphic file (type png)
 <use Images/Overview.png>
-Package pdftex.def Info: Images/Overview.png  used on input line 984.
+Package pdftex.def Info: Images/Overview.png  used on input line 988.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
  [47 <./Images/Overview.png>]
-<Images/Bodies.png, id=1061, 640.3925pt x 441.65pt>
+<Images/Bodies.png, id=1082, 640.3925pt x 441.65pt>
 File: Images/Bodies.png Graphic file (type png)
 <use Images/Bodies.png>
-Package pdftex.def Info: Images/Bodies.png  used on input line 1011.
+Package pdftex.def Info: Images/Bodies.png  used on input line 1015.
 (pdftex.def)             Requested size: 350.0pt x 241.38522pt.
-<Images/Body.png, id=1062, 624.3325pt x 556.0775pt>
+<Images/Body.png, id=1083, 624.3325pt x 556.0775pt>
 File: Images/Body.png Graphic file (type png)
 <use Images/Body.png>
-Package pdftex.def Info: Images/Body.png  used on input line 1026.
+Package pdftex.def Info: Images/Body.png  used on input line 1030.
 (pdftex.def)             Requested size: 350.0pt x 311.74068pt.
  [48 <./Images/Bodies.png>]
-<Images/Timeline.png, id=1068, 626.34pt x 483.8075pt>
+<Images/Timeline.png, id=1089, 626.34pt x 483.8075pt>
 File: Images/Timeline.png Graphic file (type png)
 <use Images/Timeline.png>
-Package pdftex.def Info: Images/Timeline.png  used on input line 1033.
+Package pdftex.def Info: Images/Timeline.png  used on input line 1037.
 (pdftex.def)             Requested size: 350.0pt x 270.36191pt.
-<Images/Discussion.png, id=1069, 625.33624pt x 449.68pt>
+<Images/Discussion.png, id=1090, 625.33624pt x 449.68pt>
 File: Images/Discussion.png Graphic file (type png)
 <use Images/Discussion.png>
-Package pdftex.def Info: Images/Discussion.png  used on input line 1040.
+Package pdftex.def Info: Images/Discussion.png  used on input line 1044.
 (pdftex.def)             Requested size: 350.0pt x 251.6887pt.
 
 [49 <./Images/Body.png> <./Images/Timeline.png>] [50 <./Images/Discussion.png>]
-<Images/Webpack.png, id=1084, 888.31876pt x 689.57625pt>
+<Images/Webpack.png, id=1105, 888.31876pt x 689.57625pt>
 File: Images/Webpack.png Graphic file (type png)
 <use Images/Webpack.png>
-Package pdftex.def Info: Images/Webpack.png  used on input line 1070.
+Package pdftex.def Info: Images/Webpack.png  used on input line 1074.
 (pdftex.def)             Requested size: 280.0pt x 217.35445pt.
 [51
 
@@ -1279,19 +1280,19 @@ Package pdftex.def Info: Images/Webpack.png  used on input line 1070.
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1180--1183
+Underfull \hbox (badness 10000) in paragraph at lines 1184--1187
 \T1/lmr/m/n/12 Do-stupné z: []$\T1/lmtt/m/n/12 https : / / hacks . mozilla . or
 g / 2012 / 12 / fantastic -[] front -[] end -[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1180--1183
+Underfull \hbox (badness 10000) in paragraph at lines 1184--1187
 \T1/lmtt/m/n/12 performance -[] part -[] 1 -[] concatenate -[] compress -[] cac
 he -[] a -[] node -[] js -[] holiday -[]
  []
 
 
-Underfull \hbox (badness 2680) in paragraph at lines 1190--1191
+Underfull \hbox (badness 2680) in paragraph at lines 1194--1195
 []\T1/lmr/m/n/12 JOHNSON, Tom. Swag-ger UI tu-to-rial. \T1/lmr/m/it/12 Do-cu-me
 n-ting APIs.\T1/lmr/m/n/12 . [on-line]. c2019
  []
@@ -1300,13 +1301,13 @@ n-ting APIs.\T1/lmr/m/n/12 . [on-line]. c2019
 
 
 ]
-Underfull \hbox (badness 1014) in paragraph at lines 1210--1213
+Underfull \hbox (badness 1014) in paragraph at lines 1214--1217
 []\T1/lmr/m/n/12 MROZEK, Ja-kub. Ja-vaScript na ser-veru: Mon-goDB, Mon-go-ose 
 a An-gu-larJS.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1210--1213
+Underfull \hbox (badness 10000) in paragraph at lines 1214--1217
 []$\T1/lmtt/m/n/12 https : / / www . zdrojak . cz / clanky / javascript -[] na 
 -[] serveru -[] mongodb -[] mongoose -[]
  []
@@ -1315,10 +1316,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 1210--1213
 
 
 ]
-<Images/DB.png, id=1208, 758.835pt x 1047.915pt>
+<Images/DB.png, id=1229, 758.835pt x 1047.915pt>
 File: Images/DB.png Graphic file (type png)
 <use Images/DB.png>
-Package pdftex.def Info: Images/DB.png  used on input line 1276.
+Package pdftex.def Info: Images/DB.png  used on input line 1280.
 (pdftex.def)             Requested size: 450.0pt x 621.43048pt.
  [61
 
@@ -1331,12 +1332,12 @@ Package pdftex.def Info: Images/DB.png  used on input line 1276.
 
 
 ] [65]
-Overfull \hbox (1.60646pt too wide) in paragraph at lines 1343--1343
+Overfull \hbox (1.60646pt too wide) in paragraph at lines 1347--1347
 |\T1/lmr/bx/n/17.28 PÍLOHA D -- SE-ZNAM SOU-BOR— ZDRO-JO-VÝCH
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1345--1346
+Underfull \hbox (badness 10000) in paragraph at lines 1349--1350
 
  []
 
@@ -1344,23 +1345,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 1345--1346
 
 
 ] [67] [68] [69] [70] [71] [72]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1352.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1356.
  [73]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1352.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1356.
  (./Bc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1352.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1352.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1356.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1356.
 
 Package rerunfilecheck Info: File `Bc.out' has not changed.
-(rerunfilecheck)             Checksum: 43998B08AF7811D34DCB06FF9000B107;15871.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1352.
+(rerunfilecheck)             Checksum: 5B8866D381AC5D158E368611DE9628F0;16141.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1356.
  ) 
 Here is how much of TeX's memory you used:
- 15882 strings out of 494848
- 223830 string characters out of 6178430
- 473468 words of memory out of 5000000
- 18361 multiletter control sequences out of 15000+600000
- 64953 words of font info for 57 fonts, out of 8000000 for 9000
+ 15901 strings out of 494848
+ 224134 string characters out of 6178430
+ 472468 words of memory out of 5000000
+ 18366 multiletter control sequences out of 15000+600000
+ 64632 words of font info for 56 fonts, out of 8000000 for 9000
  46 hyphenation exceptions out of 8191
  43i,9n,42p,11285b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
@@ -1385,11 +1386,11 @@ xmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri
 12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri8.pfb></usr/share/texmf/font
 s/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/typ
-e1/public/lm/lmtt12.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Bc.pdf (73 pages, 2881604 bytes).
+e1/public/lm/lmtt12.pfb>
+Output written on Bc.pdf (73 pages, 2867832 bytes).
 PDF statistics:
- 1489 PDF objects out of 1728 (max. 8388607)
- 1340 compressed objects within 14 object streams
- 497 named destinations out of 1000 (max. 500000)
- 839 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1510 PDF objects out of 1728 (max. 8388607)
+ 1362 compressed objects within 14 object streams
+ 508 named destinations out of 1000 (max. 500000)
+ 847 words of extra memory for PDF output out of 10000 (max. 10000000)
 
