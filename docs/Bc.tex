@@ -682,27 +682,26 @@ $\Delta t = t - t\textsubscript{0}$
 \textit{t -- aktuální čas, t\textsubscript{0} -- čas posledního vykreslení}
 \end{center}
 
-Dalším důležitým údajem je aktuální \textbf{vzdálenost tělesa od těžiště}. Celý výpočet uskuteční knihovní metoda v THREE.js \code{bodyPosition.distanceTo(parentPosition)}. Pokud víme, jaký obsah má orbita
+Dalším důležitým údajem je aktuální \textbf{vzdálenost tělesa od těžiště}. Celý výpočet uskuteční knihovní metoda v THREE.js \code{bodyPosition.distanceTo(parentPosition)}.
+
+Pro aktualizaci pozice zbývá vypočítat \textbf{aktuální rychlost} oběhu, \textbf{uraženou dráhu} a~\textbf{změnu úhlu} od posledního vykreslení. Problém elipsy je zjednodušen na problém trojúhelníka za cenu zanedbatelné nepřesnosti. Jednotlivé nepřesnosti se díky kontrolním mechanismům přitom sčítají pouze v~rámci jedné periody oběhu. Poté je nepřesnost vyrovnána.
 
 \vspace*{-0.5cm}
-$$S = \pi * a * b = \pi * \Bigg(\frac{d\textsubscript{max} - d\textsubscript{min}}{2}\Bigg)^2 * \sqrt{1 - e^2}$$
+$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}~~~~~~~~~~\Delta s = v * \Delta t~~~~~~~~~~\omega = \frac{v}{O}$$
 \begin{center}
-\textit{S -- plocha orbity, a -- velká poloosa, b -- malá poloosa, d\textsubscript{min} -- periapsida, d\textsubscript{max}~--~apoapsida, e -- excentricita}~\cite{kleczek}
+\textit{v -- okamžitá rychlost, $\mu$ -- gravitační parametr, d -- aktuální vzdálenost od těžiště, a -- velká poloosa}
 \end{center}
 
- a~jakou orbitální periodu má těleso, jsme schopni i~určit, jakou \textbf{plochu} musí opsat průvodič \textbf{za jednotku času}. Dle 2. Keplerova zákona je plošná rychlost konstantní.~\cite{kleczek}
+Po přičtení úhlu oběhu tělesa lze získat nové souřadnice tělesa pomocí metody\break \code{orbit.getPoint(angle)}.
 
-\vspace*{-0.5cm}
-$$v\textsubscript{S} = \frac{S}{T}$$
+\begin{figure}[H]
 \begin{center}
-\textit{v\textsubscript{S} -- plošná rychlost, S -- plocha orbity, T -- perioda oběhu}
+\includegraphics[width=300pt]{Images/DeltaAngle.png}
+\caption[Výpočet nové pozice tělesa]{Výpočet nové pozice tělesa \footnotemark[1]}
 \end{center}
+\end{figure}
 
-\vspace*{-0.5cm}
-$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}~~~~~~~~~~\omega = \frac{v}{O}$$
-\begin{center}
-\textit{v -- okamžitá rychlost, d, aktuální vzdálenost od těžiště}
-\end{center}
+\footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
 Dojde také k~aktualizaci rotace tělesa kolem osy. Ta je uskutečněna jednoduchým přičtením úhlu, o~nějž se těleso otočí za dobu, která uplynula od posledního vykreslení, k~aktuálnímu úhlu.
 
@@ -714,7 +713,6 @@ $$\varphi = \varphi + \omega * \Delta t$$
 
 \begin{itemize}
 \item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
-
 
 
 \item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
