@@ -15,7 +15,7 @@
 \contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{38}{lstlisting.15}
 \contentsline {lstlisting}{\numberline {16}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{39}{lstlisting.16}
 \contentsline {lstlisting}{\numberline {17}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{39}{lstlisting.17}
-\contentsline {lstlisting}{\numberline {18}Sestaven\IeC {\'\i } a~spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } aplikace}{41}{lstlisting.18}
+\contentsline {lstlisting}{\numberline {18}Vlo\IeC {\v z}en\IeC {\'\i } inicializa\IeC {\v c}n\IeC {\'\i }ch dat do datab\IeC {\'a}ze}{41}{lstlisting.18}
 \contentsline {lstlisting}{\numberline {19}Sestaven\IeC {\'\i } a~spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } aplikace}{41}{lstlisting.19}
 \contentsline {lstlisting}{\numberline {20}Hashov\IeC {\'a}n\IeC {\'\i } hesel v Mongoose sch\IeC {\'e}matu}{54}{lstlisting.20}
 \contentsline {lstlisting}{\numberline {21}Uk\IeC {\'a}zka form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } jednotek}{55}{lstlisting.21}

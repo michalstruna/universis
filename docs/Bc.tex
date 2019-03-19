@@ -288,14 +288,14 @@ Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se
 
 \subsection{Fyzikální a~astronomické pojmy}
 
-Pro popis geometrických, astronomických či jiných fyzikálních vlastností těles a~jejich eliptických orbit jsou určeny odborné termíny. V~této kapitole je stručně popsán význam některých z nich.~\cite{kleczek}
+Pro popis geometrických, astronomických či jiných fyzikálních vlastností těles a~jejich eliptických orbit jsou určeny termíny. V~této kapitole je stručně popsán význam některých z nich.~\cite{kleczek}
 
 \begin{itemize}
 \item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (těžiště). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
 
 \item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se tak téměř o~kružnici.~\cite{kleczek}
 
-\item \textbf{Keplerovy zákony} -- Jedná se o~3 zákony popisující pohyb planet kolem Slunce. Je možné je aplikovat i~na jiná tělesa pohybující se po eliptické oběžné dráze.
+\item \textbf{Keplerovy zákony} -- Jedná se o~3 zákony popisující pohyb planet kolem Slunce. Je možné je aplikovat i~na jiná tělesa pohybující se po eliptické oběžné dráze.~\cite{kleczek}
 
 \begin{enumerate}
 \item „Dráha planety je elipsa, v jejímž jednom ohnisku se nachází Slunce.“
@@ -590,12 +590,12 @@ $$O \approx \pi * \sqrt{2 * (r_{x}^2 + r_{z}^2)}~~~~~~~~~~V \doteq \frac{4}{3} *
 \textit{V -- objem tělesa, r -- poloměr telesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}
 \end{center}
 
-Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo ~\textbf{minimální orbitální rychlosti}:
+Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo \textbf{minimální orbitální rychlosti}:
 
 \vspace*{-0.5cm}
 $$\varrho = \frac{M}{V}~~~~~~~~~~f = 1 - \frac{r_{y}}{r_{x}}~~~~~~~~~~v_{max} = \sqrt{\mu * \frac{2}{d_{min}} - \frac{1}{a}}$$
 \begin{center}
-\textit{$\varrho$ -- hustota, V -- objem tělesa, r -- poloměr tělesa, O -- rovníkový obvod, S -- povrch tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- maximální rychlost, $d_{min}$, periapsida}
+\textit{$\varrho$ -- hustota, M -- hmotnost tělesa, V -- objem tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- max. rychlost, $\mu$ -- gravitační parametr, $d_{min}$, periapsida}
 \end{center}
 
 Výpočet \textbf{gravitačního zrychlení}, \textbf{únikové rychlosti} a~pokud těleso emituje viditelné světlo, tak i~\textbf{svítivosti}:
@@ -849,11 +849,11 @@ Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, 
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
-Dále je třeba spustit databázi a~skript, který do ní vloží základní data.
+Po spuštění databáze je nutno do souboru \code{/src/Constants/Config.ts} v~aplikaci doplnit položky \code{database.username} a~\code{database.password}. Dále je třeba v~terminálu z~kořenového adresáře této aplikace spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}).
 
-\lstinputlisting[caption={Sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
+\lstinputlisting[caption={Vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
 
-Po úspěšně instalaci je třeba v~rámci této aplikace nainstalovat externí balíčky \textit{NPM} pro server i~pro klienta, transpilovat zdrojové kódy do nativního \textit{JavaScriptu} a~spustit server. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10. V~terminálu je třeba z~kořenového adresáře této aplikace spustit příkaz:
+Po úspěšné instalaci musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
 
 \lstinputlisting[caption={Sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
 
