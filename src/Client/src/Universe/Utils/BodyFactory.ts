@@ -123,12 +123,12 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             midOrbitMesh.rotateOnAxis(new THREE.Vector3(0, 0, 1), THREE.Math.degToRad(body.orbit.rotation || 0))
 
             const orbitMesh = new THREE.Line(geometry, material)
-            orbitMesh.position.x = (body.orbit.apoapsis - body.orbit.periapsis) / 2
+            orbitMesh.position.x = (body.orbit.apsis - body.orbit.periapsis) / 2
             outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), 0)
             midOrbitMesh.add(orbitMesh)
 
             outerOrbitMesh.userData.path = path
-            outerOrbitMesh.userData.angle = (body.orbit.startAngle || 0) / 360
+            outerOrbitMesh.userData.angle = 0
         } else {
             const orbitMesh = new THREE.Mesh()
             const midOrbitMesh = new THREE.Group()
@@ -138,7 +138,6 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             if (body.position) {
                 const alpha = THREE.Math.degToRad(body.position.alpha)
                 const beta = THREE.Math.degToRad(body.position.beta)
-
                 outerOrbitMesh.position.set(
                     body.position.distance * Math.sin(alpha) * Math.sin(beta),
                     body.position.distance * Math.sin(alpha) * Math.cos(beta),
@@ -155,7 +154,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * @return Semi-major axes.
      */
     private calculateA(body: Universis.Universe.Body.Simple): number {
-        return (body.orbit.apoapsis + body.orbit.periapsis) / 2
+        return (body.orbit.apsis + body.orbit.periapsis) / 2
     }
 
     /**

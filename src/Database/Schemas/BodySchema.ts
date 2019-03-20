@@ -147,7 +147,7 @@ const BodySchema = new Schema({
     },
 
     orbit: {
-        apoapsis: {
+        apsis: {
             type: Number,
             required: false,
             min: 0
@@ -173,7 +173,7 @@ const BodySchema = new Schema({
             max: 360
         },
 
-        apoapsisDate: {
+        apsisDate: {
             type: String,
             required: false
         },

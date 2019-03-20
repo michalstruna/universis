@@ -54,9 +54,14 @@ class Universe implements Universis.Universe {
     private timeElement: HTMLElement
 
     /**
-     * Simulation time [ms].
+     * Simulation time.
      */
-    private simulationTime: number
+    private simulationTime: Date
+
+    /**
+     * Real time.
+     */
+    private realTime: Date
 
     /**
      * Body container for our planet.
@@ -84,9 +89,11 @@ class Universe implements Universis.Universe {
         this.element = options.element
         this.timeElement = options.timeElement
         this.createBodies(options.bodies)
-        this.simulationTime = new Date().getTime()
         this.earth = this.bodies.find(body => body.data.name === 'Země')
         this.timeSpeed = options.timeSpeed || 1
+
+        this.realTime = new Date()
+        this.simulationTime = new Date()
 
         this.scene = new Scene({
             backgroundColor: 0x000000,
@@ -98,9 +105,7 @@ class Universe implements Universis.Universe {
             onRenderInterval: Config.RENDER_INTERVAL,
             onChangeTarget: options.onSelectBody,
             onZoom: zoom => options.onChangeViewSize(zoom / Config.SIZE_RATIO),
-            // target: '5be60eee4143ef4fd8db9979' // Mars
-            target: '5be60eee4143ef4fd8db9a77' // Země
-            // target: '5be60eee4143ef4fd8db9a81' // Mars
+            target: '5be60eee4143ef4fd8db9a77'
         })
 
         this.toggleName(options.isNameVisible)
@@ -170,29 +175,81 @@ class Universe implements Universis.Universe {
         this.scene.setFollow(follow)
     }
 
+    private updateTime(): void {
+        const timeChange = new Date().getTime() - this.realTime.getTime()
+        this.realTime.setTime(this.realTime.getTime() + timeChange)
+        this.simulationTime.setTime(this.simulationTime.getTime() + timeChange * this.timeSpeed)
+        this.timeElement.textContent = this.simulationTime.toLocaleString()
+    }
+
     /**
-     * Update position of all bodies within render loop.
+     * Update position of all bodies.
      */
     private updateBodies = (): void => {
         if (!this.scene) {
             return
         }
 
-        this.updateScale(this.scene.getDistance(this.scene.getCameraTarget()) * this.scale)
-        this.simulationTime += Config.RENDER_INTERVAL * this.timeSpeed
-        this.timeElement.textContent = new Date(this.simulationTime).toLocaleString()
+        this.updateTime()
+        const target = this.scene.getCameraTarget()
 
-        for (const body of  this.bodies) {
+        for (const body of this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = this.scene.projectCamera(tempVector)
             const isVisible = this.scene.isInFov(body.mesh)
             const orbit = body.orbit.children[0].children[0] as any
             const visibility = this.getVisibility(body)
-            const target = this.scene.getCameraTarget()
-            const isSelectedBody = body.data._id === target.name
-            const isFullyRenderable = isSelectedBody || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
+            const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
             orbit.material.opacity = visibility
             let fromCenter, velocity
+
+            if (body.data.orbit) {
+                const position = Physics.getPosition(body.data, this.simulationTime.getTime())
+
+                if (body.mesh === target) {
+                    body.parent.mesh.updateMatrixWorld(true)
+                }
+
+                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+
+                if (fromCenter) {
+                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
+                    body.orbit.userData.angle += (Physics.getOrbitAngleVelocity(body.data, velocity) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
+                }
+
+                if (body.mesh === target || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
+                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
+                    body.mesh.position.set(limit(position.x), limit(position.y), 0)
+                    //body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
+                }
+
+                if (body.data.axis.period) {
+                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
+                    body.mesh.rotateOnAxis(rotationVector, angle)
+                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
+                }
+            }
+
+            if (isFullyRenderable) {
+                vector.x = (vector.x + 1) / 2 * window.innerWidth
+                vector.y = -(vector.y - 1) / 2 * window.innerHeight
+                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
+                this.updateLabel(body, fromCenter, 1)
+            } else {
+                body.label.style.transform = 'translateX(-1000px)'
+            }
+        }
+    }
+
+    /**
+     * Update position of all bodies within render loop.
+     */
+
+    /*
+    private updateBodies2 = (): void => {
+
+
+        for (const body of  this.bodies) {
 
             if (body.data.orbit) {
                 const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
@@ -214,7 +271,7 @@ class Universe implements Universis.Universe {
                 }
 
                 if (body.data.axis.period) {
-                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
+                    const angle = 2 * Math.PI * (apsis.convert(apsis.TIME.S, apsis.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
                     body.mesh.rotateOnAxis(rotationVector, angle)
                     body.childrenContainer.rotateOnAxis(rotationVector, -angle)
                 }
@@ -231,6 +288,7 @@ class Universe implements Universis.Universe {
         }
 
     }
+    */
 
     /**
      * Get label for body.
@@ -284,7 +342,7 @@ class Universe implements Universis.Universe {
         body.diameter.z = convert(body.diameter.z)
 
         if (body.orbit) {
-            body.orbit.apoapsis = convert(body.orbit.apoapsis)
+            body.orbit.apsis = convert(body.orbit.apsis)
             body.orbit.periapsis = convert(body.orbit.periapsis)
         } else if (body.position) {
             body.position.distance = convert(body.position.distance)
@@ -311,7 +369,7 @@ class Universe implements Universis.Universe {
             return isTooLargeOrSmall ? Visibility.INVISIBLE : Visibility.VISIBLE
         }
 
-        const min = viewSize / body.data.orbit.apoapsis
+        const min = viewSize / body.data.orbit.apsis
         const max = viewSize / distance
 
         if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {

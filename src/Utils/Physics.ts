@@ -1,3 +1,5 @@
+const YEAR_TO_SECONDS = 31556926
+
 /**
  * Utils for physics.
  */
@@ -28,7 +30,7 @@ class Physics {
             return null
         }
 
-        return Math.floor((body.orbit.apoapsis + body.orbit.periapsis) / 2)
+        return Math.floor((body.orbit.apsis + body.orbit.periapsis) / 2)
     }
 
     /**
@@ -77,7 +79,7 @@ class Physics {
             parent.gravitationalParameter = this.getGravitationalParameter(parent)
         }
 
-        return 2 * Math.PI * Math.sqrt(Math.pow(body.orbit.semiMajorAxis, 3) / parent.gravitationalParameter) / 31556926 // TODO: Seconds to years.
+        return 2 * Math.PI * Math.sqrt(Math.pow(body.orbit.semiMajorAxis, 3) / parent.gravitationalParameter) / YEAR_TO_SECONDS
     }
 
     /**
@@ -190,6 +192,51 @@ class Physics {
      */
     public static getOrbitAngleVelocity(body: Universis.Universe.Body.Simple, velocity: number): number {
         return velocity / body.orbit.circuit
+    }
+
+    /**
+     * Get angle velocity.
+     * @param body
+     * @return Angle velocity.
+     */
+    public static getAngleVelocity(body: Universis.Universe.Body.Simple): number {
+        if (!body.orbit) {
+            return null
+        }
+
+        return 2 * Math.PI / (body.orbit.period * YEAR_TO_SECONDS)
+    }
+
+    /**
+     * Get true anomaly.
+     * @param body
+     * @param time
+     * @param precision
+     * @param maxIterations
+     * @returns Body true anomaly in time.
+     */
+    public static getPosition(body: Universis.Universe.Body.Simple, time: number, precision: number = 0.001, maxIterations: number = 5): { M: number, E: number, v: number, r: number, x: number, y: number } {
+        body.orbit.periapsisTime = new Date(2019, 0, 4).getTime()
+        const M = body.orbit.angleVelocity * ((time - body.orbit.periapsisTime) / (YEAR_TO_SECONDS * body.orbit.period)) % body.orbit.period
+
+        let lastE = body.orbit.eccentricity > 0.8 ? Math.PI : M // TODO?
+        let E = 0
+
+        while (maxIterations--) {
+            E = lastE + (M - lastE - body.orbit.eccentricity * Math.sin(lastE)) / (1 - body.orbit.eccentricity * Math.cos(lastE))
+
+            if (Math.abs(lastE - E) < precision) {
+                break
+            }
+        }
+
+        const cosF = (Math.cos(E) - body.orbit.eccentricity) / (1 - body.orbit.eccentricity * Math.cos(E))
+        const sinF = (Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2)) * Math.sin(E)) / (1 - body.orbit.eccentricity)
+        const r = body.orbit.semiMajorAxis * (1 - Math.pow(body.orbit.eccentricity, 2)) / 1 + body.orbit.eccentricity * cosF
+        const x = body.orbit.eccentricity * body.orbit.semiMajorAxis + cosF * r
+        const y = body.orbit.eccentricity * body.orbit.semiMajorAxis + sinF * r
+
+        return { M, E, r, x, y, v: 1 }
     }
 
     /**

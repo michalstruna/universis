@@ -187,8 +187,6 @@ class Scene implements Universis.Scene {
             }
         }
 
-        console.log(this.camera)
-
         if (oldTarget !== this.target) {
             const targetSize = this.getTargetSize()
 

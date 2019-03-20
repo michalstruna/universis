@@ -26,7 +26,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<Uni
         { text: 'Průměr [km]', value: 'diameter.x' },
         { text: 'Hmotnost [kg]', value: 'mass' },
         { text: 'Hustota [kg/m3]', value: 'density' },
-        { text: 'Apsida [km]', value: 'orbit.apoapsis' },
+        { text: 'Apsida [km]', value: 'orbit.apsis' },
         { text: 'Periapsida [km]', value: 'orbit.periapsis' },
         { text: 'Excentricita', value: 'orbit.excentricity' },
         { text: 'Rok [roky]', value: 'orbit.period' },

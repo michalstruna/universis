@@ -47,9 +47,9 @@ class Bodies extends StatelessComponent<IProps> {
                 density => Units.toShort(density, Units.DENSITY.KG_M3)
             ),
             this.getTableColumn(
-                body => body.orbit ? body.orbit.apoapsis : null,
-                strings.apoapsis,
-                apoapsis => apoapsis ? Units.toShort(apoapsis, Units.SIZE.KM, Units.SIZE) : null
+                body => body.orbit ? body.orbit.apsis : null,
+                strings.apsis,
+                apsis => apsis ? Units.toShort(apsis, Units.SIZE.KM, Units.SIZE) : null
             ),
             this.getTableColumn(
                 body => body.orbit ? body.orbit.periapsis : null,

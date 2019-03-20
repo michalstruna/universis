@@ -474,7 +474,7 @@ export default {
             'Orbit': {
                 'type': 'object',
                 'properties': {
-                    'apoapsis': {
+                    'apsis': {
                         'type': 'number',
                         'example': 152097701
                     },

@@ -192,7 +192,7 @@ declare namespace Universis {
                     /**
                      * Largest distance from parent body [km].
                      */
-                    apoapsis: number
+                    apsis: number
 
                     /**
                      * Smallest distance from parent body [km].
@@ -220,11 +220,6 @@ declare namespace Universis {
                     inclination: number
 
                     /**
-                     * Position of body on orbit at 1. 1. 2000 00.00:00,00 [deg].
-                     */
-                    startAngle: number
-
-                    /**
                      * One year [Earth years].
                      */
                     period: number
@@ -243,6 +238,16 @@ declare namespace Universis {
                      * Velocity of body around orbit.
                      */
                     velocity: { max: number, avg: number, min: number }
+
+                    /**
+                     * Average angle velocity.
+                     */
+                    angleVelocity: number
+
+                    /**
+                     * Timestamp of periapsis.
+                     */
+                    periapsisTime: number
 
                 }
 
