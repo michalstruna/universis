@@ -57,11 +57,7 @@ class Physics {
      * @returns Standard gravitational parameter.
      */
     public static getGravitationalParameter(body: Universis.Universe.Body.Simple): number {
-        if (!body.orbit) {
-            return null
-        }
-
-        return this.G * body.mass / 10e8
+        return this.G * (body.mass || 10e24) / 10e8 // TODO
     }
 
     /**
@@ -75,11 +71,12 @@ class Physics {
             return null
         }
 
+
         if (!parent.gravitationalParameter) {
             parent.gravitationalParameter = this.getGravitationalParameter(parent)
         }
 
-        return 2 * Math.PI * Math.sqrt(Math.pow(body.orbit.semiMajorAxis, 3) / parent.gravitationalParameter) / YEAR_TO_SECONDS
+        return (2 * Math.PI * Math.sqrt(Math.pow(body.orbit.semiMajorAxis, 3) / parent.gravitationalParameter) / YEAR_TO_SECONDS) || 1e9
     }
 
     /**
@@ -215,28 +212,57 @@ class Physics {
      * @param maxIterations
      * @returns Body true anomaly in time.
      */
-    public static getPosition(body: Universis.Universe.Body.Simple, time: number, precision: number = 0.001, maxIterations: number = 5): { M: number, E: number, v: number, r: number, x: number, y: number } {
-        body.orbit.periapsisTime = new Date(2019, 0, 4).getTime()
-        const M = body.orbit.angleVelocity * ((time - body.orbit.periapsisTime) / (YEAR_TO_SECONDS * body.orbit.period)) % body.orbit.period
+    public static getPosition(body: Universis.Universe.Body.Simple, time: number, precision: number = 0.001, maxIterations: number = 5): any {
+        /*body.orbit.periapsisTime = new Date(2019, 0, 4).getTime()
+        //const M = (body.orbit.angleVelocity * (time - body.orbit.periapsisTime) / 1000) % (Math.PI * 2)
+        const M = (2 * Math.PI * time / (body.orbit.period * YEAR_TO_SECONDS * 1000)) % (2 * Math.PI)
 
-        let lastE = body.orbit.eccentricity > 0.8 ? Math.PI : M // TODO?
-        let E = 0
+        let E = body.orbit.eccentricity > 0.8 ? Math.PI : M // TODO?
+        let eNext = 0
 
         while (maxIterations--) {
-            E = lastE + (M - lastE - body.orbit.eccentricity * Math.sin(lastE)) / (1 - body.orbit.eccentricity * Math.cos(lastE))
+            eNext = E + (M - E - body.orbit.eccentricity * Math.sin(E)) / (1 - body.orbit.eccentricity * Math.cos(E))
 
-            if (Math.abs(lastE - E) < precision) {
+            if (Math.abs(eNext - E) < precision) {
                 break
             }
+
+            E = eNext
         }
 
         const cosF = (Math.cos(E) - body.orbit.eccentricity) / (1 - body.orbit.eccentricity * Math.cos(E))
         const sinF = (Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2)) * Math.sin(E)) / (1 - body.orbit.eccentricity)
-        const r = body.orbit.semiMajorAxis * (1 - Math.pow(body.orbit.eccentricity, 2)) / 1 + body.orbit.eccentricity * cosF
-        const x = body.orbit.eccentricity * body.orbit.semiMajorAxis + cosF * r
-        const y = body.orbit.eccentricity * body.orbit.semiMajorAxis + sinF * r
+        const r = body.orbit.semiMajorAxis * (1 - Math.pow(body.orbit.eccentricity, 2)) / (1 + body.orbit.eccentricity * cosF)
+        const x = cosF * r
+        const y = sinF * r
 
-        return { M, E, r, x, y, v: 1 }
+        if(body.name === 'Halleyova kometa') {
+            console.log(M, E)
+        }
+
+        return { M, E, r, x, y, v: 1 }*/
+
+        var M = 2.0 * Math.PI * time / (body.orbit.period * YEAR_TO_SECONDS * 1000)
+
+        // 2) Seed with mean anomaly and solve Kepler's eqn for E
+        var u = M // seed with mean anomoly
+        var u_next = 0
+        var loopCount = 0
+        // iterate until within 10-6
+        while (loopCount++ < 10) {
+            // this should always converge in a small number of iterations - but be paranoid
+            u_next = u + (M - (u - body.orbit.eccentricity * Math.sin(u))) / (1 - body.orbit.eccentricity * Math.cos(u))
+            if (Math.abs(u_next - u) < 1E-6)
+                break
+            u = u_next
+        }
+
+        if (body.name === 'Halleyova kometa') {
+            console.log(u)
+        }
+
+        return u - Math.PI
+
     }
 
     /**

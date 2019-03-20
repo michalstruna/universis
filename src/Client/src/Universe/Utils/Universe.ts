@@ -193,7 +193,7 @@ class Universe implements Universis.Universe {
         this.updateTime()
         const target = this.scene.getCameraTarget()
 
-        for (const body of this.bodies) {
+        /*for (const body of this.bodies) {
             tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
             const vector = this.scene.projectCamera(tempVector)
             const isVisible = this.scene.isInFov(body.mesh)
@@ -219,6 +219,7 @@ class Universe implements Universis.Universe {
 
                 if (body.mesh === target || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
                     const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
+
                     body.mesh.position.set(limit(position.x), limit(position.y), 0)
                     //body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
                 }
@@ -238,7 +239,101 @@ class Universe implements Universis.Universe {
             } else {
                 body.label.style.transform = 'translateX(-1000px)'
             }
+        }*/
+
+        for (const body of  this.bodies) {
+            tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
+            const vector = this.scene.projectCamera(tempVector)
+            const isVisible = this.scene.isInFov(body.mesh)
+            const orbit = body.orbit.children[0].children[0] as any
+            const visibility = this.getVisibility(body)
+            const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
+            orbit.material.opacity = visibility
+            let fromCenter, velocity
+            const isSelectedBody = body.mesh === target
+
+            if (body.data.orbit) {
+                const position = Physics.getPosition(body.data, this.simulationTime.getTime())
+                const orbitPoint = body.orbit.userData.path.getPoint(position / (2 * Math.PI))
+
+                if (body.mesh === target) {
+                    body.parent.mesh.updateMatrixWorld(true)
+                }
+
+                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+
+                if (fromCenter) {
+                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
+                }
+
+                if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
+                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
+                    body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
+                }
+
+                if (body.data.axis.period) {
+                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
+                    body.mesh.rotateOnAxis(rotationVector, angle)
+                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
+                }
+            }
+
+            if (isFullyRenderable) {
+                vector.x = (vector.x + 1) / 2 * window.innerWidth
+                vector.y = -(vector.y - 1) / 2 * window.innerHeight
+                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
+                this.updateLabel(body, fromCenter, velocity)
+            } else {
+                body.label.style.transform = 'translateX(-1000px)'
+            }
         }
+
+        /*for (const body of  this.bodies) {
+            tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
+            const vector = this.scene.projectCamera(tempVector)
+            const isVisible = this.scene.isInFov(body.mesh)
+            const orbit = body.orbit.children[0].children[0] as any
+            const visibility = this.getVisibility(body)
+            const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
+            orbit.material.opacity = visibility
+            let fromCenter, velocity
+            const isSelectedBody = body.mesh === target
+
+            if (body.data.orbit) {
+                const orbitPoint = body.orbit.userData.path.getPoint(position.E)
+
+                if (body.mesh === target) {
+                    body.parent.mesh.updateMatrixWorld(true)
+                }
+
+                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+
+                if (fromCenter) {
+                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
+                    body.orbit.userData.angle += (Physics.getOrbitAngleVelocity(body.data, velocity) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
+                }
+
+                if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
+                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
+                    body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
+                }
+
+                if (body.data.axis.period) {
+                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
+                    body.mesh.rotateOnAxis(rotationVector, angle)
+                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
+                }
+            }
+
+            if (isFullyRenderable) {
+                vector.x = (vector.x + 1) / 2 * window.innerWidth
+                vector.y = -(vector.y - 1) / 2 * window.innerHeight
+                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
+                this.updateLabel(body, fromCenter, velocity)
+            } else {
+                body.label.style.transform = 'translateX(-1000px)'
+            }
+        }*/
     }
 
     /**
