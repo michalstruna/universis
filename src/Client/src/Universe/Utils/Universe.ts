@@ -284,8 +284,8 @@ class Universe implements Universis.Universe {
         body.diameter.z = convert(body.diameter.z)
 
         if (body.orbit) {
-            body.orbit.apocenter = convert(body.orbit.apocenter)
-            body.orbit.pericenter = convert(body.orbit.pericenter)
+            body.orbit.apoapsis = convert(body.orbit.apoapsis)
+            body.orbit.periapsis = convert(body.orbit.periapsis)
         } else if (body.position) {
             body.position.distance = convert(body.position.distance)
         }
@@ -311,7 +311,7 @@ class Universe implements Universis.Universe {
             return isTooLargeOrSmall ? Visibility.INVISIBLE : Visibility.VISIBLE
         }
 
-        const min = viewSize / body.data.orbit.apocenter
+        const min = viewSize / body.data.orbit.apoapsis
         const max = viewSize / distance
 
         if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {

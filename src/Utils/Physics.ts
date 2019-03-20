@@ -28,7 +28,7 @@ class Physics {
             return null
         }
 
-        return Math.floor((body.orbit.apocenter + body.orbit.pericenter) / 2)
+        return Math.floor((body.orbit.apoapsis + body.orbit.periapsis) / 2)
     }
 
     /**

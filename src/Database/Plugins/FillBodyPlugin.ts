@@ -49,9 +49,9 @@ const fillBody = (body: Universis.Universe.Body.Simple, bodies?: Universis.Unive
         body.orbit.period = Physics.getOrbitPeriod(body, parent)
 
         body.orbit.velocity = {
-            min: Physics.getOrbitVelocity(body, parent, body.orbit.apocenter),
+            min: Physics.getOrbitVelocity(body, parent, body.orbit.apoapsis),
             avg: Physics.getOrbitVelocity(body, parent, body.orbit.semiMajorAxis),
-            max: Physics.getOrbitVelocity(body, parent, body.orbit.pericenter)
+            max: Physics.getOrbitVelocity(body, parent, body.orbit.periapsis)
         }
     }
 }

@@ -123,7 +123,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             midOrbitMesh.rotateOnAxis(new THREE.Vector3(0, 0, 1), THREE.Math.degToRad(body.orbit.rotation || 0))
 
             const orbitMesh = new THREE.Line(geometry, material)
-            orbitMesh.position.x = (body.orbit.apocenter - body.orbit.pericenter) / 2
+            orbitMesh.position.x = (body.orbit.apoapsis - body.orbit.periapsis) / 2
             outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), 0)
             midOrbitMesh.add(orbitMesh)
 
@@ -155,7 +155,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * @return Semi-major axes.
      */
     private calculateA(body: Universis.Universe.Body.Simple): number {
-        return (body.orbit.apocenter + body.orbit.pericenter) / 2
+        return (body.orbit.apoapsis + body.orbit.periapsis) / 2
     }
 
     /**

@@ -147,13 +147,13 @@ const BodySchema = new Schema({
     },
 
     orbit: {
-        apocenter: {
+        apoapsis: {
             type: Number,
             required: false,
             min: 0
         },
 
-        pericenter: {
+        periapsis: {
             type: Number,
             required: false,
             min: 0
@@ -173,7 +173,7 @@ const BodySchema = new Schema({
             max: 360
         },
 
-        periapsisDate: {
+        apoapsisDate: {
             type: String,
             required: false
         },

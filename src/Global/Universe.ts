@@ -192,12 +192,12 @@ declare namespace Universis {
                     /**
                      * Largest distance from parent body [km].
                      */
-                    apocenter: number
+                    apoapsis: number
 
                     /**
                      * Smallest distance from parent body [km].
                      */
-                    pericenter: number
+                    periapsis: number
 
                     /**
                      * Semi-major axis of orbit [km].
