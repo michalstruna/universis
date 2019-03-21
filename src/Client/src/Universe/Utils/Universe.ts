@@ -59,11 +59,6 @@ class Universe implements Universis.Universe {
     private simulationTime: Date
 
     /**
-     * Real time.
-     */
-    private realTime: Date
-
-    /**
      * Body container for our planet.
      */
     private earth: Universis.Universe.Body.Container
@@ -91,8 +86,6 @@ class Universe implements Universis.Universe {
         this.createBodies(options.bodies)
         this.earth = this.bodies.find(body => body.data.name === 'Země')
         this.timeSpeed = options.timeSpeed || 1
-
-        this.realTime = new Date()
         this.simulationTime = new Date()
 
         this.scene = new Scene({
@@ -101,8 +94,7 @@ class Universe implements Universis.Universe {
             element: options.element,
             logarithmicDepth: true,
             objects: this.rootBodies,
-            onRender: () => this.updateBodies(),
-            onRenderInterval: Config.RENDER_INTERVAL,
+            onRender: this.onRender,
             onChangeTarget: options.onSelectBody,
             onZoom: zoom => options.onChangeViewSize(zoom / Config.SIZE_RATIO),
             target: '5be60eee4143ef4fd8db9a77'
@@ -175,215 +167,97 @@ class Universe implements Universis.Universe {
         this.scene.setFollow(follow)
     }
 
-    private updateTime(): void {
-        const timeChange = new Date().getTime() - this.realTime.getTime()
-        this.realTime.setTime(this.realTime.getTime() + timeChange)
-        this.simulationTime.setTime(this.simulationTime.getTime() + timeChange * this.timeSpeed)
+    /**
+     * Update simmulation time.
+     * @param {number} timeDiff
+     */
+    private updateTime(timeDiff: number): void {
+        this.simulationTime.setTime(this.simulationTime.getTime() + timeDiff * this.timeSpeed)
         this.timeElement.textContent = this.simulationTime.toLocaleString()
     }
 
     /**
-     * Update position of all bodies.
+     * Update body.
+     * @param body
+     * @param timeDiff
      */
-    private updateBodies = (): void => {
+    private updateBody(body: Universis.Universe.Body.Container, timeDiff: number): void {
+        tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
+        const vector = this.scene.projectCamera(tempVector)
+        const isVisible = this.scene.isInFov(body.mesh)
+        const orbit = body.orbit.children[0].children[0] as any
+        const visibility = this.getVisibility(body)
+        const target = this.scene.getCameraTarget()
+        const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
+        orbit.material.opacity = visibility
+        let fromCenter, velocity
+        const isSelectedBody = body.mesh === target
+
+        if (body.data.orbit) {
+            const position = Physics.getPosition(body.data, this.simulationTime.getTime())
+            const orbitPoint = body.orbit.userData.path.getPoint(position / (2 * Math.PI))
+
+            if (body.mesh === target) {
+                body.parent.mesh.updateMatrixWorld(true)
+            }
+
+            fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+
+            if (fromCenter) {
+                velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
+            }
+
+            if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
+                body.mesh.position.set(this.limitSize(orbitPoint.x), this.limitSize(orbitPoint.y), 0)
+            }
+
+            if (body.data.axis.period) {
+                const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / timeDiff))
+                body.mesh.rotateOnAxis(rotationVector, angle)
+                body.childrenContainer.rotateOnAxis(rotationVector, -angle)
+            }
+        } else if (body.data.position) {
+            const alpha = THREE.Math.degToRad(body.data.position.alpha)
+            const beta = THREE.Math.degToRad(body.data.position.beta)
+            const distance = this.limitSize(body.data.position.distance)
+
+            body.mesh.position.set(
+                distance * Math.sin(alpha) * Math.sin(beta),
+                distance * Math.cos(alpha),
+                distance * Math.sin(alpha) * Math.cos(beta),
+            )
+        }
+
+        if (isFullyRenderable) {
+            vector.x = (vector.x + 1) / 2 * window.innerWidth
+            vector.y = -(vector.y - 1) / 2 * window.innerHeight
+            body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
+            this.updateLabel(body, fromCenter, velocity)
+        } else {
+            body.label.style.transform = 'translateX(-1000px)'
+        }
+    }
+
+    private limitSize = (size: number): number => {
+        return Math.floor(Math.min(size, 1e12 / this.scale))
+    }
+
+    /**
+     * Update position of all bodies.
+     * @param timeDiff
+     */
+    private onRender = (timeDiff: number): void => {
         if (!this.scene) {
             return
         }
 
-        this.updateTime()
-        const target = this.scene.getCameraTarget()
-
-        /*for (const body of this.bodies) {
-            tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
-            const vector = this.scene.projectCamera(tempVector)
-            const isVisible = this.scene.isInFov(body.mesh)
-            const orbit = body.orbit.children[0].children[0] as any
-            const visibility = this.getVisibility(body)
-            const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
-            orbit.material.opacity = visibility
-            let fromCenter, velocity
-
-            if (body.data.orbit) {
-                const position = Physics.getPosition(body.data, this.simulationTime.getTime())
-
-                if (body.mesh === target) {
-                    body.parent.mesh.updateMatrixWorld(true)
-                }
-
-                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-
-                if (fromCenter) {
-                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
-                    body.orbit.userData.angle += (Physics.getOrbitAngleVelocity(body.data, velocity) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
-                }
-
-                if (body.mesh === target || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
-                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
-
-                    body.mesh.position.set(limit(position.x), limit(position.y), 0)
-                    //body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
-                }
-
-                if (body.data.axis.period) {
-                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
-                    body.mesh.rotateOnAxis(rotationVector, angle)
-                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
-                }
-            }
-
-            if (isFullyRenderable) {
-                vector.x = (vector.x + 1) / 2 * window.innerWidth
-                vector.y = -(vector.y - 1) / 2 * window.innerHeight
-                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-                this.updateLabel(body, fromCenter, 1)
-            } else {
-                body.label.style.transform = 'translateX(-1000px)'
-            }
-        }*/
+        this.updateScale()
+        this.updateTime(timeDiff)
 
         for (const body of  this.bodies) {
-            tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
-            const vector = this.scene.projectCamera(tempVector)
-            const isVisible = this.scene.isInFov(body.mesh)
-            const orbit = body.orbit.children[0].children[0] as any
-            const visibility = this.getVisibility(body)
-            const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
-            orbit.material.opacity = visibility
-            let fromCenter, velocity
-            const isSelectedBody = body.mesh === target
-
-            if (body.data.orbit) {
-                const position = Physics.getPosition(body.data, this.simulationTime.getTime())
-                const orbitPoint = body.orbit.userData.path.getPoint(position / (2 * Math.PI))
-
-                if (body.mesh === target) {
-                    body.parent.mesh.updateMatrixWorld(true)
-                }
-
-                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-
-                if (fromCenter) {
-                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
-                }
-
-                if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
-                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
-                    body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
-                }
-
-                if (body.data.axis.period) {
-                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
-                    body.mesh.rotateOnAxis(rotationVector, angle)
-                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
-                }
-            }
-
-            if (isFullyRenderable) {
-                vector.x = (vector.x + 1) / 2 * window.innerWidth
-                vector.y = -(vector.y - 1) / 2 * window.innerHeight
-                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-                this.updateLabel(body, fromCenter, velocity)
-            } else {
-                body.label.style.transform = 'translateX(-1000px)'
-            }
+            this.updateBody(body, timeDiff)
         }
-
-        /*for (const body of  this.bodies) {
-            tempVector.setFromMatrixPosition(body.mesh.matrixWorld)
-            const vector = this.scene.projectCamera(tempVector)
-            const isVisible = this.scene.isInFov(body.mesh)
-            const orbit = body.orbit.children[0].children[0] as any
-            const visibility = this.getVisibility(body)
-            const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
-            orbit.material.opacity = visibility
-            let fromCenter, velocity
-            const isSelectedBody = body.mesh === target
-
-            if (body.data.orbit) {
-                const orbitPoint = body.orbit.userData.path.getPoint(position.E)
-
-                if (body.mesh === target) {
-                    body.parent.mesh.updateMatrixWorld(true)
-                }
-
-                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-
-                if (fromCenter) {
-                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
-                    body.orbit.userData.angle += (Physics.getOrbitAngleVelocity(body.data, velocity) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
-                }
-
-                if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
-                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
-                    body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
-                }
-
-                if (body.data.axis.period) {
-                    const angle = 2 * Math.PI * (Units.convert(Units.TIME.S, Units.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
-                    body.mesh.rotateOnAxis(rotationVector, angle)
-                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
-                }
-            }
-
-            if (isFullyRenderable) {
-                vector.x = (vector.x + 1) / 2 * window.innerWidth
-                vector.y = -(vector.y - 1) / 2 * window.innerHeight
-                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-                this.updateLabel(body, fromCenter, velocity)
-            } else {
-                body.label.style.transform = 'translateX(-1000px)'
-            }
-        }*/
     }
-
-    /**
-     * Update position of all bodies within render loop.
-     */
-
-    /*
-    private updateBodies2 = (): void => {
-
-
-        for (const body of  this.bodies) {
-
-            if (body.data.orbit) {
-                const orbitPoint = body.orbit.userData.path.getPoint(body.orbit.userData.angle)
-
-                if (body.mesh === target) {
-                    body.parent.mesh.updateMatrixWorld(true)
-                }
-
-                fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-
-                if (fromCenter) {
-                    velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
-                    body.orbit.userData.angle += (Physics.getOrbitAngleVelocity(body.data, velocity) * this.timeSpeed / (1000 / Config.RENDER_INTERVAL)) || 0
-                }
-
-                if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
-                    const limit = number => Math.floor(Math.min(number, 1e12 / this.scale))
-                    body.mesh.position.set(limit(orbitPoint.x), limit(orbitPoint.y), 0)
-                }
-
-                if (body.data.axis.period) {
-                    const angle = 2 * Math.PI * (apsis.convert(apsis.TIME.S, apsis.TIME.D, this.timeSpeed / body.data.axis.period) / (1000 / Config.RENDER_INTERVAL))
-                    body.mesh.rotateOnAxis(rotationVector, angle)
-                    body.childrenContainer.rotateOnAxis(rotationVector, -angle)
-                }
-            }
-
-            if (isFullyRenderable) {
-                vector.x = (vector.x + 1) / 2 * window.innerWidth
-                vector.y = -(vector.y - 1) / 2 * window.innerHeight
-                body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-                this.updateLabel(body, fromCenter, velocity)
-            } else {
-                body.label.style.transform = 'translateX(-1000px)'
-            }
-        }
-
-    }
-    */
 
     /**
      * Get label for body.
@@ -412,14 +286,15 @@ class Universe implements Universis.Universe {
     /**
      * Universe is split into chunks, because of precision of numbers in JavaScript.
      * If scene is too small or too large, scale it.
-     * @param viewSize Distance camera from centered body.
      */
 
-    private updateScale(viewSize: number): void {
-        if (viewSize > 1e6) {
-            this.scale /= 1e3
-        } else if (viewSize < 1e3) {
-            this.scale *= 1e3
+    private updateScale(): void {
+        const viewSize = this.scene.getDistance(this.scene.getCameraTarget())
+
+        if (viewSize * this.scale > 100) {
+            this.scale /= 10
+        } else if (viewSize * this.scale < 1) {
+            this.scale *= 10
         }
     }
 

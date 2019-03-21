@@ -51,11 +51,6 @@ export default {
     CAMERA_FOV: 50,
 
     /**
-     * Interval of onRender callback [ms].
-     */
-    RENDER_INTERVAL: 40,
-
-    /**
      * Relative size of three meshes and distances.
      */
     SIZE_RATIO: 1,

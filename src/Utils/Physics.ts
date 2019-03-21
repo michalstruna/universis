@@ -213,15 +213,12 @@ class Physics {
      * @returns Body true anomaly in time.
      */
     public static getPosition(body: Universis.Universe.Body.Simple, time: number, precision: number = 0.001, maxIterations: number = 5): any {
-        /*body.orbit.periapsisTime = new Date(2019, 0, 4).getTime()
-        //const M = (body.orbit.angleVelocity * (time - body.orbit.periapsisTime) / 1000) % (Math.PI * 2)
-        const M = (2 * Math.PI * time / (body.orbit.period * YEAR_TO_SECONDS * 1000)) % (2 * Math.PI)
-
-        let E = body.orbit.eccentricity > 0.8 ? Math.PI : M // TODO?
+        const M = 2.0 * Math.PI * time / (body.orbit.period * YEAR_TO_SECONDS * 1000)
+        let E = M
         let eNext = 0
 
         while (maxIterations--) {
-            eNext = E + (M - E - body.orbit.eccentricity * Math.sin(E)) / (1 - body.orbit.eccentricity * Math.cos(E))
+            eNext = E + (M - (E - body.orbit.eccentricity * Math.sin(E))) / (1 - body.orbit.eccentricity * Math.cos(E))
 
             if (Math.abs(eNext - E) < precision) {
                 break
@@ -230,39 +227,7 @@ class Physics {
             E = eNext
         }
 
-        const cosF = (Math.cos(E) - body.orbit.eccentricity) / (1 - body.orbit.eccentricity * Math.cos(E))
-        const sinF = (Math.sqrt(1 - Math.pow(body.orbit.eccentricity, 2)) * Math.sin(E)) / (1 - body.orbit.eccentricity)
-        const r = body.orbit.semiMajorAxis * (1 - Math.pow(body.orbit.eccentricity, 2)) / (1 + body.orbit.eccentricity * cosF)
-        const x = cosF * r
-        const y = sinF * r
-
-        if(body.name === 'Halleyova kometa') {
-            console.log(M, E)
-        }
-
-        return { M, E, r, x, y, v: 1 }*/
-
-        var M = 2.0 * Math.PI * time / (body.orbit.period * YEAR_TO_SECONDS * 1000)
-
-        // 2) Seed with mean anomaly and solve Kepler's eqn for E
-        var u = M // seed with mean anomoly
-        var u_next = 0
-        var loopCount = 0
-        // iterate until within 10-6
-        while (loopCount++ < 10) {
-            // this should always converge in a small number of iterations - but be paranoid
-            u_next = u + (M - (u - body.orbit.eccentricity * Math.sin(u))) / (1 - body.orbit.eccentricity * Math.cos(u))
-            if (Math.abs(u_next - u) < 1E-6)
-                break
-            u = u_next
-        }
-
-        if (body.name === 'Halleyova kometa') {
-            console.log(u)
-        }
-
-        return u - Math.PI
-
+        return E - Math.PI
     }
 
     /**
