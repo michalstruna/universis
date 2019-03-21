@@ -213,7 +213,7 @@ class Physics {
      * @returns Body true anomaly in time.
      */
     public static getPosition(body: Universis.Universe.Body.Simple, time: number, precision: number = 0.001, maxIterations: number = 5): any {
-        const M = 2.0 * Math.PI * time / (body.orbit.period * YEAR_TO_SECONDS * 1000)
+        const M = 2.0 * Math.PI * (new Date(body.orbit.periapsisTime || new Date().getTime()).getTime() - time) / (body.orbit.period * YEAR_TO_SECONDS * 1000)
         let E = M
         let eNext = 0
 

@@ -195,7 +195,7 @@ class Universe implements Universis.Universe {
 
         if (body.data.orbit) {
             const position = Physics.getPosition(body.data, this.simulationTime.getTime())
-            const orbitPoint = body.orbit.userData.path.getPoint(position / (2 * Math.PI))
+            const orbitPoint = body.orbit.userData.path.getPoint(1 - position / (2 * Math.PI))
 
             if (body.mesh === target) {
                 body.parent.mesh.updateMatrixWorld(true)
