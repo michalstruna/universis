@@ -49,8 +49,8 @@
 \contentsline {subsubsection}{\numberline {3.4.3}Inicializace rotace}{33}{subsubsection.3.4.3}
 \contentsline {subsubsection}{\numberline {3.4.4}Vykreslovac\IeC {\'\i } smy\IeC {\v c}ka}{33}{subsubsection.3.4.4}
 \contentsline {subsubsection}{\numberline {3.4.5}Omezen\IeC {\'\i }}{34}{subsubsection.3.4.5}
-\contentsline {subsection}{\numberline {3.5}Serverov\IeC {\'a} \IeC {\v c}\IeC {\'a}st}{34}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}Zachycen\IeC {\'\i } HTTP po\IeC {\v z}adavku}{34}{subsubsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5}Serverov\IeC {\'a} \IeC {\v c}\IeC {\'a}st}{35}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}Zachycen\IeC {\'\i } HTTP po\IeC {\v z}adavku}{35}{subsubsection.3.5.1}
 \contentsline {subsubsection}{\numberline {3.5.2}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{35}{subsubsection.3.5.2}
 \contentsline {subsection}{\numberline {3.6}Datab\IeC {\'a}ze}{37}{subsection.3.6}
 \contentsline {subsubsection}{\numberline {3.6.1}P\IeC {\v r}ipojen\IeC {\'\i } do datab\IeC {\'a}ze}{37}{subsubsection.3.6.1}
@@ -86,6 +86,6 @@
 \contentsline {subsubsection}{\numberline {5.3.2}Hashov\IeC {\'a}n\IeC {\'\i } hesel}{54}{subsubsection.5.3.2}
 \contentsline {subsection}{\numberline {5.4}Zobrazov\IeC {\'a}n\IeC {\'\i } hodnot fyzik\IeC {\'a}ln\IeC {\'\i }ch veli\IeC {\v c}in}{54}{subsection.5.4}
 \contentsline {subsection}{\numberline {5.5}Vykreslov\IeC {\'a}n\IeC {\'\i } \IeC {\v c}asov\IeC {\'e} osy}{56}{subsection.5.5}
-\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{57}{section*.24}
-\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{58}{section*.25}
-\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{60}{section*.26}
+\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{57}{section*.25}
+\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{58}{section*.26}
+\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{60}{section*.27}

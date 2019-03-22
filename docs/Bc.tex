@@ -282,18 +282,25 @@ Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simuluj�
 
 Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém má za cíl umožnit práci s~původním systémem, který nemusí být~dostupný.~\cite{emulations}
 
-Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl okamžitou rychlost či vzájemnou polohu těles v~určitém čase.
-
-Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace proto reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů. V~případě, že by se zde nebeská mechanika počítala na základě vzájemného gravitačního ovlivňování všech těles, nemohlo by být zaručitelné, že by bylo možné při vzrůstajícím počtu těles výkonově umožnit běh aplikace v~prohlížeči na běžných počítačích.
-
 \subsection{Fyzikální a~astronomické pojmy}
 
-Pro popis geometrických, astronomických či jiných fyzikálních vlastností těles a~jejich eliptických orbit jsou určeny termíny. V~této kapitole je stručně popsán význam některých z nich.~\cite{kleczek}
+V této kapitole je popsán význam některých pojmů, které označují geometrické, astronomické či jiné vlastnosti těles nebo jejich eliptických orbit.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=350pt]{Images/Orbit.png}
+\caption[Elementy orbity]{Elementy orbity \footnotemark}
+\end{center}
+\end{figure}
+
+\footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
 \begin{itemize}
-\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (těžiště). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
+\item \textbf{Anomálie} -- Pokud bychom si orbitu tělesa představili jako kružnici, \textbf{střední anomálie (M)} by byla úhel těleso-střed-periapsida. Tělesa se ale nepohybují po kružnici. Jejich rychlost se v~čase mění a~ohnisko neleží ve středu elipsy. \textbf{Pravá anomálie (v)}~proto označuje úhel těleso-ohnisko-pariapsida. V~případě, že by se těleso nacházelo na pomyslné pozici na kružnici, která by byla určena průsečíkem kružnice a~kolmicí k~hlavní ose elipsy procházející skutečnou pozicí tělesa, \textbf{excentrická anomálie (E)}~by označovala úhel těleso-střed-periapsida.~\cite{kleczek}
 
-\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se tak téměř o~kružnici.~\cite{kleczek}
+\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (ohniska). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou např. apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
+
+\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Excentricita oběžné dráhy Země je 0,016. Jedná se tak téměř o~kružnici.~\cite{kleczek}
 
 \item \textbf{Keplerovy zákony} -- Jedná se o~3 zákony popisující pohyb planet kolem Slunce. Je možné je aplikovat i~na jiná tělesa pohybující se po eliptické oběžné dráze.~\cite{kleczek}
 
@@ -303,7 +310,7 @@ Pro popis geometrických, astronomických či jiných fyzikálních vlastností 
 \item „Druhé mocniny oběžných dob planet jsou ve stejném poměru, jako třetí mocniny velkých poloos.“
 \end{enumerate}
 
-\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
+\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (ohnisku). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou např. perigalaktikum a~periselenium. To jsou nejmenší vzdálenosti od centra Galaxie a~od Měsice.~\cite{kleczek}
 
 \item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdálenosti, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.~\cite{kleczek}
 
@@ -562,11 +569,14 @@ Funkce pro generování částic je uložena v~databázové kolekci typů těles
 
 \lstinputlisting[caption={Naplnění geometrie částicemi ve tvaru koule}, language={JavaScript}]{SourceCodes/Particles.js}
 
+\vspace*{-0.6cm}
 \subsection{Pohyb těles}
+
+Na aplikaci lze pohlížet jako na simulátor, protože výpočet vzájemné pozice těles v~čase nelze vypočítat pouhým vyjádřením neznámé z~rovnice a~je nutno podstoupit proces, který k~výsledku postupně povede. Na druhou stranu, aplikace se řídí podle Keplerových zákonů. Ty říkají, jak se tělesa pohybují, ale neříkají proč.~\cite{kleczek} Nepracuje se se skutečnými fyzikálními vztahy, pouze s~pravidly která vychází z~Keplerových zákonů.
 
 \subsubsection{Výpočet konstatních dat}
 
-K~vypočtení konstantních hodnot dojde pouze jednou při načtení těles z~databáze. Pro úplnost jsou zde uvedeny i~výpočty, které přímo nesouvisí s~pohybem tělesa. O~jejich dopočítání se stará \textit{FillBodyPlugin} zaregistrovaný na schématu těles. Ten je popsán v~kapitole \textit{3.6.3 Mongoose plugin}. Jako první jsou u~každého tělesa dopočítány \textbf{poloosy orbity} a~\textbf{gravitační parametr}:
+Při načtení tělesa z databáze jsou vypočítány hodnoty, které jsou pro dané těleso konstantní. Pro úplnost jsou zde uvedeny i~výpočty, které přímo nesouvisí s~pohybem tělesa. O~jejich dopočítání se stará plugin zaregistrovaný na schématu těles. Jako první jsou u~každého tělesa dopočítány \textbf{poloosy orbity} a~\textbf{gravitační parametr}:
 
 \vspace*{-0.5cm}
 $$a = \frac{d_{max} - d_{min}}{2}~~~~~~~~~~b = a - \sqrt{1 - e^2}~~~~~~~~~~\mu = M * G$$
@@ -643,7 +653,7 @@ $$E\textsubscript{n} = \frac{2 * \pi}{T} + \epsilon * sin(E\textsubscript{n - 1}
 \textit{E\textsubscript{n} -- excentrická anomálie n-té iterace, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu}~\cite{michalrepik}
 \end{center}
 
-Z~E~je možné získat \textbf{skutečnou anomálii} \textit{v} -- úhel periapsida-Slunce-Země.
+Z~E~je možné získat \textbf{skutečnou anomálii} \textit{v}:
 
 \vspace*{-0.5cm}
 $$v = 2 * arctg\Bigg(\sqrt{\frac{1 + \epsilon}{1 - \epsilon}} * tg\bigg(\frac{E}{2}\bigg)\Bigg)$$
