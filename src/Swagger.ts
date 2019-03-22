@@ -474,11 +474,11 @@ export default {
             'Orbit': {
                 'type': 'object',
                 'properties': {
-                    'apocenter': {
+                    'apsis': {
                         'type': 'number',
                         'example': 152097701
                     },
-                    'pericenter': {
+                    'periapsis': {
                         'type': 'number',
                         'example': 147098074
                     },

@@ -1,7 +1,6 @@
 import * as BodyParser from 'body-parser'
 import * as Compression from 'compression'
 import * as Express from 'express'
-import { Z_DEFAULT_COMPRESSION } from 'zlib'
 import * as SwaggerUi from 'swagger-ui-express'
 import * as OpenApi from 'express-openapi'
 import * as Path from "path";
@@ -19,7 +18,7 @@ class Server implements Universis.Server {
     constructor() {
         this.express = Express()
         this.express.use(BodyParser.json())
-        this.express.use(Compression(Z_DEFAULT_COMPRESSION))
+        this.express.use(Compression())
 
         this.express.all('*', (request, response, next) => {
             for (const i in Config.headers) {

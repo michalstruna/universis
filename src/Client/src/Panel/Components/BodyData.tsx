@@ -67,8 +67,8 @@ class BodyData extends StatelessComponent<IProps> {
                         title={strings.orbit}
                         data={{
                             [strings.semiMajorAxis]: body.orbit ? Units.toFull(body.orbit.semiMajorAxis, Units.SIZE.KM) : null,
-                            [strings.apocenter]: body.orbit ? Units.toFull(body.orbit.apocenter, Units.SIZE.KM) : null,
-                            [strings.pericenter]: body.orbit ? Units.toFull(body.orbit.pericenter, Units.SIZE.KM) : null,
+                            [strings.apsis]: body.orbit ? Units.toFull(body.orbit.apsis, Units.SIZE.KM) : null,
+                            [strings.periapsis]: body.orbit ? Units.toFull(body.orbit.periapsis, Units.SIZE.KM) : null,
                             [strings.eccentricity]: body.orbit ? Units.toFull(body.orbit.eccentricity) : null,
                             [strings.orbitPeriod]: body.orbit ? Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME) : null,
                             [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,

@@ -24,7 +24,7 @@
     "chartjs-plugin-labels": "^1.1.0",
     "classnames": "^2.2.6",
     "js-cookie": "^2.2.0",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.11.0",
     "path": "^0.12.7",
     "react": "^16.5.2",
     "react-chartjs-2": "^2.7.4",

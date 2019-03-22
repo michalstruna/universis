@@ -152,13 +152,13 @@ const BodySchema = new Schema({
     },
 
     orbit: {
-        apocenter: {
+        apsis: {
             type: Number,
             required: false,
             min: 0
         },
 
-        pericenter: {
+        periapsis: {
             type: Number,
             required: false,
             min: 0

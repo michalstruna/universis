@@ -1,3 +1,5 @@
+const YEAR_TO_SECONDS = 31556926
+
 /**
  * Utils for physics.
  */
@@ -28,7 +30,7 @@ class Physics {
             return null
         }
 
-        return Math.floor((body.orbit.apocenter + body.orbit.pericenter) / 2)
+        return Math.floor((body.orbit.apsis + body.orbit.periapsis) / 2)
     }
 
     /**
@@ -55,11 +57,7 @@ class Physics {
      * @returns Standard gravitational parameter.
      */
     public static getGravitationalParameter(body: Universis.Universe.Body.Simple): number {
-        if (!body.orbit) {
-            return null
-        }
-
-        return this.G * body.mass / 10e8
+        return this.G * (body.mass || 10e24) / 10e8 // TODO
     }
 
     /**
@@ -73,11 +71,12 @@ class Physics {
             return null
         }
 
+
         if (!parent.gravitationalParameter) {
             parent.gravitationalParameter = this.getGravitationalParameter(parent)
         }
 
-        return 2 * Math.PI * Math.sqrt(Math.pow(body.orbit.semiMajorAxis, 3) / parent.gravitationalParameter) / 31556926 // TODO: Seconds to years.
+        return (2 * Math.PI * Math.sqrt(Math.pow(body.orbit.semiMajorAxis, 3) / parent.gravitationalParameter) / YEAR_TO_SECONDS) || 1e9
     }
 
     /**
@@ -190,6 +189,45 @@ class Physics {
      */
     public static getOrbitAngleVelocity(body: Universis.Universe.Body.Simple, velocity: number): number {
         return velocity / body.orbit.circuit
+    }
+
+    /**
+     * Get angle velocity.
+     * @param body
+     * @return Angle velocity.
+     */
+    public static getAngleVelocity(body: Universis.Universe.Body.Simple): number {
+        if (!body.orbit) {
+            return null
+        }
+
+        return 2 * Math.PI / (body.orbit.period * YEAR_TO_SECONDS)
+    }
+
+    /**
+     * Get true anomaly.
+     * @param body
+     * @param time
+     * @param precision
+     * @param maxIterations
+     * @returns Body true anomaly in time.
+     */
+    public static getPosition(body: Universis.Universe.Body.Simple, time: number, precision: number = 0.001, maxIterations: number = 5): any {
+        const M = 2.0 * Math.PI * (new Date(body.orbit.periapsisTime || new Date().getTime()).getTime() - time) / (body.orbit.period * YEAR_TO_SECONDS * 1000)
+        let E = M
+        let eNext = 0
+
+        while (maxIterations--) {
+            eNext = E + (M - (E - body.orbit.eccentricity * Math.sin(E))) / (1 - body.orbit.eccentricity * Math.cos(E))
+
+            if (Math.abs(eNext - E) < precision) {
+                break
+            }
+
+            E = eNext
+        }
+
+        return E - Math.PI
     }
 
     /**

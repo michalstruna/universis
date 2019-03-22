@@ -45,13 +45,13 @@ const fillBody = (body: Universis.Universe.Body.Simple, bodies?: Universis.Unive
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
         body.orbit.semiMinorAxis = Physics.getSemiMinorAxis(body)
         body.orbit.circuit = Physics.getOrbitCircuit(body)
-        // TODO: Obsah orbity?
         body.orbit.period = Physics.getOrbitPeriod(body, parent)
+        body.orbit.angleVelocity = Physics.getAngleVelocity(body)
 
         body.orbit.velocity = {
-            min: Physics.getOrbitVelocity(body, parent, body.orbit.apocenter),
+            min: Physics.getOrbitVelocity(body, parent, body.orbit.apsis),
             avg: Physics.getOrbitVelocity(body, parent, body.orbit.semiMajorAxis),
-            max: Physics.getOrbitVelocity(body, parent, body.orbit.pericenter)
+            max: Physics.getOrbitVelocity(body, parent, body.orbit.periapsis)
         }
     }
 }
