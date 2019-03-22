@@ -664,52 +664,46 @@ Knihovna THREE.js umožňuje získat souřadnice bodu na elipse podle zadaného 
 
 \subsubsection{Inicializace rotace}
 
-U inicializace rotace se počítá s~tím, že rychlost rotace tělesa je (v~rámci stejného místa na povrchu) konstantní. V~databázi je uložen úhel rotace tělesa kolem své osy k~1.~1.~2019 v~0.00:00. Následně dojde ke zjištění času, který od této doby uplynul a~k~výpočtu úhlu, o~něhož se stihlo za tento rozdíl časů těleso pootočit kolem své osy.
+U inicializace rotace se počítá s~tím, že rychlost rotace tělesa je na rovníku konstantní. V~databázi je uložen datum, v němž mělo těleso nulový úhel rotace v~rámci dané souřadnicové soustavy. Následně dojde k~výpočtu úhlu, o~něhož se stihlo za tento rozdíl časů těleso pootočit kolem své osy.
 
 \vspace*{-0.5cm}
-$$\varphi = \varphi\textsubscript{0} + \Bigg(\frac{2 * \pi}{T} * \bigg((t - t\textsubscript{0})~mod~T\bigg)\Bigg)$$
+$$\varphi = 2 * \pi * \frac{(t - t\textsubscript{0})~mod~T}{T}$$
+
 \begin{center}
-\textit{$\varphi$ -- úhel rotace, $\alpha\textsubscript{0}$ -- výchozí úhel, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0}~--~výchozí čas}
+\textit{$\varphi$ -- úhel rotace, T -- perioda oběhu, t -- aktuální čas, t\textsubscript{0}~--~výchozí čas}
 \end{center}
 
 \subsubsection{Vykreslovací smyčka}
 
-Jakmile jsou pozice a rotace těles inicializovány, je třeba je s~ubíhajícím časem aktualizovat. Nejdříve je nutné zjistit, \textbf{kolik milisekund uplynulo} od posledního vykreslení.
+Jakmile jsou pozice a rotace těles inicializovány, je třeba je s~ubíhajícím časem aktualizovat. Nejdříve je nutné zjistit, \textbf{kolik milisekund uplynulo} od posledního vykreslení a~podle toho i~aktualizovat čas simulátoru.
 
 \begin{center}
-$\Delta t = t - t\textsubscript{0}$
+$\Delta t = t - t_{0}~~~~~~~~~~t_{s} = t_{s} + \Delta t * k$
 
-\textit{t -- aktuální čas, t\textsubscript{0} -- čas posledního vykreslení}
+\textit{$\Delta t$ -- čas od posledního vykreslení, t -- aktuální čas, t\textsubscript{0} -- čas posledního vykreslení, $t_{s}$~--~čas simulátoru, k~--~rychlost běhu času}
 \end{center}
 
-Dalším důležitým údajem je aktuální \textbf{vzdálenost tělesa od těžiště}. Celý výpočet uskuteční knihovní metoda v THREE.js \code{bodyPosition.distanceTo(parentPosition)}.
+Nová \textbf{pozice tělesa} je určena opětovným vyřešením Keplerovy rovnice. Počet iterací pro dosažení požadované přesnosti roste společně s~excentricitou orbity. Avšak i~u~dlouhoperiodických komet, jejichž excentricita dosahuje často i~0,999 lze najít dostatečně přesnou excentrickou anomálii do 5 iterací. Je tak dosaženo dobré přesnosti za cenu malého snížení výkonu. Pokud by nová pozice byla vypočítána ze staré pozice, ke které by se pouze přičetla uražená dráha, jednotlivé nepřesnosti by se postupně sčítaly a~bylo by nutné je kompenzovat. 
 
-Pro aktualizaci pozice zbývá vypočítat \textbf{aktuální rychlost} oběhu, \textbf{uraženou dráhu} a~\textbf{změnu úhlu} od posledního vykreslení. Problém elipsy je zjednodušen na problém trojúhelníka za cenu zanedbatelné nepřesnosti. Jednotlivé nepřesnosti se díky kontrolním mechanismům přitom sčítají pouze v~rámci jedné periody oběhu. Poté je nepřesnost vyrovnána.
-
-\vspace*{-0.5cm}
-$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}~~~~~~~~~~\Delta s = v * \Delta t~~~~~~~~~~\omega = \frac{v}{O}$$
-\begin{center}
-\textit{v -- okamžitá rychlost, $\mu$ -- gravitační parametr, d -- aktuální vzdálenost od těžiště, a -- velká poloosa}
-\end{center}
-
-Po přičtení úhlu oběhu tělesa lze získat nové souřadnice tělesa pomocí metody\break \code{orbit.getPoint(angle)}.
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=300pt]{Images/DeltaAngle.png}
-\caption[Výpočet nové pozice tělesa]{Výpočet nové pozice tělesa \footnotemark[1]}
-\end{center}
-\end{figure}
-
-\footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
-
-Dojde také k~aktualizaci rotace tělesa kolem osy. Ta je uskutečněna jednoduchým přičtením úhlu, o~nějž se těleso otočí za dobu, která uplynula od posledního vykreslení, k~aktuálnímu úhlu.
+Jiná situace nastává u~aktualizace \textbf{rotace tělesa} kolem osy, jejíž rychlost se v~čase nemění. Ta je uskutečněna jednoduchým přičtením úhlu, o~nějž se těleso otočí za dobu, která uplynula od posledního vykreslení, k~aktuálnímu úhlu.
 
 \vspace*{-0.5cm}
 $$\varphi = \varphi + \omega * \Delta t$$
 \begin{center}
 \textit{$\varphi$ -- úhel rotace, $\omega$ -- úhlová rychlost rotace, $\Delta t$ -- čas od posledního vykreslení}
 \end{center}
+
+Dalším důležitým údajem je aktuální \textbf{vzdálenost tělesa od těžiště}. Celý výpočet uskuteční knihovní metoda v~THREE.js \code{bodyPosition.distanceTo(parentPosition)}.
+
+Pro aktualizaci pozice zbývá vypočítat \textbf{aktuální rychlost} oběhu, \textbf{uraženou dráhu} a~\textbf{změnu úhlu} od posledního vykreslení. Problém elipsy je zjednodušen na problém trojúhelníka za cenu zanedbatelné nepřesnosti. Jednotlivé nepřesnosti se díky kontrolním mechanismům přitom sčítají pouze v~rámci jedné periody oběhu. Poté je nepřesnost vyrovnána.
+
+\vspace*{-0.5cm}
+$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}~~~~~~~~~~\Delta s = v * \Delta t~~~~~~~~~~\omega = \frac{v}{O}$$
+\begin{center}
+\textit{v -- okamžitá rychlost, $\mu$ -- gravitační parametr, d -- aktuální vzdálenost od těžiště, a~--~velká poloosa}
+\end{center}
+
+Po přičtení úhlu oběhu tělesa lze získat nové souřadnice tělesa pomocí metody\break \code{orbit.getPoint(angle)}.
 
 \begin{itemize}
 \item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
