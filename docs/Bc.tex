@@ -571,7 +571,7 @@ K~vypočtení konstantních hodnot dojde pouze jednou při načtení těles z~da
 \vspace*{-0.5cm}
 $$a = \frac{d_{max} - d_{min}}{2}~~~~~~~~~~b = a - \sqrt{1 - e^2}~~~~~~~~~~\mu = M * G$$
 \begin{center}
-\textit{a -- hlavní poloosa, b -- vedlejší poloosa, $d_{max}$ -- apoapsida, $d_{min}$ -- periapsida, e~--~excentricita, $\mu$ -- gravitační parametr, M -- hmotnost tělesa}
+\textit{a -- hlavní poloosa, b -- vedlejší poloosa, $d_{max}$ -- apoapsida, $d_{min}$ -- periapsida, e~--~excentricita, $\mu$ -- gravitační parametr, M -- hmotnost tělesa}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{obvodu} a~\textbf{obsahu orbity} a~\textbf{oběžné doby}:
@@ -579,7 +579,7 @@ Výpočet \textbf{obvodu} a~\textbf{obsahu orbity} a~\textbf{oběžné doby}:
 \vspace*{-0.5cm}
 $$O \approx \pi * \sqrt{2 * (a^2 + b^2)}~~~~~~~~~~S = \pi * a * b~~~~~~~~~~T = 2 * \pi * \sqrt{\frac{a^3}{\mu}}$$
 \begin{center}
-\textit{O -- obvod orbity, S -- obsah orbity, a -- hlavní poloosa, b -- vedlejší poloosa, T -- oběžná doba, $\mu$ -- gravitační parametr}
+\textit{O -- obvod orbity, S -- obsah orbity, a -- hlavní poloosa, b -- vedlejší poloosa, T -- oběžná doba, $\mu$ -- gravitační parametr}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{rovníkového obvodu}, \textbf{objemu} a~odhadovaného \textbf{povrchu tělesa}:
@@ -587,7 +587,7 @@ Výpočet \textbf{rovníkového obvodu}, \textbf{objemu} a~odhadovaného \textbf
 \vspace*{-0.5cm}
 $$O \approx \pi * \sqrt{2 * (r_{x}^2 + r_{z}^2)}~~~~~~~~~~V \doteq \frac{4}{3} * \pi * r_{x} * r_{y} * r_{z}~~~~~~~~~~S \doteq 4 * \pi * r_{x} * r_{y}$$
 \begin{center}
-\textit{V -- objem tělesa, r -- poloměr telesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}
+\textit{V -- objem tělesa, r -- poloměr telesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo \textbf{minimální orbitální rychlosti}:
@@ -595,7 +595,7 @@ Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo \t
 \vspace*{-0.5cm}
 $$\varrho = \frac{M}{V}~~~~~~~~~~f = 1 - \frac{r_{y}}{r_{x}}~~~~~~~~~~v_{max} = \sqrt{\mu * \frac{2}{d_{min}} - \frac{1}{a}}$$
 \begin{center}
-\textit{$\varrho$ -- hustota, M -- hmotnost tělesa, V -- objem tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- max. rychlost, $\mu$ -- gravitační parametr, $d_{min}$, periapsida}
+\textit{$\varrho$ -- hustota, M -- hmotnost tělesa, V -- objem tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- max. rychlost, $\mu$ -- gravitační parametr, $d_{min}$, periapsida}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{gravitačního zrychlení}, \textbf{únikové rychlosti} a~pokud těleso emituje viditelné světlo, tak i~\textbf{svítivosti}:
@@ -603,7 +603,7 @@ Výpočet \textbf{gravitačního zrychlení}, \textbf{únikové rychlosti} a~pok
 \vspace*{-0.5cm}
 $$a = G * M * r^2~~~~~~~~~~v = \sqrt{\frac{2 * \mu}{r}}~~~~~~~~~~L = 4 * \pi * r^2 * \sigma * T^4$$
 \begin{center}
-\textit{a -- gravitační zrychlení, M -- hmotnost, r -- poloměr, v -- úniková rychlost, $\mu$ -- gravitační parametr, L -- svítivost, $\sigma$ -- Stefan-Boltzmannova konstanta, T -- povrchová teplota}
+\textit{a -- gravitační zrychlení, M -- hmotnost, r -- poloměr, v -- úniková rychlost, $\mu$ -- gravitační parametr, L -- svítivost, $\sigma$ -- Stefan-Boltzmannova konstanta, T -- povrchová teplota}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{rovníkové rychlosti rotace} a~\textbf{úhlové rychlosti}:
@@ -611,7 +611,7 @@ Výpočet \textbf{rovníkové rychlosti rotace} a~\textbf{úhlové rychlosti}:
 \vspace*{-0.5cm}
 $$v = \frac{O}{T}~~~~~~~~~~\omega = \frac{2 * \pi}{T}$$
 \begin{center}
-\textit{v -- rychlost rotace, O -- rovníkový obvod, T -- perioda rotace, $\omega$ -- úhlová rychlost}
+\textit{v -- rychlost rotace, O -- rovníkový obvod, T -- perioda rotace, $\omega$ -- úhlová rychlost}~\cite{kleczek}
 \end{center}
 
 
@@ -675,7 +675,7 @@ $$\varphi = 2 * \pi * \frac{(t - t\textsubscript{0})~mod~T}{T}$$
 
 \subsubsection{Vykreslovací smyčka}
 
-Jakmile jsou pozice a rotace těles inicializovány, je třeba je s~ubíhajícím časem aktualizovat. Nejdříve je nutné zjistit, \textbf{kolik milisekund uplynulo} od posledního vykreslení a~podle toho i~aktualizovat čas simulátoru.
+Jakmile jsou pozice a~rotace těles inicializovány, je třeba je s~ubíhajícím časem aktualizovat. Nejdříve je nutné zjistit, \textbf{kolik milisekund uplynulo} od posledního vykreslení a~podle toho i~aktualizovat čas simulátoru.
 
 \begin{center}
 $\Delta t = t - t_{0}~~~~~~~~~~t_{s} = t_{s} + \Delta t * k$
@@ -693,50 +693,25 @@ $$\varphi = \varphi + \omega * \Delta t$$
 \textit{$\varphi$ -- úhel rotace, $\omega$ -- úhlová rychlost rotace, $\Delta t$ -- čas od posledního vykreslení}
 \end{center}
 
-Dalším důležitým údajem je aktuální \textbf{vzdálenost tělesa od těžiště}. Celý výpočet uskuteční knihovní metoda v~THREE.js \code{bodyPosition.distanceTo(parentPosition)}.
-
-Pro aktualizaci pozice zbývá vypočítat \textbf{aktuální rychlost} oběhu, \textbf{uraženou dráhu} a~\textbf{změnu úhlu} od posledního vykreslení. Problém elipsy je zjednodušen na problém trojúhelníka za cenu zanedbatelné nepřesnosti. Jednotlivé nepřesnosti se díky kontrolním mechanismům přitom sčítají pouze v~rámci jedné periody oběhu. Poté je nepřesnost vyrovnána.
+Dále dojde k výpočtu údajů pro popisky. \textbf{Vzdálenost tělesa od ohniska} určí knihovní metoda v~THREE.js \code{bodyPosition.distanceTo(parentPosition)}. Stejným způsobem dojde k~určení \textbf{vzdálenosti tělesa od Země a~od kamery}. Následně je vypočítána \textbf{okamžitá rychlost tělesa}.
 
 \vspace*{-0.5cm}
-$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}~~~~~~~~~~\Delta s = v * \Delta t~~~~~~~~~~\omega = \frac{v}{O}$$
+$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}$$
 \begin{center}
-\textit{v -- okamžitá rychlost, $\mu$ -- gravitační parametr, d -- aktuální vzdálenost od těžiště, a~--~velká poloosa}
+\textit{v -- okamžitá rychlost, $\mu$ -- gravitační parametr, d -- vzdálenost od ohniska}~\cite{kleczek}
 \end{center}
 
-Po přičtení úhlu oběhu tělesa lze získat nové souřadnice tělesa pomocí metody\break \code{orbit.getPoint(angle)}.
-
-\begin{itemize}
-\item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
-
-
-\item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
-
-\item \textbf{Výpočet okamžité rychlosti} na základě plochy orbity, kterou těleso urazí za jednotku času a~aktuální vzdálenosti od těžiště (2.~Keplerův zákon),
-
-\begin{center}
-$$v = \frac{2 * \pi}{T * d}  * \Bigg(\frac{d\textsubscript{max} + d\textsubscript{min}}{2}\Bigg) ^2 * \sqrt{1 - e^2}$$
-
-\textit{v -- rychlost, T -- perioda oběhu, d -- vzdálenost od tělesa, d\textsubscript{max}~--~apoapsida, d\textsubscript{min}~--~periapsida, e -- excentricita}~\cite{kleczek}
-\end{center}
-
-\item \textbf{Výpočet procentuální části obvodu dráhy}, kterou těleso urazí za jednotku času (dáno dle FPS, v ideálním případě za 16 ms).
-
-\item \textbf{Nastavení nových souřadnic} tělesa získaných z metody  \textit{orbitPath.getPoint(angle)},
-
-\item \textbf{Pootočení tělesa kolem osy} o~úhel za jednotku času vypočtený z rotační periody,
-
-\item \textbf{Výpočet vzdáleností} od kamery a~od Země,
-
-\item \textbf{Aktualizace viditelnosti, obsahu a~pozice popisku} a~orbity tělesa.
-\end{itemize}
+Nakonec jsou aktualizovány samotné popisky. Výše zmíněné údaje se počítají samozřejmě pouze pokud je zobrazení popisku s~danou informací aktivováno.
 
 \subsubsection{Omezení}
 
 Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem může být vysoká výpočetní náročnost pro prohlížeč nebo složitost implementace. V~důsledku toho může v~simulátoru docházet k~nepřesnostem nebo omezeným možnostem vykreslování těles.
 
 \begin{itemize}
-\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tak není ovlivněno tělesy obíhajícími. Oběh je počítán na základě 1. a~2. Keplerova zákona a není třeba řešit vzájemné gravitační ovlivňování těles.
+\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tak není ovlivněno tělesy obíhajícími. Oběh je počítán na základě Keplerových zákonů a~není třeba řešit vzájemné gravitační ovlivňování těles. V případě vícehvězdných systémů, u~kterých je nezanedbatelná hmotnost více těles, je možné vytvořit virtuální těleso, které se nebude zobrazovat a~které představuje těžiště soustavy, kolem něhož budou ostatní tělesa obíhat.
+
 \item Tělesa s~neperiodickou nebo neeliptickou oběžnou dráhou mají pevně nastavenou pozici a~nepohybují se.
+
 \item Periapsida se vždy nachází přímo na opačné straně elipsy, než apoapsida. Pokud je oběžná dráha příliš excentrická, může se pozice skutečně nejbližšího bodu k~těžišti dráhy a~periapsidy v~aplikaci lišit.
 
 \item Jsou zanedbány dlouhodobé události, např. postupné vzdalování Měsíce od Země o~38~mm za rok.~\cite{rees}
