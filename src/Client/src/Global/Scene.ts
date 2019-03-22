@@ -164,13 +164,9 @@ declare namespace Universis {
 
             /**
              * Callback for render loop. (optional)
+             * There is count of ms since last render.
              */
-            onRender?: Universis.Runnable
-
-            /**
-             * Interval of scene callback onRender [ms]. (optional, default 16)
-             */
-            onRenderInterval?: number
+            onRender?: Universis.Consumer<number>
 
             /**
              * Callback for change distance from camera target. There is current distance in parameter. (optional)

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { reduxForm, InjectedFormProps } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
-import { Field, Form, Submit } from '../../Forms'
+import { Field, Form } from '../../Forms'
 import { addAnswer } from '../../Universe'
 
 interface IProps {
@@ -48,7 +48,7 @@ class AnswerForm extends StatelessComponent<IProps & InjectedFormProps<IValues>>
                     label={strings.contentLabel}
                     required={strings.missingContent}
                     name='content' />
-                <Submit />
+                <Form.Submit />
             </Form>
         )
     }

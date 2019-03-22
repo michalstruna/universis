@@ -93,6 +93,10 @@ class BodyDiscussion extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
+        if (!this.props.body.payload) {
+            return null // TODO: Refactor.
+        }
+
         return (
             <section className='panel__body__discussion'>
                 {this.renderHeader()}

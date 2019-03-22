@@ -13,6 +13,12 @@ this.db.getModel(DatabaseModels.BODY).aggregate([
     as: 'events'
   } },
   { $lookup: {
+    from: 'bodies',
+    localField: 'parentId',
+    foreignField: '_id',
+    as: 'parent'
+  } },
+  { $lookup: {
     from: 'bodyposts',
     let: { 'bodyId': '$_id' },
     pipeline: [

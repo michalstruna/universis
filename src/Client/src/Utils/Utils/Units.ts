@@ -115,6 +115,13 @@ class Units {
         KM_S2: { value: 1000, shortName: 'km/s2' }
     }
 
+    /**
+     * List of gravitational parameter units.
+     */
+    public static GRAVITATIONAL_PARAMETER = {
+        KM3_S2: { value: 1, shortName: 'km3/s2' }
+    }
+
     private constructor() {
 
     }

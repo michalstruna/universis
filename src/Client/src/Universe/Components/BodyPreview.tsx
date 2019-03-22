@@ -26,16 +26,18 @@ class BodyPreview extends StatelessComponent<IProps> {
         const { body, height, width } = this.props
 
         const bodyContainer = this.bodyFactory.create(body)
-        bodyContainer.mesh.rotateX(-Math.PI / 2)
+        bodyContainer.childrenContainer.rotateX(Math.PI / 2)
 
         new Scene({
             ambientColor: 0xffffff,
             cameraDistance: body.diameter.x * 1.4,
             element: this.parent,
             height,
-            globalCamera: true,
+            follow: 1,
             objects: [bodyContainer.mesh],
-            onRender: () => bodyContainer.mesh.rotation.z -= 0.01,
+            onRender: () => {
+                bodyContainer.childrenContainer.rotation.y += 0.01
+            },
             width
         })
     }

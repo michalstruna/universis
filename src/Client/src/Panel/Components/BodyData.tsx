@@ -60,14 +60,15 @@ class BodyData extends StatelessComponent<IProps> {
                                 </section>
                             ),
                             [strings.escapeVelocity]: Units.toFull(body.escapeVelocity, Units.VELOCITY.KM_S, Units.VELOCITY),
-                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2, Units.ACCELERATION)
+                            [strings.gravitationalAcceleration]: Units.toFull(body.gravitationalAcceleration, Units.ACCELERATION.M_S2, Units.ACCELERATION),
+                            [strings.gravitationalParameter]: Units.toFull(body.gravitationalParameter, Units.GRAVITATIONAL_PARAMETER.KM3_S2)
                         }} />
                     <DataTable
                         title={strings.orbit}
                         data={{
                             [strings.semiMajorAxis]: body.orbit ? Units.toFull(body.orbit.semiMajorAxis, Units.SIZE.KM) : null,
-                            [strings.apocenter]: body.orbit ? Units.toFull(body.orbit.apocenter, Units.SIZE.KM) : null,
-                            [strings.pericenter]: body.orbit ? Units.toFull(body.orbit.pericenter, Units.SIZE.KM) : null,
+                            [strings.apsis]: body.orbit ? Units.toFull(body.orbit.apsis, Units.SIZE.KM) : null,
+                            [strings.periapsis]: body.orbit ? Units.toFull(body.orbit.periapsis, Units.SIZE.KM) : null,
                             [strings.eccentricity]: body.orbit ? Units.toFull(body.orbit.eccentricity) : null,
                             [strings.orbitPeriod]: body.orbit ? Units.toFull(body.orbit.period, Units.TIME.Y, Units.TIME) : null,
                             [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,

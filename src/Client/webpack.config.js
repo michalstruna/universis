@@ -1,6 +1,6 @@
 const Path = require('path')
 const Webpack = require('webpack')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin // TODO: Only in debug mode.
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin // TODO: Only in debug mode.
 
 module.exports = {
     entry: Path.join(__dirname, 'src/index.tsx'),

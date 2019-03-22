@@ -49,7 +49,7 @@ class Panel extends StatelessComponent<IProps> {
     }
 
     private getBodyNameFromUrl = () => (
-        Url.getQuery(Queries.BODY) || 'Merkur' // TODO: Get from config.
+        Url.getQuery(Queries.BODY) || 'Země' // TODO: Get from config.
     )
 
     /**
@@ -62,7 +62,6 @@ class Panel extends StatelessComponent<IProps> {
                 query={Queries.PANEL}
                 links={{
                     'Přehled': Queries.OVERVIEW,
-                    'Chat': Queries.CHAT,
                     'Tělesa': Queries.BODIES,
                     [this.getBodyNameFromUrl()]: Queries.BODY
                 }}
@@ -79,8 +78,6 @@ class Panel extends StatelessComponent<IProps> {
         const currentTab = Url.getQuery(Queries.PANEL, location.search) || tab
 
         switch (currentTab) {
-            case Queries.CHAT:
-                return <Chat />
             case Queries.OVERVIEW:
                 return <Overview />
             case Queries.BODIES:

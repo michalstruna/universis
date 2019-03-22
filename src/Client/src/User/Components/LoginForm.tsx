@@ -4,7 +4,7 @@ import { reduxForm, InjectedFormProps, SubmissionError, formValueSelector } from
 import { login } from '../Redux/UserActions'
 import UserInfo from './UserInfo'
 import { StatelessComponent, Link } from '../../Utils'
-import { Form, Submit, Title, Back, Field } from '../../Forms'
+import { Form, Field } from '../../Forms'
 
 interface IProps {
     strings: Universis.Strings
@@ -40,29 +40,29 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
     }
 
     public render(): React.ReactNode {
-        const { strings, handleSubmit, invalid, submitting } = this.props
+        const { strings, handleSubmit, invalid, submitting, unauthUser } = this.props
 
         return (
             <Form
                 onSubmit={handleSubmit(this.handleSubmit)}
                 invalid={invalid}
                 sending={submitting}>
-                <Title>
+                <Form.Title>
                     {strings.title}
-                </Title>
-                <UserInfo type={UserInfo.TYPES.LARGE} />
+                </Form.Title>
+                <UserInfo type={UserInfo.TYPES.LARGE} user={unauthUser.payload} />
                 <Field
                     type={Field.PASSWORD}
                     label={strings.password}
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}
                     name='password' />
-                <Back to={Link.URLS.IDENTITY}>
+                <Form.Back tot={Link.URLS.IDENTITY}>
                     {strings.back}
-                </Back>
-                <Submit>
+                </Form.Back>
+                <Form.Submit>
                     {strings.submit}
-                </Submit>
+                </Form.Submit>
             </Form>
         )
     }

@@ -114,7 +114,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             const a = this.calculateA(body)
             const b = this.calculateB(body, a)
             const path = new THREE.EllipseCurve(0, 0, a, b, 0, 2 * Math.PI, false, 0)
-            const geometry = new THREE.BufferGeometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
+            const geometry = new THREE.Geometry().setFromPoints(path.getPoints(Config.ORBIT_SEGMENTS) as any)
             const material = new THREE.LineBasicMaterial({ color: Config.ORBIT_COLOR })
             material.transparent = true
 
@@ -123,28 +123,17 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             midOrbitMesh.rotateOnAxis(new THREE.Vector3(0, 0, 1), THREE.Math.degToRad(body.orbit.rotation || 0))
 
             const orbitMesh = new THREE.Line(geometry, material)
-            orbitMesh.position.x = (body.orbit.apocenter - body.orbit.pericenter) / 2
+            orbitMesh.position.x = (body.orbit.apsis - body.orbit.periapsis) / 2
             outerOrbitMesh.rotation.set(0, THREE.Math.degToRad(body.orbit.inclination), 0)
             midOrbitMesh.add(orbitMesh)
 
             outerOrbitMesh.userData.path = path
-            outerOrbitMesh.userData.angle = (body.orbit.startAngle || 0) / 360
+            outerOrbitMesh.userData.angle = 0
         } else {
             const orbitMesh = new THREE.Mesh()
             const midOrbitMesh = new THREE.Group()
             midOrbitMesh.add(orbitMesh)
             outerOrbitMesh.add(midOrbitMesh)
-
-            if (body.position) {
-                const alpha = THREE.Math.degToRad(body.position.alpha)
-                const beta = THREE.Math.degToRad(body.position.beta)
-
-                outerOrbitMesh.position.set(
-                    body.position.distance * Math.sin(alpha) * Math.sin(beta),
-                    body.position.distance * Math.sin(alpha) * Math.cos(beta),
-                    body.position.distance * Math.cos(alpha)
-                )
-            }
         }
 
         return outerOrbitMesh
@@ -155,7 +144,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * @return Semi-major axes.
      */
     private calculateA(body: Universis.Universe.Body.Simple): number {
-        return (body.orbit.apocenter + body.orbit.pericenter) / 2
+        return (body.orbit.apsis + body.orbit.periapsis) / 2
     }
 
     /**
@@ -205,7 +194,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         }
 
         const texture = TextureStore.get(ring.texture)
-        const material = new THREE.MeshLambertMaterial({
+        const material = new THREE.MeshPhongMaterial({
             map: texture,
             side: THREE.DoubleSide,
             specularMap: texture,

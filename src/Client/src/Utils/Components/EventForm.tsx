@@ -2,7 +2,7 @@ import * as React from 'react'
 import { reduxForm, InjectedFormProps, formValueSelector } from 'redux-form'
 
 import StatelessComponent from './StatelessComponent'
-import { Field, Form, Submit } from '../../Forms'
+import { Field, Form } from '../../Forms'
 
 interface IProps {
     strings: Universis.Strings
@@ -60,7 +60,7 @@ class EventForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                     required={strings.description}
                     name='description'
                     type={Field.TEXT_AREA} />
-                <Submit />
+                <Form.Submit />
             </Form>
         )
     }
@@ -74,3 +74,13 @@ export default reduxForm({
         strings: system.strings.events
     })
 ))
+
+
+
+const x = (
+    <Form>
+        <Form.Title>
+
+        </Form.Title>
+    </Form>
+)

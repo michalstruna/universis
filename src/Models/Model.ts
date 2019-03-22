@@ -15,7 +15,7 @@ import PostVoteSchema from '../Database/Schemas/PostVoteSchema'
 /**
  * Base model. This is parent of each another model.
  */
-abstract class Model implements IModel {
+abstract class Model {
 
     /**
      * Cached instance of database

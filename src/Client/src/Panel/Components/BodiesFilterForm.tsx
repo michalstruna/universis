@@ -2,7 +2,7 @@ import * as React from 'react'
 import { reduxForm, InjectedFormProps, formValueSelector, getFormValues, initialize } from 'redux-form'
 
 import { StatelessComponent, Filter, Url, Queries } from '../../Utils'
-import { Field, Form, Select, FlexRow } from '../../Forms'
+import { Field, Form, Select } from '../../Forms'
 import Arrays from '../../../../Utils/Arrays'
 
 interface IProps {
@@ -26,8 +26,8 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<Uni
         { text: 'Průměr [km]', value: 'diameter.x' },
         { text: 'Hmotnost [kg]', value: 'mass' },
         { text: 'Hustota [kg/m3]', value: 'density' },
-        { text: 'Apocentrum [km]', value: 'orbit.apocenter' },
-        { text: 'Pericentrum [km]', value: 'orbit.pericenter' },
+        { text: 'Apsida [km]', value: 'orbit.apsis' },
+        { text: 'Periapsida [km]', value: 'orbit.periapsis' },
         { text: 'Excentricita', value: 'orbit.excentricity' },
         { text: 'Rok [roky]', value: 'orbit.period' },
         { text: 'Den [dny]', value: 'period' },
@@ -91,14 +91,14 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<Uni
         return values && values.value ? Math.max(1, Arrays.findLastIndex(values.value, value => !!value) + 2) : 1
     }
 
-    private renderRows(): React.ReactNodeArray {
+    private renderRows(): React.ReactNode {
         const rows = []
 
         const lastFilled = this.getLastFilledIndex()
 
         for (let i = 0; i < lastFilled; i++) {
             rows.push(
-                <FlexRow key={i}>
+                <Form.FlexRow key={i}>
                     <Select
                         name={`property[${i}]`}
                         options={BodiesFilterForm.FIELDS}
@@ -110,7 +110,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<Uni
                     <button
                         className='form__button--remove'
                         onClick={event => this.handleRemoveRow(event, i)} />
-                </FlexRow>
+                </Form.FlexRow>
             )
         }
 

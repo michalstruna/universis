@@ -19,8 +19,7 @@ const DEFAULT_OPTIONS = {
     maxDistance: Infinity,
     near: 1e-3,
     objects: [],
-    width: window.innerWidth,
-    onRenderInterval: 16
+    width: window.innerWidth
 }
 
 let tempObject1Position = new THREE.Vector3()
@@ -158,10 +157,20 @@ class Scene implements Universis.Scene {
 
         if (follow === Follow.MOVE) {
             this.target.children[0].add(this.camera)
-            this.controls.target = ZERO_VECTOR
+
+            if (this.controls) {
+                this.controls.target = ZERO_VECTOR
+            } else {
+                this.camera.lookAt(ZERO_VECTOR)
+            }
         } else if (follow === Follow.MOVE_AND_ROTATION) {
             this.target.add(this.camera)
-            this.controls.target = ZERO_VECTOR
+
+            if (this.controls) {
+                this.controls.target = ZERO_VECTOR
+            } else {
+                this.camera.lookAt(ZERO_VECTOR)
+            }
         } else {
             const newCameraPosition = new Vector3()
             newCameraPosition.copy(this.camera.position)
@@ -169,7 +178,12 @@ class Scene implements Universis.Scene {
 
             this.target.parent.add(this.camera)
             this.camera.position.copy(newCameraPosition)
-            this.controls.target = this.target.position
+
+            if (this.controls) {
+                this.controls.target = this.target.position
+            } else {
+                this.camera.lookAt(this.target.position)
+            }
         }
 
         if (oldTarget !== this.target) {
@@ -299,14 +313,14 @@ class Scene implements Universis.Scene {
      * Render loop.
      */
     private render = (): void => {
-        const { controllable, onRender, onZoom, onRenderInterval } = this.options
+        const { controllable, onRender, onZoom } = this.options
         requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera)
         this.updateCamera()
         const now = new Date().getTime()
 
-        if (onRender && this.lastOnRenderTime + onRenderInterval < now) {
-            onRender()
+        if (onRender && this.lastOnRenderTime < now) {
+            onRender(now - this.lastOnRenderTime)
             this.lastOnRenderTime = now
         }
 

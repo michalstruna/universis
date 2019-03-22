@@ -2,7 +2,7 @@ import * as React from 'react'
 import { reduxForm, InjectedFormProps, formValueSelector, getFormValues, initialize } from 'redux-form'
 
 import { StatelessComponent, Url, Queries } from '../../Utils'
-import { Form, Select, FlexRow } from '../../Forms'
+import { Form, Select } from '../../Forms'
 
 interface IProps {
     strings: Universis.Strings
@@ -56,12 +56,12 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<U
                 onSubmit={handleSubmit(this.handleSubmit)}
                 invalid={invalid}
                 sending={submitting}>
-                <FlexRow>
+                <Form.FlexRow>
                     <Select
                         name='valuesType'
                         options={this.getValues()}
                         widthEmpty={true} />
-                </FlexRow>
+                </Form.FlexRow>
             </Form>
         )
     }

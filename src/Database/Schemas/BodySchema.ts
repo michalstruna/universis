@@ -34,7 +34,7 @@ const BodySchema = new Schema({
 
     mass: {
         type: Number,
-        required: false,
+        required: true,
         min: 0
     },
 
@@ -64,6 +64,11 @@ const BodySchema = new Schema({
             required: true,
             min: -360,
             max: 360
+        },
+
+        initialDate: {
+            type: Number,
+            default: () => new Date().getTime()
         }
     },
 
@@ -147,13 +152,13 @@ const BodySchema = new Schema({
     },
 
     orbit: {
-        apocenter: {
+        apsis: {
             type: Number,
             required: false,
             min: 0
         },
 
-        pericenter: {
+        periapsis: {
             type: Number,
             required: false,
             min: 0
@@ -173,24 +178,17 @@ const BodySchema = new Schema({
             max: 360
         },
 
-        startAngle: {
-            type: Number,
-            required: false,
-            min: 0, max: 360
-        },
-
-        period: {
-            type: Number,
-            required: false,
-            min: 0
-        },
-
         rotation: {
             type: Number,
             required: false,
             min: 0,
             max: 360
-        }
+        },
+
+        initialDate: {
+            type: Number,
+            default: () => new Date().getTime()
+        },
     },
 
     position: {
@@ -221,12 +219,10 @@ const BodySchema = new Schema({
 
     magnitude: {
         relative: {
-            type: Number,
-            default: null
+            type: Number
         },
         absolute: {
-            type: Number,
-            default: null
+            type: Number
         }
     },
 
@@ -245,8 +241,7 @@ const BodySchema = new Schema({
                 }
             }
         ],
-        default: [],
-        required: true
+        default: []
     },
 
     description: {
@@ -257,8 +252,7 @@ const BodySchema = new Schema({
     particles: {
 
         thickness: {
-            type: Number,
-            required: false
+            type: Number
         },
 
         count: {

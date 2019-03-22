@@ -1,30 +1,20 @@
-import * as Moment from 'moment'
-import DurationConstructor = Moment.unitOfTime.DurationConstructor
+import { Units } from '../Client/src/Utils'
 
 /**
  * Utils for date.
  */
 class Dates {
 
-    /**
-     * Units.
-     */
-    static DAY = 'days'
-    static HOUR = 'hours'
-    static MINUTE = 'minutes'
-    static SECOND = 'seconds'
+    public static MILLISECOND = Units.TIME.MS
+    public static SECOND = Units.TIME.S
+    public static MINUTE = Units.TIME.M
+    public static DAY = Units.TIME.D
+    public static YEAR = Units.TIME.Y
 
-    public static add(count: DurationConstructor, unit: string, date: string = new Date().toISOString()): string {
-        return Moment(date).add(count, unit).toISOString()
-    }
-
-    /**
-     * Return relative date.
-     * @param date Date.
-     * @returns Relative date.
-     */
-    public static fromNow(date: string): string {
-        return Moment(date).fromNow()
+    public static add(count: number, unit: Universis.Unit, date: string = new Date().toISOString()): string {
+        const dateObject = new Date(date)
+        dateObject.setTime(dateObject.getTime() + count * unit.value)
+        return dateObject.toISOString()
     }
 
 }

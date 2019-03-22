@@ -85,6 +85,11 @@ declare namespace Universis {
                 mass: number
 
                 /**
+                 * Standard gravitational parameter [km^3/s^2].
+                 */
+                gravitationalParameter: number
+
+                /**
                  * Density of body [kg/m^3].
                  */
                 density: number
@@ -187,18 +192,22 @@ declare namespace Universis {
                     /**
                      * Largest distance from parent body [km].
                      */
-                    apocenter: number
+                    apsis: number
 
                     /**
                      * Smallest distance from parent body [km].
                      */
-                    pericenter: number
-
+                    periapsis: number
 
                     /**
-                     * Semi-major axis of body [km].
+                     * Semi-major axis of orbit [km].
                      */
                     semiMajorAxis: number
+
+                    /**
+                     * Semi-minor axis of orbit [km].
+                     */
+                    semiMinorAxis: number
 
                     /**
                      * Eccentricity of orbit.
@@ -209,11 +218,6 @@ declare namespace Universis {
                      * Inclination of orbit [deg].
                      */
                     inclination: number
-
-                    /**
-                     * Position of body on orbit at 1. 1. 2000 00.00:00,00 [deg].
-                     */
-                    startAngle: number
 
                     /**
                      * One year [Earth years].
@@ -234,6 +238,16 @@ declare namespace Universis {
                      * Velocity of body around orbit.
                      */
                     velocity: { max: number, avg: number, min: number }
+
+                    /**
+                     * Average angle velocity.
+                     */
+                    angleVelocity: number
+
+                    /**
+                     * Timestamp of periapsis.
+                     */
+                    periapsisTime: number
 
                 }
 
@@ -346,16 +360,9 @@ declare namespace Universis {
                 parentId?: string
 
                 /**
-                 * Temporary data for animations.
+                 * Parent of body.
                  */
-                temp?: {
-
-                    /**
-                     * Count of km2 per second.
-                     */
-                    orbitAreaPerSecond?: number
-
-                }
+                parent?: Simple
 
             }
 

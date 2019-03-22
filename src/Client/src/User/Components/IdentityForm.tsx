@@ -2,7 +2,7 @@ import * as React from 'react'
 import { reduxForm, InjectedFormProps } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
-import { Form, Submit, Title, Field } from '../../Forms'
+import { Form, Field } from '../../Forms'
 import { getUnauthUser } from '../Redux/UserActions'
 
 interface IProps {
@@ -37,18 +37,18 @@ class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues
                 onSubmit={handleSubmit(this.handleSubmit)}
                 invalid={invalid}
                 sending={submitting}>
-                <Title>
+                <Form.Title>
                     {strings.title}
-                </Title>
+                </Form.Title>
                 <Field
                     type={Field.EMAIL}
                     label={strings.email}
                     required={strings.missingEmail}
                     invalid={strings.invalidEmail}
                     name='email' />
-                <Submit>
+                <Form.Submit>
                     {strings.submit}
-                </Submit>
+                </Form.Submit>
             </Form>
         )
     }

@@ -4,7 +4,6 @@
 enum Queries {
 
     PANEL = 'panel',
-    CHAT = 'chat',
     OVERVIEW = 'prehled',
     BODY = 'teleso',
     BODIES = 'telesa',
