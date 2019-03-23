@@ -187,10 +187,10 @@ class Universe implements Universis.Universe {
         const isVisible = this.scene.isInFov(body.mesh)
         const orbit = body.orbit.children[0].children[0] as any
         const visibility = this.getVisibility(body)
+
         const target = this.scene.getCameraTarget()
         const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
         orbit.material.opacity = visibility
-        let fromCenter, velocity
         const isSelectedBody = body.mesh === target
 
         if (body.data.orbit) {
@@ -199,12 +199,6 @@ class Universe implements Universis.Universe {
 
             if (body.mesh === target) {
                 body.parent.mesh.updateMatrixWorld(true)
-            }
-
-            fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
-
-            if (fromCenter) {
-                velocity = Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter)
             }
 
             if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
@@ -216,23 +210,13 @@ class Universe implements Universis.Universe {
                 body.mesh.rotateOnAxis(rotationVector, angle)
                 body.childrenContainer.rotateOnAxis(rotationVector, -angle)
             }
-        } else if (body.data.position) {
-            const alpha = THREE.Math.degToRad(body.data.position.alpha)
-            const beta = THREE.Math.degToRad(body.data.position.beta)
-            const distance = body.data.position.distance
-
-            body.mesh.position.set(
-                distance * Math.sin(alpha) * Math.sin(beta),
-                distance * Math.cos(alpha),
-                distance * Math.sin(alpha) * Math.cos(beta),
-            )
         }
 
         if (isFullyRenderable) {
             vector.x = (vector.x + 1) / 2 * window.innerWidth
             vector.y = -(vector.y - 1) / 2 * window.innerHeight
             body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
-            this.updateLabel(body, fromCenter, velocity)
+            this.updateLabel(body)
         } else {
             body.label.style.transform = 'translateX(-1000px)'
         }
@@ -257,13 +241,13 @@ class Universe implements Universis.Universe {
     /**
      * Get label for body.
      * @param body
-     * @param fromCenter
-     * @param velocity
      * @returns Label.
      */
-    private updateLabel(body: Universis.Universe.Body.Container, fromCenter?: number, velocity?: number): void {
+    private updateLabel(body: Universis.Universe.Body.Container): void {
         const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
         const fromCamera = this.scene.getDistance(body.mesh)
+        const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+        const velocity = fromCenter ? Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter) : null
 
         const rows = []
         if (this.isNameVisible) rows.push(body.data.name)
