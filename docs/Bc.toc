@@ -49,8 +49,8 @@
 \contentsline {subsubsection}{\numberline {3.4.3}Inicializace rotace}{33}{subsubsection.3.4.3}
 \contentsline {subsubsection}{\numberline {3.4.4}Vykreslovac\IeC {\'\i } smy\IeC {\v c}ka}{33}{subsubsection.3.4.4}
 \contentsline {subsubsection}{\numberline {3.4.5}Omezen\IeC {\'\i }}{34}{subsubsection.3.4.5}
-\contentsline {subsection}{\numberline {3.5}Serverov\IeC {\'a} \IeC {\v c}\IeC {\'a}st}{35}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}Zachycen\IeC {\'\i } HTTP po\IeC {\v z}adavku}{35}{subsubsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5}Serverov\IeC {\'a} \IeC {\v c}\IeC {\'a}st}{34}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}Zachycen\IeC {\'\i } HTTP po\IeC {\v z}adavku}{34}{subsubsection.3.5.1}
 \contentsline {subsubsection}{\numberline {3.5.2}Zpracov\IeC {\'a}n\IeC {\'\i } HTTP po\IeC {\v z}adavku}{35}{subsubsection.3.5.2}
 \contentsline {subsection}{\numberline {3.6}Datab\IeC {\'a}ze}{37}{subsection.3.6}
 \contentsline {subsubsection}{\numberline {3.6.1}P\IeC {\v r}ipojen\IeC {\'\i } do datab\IeC {\'a}ze}{37}{subsubsection.3.6.1}
