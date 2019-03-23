@@ -228,6 +228,8 @@ class Physics {
             E = eNext
         }
 
+        //const v = 2 * Math.atan(Math.sqrt((1 + body.orbit.eccentricity) / (1 - body.orbit.eccentricity)) * Math.tan(E / 2))
+
         return E - Math.PI
     }
 

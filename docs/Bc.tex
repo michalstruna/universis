@@ -656,9 +656,9 @@ $$E\textsubscript{n} = \frac{2 * \pi}{T} + \epsilon * sin(E\textsubscript{n - 1}
 Z~E~je možné získat \textbf{skutečnou anomálii} \textit{v}:
 
 \vspace*{-0.5cm}
-$$v = 2 * arctg\Bigg(\sqrt{\frac{1 + \epsilon}{1 - \epsilon}} * tg\bigg(\frac{E}{2}\bigg)\Bigg)$$
+$$v = 2 * arctg\Bigg(\sqrt{\frac{1 + e}{1 - e}} * tg\bigg(\frac{E}{2}\bigg)\Bigg)$$
 \begin{center}
-\textit{v -- skutečná anomálie, E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita}~\cite{michalrepik}
+\textit{v -- skutečná anomálie, E -- excentrická anomálie, e -- excentricita}~\cite{michalrepik}
 \end{center}
 
 Dále je třeba \textbf{úhel mezi spojnicemi střed-periapsida a~střed-těleso}. To je problém trojúhelníku střed-Slunce-Země, na který se aplikuje kosinová věta.
@@ -830,7 +830,9 @@ Po spuštění databáze je nutno do souboru \code{/src/Constants/Config.ts} v~a
 
 \lstinputlisting[caption={Vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
 
-Po úspěšné instalaci musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
+V~případě, že bude třeba funkční odesílání emailů (např. uživatelům při registraci), je třeba ve stejném konfiguračním souboru nastavit položky \code{email.sender} a~\code{email.password}.
+
+Po dokončení konfigurace musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
 
 \lstinputlisting[caption={Sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
 
