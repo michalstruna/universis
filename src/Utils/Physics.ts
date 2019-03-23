@@ -1,3 +1,4 @@
+// TODO: Move to constants or use Units utils?
 const YEAR_TO_SECONDS = 31556926
 
 /**
@@ -216,6 +217,7 @@ class Physics {
         const M = 2.0 * Math.PI * (new Date(body.orbit.periapsisTime || new Date().getTime()).getTime() - time) / (body.orbit.period * YEAR_TO_SECONDS * 1000)
         let E = M
         let eNext = 0
+        maxIterations = body.orbit.eccentricity > 0.99 ? 50 : maxIterations
 
         while (maxIterations--) {
             eNext = E + (M - (E - body.orbit.eccentricity * Math.sin(E))) / (1 - body.orbit.eccentricity * Math.cos(E))

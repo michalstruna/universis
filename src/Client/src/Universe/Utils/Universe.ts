@@ -208,7 +208,7 @@ class Universe implements Universis.Universe {
             }
 
             if (isSelectedBody || visibility !== Visibility.INVISIBLE || (target.userData.parent && target.userData.parent.data._id === body.data._id)) {
-                body.mesh.position.set(this.limitSize(orbitPoint.x), this.limitSize(orbitPoint.y), 0)
+                body.mesh.position.set(orbitPoint.x, orbitPoint.y, 0)
             }
 
             if (body.data.axis.period) {
@@ -219,7 +219,7 @@ class Universe implements Universis.Universe {
         } else if (body.data.position) {
             const alpha = THREE.Math.degToRad(body.data.position.alpha)
             const beta = THREE.Math.degToRad(body.data.position.beta)
-            const distance = this.limitSize(body.data.position.distance)
+            const distance = body.data.position.distance
 
             body.mesh.position.set(
                 distance * Math.sin(alpha) * Math.sin(beta),
@@ -238,10 +238,6 @@ class Universe implements Universis.Universe {
         }
     }
 
-    private limitSize = (size: number): number => {
-        return Math.floor(Math.min(size, 1e12 / this.scale))
-    }
-
     /**
      * Update position of all bodies.
      * @param timeDiff
@@ -251,7 +247,6 @@ class Universe implements Universis.Universe {
             return
         }
 
-        this.updateScale()
         this.updateTime(timeDiff)
 
         for (const body of  this.bodies) {
@@ -281,21 +276,6 @@ class Universe implements Universis.Universe {
         }
 
         body.label.textContent = rows.join('\r\n')
-    }
-
-    /**
-     * Universe is split into chunks, because of precision of numbers in JavaScript.
-     * If scene is too small or too large, scale it.
-     */
-
-    private updateScale(): void {
-        const viewSize = this.scene.getDistance(this.scene.getCameraTarget())
-
-        if (viewSize * this.scale > 100) {
-            this.scale /= 10
-        } else if (viewSize * this.scale < 1) {
-            this.scale *= 10
-        }
     }
 
     /**

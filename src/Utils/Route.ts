@@ -105,7 +105,7 @@ class Route {
      * @param model Entity model.
      * @param access Object of access points. It can be default function (Route.all, ...) or custom request handlers (Route.all(), ...).
      * @returns Route group.
-     */ů
+     */
 
     public static getRouteGroupForAll(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL): IRouteGroupForAll {
         const routeGroup: Universis.Map<IRequestHandler> = {}

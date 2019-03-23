@@ -826,7 +826,7 @@ Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, 
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
-Po spuštění databáze je nutno do souboru \code{/src/Constants/Config.ts} v~aplikaci doplnit položky \code{database.username} a~\code{database.password}. Dále je třeba v~terminálu z~kořenového adresáře této aplikace spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}).
+Po spuštění databáze je nutno do souboru \code{/src/Constants/Config.ts} v~aplikaci vyplnit položky \code{database.username} a~\code{database.password}. Dále je třeba v~terminálu z~kořenového adresáře této aplikace spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}).
 
 \lstinputlisting[caption={Vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
 
