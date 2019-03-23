@@ -58,7 +58,7 @@
 \contentsline {subsubsection}{\numberline {3.6.3}Mongoose plugin}{38}{subsubsection.3.6.3}
 \contentsline {subsubsection}{\numberline {3.6.4}Z\IeC {\'a}kladn\IeC {\'\i } pr\IeC {\'a}ce s datab\IeC {\'a}z\IeC {\'\i }}{39}{subsubsection.3.6.4}
 \contentsline {subsubsection}{\numberline {3.6.5}Aggregation Framework}{40}{subsubsection.3.6.5}
-\contentsline {subsection}{\numberline {3.7}Nainstalov\IeC {\'a}n\IeC {\'\i } a~spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } aplikace}{40}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.7}Instalace a~spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } aplikace}{40}{subsection.3.7}
 \contentsline {section}{\numberline {4}Rozvr\IeC {\v z}en\IeC {\'\i } aplikace}{42}{section.4}
 \contentsline {subsection}{\numberline {4.1}Hlavn\IeC {\'\i } str\IeC {\'a}nka}{42}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Autentifikace u\IeC {\v z}ivatele}{42}{subsection.4.2}

@@ -1,20 +1,33 @@
 export default {
 
     /**
-     * Port of server.
+     * Server port.
      */
     port: 3000,
 
     /**
-     * Data about database.
+     * Database config.
      */
     database: {
+        prefix: 'mongodb+srv', // 'mongo' for local server
         username: 'michal',
         password: 'mathrandom97',
-        cluster: 'universis',
+        host: 'universis-yasip.mongodb.net', // localhost:27017 for local server
         name: 'universis'
     },
 
+    /**
+     * Email config.
+     */
+    email: {
+        service: 'gmail',
+        sender: 'michal.l.struna@gmail.com',
+        password: '...'
+    },
+
+    /**
+     * HTTP headers.
+     */
     headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',

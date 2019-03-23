@@ -1,7 +1,8 @@
 Model.db = new Database({
-    userName: Config.database.username,
+    prefix: Config.database.prefix,
+    username: Config.database.username,
     password: Config.database.password,
-    cluster: Config.database.cluster,
+    host: Config.database.cluster,
     database: Config.database.name,
     onError: console.error,
     schemas: {

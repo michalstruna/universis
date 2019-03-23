@@ -30,24 +30,29 @@ declare namespace Universis {
         export interface Options {
 
             /**
-             * Connection user name.
+             * Connection username.
              */
-            userName: string
+            username?: string
 
             /**
              * Connection password.
              */
-            password: string
+            password?: string
 
             /**
              * Connection cluster.
              */
-            cluster: string
+            prefix: string
 
             /**
              * Connection database.
              */
             database: string
+
+            /**
+             * Server.
+             */
+            host: string
 
             /**
              * Connection schemas.

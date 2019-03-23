@@ -784,7 +784,7 @@ Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovn
 
 \subsubsection{Připojení do databáze}
 
-Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
+Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím adresu serveru, název databáze a~v~případě autentifikovaného přístupu i~jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
 
 Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (pouze jednou, při spuštění serveru~\cite{nodebook}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
@@ -820,21 +820,21 @@ V~aplikaci je tento způsob dotazování použit např. v~\code{[GET] /bodies/{b
 
 I přes skutečnost, \textit{že MongoDB} jakožto dokumentová databáze umožňuje zanořování struktur do sebe~\cite{mongomongoose}, pro jednodušší práci byly pro tělesa, události, komentáře a hlasy vytvořeny samostatné kolekce.
 
-\subsection{Nainstalování a~spuštění aplikace}
+\subsection{Instalace a~spuštění aplikace}
 
 Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}.
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
-Po spuštění databáze je nutno do souboru \code{/src/Constants/Config.ts} v~aplikaci vyplnit položky \code{database.username} a~\code{database.password}. Dále je třeba v~terminálu z~kořenového adresáře této aplikace spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}).
+Pokud je v~databázi nastaven uživatel~s heslem, je třeba v~aplikaci v~souboru\break\code{/src/Constants/Config.ts} vyplnit položky \code{database.username} a~\code{database.password}. Dále je třeba z~terminálu v~kořenovém adresáři tohoto projektu spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}). Cesta k~databázi se může lišit v~případě jiné verze databáze nebo zvolení jiného umístění při instalaci.
 
-\lstinputlisting[caption={Vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
+\lstinputlisting[caption={Příkaz pro vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
 
-V~případě, že bude třeba funkční odesílání emailů (např. uživatelům při registraci), je třeba ve stejném konfiguračním souboru nastavit položky \code{email.sender} a~\code{email.password}.
+Pro zprovoznění odesílání emailů (např. uživatelům při registraci), je třeba ve stejném konfiguračním souboru nastavit položky \code{email.sender} a~\code{email.password}.
 
-Po dokončení konfigurace musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
+Následně musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
 
-\lstinputlisting[caption={Sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
+\lstinputlisting[caption={Příkaz pro sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
 
 Po krátké chvíli bude aplikace dostupná na adrese \url{http://localhost:3000}, resp. \url{http://localhost:3000/api-docs}.
 
