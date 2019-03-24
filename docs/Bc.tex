@@ -136,9 +136,13 @@
 % ÚVODNÍ STRANY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\desky
 \titulniStrana			% titul
 
 % ZADÁNÍ
+
+
+
 \generujZadani[2]	% parametr je počet stran, výchozí (neuvede-li se) je 2
 
 \generujProhlaseni		% prohlášení
@@ -557,7 +561,7 @@ Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicov�
 \subsubsection{Částice}
 Protože aplikace obsahuje řádově pouze desítky až stovky těles, je nemožné zobrazit rozsáhlejší struktury, které jsou jinak typické pro danou oblast ve vesmíru. Příkladem může být \textit{Kuiperův pás} nebo \textit{Oortův oblak} v~naší sluneční soustavě. Tato uskupení obsahují stovky miliard planetek, komet nebo~dalších těles. \cite{kleczek}
 
-Pro tyto účely se v aplikaci využívá pseudonáhodné generování částic pomocí \textit{THREE.Points}. V~závislosti na typu tělesa (pás, oblak, hvězdokupa, ...) je využito pro rozmístění částic buď rovnoměrné, normální nebo exponenciální rozdělení.  Protože zde ale figuruje náhoda, nemusí takto vygenerovaná tělesa odpovídat realitě a~jedná se pouze o~vizuální doplnění prázdného prostoru. Uživatel může zobrazení částic kdykoliv vypnout.
+Pro tyto účely se v aplikaci využívá pseudonáhodné generování částic pomocí\break\textit{THREE.Points}. V~závislosti na typu tělesa (pás, oblak, hvězdokupa, ...) je využito pro rozmístění částic buď rovnoměrné, normální nebo exponenciální rozdělení.  Protože zde ale figuruje náhoda, nemusí takto vygenerovaná tělesa odpovídat realitě a~jedná se pouze o~vizuální doplnění prázdného prostoru. Uživatel může zobrazení částic kdykoliv vypnout.
 
 \begin{figure}[H]
 \begin{center}
@@ -573,7 +577,7 @@ Funkce pro generování částic je uložena v~databázové kolekci typů těles
 \vspace*{-0.6cm}
 \subsection{Pohyb těles}
 
-Na aplikaci lze pohlížet jako na simulátor, protože výpočet vzájemné pozice těles v~čase nelze vypočítat pouhým vyjádřením neznámé z~rovnice a~je nutno podstoupit proces, který k~výsledku postupně povede. Na druhou stranu, aplikace se řídí podle Keplerových zákonů. Ty říkají, jak se tělesa pohybují, ale neříkají proč.~\cite{kleczek} Nepracuje se se skutečnými fyzikálními vztahy, pouze s~pravidly která vychází z~Keplerových zákonů.
+Na aplikaci lze pohlížet jako na simulátor, protože výpočet vzájemné pozice těles v~čase nelze vypočítat pouhým vyjádřením neznámé z~rovnice a~je nutno podstoupit proces, který k~výsledku postupně povede. Na druhou stranu, aplikace se řídí podle Keplerových zákonů. Ty říkají, jak se tělesa pohybují, ale neříkají proč.~\cite{kleczek} Nepracuje se se skutečnými fyzikálními vztahy, pouze s~pravidly která vychází z~Keplerových zákonů. Z~tohoto pohledu by se tak jednalo spíše o~emulátor.
 
 \subsubsection{Výpočet konstatních dat}
 
@@ -779,6 +783,7 @@ Modelové třídy většiny entit není nutné psát individuálně. Všechny ma
 
 \lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.js}
 
+\vspace*{-0.5cm}
 \subsection{Databáze}
 
 Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou \textit{MVC} a~k~databázi mají přístup pouze modelové třídy. Struktura databáze je zobrazena v~příloze A na konci tohoto dokumentu.
@@ -791,12 +796,14 @@ Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla 
 
 \lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.js}
 
+\vspace*{-0.5cm}
 \subsubsection{Mongoose schéma}
 
 Pomocí schématu lze určit strukturu databázové kolekce a~nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také vytvořit např. indexy přes více polí.~\cite{nodebook}
 
 \lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.js}
 
+\vspace*{-0.5cm}
 \subsubsection{Mongoose plugin}
 
 Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, jež dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.~\cite{nodebook}
@@ -813,6 +820,7 @@ Databáze umožňuje provádět velké množství operací nad daty v~ní ulože
 
 \lstinputlisting[caption={CRUD operace nad kolekcí uživatelů}, language={JavaScript}]{SourceCodes/Database.js}
 
+\vspace*{-0.5cm}
 \subsubsection{Aggregation Framework}
 
 V případě složitějších databázových dotazů, na které nestačí předpřipravené metody knihovny \textit{Mongoose}, je možno využít metodu \code{aggregate}, jež umožňuje pracovat s~\textit{Aggregation Frameworkem} databáze \textit{MongoDB}. Ten mimo jiné umožňuje v~tzv. \textit{pipeline} dosadit sekvenci dotazů, které se nad daty postupně provedou. Je tak možné používat např. \code{\$match} (vyhledávání), \code {\$group} (seskupování) nebo \code{\$lookup} (spojování více kolekcí).~\cite{aggregation}
@@ -831,7 +839,7 @@ Pokud přísup do databáze vyžaduje autentifikaci, je třeba v~aplikaci v~soub
 
 \lstinputlisting[caption={Příkaz pro spuštění databáze}, language={JavaScript}]{SourceCodes/StartDB.js}
 
-Dále je třeba z~terminálu v~kořenovém adresáři tohoto projektu spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}). Cesta se opět může lišit.
+Dále je třeba z~terminálu v~kořenovém adresáři tohoto projektu spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{universis.root@gmail.com}, heslo: \textit{aDM!n7paSsw0RD}).
 
 \lstinputlisting[caption={Příkaz pro vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
 
@@ -870,6 +878,7 @@ Každý uživatel, jenž se chce přihlásit nebo se zaregistrovat, se dostane n
 \end{center}
 \end{figure}
 
+\vspace*{-0.5cm}
 \subsubsection{Přihlášení}
 
 Stránka obsahuje formulář pro zadání hesla. Nachází se zde odkaz zpět a~odkaz pro obnovení hesla.
@@ -882,6 +891,7 @@ Stránka obsahuje formulář pro zadání hesla. Nachází se zde odkaz zpět a~
 \end{center}
 \end{figure}
 
+\vspace*{-0.5cm}
 \subsubsection{Registrace}
 
 Stránka pro zadání a potvrzení hesla k nově vytvářenému účtu. V~případě, že uživatel chce změnit registrační email, je možné se vrátit na stránku se zadáváním identity.
@@ -959,6 +969,7 @@ Na dolním okraji obrazovky je lišta zobrazující aktuální nastavení a~čas
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsection{Uživatelský panel}
 
 Uživatelský panel je sekundární okno, ve kterém si uživatel může zobrazovat části aplikace bez nutnosti opouštět aktuální stránku. Zobrazuje se jako poloprůhledný obdélník v levé části obrazovky a~obsahuje 3~nezávislé záložky.
@@ -974,6 +985,7 @@ Výchozí položka v~uživatelském panelu je rozdělena na 2 části. Nalevo se
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsubsection{Seznam těles}
 
 Seznam těles umožňuje zobrazit tělesa v~databázi i~s~jejich údaji. Údaje mohou být:
@@ -1001,6 +1013,7 @@ Tělesa lze řadit vzestupně i~sestupně podle libovolného kritéria a~takté�
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsubsection{Detail tělesa}
 
 Detail tělesa se skládá ze tří záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká slovní charakteristika tělesa a~jeho 3D vizualizace.
@@ -1030,6 +1043,7 @@ Třetí a~poslední záložka je určena pro diskuse. Každý zde může reagova
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsection{Podmínky užití}
 
 Tato stránka obsahuje právní ustanovení, která určují, jak mohou potenciální uživatelé zacházet s~aplikací. Píše se zde zejména o~tom, že se na aplikaci vztahují práva a~povinnosti uvedená v~prohlášení autora na začátku tohoto dokumentu. Zároveň jsou zde také uvedeny všechny ty části aplikace, které nevytvořil sám autor a~mohly by se na ně vztahovat další licenční podmínky.
@@ -1063,6 +1077,7 @@ První dva body řeší případy, kdy je těleso příliš oddálené nebo př�
 \footnotetext[2]{Ikona NPM převzata z \url{https://pepa.holla.cz/wp-content/uploads/2016/06/npm.png}}
 \footnotetext[3]{Ikona GZIP převzata z \url{https://codeopinion.com/wp-content/uploads/2016/02/gzip.png}}
 
+\vspace*{-0.5cm}
 \subsubsection{Transpilace a~sloučení JS a~CSS souborů}
 
 V~projektu se nachází velké množství souborů s~typescriptovým kódem a~souborů se styly. Zahajovat HTTP požadavek pokaždé, kdy si uživatel chce stáhnout jakýkoliv z~těchto souborů vyžaduje hodně režije a je to z~hlediska času i~přenesených dat náročné. Je proto výhodnější všechny tyto soubory sloučit do jediného a~ten stáhnout jako jeden celek.
@@ -1105,6 +1120,7 @@ V~aplikaci je použita \textit{hashovací funkce bcrypt} s~10 iteracemi a~to př
 
 \lstinputlisting[caption={Hashování hesel v Mongoose schématu}, language={JavaScript}]{SourceCodes/Hash.js}
 
+\vspace*{-0.5cm}
 \subsection{Zobrazování hodnot fyzikálních veličin}
 
 Aplikace zobrazuje různě velké hodnoty různých fyzikálních veličin. Z~důvodu přehlednosti a~omezeného množství prostoru, ve kterém se tyto hodnoty zobrazují, byla vytvořena pomocná třída \code{Units} umístěná do modulu \code{Utils}. Ta umožňuje převádět a~formátovat jednotky do několika podob.
@@ -1119,6 +1135,7 @@ Není nutné používat předdefinované jednotky v~této třídě a~lze si vytv
 
 \lstinputlisting[caption={Tvorba vlastních jednotek}, language={JavaScript}]{SourceCodes/CreateUnits.js}
 
+\vspace*{-0.5cm}
 \subsection{Vykreslování časové osy}
 
 Pro vykreslení časové osy představené v~podkapitole \textit{4.5.3~Detail tělesa} byla v~rámci projektu vytvořena komponenta \textit{EventsArea}. Ta umožňuje vykreslit pole událostí na \textit{2D} ploše v~podobě čtyřúhelníků tak, aby si souřadnice jednotlivých událostí odpovídaly. V~případě časové osy jsou těmito souřadnicemi počáteční a~koncový rok události.

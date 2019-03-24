@@ -135,6 +135,33 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DESKY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\desky}{%
+	\begin{titlepage}
+	\begin{center}
+	\LARGE \rmfamily        % velikost a rodina písma pro titulní stranu
+	\MakeUppercase{Univerzita Pardubice}
+	\par
+	\Large
+	\MakeUppercase{\jmenoFakulty}
+	\LARGE
+	\par
+	% pružné mezery zajistí usazení titulku a jména do optického středu strany a rok bude u spodního okraje
+	\vspace{0pt plus 4fill} % pružná mezera
+	\MakeUppercase{\typPrace}
+	\par
+	\par
+	\par
+	\vspace{0pt plus 5fill} % pružná mezera
+	\rok~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\jmenoAutora
+	\end{center}
+	\end{titlepage}
+	\stepcounter{page}	% započítat titulní stranu
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TITUL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
