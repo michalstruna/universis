@@ -55,6 +55,11 @@ declare namespace Universis {
             host: string
 
             /**
+             * Connection options.
+             */
+            options: Universis.Map<any>
+
+            /**
              * Connection schemas.
              */
             schemas: SchemaSet

@@ -51,6 +51,7 @@ abstract class Model {
             password: Config.database.password,
             host: Config.database.host,
             database: Config.database.name,
+            options: Config.database.options,
             onError: console.error,
             schemas: {
                 [DatabaseModels.BODY]: BodySchema,

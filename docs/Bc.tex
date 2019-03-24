@@ -139,7 +139,7 @@
 \titulniStrana			% titul
 
 % ZADÁNÍ
-%\generujZadani[2]	% parametr je počet stran, výchozí (neuvede-li se) je 2
+\generujZadani[2]	% parametr je počet stran, výchozí (neuvede-li se) je 2
 
 \generujProhlaseni		% prohlášení
 \podekovaniDolu
@@ -282,9 +282,9 @@ Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simuluj�
 
 Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém má za cíl umožnit práci s~původním systémem, který nemusí být~dostupný.~\cite{emulations}
 
-\subsection{Fyzikální a~astronomické pojmy}
+\subsection{Astronomické pojmy}
 
-V této kapitole je popsán význam některých pojmů, které označují geometrické, astronomické či jiné vlastnosti těles nebo jejich eliptických orbit.
+V této kapitole je popsán význam některých pojmů, které označují geometrické, astronomické či jiné fyzikální vlastnosti těles nebo jejich eliptických orbit.
 
 \begin{figure}[H]
 \begin{center}
@@ -310,7 +310,7 @@ V této kapitole je popsán význam některých pojmů, které označují geomet
 \item „Druhé mocniny oběžných dob planet jsou ve stejném poměru, jako třetí mocniny velkých poloos.“
 \end{enumerate}
 
-\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (ohnisku). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou např. perigalaktikum a~periselenium. To jsou nejmenší vzdálenosti od centra Galaxie a~od Měsice.~\cite{kleczek}
+\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (ohnisku). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou např. perigalaktikum a~periselenium. To jsou nejmenší vzdálenosti od centra Galaxie a~od Měsíce.~\cite{kleczek}
 
 \item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdálenosti, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.~\cite{kleczek}
 
@@ -527,11 +527,12 @@ Orbita je objekt s geometrií \textit{THREE.Geometry}, jejíž eliptický tvar j
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=350pt]{Images/OrbitData.png}
+\includegraphics[width=320pt]{Images/OrbitData.png}
 \caption[Jednoznačná definice orbity tělesa]{Jednoznačná definice orbity tělesa \footnotemark[1]}
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsubsection{Světlo}
 
 Pokud je těleso zdrojem viditelného světla, je mezi jeho potomky navíc také bodové světlo\newline \textit{THREE.PointLight}, které emituje světlo o~stejné barvě a~intenzitě, jakou má reálné těleso.
@@ -542,7 +543,7 @@ Prstenec je objekt s~geometrií \textit{THREE.BufferRingGeometry}, materiálem\n
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=300pt]{Images/RingData.png}
+\includegraphics[width=280pt]{Images/RingData.png}
 \caption[Jednoznačná definice prstence tělesa]{Jednoznačná definice prstence tělesa \footnotemark[1]}
 \end{center}
 \end{figure}
@@ -597,7 +598,7 @@ Výpočet \textbf{rovníkového obvodu}, \textbf{objemu} a~odhadovaného \textbf
 \vspace*{-0.5cm}
 $$O \approx \pi * \sqrt{2 * (r_{x}^2 + r_{z}^2)}~~~~~~~~~~V \doteq \frac{4}{3} * \pi * r_{x} * r_{y} * r_{z}~~~~~~~~~~S \doteq 4 * \pi * r_{x} * r_{y}$$
 \begin{center}
-\textit{V -- objem tělesa, r -- poloměr telesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}~\cite{kleczek}
+\textit{V -- objem tělesa, r -- poloměr tělesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo \textbf{minimální orbitální rychlosti}:
@@ -616,7 +617,7 @@ $$a = G * M * r^2~~~~~~~~~~v = \sqrt{\frac{2 * \mu}{r}}~~~~~~~~~~L = 4 * \pi * r
 \textit{a -- gravitační zrychlení, M -- hmotnost, r -- poloměr, v -- úniková rychlost, $\mu$ -- gravitační parametr, L -- svítivost, $\sigma$ -- Stefan-Boltzmannova konstanta, T -- povrchová teplota}~\cite{kleczek}
 \end{center}
 
-Výpočet \textbf{rovníkové rychlosti rotace} a~\textbf{úhlové rychlosti}:
+Výpočet \textbf{rovníkové rychlosti} a~\textbf{úhlové rychlosti} rotace:
 
 \vspace*{-0.5cm}
 $$v = \frac{O}{T}~~~~~~~~~~\omega = \frac{2 * \pi}{T}$$
@@ -826,13 +827,17 @@ Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, 
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
-Pokud je v~databázi nastaven uživatel~s heslem, je třeba v~aplikaci v~souboru\break\code{/src/Constants/Config.ts} vyplnit položky \code{database.username} a~\code{database.password}. Dále je třeba z~terminálu v~kořenovém adresáři tohoto projektu spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}). Cesta k~databázi se může lišit v~případě jiné verze databáze nebo zvolení jiného umístění při instalaci.
+Pokud přísup do databáze vyžaduje autentifikaci, je třeba v~aplikaci v~souboru\break\code{/src/Constants/Config.ts} vyplnit položky \code{database.username} a~\code{database.password}. Následně může dojít ke zvolení umístění vytvořené databáze a~ke spuštění databázového démona z~terminálu. Cesta k~\code{mongod} se může lišit v~případě jiné verze databáze nebo zvolení jiného umístění při instalaci.
+
+\lstinputlisting[caption={Příkaz pro spuštění databáze}, language={JavaScript}]{SourceCodes/StartDB.js}
+
+Dále je třeba z~terminálu v~kořenovém adresáři tohoto projektu spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}). Cesta se opět může lišit.
 
 \lstinputlisting[caption={Příkaz pro vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
 
 Pro zprovoznění odesílání emailů (např. uživatelům při registraci), je třeba ve stejném konfiguračním souboru nastavit položky \code{email.sender} a~\code{email.password}.
 
-Následně musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
+Následně musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven skript pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
 
 \lstinputlisting[caption={Příkaz pro sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
 
