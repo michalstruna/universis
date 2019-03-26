@@ -46,10 +46,12 @@ abstract class Model {
      */
     private static createBaseDatabase(): void {
         Model.db = new Database({
-            userName: Config.database.username,
+            prefix: Config.database.prefix,
+            username: Config.database.username,
             password: Config.database.password,
-            cluster: Config.database.cluster,
+            host: Config.database.host,
             database: Config.database.name,
+            options: Config.database.options,
             onError: console.error,
             schemas: {
                 [DatabaseModels.BODY]: BodySchema,

@@ -16,9 +16,10 @@ class Database implements Universis.Database {
 
     public constructor(options: Universis.Database.Options) {
         this.connection = Mongoose.createConnection(Database.getConnectionString(
-            options.userName,
+            options.prefix,
+            options.username,
             options.password,
-            options.cluster,
+            options.host,
             options.database
         ))
 
@@ -47,14 +48,23 @@ class Database implements Universis.Database {
 
     /**
      * Build connection string do DB.
+     * @param prefix Prefix.
      * @param username Name of user.
      * @param password Password of user.
-     * @param cluster Name of cluster.
+     * @param host Name of server.
      * @param database Name of database.
      * @returns Connection string.
      */
-    private static getConnectionString(username: string, password: string, cluster: string, database: string): string {
-        return `mongodb+srv://${username}:${password}@${cluster}-yasip.mongodb.net/${database}?retryWrites=false`
+    private static getConnectionString(prefix: string, username: string, password: string, host: string, database: string): string {
+        let connectionString = prefix + '://'
+
+        if (username && password) {
+            connectionString += username + ':' + password + '@'
+        }
+
+        connectionString += host + '/' + database + '?retryWrites=false'
+
+        return connectionString
     }
 
 }

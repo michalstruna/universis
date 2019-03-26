@@ -136,10 +136,14 @@
 % ÚVODNÍ STRANY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\desky
 \titulniStrana			% titul
 
 % ZADÁNÍ
-%\generujZadani[2]	% parametr je počet stran, výchozí (neuvede-li se) je 2
+
+
+
+\generujZadani[2]	% parametr je počet stran, výchozí (neuvede-li se) je 2
 
 \generujProhlaseni		% prohlášení
 \podekovaniDolu
@@ -282,18 +286,25 @@ Podstatou simulace je nahrazení zkoumaného dynamického systému jeho simuluj�
 
 Vedle simulací je možné se setkat i~s~emulacemi. U~emulace jsou naopak všechny informace o původním systému známé. Emulující systém má za cíl umožnit práci s~původním systémem, který nemusí být~dostupný.~\cite{emulations}
 
-Podle těchto vlastností lze na aplikaci, jež je součástí této práce, nahlížet jak jako na simulátor, tak i~na emulátor. Uživatel může využít simulaci těles pro to, aby se mimo jiné dozvěděl okamžitou rychlost či vzájemnou polohu těles v~určitém čase.
+\subsection{Astronomické pojmy}
 
-Na druhou stranu, aplikace se řídí Keplerovými zákony. Ty říkají, jak se pohybují tělesa po eliptických drahách, ale neříkají proč se tak děje.~\cite{kleczek} Aplikace proto reálně nepracuje se skutečnými fyzikálními vztahy těles, pouze se řídí podle pravidel, která vyplývají z~Keplerových zákonů. V~případě, že by se zde nebeská mechanika počítala na základě vzájemného gravitačního ovlivňování všech těles, nemohlo by být zaručitelné, že by bylo možné při vzrůstajícím počtu těles výkonově umožnit běh aplikace v~prohlížeči na běžných počítačích.
+V této kapitole je popsán význam některých pojmů, které označují geometrické, astronomické či jiné fyzikální vlastnosti těles nebo jejich eliptických orbit.
 
-\subsection{Fyzikální a~astronomické pojmy}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=350pt]{Images/Orbit.png}
+\caption[Elementy orbity]{Elementy orbity \footnotemark}
+\end{center}
+\end{figure}
 
-Pro popis geometrických, astronomických či jiných fyzikálních vlastností těles a~jejich eliptických orbit jsou určeny termíny. V~této kapitole je stručně popsán význam některých z nich.~\cite{kleczek}
+\footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
 \begin{itemize}
-\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (těžiště). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
+\item \textbf{Anomálie} -- Pokud bychom si orbitu tělesa představili jako kružnici, \textbf{střední anomálie (M)} by byla úhel těleso-střed-periapsida. Tělesa se ale nepohybují po kružnici. Jejich rychlost se v~čase mění a~ohnisko neleží ve středu elipsy. \textbf{Pravá anomálie (v)}~proto označuje úhel těleso-ohnisko-pariapsida. V~případě, že by se těleso nacházelo na pomyslné pozici na kružnici, která by byla určena průsečíkem kružnice a~kolmice k~hlavní ose elipsy procházející skutečnou pozicí tělesa, \textbf{excentrická anomálie (E)}~by označovala úhel těleso-střed-periapsida.~\cite{kleczek}
 
-\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Oběžná dráha Země kolem těžiště sluneční soustavy je 0,016. Jedná se tak téměř o~kružnici.~\cite{kleczek}
+\item \textbf{Apoapsida} -- Bod, v~němž se obíhající těleso dostane nejdále od tělesa obíhaného (ohniska). V~případě Země je to 152~097~700~km od Slunce. Specifičtějšími pojmy jsou např. apohelium a~apogeum. To jsou největší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
+
+\item \textbf{Excentricita (e)} -- Výstřednost orbity udává, jak moc je ohnisko vzdáleno od středu orbity. Častěji se ovšem setkáváme s relativní excentricitou, která je rovna poměru absolutní excentricity a~velké poloosy. Kružnice má nulovou výstřednost, elipsa ji má v~intervalu \code{(0,~1)}, útvar s~excentricitou rovnou jedné se nazývá parabola a~výstřednost větší než 1~má hyperbola. Excentricita oběžné dráhy Země je 0,016. Jedná se tak téměř o~kružnici.~\cite{kleczek}
 
 \item \textbf{Keplerovy zákony} -- Jedná se o~3 zákony popisující pohyb planet kolem Slunce. Je možné je aplikovat i~na jiná tělesa pohybující se po eliptické oběžné dráze.~\cite{kleczek}
 
@@ -303,7 +314,7 @@ Pro popis geometrických, astronomických či jiných fyzikálních vlastností 
 \item „Druhé mocniny oběžných dob planet jsou ve stejném poměru, jako třetí mocniny velkých poloos.“
 \end{enumerate}
 
-\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (těžišti). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou perihelium a~perigeum. To jsou nejmenší vzdálenosti od Slunce a~od Země.~\cite{kleczek}
+\item \textbf{Periapsida} -- Bod, v~němž se obíhající těleso dostane nejblíže tělesu obíhanému (ohnisku). V~případě Země je to 147~098~074~km od Slunce. Specifičtějšími pojmy jsou např. perigalaktikum a~periselenium. To jsou nejmenší vzdálenosti od centra Galaxie a~od Měsíce.~\cite{kleczek}
 
 \item \textbf{Světelný rok (ly)} -- Běžné velikostní jednotky jako kilometry nejsou pro potřeby měření vzdáleností ve vesmíru dostačující. Dokonce i~astronomická jednotka je pro tyto účely příliš malá. Světelný rok je jednotka, jejíž velikost je rovna vzdálenosti, kterou světlo ve vakuu urazí za jeden pozemský rok, což je 9~460~730~472~580~800~m. V~aplikaci jsou používány taktéž kombinace této jednotky a~předpon soustavy SI, např. kly, Mly nebo Gly.~\cite{kleczek}
 
@@ -520,11 +531,12 @@ Orbita je objekt s geometrií \textit{THREE.Geometry}, jejíž eliptický tvar j
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=350pt]{Images/OrbitData.png}
+\includegraphics[width=320pt]{Images/OrbitData.png}
 \caption[Jednoznačná definice orbity tělesa]{Jednoznačná definice orbity tělesa \footnotemark[1]}
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsubsection{Světlo}
 
 Pokud je těleso zdrojem viditelného světla, je mezi jeho potomky navíc také bodové světlo\newline \textit{THREE.PointLight}, které emituje světlo o~stejné barvě a~intenzitě, jakou má reálné těleso.
@@ -535,7 +547,7 @@ Prstenec je objekt s~geometrií \textit{THREE.BufferRingGeometry}, materiálem\n
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=300pt]{Images/RingData.png}
+\includegraphics[width=280pt]{Images/RingData.png}
 \caption[Jednoznačná definice prstence tělesa]{Jednoznačná definice prstence tělesa \footnotemark[1]}
 \end{center}
 \end{figure}
@@ -549,7 +561,7 @@ Popisek je reprezentován \textit{HTML} elementem, který je absolutně pozicov�
 \subsubsection{Částice}
 Protože aplikace obsahuje řádově pouze desítky až stovky těles, je nemožné zobrazit rozsáhlejší struktury, které jsou jinak typické pro danou oblast ve vesmíru. Příkladem může být \textit{Kuiperův pás} nebo \textit{Oortův oblak} v~naší sluneční soustavě. Tato uskupení obsahují stovky miliard planetek, komet nebo~dalších těles. \cite{kleczek}
 
-Pro tyto účely se v aplikaci využívá pseudonáhodné generování částic pomocí \textit{THREE.Points}. V~závislosti na typu tělesa (pás, oblak, hvězdokupa, ...) je využito pro rozmístění částic buď rovnoměrné, normální nebo exponenciální rozdělení.  Protože zde ale figuruje náhoda, nemusí takto vygenerovaná tělesa odpovídat realitě a~jedná se pouze o~vizuální doplnění prázdného prostoru. Uživatel může zobrazení částic kdykoliv vypnout.
+Pro tyto účely se v aplikaci využívá pseudonáhodné generování částic pomocí\break\textit{THREE.Points}. V~závislosti na typu tělesa (pás, oblak, hvězdokupa, ...) je využito pro rozmístění částic buď rovnoměrné, normální nebo exponenciální rozdělení.  Protože zde ale figuruje náhoda, nemusí takto vygenerovaná tělesa odpovídat realitě a~jedná se pouze o~vizuální doplnění prázdného prostoru. Uživatel může zobrazení částic kdykoliv vypnout.
 
 \begin{figure}[H]
 \begin{center}
@@ -562,16 +574,19 @@ Funkce pro generování částic je uložena v~databázové kolekci typů těles
 
 \lstinputlisting[caption={Naplnění geometrie částicemi ve tvaru koule}, language={JavaScript}]{SourceCodes/Particles.js}
 
+\vspace*{-0.6cm}
 \subsection{Pohyb těles}
+
+Na aplikaci lze pohlížet jako na simulátor, protože výpočet vzájemné pozice těles v~čase nelze vypočítat pouhým vyjádřením neznámé z~rovnice a~je nutno podstoupit proces, který k~výsledku postupně povede. Na druhou stranu, aplikace se řídí podle Keplerových zákonů. Ty říkají, jak se tělesa pohybují, ale neříkají proč.~\cite{kleczek} Nepracuje se se skutečnými fyzikálními vztahy, pouze s~pravidly která vychází z~Keplerových zákonů. Z~tohoto pohledu by se tak jednalo spíše o~emulátor.
 
 \subsubsection{Výpočet konstatních dat}
 
-K~vypočtení konstantních hodnot dojde pouze jednou při načtení těles z~databáze. Pro úplnost jsou zde uvedeny i~výpočty, které přímo nesouvisí s~pohybem tělesa. O~jejich dopočítání se stará \textit{FillBodyPlugin} zaregistrovaný na schématu těles. Ten je popsán v~kapitole \textit{3.6.3 Mongoose plugin}. Jako první jsou u~každého tělesa dopočítány \textbf{poloosy orbity} a~\textbf{gravitační parametr}:
+Při načtení tělesa z databáze jsou vypočítány hodnoty, které jsou pro dané těleso konstantní. Pro úplnost jsou zde uvedeny i~výpočty, které přímo nesouvisí s~pohybem tělesa. O~jejich dopočítání se stará plugin zaregistrovaný na schématu těles. Jako první jsou u~každého tělesa dopočítány \textbf{poloosy orbity} a~\textbf{gravitační parametr}:
 
 \vspace*{-0.5cm}
 $$a = \frac{d_{max} - d_{min}}{2}~~~~~~~~~~b = a - \sqrt{1 - e^2}~~~~~~~~~~\mu = M * G$$
 \begin{center}
-\textit{a -- hlavní poloosa, b -- vedlejší poloosa, $d_{max}$ -- apoapsida, $d_{min}$ -- periapsida, e~--~excentricita, $\mu$ -- gravitační parametr, M -- hmotnost tělesa}
+\textit{a -- hlavní poloosa, b -- vedlejší poloosa, $d_{max}$ -- apoapsida, $d_{min}$ -- periapsida, e~--~excentricita, $\mu$ -- gravitační parametr, M -- hmotnost tělesa}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{obvodu} a~\textbf{obsahu orbity} a~\textbf{oběžné doby}:
@@ -579,7 +594,7 @@ Výpočet \textbf{obvodu} a~\textbf{obsahu orbity} a~\textbf{oběžné doby}:
 \vspace*{-0.5cm}
 $$O \approx \pi * \sqrt{2 * (a^2 + b^2)}~~~~~~~~~~S = \pi * a * b~~~~~~~~~~T = 2 * \pi * \sqrt{\frac{a^3}{\mu}}$$
 \begin{center}
-\textit{O -- obvod orbity, S -- obsah orbity, a -- hlavní poloosa, b -- vedlejší poloosa, T -- oběžná doba, $\mu$ -- gravitační parametr}
+\textit{O -- obvod orbity, S -- obsah orbity, a -- hlavní poloosa, b -- vedlejší poloosa, T -- oběžná doba, $\mu$ -- gravitační parametr}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{rovníkového obvodu}, \textbf{objemu} a~odhadovaného \textbf{povrchu tělesa}:
@@ -587,7 +602,7 @@ Výpočet \textbf{rovníkového obvodu}, \textbf{objemu} a~odhadovaného \textbf
 \vspace*{-0.5cm}
 $$O \approx \pi * \sqrt{2 * (r_{x}^2 + r_{z}^2)}~~~~~~~~~~V \doteq \frac{4}{3} * \pi * r_{x} * r_{y} * r_{z}~~~~~~~~~~S \doteq 4 * \pi * r_{x} * r_{y}$$
 \begin{center}
-\textit{V -- objem tělesa, r -- poloměr telesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}
+\textit{V -- objem tělesa, r -- poloměr tělesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo \textbf{minimální orbitální rychlosti}:
@@ -595,23 +610,23 @@ Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo \t
 \vspace*{-0.5cm}
 $$\varrho = \frac{M}{V}~~~~~~~~~~f = 1 - \frac{r_{y}}{r_{x}}~~~~~~~~~~v_{max} = \sqrt{\mu * \frac{2}{d_{min}} - \frac{1}{a}}$$
 \begin{center}
-\textit{$\varrho$ -- hustota, M -- hmotnost tělesa, V -- objem tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- max. rychlost, $\mu$ -- gravitační parametr, $d_{min}$, periapsida}
+\textit{$\varrho$ -- hustota, M -- hmotnost tělesa, V -- objem tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- max. rychlost, $\mu$ -- gravitační parametr, $d_{min}$, periapsida}~\cite{kleczek}
 \end{center}
 
-Výpočet \textbf{gravitačního zrychlení}, \textbf{únikové rychlosti} a~pokud těleso emituje viditelné světlo, tak i~\textbf{svítivosti}:
+Výpočet \textbf{gravitačního zrychlení}, \textbf{únikové rychlosti} a~popř. i~\textbf{svítivosti}:
 
 \vspace*{-0.5cm}
 $$a = G * M * r^2~~~~~~~~~~v = \sqrt{\frac{2 * \mu}{r}}~~~~~~~~~~L = 4 * \pi * r^2 * \sigma * T^4$$
 \begin{center}
-\textit{a -- gravitační zrychlení, M -- hmotnost, r -- poloměr, v -- úniková rychlost, $\mu$ -- gravitační parametr, L -- svítivost, $\sigma$ -- Stefan-Boltzmannova konstanta, T -- povrchová teplota}
+\textit{a -- gravitační zrychlení, M -- hmotnost, r -- poloměr, v -- úniková rychlost, $\mu$ -- gravitační parametr, L -- svítivost, $\sigma$ -- Stefan-Boltzmannova konstanta, T -- povrchová teplota}~\cite{kleczek}
 \end{center}
 
-Výpočet \textbf{rovníkové rychlosti rotace} a~\textbf{úhlové rychlosti}:
+Výpočet \textbf{rovníkové rychlosti} a~\textbf{úhlové rychlosti} rotace:
 
 \vspace*{-0.5cm}
 $$v = \frac{O}{T}~~~~~~~~~~\omega = \frac{2 * \pi}{T}$$
 \begin{center}
-\textit{v -- rychlost rotace, O -- rovníkový obvod, T -- perioda rotace, $\omega$ -- úhlová rychlost}
+\textit{v -- rychlost rotace, O -- rovníkový obvod, T -- perioda rotace, $\omega$ -- úhlová rychlost}~\cite{kleczek}
 \end{center}
 
 
@@ -643,12 +658,12 @@ $$E\textsubscript{n} = \frac{2 * \pi}{T} + \epsilon * sin(E\textsubscript{n - 1}
 \textit{E\textsubscript{n} -- excentrická anomálie n-té iterace, $\epsilon$ -- absolutní excentricita, T -- perioda oběhu}~\cite{michalrepik}
 \end{center}
 
-Z~E~je možné získat \textbf{skutečnou anomálii} \textit{v} -- úhel periapsida-Slunce-Země.
+Z~E~je možné získat \textbf{skutečnou anomálii} \textit{v}:
 
 \vspace*{-0.5cm}
-$$v = 2 * arctg\Bigg(\sqrt{\frac{1 + \epsilon}{1 - \epsilon}} * tg\bigg(\frac{E}{2}\bigg)\Bigg)$$
+$$v = 2 * arctg\Bigg(\sqrt{\frac{1 + e}{1 - e}} * tg\bigg(\frac{E}{2}\bigg)\Bigg)$$
 \begin{center}
-\textit{v -- skutečná anomálie, E -- excentrická anomálie, $\epsilon$ -- absolutní excentricita}~\cite{michalrepik}
+\textit{v -- skutečná anomálie, E -- excentrická anomálie, e -- excentricita}~\cite{michalrepik}
 \end{center}
 
 Dále je třeba \textbf{úhel mezi spojnicemi střed-periapsida a~střed-těleso}. To je problém trojúhelníku střed-Slunce-Země, na který se aplikuje kosinová věta.
@@ -675,7 +690,7 @@ $$\varphi = 2 * \pi * \frac{(t - t\textsubscript{0})~mod~T}{T}$$
 
 \subsubsection{Vykreslovací smyčka}
 
-Jakmile jsou pozice a rotace těles inicializovány, je třeba je s~ubíhajícím časem aktualizovat. Nejdříve je nutné zjistit, \textbf{kolik milisekund uplynulo} od posledního vykreslení a~podle toho i~aktualizovat čas simulátoru.
+Jakmile jsou pozice a~rotace těles inicializovány, je třeba je s~ubíhajícím časem aktualizovat. Nejdříve je nutné zjistit, \textbf{kolik milisekund uplynulo} od posledního vykreslení a~podle toho i~aktualizovat čas simulátoru.
 
 \begin{center}
 $\Delta t = t - t_{0}~~~~~~~~~~t_{s} = t_{s} + \Delta t * k$
@@ -693,50 +708,25 @@ $$\varphi = \varphi + \omega * \Delta t$$
 \textit{$\varphi$ -- úhel rotace, $\omega$ -- úhlová rychlost rotace, $\Delta t$ -- čas od posledního vykreslení}
 \end{center}
 
-Dalším důležitým údajem je aktuální \textbf{vzdálenost tělesa od těžiště}. Celý výpočet uskuteční knihovní metoda v~THREE.js \code{bodyPosition.distanceTo(parentPosition)}.
-
-Pro aktualizaci pozice zbývá vypočítat \textbf{aktuální rychlost} oběhu, \textbf{uraženou dráhu} a~\textbf{změnu úhlu} od posledního vykreslení. Problém elipsy je zjednodušen na problém trojúhelníka za cenu zanedbatelné nepřesnosti. Jednotlivé nepřesnosti se díky kontrolním mechanismům přitom sčítají pouze v~rámci jedné periody oběhu. Poté je nepřesnost vyrovnána.
+Dále dojde k výpočtu údajů pro popisky. \textbf{Vzdálenost tělesa od ohniska} určí knihovní metoda v~THREE.js \code{bodyPosition.distanceTo(parentPosition)}. Stejným způsobem dojde k~určení \textbf{vzdálenosti tělesa od Země a~od kamery}. Následně je vypočítána \textbf{okamžitá rychlost tělesa}.
 
 \vspace*{-0.5cm}
-$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}~~~~~~~~~~\Delta s = v * \Delta t~~~~~~~~~~\omega = \frac{v}{O}$$
+$$v = \sqrt{\mu * \frac{2}{d} - \frac{1}{a}}$$
 \begin{center}
-\textit{v -- okamžitá rychlost, $\mu$ -- gravitační parametr, d -- aktuální vzdálenost od těžiště, a~--~velká poloosa}
+\textit{v -- okamžitá rychlost, $\mu$ -- gravitační parametr, d -- vzdálenost od ohniska}~\cite{kleczek}
 \end{center}
 
-Po přičtení úhlu oběhu tělesa lze získat nové souřadnice tělesa pomocí metody\break \code{orbit.getPoint(angle)}.
-
-\begin{itemize}
-\item \textbf{Zjištění počtu milisekund}, které uplynuly od posledního vykreslení,
-
-
-\item \textbf{Zjištění vzdálenosti} tělesa od těžiště pomocí knihovní metody\linebreak v~\textit{THREE.js} \code{bodyPosition.distanceTo(parentBodyPosition)},
-
-\item \textbf{Výpočet okamžité rychlosti} na základě plochy orbity, kterou těleso urazí za jednotku času a~aktuální vzdálenosti od těžiště (2.~Keplerův zákon),
-
-\begin{center}
-$$v = \frac{2 * \pi}{T * d}  * \Bigg(\frac{d\textsubscript{max} + d\textsubscript{min}}{2}\Bigg) ^2 * \sqrt{1 - e^2}$$
-
-\textit{v -- rychlost, T -- perioda oběhu, d -- vzdálenost od tělesa, d\textsubscript{max}~--~apoapsida, d\textsubscript{min}~--~periapsida, e -- excentricita}~\cite{kleczek}
-\end{center}
-
-\item \textbf{Výpočet procentuální části obvodu dráhy}, kterou těleso urazí za jednotku času (dáno dle FPS, v ideálním případě za 16 ms).
-
-\item \textbf{Nastavení nových souřadnic} tělesa získaných z metody  \textit{orbitPath.getPoint(angle)},
-
-\item \textbf{Pootočení tělesa kolem osy} o~úhel za jednotku času vypočtený z rotační periody,
-
-\item \textbf{Výpočet vzdáleností} od kamery a~od Země,
-
-\item \textbf{Aktualizace viditelnosti, obsahu a~pozice popisku} a~orbity tělesa.
-\end{itemize}
+Nakonec jsou aktualizovány samotné popisky. Výše zmíněné údaje se počítají samozřejmě pouze pokud je zobrazení popisku s~danou informací aktivováno.
 
 \subsubsection{Omezení}
 
 Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem může být vysoká výpočetní náročnost pro prohlížeč nebo složitost implementace. V~důsledku toho může v~simulátoru docházet k~nepřesnostem nebo omezeným možnostem vykreslování těles.
 
 \begin{itemize}
-\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tak není ovlivněno tělesy obíhajícími. Oběh je počítán na základě 1. a~2. Keplerova zákona a není třeba řešit vzájemné gravitační ovlivňování těles.
+\item Hmotnost obíhajících těles je zanedbána. Centrální těleso tak není ovlivněno tělesy obíhajícími. Oběh je počítán na základě Keplerových zákonů a~není třeba řešit vzájemné gravitační ovlivňování těles. V případě vícehvězdných systémů, u~kterých je nezanedbatelná hmotnost více těles, je možné vytvořit virtuální těleso, které se nebude zobrazovat a~které představuje těžiště soustavy, kolem něhož budou ostatní tělesa obíhat.
+
 \item Tělesa s~neperiodickou nebo neeliptickou oběžnou dráhou mají pevně nastavenou pozici a~nepohybují se.
+
 \item Periapsida se vždy nachází přímo na opačné straně elipsy, než apoapsida. Pokud je oběžná dráha příliš excentrická, může se pozice skutečně nejbližšího bodu k~těžišti dráhy a~periapsidy v~aplikaci lišit.
 
 \item Jsou zanedbány dlouhodobé události, např. postupné vzdalování Měsíce od Země o~38~mm za rok.~\cite{rees}
@@ -793,24 +783,27 @@ Modelové třídy většiny entit není nutné psát individuálně. Všechny ma
 
 \lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.js}
 
+\vspace*{-0.5cm}
 \subsection{Databáze}
 
 Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou \textit{MVC} a~k~databázi mají přístup pouze modelové třídy. Struktura databáze je zobrazena v~příloze A na konci tohoto dokumentu.
 
 \subsubsection{Připojení do databáze}
 
-Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
+Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím adresu serveru, název databáze a~v~případě autentifikovaného přístupu i~jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
 
 Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (pouze jednou, při spuštění serveru~\cite{nodebook}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
 \lstinputlisting[caption={Připojení k databázi v~aplikaci}, language={JavaScript}]{SourceCodes/DatabaseConnection.js}
 
+\vspace*{-0.5cm}
 \subsubsection{Mongoose schéma}
 
 Pomocí schématu lze určit strukturu databázové kolekce a~nastavit validační pravidla. Veškerá konfigurace je umístěna v~objektu, který se dosadí jako parametr při vytváření nové instance schématu. Je možné také vytvořit např. indexy přes více polí.~\cite{nodebook}
 
 \lstinputlisting[caption={Vytvoření databázového schématu}, language={JavaScript}]{SourceCodes/Schema.js}
 
+\vspace*{-0.5cm}
 \subsubsection{Mongoose plugin}
 
 Pokud je třeba reagovat na jednotlivé události v kolekci (smazání, vložení, ...), lze toho docílit pomocí pluginů. To jsou obdoby spouští z relačních databází. Jedná se o~uživatelem definované funkce, jež dostanou v~parametru schéma, na kterém jsou zaregistrovány. Na tomto schématu pak mohou definovat operace \code{pre} nebo \code{post} s~jednotlivými událostmi a~jejich obsloužení.~\cite{nodebook}
@@ -827,6 +820,7 @@ Databáze umožňuje provádět velké množství operací nad daty v~ní ulože
 
 \lstinputlisting[caption={CRUD operace nad kolekcí uživatelů}, language={JavaScript}]{SourceCodes/Database.js}
 
+\vspace*{-0.5cm}
 \subsubsection{Aggregation Framework}
 
 V případě složitějších databázových dotazů, na které nestačí předpřipravené metody knihovny \textit{Mongoose}, je možno využít metodu \code{aggregate}, jež umožňuje pracovat s~\textit{Aggregation Frameworkem} databáze \textit{MongoDB}. Ten mimo jiné umožňuje v~tzv. \textit{pipeline} dosadit sekvenci dotazů, které se nad daty postupně provedou. Je tak možné používat např. \code{\$match} (vyhledávání), \code {\$group} (seskupování) nebo \code{\$lookup} (spojování více kolekcí).~\cite{aggregation}
@@ -835,19 +829,25 @@ V~aplikaci je tento způsob dotazování použit např. v~\code{[GET] /bodies/{b
 
 I přes skutečnost, \textit{že MongoDB} jakožto dokumentová databáze umožňuje zanořování struktur do sebe~\cite{mongomongoose}, pro jednodušší práci byly pro tělesa, události, komentáře a hlasy vytvořeny samostatné kolekce.
 
-\subsection{Nainstalování a~spuštění aplikace}
+\subsection{Instalace a~spuštění aplikace}
 
 Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}.
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
-Po spuštění databáze je nutno do souboru \code{/src/Constants/Config.ts} v~aplikaci doplnit položky \code{database.username} a~\code{database.password}. Dále je třeba v~terminálu z~kořenového adresáře této aplikace spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{admin@universis.com}, heslo: \textit{aDM!n7paSsw0RD}).
+Pokud přísup do databáze vyžaduje autentifikaci, je třeba v~aplikaci v~souboru\break\code{/src/Constants/Config.ts} vyplnit položky \code{database.username} a~\code{database.password}. Následně může dojít ke zvolení umístění vytvořené databáze a~ke spuštění databázového démona z~terminálu. Cesta k~\code{mongod} se může lišit v~případě jiné verze databáze nebo zvolení jiného umístění při instalaci.
 
-\lstinputlisting[caption={Vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
+\lstinputlisting[caption={Příkaz pro spuštění databáze}, language={JavaScript}]{SourceCodes/StartDB.js}
 
-Po úspěšné instalaci musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven příkaz pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
+Dále je třeba z~terminálu v~kořenovém adresáři tohoto projektu spustit~skript, který do databáze vloží základní data -- několik těles a~především uživatele s~administrátorskými právy (email: \textit{universis.root@gmail.com}, heslo: \textit{aDM!n7paSsw0RD}).
 
-\lstinputlisting[caption={Sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
+\lstinputlisting[caption={Příkaz pro vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
+
+Pro zprovoznění odesílání emailů (např. uživatelům při registraci), je třeba ve stejném konfiguračním souboru nastavit položky \code{email.sender} a~\code{email.password}.
+
+Následně musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven skript pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
+
+\lstinputlisting[caption={Příkaz pro sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
 
 Po krátké chvíli bude aplikace dostupná na adrese \url{http://localhost:3000}, resp. \url{http://localhost:3000/api-docs}.
 
@@ -878,6 +878,7 @@ Každý uživatel, jenž se chce přihlásit nebo se zaregistrovat, se dostane n
 \end{center}
 \end{figure}
 
+\vspace*{-0.5cm}
 \subsubsection{Přihlášení}
 
 Stránka obsahuje formulář pro zadání hesla. Nachází se zde odkaz zpět a~odkaz pro obnovení hesla.
@@ -890,6 +891,7 @@ Stránka obsahuje formulář pro zadání hesla. Nachází se zde odkaz zpět a~
 \end{center}
 \end{figure}
 
+\vspace*{-0.5cm}
 \subsubsection{Registrace}
 
 Stránka pro zadání a potvrzení hesla k nově vytvářenému účtu. V~případě, že uživatel chce změnit registrační email, je možné se vrátit na stránku se zadáváním identity.
@@ -967,6 +969,7 @@ Na dolním okraji obrazovky je lišta zobrazující aktuální nastavení a~čas
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsection{Uživatelský panel}
 
 Uživatelský panel je sekundární okno, ve kterém si uživatel může zobrazovat části aplikace bez nutnosti opouštět aktuální stránku. Zobrazuje se jako poloprůhledný obdélník v levé části obrazovky a~obsahuje 3~nezávislé záložky.
@@ -982,6 +985,7 @@ Výchozí položka v~uživatelském panelu je rozdělena na 2 části. Nalevo se
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsubsection{Seznam těles}
 
 Seznam těles umožňuje zobrazit tělesa v~databázi i~s~jejich údaji. Údaje mohou být:
@@ -1009,6 +1013,7 @@ Tělesa lze řadit vzestupně i~sestupně podle libovolného kritéria a~takté�
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsubsection{Detail tělesa}
 
 Detail tělesa se skládá ze tří záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká slovní charakteristika tělesa a~jeho 3D vizualizace.
@@ -1038,6 +1043,7 @@ Třetí a~poslední záložka je určena pro diskuse. Každý zde může reagova
 \end{center}
 \end{figure}
 
+\vspace*{-1cm}
 \subsection{Podmínky užití}
 
 Tato stránka obsahuje právní ustanovení, která určují, jak mohou potenciální uživatelé zacházet s~aplikací. Píše se zde zejména o~tom, že se na aplikaci vztahují práva a~povinnosti uvedená v~prohlášení autora na začátku tohoto dokumentu. Zároveň jsou zde také uvedeny všechny ty části aplikace, které nevytvořil sám autor a~mohly by se na ně vztahovat další licenční podmínky.
@@ -1071,6 +1077,7 @@ První dva body řeší případy, kdy je těleso příliš oddálené nebo př�
 \footnotetext[2]{Ikona NPM převzata z \url{https://pepa.holla.cz/wp-content/uploads/2016/06/npm.png}}
 \footnotetext[3]{Ikona GZIP převzata z \url{https://codeopinion.com/wp-content/uploads/2016/02/gzip.png}}
 
+\vspace*{-0.5cm}
 \subsubsection{Transpilace a~sloučení JS a~CSS souborů}
 
 V~projektu se nachází velké množství souborů s~typescriptovým kódem a~souborů se styly. Zahajovat HTTP požadavek pokaždé, kdy si uživatel chce stáhnout jakýkoliv z~těchto souborů vyžaduje hodně režije a je to z~hlediska času i~přenesených dat náročné. Je proto výhodnější všechny tyto soubory sloučit do jediného a~ten stáhnout jako jeden celek.
@@ -1113,6 +1120,7 @@ V~aplikaci je použita \textit{hashovací funkce bcrypt} s~10 iteracemi a~to př
 
 \lstinputlisting[caption={Hashování hesel v Mongoose schématu}, language={JavaScript}]{SourceCodes/Hash.js}
 
+\vspace*{-0.5cm}
 \subsection{Zobrazování hodnot fyzikálních veličin}
 
 Aplikace zobrazuje různě velké hodnoty různých fyzikálních veličin. Z~důvodu přehlednosti a~omezeného množství prostoru, ve kterém se tyto hodnoty zobrazují, byla vytvořena pomocná třída \code{Units} umístěná do modulu \code{Utils}. Ta umožňuje převádět a~formátovat jednotky do několika podob.
@@ -1127,6 +1135,7 @@ Není nutné používat předdefinované jednotky v~této třídě a~lze si vytv
 
 \lstinputlisting[caption={Tvorba vlastních jednotek}, language={JavaScript}]{SourceCodes/CreateUnits.js}
 
+\vspace*{-0.5cm}
 \subsection{Vykreslování časové osy}
 
 Pro vykreslení časové osy představené v~podkapitole \textit{4.5.3~Detail tělesa} byla v~rámci projektu vytvořena komponenta \textit{EventsArea}. Ta umožňuje vykreslit pole událostí na \textit{2D} ploše v~podobě čtyřúhelníků tak, aby si souřadnice jednotlivých událostí odpovídaly. V~případě časové osy jsou těmito souřadnicemi počáteční a~koncový rok události.

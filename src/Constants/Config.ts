@@ -1,20 +1,44 @@
 export default {
 
     /**
-     * Port of server.
+     * Server port.
      */
     port: 3000,
 
     /**
-     * Data about database.
+     * Database config.
+     *
+     * Plain connection string is
+     * "[prefix]://[host]/[database]?[option1]=[value1]&[option2]=[value2]".
+     *
+     * Authenticated connection string is
+     * "[prefix]://[username]:[password]@[host]/[database]?[option1]=[value1]&[option2]=[value2]".
      */
     database: {
-        username: 'michal',
-        password: 'mathrandom97',
-        cluster: 'universis',
-        name: 'universis'
+        prefix: 'mongodb+srv', // 'mongodb+srv' for Atlas.
+        username: 'michal', // Optional.
+        password: 'mathrandom97', // Optional.
+        host: 'universis-yasip.mongodb.net', // 'universis-yasip.mongodb.net' for Atlas.
+        name: 'universis',
+        options: {
+            retryWrites: false
+        }
     },
 
+    /**
+     * Email config.
+     */
+    email: {
+        service: 'Gmail', // One of https://nodemailer.com/smtp/well-known.
+        sender: 'michal.l.struna@gmail.com',
+        password: '...',
+        senderName: 'Universis',
+        subjectPrefix: 'Universis - ',
+    },
+
+    /**
+     * HTTP headers.
+     */
     headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',

@@ -30,7 +30,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * @param child
      * @returns Body.
      */
-    private createMesh(body: Universis.Universe.Body.Simple, child: THREE.Group): THREE.Mesh | THREE.Group | THREE.Points {
+    private createMesh(body: Universis.Universe.Body.Simple, child: THREE.Group): THREE.Mesh | THREE.Points {
         let mesh
 
         if (body.type.particlesGenerator) {
@@ -42,9 +42,12 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
                 geometry.vertices.push(new THREE.Vector3(x, y, z))
             }
 
-            mesh = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: body.particles.size }))
+            mesh = new THREE.Points(geometry, new THREE.PointsMaterial({
+                color: 0xaaaaaa,
+                size: body.particles.size
+            }))
         } else {
-            const geometry = this.createGeometry(body)
+            const geometry = this.createGeometry(body, 32) // TODO: LOD
             const material = this.createMaterial(body)
             mesh = new THREE.Mesh(geometry, material)
         }
@@ -52,7 +55,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         mesh.add(child)
 
         if (body.type.emissiveColor) {
-            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, 1000000000000)) // TODO: Calc distance from size of body.
+            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, body.diameter.x * 1e4))
         }
 
         mesh.name = body._id
@@ -65,10 +68,11 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
     /**
      * Create geometry for mesh.
      * @param body Source body.
+     * @param segmentsCount
      * @returns Mesh geometry.
      */
-    private createGeometry(body: Universis.Universe.Body.Simple): THREE.SphereGeometry {
-        const geometry = new THREE.SphereGeometry(body.diameter.x / 2, Config.BODY_SEGMENTS, Config.BODY_SEGMENTS)
+    private createGeometry(body: Universis.Universe.Body.Simple, segmentsCount: number): THREE.SphereGeometry {
+        const geometry = new THREE.SphereGeometry(body.diameter.x / 2, segmentsCount, segmentsCount)
         geometry.applyMatrix(new THREE.Matrix4().makeScale(1, body.diameter.y / body.diameter.x, 1))
         geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 2))
         return geometry
@@ -134,6 +138,18 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             const midOrbitMesh = new THREE.Group()
             midOrbitMesh.add(orbitMesh)
             outerOrbitMesh.add(midOrbitMesh)
+
+            if (body.position) {
+                const alpha = THREE.Math.degToRad(body.position.alpha)
+                const beta = THREE.Math.degToRad(body.position.beta)
+                const distance = body.position.distance
+
+                outerOrbitMesh.position.set(
+                    distance * Math.sin(alpha) * Math.sin(beta),
+                    distance * Math.cos(alpha),
+                    distance * Math.sin(alpha) * Math.cos(beta)
+                )
+            }
         }
 
         return outerOrbitMesh

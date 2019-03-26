@@ -21,9 +21,10 @@ export default {
     LIGHT_COLOR: 0x888888,
 
     /**
-     * Count of segments of body.
+     * Count of segments for distance from camera levers.
+     * Each item is array [distance (in body diameters), segments count].
      */
-    BODY_SEGMENTS: 32,
+    BODY_SEGMENTS: [[2, 1], [5, 3], [10, 5]],
 
     /**
      * Count of segments of orbits.
@@ -34,21 +35,6 @@ export default {
      * Count of segments of body ring.
      */
     RING_SEGMENTS: 32,
-
-    /**
-     * Min camera distance.
-     */
-    CAMERA_MIN_DISTANCE: 1,
-
-    /**
-     * Max camera distance.
-     */
-    CAMERA_MAX_DISTANCE: 1e22,
-
-    /**
-     * Field of visibility.
-     */
-    CAMERA_FOV: 50,
 
     /**
      * Relative size of three meshes and distances.

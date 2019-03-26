@@ -1,3 +1,4 @@
+// TODO: Move to constants or use Units utils?
 const YEAR_TO_SECONDS = 31556926
 
 /**
@@ -226,6 +227,8 @@ class Physics {
 
             E = eNext
         }
+
+        //const v = 2 * Math.atan(Math.sqrt((1 + body.orbit.eccentricity) / (1 - body.orbit.eccentricity)) * Math.tan(E / 2))
 
         return E - Math.PI
     }
