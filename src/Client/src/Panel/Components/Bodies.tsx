@@ -93,7 +93,7 @@ class Bodies extends StatelessComponent<IProps> {
                 value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
             this.getTableColumn(
-                body => body.discover.date,
+                body => body.discover ? body.discover.date : null,
                 strings.discoverDate,
                 date => Dates.formatISO(date, Dates.FORMAT.DATE)
             ),

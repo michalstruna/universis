@@ -116,8 +116,8 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.discover}
                         data={{
-                            [strings.discoverer]: body.discover.author,
-                            [strings.discoverDate]: body.discover.date
+                            [strings.discoverer]: body.discover ? body.discover.author : null,
+                            [strings.discoverDate]: body.discover ? body.discover.date : null
                         }} />
                 </Masonry>
             </section>
