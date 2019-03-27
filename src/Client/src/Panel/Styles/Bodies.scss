@@ -1,5 +1,5 @@
 .panel__bodies {
-    @include size(100%, calc(100% - 1.5rem));
+    @include size(100%, calc(100% - 3.1rem));
     background-color: $top-layer-color;
     display: flex;
     flex-direction: column;
@@ -47,12 +47,12 @@
     }
 
     .table {
-        width: 150rem;
+        width: 200rem;
 
         &__row .table__cell:first-of-type {
             box-sizing: border-box;
             padding-left: 1rem;
-            width: 200%;
+            width: 150%;
         }
     }
 
