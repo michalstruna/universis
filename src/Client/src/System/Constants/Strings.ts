@@ -104,7 +104,8 @@ export default {
         albedo: 'Albedo',
         luminosity: 'Zářivost',
         absoluteValues: 'Absolutní hodnoty',
-        relativeTo: 'Relativně k'
+        relativeTo: 'Relativně k',
+        atmospherePressure: 'Atm. tlak'
     },
 
     body: {

@@ -121,6 +121,11 @@ class Bodies extends StatelessComponent<IProps> {
                 body => body.luminosity,
                 strings.luminosity,
                 luminosity => Units.toExponential(luminosity, Units.LUMINOSITY.W)
+            ),
+            this.getTableColumn(
+                body => body.atmosphere.pressure,
+                strings.atmospherePressure,
+                pressure => Units.toShort(pressure, Units.PRESSURE.PA, Units.PRESSURE)
             )
         ]
     }
