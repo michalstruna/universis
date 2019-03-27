@@ -108,6 +108,16 @@ class Units {
     }
 
     /**
+     * List of pressure units.
+     */
+    public static PRESSURE = {
+        PA: { value: 1, shortName: 'Pa' },
+        KPA: { value: 1000, shortName: 'kPa' },
+        MPA: { value: 1e6, shortName: 'MPa' },
+        GPA: { value: 1e9, shortName: 'GPa' }
+    }
+
+    /**
      * List of acceleration units.
      */
     public static ACCELERATION = {

@@ -322,23 +322,31 @@ declare namespace Universis {
 
                 }
 
-                /**
-                 * Chemical composition of atmosphere.
-                 */
-                atmosphereComposition: [{
+                atmosphere?: {
 
                     /**
-                     * Short name of element.
+                     * Chemical composition of atmosphere.
                      */
-                    element: string
+                    composition: [{
+
+                        /**
+                         * Short name of element.
+                         */
+                        element: string
+
+                        /**
+                         * Percentage part of body.
+                         */
+                        percentage: number
+
+                    }],
 
                     /**
-                     * Percentage part of body.
+                     * Atmosphere pressure.
                      */
-                    percentage: number
+                    pressure?: number
 
-                }]
-
+                }
                 /**
                  * Gravitational acceleration.
                  */
