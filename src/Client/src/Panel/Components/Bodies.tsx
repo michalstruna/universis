@@ -72,7 +72,8 @@ class Bodies extends StatelessComponent<IProps> {
             ),
             this.getTableColumn(
                 body => body.escapeVelocity,
-                strings.escapeVelocity
+                strings.escapeVelocity,
+                velocity => Units.toShort(velocity, Units.VELOCITY.KM_S, Units.VELOCITY)
             ),
             this.getTableColumn(
                 body => body.axis.tilt,
@@ -126,6 +127,16 @@ class Bodies extends StatelessComponent<IProps> {
                 body => body.atmosphere.pressure,
                 strings.atmospherePressure,
                 pressure => Units.toShort(pressure, Units.PRESSURE.PA, Units.PRESSURE)
+            ),
+            this.getTableColumn(
+                body => body.rings.length,
+                strings.rings,
+                rings => rings.length
+            ),
+            this.getTableColumn(
+                body => body.rings.length,
+                strings.satellites,
+                rings => rings.length
             )
         ]
     }
