@@ -632,7 +632,7 @@ $$v = \frac{O}{T}~~~~~~~~~~\omega = \frac{2 * \pi}{T}$$
 
 \subsubsection{Inicializace pozice}
 
-Při načtení scény je nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum, v~němž těleso prošlo periapsidou. Následně dojde k~výpočtu rozdílu dnešního data a~data průchodu periapsidou. Dále dojde k výpočtu excentrické anomálie E~--~úhlu, jenž svírá spojnice periapsidy se středem orbity a~spojnice pozice tělesa na pomyslné kruhové orbitě se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.~\cite{kleczek}
+Při načtení scény je nutno inicializovat pozici všech těles. V~databázi je u~každého tělesa uložený datum, v~němž těleso prošlo periapsidou. Následně dojde k~výpočtu rozdílu dnešního data a~data průchodu periapsidou. Dále je vypočítána excentrické anomálie~E~-~úhlu, jenž svírá spojnice periapsidy se středem orbity a~spojnice pozice tělesa na pomyslné kruhové orbitě se středem orbity. Toho lze docílit pomocí Keplerovy rovnice.~\cite{kleczek}
 
 \vspace*{-0.5cm}
 $$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * ((t - t\textsubscript{0})~mod~T)$$
@@ -831,7 +831,7 @@ I přes skutečnost, \textit{že MongoDB} jakožto dokumentová databáze umož�
 
 \subsection{Instalace a~spuštění aplikace}
 
-Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}.
+Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}. První načtení může být pomalejší, protože využívání cloudové platformy \textit{heroku} zdarma způsobí odebrání aplikace z~paměti po 30 minutách nečinnosti. 
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 

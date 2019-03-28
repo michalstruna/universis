@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.11.7)  27 MAR 2019 11:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.11.7)  28 MAR 2019 17:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1064,10 +1064,6 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1357.
 
 Package rerunfilecheck Info: File `Bc.out' has not changed.
 (rerunfilecheck)             Checksum: D833EC110C743A8B13B6BEDEA5892912;16136.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1357.
  ) 
 Here is how much of TeX's memory you used:
@@ -1109,7 +1105,7 @@ ist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/lm/lmtk10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publ
 ic/lm/lmtt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtt
 12.pfb>
-Output written on Bc.pdf (77 pages, 7730320 bytes).
+Output written on Bc.pdf (77 pages, 7730457 bytes).
 PDF statistics:
  1565 PDF objects out of 1728 (max. 8388607)
  1407 compressed objects within 15 object streams
