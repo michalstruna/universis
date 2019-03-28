@@ -1,6 +1,5 @@
-import { Request, Redux } from '../../Utils'
+import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
-import { Store } from '../../System'
 import Follow from '../Constants/Follow'
 
 /**
@@ -28,12 +27,10 @@ export const getBodyById = (bodyId: string) => (
  * Select body.
  * @param selectedBody ID of selected body.
  */
-export const selectBody = (selectedBody: string) => (
-    Redux.setAction(
-        ActionTypes.SELECT_BODY,
-        { selectedBody }
-    )
-)
+export const selectBody = (selectedBody: string) => {
+    Url.push({ query: { [Queries.CENTERED_BODY]: selectedBody } })
+    return Redux.setAction(ActionTypes.SELECT_BODY, { selectedBody })
+}
 
 /**
  * Change view size of camera.

@@ -24,7 +24,7 @@ const DEFAULT_OPTIONS = {
 
 let tempObject1Position = new THREE.Vector3()
 let tempObject2Position = new THREE.Vector3()
-var cameraViewProjectionMatrix = new THREE.Matrix4()
+let cameraViewProjectionMatrix = new THREE.Matrix4()
 const ZERO_VECTOR = new THREE.Vector3(0, 0, 0)
 
 /**

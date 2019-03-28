@@ -11,6 +11,16 @@
         z-index: 1000000;
     }
 
+    &__center {
+        @include opacity-hover;
+        @include size(2rem);
+        @include svg('Panel/Body/Center');
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        z-index: 10000000;
+    }
+
     &--title {
         .body-preview {
             right: -2rem;

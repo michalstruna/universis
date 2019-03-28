@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu } from '../../Utils'
+import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu, Link, Urls } from '../../Utils'
 import { BodyPreview, getBodies, getBodyById, Physics } from '../../Universe'
 import BodyData from './BodyData'
 import BodyTimeline from './BodyTimeline'
@@ -82,6 +82,21 @@ class Body extends StatelessComponent<IProps> {
         }
     }
 
+    /**
+     * Render center body button.
+     * @returns Button.
+     */
+    private renderCenterBodyButton(): React.ReactNode {
+        const { body } = this.props
+
+        return (
+            <Link
+                className='panel__body__center'
+                target={Urls.UNIVERSE}
+                query={{ [Queries.CENTERED_BODY]: body.payload._id }} />
+        )
+    }
+
     public render(): React.ReactNode {
         const { bodies, body, strings } = this.props
         const currentTab = Url.getQuery(Queries.BODY_TAB, location.search)
@@ -98,6 +113,7 @@ class Body extends StatelessComponent<IProps> {
                                 <section className='panel__window__body'>
                                     <section className='panel__window__body--scroll'>
                                         <BodyPreview body={body.payload} width={400} height={300} />
+                                        {this.renderCenterBodyButton()}
                                         {this.renderContent()}
                                     </section>
                                 </section>

@@ -81,6 +81,12 @@ declare namespace Universis {
          */
         toggleParticles(areParticlesVisible: boolean): void
 
+        /**
+         * Set target.
+         * @param {string} target
+         */
+        setTarget(target: string): void
+
     }
 
 }

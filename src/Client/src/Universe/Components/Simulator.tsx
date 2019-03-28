@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { StatelessComponent, UILayout } from '../../Utils'
+import { StatelessComponent, UILayout, Url, Queries } from '../../Utils'
 import ControlBar from './ControlBar'
 import ControlPanel from './ControlPanel'
 import Universe from '../Utils/Universe'
@@ -25,7 +25,8 @@ interface IProps {
     isFromCenterVisible: boolean
     timeSpeed: number,
     areParticlesVisible: boolean
-    follow: Follow
+    follow: Follow,
+    location: any
 }
 
 /**
@@ -50,7 +51,7 @@ class Simulator extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible, follow } = this.props
+        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible, follow, location } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -100,7 +101,11 @@ class Simulator extends StatelessComponent<IProps> {
             this.universe.toggleParticles(areParticlesVisible)
         }
 
-        if(prevProps.follow !== follow) {
+        if (Url.getQuery(Queries.CENTERED_BODY, prevProps.location.search) !== Url.getQuery(Queries.CENTERED_BODY, location.search)) {
+            this.universe.setTarget(Url.getQuery(Queries.CENTERED_BODY))
+        }
+
+        if (prevProps.follow !== follow) {
             this.universe.setFollow(follow)
         }
     }
@@ -125,7 +130,8 @@ class Simulator extends StatelessComponent<IProps> {
                 isLightVisible,
                 isVelocityVisible,
                 isNameVisible,
-                areOrbitsVisible
+                areOrbitsVisible,
+                target: Url.getQuery(Queries.CENTERED_BODY) || '5be60eee4143ef4fd8db9a77'
             })
 
             this.setOnResize(this.universe.resize)
