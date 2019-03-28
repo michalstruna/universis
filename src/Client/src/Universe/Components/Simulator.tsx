@@ -102,7 +102,7 @@ class Simulator extends StatelessComponent<IProps> {
         }
 
         if (Url.getQuery(Queries.CENTERED_BODY, prevProps.location.search) !== Url.getQuery(Queries.CENTERED_BODY, location.search)) {
-            this.universe.setTarget(Url.getQuery(Queries.CENTERED_BODY))
+            this.universe.selectBody(Url.getQuery(Queries.CENTERED_BODY), false)
         }
 
         if (prevProps.follow !== follow) {
@@ -123,7 +123,7 @@ class Simulator extends StatelessComponent<IProps> {
                 viewSizeElement: document.querySelector('.universe__view--inner'),
                 bodies: bodies.payload,
                 onChangeViewSize: Listener.changeViewSizeFromSimulator,
-                onSelectBody: selectBody,
+                onSelectBody: body => selectBody(body),
                 isFromCameraVisible,
                 isFromCenterVisible,
                 isFromEarthVisible,

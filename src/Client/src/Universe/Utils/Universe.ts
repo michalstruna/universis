@@ -115,8 +115,8 @@ class Universe implements Universis.Universe {
         this.scene.resize(window.innerWidth, window.innerHeight)
     }
 
-    public selectBody(bodyId: string): void {
-        this.scene.setCameraTarget(bodyId)
+    public selectBody(bodyId: string, withCallback: boolean = true): void {
+        this.scene.setCameraTarget(bodyId, withCallback)
     }
 
     public setViewSize = (viewSize: number): void => {
@@ -167,10 +167,6 @@ class Universe implements Universis.Universe {
 
     public setFollow(follow: number): void {
         this.scene.setFollow(follow)
-    }
-
-    public setTarget(target: string): void {
-        this.scene.setCameraTarget(target)
     }
 
     /**

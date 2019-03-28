@@ -18,8 +18,9 @@ declare namespace Universis {
         /**
          * Select body.
          * @param bodyId ID of body.
+         * @param withCallback
          */
-        selectBody(bodyId: string): void
+        selectBody(bodyId: string, withCallback?: boolean): void
 
         /**
          * Set follow.
@@ -80,12 +81,6 @@ declare namespace Universis {
          * @param areParticlesVisible
          */
         toggleParticles(areParticlesVisible: boolean): void
-
-        /**
-         * Set target.
-         * @param {string} target
-         */
-        setTarget(target: string): void
 
     }
 
