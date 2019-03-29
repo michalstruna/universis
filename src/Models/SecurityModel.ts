@@ -48,7 +48,7 @@ class SecurityModel extends Model implements Universis.SecurityModel {
         return Security.sign(payload)
     }
 
-    public unsign(token: string): Promise<Universis.Map<any>> {
+    public verify(token: string): Promise<Universis.Map<any>> {
         return this.dbModel.count({ token }).then(count => {
             if (count === 1) {
                 JWT.verify(token, Config.security.token.secret, (error, payload) => (
