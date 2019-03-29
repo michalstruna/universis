@@ -1,4 +1,7 @@
-import { OK, NO_CONTENT } from 'http-status-codes'
+import { OK, NO_CONTENT, UNAUTHORIZED } from 'http-status-codes'
+
+import SecurityModel from '../Models/SecurityModel'
+import UserModel from '../Models/UserModel'
 
 const defaultResultMap = result => result
 const defaultIsAuthorized = user => true
@@ -37,25 +40,44 @@ class Route {
         get: Route.all
     }
 
-    private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorized: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
-        return (request, response) => {
-            const requestData = {
-                ...request,
-                ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+    /**
+     * Process request and check authorization.
+     * @param action
+     * @param resultMap
+     * @param isAuthorited
+     */
+    private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorited: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
+        return async (request, response) => {
+            let user
+
+            try {
+                const tokenData = await SecurityModel.verify(request.headers['access-token'] || '')
+                user = await UserModel.getOne({ _id: tokenData.userId })
+                request.user = user
+            } catch(e) {
+                // Error is OK. Token just not exist, but for unauthorized routes it doesn't matter.
             }
 
-            return action(requestData)
-                .then(result => {
-                    if (typeof resultMap === 'boolean') {
-                        response.sendStatus(NO_CONTENT)
-                    } else {
-                        response.status(OK).send(resultMap(typeof result === 'number' ? result.toString() : result))
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                    response.status(error.code).send(error)
-                })
+            if (isAuthorited(user)) {
+                const requestData = {
+                    ...request,
+                    ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+                }
+
+                return action(requestData)
+                    .then(result => {
+                        if (typeof resultMap === 'boolean') {
+                            response.sendStatus(NO_CONTENT)
+                        } else {
+                            response.status(OK).send(resultMap(typeof result === 'number' ? result.toString() : result))
+                        }
+                    })
+                    .catch(error => {
+                        response.status(error.code).send(error)
+                    })
+            } else {
+                response.status(UNAUTHORIZED).send()
+            }
         }
     }
 
@@ -74,7 +96,7 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static onlyAuthenticated(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return null
+        return Route.process(action, resultMap, user => !!user)
     }
 
     /**
