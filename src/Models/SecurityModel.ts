@@ -52,8 +52,8 @@ class SecurityModel extends Model implements Universis.SecurityModel {
         return new Promise(async (resolve, reject) => {
             const count = await this.dbModel.count({ token })
 
-            if(count === 0) {
-                return Promise.reject(Errors.NOT_FOUND)
+            if (count === 0) {
+                reject(Errors.NOT_FOUND)
             }
 
             JWT.verify(token, Config.security.token.secret, (error, payload) => {

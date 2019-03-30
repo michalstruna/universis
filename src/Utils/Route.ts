@@ -51,10 +51,14 @@ class Route {
             let user
 
             try {
-                const tokenData = await SecurityModel.verify(request.headers['access-token'] || '')
-                user = await UserModel.getOne({ _id: tokenData.userId })
-                request.user = user
-            } catch(e) {
+                const token = request.headers['access-token']
+
+                if(token) {
+                    const tokenData = await SecurityModel.verify(token)
+                    user = await UserModel.getOne({ _id: tokenData.userId })
+                    request.user = user
+                }
+            } catch {
                 // Error is OK. Token just not exist, but for unauthorized routes it doesn't matter.
             }
 
