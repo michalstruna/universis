@@ -300,3 +300,25 @@ export const changeFollow = () => (
         ({ universe }) => ({ follow: universe.follow < Follow.MOVE_AND_ROTATION ? universe.follow + 1 : Follow.NO })
     )
 )
+
+/**
+ * Add body event.
+ * @param bodyId ID of body.
+ * @param event New event.
+ */
+export const addEvent = (bodyId: string, event: Universis.Event.New) => (
+    Redux.asyncAction(
+        ActionTypes.ADD_EVENT,
+        { newEvent: Request.post(`bodies/${bodyId}/events`, event) }
+    )
+)
+
+/**
+ * Clear add event form.
+ */
+export const clearEvent = () => (
+    Redux.setAction(
+        ActionTypes.CLEAR_EVENT,
+        { newEvent: Redux.EMPTY_ASYNC_ENTITY }
+    )
+)

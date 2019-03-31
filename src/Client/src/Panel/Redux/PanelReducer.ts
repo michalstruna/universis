@@ -6,6 +6,7 @@ export default Redux.createReducer(
     {
         tab: Url.getQuery(Queries.PANEL) || Queries.OVERVIEW,
         newNotification: Redux.EMPTY_ASYNC_ENTITY,
-        notifications: Redux.EMPTY_ASYNC_ENTITY
+        notifications: Redux.EMPTY_ASYNC_ENTITY,
+        isBodyEventFormVisible: false
     }
 )

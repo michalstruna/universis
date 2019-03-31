@@ -169,8 +169,9 @@ export default {
     events: {
         title: 'Titulek',
         description: 'Popis',
-        from: 'Od',
-        to: 'Do'
+        from: 'Od roku',
+        to: 'Do roku',
+        ok: 'Vaše událost byla odeslána na posouzení a až ji administrátor schváli, bude viditelná pro všechny.'
     },
 
     discussion: {
@@ -209,8 +210,8 @@ export default {
 
     editor: {
         add: '＋',
-        update: 'Upravit',
-        delete: 'Odstranit'
+        update: '',
+        delete: ''
 
     }
 

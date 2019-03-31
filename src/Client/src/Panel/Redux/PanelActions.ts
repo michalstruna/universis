@@ -1,5 +1,6 @@
 import ActionTypes from './ActionTypes'
 import { Redux, Request } from '../../Utils'
+import { clearEvent } from '../../Universe'
 
 /**
  * Set panel tab.
@@ -32,4 +33,23 @@ export const getNotifications = (limit: number) => (
         ActionTypes.GET_NOTIFICATIONS,
         { notifications: Request.get(`notifications`, { sort: 'date', order: 'desc', limit }) }
     )
+)
+
+/**
+ * Toggle visibility of body event form.
+ * @param isVisible
+ */
+export const toggleBodyEventForm = (isVisible: boolean) => (
+    dispatch => {
+        dispatch(
+            Redux.toggleAction(
+                ActionTypes.TOGGLE_BODY_EVENT_FORM,
+                { isBodyEventFormVisible: isVisible }
+            )
+        )
+
+        if (isVisible) {
+            dispatch(clearEvent())
+        }
+    }
 )

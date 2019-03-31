@@ -53,13 +53,13 @@ class Route {
             try {
                 const token = request.headers['access-token']
 
-                if(token) {
+                if (token) {
                     const tokenData = await SecurityModel.verify(token)
                     user = await UserModel.getOne({ _id: tokenData.userId })
                     request.user = user
                 }
             } catch {
-                // Error is OK. Token just not exist, but for unauthorized routes it doesn't matter.
+                // Error is OK. Token is just invalid, but for unauthorized routes it doesn't matter.
             }
 
             if (isAuthorited(user)) {

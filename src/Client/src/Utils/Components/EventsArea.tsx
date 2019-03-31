@@ -1,7 +1,6 @@
 import * as React from 'react'
 
-import { StatelessComponent, EditorControl } from '../../Utils'
-import EventForm from './EventForm'
+import { StatelessComponent } from '../../Utils'
 
 interface IProps {
     columnsCount: number
@@ -13,6 +12,7 @@ interface IProps {
     formatCurrentValue?: Universis.Function<number, string>
     formatTickValue?: Universis.Function<number, string>
     formatDetailValue?: Universis.Function<number, string>
+    renderEventSuffix?: Universis.Consumer<Universis.Event>
 }
 
 /**
@@ -165,7 +165,7 @@ class EventsArea extends StatelessComponent <IProps> {
     }
 
     private renderDetail(event: Universis.Event): React.ReactNode {
-        const { hoverDetail, formatDetailValue } = this.props
+        const { hoverDetail, formatDetailValue, renderEventSuffix } = this.props
 
         if (!hoverDetail) {
             return null
@@ -182,6 +182,7 @@ class EventsArea extends StatelessComponent <IProps> {
                 <p>
                     {event.description}
                 </p>
+                {renderEventSuffix ? renderEventSuffix(event) : null}
             </section>
         )
     }
@@ -203,33 +204,6 @@ class EventsArea extends StatelessComponent <IProps> {
         )
     }
 
-    /**
-     * Render add button.
-     */
-    private renderAdd(): React.ReactNode {
-        const { formatDetailValue } = this.props
-        const column = 5
-        const to: number = 8
-        const from = 26
-        const title = 'title'
-
-        return (
-            <>
-                <section
-                    className={'events-area__event events-area__event--' + column}
-                    style={{ gridArea: `${to}/${column}/${from}/${column + 1}` }}>
-                    {title}
-                    <section className='events-area__event__detail'>
-                        <EventForm form={'event'} />
-                    </section>
-                </section>
-                <EditorControl
-                    type={EditorControl.ADD}
-                    onClick={() => console.log(Math.random())} />
-            </>
-        )
-    }
-
     public render(): React.ReactNode {
         const { tickHeight } = this.props
 
@@ -242,7 +216,6 @@ class EventsArea extends StatelessComponent <IProps> {
                 {this.renderHoverLine()}
                 {this.renderTicks()}
                 {this.renderEvents()}
-                {this.renderAdd()}
             </section>
         )
     }
