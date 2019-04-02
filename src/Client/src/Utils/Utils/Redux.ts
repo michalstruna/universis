@@ -122,25 +122,27 @@ class Redux {
      * @returns New store state.
      */
     private static applySetAction(state: Universis.Redux.StoreState, action: Universis.Redux.SetAction): Universis.Redux.StoreState {
+        let x = 1
+
         const applyNestedChange = (source: any, change: any) => {
-            if (change.$find) {
+            if (change && change.$find) {
                 const index = source.findIndex(change.$find)
                 delete change.$find
                 source[index] = applyNestedChange(source[index], change)
-            } else if (change.$add) {
+            } else if (change && change.$add) {
                 source = [...source, change.$add]
-            } else if (change.$addFirst) {
+            } else if (change && change.$addFirst) {
                 source = [change.$addFirst, ...source]
-            } else if (change.$remove) {
+            } else if (change && change.$remove) {
                 const index = source.findIndex(change.$remove)
 
                 if (index > -1) {
                     source.splice(index, 1)
                 }
-            } else if (typeof change[Object.keys(change)[0]] === 'object') {
+            } else if (change && typeof change[Object.keys(change)[0]] === 'object' && (!change.payload && !change.isSent && !change.error)) {
                 for (const i in change) {
                     if (!(i.startsWith('$'))) {
-                        source[i] = applyNestedChange(source[i], change[i])
+                        source[i] = change[i] !== null ? applyNestedChange(source[i], change[i]) : null
                     }
                 }
             } else {

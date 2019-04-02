@@ -8,7 +8,7 @@
         transform: scale(0.33);
         transform-origin: top right;
         transition: right $medium-animation-duration, transform $medium-animation-duration;
-        z-index: 1000000;
+        z-index: 100;
     }
 
     &__center {
@@ -18,7 +18,7 @@
         position: absolute;
         right: 1rem;
         top: 1rem;
-        z-index: 10000000;
+        z-index: 1000;
     }
 
     &--title {
@@ -98,10 +98,6 @@
         position: relative;
     }
 
-    .event-area {
-        margin-top: 0.5rem;
-    }
-
     &__timeline {
         &__preview {
             @include size(100%, 6.25rem);
@@ -125,6 +121,48 @@
 
         .events-area {
             margin-top: 1rem;
+
+            &__event {
+                position: relative;
+
+                &__suffix {
+                    position: absolute;
+                    right: 0;
+                    top: 0.25rem;
+                }
+            }
+        }
+
+        &__form {
+            bottom: 5rem;
+            font-size: 80%;
+            position: fixed;
+            margin-left: 21rem;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform $medium-animation-duration;
+            width: 15rem;
+            z-index: 10000000;
+
+
+            &--visible {
+                transform: scale(1);
+            }
+
+            .form {
+                background-color: $medium-dark-color;
+                box-shadow: #000 0 0.2rem 0.5rem;
+                position: relative;
+                overflow: hidden;
+
+                &__button--close {
+                    margin: 0 !important;
+                }
+
+                &__block:first-of-type {
+                    margin-top: 1rem;
+                }
+            }
         }
     }
 
@@ -183,7 +221,7 @@
 
             .form {
 
-                &__block  {
+                &__block {
                     margin-bottom: 1rem;
                 }
 

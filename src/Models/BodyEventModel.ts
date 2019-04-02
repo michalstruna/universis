@@ -9,7 +9,7 @@ export default new ItemModel<Universis.Event, Universis.Event, Universis.Event.N
     },
     add: {
         approval: true,
-        notification: true,
+        notification: true
     },
     get: {
         select: ['-bodyId'],

@@ -55,17 +55,46 @@ class Form extends StatelessComponent<IProps> {
      * Render back button.
      * @param to
      * @param children
+     * @param onClick
      * @constructor
      */
-    public static Back = ({ to, children }): React.ReactNode => (
-        <Link
-            className='form__button form__button--back'
-            target={to}>
-            <section className='form__button__icon' />
-            <section className='form__button__text'>
-                {children}
-            </section>
-        </Link>
+    public static Back = ({ to, children, onClick }): React.ReactNode => {
+        if (onClick) {
+            return (
+                <button
+                    className='form__button form__button--back'
+                    onClick={event => {
+                        event.stopPropagation()
+                        event.preventDefault()
+                        onClick()
+                    }}>
+                    {children}
+                </button>
+            )
+        } else if (to) {
+            return (
+                <Link
+                    className='form__button form__button--back'
+                    target={to}>
+                    {children}
+                </Link>
+            )
+        }
+    }
+
+    /**
+     * Render close button.
+     * @param onClick
+     * @constructor
+     */
+    public static Close = ({ onClick }): React.ReactNode => (
+        <button
+            className='form__button form__button--close'
+            onClick={event => {
+                event.stopPropagation()
+                event.preventDefault()
+                onClick()
+            }} />
     )
 
     /**
@@ -82,6 +111,17 @@ class Form extends StatelessComponent<IProps> {
             </section>
             <section className='form__button__icon' />
         </button>
+    )
+
+    /**
+     * Ok form view.
+     * @param children
+     * @constructor
+     */
+    public static Ok = ({ children }): React.ReactNode => (
+        <section className='form__ok'>
+            {children}
+        </section>
     )
 
     public render(): React.ReactNode {

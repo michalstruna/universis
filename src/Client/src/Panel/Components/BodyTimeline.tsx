@@ -1,11 +1,19 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { StatelessComponent, Units, AsyncEntity, EventArea } from '../../Utils'
+import { StatelessComponent, Units, EventArea, EditorControl } from '../../Utils'
 import { LineChart } from '../../Charts'
+import EventForm from './EventForm'
+import { toggleBodyEventForm } from '../Redux/PanelActions'
+import { deleteEvent } from '../../Universe'
+import { Form } from '../../Forms'
 
 interface IProps {
     strings: Universis.Strings
     body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
+    isFormVisible: boolean
+    toggleBodyEventForm: (isVisible: boolean, event?: Universis.Event) => void
+    deleteEvent: Universis.Consumer<string>
 }
 
 const generateYears = (): number[] => {
@@ -56,8 +64,32 @@ class BodyTimeline extends StatelessComponent<IProps> {
         )).length
     }
 
+    /**
+     * Render add button.
+     */
+    private renderAdd(): React.ReactNode {
+        const { isFormVisible, toggleBodyEventForm } = this.props
+
+        return (
+            <>
+                <section
+                    className={ClassNames('panel__body__timeline__form', { 'panel__body__timeline__form--visible': isFormVisible })}>
+                    <EventForm />
+                </section>
+                <EditorControl
+                    type={EditorControl.ADD}
+                    onClick={() => toggleBodyEventForm(true)}>
+                </EditorControl>
+            </>
+        )
+    }
+
     public render(): React.ReactNode {
-        const { body } = this.props
+        const { body, toggleBodyEventForm, deleteEvent } = this.props
+
+        if (!body.payload) {
+            return null
+        }
 
         return (
             <section className='panel__body__timeline'>
@@ -78,8 +110,24 @@ class BodyTimeline extends StatelessComponent<IProps> {
                     formatDetailValue={value => value < 0 ? Units.toShort(value) : Units.toFull(value)}
                     hoverDetail={true}
                     minorTicksCount={9}
+                    renderEventSuffix={event => (
+                        <>
+                            <EditorControl
+                                type={EditorControl.UPDATE}
+
+                                onClick={() => toggleBodyEventForm(true, event)} />
+                            <EditorControl
+                                type={EditorControl.DELETE}
+                                onClick={() => {
+                                    if (confirm('Opravdu smazat?')) {
+                                        deleteEvent(event._id)
+                                    }
+                                }} />
+                        </>
+                    )}
                     tickHeight={15}
                     ticks={YEARS} />
+                {this.renderAdd()}
             </section>
         )
     }
@@ -87,8 +135,10 @@ class BodyTimeline extends StatelessComponent<IProps> {
 }
 
 export default BodyTimeline.connect(
-    ({ system, universe }: Universis.Redux.StoreState) => ({
+    ({ system, universe, panel }: Universis.Redux.StoreState) => ({
         strings: system.strings.bodyData,
-        body: universe.body
-    })
+        body: universe.body,
+        isFormVisible: panel.isBodyEventFormVisible
+    }),
+    { toggleBodyEventForm, deleteEvent }
 )
