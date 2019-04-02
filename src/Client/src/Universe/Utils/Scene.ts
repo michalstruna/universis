@@ -24,7 +24,7 @@ const DEFAULT_OPTIONS = {
 
 let tempObject1Position = new THREE.Vector3()
 let tempObject2Position = new THREE.Vector3()
-var cameraViewProjectionMatrix = new THREE.Matrix4()
+let cameraViewProjectionMatrix = new THREE.Matrix4()
 const ZERO_VECTOR = new THREE.Vector3(0, 0, 0)
 
 /**
@@ -150,7 +150,7 @@ class Scene implements Universis.Scene {
         this.controls.enabled = isControllable
     }
 
-    public setCameraTarget(objectId: string | THREE.Mesh): void {
+    public setCameraTarget(objectId: string | THREE.Mesh, withCallback: boolean = true): void {
         const { controllable, follow, onChangeTarget } = this.options
         const oldTarget = this.target
         this.target = (typeof objectId === 'string' ? this.scene.getObjectByName(objectId) : objectId) as any
@@ -194,10 +194,10 @@ class Scene implements Universis.Scene {
             }
 
             this.setCameraDistance(targetSize)
-        }
 
-        if (onChangeTarget) {
-            onChangeTarget(this.target.name)
+            if (withCallback && onChangeTarget) {
+                onChangeTarget(this.target.name)
+            }
         }
     }
 

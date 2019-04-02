@@ -1,4 +1,7 @@
-import { OK, NO_CONTENT } from 'http-status-codes'
+import { OK, NO_CONTENT, UNAUTHORIZED } from 'http-status-codes'
+
+import SecurityModel from '../Models/SecurityModel'
+import UserModel from '../Models/UserModel'
 
 const defaultResultMap = result => result
 const defaultIsAuthorized = user => true
@@ -37,25 +40,48 @@ class Route {
         get: Route.all
     }
 
-    private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorized: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
-        return (request, response) => {
-            const requestData = {
-                ...request,
-                ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+    /**
+     * Process request and check authorization.
+     * @param action
+     * @param resultMap
+     * @param isAuthorited
+     */
+    private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorited: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
+        return async (request, response) => {
+            let user
+
+            try {
+                const token = request.headers['access-token']
+
+                if (token) {
+                    const tokenData = await SecurityModel.verify(token)
+                    user = await UserModel.getOne({ _id: tokenData.userId })
+                    request.user = user
+                }
+            } catch {
+                // Error is OK. Token is just invalid, but for unauthorized routes it doesn't matter.
             }
 
-            return action(requestData)
-                .then(result => {
-                    if (typeof resultMap === 'boolean') {
-                        response.sendStatus(NO_CONTENT)
-                    } else {
-                        response.status(OK).send(resultMap(typeof result === 'number' ? result.toString() : result))
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                    response.status(error.code).send(error)
-                })
+            if (isAuthorited(user)) {
+                const requestData = {
+                    ...request,
+                    ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+                }
+
+                return action(requestData)
+                    .then(result => {
+                        if (typeof resultMap === 'boolean') {
+                            response.sendStatus(NO_CONTENT)
+                        } else {
+                            response.status(OK).send(resultMap(typeof result === 'number' ? result.toString() : result))
+                        }
+                    })
+                    .catch(error => {
+                        response.status(error.code).send(error)
+                    })
+            } else {
+                response.status(UNAUTHORIZED).send()
+            }
         }
     }
 
@@ -74,7 +100,7 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static onlyAuthenticated(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return null
+        return Route.process(action, resultMap, user => !!user)
     }
 
     /**
@@ -151,11 +177,11 @@ class Route {
         const routeGroup: Universis.Map<IRequestHandler> = {}
 
         if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(({ params }) => model.getOne({ _id: params.bodyId }))
+            routeGroup.get = access.get(({ params }) => model.getOne({ _id: params[Object.keys(params)[0]] }))
         }
 
         if (access.put && typeof access.put !== 'object') {
-            routeGroup.put = access.put(({ params, body }) => model.updateOne({ _id: params.bodyId }, body), false)
+            routeGroup.put = access.put(({ params, body }) => model.updateOne({ _id: params[Object.keys(params)[0]] }, body), false)
         }
 
         if (access.delete && typeof access.delete !== 'object') {

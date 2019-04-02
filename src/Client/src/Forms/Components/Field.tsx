@@ -56,6 +56,14 @@ class Field extends StatelessComponent<IProps> {
         validator: value => true
     }
 
+    /**
+     * Number input.
+     */
+    public static NUMBER = {
+        name: 'number',
+        validator: value => /^[0-9]*$/.test(value)
+    }
+
     public static defaultProps = {
         type: Field.TEXT,
         label: ''

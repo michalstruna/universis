@@ -1,6 +1,5 @@
-import { Request, Redux } from '../../Utils'
+import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
-import { Store } from '../../System'
 import Follow from '../Constants/Follow'
 
 /**
@@ -28,12 +27,10 @@ export const getBodyById = (bodyId: string) => (
  * Select body.
  * @param selectedBody ID of selected body.
  */
-export const selectBody = (selectedBody: string) => (
-    Redux.setAction(
-        ActionTypes.SELECT_BODY,
-        { selectedBody }
-    )
-)
+export const selectBody = (selectedBody: string) => {
+    Url.push({ query: { [Queries.CENTERED_BODY]: selectedBody } })
+    return Redux.setAction(ActionTypes.SELECT_BODY, { selectedBody })
+}
 
 /**
  * Change view size of camera.
@@ -301,5 +298,50 @@ export const changeFollow = () => (
     Redux.setAction(
         ActionTypes.CHANGE_FOLLOW,
         ({ universe }) => ({ follow: universe.follow < Follow.MOVE_AND_ROTATION ? universe.follow + 1 : Follow.NO })
+    )
+)
+
+/**
+ * Add body event.
+ * @param bodyId ID of body.
+ * @param event New event.
+ */
+export const addEvent = (bodyId: string, event: Universis.Event.New) => (
+    Redux.asyncAction(
+        ActionTypes.ADD_EVENT,
+        { newEvent: Request.post(`bodies/${bodyId}/events`, event) }
+    )
+)
+
+/**
+ * Add body event.
+ * @param eventId ID of event.
+ * @param event New event.
+ */
+export const updateEvent = (eventId: string, event: Universis.Event.New) => (
+    Redux.asyncAction(
+        ActionTypes.ADD_EVENT,
+        { updatedEvent: Request.put(`bodies/events/${eventId}`, event) }
+    )
+)
+
+/**
+ * Delete body event by ID.
+ * @param eventId
+ */
+export const deleteEvent = (eventId: string) => (
+    Redux.asyncAction(
+        ActionTypes.DELETE_EVENT,
+        { deletedEvent: Request.delete(`bodies/events/${eventId}`) }
+    )
+)
+
+/**
+ * Clear add event form.
+ */
+export const clearEvent = () => (
+    Redux.setAction(
+        ActionTypes.CLEAR_EVENT,
+        { newEvent: Redux.EMPTY_ASYNC_ENTITY }
     )
 )

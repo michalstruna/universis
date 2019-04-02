@@ -42,7 +42,7 @@ declare namespace Universis {
          * @returns Promise with error NOT_FOUND, if token doesn't exist.
          * @returns Promise with error INVALID, if token is invalid.
          */
-        unsign(token: string): Promise<Universis.Map<any>>
+        verify(token: string): Promise<Universis.Map<any>>
 
     }
 

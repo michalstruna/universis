@@ -18,8 +18,9 @@ declare namespace Universis {
         /**
          * Select body.
          * @param bodyId ID of body.
+         * @param withCallback
          */
-        selectBody(bodyId: string): void
+        selectBody(bodyId: string, withCallback?: boolean): void
 
         /**
          * Set follow.
