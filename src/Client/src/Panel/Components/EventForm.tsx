@@ -4,21 +4,23 @@ import { reduxForm, InjectedFormProps, formValueSelector } from 'redux-form'
 import { StatelessComponent } from '../../Utils'
 import { Field, Form } from '../../Forms'
 import { toggleBodyEventForm } from '../Redux/PanelActions'
-import { addEvent, clearEvent } from '../../Universe'
+import { addEvent, clearEvent, updateEvent } from '../../Universe'
 
 interface IProps {
     strings: Universis.Strings
     toggleBodyEventForm: Universis.Consumer<boolean>
     bodyId: string
     addEvent: Universis.Consumer2<string, Universis.Event.New>
+    updateEvent: Universis.Consumer2<string, Universis.Event.New>
     newEvent: Universis.Redux.AsyncEntity<Universis.Event>
     clearEvent: Universis.Runnable
+    selectedEvent: Universis.Event
 }
 
 interface IValues {
     title: string
-    content: string,
-    from: number,
+    content: string
+    from: number
     to: number
 }
 
@@ -36,10 +38,10 @@ class EventForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { reset, addEvent, bodyId } = this.props
+        const { reset, addEvent, bodyId, selectedEvent, updateEvent } = this.props
 
         try {
-            addEvent(bodyId, data)
+            selectedEvent ? updateEvent(selectedEvent._id, data) : addEvent(bodyId, data)
             reset()
         } catch (error) {
             // TODO: Error dialog?
@@ -105,13 +107,22 @@ class EventForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
 
 }
 
-export default reduxForm({
-    form: EventForm.NAME
-})(EventForm.connect(
-    ({ system, universe }: Universis.Redux.StoreState) => ({
+export default EventForm.connect(
+    ({ system, universe, panel: { selectedEvent } }: Universis.Redux.StoreState) => ({
         strings: system.strings.events,
         bodyId: universe.body.payload._id,
-        newEvent: universe.newEvent
+        newEvent: universe.newEvent,
+        initialValues: {
+            title: selectedEvent ? selectedEvent.title : '',
+            description: selectedEvent ? selectedEvent.description : '',
+            from: selectedEvent ? selectedEvent.from : '',
+            to: selectedEvent ? selectedEvent.to : ''
+        },
+        selectedEvent
     }),
-    { toggleBodyEventForm, addEvent, clearEvent }
-))
+    { toggleBodyEventForm, addEvent, clearEvent, updateEvent },
+    {
+        form: EventForm.NAME,
+        enableReinitialize: true
+    }
+)

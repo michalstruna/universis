@@ -5,6 +5,10 @@ import { Errors } from '../Constants'
 // TODO: Remove func does not return list of items.
 // TODO: Join, select, limit, offset, ... options in update and remove.
 
+type Item = Universis.Database.Query.Item
+type Filter = Universis.Database.Query.Filter
+type Options = Universis.Database.Query.Options
+
 /**
  * Adapter for database model.
  */
@@ -20,7 +24,7 @@ class DatabaseModel implements Universis.Database.Model {
         this.model = model
     }
 
-    public add<T>(items: Universis.Database.Query.Item[]): Promise<T[]> {
+    public add<T>(items: Item[]): Promise<T[]> {
         return new Promise((resolve, reject) => (
             this.model
                 .insertMany(items)
@@ -29,23 +33,20 @@ class DatabaseModel implements Universis.Database.Model {
         ))
     }
 
-    public addOne<T>(item: Universis.Database.Query.Item): Promise<T> {
+    public addOne<T>(item: Item): Promise<T> {
         return new Promise((resolve, reject) => (
             this.model
                 .create(item)
                 .then(item => resolve(item.toObject()))
-                .catch(error => {
-                    console.log(error)
-                    reject(this.getError(error))
-                })
+                .catch(error => reject(this.getError(error)))
         ))
     }
 
-    public count(filter: Universis.Database.Query.Filter): Promise<number> {
+    public count(filter: Filter): Promise<number> {
         return this.model.count(filter).exec()
     }
 
-    public get<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T[]> {
+    public get<T>(filter: Filter, options?: Options): Promise<T[]> {
         return this.processQuery(
             this.model.find(filter),
             options
@@ -53,7 +54,7 @@ class DatabaseModel implements Universis.Database.Model {
             .then(items => this.processResultForAll<T>(items, options))
     }
 
-    public getOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
+    public getOne<T>(filter: Filter, options?: Options): Promise<T> {
         return this.processQuery(
             this.model.findOne(filter),
             options
@@ -63,12 +64,12 @@ class DatabaseModel implements Universis.Database.Model {
             })
     }
 
-    public getField<T>(filter: Universis.Database.Query.Filter, fieldName: string): Promise<T> {
+    public getField<T>(filter: Filter, fieldName: string): Promise<T> {
         return this.getOne<{ [fieldName: string]: T }>(filter, { select: ['-_id', fieldName] })
             .then(item => item[fieldName])
     }
 
-    public remove<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T[]> {
+    public remove<T>(filter: Filter, options?: Options): Promise<T[]> {
         return new Promise((resolve, reject) => (
             this.processQuery(
                 this.model.deleteMany(filter),
@@ -79,7 +80,7 @@ class DatabaseModel implements Universis.Database.Model {
         ))
     }
 
-    public removeOne<T>(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<T> {
+    public removeOne<T>(filter: Filter, options?: Options): Promise<T> {
         return new Promise((resolve, reject) => (
             this.processQuery(
                 this.model.findOneAndRemove(filter),
@@ -90,7 +91,7 @@ class DatabaseModel implements Universis.Database.Model {
         ))
     }
 
-    public update<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): Promise<T[]> {
+    public update<T>(filter: Filter, newItem: Item, options?: Options): Promise<T[]> {
         return new Promise((resolve, reject) => (
             this.processQuery(
                 this.model.updateMany(filter, newItem, { new: true }),
@@ -101,10 +102,10 @@ class DatabaseModel implements Universis.Database.Model {
         ))
     }
 
-    public updateOne<T>(filter: Universis.Database.Query.Filter, newItem: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): Promise<T> {
+    public updateOne<T>(filter: Filter, newItem: Item, options?: Options): Promise<T> {
         return new Promise((resolve, reject) => (
             this.processQuery(
-                this.model.updateMany(filter, newItem, { new: true }),
+                this.model.findOneAndUpdate(filter, newItem, { new: true }),
                 options
             )
                 .then(updated => resolve(this.processResultForOne<T>(updated, options)))
@@ -122,7 +123,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @param options Options of query.
      * @returns Query with options.
      */
-    private processQuery(query: Query<any>, options?: Universis.Database.Query.Options): Query<any> {
+    private processQuery(query: Query<any>, options?: Options): Query<any> {
         if (options) {
             if (options.sort) {
                 query = query.sort([[options.sort, options.reverse ? -1 : 1]])
@@ -157,7 +158,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @param options Options of query.
      * @returns Items or item.
      */
-    private processResultForAll<T>(items: Universis.Database.Query.Item[], options?: Universis.Database.Query.Options): T[] {
+    private processResultForAll<T>(items: Item[], options?: Options): T[] {
         if (options && options.join) {
             for (const i in items) {
                 items[i] = this.processResultForOne<T>(items[i], options)
@@ -174,7 +175,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @param options Options of query.
      * @returns Item.
      */
-    private processResultForOne<T>(item: Universis.Database.Query.Item, options?: Universis.Database.Query.Options): T {
+    private processResultForOne<T>(item: Item, options?: Options): T {
         if (options && options.join) {
             for (const join of options.join) {
                 item[join.replace(/Id$/, '')] = item[join]

@@ -12,7 +12,7 @@ interface IProps {
     formatCurrentValue?: Universis.Function<number, string>
     formatTickValue?: Universis.Function<number, string>
     formatDetailValue?: Universis.Function<number, string>
-    renderEventSuffix?: Universis.Consumer<Universis.Event>
+    renderEventSuffix?: Universis.Function<Universis.Event, React.ReactNode>
 }
 
 /**
@@ -182,7 +182,9 @@ class EventsArea extends StatelessComponent <IProps> {
                 <p>
                     {event.description}
                 </p>
-                {renderEventSuffix ? renderEventSuffix(event) : null}
+                <section className='events-area__event__suffix'>
+                    {renderEventSuffix ? renderEventSuffix(event) : null}
+                </section>
             </section>
         )
     }

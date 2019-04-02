@@ -25,7 +25,8 @@ enum ActionTypes {
     TOGGLE_PARTICLES = 'TOGGLE_PARTICLES',
     CHANGE_FOLLOW = 'CHANGE_FOLLOW',
     ADD_EVENT = 'ADD_EVENT',
-    CLEAR_EVENT = 'CLEAR_EVENT'
+    CLEAR_EVENT = 'CLEAR_EVENT',
+    DELETE_EVENT = 'DELETE_EVENT'
 }
 
 export default ActionTypes

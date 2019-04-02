@@ -21,15 +21,15 @@
 
         &--update, &--delete {
             @include opacity-hover;
-            @include size(2rem !important);
+            @include size(1.5rem !important);
         }
 
         &--update {
-            @include svg("Utils/Editor/Edit", 80%);
+            @include svg("Utils/Editor/Edit", 70%);
         }
 
         &--delete {
-            @include svg("Utils/Editor/Delete", 80%);
+            @include svg("Utils/Editor/Delete", 70%);
         }
     }
 

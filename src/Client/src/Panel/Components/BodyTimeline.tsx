@@ -5,13 +5,15 @@ import { StatelessComponent, Units, EventArea, EditorControl } from '../../Utils
 import { LineChart } from '../../Charts'
 import EventForm from './EventForm'
 import { toggleBodyEventForm } from '../Redux/PanelActions'
+import { deleteEvent } from '../../Universe'
 import { Form } from '../../Forms'
 
 interface IProps {
     strings: Universis.Strings
     body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
     isFormVisible: boolean
-    toggleBodyEventForm: Universis.Consumer<boolean>
+    toggleBodyEventForm: (isVisible: boolean, event?: Universis.Event) => void
+    deleteEvent: Universis.Consumer<string>
 }
 
 const generateYears = (): number[] => {
@@ -72,7 +74,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
             <>
                 <section
                     className={ClassNames('panel__body__timeline__form', { 'panel__body__timeline__form--visible': isFormVisible })}>
-                    <EventForm form={'event'} />
+                    <EventForm />
                 </section>
                 <EditorControl
                     type={EditorControl.ADD}
@@ -83,7 +85,7 @@ class BodyTimeline extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { body, toggleBodyEventForm } = this.props
+        const { body, toggleBodyEventForm, deleteEvent } = this.props
 
         if (!body.payload) {
             return null
@@ -108,11 +110,20 @@ class BodyTimeline extends StatelessComponent<IProps> {
                     formatDetailValue={value => value < 0 ? Units.toShort(value) : Units.toFull(value)}
                     hoverDetail={true}
                     minorTicksCount={9}
-                    renderEventSuffix={() => (
-                        <Form.FlexRow>
-                            <EditorControl type={EditorControl.UPDATE} onClick={() => toggleBodyEventForm(true)} />
-                            <EditorControl type={EditorControl.DELETE} onClick={() => console.log(222)} />
-                        </Form.FlexRow>
+                    renderEventSuffix={event => (
+                        <>
+                            <EditorControl
+                                type={EditorControl.UPDATE}
+
+                                onClick={() => toggleBodyEventForm(true, event)} />
+                            <EditorControl
+                                type={EditorControl.DELETE}
+                                onClick={() => {
+                                    if (confirm('Opravdu smazat?')) {
+                                        deleteEvent(event._id)
+                                    }
+                                }} />
+                        </>
                     )}
                     tickHeight={15}
                     ticks={YEARS} />
@@ -129,5 +140,5 @@ export default BodyTimeline.connect(
         body: universe.body,
         isFormVisible: panel.isBodyEventFormVisible
     }),
-    { toggleBodyEventForm }
+    { toggleBodyEventForm, deleteEvent }
 )

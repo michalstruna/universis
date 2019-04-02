@@ -177,11 +177,11 @@ class Route {
         const routeGroup: Universis.Map<IRequestHandler> = {}
 
         if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(({ params }) => model.getOne({ _id: params.bodyId }))
+            routeGroup.get = access.get(({ params }) => model.getOne({ _id: params[Object.keys(params)[0]] }))
         }
 
         if (access.put && typeof access.put !== 'object') {
-            routeGroup.put = access.put(({ params, body }) => model.updateOne({ _id: params.bodyId }, body), false)
+            routeGroup.put = access.put(({ params, body }) => model.updateOne({ _id: params[Object.keys(params)[0]] }, body), false)
         }
 
         if (access.delete && typeof access.delete !== 'object') {

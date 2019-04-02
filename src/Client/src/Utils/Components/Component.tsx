@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect, MapStateToPropsParam, MapDispatchToPropsParam } from 'react-redux'
 import { withRouter, RouteProps } from 'react-router-dom'
+import { reduxForm } from 'redux-form'
 
 interface IComponentProps {
     history?: {
@@ -29,13 +30,16 @@ class Component<IProps, IState> extends React.Component<IProps & RouteProps & IC
      * Connect component with store and router.
      * @param mapStateToProps
      * @param mapDispatchToProps
+     * @param formOptions
      * @return Connected component.
      */
-    public static connect(mapStateToProps?: MapStateToPropsParam<{}, {}, {}>, mapDispatchToProps?: MapDispatchToPropsParam<{}, {}>): any {
+    public static connect(mapStateToProps?: MapStateToPropsParam<{}, {}, {}>, mapDispatchToProps?: MapDispatchToPropsParam<{}, {}>, formOptions?: Universis.Map<any>): any {
+        const component = formOptions ? reduxForm(formOptions)(this as any) : this
+
         return withRouter(connect(
             mapStateToProps,
             mapDispatchToProps
-        )(this) as any)
+        )(component as any) as any)
     }
 
     /**
