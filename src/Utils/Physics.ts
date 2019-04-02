@@ -125,7 +125,7 @@ class Physics {
      * @returns Body circuit.
      */
     public static getBodyCircuit(body: Universis.Universe.Body.Simple): number {
-        return Math.PI * Math.sqrt(2 * Math.pow(body.diameter.x, 2) + Math.pow(body.diameter.y, 2))
+        return Math.PI * Math.sqrt(2 * (Math.pow(body.diameter.x / 2, 2) + Math.pow(body.diameter.z / 2, 2)))
     }
 
     /**

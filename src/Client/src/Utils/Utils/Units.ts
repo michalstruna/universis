@@ -108,6 +108,16 @@ class Units {
     }
 
     /**
+     * List of pressure units.
+     */
+    public static PRESSURE = {
+        PA: { value: 1, shortName: 'Pa' },
+        KPA: { value: 1000, shortName: 'kPa' },
+        MPA: { value: 1e6, shortName: 'MPa' },
+        GPA: { value: 1e9, shortName: 'GPa' }
+    }
+
+    /**
      * List of acceleration units.
      */
     public static ACCELERATION = {
@@ -135,28 +145,10 @@ class Units {
      * @returns Formatted value like 149 597 870 km.
      */
     public static toFull = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
-        const minus = value < 0
-        value = Math.abs(value)
-
-        if (value === null || value === undefined) {
-            return null
-        }
-
-        if (correspondentUnits) {
-            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits, threshold)
-            value = temp.value
-            unit = temp.unit
-        }
-
-
-        if (!value) {
-            return '0'
-        } else if (value < 1e-3) {
-            return Units.toExponential(value, unit)
-        }
-
-        const temp = Math.pow(10, Units.getPrecision(value))
-        return (minus ? '-' : '') + Units.concatValueWithUnit(value ? parseFloat((Math.round(value * temp) / temp).toString()).toLocaleString() : '0', unit)
+        return Units.format(value, value => {
+            const temp = Math.pow(10, Units.getPrecision(value))
+            return value ? parseFloat((Math.round(value * temp) / temp).toString()).toLocaleString() : null
+        }, unit, correspondentUnits, threshold)
     }
 
     /**
@@ -168,28 +160,23 @@ class Units {
      * @returns Formatted value like 1.49e8 km.
      */
     public static toExponential = (value: number, unit?: Universis.Unit, correspondentUnits?: Universis.Map<Universis.Unit>, threshold?: number): string => {
-        if (value === null || value === undefined) {
-            return null
-        }
+        return Units.format(value, value => {
+            if (value < 10) {
+                return value
+            }
 
-        const minus = value < 0
-        value = Math.abs(value)
+            if (value > 1 && value < 1e3) {
+                return Units.toShort(value, unit).replace(/[a-zA-Z]$/, '')
+            }
 
-        if (correspondentUnits) {
-            const temp = Units.getCorrespondingUnit(value, unit, correspondentUnits, threshold)
-            value = temp.value
-            unit = temp.unit
-        }
-
-        if (value > 1 && value < 1e3) {
-            return Units.toShort(value, unit).replace(/[a-zA-Z]$/, '')
-        }
-
-        return (minus ? '-' : '') + Units.concatValueWithUnit(value
-            .toExponential(1)
-            .replace('+', '')
-            .replace('.0', ''), unit)
+            return value.toExponential(1).replace('+', '').replace('.0', '')
+        }, unit, correspondentUnits, threshold)
     }
+
+    /**
+     * Suffixes for toShort method.
+     */
+    private static SHORT_SUFFIXES = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Y', 'Z']
 
     /**
      * Format unit fo short form (like 150M km).
@@ -204,6 +191,34 @@ class Units {
             return null
         }
 
+        return Units.format(value, value => {
+            for (let i = 0; i <= Units.SHORT_SUFFIXES.length * 3; i++) {
+                if (value < Math.pow(10, i)) {
+                    const result = Math.round(value / Math.pow(10, i - 3)) / Math.pow(10, 2 - ((i + 2) % 3))
+                    const suffix = Units.SHORT_SUFFIXES[Math.floor((i - 1) / 3)]
+                    return result + (suffix || '')
+                }
+            }
+
+            return Units.toExponential(value)
+        }, unit, correspondentUnits, threshold)
+    }
+
+    /**
+     * Internal formatter for all another formatters.
+     * @param value
+     * @param format
+     * @param unit
+     * @param correspondentUnits
+     * @param threshold
+     */
+    private static format(
+        value: number,
+        format: Universis.Function<number, number | string>,
+        unit?: Universis.Unit,
+        correspondentUnits?: Universis.Map<Universis.Unit>,
+        threshold?: number
+    ): string {
         const minus = value < 0
         value = Math.abs(value)
 
@@ -213,26 +228,15 @@ class Units {
             unit = temp.unit
         }
 
-        if (!value) {
+        const result = format(value)
+
+        if (result === null) {
+            return null
+        } else if (!result) {
             return '0'
-        } else if (value < 1e-3) {
-            return Units.toExponential(value, unit)
-        } else if (value < 1) {
-            return Units.toFull(value, unit)
         }
 
-        const suffixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Y', 'Z']
-
-        for (let i = 0; i <= suffixes.length * 3; i++) {
-            if (value < Math.pow(10, i)) {
-                const result = Math.round(value / Math.pow(10, i - 3)) / Math.pow(10, 2 - ((i + 2) % 3))
-                const suffix = suffixes[Math.floor((i - 1) / 3)]
-                return (minus ? '-' : '') + Units.concatValueWithUnit(result + (suffix || ''), unit)
-            }
-        }
-
-        return Units.toExponential(value, unit)
-
+        return (minus ? '-' : '') + Units.concatValueWithUnit(format(value), unit)
     }
 
     /**

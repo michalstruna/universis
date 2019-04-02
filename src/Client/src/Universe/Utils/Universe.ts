@@ -30,6 +30,8 @@ interface IOptions {
     isFromEarthVisible: boolean
     isFromCameraVisible: boolean
     isFromCenterVisible: boolean
+
+    target: string
 }
 
 class Universe implements Universis.Universe {
@@ -97,7 +99,7 @@ class Universe implements Universis.Universe {
             onRender: this.onRender,
             onChangeTarget: options.onSelectBody,
             onZoom: zoom => options.onChangeViewSize(zoom / Config.SIZE_RATIO),
-            target: '5be60eee4143ef4fd8db9a77'
+            target: options.target
         })
 
         this.toggleName(options.isNameVisible)
@@ -113,8 +115,8 @@ class Universe implements Universis.Universe {
         this.scene.resize(window.innerWidth, window.innerHeight)
     }
 
-    public selectBody(bodyId: string): void {
-        this.scene.setCameraTarget(bodyId)
+    public selectBody(bodyId: string, withCallback: boolean = true): void {
+        this.scene.setCameraTarget(bodyId, withCallback)
     }
 
     public setViewSize = (viewSize: number): void => {

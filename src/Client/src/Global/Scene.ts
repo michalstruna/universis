@@ -52,8 +52,9 @@ declare namespace Universis {
         /**
          * Set camera target.
          * @param objectId ID of target object. It could be string ID or whole object.
+         * @param withCallback
          */
-        setCameraTarget(objectId: THREE.Object3D | string): void
+        setCameraTarget(objectId: THREE.Object3D | string, withCallback?: boolean): void
 
         /**
          * Enable or disable controls.

@@ -18,6 +18,19 @@
                 box-shadow: #000 0 0 2rem;
             }
         }
+
+        &--update, &--delete {
+            @include opacity-hover;
+            @include size(1.5rem !important);
+        }
+
+        &--update {
+            @include svg("Utils/Editor/Edit", 70%);
+        }
+
+        &--delete {
+            @include svg("Utils/Editor/Delete", 70%);
+        }
     }
 
 }

@@ -4,16 +4,18 @@
 enum Queries {
 
     PANEL = 'panel',
-    OVERVIEW = 'prehled',
-    BODY = 'teleso',
-    BODIES = 'telesa',
-    BODIES_FILTER = 'filtr',
-    BODIES_SETTINGS = 'nastaveni',
-    BODY_TAB = 'teleso-tab',
+    OVERVIEW = 'overview',
+    BODY = 'body',
+    BODIES = 'bodies',
+    BODIES_FILTER = 'filter',
+    BODIES_SETTINGS = 'settings',
+    BODY_TAB = 'body-tab',
 
     BODY_DATA = 'data',
-    BODY_TIMELINE = 'casova-osa',
-    BODY_DISCUSSION = 'diskuse',
+    BODY_TIMELINE = 'timeline',
+    BODY_DISCUSSION = 'discussion',
+
+    CENTERED_BODY = 'target',
 
     CHAT_TAB = 'chat-tab'
 

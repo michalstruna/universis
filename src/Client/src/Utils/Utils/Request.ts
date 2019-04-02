@@ -14,9 +14,8 @@ interface IRequestQuery {
 }
 
 interface IRequestHeader {
-    headers: {
-        [name: string]: string
-    }
+    params: Universis.Map<string>
+    headers: Universis.Map<string>
 }
 
 /**
@@ -27,7 +26,7 @@ interface IRequestHeader {
 class Request {
 
     /**
-     * Send GEt request to server.
+     * Send GET request to server.
      * @param path URL.
      * @param query Query parameters. (optional)
      * @returns Promise with response body.
@@ -36,7 +35,7 @@ class Request {
         return Request.process<T>(
             Axios.get(
                 API_URL + path,
-                { params: query, ...Request.getHeader() }
+                Request.getOptions(query)
             )
         )
     }
@@ -53,7 +52,7 @@ class Request {
             Axios.post(
                 API_URL + path,
                 body,
-                { params: query, ...Request.getHeader() }
+                Request.getOptions(query)
             )
         )
     }
@@ -70,7 +69,7 @@ class Request {
             Axios.put(
                 API_URL + path,
                 body,
-                { params: query, ...Request.getHeader() }
+                Request.getOptions(query)
             )
         )
     }
@@ -85,7 +84,7 @@ class Request {
         return Request.process<T>(
             Axios.delete(
                 API_URL + path,
-                { params: query, ...Request.getHeader() }
+                Request.getOptions(query)
             )
         )
     }
@@ -125,9 +124,13 @@ class Request {
      * Get header with token of currently logged user.
      * @returns Header object.
      */
-    private static getHeader(): IRequestHeader {
-        const identity = Store.getState().user.identity
-        return { headers: { 'Access-Token': identity ? identity.token : null } }
+    private static getOptions(query: Universis.Map<any>): IRequestHeader {
+        const identity = Store.getState().user.identity.payload
+
+        return {
+            params: query,
+            headers: { 'Access-Token': identity ? identity.token : null }
+        }
     }
 
 }

@@ -98,9 +98,9 @@ class Table<Item> extends Component<IProps<Item>, IState> {
             const property1 = column.accessor(item1)
             const property2 = column.accessor(item2)
 
-            if (property1 < property2) {
+            if ((!property1 && property2) || property1 < property2) {
                 return -sortValue
-            } else if (property1 > property2) {
+            } else if ((!property2 && property1) || property1 > property2) {
                 return sortValue
             } else {
                 return 0

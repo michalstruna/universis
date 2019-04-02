@@ -80,7 +80,7 @@ class BodyData extends StatelessComponent<IProps> {
                                 </DataTable.FlexRow>
                             ) : null,
                             [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null
-                        }} />\\
+                        }} />
                     <DataTable
                         title={strings.axis}
                         data={{
@@ -91,11 +91,11 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.atmosphere}
                         data={{
-                            [strings.atmospherePressure]: '101 kPa', // TODO
+                            [strings.atmospherePressure]: Units.toFull(body.atmosphere.pressure, Units.PRESSURE.PA, Units.PRESSURE),
                             [strings.atmosphereComposition]: () => (
                                 <section className='panel__body__data__chart'>
                                     <DonutChart
-                                        data={DonutChart.buildData(body.atmosphereComposition, item => item.element, item => item.percentage)} />
+                                        data={DonutChart.buildData(body.atmosphere.composition, item => item.element, item => item.percentage)} />
                                 </section>
                             )
                         }} />
@@ -116,8 +116,8 @@ class BodyData extends StatelessComponent<IProps> {
                     <DataTable
                         title={strings.discover}
                         data={{
-                            [strings.discoverer]: body.discover.author,
-                            [strings.discoverDate]: body.discover.date
+                            [strings.discoverer]: body.discover ? body.discover.author : null,
+                            [strings.discoverDate]: body.discover ? body.discover.date : null
                         }} />
                 </Masonry>
             </section>

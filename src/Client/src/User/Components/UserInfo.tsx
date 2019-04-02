@@ -86,7 +86,6 @@ class UserInfo extends StatelessComponent<IProps> {
     private renderSmall(): React.ReactNode {
         const user = this.getUser()
 
-
         return (
             <ContextInfo
                 className='user-info--small'

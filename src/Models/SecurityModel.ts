@@ -29,7 +29,7 @@ class SecurityModel extends Model implements Universis.SecurityModel {
             }
 
             const user = await UserModel.getOne({ email })
-            const token = await this.sign({ _id: user._id })
+            const token = await this.sign({ userId: user._id })
 
             await this.dbModel.addOne({ token })
             return resolve({ ...user, token })
@@ -48,15 +48,17 @@ class SecurityModel extends Model implements Universis.SecurityModel {
         return Security.sign(payload)
     }
 
-    public unsign(token: string): Promise<Universis.Map<any>> {
-        return this.dbModel.count({ token }).then(count => {
-            if (count === 1) {
-                JWT.verify(token, Config.security.token.secret, (error, payload) => (
-                    error ? Promise.reject(Errors.INVALID) : payload
-                ))
-            } else {
-                return Promise.reject(Errors.NOT_FOUND)
+    public verify(token: string): Promise<Universis.Map<any>> {
+        return new Promise(async (resolve, reject) => {
+            const count = await this.dbModel.count({ token })
+
+            if (count === 0) {
+                reject(Errors.NOT_FOUND)
             }
+
+            JWT.verify(token, Config.security.token.secret, (error, payload) => {
+                error ? reject(Errors.INVALID) : resolve(payload as Universis.Map<any>)
+            })
         })
     }
 

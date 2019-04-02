@@ -31,13 +31,15 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<Uni
         { text: 'Excentricita', value: 'orbit.excentricity' },
         { text: 'Rok [roky]', value: 'orbit.period' },
         { text: 'Den [dny]', value: 'period' },
-        { text: 'Satelitů', value: 'diameter.equatorial' },
-        { text: 'Prstenců', value: 'diameter.equatorial' },
-        { text: 'Sklon', value: 'tilt' },
-        { text: 'Rychlost', value: 'orbit.speed' },
-        { text: 'Teplota jádra', value: 'innerTemperature' },
-        { text: 'Teplota povrchu', value: 'outerTemperature' },
-        { text: 'Objev', value: 'discovered' }
+        { text: 'Satelitů', value: 'rings.length' },
+        { text: 'Prstenců', value: 'rings.length' },
+        { text: 'Sklon [°]', value: 'tilt' },
+        { text: 'Rychlost [km/s]', value: 'orbit.speed' },
+        { text: 'Teplota jádra [K]', value: 'innerTemperature' },
+        { text: 'Teplota povrchu [K]', value: 'outerTemperature' },
+        { text: 'Objev', value: 'discovered' },
+        { text: 'Atmosférický tlak [Pa]', value: 'atmosphere.pressure' },
+        { text: 'Úniková rychlost [km/s]', value: 'escapeVelocity' }
     ]
 
     private static RELATION_OPTIONS = [

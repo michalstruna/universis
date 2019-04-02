@@ -53,10 +53,14 @@ class Keyboard {
         }
 
         this.handleKeyUp = event => {
-            const key = event.key.toLowerCase()
+            const tagName = (event.target as HTMLElement).tagName
 
-            if (this.keyMap[key]) {
-                this.keyMap[key]()
+            if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
+                const key = event.key.toLowerCase()
+
+                if (this.keyMap[key]) {
+                    this.keyMap[key]()
+                }
             }
         }
 

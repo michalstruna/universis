@@ -226,22 +226,27 @@ const BodySchema = new Schema({
         }
     },
 
-    atmosphereComposition: {
-        type: [
-            {
-                element: {
-                    type: String,
-                    required: true
-                },
-                percentage: {
-                    type: Number,
-                    required: true,
-                    min: 0,
-                    max: 100
+    atmosphere: {
+        composition: {
+            type: [
+                {
+                    element: {
+                        type: String,
+                        required: true
+                    },
+                    percentage: {
+                        type: Number,
+                        required: true,
+                        min: 0,
+                        max: 100
+                    }
                 }
-            }
-        ],
-        default: []
+            ],
+            default: []
+        },
+        pressure: {
+            type: Number
+        }
     },
 
     description: {

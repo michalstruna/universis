@@ -1,6 +1,7 @@
 import * as Bcrypt from 'bcrypt'
-import { Config } from '../Constants'
 import * as JWT from 'jsonwebtoken'
+
+import { Config } from '../Constants'
 
 /**
  * Utils for security.

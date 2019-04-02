@@ -72,7 +72,8 @@ class Bodies extends StatelessComponent<IProps> {
             ),
             this.getTableColumn(
                 body => body.escapeVelocity,
-                strings.escapeVelocity
+                strings.escapeVelocity,
+                velocity => Units.toShort(velocity, Units.VELOCITY.KM_S, Units.VELOCITY)
             ),
             this.getTableColumn(
                 body => body.axis.tilt,
@@ -93,7 +94,7 @@ class Bodies extends StatelessComponent<IProps> {
                 value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
             this.getTableColumn(
-                body => body.discover.date,
+                body => body.discover ? body.discover.date : null,
                 strings.discoverDate,
                 date => Dates.formatISO(date, Dates.FORMAT.DATE)
             ),
@@ -121,6 +122,21 @@ class Bodies extends StatelessComponent<IProps> {
                 body => body.luminosity,
                 strings.luminosity,
                 luminosity => Units.toExponential(luminosity, Units.LUMINOSITY.W)
+            ),
+            this.getTableColumn(
+                body => body.atmosphere.pressure,
+                strings.atmospherePressure,
+                pressure => Units.toShort(pressure, Units.PRESSURE.PA, Units.PRESSURE)
+            ),
+            this.getTableColumn(
+                body => body.rings.length,
+                strings.rings,
+                rings => rings.length
+            ),
+            this.getTableColumn(
+                body => body.rings.length,
+                strings.satellites,
+                rings => rings.length
             )
         ]
     }
