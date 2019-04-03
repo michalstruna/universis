@@ -3,8 +3,8 @@ import { reduxForm, InjectedFormProps, formValueSelector } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
 import { Field, Form } from '../../Forms'
-import { toggleBodyEventForm } from '../Redux/PanelActions'
-import { addEvent, clearEvent, updateEvent } from '../../Universe'
+import { toggleBodyEventForm, clearEvent } from '../Redux/PanelActions'
+import { addEvent, updateEvent } from '../../Universe'
 
 interface IProps {
     strings: Universis.Strings

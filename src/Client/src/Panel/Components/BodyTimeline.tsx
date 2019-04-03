@@ -114,7 +114,6 @@ class BodyTimeline extends StatelessComponent<IProps> {
                         <>
                             <EditorControl
                                 type={EditorControl.UPDATE}
-
                                 onClick={() => toggleBodyEventForm(true, event)} />
                             <EditorControl
                                 type={EditorControl.DELETE}

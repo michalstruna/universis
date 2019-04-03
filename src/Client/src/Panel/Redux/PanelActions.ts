@@ -1,6 +1,5 @@
 import ActionTypes from './ActionTypes'
 import { Redux, Request } from '../../Utils'
-import { clearEvent } from '../../Universe'
 
 /**
  * Set panel tab.
@@ -40,17 +39,25 @@ export const getNotifications = (limit: number) => (
  * @param isVisible
  * @param selectedEvent
  */
-export const toggleBodyEventForm = (isVisible: boolean, selectedEvent: Universis.Event) => (
+export const toggleBodyEventForm = (isVisible: boolean, selectedEvent: Universis.Event = null) => (
     dispatch => {
-        dispatch(
-            Redux.toggleAction(
-                ActionTypes.TOGGLE_BODY_EVENT_FORM,
-                { isBodyEventFormVisible: isVisible, selectedEvent }
-            )
-        )
+        dispatch(Redux.toggleAction(
+            ActionTypes.TOGGLE_BODY_EVENT_FORM,
+            { isBodyEventFormVisible: isVisible, selectedEvent }
+        ))
 
         if (isVisible) {
             dispatch(clearEvent())
         }
     }
+)
+
+/**
+ * Clear add event form.
+ */
+export const clearEvent = () => (
+    Redux.setAction(
+        ActionTypes.CLEAR_EVENT,
+        { selectedEvent: Redux.EMPTY_ASYNC_ENTITY }
+    )
 )

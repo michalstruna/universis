@@ -20,6 +20,8 @@ export default Redux.createReducer(
         newVote: Redux.EMPTY_ASYNC_ENTITY,
         newUnvote: Redux.EMPTY_ASYNC_ENTITY,
         newEvent: Redux.EMPTY_ASYNC_ENTITY,
+        updatedEvent: Redux.EMPTY_ASYNC_ENTITY,
+        deletedEvent: Redux.EMPTY_ASYNC_ENTITY,
         timeSpeed: 1,
         follow: Follow.MOVE
     }
