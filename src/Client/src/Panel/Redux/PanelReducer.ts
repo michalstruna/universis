@@ -8,6 +8,6 @@ export default Redux.createReducer(
         newNotification: Redux.EMPTY_ASYNC_ENTITY,
         notifications: Redux.EMPTY_ASYNC_ENTITY,
         isBodyEventFormVisible: false,
-        selectedEvent: null
+        selectedEvent: Redux.EMPTY_ASYNC_ENTITY
     }
 )

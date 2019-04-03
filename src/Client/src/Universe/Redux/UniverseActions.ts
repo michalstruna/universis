@@ -1,6 +1,7 @@
 import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import Follow from '../Constants/Follow'
+import { toggleBodyEventForm } from '../../Panel'
 
 /**
  * Get all bodies.
@@ -309,7 +310,8 @@ export const changeFollow = () => (
 export const addEvent = (bodyId: string, event: Universis.Event.New) => (
     Redux.asyncAction(
         ActionTypes.ADD_EVENT,
-        { newEvent: Request.post(`bodies/${bodyId}/events`, event) }
+        { newEvent: Request.post(`bodies/${bodyId}/events`, event) },
+        (event, dispatch) => dispatch(toggleBodyEventForm(false))
     )
 )
 
@@ -321,7 +323,8 @@ export const addEvent = (bodyId: string, event: Universis.Event.New) => (
 export const updateEvent = (eventId: string, event: Universis.Event.New) => (
     Redux.asyncAction(
         ActionTypes.ADD_EVENT,
-        { updatedEvent: Request.put(`bodies/events/${eventId}`, event) }
+        { updatedEvent: Request.put(`bodies/events/${eventId}`, event) },
+        (event, dispatch) => dispatch(toggleBodyEventForm(false))
     )
 )
 
@@ -333,15 +336,5 @@ export const deleteEvent = (eventId: string) => (
     Redux.asyncAction(
         ActionTypes.DELETE_EVENT,
         { deletedEvent: Request.delete(`bodies/events/${eventId}`) }
-    )
-)
-
-/**
- * Clear add event form.
- */
-export const clearEvent = () => (
-    Redux.setAction(
-        ActionTypes.CLEAR_EVENT,
-        { newEvent: Redux.EMPTY_ASYNC_ENTITY }
     )
 )

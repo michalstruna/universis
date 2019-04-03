@@ -18,6 +18,7 @@ class Redux {
      */
     public static EMPTY_ENTITY = null
     public static EMPTY_ASYNC_ENTITY = { error: null, payload: null, isSent: false }
+    private static EMPTY_ASYNC_ENTITY_KEYS = Object.keys(Redux.EMPTY_ASYNC_ENTITY)
 
     private static SUFFIXES = {
         SENT: '_SENT',
@@ -35,8 +36,9 @@ class Redux {
      * @param onFail Callback after fail.
      * @return Runnable dispatch.
      */
-    public static asyncAction<T>(type: string, changes: Universis.Map<Promise<T>>, onSuccess?: Universis.Consumer<T>, onFail?: Universis.Consumer<Error>): Universis.Redux.ActionResult<T> {
+    public static asyncAction<T>(type: string, changes: Universis.Map<Promise<T>>, onSuccess?: Universis.Consumer2<T, any>, onFail?: Universis.Consumer2<Error, any>): Universis.Redux.ActionResult<T> {
         return dispatch => {
+
             const property = Object.keys(changes)[0]
             dispatch({ type: type + this.SUFFIXES.SENT, property, $async: {} })
 
@@ -45,7 +47,7 @@ class Redux {
                     dispatch({ type: type + this.SUFFIXES.SUCCESS, property, $async: { payload } })
 
                     if (onSuccess) {
-                        onSuccess(payload)
+                        onSuccess(payload, dispatch)
                     }
 
                     return Promise.resolve(payload)
@@ -54,7 +56,7 @@ class Redux {
                     dispatch({ type: type + this.SUFFIXES.FAIL, property, $async: { error } })
 
                     if (onFail) {
-                        onFail(error)
+                        onFail(error, dispatch)
                     }
 
                     return Promise.reject(error)
@@ -139,7 +141,7 @@ class Redux {
                 if (index > -1) {
                     source.splice(index, 1)
                 }
-            } else if (change && typeof change[Object.keys(change)[0]] === 'object' && (!change.payload && !change.isSent && !change.error)) {
+            } else if (change && typeof change[Object.keys(change)[0]] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
                 for (const i in change) {
                     if (!(i.startsWith('$'))) {
                         source[i] = change[i] !== null ? applyNestedChange(source[i], change[i]) : null
