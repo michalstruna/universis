@@ -112,7 +112,7 @@ class Body extends StatelessComponent<IProps> {
                                 className={ClassNames('panel__body', 'panel__window', { 'panel__body--title': currentTab === Queries.BODY_DATA })}>
                                 <section className='panel__window__body'>
                                     <section className='panel__window__body--scroll'>
-                                        <BodyPreview body={body.payload} width={400} height={300} />
+                                        <BodyPreview body={body.payload} width={320} height={300} />
                                         {this.renderCenterBodyButton()}
                                         {this.renderContent()}
                                     </section>

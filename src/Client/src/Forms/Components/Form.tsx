@@ -113,17 +113,6 @@ class Form extends StatelessComponent<IProps> {
         </button>
     )
 
-    /**
-     * Ok form view.
-     * @param children
-     * @constructor
-     */
-    public static Ok = ({ children }): React.ReactNode => (
-        <section className='form__ok'>
-            {children}
-        </section>
-    )
-
     public render(): React.ReactNode {
         const { children, onSubmit, invalid, sending } = this.props
 

@@ -23,7 +23,6 @@
 
     &--title {
         .body-preview {
-            right: -2rem;
             transform: scale(1);
         }
     }
@@ -85,6 +84,13 @@
         &__subtitle {
             font-size: 100%;
             font-weight: normal;
+            position: relative;
+
+            .editor {
+                position: absolute;
+                right: 0;
+                top: -0.15rem;
+            }
         }
 
         &__description {

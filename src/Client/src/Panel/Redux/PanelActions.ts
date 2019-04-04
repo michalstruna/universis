@@ -58,6 +58,6 @@ export const toggleBodyEventForm = (isVisible: boolean, selectedEvent: Universis
 export const clearEvent = () => (
     Redux.setAction(
         ActionTypes.CLEAR_EVENT,
-        { selectedEvent: Redux.EMPTY_ASYNC_ENTITY }
+        { selectedEvent: Redux.EMPTY_ENTITY }
     )
 )

@@ -6,18 +6,6 @@
     padding: 1em;
     position: relative;
 
-    &__ok {
-        @include size;
-        @include svg("Forms/Ok", auto 3rem, center top);
-        line-height: 1.3rem;
-        padding-top: 4rem;
-        text-align: center;
-
-        .form__flex-row {
-            margin-top: 1rem;
-        }
-    }
-
     & > label, & > section, & > button, & > legend {
         transition: opacity $medium-animation-duration;
     }

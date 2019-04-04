@@ -1,8 +1,9 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
-import { StatelessComponent, DataTable , Units } from '../../Utils'
+import { StatelessComponent, DataTable, Units, DetailEditor } from '../../Utils'
 import { DonutChart } from '../../Charts'
+import { toggleBodyEventForm } from '..'
 
 interface IProps {
     body: Universis.Universe.Body
@@ -24,12 +25,16 @@ class BodyData extends StatelessComponent<IProps> {
                     <section className='panel__body__data__preview--left'>
                         <h2 className='panel__body__data__subtitle'>
                             {body.type.name}
+                            <DetailEditor
+                                onEdit={() => toggleBodyEventForm(true, event)}
+                                onDelete={() => deleteEVent(event._id)} />
                         </h2>
                         <h1 className='panel__body__data__title'>
                             {body.name}
                         </h1>
                         <p className='panel__body__data__description'>
-                            {body.description}
+                            {body.description}                        <>
+                        </>
                         </p>
                     </section>
                     <section className='panel__body__data__preview--right' />
