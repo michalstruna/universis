@@ -6,44 +6,12 @@
     overflow: hidden;
     user-select: none;
 
-    &--inner {
-        overflow: auto;
+    .editor__control--add {
+        bottom: 3rem;
     }
 
-    .form {
-        padding-left: 0;
-
-        &__flex-row {
-            display: none;
-
-            &:nth-last-child(2) {
-                opacity: 0.2;
-                @include opacity-hover;
-
-                .form__button--remove {
-                    visibility: hidden;
-                }
-            }
-
-            &:nth-child(1), &:nth-child(2), &:nth-child(3) {
-                display: flex;
-            }
-        }
-
-        &__button {
-            &--remove {
-                @include opacity-hover;
-                @include size(3rem !important);
-                @include svg("Panel/Bodies/Remove", 60%);
-                margin-right: 0;
-                min-width: 2rem;
-            }
-        }
-
-        &__field {
-            height: 100%;
-            padding: 0;
-        }
+    &--inner {
+        overflow: auto;
     }
 
     .table {
@@ -71,6 +39,44 @@
     &__settings {
         .form__flex-row {
             opacity: 1 !important;
+        }
+    }
+
+    &__filter, &__settings {
+        .form {
+            padding-left: 0;
+
+            &__flex-row {
+                display: none;
+
+                &:nth-last-child(2) {
+                    opacity: 0.2;
+                    @include opacity-hover;
+
+                    .form__button--remove {
+                        visibility: hidden;
+                    }
+                }
+
+                &:nth-child(1), &:nth-child(2), &:nth-child(3) {
+                    display: flex;
+                }
+            }
+
+            &__button {
+                &--remove {
+                    @include opacity-hover;
+                    @include size(3rem !important);
+                    @include svg("Panel/Bodies/Remove", 60%);
+                    margin-right: 0;
+                    min-width: 2rem;
+                }
+            }
+
+            &__field {
+                height: 100%;
+                padding: 0;
+            }
         }
     }
 }

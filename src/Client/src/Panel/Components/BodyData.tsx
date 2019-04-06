@@ -26,8 +26,8 @@ class BodyData extends StatelessComponent<IProps> {
                         <h2 className='panel__body__data__subtitle'>
                             {body.type.name}
                             <DetailEditor
-                                onEdit={() => toggleBodyEventForm(true, event)}
-                                onDelete={() => deleteEVent(event._id)} />
+                                onEdit={() => toggleBodyEventForm(true, event as any)}
+                                onDelete={() => null/*deleteEVent(event._id)*/} />
                         </h2>
                         <h1 className='panel__body__data__title'>
                             {body.name}

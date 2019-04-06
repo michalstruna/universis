@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { StatelessComponent, Units, EventArea, EditorControl, DetailEditor } from '../../Utils'
+import { StatelessComponent, Units, EventArea, EditorControl, DetailEditor, FadeLayout } from '../../Utils'
 import { LineChart } from '../../Charts'
 import EventForm from './EventForm'
 import { toggleBodyEventForm } from '../Redux/PanelActions'
@@ -71,10 +71,12 @@ class BodyTimeline extends StatelessComponent<IProps> {
 
         return (
             <>
-                <section
-                    className={ClassNames('panel__body__timeline__form', { 'panel__body__timeline__form--visible': isFormVisible })}>
+                <FadeLayout
+                    type={FadeLayout.SCALE}
+                    mounted={isFormVisible}
+                    className={'panel__body__timeline__form'}>
                     <EventForm />
-                </section>
+                </FadeLayout>
                 <EditorControl
                     type={EditorControl.ADD}
                     onClick={() => toggleBodyEventForm(true)}>

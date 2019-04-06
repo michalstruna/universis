@@ -1,9 +1,72 @@
 .panel__body {
     position: relative;
 
+    &__form {
+        background-color: blue;
+        bottom: 3rem;
+        font-size: 80%;
+        position: fixed;
+        margin-left: 2rem;
+        transform-origin: bottom right;
+        transition: transform $medium-animation-duration;
+        width: 35rem;
+        z-index: 10000000;
+
+        .form {
+            background-color: $medium-dark-color;
+            box-shadow: #000 0 0.2rem 0.5rem;
+            position: relative;
+            overflow: hidden;
+
+            &__field {
+                &--textarea {
+                    height: 5.7rem;
+                }
+            }
+
+            &__button--close {
+                margin: 0 !important;
+            }
+
+            &__flex-row:first-of-type {
+                margin-top: 1rem;
+            }
+
+            &__flex-row {
+                & > section {
+                    &:first-of-type {
+                        margin-left: 0
+                    }
+
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+
+                    .form__block:last-of-type {
+                        padding-bottom: 0;
+                    }
+                }
+
+                .form__block {
+                    &:first-of-type {
+                        margin-left: 0;
+                    }
+
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+                }
+
+                &:nth-last-of-type(2) {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+
     .body-preview {
         position: absolute;
-        right: 0rem;
+        right: 0;
         top: 0;
         transform: scale(0.33);
         transform-origin: top right;
@@ -140,11 +203,10 @@
         }
 
         &__form {
-            bottom: 5rem;
+            bottom: 6rem;
             font-size: 80%;
             position: fixed;
-            margin-left: 21rem;
-            transform: scale(0);
+            margin-left: 22rem;
             transform-origin: bottom right;
             transition: transform $medium-animation-duration;
             width: 15rem;
@@ -226,7 +288,6 @@
             }
 
             .form {
-
                 &__block {
                     margin-bottom: 1rem;
                 }

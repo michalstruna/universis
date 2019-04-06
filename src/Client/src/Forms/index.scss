@@ -137,6 +137,13 @@
                 transform: translateY(-1.5em) scale(0.8) translateZ(0);
             }
         }
+
+        &--required {
+            p {
+                color: #ddd;
+                font-weight: bold;
+            }
+        }
     }
 
     .loader {
@@ -167,6 +174,7 @@
     &__flex-row {
         display: flex;
         justify-content: space-between;
+        padding-bottom: 2rem;
         width: 100%;
 
         & > * {

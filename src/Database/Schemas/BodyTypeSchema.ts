@@ -19,6 +19,10 @@ const BodyTypeSchema = new Schema({
         type: Number
     },
 
+    texture: {
+        type: String
+    },
+
     __v: {
         type: Number,
         select: false

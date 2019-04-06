@@ -112,12 +112,54 @@ export default {
         data: 'Data',
         timeline: 'Časová osa',
         discussion: 'Diskuse',
+
+        name: 'Jméno',
+        type: 'Typ',
+        description: 'Popisek',
+        texture: 'Textura',
+
+        diameterX: 'Průměr x [km]',
+        diameterY: 'Průměr y [km]',
+        diameterZ: 'Průměr z [km]',
+
+        mass: 'Hmotnost [kg]',
+        innerTemperature: 'Teplota jádra [K]',
+        outerTemperature: 'Povrchová teplota [K]',
+
+        axisPeriod: 'Perioda rotace [d]',
+        axisTilt: 'Sklon rotace [°]',
+        axisInitialDate: 'Výchozí čas rotace',
+
+        apsis: 'Apsida [km]',
+        periapsis: 'Periapsida [km]',
+        eccentricity: 'Excentricita',
+
+        inclination: 'Sklon osy [°]',
+        rotation: 'Natočení osy [°]',
+        orbitInitialDate: 'Datum v pericentru',
+
+        absoluteMagnitude: 'Absolutní magnituda',
+        relativeMagnitude: 'Zdánlivá magnituda',
+        albedo: 'Albedo',
+
+        discoverer: 'Objevitel',
+        discover: 'Datum objevu',
+        period: 'Doba oběhu',
+
+        pressure: 'Atmosférický tlak',
+        atmosphereComposition: 'Složení atmosféry',
+        composition: 'Složení',
+
+        ringMinDiameter: 'Min. prům. prst. [km]',
+        ringMaxDIameter: 'Max. prům. prst. [km]',
+        ringTexture: 'Textura prstence'
     },
 
     bodyData: {
         size: 'Velikost',
         diameterX: 'Rov. průměr',
         diameterY: 'Polar. průměr',
+        diameterZ: 'Rov. průměr 2',
         surface: 'Povrch',
         circumference: 'Obvod',
         volume: 'Objem',

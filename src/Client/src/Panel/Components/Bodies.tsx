@@ -3,7 +3,20 @@ import * as React from 'react'
 import BodiesFilterForm from './BodiesFilterForm'
 import BodiesSettingsForm from './BodiesSettingsForm'
 import { getBodies } from '../../Universe'
-import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries, Dates, Units } from '../../Utils'
+import {
+    StatelessComponent,
+    Table,
+    Filter,
+    AsyncEntity,
+    Url,
+    Queries,
+    Dates,
+    Units,
+    EditorControl,
+    FadeLayout
+} from '../../Utils'
+import { toggleBodyForm } from '../Redux/PanelActions'
+import BodyForm from '../Components/BodyForm'
 
 interface IProps {
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
@@ -11,6 +24,8 @@ interface IProps {
     filter: Universis.Filter
     getBodies: Universis.Runnable
     strings: Universis.Strings
+    toggleBodyForm: Universis.Consumer<boolean>
+    isFormVisible: boolean
 }
 
 /**
@@ -190,6 +205,28 @@ class Bodies extends StatelessComponent<IProps> {
     }
 
     /**
+     * Render add button.
+     */
+    private renderAdd(): React.ReactNode {
+        const { isFormVisible, toggleBodyForm } = this.props
+
+        return (
+            <>
+                <FadeLayout
+                    mounted={isFormVisible}
+                    className='panel__body__form'
+                    type={FadeLayout.SCALE}>
+                    <BodyForm />
+                </FadeLayout>
+                <EditorControl
+                    type={EditorControl.ADD}
+                    onClick={() => toggleBodyForm(true)}>
+                </EditorControl>
+            </>
+        )
+    }
+
+    /**
      * Handler for table row click.
      * @param body Clicked body.
      */
@@ -229,6 +266,7 @@ class Bodies extends StatelessComponent<IProps> {
                 <section className='panel__bodies--inner'>
                     {this.renderTable()}
                 </section>
+                {this.renderAdd()}
             </section>
         )
     }
@@ -236,9 +274,10 @@ class Bodies extends StatelessComponent<IProps> {
 }
 
 export default Bodies.connect(
-    ({ universe, system }: Universis.Redux.StoreState) => ({
+    ({ universe, system, panel }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
-        strings: system.strings.bodies
+        strings: system.strings.bodies,
+        isFormVisible: panel.isBodyFormVisible
     }),
-    { getBodies }
+    { getBodies, toggleBodyForm }
 )

@@ -35,6 +35,19 @@ export const getNotifications = (limit: number) => (
 )
 
 /**
+ * Toggle visibility of body form.
+ * @param isVisible
+ */
+export const toggleBodyForm = (isVisible: boolean) => (
+    dispatch => {
+        dispatch(Redux.toggleAction(
+            ActionTypes.TOGGLE_BODY_FORM,
+            { isBodyFormVisible: isVisible }
+        ))
+    }
+)
+
+/**
  * Toggle visibility of body event form.
  * @param isVisible
  * @param selectedEvent
