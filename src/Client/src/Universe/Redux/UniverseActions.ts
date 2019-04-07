@@ -1,7 +1,7 @@
 import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import Follow from '../Constants/Follow'
-import { toggleBodyEventForm } from '../../Panel'
+import { toggleBodyEventForm, toggleBodyForm } from '../../Panel'
 
 /**
  * Get all bodies.
@@ -303,6 +303,16 @@ export const changeFollow = () => (
 )
 
 /**
+ * Get all body types.
+ */
+export const getBodyTypes = () => (
+    Redux.asyncAction(
+        ActionTypes.GET_BODY_TYPES,
+        { bodyTypes: Request.get(`bodyTypes`) }
+    )
+)
+
+/**
  * Add body event.
  * @param bodyId ID of body.
  * @param event New event.
@@ -322,7 +332,7 @@ export const addEvent = (bodyId: string, event: Universis.Event.New) => (
  */
 export const updateEvent = (eventId: string, event: Universis.Event.New) => (
     Redux.asyncAction(
-        ActionTypes.ADD_EVENT,
+        ActionTypes.UPDATE_EVENT,
         { updatedEvent: Request.put(`bodies/events/${eventId}`, event) },
         (event, dispatch) => dispatch(toggleBodyEventForm(false))
     )
@@ -336,5 +346,41 @@ export const deleteEvent = (eventId: string) => (
     Redux.asyncAction(
         ActionTypes.DELETE_EVENT,
         { deletedEvent: Request.delete(`bodies/events/${eventId}`) }
+    )
+)
+
+/**
+ * Add body event.
+ * @param body New body.
+ */
+export const addBody = (body: Universis.Universe.Body.New) => (
+    Redux.asyncAction(
+        ActionTypes.ADD_BODY,
+        { newBody: Request.post(`bodies`, body) },
+        (event, dispatch) => dispatch(toggleBodyForm(false))
+    )
+)
+
+/**
+ * Add body.
+ * @param bodyId ID of body.
+ * @param body New body.
+ */
+export const updateBody = (bodyId: string, body: Universis.Universe.Body.New) => (
+    Redux.asyncAction(
+        ActionTypes.UPDATE_BODY,
+        { updatedBody: Request.put(`bodies/${bodyId}`, body) },
+        (event, dispatch) => dispatch(toggleBodyForm(false))
+    )
+)
+
+/**
+ * Delete body by ID.
+ * @param bodyId
+ */
+export const deleteBody = (bodyId: string) => (
+    Redux.asyncAction(
+        ActionTypes.DELETE_BODY,
+        { deletedBody: Request.delete(`bodies/${bodyId}`) }
     )
 )

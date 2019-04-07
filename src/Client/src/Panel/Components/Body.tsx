@@ -2,7 +2,7 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 
 import { StatelessComponent, Url, Queries, AsyncEntity, QueryMenu, Link, Urls } from '../../Utils'
-import { BodyPreview, getBodies, getBodyById, Physics } from '../../Universe'
+import { BodyPreview, getBodies, getBodyById, Physics, getBodyTypes } from '../../Universe'
 import BodyData from './BodyData'
 import BodyTimeline from './BodyTimeline'
 import BodyDiscussion from './BodyDiscussion'
@@ -13,6 +13,8 @@ interface IProps {
     body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
     getBodies: Universis.Runnable
     getBodyById: Universis.Consumer<string>
+    bodyTypes: Universis.Redux.AsyncEntity<Universis.Universe.Body.Type[]>
+    getBodyTypes: Universis.Runnable
     location: any
 }
 
@@ -22,15 +24,16 @@ interface IProps {
 class Body extends StatelessComponent<IProps> {
 
     public componentWillMount(): void {
-        const { bodies, getBodies } = this.props
+        const { bodies, getBodies, bodyTypes, getBodyTypes } = this.props
 
         if (!Url.hasQuery(Queries.BODY_TAB)) {
             Url.replace({ query: { [Queries.BODY_TAB]: Queries.BODY_DATA } })
         }
 
         AsyncEntity.request(bodies, getBodies)
+        AsyncEntity.request(bodyTypes, getBodyTypes)
 
-        if (bodies.payload) {
+        if (bodies.payload && bodyTypes.payload) {
             this.getBody()
         }
     }
@@ -137,7 +140,8 @@ export default Body.connect(
     ({ universe, system }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
         body: universe.body,
+        bodyTypes: universe.bodyTypes,
         strings: system.strings.body
     }),
-    { getBodies, getBodyById }
+    { getBodies, getBodyById, getBodyTypes }
 )

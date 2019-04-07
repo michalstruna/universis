@@ -383,6 +383,8 @@ declare namespace Universis {
 
                 _id: never
 
+                parentId: string
+
             }
 
             /**
@@ -418,6 +420,11 @@ declare namespace Universis {
                      * Body
                      */
                     particlesGenerator?: string
+
+                    /**
+                     * Default texture of type.
+                     */
+                    texture: string
 
                 }
 

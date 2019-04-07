@@ -59,8 +59,7 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<U
                 <Form.FlexRow>
                     <Select
                         name='valuesType'
-                        options={this.getValues()}
-                        widthEmpty={true} />
+                        options={this.getValues()} />
                 </Form.FlexRow>
             </Form>
         )

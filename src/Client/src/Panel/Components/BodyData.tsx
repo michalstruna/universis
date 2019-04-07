@@ -3,17 +3,21 @@ import * as React from 'react'
 
 import { StatelessComponent, DataTable, Units, DetailEditor } from '../../Utils'
 import { DonutChart } from '../../Charts'
-import { toggleBodyEventForm } from '..'
+import { toggleBodyForm } from '..'
+import { deleteBody, updateBody } from '../../Universe'
 
 interface IProps {
     body: Universis.Universe.Body
     strings: Universis.Strings
+    toggleBodyForm: Universis.Consumer2<boolean, Universis.Universe.Body>
+    deleteBody: Universis.Consumer<string>
+    updateBody: Universis.Consumer2<string, Universis.Universe.Body.New>
 }
 
 class BodyData extends StatelessComponent<IProps> {
 
     public render(): React.ReactNode {
-        const { strings, body } = this.props
+        const { strings, body, toggleBodyForm, deleteBody } = this.props
 
         if (!body) {
             return null
@@ -26,8 +30,12 @@ class BodyData extends StatelessComponent<IProps> {
                         <h2 className='panel__body__data__subtitle'>
                             {body.type.name}
                             <DetailEditor
-                                onEdit={() => toggleBodyEventForm(true, event as any)}
-                                onDelete={() => null/*deleteEVent(event._id)*/} />
+                                onEdit={() => toggleBodyForm(true, event as any)}
+                                onDelete={() => {
+                                    if (confirm(`Opravdu smazat těleso ${body.name}?`)) {
+                                        deleteBody(body._id)
+                                    }
+                                }} />
                         </h2>
                         <h1 className='panel__body__data__title'>
                             {body.name}
@@ -108,14 +116,14 @@ class BodyData extends StatelessComponent<IProps> {
                         title={strings.visibility}
                         data={{
                             [strings.albedo]: Units.toFull(body.albedo),
-                            [strings.magnitude]: Units.toFull(body.magnitude.relative),
-                            [strings.absoluteMagnitude]: Units.toFull(body.magnitude.absolute)
+                            [strings.magnitude]: body.magnitude ? Units.toFull(body.magnitude.relative) : null,
+                            [strings.absoluteMagnitude]: body.magnitude ? Units.toFull(body.magnitude.absolute) : null
                         }} />
                     <DataTable
                         title={strings.energy}
                         data={{
-                            [strings.innerTemperature]: Units.toFull(body.temperature.inner, Units.TEMPERATURE.K),
-                            [strings.outerTemperature]: Units.toFull(body.temperature.outer, Units.TEMPERATURE.K),
+                            [strings.innerTemperature]: body.temperature ? Units.toFull(body.temperature.inner, Units.TEMPERATURE.K) : null,
+                            [strings.outerTemperature]: body.temperature ? Units.toFull(body.temperature.outer, Units.TEMPERATURE.K) : null,
                             [strings.luminosity]: body.luminosity ? Units.toShort(body.luminosity, Units.LUMINOSITY.W, Units.LUMINOSITY) : null
                         }} />
                     <DataTable
@@ -135,5 +143,6 @@ export default BodyData.connect(
     ({ system, universe }: Universis.Redux.StoreState) => ({
         strings: system.strings.bodyData,
         body: universe.body.payload
-    })
+    }),
+    { deleteBody, updateBody, toggleBodyForm }
 )

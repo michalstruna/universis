@@ -84,7 +84,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
      * @returns Mesh material.
      */
     private createMaterial(body: Universis.Universe.Body.Simple): THREE.MeshBasicMaterial {
-        const texture = TextureStore.get(body.texture)
+        const texture = TextureStore.get(body.texture || body.type.texture)
         let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial
 
         if (typeof body.type.emissiveColor === 'number') {

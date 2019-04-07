@@ -2,9 +2,9 @@ import * as React from 'react'
 import { InjectedFormProps, formValueSelector } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
-import { Field, Form } from '../../Forms'
+import { Field, Form, Select } from '../../Forms'
 import { toggleBodyForm } from '../Redux/PanelActions'
-import { addEvent as addBody, updateEvent as updateBody } from '../../Universe'
+import { addBody, updateEvent as updateBody } from '../../Universe'
 
 interface IProps {
     strings: Universis.Strings
@@ -12,13 +12,12 @@ interface IProps {
     selectedBody: Universis.Universe.Body
     addBody: Universis.Consumer<Universis.Universe.Body.New>
     updateBody: Universis.Consumer2<string, Universis.Universe.Body.New>
+    bodyTypes: Universis.Redux.AsyncEntity<Universis.Universe.Body.Type[]>
+    bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
 }
 
-interface IValues {
-    title: string
-    content: string
-    from: number
-    to: number
+interface IValues extends Universis.Universe.Body.New {
+    composition: any
 }
 
 /**
@@ -28,7 +27,6 @@ interface IValues {
 class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
     public static readonly NAME = 'body'
-    public static readonly SELECTOR = formValueSelector(BodyForm.NAME) // TODO: public static getValue(), private selector, LoginForm extends Form autobind this.selector = selector(this.NAME).
 
     /**
      * Add answer.
@@ -38,15 +36,32 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         const { reset, addBody, selectedBody, updateBody } = this.props
 
         try {
-            selectedBody ? updateBody(selectedBody._id, data) : addBody(data)
+            const result = { ...data } as any
+
+            if (result.composition) {
+                result.composition = this.parseComposition(result.composition)
+            }
+
+            if (result.atmosphere && result.atmosphere.composition) {
+                result.atmosphere.composition = this.parseComposition(result.atmosphere.composition)
+            }
+
+            await selectedBody ? updateBody(selectedBody._id, data) : addBody(data)
             reset()
         } catch (error) {
             // TODO: Error dialog?
         }
     }
 
+    private parseComposition = (composition: string) => (
+        composition.split(';').map(item => ({
+            element: item.split('=')[0],
+            percentage: parseFloat(item.split('=')[1])
+        }))
+    )
+
     private renderInnerForm(): React.ReactNode {
-        const { strings, toggleBodyForm } = this.props
+        const { strings, toggleBodyForm, bodyTypes, bodies } = this.props
 
         return (
             <>
@@ -56,10 +71,15 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                             label={strings.name}
                             required={strings.name}
                             name='name' />
-                        <Field
-                            label={strings.type}
-                            required={strings.type}
-                            name='typeId' />
+                        <label className='form__block'>
+                            <Select
+                                name='parentId'
+                                options={bodies.payload.map(body => ({
+                                    text: body.name,
+                                    value: body._id
+                                }))}
+                                withEmpty={strings.centerBody} />
+                        </label>
                     </section>
                     <section>
                         <Field
@@ -68,10 +88,16 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                             name='description' />
                     </section>
                     <section>
+                        <label className='form__block'>
+                            <Select
+                                name='typeId'
+                                options={bodyTypes.payload.map(bodyType => ({
+                                    text: bodyType.name,
+                                    value: bodyType._id
+                                }))} />
+                        </label>
                         <Field
-                            type={Field.TEXT_AREA}
                             label={strings.texture}
-                            required={strings.texture}
                             name='texture' />
                     </section>
                 </Form.FlexRow>
@@ -79,34 +105,42 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                     <Field
                         label={strings.diameterX}
                         required={strings.diameterX}
-                        name='diameter.x' />
+                        name='diameter.x'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.diameterY}
-                        name='diameter.y' />
+                        name='diameter.y'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.diameterZ}
-                        name='diameter.z' />
+                        name='diameter.z'
+                        type={Field.NUMBER} />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
                         label={strings.mass}
                         required={strings.mass}
-                        name='mass' />
+                        name='mass'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.innerTemperature}
-                        name='temperature.inner' />
+                        name='temperature.inner'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.outerTemperature}
-                        name='temperature.outer' />
+                        name='temperature.outer'
+                        type={Field.NUMBER} />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
                         label={strings.axisPeriod}
                         required={strings.axisPeriod}
-                        name='axis.period' />
+                        name='axis.period'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.axisTilt}
-                        name='axis.tilt' />
+                        name='axis.tilt'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.axisInitialDate}
                         name='axis.initialDate' />
@@ -115,22 +149,27 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                     <Field
                         label={strings.apsis}
                         required={strings.apsis}
-                        name='orbit.apsis' />
+                        name='orbit.apsis'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.periapsis}
                         required={strings.periapsis}
-                        name='orbit.periapsis' />
+                        name='orbit.periapsis'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.eccentricity}
-                        name='orbit.eccentricity' />
+                        name='orbit.eccentricity'
+                        type={Field.NUMBER} />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
                         label={strings.inclination}
-                        name='orbit.inclination' />
+                        name='orbit.inclination'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.rotation}
-                        name='orbit.rotation' />
+                        name='orbit.rotation'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.orbitInitialDate}
                         name='orbit.initialDate' />
@@ -138,13 +177,16 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                 <Form.FlexRow>
                     <Field
                         label={strings.absoluteMagnitude}
-                        name='orbit.absoluteMagnitude' />
+                        name='magnitude.absolute'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.relativeMagnitude}
-                        name='orbit.relativeMagnitude' />
+                        name='magnitude.relative'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.albedo}
-                        name='orbit.albedo' />
+                        name='albedo'
+                        type={Field.NUMBER} />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
@@ -153,32 +195,32 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                     <Field
                         label={strings.discover}
                         name='discover.date' />
-                    <Field
-                        label={strings.period}
-                        required={strings.period}
-                        name='orbit.period' />
+                    <section />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
                         label={strings.pressure}
-                        name='atmosphere.pressure' />
+                        name='atmosphere.pressure'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.atmosphereComposition}
-                        name='discover.atmosphereComposition' />
+                        name='atmosphere.composition' />
                     <Field
                         label={strings.composition}
-                        name='orbit.composition' />
+                        name='composition' />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
                         label={strings.ringMinDiameter}
-                        name='rings[].diameter.min' />
+                        name='rings[0].diameter.min'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.ringMinDiameter}
-                        name='rings[].diameter.max' />
+                        name='rings[0].diameter.max'
+                        type={Field.NUMBER} />
                     <Field
                         label={strings.ringTexture}
-                        name='rings[].texture' />
+                        name='rings[0].texture' />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Form.Close onClick={() => toggleBodyForm(false)} />
@@ -206,6 +248,8 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 export default BodyForm.connect(
     ({ system, universe, panel: { selectedEvent } }: Universis.Redux.StoreState) => ({
         strings: system.strings.body,
+        bodyTypes: universe.bodyTypes,
+        bodies: universe.bodies,
         initialValues: {
             title: selectedEvent ? selectedEvent.title : '',
             description: selectedEvent ? selectedEvent.description : '',

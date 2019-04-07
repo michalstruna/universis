@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import BodiesFilterForm from './BodiesFilterForm'
 import BodiesSettingsForm from './BodiesSettingsForm'
-import { getBodies } from '../../Universe'
+import { getBodies, getBodyTypes } from '../../Universe'
 import {
     StatelessComponent,
     Table,
@@ -26,6 +26,8 @@ interface IProps {
     strings: Universis.Strings
     toggleBodyForm: Universis.Consumer<boolean>
     isFormVisible: boolean
+    bodyTypes: Universis.Redux.AsyncEntity<Universis.Universe.Body.Type[]>
+    getBodyTypes: Universis.Runnable
 }
 
 /**
@@ -34,8 +36,9 @@ interface IProps {
 class Bodies extends StatelessComponent<IProps> {
 
     public componentWillMount(): void {
-        const { bodies, getBodies } = this.props
+        const { bodies, getBodies, bodyTypes, getBodyTypes } = this.props
         AsyncEntity.request(bodies, getBodies)
+        AsyncEntity.request(bodyTypes, getBodyTypes)
     }
 
     private getColumns(): IColumn<Universis.Universe.Body.Simple>[] {
@@ -99,12 +102,12 @@ class Bodies extends StatelessComponent<IProps> {
                 strings.orbitVelocity
             ),
             this.getTableColumn(
-                body => body.temperature.outer,
+                body => body.temperature ? body.temperature.outer : null,
                 strings.outerTemperature,
                 value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
             this.getTableColumn(
-                body => body.temperature.inner,
+                body => body.temperature ? body.temperature.inner : null,
                 strings.innerTemperature,
                 value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
@@ -118,11 +121,11 @@ class Bodies extends StatelessComponent<IProps> {
                 strings.flattening
             ),
             this.getTableColumn(
-                body => body.magnitude.relative,
+                body => body.magnitude ? body.magnitude.relative : null,
                 strings.relativeMagnitude
             ),
             this.getTableColumn(
-                body => body.magnitude.absolute,
+                body => body.magnitude ? body.magnitude.absolute : null,
                 strings.absoluteMagnitude
             ),
             this.getTableColumn(
@@ -277,7 +280,8 @@ export default Bodies.connect(
     ({ universe, system, panel }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
         strings: system.strings.bodies,
-        isFormVisible: panel.isBodyFormVisible
+        isFormVisible: panel.isBodyFormVisible,
+        bodyTypes: universe.bodyTypes
     }),
-    { getBodies, toggleBodyForm }
+    { getBodies, toggleBodyForm, getBodyTypes }
 )

@@ -134,8 +134,8 @@ export default {
         periapsis: 'Periapsida [km]',
         eccentricity: 'Excentricita',
 
-        inclination: 'Sklon osy [°]',
-        rotation: 'Natočení osy [°]',
+        inclination: 'Sklon orbity [°]',
+        rotation: 'Natočení orbity [°]',
         orbitInitialDate: 'Datum v pericentru',
 
         absoluteMagnitude: 'Absolutní magnituda',
@@ -144,15 +144,17 @@ export default {
 
         discoverer: 'Objevitel',
         discover: 'Datum objevu',
-        period: 'Doba oběhu',
+        period: 'Perioda oběhu [r]',
 
-        pressure: 'Atmosférický tlak',
-        atmosphereComposition: 'Složení atmosféry',
-        composition: 'Složení',
+        pressure: 'Atmosférický tlak [Pa]',
+        atmosphereComposition: 'Složení atmosféry [O=15;K=13]',
+        composition: 'Složení [O=15;K=13]',
 
         ringMinDiameter: 'Min. prům. prst. [km]',
         ringMaxDIameter: 'Max. prům. prst. [km]',
-        ringTexture: 'Textura prstence'
+        ringTexture: 'Textura prstence',
+
+        centerBody: '--- Centrální těleso ---'
     },
 
     bodyData: {

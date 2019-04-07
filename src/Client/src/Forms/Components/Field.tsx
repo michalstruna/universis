@@ -120,7 +120,7 @@ class Field extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { label, name, type } = this.props
+        const { label, name, type, ...props } = this.props
 
         return (
             <ReduxField
@@ -128,7 +128,8 @@ class Field extends StatelessComponent<IProps> {
                 label={label}
                 name={name}
                 validate={this.validator}
-                type={type} />
+                type={type}
+                {...props} />
         )
     }
 

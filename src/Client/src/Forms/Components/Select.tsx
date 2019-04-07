@@ -6,7 +6,7 @@ import { StatelessComponent } from '../../Utils'
 interface IProps {
     name: string
     options: IOption[]
-    withEmpty?: boolean
+    withEmpty?: string
     disabled?: boolean
 }
 
@@ -22,7 +22,9 @@ class Select extends StatelessComponent<IProps> {
 
         if (withEmpty) {
             result.push(
-                <option />
+                <option key={-1}>
+                    {withEmpty}
+                </option>
             )
         }
 

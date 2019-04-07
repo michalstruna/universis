@@ -28,13 +28,17 @@
         @include size(auto, 2em, true);
         color: $light-color;
         left: 0;
+        overflow: hidden;
         pointer-events: none;
         position: absolute;
+        text-overflow: ellipsis;
         top: 0;
         transform: translateZ(0);
         transform-origin: left center;
         transition: transform $medium-animation-duration, color $medium-animation-duration;
         user-select: none;
+        white-space: nowrap;
+        width: 100%;
     }
 
     &__field {
@@ -139,9 +143,9 @@
         }
 
         &--required {
-            p {
+            select, p {
                 color: #ddd;
-                font-weight: bold;
+                font-weight: bold !important;
             }
         }
     }

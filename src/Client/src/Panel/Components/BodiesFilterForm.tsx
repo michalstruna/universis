@@ -103,8 +103,7 @@ class BodiesFilterForm extends StatelessComponent<IProps & InjectedFormProps<Uni
                 <Form.FlexRow key={i}>
                     <Select
                         name={`property[${i}]`}
-                        options={BodiesFilterForm.FIELDS}
-                        widthEmpty={true} />
+                        options={BodiesFilterForm.FIELDS} />
                     <Select
                         name={`relation[${i}]`}
                         options={BodiesFilterForm.RELATION_OPTIONS} />

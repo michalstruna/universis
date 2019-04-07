@@ -24,8 +24,6 @@ const FillBodyPlugin = (schema) => {
 
 }
 
-// Za kolik let 360°?
-
 const fillBody = (body: Universis.Universe.Body.Simple, bodies?: Universis.Universe.Body.Simple[]) => {
     const parent = bodies ? bodies.find(item => (body.parentId && item._id.toString() === body.parentId.toString())) : body.parent
     body.diameter.y = Physics.getDiameterY(body)
@@ -42,6 +40,18 @@ const fillBody = (body: Universis.Universe.Body.Simple, bodies?: Universis.Unive
     body.gravitationalParameter = Physics.getGravitationalParameter(body)
 
     if (body.orbit && parent) {
+        if (!body.orbit.eccentricity) {
+            body.orbit.eccentricity = 0
+        }
+
+        if (!body.orbit.rotation) {
+            body.orbit.rotation = 0
+        }
+
+        if (!body.orbit.inclination) {
+            body.orbit.inclination = 0
+        }
+
         body.orbit.semiMajorAxis = Physics.getSemiMajorAxis(body)
         body.orbit.semiMinorAxis = Physics.getSemiMinorAxis(body)
         body.orbit.circuit = Physics.getOrbitCircuit(body)
