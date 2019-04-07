@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { InjectedFormProps, formValueSelector } from 'redux-form'
+import { InjectedFormProps } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
 import { Field, Form, Select } from '../../Forms'
 import { toggleBodyForm } from '../Redux/PanelActions'
-import { addBody, updateEvent as updateBody } from '../../Universe'
+import { addBody, updateBody } from '../../Universe'
 
 interface IProps {
     strings: Universis.Strings
@@ -46,7 +46,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                 result.atmosphere.composition = this.parseComposition(result.atmosphere.composition)
             }
 
-            await selectedBody ? updateBody(selectedBody._id, data) : addBody(data)
+            await selectedBody ? updateBody(selectedBody._id, result) : addBody(result)
             reset()
         } catch (error) {
             // TODO: Error dialog?
@@ -245,18 +245,25 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
 }
 
+const parseComposition = (composition: any[]): string => (
+    composition.reduce((result, item) => ([...result, `${item.element}=${item.percentage}`]), []).join(';')
+)
+
 export default BodyForm.connect(
-    ({ system, universe, panel: { selectedEvent } }: Universis.Redux.StoreState) => ({
+    ({ system, universe, panel: { selectedBody } }: Universis.Redux.StoreState) => ({
         strings: system.strings.body,
         bodyTypes: universe.bodyTypes,
         bodies: universe.bodies,
-        initialValues: {
-            title: selectedEvent ? selectedEvent.title : '',
-            description: selectedEvent ? selectedEvent.description : '',
-            from: selectedEvent ? selectedEvent.from : '',
-            to: selectedEvent ? selectedEvent.to : ''
-        },
-        selectedEvent
+        initialValues: selectedBody ? {
+            ...selectedBody,
+            typeId: selectedBody.type._id,
+            composition: selectedBody.composition ? parseComposition(selectedBody.composition) : null,
+            atmosphere: selectedBody.atmosphere ? {
+                ...selectedBody.atmosphere,
+                composition: selectedBody.atmosphere.composition ? parseComposition(selectedBody.atmosphere.composition) : null
+            } : null
+        } : null,
+        selectedBody
     }),
     { toggleBodyForm, addBody, updateBody },
     {

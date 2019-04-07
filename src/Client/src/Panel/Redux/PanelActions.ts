@@ -37,12 +37,13 @@ export const getNotifications = (limit: number) => (
 /**
  * Toggle visibility of body form.
  * @param isVisible
+ * @param selectedBody
  */
-export const toggleBodyForm = (isVisible: boolean) => (
+export const toggleBodyForm = (isVisible: boolean, selectedBody: Universis.Universe.Body = null) => (
     dispatch => {
         dispatch(Redux.toggleAction(
             ActionTypes.TOGGLE_BODY_FORM,
-            { isBodyFormVisible: isVisible }
+            { isBodyFormVisible: isVisible, selectedBody }
         ))
     }
 )

@@ -1,10 +1,11 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
-import { StatelessComponent, DataTable, Units, DetailEditor } from '../../Utils'
+import { StatelessComponent, DataTable, Units, DetailEditor, FadeLayout, EditorControl } from '../../Utils'
 import { DonutChart } from '../../Charts'
-import { toggleBodyForm } from '..'
+import { toggleBodyForm } from '../Redux/PanelActions'
 import { deleteBody, updateBody } from '../../Universe'
+import BodyForm from './BodyForm'
 
 interface IProps {
     body: Universis.Universe.Body
@@ -12,9 +13,26 @@ interface IProps {
     toggleBodyForm: Universis.Consumer2<boolean, Universis.Universe.Body>
     deleteBody: Universis.Consumer<string>
     updateBody: Universis.Consumer2<string, Universis.Universe.Body.New>
+    isFormVisible: boolean
 }
 
 class BodyData extends StatelessComponent<IProps> {
+
+    /**
+     * Render add button.
+     */
+    private renderAdd(): React.ReactNode {
+        const { isFormVisible } = this.props
+
+        return (
+            <FadeLayout
+                mounted={isFormVisible}
+                className='panel__body__form'
+                type={FadeLayout.SCALE}>
+                <BodyForm />
+            </FadeLayout>
+        )
+    }
 
     public render(): React.ReactNode {
         const { strings, body, toggleBodyForm, deleteBody } = this.props
@@ -30,7 +48,7 @@ class BodyData extends StatelessComponent<IProps> {
                         <h2 className='panel__body__data__subtitle'>
                             {body.type.name}
                             <DetailEditor
-                                onEdit={() => toggleBodyForm(true, event as any)}
+                                onEdit={() => toggleBodyForm(true, body)}
                                 onDelete={() => {
                                     if (confirm(`Opravdu smazat těleso ${body.name}?`)) {
                                         deleteBody(body._id)
@@ -133,6 +151,7 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.discoverDate]: body.discover ? body.discover.date : null
                         }} />
                 </Masonry>
+                {this.renderAdd()}
             </section>
         )
     }
@@ -140,9 +159,10 @@ class BodyData extends StatelessComponent<IProps> {
 }
 
 export default BodyData.connect(
-    ({ system, universe }: Universis.Redux.StoreState) => ({
+    ({ system, universe, panel }: Universis.Redux.StoreState) => ({
         strings: system.strings.bodyData,
-        body: universe.body.payload
+        body: universe.body.payload,
+        isFormVisible: panel.isBodyFormVisible
     }),
     { deleteBody, updateBody, toggleBodyForm }
 )

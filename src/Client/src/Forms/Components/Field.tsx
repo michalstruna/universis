@@ -95,7 +95,7 @@ class Field extends StatelessComponent<IProps> {
     private renderComponent = (data): React.ReactNode => {
         const { label, type, required } = this.props
         const { touched, error, value } = data.meta
-        const blockClassName = ClassNames('form__block', { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value }, { 'form__block--required': !!required })
+        const blockClassName = ClassNames('form__block', { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value && data.input.value !== 0 }, { 'form__block--required': !!required })
         const inputProps = { ...data.input, autoComplete: 'off', className: 'form__field form__field--' + type.name }
 
         if (type === Field.TEXT_AREA) {

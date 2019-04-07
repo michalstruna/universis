@@ -97,12 +97,7 @@ export default EventForm.connect(
     ({ system, universe, panel: { selectedEvent } }: Universis.Redux.StoreState) => ({
         strings: system.strings.events,
         bodyId: universe.body.payload._id,
-        initialValues: {
-            title: selectedEvent ? selectedEvent.title : '',
-            description: selectedEvent ? selectedEvent.description : '',
-            from: selectedEvent ? selectedEvent.from : '',
-            to: selectedEvent ? selectedEvent.to : ''
-        },
+        initialValues: selectedEvent ? { ...selectedEvent } : {},
         selectedEvent
     }),
     { toggleBodyEventForm, addEvent, updateEvent },
