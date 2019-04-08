@@ -26,7 +26,7 @@
     &__window {
         @include size(100%, calc(100% - 3rem));
 
-        &__body {
+        &__body, &__bodies {
             @include size(100%, calc(100% - 3rem));
             background-color: $top-layer-color;
             overflow: hidden;
@@ -40,6 +40,14 @@
             &--inner {
                 overflow: hidden;
             }
+        }
+
+        &__bodies {
+
+            &--scroll {
+                height: 100%;
+            }
+
         }
 
         &__menu {

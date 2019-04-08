@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { StatelessComponent, UILayout, Link, Url, Queries, BlurLayout } from '../../Utils'
-import Chat from './Chat'
 import Overview from './Overview'
 import { setTab } from '../Redux/PanelActions'
 import Bodies from './Bodies'
@@ -62,7 +61,7 @@ class Panel extends StatelessComponent<IProps> {
                 query={Queries.PANEL}
                 links={{
                     'Přehled': Queries.OVERVIEW,
-                    'Tělesa': Queries.BODIES,
+                    'Databáze': Queries.DATABASE,
                     [this.getBodyNameFromUrl()]: Queries.BODY
                 }}
                 className='panel__window__menu' />
@@ -80,7 +79,7 @@ class Panel extends StatelessComponent<IProps> {
         switch (currentTab) {
             case Queries.OVERVIEW:
                 return <Overview />
-            case Queries.BODIES:
+            case Queries.DATABASE:
                 return <Bodies />
             case Queries.BODY:
                 return <Body />

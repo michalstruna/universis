@@ -13,7 +13,7 @@ import {
     Dates,
     Units,
     EditorControl,
-    FadeLayout
+    FadeLayout, QueryMenu
 } from '../../Utils'
 import { toggleBodyForm } from '../Redux/PanelActions'
 import BodyForm from '../Components/BodyForm'
@@ -262,15 +262,34 @@ class Bodies extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
+        const { strings, bodyTypes, bodies } = this.props
+
         return (
-            <section className='panel__bodies panel__window'>
-                {this.renderSettings()}
-                {this.renderFilter()}
-                <section className='panel__bodies--inner'>
-                    {this.renderTable()}
-                </section>
-                {this.renderAdd()}
-            </section>
+            <AsyncEntity
+                data={bodies}
+                success={() => (
+                    <AsyncEntity
+                        data={bodyTypes}
+                        success={() => (
+                            <>
+                                <section className='panel__bodies panel__window'>
+                                    {this.renderSettings()}
+                                    {this.renderFilter()}
+                                    <section className='panel__bodies--inner'>
+                                        {this.renderTable()}
+                                    </section>
+                                    {this.renderAdd()}
+                                </section>
+                                <QueryMenu
+                                    query={Queries.BODY_TAB}
+                                    links={{
+                                        [`${strings.bodies} (${bodies.payload.length})`]: Queries.BODIES,
+                                        [`${strings.bodyTypes} (${bodyTypes.payload.length})`]: Queries.BODY_TYPES
+                                    }}
+                                    className='panel__window__menu' />
+                            </>
+                        )} />
+                )} />
         )
     }
 

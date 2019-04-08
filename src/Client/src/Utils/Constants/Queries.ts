@@ -5,12 +5,15 @@ enum Queries {
 
     PANEL = 'panel',
     OVERVIEW = 'overview',
-    BODY = 'body',
+
+    DATABASE = 'database',
     BODIES = 'bodies',
+    BODY_TYPES = 'types',
     BODIES_FILTER = 'filter',
     BODIES_SETTINGS = 'settings',
-    BODY_TAB = 'body-tab',
 
+    BODY = 'body',
+    BODY_TAB = 'body-tab',
     BODY_DATA = 'data',
     BODY_TIMELINE = 'timeline',
     BODY_DISCUSSION = 'discussion',

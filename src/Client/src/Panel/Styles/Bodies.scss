@@ -1,17 +1,13 @@
 .panel__bodies {
-    @include size(100%, calc(100% - 3.1rem));
+    @include size(100%, calc(100% - 6rem));
     background-color: $top-layer-color;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     user-select: none;
 
-    .editor__control--add {
-        bottom: 3rem;
-    }
-
     &--inner {
-        overflow: auto;
+        overflow: scroll;
     }
 
     .table {
