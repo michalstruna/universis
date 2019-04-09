@@ -384,3 +384,27 @@ export const deleteBody = (bodyId: string) => (
         { deletedBody: Request.delete(`bodies/${bodyId}`) }
     )
 )
+
+/**
+ * Add body type.
+ * @param bodyTypeId ID of body type.
+ * @param bodyType New body type.
+ */
+export const updateBodyType = (bodyTypeId: string, bodyType: Universis.Universe.Body.Type.New) => (
+    Redux.asyncAction(
+        ActionTypes.UPDATE_BODY_TYPE,
+        { updatedBodyType: Request.put(`bodies/types/${bodyTypeId}`, bodyType) },
+        (event, dispatch) => dispatch(toggleBodyForm(false))
+    )
+)
+
+/**
+ * Delete body type by ID.
+ * @param bodyTypeId
+ */
+export const deleteBodyType = (bodyTypeId: string) => (
+    Redux.asyncAction(
+        ActionTypes.DELETE_BODY_TYPE,
+        { deletedBodyType: Request.delete(`bodies/types/${bodyTypeId}`) }
+    )
+)

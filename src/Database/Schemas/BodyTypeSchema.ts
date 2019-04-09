@@ -12,7 +12,7 @@ const BodyTypeSchema = new Schema({
     },
 
     emissiveColor: {
-        type: Number
+        type: String
     },
 
     virtualFlag: {

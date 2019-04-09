@@ -9,6 +9,7 @@ export default Redux.createReducer(
         notifications: Redux.EMPTY_ASYNC_ENTITY,
         isBodyFormVisible: false,
         isBodyEventFormVisible: false,
+        isBodyTypeFormVisible: false,
         selectedEvent: Redux.EMPTY_ENTITY
     }
 )

@@ -6,7 +6,8 @@ enum Queries {
     PANEL = 'panel',
     OVERVIEW = 'overview',
 
-    DATABASE = 'database',
+    DATABASE = 'db',
+    DATABASE_TAB = 'db-tab',
     BODIES = 'bodies',
     BODY_TYPES = 'types',
     BODIES_FILTER = 'filter',

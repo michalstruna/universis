@@ -414,7 +414,7 @@ declare namespace Universis {
                     /**
                      * Color of body light.
                      */
-                    emissiveColor?: number
+                    emissiveColor?: string
 
                     /**
                      * Body
@@ -425,6 +425,11 @@ declare namespace Universis {
                      * Default texture of type.
                      */
                     texture: string
+
+                    /**
+                     * Body is invisible.
+                     */
+                    virtual: boolean
 
                 }
 

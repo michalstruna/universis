@@ -76,3 +76,36 @@
         }
     }
 }
+
+.panel__body-types {
+    @include size(100%, calc(100% - 6rem));
+    background-color: $top-layer-color;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    user-select: none;
+
+    &--inner {
+        overflow: scroll;
+    }
+
+    .table {
+        width: 100%;
+
+        &__row {
+            &:not(.table__row--header):hover {
+                cursor: default;
+            }
+
+            .table__cell:first-of-type {
+                box-sizing: border-box;
+                padding-left: 1rem;
+                width: 250%;
+            }
+
+            .table__cell:nth-of-type(4) {
+                width: 15rem;
+            }
+        }
+    }
+}

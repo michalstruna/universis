@@ -1,45 +1,32 @@
 import * as React from 'react'
 
-import BodiesFilterForm from './BodiesFilterForm'
-import BodiesSettingsForm from './BodiesSettingsForm'
-import { getBodies, getBodyTypes } from '../../Universe'
 import {
+    AsyncEntity,
+    Dates,
+    EditorControl,
+    FadeLayout,
+    Filter,
+    Queries,
     StatelessComponent,
     Table,
-    Filter,
-    AsyncEntity,
-    Url,
-    Queries,
-    Dates,
     Units,
-    EditorControl,
-    FadeLayout, QueryMenu
+    Url
 } from '../../Utils'
+
+import BodyForm from './BodyForm'
+import BodiesFilterForm from './BodiesFilterForm'
+import BodiesSettingsForm from './BodiesSettingsForm'
 import { toggleBodyForm } from '../Redux/PanelActions'
-import BodyForm from '../Components/BodyForm'
 
 interface IProps {
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
-    selectBody: Universis.Consumer<string>
-    filter: Universis.Filter
-    getBodies: Universis.Runnable
-    strings: Universis.Strings
     toggleBodyForm: Universis.Consumer<boolean>
+    strings: Universis.Strings
     isFormVisible: boolean
-    bodyTypes: Universis.Redux.AsyncEntity<Universis.Universe.Body.Type[]>
-    getBodyTypes: Universis.Runnable
 }
 
-/**
- * Components for chat.
- */
 class Bodies extends StatelessComponent<IProps> {
 
-    public componentWillMount(): void {
-        const { bodies, getBodies, bodyTypes, getBodyTypes } = this.props
-        AsyncEntity.request(bodies, getBodies)
-        AsyncEntity.request(bodyTypes, getBodyTypes)
-    }
 
     private getColumns(): IColumn<Universis.Universe.Body.Simple>[] {
         const { strings } = this.props
@@ -188,7 +175,7 @@ class Bodies extends StatelessComponent<IProps> {
 
     /**
      * Render list of bodies.
-     * @returns Bodies.
+     * @returns Database.
      */
     private renderTable(): React.ReactNode {
         const { bodies, location } = this.props
@@ -262,45 +249,25 @@ class Bodies extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { strings, bodyTypes, bodies } = this.props
-
         return (
-            <AsyncEntity
-                data={bodies}
-                success={() => (
-                    <AsyncEntity
-                        data={bodyTypes}
-                        success={() => (
-                            <>
-                                <section className='panel__bodies panel__window'>
-                                    {this.renderSettings()}
-                                    {this.renderFilter()}
-                                    <section className='panel__bodies--inner'>
-                                        {this.renderTable()}
-                                    </section>
-                                    {this.renderAdd()}
-                                </section>
-                                <QueryMenu
-                                    query={Queries.BODY_TAB}
-                                    links={{
-                                        [`${strings.bodies} (${bodies.payload.length})`]: Queries.BODIES,
-                                        [`${strings.bodyTypes} (${bodyTypes.payload.length})`]: Queries.BODY_TYPES
-                                    }}
-                                    className='panel__window__menu' />
-                            </>
-                        )} />
-                )} />
+            <section className='panel__bodies panel__window'>
+                {this.renderSettings()}
+                {this.renderFilter()}
+                <section className='panel__bodies--inner'>
+                    {this.renderTable()}
+                </section>
+                {this.renderAdd()}
+            </section>
         )
     }
 
 }
 
 export default Bodies.connect(
-    ({ universe, system, panel }: Universis.Redux.StoreState) => ({
+    ({ system, panel, universe }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
-        strings: system.strings.bodies,
-        isFormVisible: panel.isBodyFormVisible,
-        bodyTypes: universe.bodyTypes
+        strings: system.strings.database,
+        isFormVisible: panel.isBodyFormVisible
     }),
-    { getBodies, toggleBodyForm, getBodyTypes }
+    { toggleBodyForm }
 )

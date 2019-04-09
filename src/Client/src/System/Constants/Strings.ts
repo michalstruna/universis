@@ -81,7 +81,10 @@ export default {
 
     panel: {},
 
-    bodies: {
+    database: {
+        bodies: 'Tělesa',
+        bodyTypes: 'Typy těles',
+
         name: 'Název',
         diameter: 'Průměr',
         mass: 'Hmotnost',
@@ -105,7 +108,10 @@ export default {
         luminosity: 'Zářivost',
         absoluteValues: 'Absolutní hodnoty',
         relativeTo: 'Relativně k',
-        atmospherePressure: 'Atm. tlak'
+        atmospherePressure: 'Atm. tlak',
+
+        emissiveColor: 'Světlo',
+        particles: 'Částice'
     },
 
     body: {

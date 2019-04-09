@@ -3,7 +3,7 @@ import * as React from 'react'
 import { StatelessComponent, UILayout, Link, Url, Queries, BlurLayout } from '../../Utils'
 import Overview from './Overview'
 import { setTab } from '../Redux/PanelActions'
-import Bodies from './Bodies'
+import Database from './Database'
 import Body from './Body'
 import QueryMenu from '../../Utils/Components/QueryMenu'
 
@@ -80,7 +80,7 @@ class Panel extends StatelessComponent<IProps> {
             case Queries.OVERVIEW:
                 return <Overview />
             case Queries.DATABASE:
-                return <Bodies />
+                return <Database />
             case Queries.BODY:
                 return <Body />
             default:

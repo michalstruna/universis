@@ -74,7 +74,7 @@ export default reduxForm({
     ({ form, universe, system }: Universis.Redux.StoreState) => ({
         values: getFormValues(BodiesSettingsForm.NAME)({ form }),
         bodies: universe.bodies,
-        strings: system.strings.bodies
+        strings: system.strings.database
     }),
     dispatch => ({
         setValues: values => dispatch(initialize(BodiesSettingsForm.NAME, values))

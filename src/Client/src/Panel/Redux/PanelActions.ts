@@ -61,3 +61,17 @@ export const toggleBodyEventForm = (isVisible: boolean, selectedEvent: Universis
         ))
     }
 )
+
+/**
+ * Toggle visibility of body type form.
+ * @param isVisible
+ * @param selectedBodyType
+ */
+export const toggleBodyTypeForm = (isVisible: boolean, selectedBodyType: Universis.Universe.Body.Type = null) => (
+    dispatch => {
+        dispatch(Redux.toggleAction(
+            ActionTypes.TOGGLE_BODY_TYPE_FORM,
+            { isBodyTypeFormVisible: isVisible, selectedBodyType }
+        ))
+    }
+)

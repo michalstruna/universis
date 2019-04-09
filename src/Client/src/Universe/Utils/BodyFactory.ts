@@ -54,8 +54,8 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
 
         mesh.add(child)
 
-        if (body.type.emissiveColor) {
-            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1.5, body.diameter.x * 1e4))
+        if (body.type.emissiveColor && body.type.emissiveColor !== '#000000') {
+            mesh.add(new THREE.PointLight(body.type.emissiveColor, 1, body.diameter.x * 1e4))
         }
 
         mesh.name = body._id

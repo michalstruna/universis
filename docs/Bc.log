@@ -1129,8 +1129,8 @@ File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 
 ]
 Overfull \hbox (4.61359pt too wide) in paragraph at lines 238--239
-\T1/lmr/m/n/12 umoº-¬ují vy-kres-lo-vat r·zné ele-men-tární ob-jekty, tzv. gra-
-fická pri-mi-tiva. V p°í-pad¥ OpenGL
+\T1/lmr/m/n/12 umoï¿½-ï¿½ujï¿½ vy-kres-lo-vat rï¿½znï¿½ ele-men-tï¿½rnï¿½ ob-jekty, tzv. gra-
+fickï¿½ pri-mi-tiva. V pï¿½ï¿½-padï¿½ OpenGL
  []
 
 [15] [16]
@@ -1178,8 +1178,8 @@ Package pdftex.def Info: Images/Redux.png  used on input line 463.
 (./SourceCodes/ReduxAction.js) (./SourceCodes/ReduxReducer.js [27])
 (./SourceCodes/Scene.js)
 Overfull \hbox (8.79913pt too wide) in paragraph at lines 514--515
-\T1/lmr/m/n/12 Samotné t¥-leso je re-pre-zen-to-váno koulí, tedy ob-jek-tem s g
-e-o-me-t-rií \T1/lmr/m/it/12 THREE.SphereGeometry\T1/lmr/m/n/12 .
+\T1/lmr/m/n/12 Samotnï¿½ tï¿½-leso je re-pre-zen-to-vï¿½no koulï¿½, tedy ob-jek-tem s g
+e-o-me-t-riï¿½ \T1/lmr/m/it/12 THREE.SphereGeometry\T1/lmr/m/n/12 .
  []
 
 [28]
@@ -1219,7 +1219,7 @@ Package pdftex.def Info: Images/Initial.png  used on input line 645.
 (./SourceCodes/Schema.js) (./SourceCodes/Hash.js [40])
 (./SourceCodes/Database.js [41])
 Overfull \hbox (1.40443pt too wide) in paragraph at lines 838--839
-\T1/lmtt/m/n/12 /src/Constants/Config.ts \T1/lmr/m/n/12 vy-pl-nit po-loºky \T1/
+\T1/lmtt/m/n/12 /src/Constants/Config.ts \T1/lmr/m/n/12 vy-pl-nit po-loï¿½ky \T1/
 lmtt/m/n/12 database.username \T1/lmr/m/n/12 a \T1/lmtt/m/n/12 database.passwor
 d\T1/lmr/m/n/12 .
  []
@@ -1262,17 +1262,17 @@ File: Images/Overview.png Graphic file (type png)
 Package pdftex.def Info: Images/Overview.png  used on input line 983.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
  [48 <./Images/Simulator.png>] [49 <./Images/Overview.png>]
-<Images/Bodies.png, id=1123, 640.3925pt x 441.65pt>
-File: Images/Bodies.png Graphic file (type png)
-<use Images/Bodies.png>
-Package pdftex.def Info: Images/Bodies.png  used on input line 1011.
+<Images/Database.png, id=1123, 640.3925pt x 441.65pt>
+File: Images/Database.png Graphic file (type png)
+<use Images/Database.png>
+Package pdftex.def Info: Images/Database.png  used on input line 1011.
 (pdftex.def)             Requested size: 350.0pt x 241.38522pt.
 <Images/Body.png, id=1124, 624.3325pt x 556.0775pt>
 File: Images/Body.png Graphic file (type png)
 <use Images/Body.png>
 Package pdftex.def Info: Images/Body.png  used on input line 1027.
 (pdftex.def)             Requested size: 350.0pt x 311.74068pt.
- [50 <./Images/Bodies.png>]
+ [50 <./Images/Database.png>]
 <Images/Timeline.png, id=1130, 626.34pt x 483.8075pt>
 File: Images/Timeline.png Graphic file (type png)
 <use Images/Timeline.png>
@@ -1299,7 +1299,7 @@ Package pdftex.def Info: Images/Webpack.png  used on input line 1072.
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 1185--1188
-\T1/lmr/m/n/12 Do-stupné z: []$\T1/lmtt/m/n/12 https : / / hacks . mozilla . or
+\T1/lmr/m/n/12 Do-stupnï¿½ z: []$\T1/lmtt/m/n/12 https : / / hacks . mozilla . or
 g / 2012 / 12 / fantastic -[] front -[] end -[]
  []
 
@@ -1354,7 +1354,7 @@ Overfull \vbox (18.01666pt too high) has occurred while \output is active []
 
 ] [68]
 Overfull \hbox (1.60646pt too wide) in paragraph at lines 1348--1348
-|\T1/lmr/bx/n/17.28 PÍLOHA D -- SE-ZNAM SOU-BOR— ZDRO-JO-VİCH
+|\T1/lmr/bx/n/17.28 Pï¿½ï¿½LOHA D -- SE-ZNAM SOU-BORï¿½ ZDRO-JO-Vï¿½CH
  []
 
 
