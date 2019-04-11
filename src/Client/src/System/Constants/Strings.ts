@@ -111,7 +111,7 @@ export default {
         atmospherePressure: 'Atm. tlak',
 
         emissiveColor: 'Světlo',
-        particles: 'Částice'
+        type: 'Typ'
     },
 
     body: {

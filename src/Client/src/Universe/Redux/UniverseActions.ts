@@ -1,7 +1,7 @@
 import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import Follow from '../Constants/Follow'
-import { toggleBodyEventForm, toggleBodyForm } from '../../Panel'
+import { toggleBodyEventForm, toggleBodyForm, toggleBodyTypeForm } from '../../Panel'
 
 /**
  * Get all bodies.
@@ -350,7 +350,7 @@ export const deleteEvent = (eventId: string) => (
 )
 
 /**
- * Add body event.
+ * Add body.
  * @param body New body.
  */
 export const addBody = (body: Universis.Universe.Body.New) => (
@@ -382,6 +382,18 @@ export const deleteBody = (bodyId: string) => (
     Redux.asyncAction(
         ActionTypes.DELETE_BODY,
         { deletedBody: Request.delete(`bodies/${bodyId}`) }
+    )
+)
+
+/**
+ * Add body type.
+ * @param bodyType New body type.
+ */
+export const addBodyType = (bodyType: Universis.Universe.Body.Type.New) => (
+    Redux.asyncAction(
+        ActionTypes.ADD_BODY_TYPE,
+        { newBodyType: Request.post(`bodies/types`, bodyType) },
+        (event, dispatch) => dispatch(toggleBodyTypeForm(false))
     )
 )
 

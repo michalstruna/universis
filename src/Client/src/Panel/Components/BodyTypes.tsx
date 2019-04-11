@@ -9,9 +9,9 @@ import {
     Table
 } from '../../Utils'
 
-import BodyForm from './BodyForm'
 import { toggleBodyTypeForm } from '../Redux/PanelActions'
 import { deleteBodyType } from '../../Universe'
+import BodyTypeForm from './BodyTypeForm'
 
 interface IProps {
     bodyTypes: Universis.Redux.AsyncEntity<Universis.Universe.Body.Type[]>
@@ -86,7 +86,7 @@ class Bodies extends StatelessComponent<IProps> {
                     mounted={isFormVisible}
                     className='panel__body__form'
                     type={FadeLayout.SCALE}>
-                    <BodyForm />
+                    <BodyTypeForm />
                 </FadeLayout>
                 <EditorControl
                     type={EditorControl.ADD}
@@ -113,7 +113,7 @@ export default Bodies.connect(
     ({ system, panel, universe }: Universis.Redux.StoreState) => ({
         bodyTypes: universe.bodyTypes,
         strings: system.strings.database,
-        isFormVisible: panel.isBodyFormVisible
+        isFormVisible: panel.isBodyTypeFormVisible
     }),
     { toggleBodyTypeForm, deleteBodyType }
 )
