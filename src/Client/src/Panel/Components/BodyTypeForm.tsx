@@ -47,20 +47,26 @@ class BodyTypeForm extends StatelessComponent<IProps & InjectedFormProps<IValues
 
         return (
             <>
-                <Field
-                    label={strings.name}
-                    required={strings.name}
-                    name='name' />
-                <Field
-                    label={strings.emissiveColor}
-                    name='emissiveColor' />
-                <Field
-                    label={strings.texture}
-                    required={strings.texture}
-                    name='texture' />
+                <Form.FlexRow>
+                    <section>
+                        <Field
+                            label={strings.name}
+                            required={strings.name}
+                            name='name' />
+                        <Field
+                            label={strings.emissiveColor}
+                            name='emissiveColor' />
+                    </section>
+                    <section>
+                        <Field
+                            label={strings.texture}
+                            required={strings.texture}
+                            name='texture' />
+                    </section>
+                </Form.FlexRow>
+
                 <Field
                     label={strings.particlesGenerator}
-                    required={strings.particlesGenerator}
                     name='particlesGenerator'
                     type={Field.TEXT_AREA} />
                 <Form.FlexRow>

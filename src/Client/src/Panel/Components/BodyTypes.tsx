@@ -44,7 +44,7 @@ class Bodies extends StatelessComponent<IProps> {
                 accessor: bodyType => bodyType._id,
                 title: '',
                 render: (bodyTypeId, bodyType) => <DetailEditor
-                    onEdit={() => toggleBodyTypeForm(true, bodyTypeId)}
+                    onEdit={() => toggleBodyTypeForm(true, bodyType)}
                     onDelete={() => {
                         if (confirm(`Opravdu smazat ${bodyType.name}?`)) {
                             deleteBodyType(bodyTypeId)

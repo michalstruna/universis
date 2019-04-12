@@ -111,7 +111,9 @@ export default {
         atmospherePressure: 'Atm. tlak',
 
         emissiveColor: 'Světlo',
-        type: 'Typ'
+        type: 'Typ',
+        texture: 'Textura',
+        particlesGenerator: 'Generátor částic'
     },
 
     body: {

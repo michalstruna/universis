@@ -97,6 +97,16 @@
                 cursor: default;
             }
 
+            &--header {
+                .table__cell:nth-of-type(4) {
+                    cursor: default;
+
+                    &:hover {
+                        background-color: transparent;
+                    }
+                }
+            }
+
             .table__cell:first-of-type {
                 box-sizing: border-box;
                 padding-left: 1rem;
