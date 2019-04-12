@@ -60,7 +60,6 @@ class BodyTypeForm extends StatelessComponent<IProps & InjectedFormProps<IValues
                     <section>
                         <Field
                             label={strings.texture}
-                            required={strings.texture}
                             name='texture' />
                     </section>
                 </Form.FlexRow>

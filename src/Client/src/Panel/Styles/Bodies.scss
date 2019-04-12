@@ -100,6 +100,7 @@
             &--header {
                 .table__cell:nth-of-type(4) {
                     cursor: default;
+                    pointer-events: none;
 
                     &:hover {
                         background-color: transparent;
