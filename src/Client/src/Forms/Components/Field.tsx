@@ -93,9 +93,9 @@ class Field extends StatelessComponent<IProps> {
      * @param data
      */
     private renderComponent = (data): React.ReactNode => {
-        const { label, type } = this.props
+        const { label, type, required } = this.props
         const { touched, error, value } = data.meta
-        const blockClassName = ClassNames('form__block', { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value })
+        const blockClassName = ClassNames('form__block', { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value && data.input.value !== 0 }, { 'form__block--required': !!required })
         const inputProps = { ...data.input, autoComplete: 'off', className: 'form__field form__field--' + type.name }
 
         if (type === Field.TEXT_AREA) {
@@ -120,7 +120,7 @@ class Field extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { label, name, type } = this.props
+        const { label, name, type, ...props } = this.props
 
         return (
             <ReduxField
@@ -128,7 +128,8 @@ class Field extends StatelessComponent<IProps> {
                 label={label}
                 name={name}
                 validate={this.validator}
-                type={type} />
+                type={type}
+                {...props} />
         )
     }
 

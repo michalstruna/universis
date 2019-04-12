@@ -59,8 +59,7 @@ class BodiesSettingsForm extends StatelessComponent<IProps & InjectedFormProps<U
                 <Form.FlexRow>
                     <Select
                         name='valuesType'
-                        options={this.getValues()}
-                        widthEmpty={true} />
+                        options={this.getValues()} />
                 </Form.FlexRow>
             </Form>
         )
@@ -75,7 +74,7 @@ export default reduxForm({
     ({ form, universe, system }: Universis.Redux.StoreState) => ({
         values: getFormValues(BodiesSettingsForm.NAME)({ form }),
         bodies: universe.bodies,
-        strings: system.strings.bodies
+        strings: system.strings.database
     }),
     dispatch => ({
         setValues: values => dispatch(initialize(BodiesSettingsForm.NAME, values))

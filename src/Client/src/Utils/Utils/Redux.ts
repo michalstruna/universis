@@ -124,8 +124,6 @@ class Redux {
      * @returns New store state.
      */
     private static applySetAction(state: Universis.Redux.StoreState, action: Universis.Redux.SetAction): Universis.Redux.StoreState {
-        let x = 1
-
         const applyNestedChange = (source: any, change: any) => {
             if (change && change.$find) {
                 const index = source.findIndex(change.$find)

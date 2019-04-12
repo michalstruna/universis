@@ -1,12 +1,11 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { StatelessComponent, Units, EventArea, EditorControl } from '../../Utils'
+import { StatelessComponent, Units, EventArea, EditorControl, DetailEditor, FadeLayout } from '../../Utils'
 import { LineChart } from '../../Charts'
 import EventForm from './EventForm'
 import { toggleBodyEventForm } from '../Redux/PanelActions'
 import { deleteEvent } from '../../Universe'
-import { Form } from '../../Forms'
 
 interface IProps {
     strings: Universis.Strings
@@ -72,10 +71,12 @@ class BodyTimeline extends StatelessComponent<IProps> {
 
         return (
             <>
-                <section
-                    className={ClassNames('panel__body__timeline__form', { 'panel__body__timeline__form--visible': isFormVisible })}>
+                <FadeLayout
+                    type={FadeLayout.SCALE}
+                    mounted={isFormVisible}
+                    className={'panel__body__timeline__form'}>
                     <EventForm />
-                </section>
+                </FadeLayout>
                 <EditorControl
                     type={EditorControl.ADD}
                     onClick={() => toggleBodyEventForm(true)}>
@@ -111,18 +112,13 @@ class BodyTimeline extends StatelessComponent<IProps> {
                     hoverDetail={true}
                     minorTicksCount={9}
                     renderEventSuffix={event => (
-                        <>
-                            <EditorControl
-                                type={EditorControl.UPDATE}
-                                onClick={() => toggleBodyEventForm(true, event)} />
-                            <EditorControl
-                                type={EditorControl.DELETE}
-                                onClick={() => {
-                                    if (confirm('Opravdu smazat?')) {
-                                        deleteEvent(event._id)
-                                    }
-                                }} />
-                        </>
+                        <DetailEditor
+                            onEdit={() => toggleBodyEventForm(true, event)}
+                            onDelete={() => {
+                                if (confirm('Opravdu smazat?')) {
+                                    deleteEvent(event._id)
+                                }
+                            }} />
                     )}
                     tickHeight={15}
                     ticks={YEARS} />

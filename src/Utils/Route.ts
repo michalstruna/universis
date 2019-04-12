@@ -77,6 +77,7 @@ class Route {
                         }
                     })
                     .catch(error => {
+                        console.log(222, error)
                         response.status(error.code).send(error)
                     })
             } else {

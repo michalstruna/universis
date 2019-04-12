@@ -8,10 +8,11 @@ interface IProps {
     mounted: boolean,
     onClick?: Universis.Consumer<React.MouseEvent<HTMLElement>>,
     onContextMenu?: Universis.Consumer<React.MouseEvent<HTMLElement>>
+    type?: string
 }
 
 interface IState {
-    isMounted: boolean,
+    isMounted: boolean
     isVisible: boolean
 }
 
@@ -20,8 +21,12 @@ interface IState {
  */
 class FadeLayout extends Component<IProps, IState> {
 
+    public static OPACITY = 'opacity'
+    public static SCALE = 'transform'
+
     public static defaultProps = {
-        duration: 500
+        duration: 300,
+        type: FadeLayout.OPACITY
     }
 
     public constructor(props: IProps) {
@@ -68,11 +73,11 @@ class FadeLayout extends Component<IProps, IState> {
             return null
         }
 
-        const { className, children, onClick, onContextMenu } = this.props
+        const { className, children, onClick, onContextMenu, type } = this.props
 
         const styles = {
-            opacity: this.state.isVisible ? 1 : 0,
-            transition: 'opacity ' + (this.props.duration / 1000) + 's'
+            [type]: type === FadeLayout.OPACITY ? (this.state.isVisible ? 1 : 0) : `scale(${this.state.isVisible ? 1 : 0})`,
+            transition: `${type} ${this.props.duration / 1000}s`
         }
 
         return (

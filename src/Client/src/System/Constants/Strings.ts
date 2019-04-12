@@ -81,7 +81,10 @@ export default {
 
     panel: {},
 
-    bodies: {
+    database: {
+        bodies: 'Tělesa',
+        bodyTypes: 'Typy těles',
+
         name: 'Název',
         diameter: 'Průměr',
         mass: 'Hmotnost',
@@ -105,19 +108,68 @@ export default {
         luminosity: 'Zářivost',
         absoluteValues: 'Absolutní hodnoty',
         relativeTo: 'Relativně k',
-        atmospherePressure: 'Atm. tlak'
+        atmospherePressure: 'Atm. tlak',
+
+        emissiveColor: 'Světlo',
+        type: 'Typ',
+        texture: 'Textura',
+        particlesGenerator: 'Generátor částic'
     },
 
     body: {
         data: 'Data',
         timeline: 'Časová osa',
         discussion: 'Diskuse',
+
+        name: 'Jméno',
+        type: 'Typ',
+        description: 'Popisek',
+        texture: 'Textura',
+
+        diameterX: 'Průměr x [km]',
+        diameterY: 'Průměr y [km]',
+        diameterZ: 'Průměr z [km]',
+
+        mass: 'Hmotnost [kg]',
+        innerTemperature: 'Teplota jádra [K]',
+        outerTemperature: 'Povrchová teplota [K]',
+
+        axisPeriod: 'Perioda rotace [d]',
+        axisTilt: 'Sklon rotace [°]',
+        axisInitialDate: 'Výchozí čas rotace',
+
+        apsis: 'Apsida [km]',
+        periapsis: 'Periapsida [km]',
+        eccentricity: 'Excentricita',
+
+        inclination: 'Sklon orbity [°]',
+        rotation: 'Natočení orbity [°]',
+        orbitInitialDate: 'Datum v pericentru',
+
+        absoluteMagnitude: 'Absolutní magnituda',
+        relativeMagnitude: 'Zdánlivá magnituda',
+        albedo: 'Albedo',
+
+        discoverer: 'Objevitel',
+        discover: 'Datum objevu',
+        period: 'Perioda oběhu [r]',
+
+        pressure: 'Atmosférický tlak [Pa]',
+        atmosphereComposition: 'Složení atmosféry [O=15;K=13]',
+        composition: 'Složení [O=15;K=13]',
+
+        ringMinDiameter: 'Min. prům. prst. [km]',
+        ringMaxDIameter: 'Max. prům. prst. [km]',
+        ringTexture: 'Textura prstence',
+
+        centerBody: '--- Centrální těleso ---'
     },
 
     bodyData: {
         size: 'Velikost',
         diameterX: 'Rov. průměr',
         diameterY: 'Polar. průměr',
+        diameterZ: 'Rov. průměr 2',
         surface: 'Povrch',
         circumference: 'Obvod',
         volume: 'Objem',

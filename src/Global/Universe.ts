@@ -383,6 +383,8 @@ declare namespace Universis {
 
                 _id: never
 
+                parentId: string
+
             }
 
             /**
@@ -412,12 +414,22 @@ declare namespace Universis {
                     /**
                      * Color of body light.
                      */
-                    emissiveColor?: number
+                    emissiveColor?: string
 
                     /**
                      * Body
                      */
                     particlesGenerator?: string
+
+                    /**
+                     * Default texture of type.
+                     */
+                    texture: string
+
+                    /**
+                     * Body is invisible.
+                     */
+                    virtual?: boolean
 
                 }
 

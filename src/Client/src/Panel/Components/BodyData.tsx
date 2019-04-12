@@ -1,18 +1,41 @@
 import Masonry from 'react-masonry-component'
 import * as React from 'react'
 
-import { StatelessComponent, DataTable , Units } from '../../Utils'
+import { StatelessComponent, DataTable, Units, DetailEditor, FadeLayout, EditorControl } from '../../Utils'
 import { DonutChart } from '../../Charts'
+import { toggleBodyForm } from '../Redux/PanelActions'
+import { deleteBody, updateBody } from '../../Universe'
+import BodyForm from './BodyForm'
 
 interface IProps {
     body: Universis.Universe.Body
     strings: Universis.Strings
+    toggleBodyForm: Universis.Consumer2<boolean, Universis.Universe.Body>
+    deleteBody: Universis.Consumer<string>
+    updateBody: Universis.Consumer2<string, Universis.Universe.Body.New>
+    isFormVisible: boolean
 }
 
 class BodyData extends StatelessComponent<IProps> {
 
+    /**
+     * Render add button.
+     */
+    private renderAdd(): React.ReactNode {
+        const { isFormVisible } = this.props
+
+        return (
+            <FadeLayout
+                mounted={isFormVisible}
+                className='panel__body__form'
+                type={FadeLayout.SCALE}>
+                <BodyForm />
+            </FadeLayout>
+        )
+    }
+
     public render(): React.ReactNode {
-        const { strings, body } = this.props
+        const { strings, body, toggleBodyForm, deleteBody } = this.props
 
         if (!body) {
             return null
@@ -24,12 +47,20 @@ class BodyData extends StatelessComponent<IProps> {
                     <section className='panel__body__data__preview--left'>
                         <h2 className='panel__body__data__subtitle'>
                             {body.type.name}
+                            <DetailEditor
+                                onEdit={() => toggleBodyForm(true, body)}
+                                onDelete={() => {
+                                    if (confirm(`Opravdu smazat těleso ${body.name}?`)) {
+                                        deleteBody(body._id)
+                                    }
+                                }} />
                         </h2>
                         <h1 className='panel__body__data__title'>
                             {body.name}
                         </h1>
                         <p className='panel__body__data__description'>
-                            {body.description}
+                            {body.description}                        <>
+                        </>
                         </p>
                     </section>
                     <section className='panel__body__data__preview--right' />
@@ -103,14 +134,14 @@ class BodyData extends StatelessComponent<IProps> {
                         title={strings.visibility}
                         data={{
                             [strings.albedo]: Units.toFull(body.albedo),
-                            [strings.magnitude]: Units.toFull(body.magnitude.relative),
-                            [strings.absoluteMagnitude]: Units.toFull(body.magnitude.absolute)
+                            [strings.magnitude]: body.magnitude ? Units.toFull(body.magnitude.relative) : null,
+                            [strings.absoluteMagnitude]: body.magnitude ? Units.toFull(body.magnitude.absolute) : null
                         }} />
                     <DataTable
                         title={strings.energy}
                         data={{
-                            [strings.innerTemperature]: Units.toFull(body.temperature.inner, Units.TEMPERATURE.K),
-                            [strings.outerTemperature]: Units.toFull(body.temperature.outer, Units.TEMPERATURE.K),
+                            [strings.innerTemperature]: body.temperature ? Units.toFull(body.temperature.inner, Units.TEMPERATURE.K) : null,
+                            [strings.outerTemperature]: body.temperature ? Units.toFull(body.temperature.outer, Units.TEMPERATURE.K) : null,
                             [strings.luminosity]: body.luminosity ? Units.toShort(body.luminosity, Units.LUMINOSITY.W, Units.LUMINOSITY) : null
                         }} />
                     <DataTable
@@ -120,6 +151,7 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.discoverDate]: body.discover ? body.discover.date : null
                         }} />
                 </Masonry>
+                {this.renderAdd()}
             </section>
         )
     }
@@ -127,8 +159,10 @@ class BodyData extends StatelessComponent<IProps> {
 }
 
 export default BodyData.connect(
-    ({ system, universe }: Universis.Redux.StoreState) => ({
+    ({ system, universe, panel }: Universis.Redux.StoreState) => ({
         strings: system.strings.bodyData,
-        body: universe.body.payload
-    })
+        body: universe.body.payload,
+        isFormVisible: panel.isBodyFormVisible
+    }),
+    { deleteBody, updateBody, toggleBodyForm }
 )

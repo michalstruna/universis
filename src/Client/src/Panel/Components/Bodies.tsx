@@ -1,27 +1,32 @@
 import * as React from 'react'
 
+import {
+    AsyncEntity,
+    Dates,
+    EditorControl,
+    FadeLayout,
+    Filter,
+    Queries,
+    StatelessComponent,
+    Table,
+    Units,
+    Url
+} from '../../Utils'
+
+import BodyForm from './BodyForm'
 import BodiesFilterForm from './BodiesFilterForm'
 import BodiesSettingsForm from './BodiesSettingsForm'
-import { getBodies } from '../../Universe'
-import { StatelessComponent, Table, Filter, AsyncEntity, Url, Queries, Dates, Units } from '../../Utils'
+import { toggleBodyForm } from '../Redux/PanelActions'
 
 interface IProps {
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
-    selectBody: Universis.Consumer<string>
-    filter: Universis.Filter
-    getBodies: Universis.Runnable
+    toggleBodyForm: Universis.Consumer<boolean>
     strings: Universis.Strings
+    isFormVisible: boolean
 }
 
-/**
- * Components for chat.
- */
 class Bodies extends StatelessComponent<IProps> {
 
-    public componentWillMount(): void {
-        const { bodies, getBodies } = this.props
-        AsyncEntity.request(bodies, getBodies)
-    }
 
     private getColumns(): IColumn<Universis.Universe.Body.Simple>[] {
         const { strings } = this.props
@@ -84,12 +89,12 @@ class Bodies extends StatelessComponent<IProps> {
                 strings.orbitVelocity
             ),
             this.getTableColumn(
-                body => body.temperature.outer,
+                body => body.temperature ? body.temperature.outer : null,
                 strings.outerTemperature,
                 value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
             this.getTableColumn(
-                body => body.temperature.inner,
+                body => body.temperature ? body.temperature.inner : null,
                 strings.innerTemperature,
                 value => Units.toShort(value, Units.TEMPERATURE.K)
             ),
@@ -103,11 +108,11 @@ class Bodies extends StatelessComponent<IProps> {
                 strings.flattening
             ),
             this.getTableColumn(
-                body => body.magnitude.relative,
+                body => body.magnitude ? body.magnitude.relative : null,
                 strings.relativeMagnitude
             ),
             this.getTableColumn(
-                body => body.magnitude.absolute,
+                body => body.magnitude ? body.magnitude.absolute : null,
                 strings.absoluteMagnitude
             ),
             this.getTableColumn(
@@ -170,7 +175,7 @@ class Bodies extends StatelessComponent<IProps> {
 
     /**
      * Render list of bodies.
-     * @returns Bodies.
+     * @returns Database.
      */
     private renderTable(): React.ReactNode {
         const { bodies, location } = this.props
@@ -186,6 +191,28 @@ class Bodies extends StatelessComponent<IProps> {
                             onRowClick={this.handleBodyClick} />
                     </section>
                 )} />
+        )
+    }
+
+    /**
+     * Render add button.
+     */
+    private renderAdd(): React.ReactNode {
+        const { isFormVisible, toggleBodyForm } = this.props
+
+        return (
+            <>
+                <FadeLayout
+                    mounted={isFormVisible}
+                    className='panel__body__form'
+                    type={FadeLayout.SCALE}>
+                    <BodyForm />
+                </FadeLayout>
+                <EditorControl
+                    type={EditorControl.ADD}
+                    onClick={() => toggleBodyForm(true)}>
+                </EditorControl>
+            </>
         )
     }
 
@@ -229,6 +256,7 @@ class Bodies extends StatelessComponent<IProps> {
                 <section className='panel__bodies--inner'>
                     {this.renderTable()}
                 </section>
+                {this.renderAdd()}
             </section>
         )
     }
@@ -236,9 +264,10 @@ class Bodies extends StatelessComponent<IProps> {
 }
 
 export default Bodies.connect(
-    ({ universe, system }: Universis.Redux.StoreState) => ({
+    ({ system, panel, universe }: Universis.Redux.StoreState) => ({
         bodies: universe.bodies,
-        strings: system.strings.bodies
+        strings: system.strings.database,
+        isFormVisible: panel.isBodyFormVisible
     }),
-    { getBodies }
+    { toggleBodyForm }
 )

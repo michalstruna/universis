@@ -35,6 +35,20 @@ export const getNotifications = (limit: number) => (
 )
 
 /**
+ * Toggle visibility of body form.
+ * @param isVisible
+ * @param selectedBody
+ */
+export const toggleBodyForm = (isVisible: boolean, selectedBody: Universis.Universe.Body = null) => (
+    dispatch => {
+        dispatch(Redux.toggleAction(
+            ActionTypes.TOGGLE_BODY_FORM,
+            { isBodyFormVisible: isVisible, selectedBody }
+        ))
+    }
+)
+
+/**
  * Toggle visibility of body event form.
  * @param isVisible
  * @param selectedEvent
@@ -45,19 +59,19 @@ export const toggleBodyEventForm = (isVisible: boolean, selectedEvent: Universis
             ActionTypes.TOGGLE_BODY_EVENT_FORM,
             { isBodyEventFormVisible: isVisible, selectedEvent }
         ))
-
-        if (isVisible) {
-            dispatch(clearEvent())
-        }
     }
 )
 
 /**
- * Clear add event form.
+ * Toggle visibility of body type form.
+ * @param isVisible
+ * @param selectedBodyType
  */
-export const clearEvent = () => (
-    Redux.setAction(
-        ActionTypes.CLEAR_EVENT,
-        { selectedEvent: Redux.EMPTY_ASYNC_ENTITY }
-    )
+export const toggleBodyTypeForm = (isVisible: boolean, selectedBodyType: Universis.Universe.Body.Type = null) => (
+    dispatch => {
+        dispatch(Redux.toggleAction(
+            ActionTypes.TOGGLE_BODY_TYPE_FORM,
+            { isBodyTypeFormVisible: isVisible, selectedBodyType }
+        ))
+    }
 )

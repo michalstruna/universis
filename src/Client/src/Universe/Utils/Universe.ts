@@ -238,6 +238,9 @@ class Universe implements Universis.Universe {
         vector.y = -(vector.y - 1) / 2 * window.innerHeight
         body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
 
+        console.log(body)
+
+
         const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
         const fromCamera = this.scene.getDistance(body.mesh)
         const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
