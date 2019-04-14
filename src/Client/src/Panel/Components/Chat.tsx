@@ -130,7 +130,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     }
 
     /**
-     * Add message..
+     * Add message.
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
