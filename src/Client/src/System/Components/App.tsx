@@ -6,6 +6,7 @@ import { Panel } from '../../Panel'
 import { BlurLayout, StatelessComponent, Url, Queries } from '../../Utils'
 import { Alert, ContextMenu, ContextTrigger, ControlPanel, ContextInfo } from '../../Controls'
 import Sockets from '../Utils/Sockets'
+import Notifications from './Notifications'
 
 interface IProps {
     isPanelVisible: boolean
@@ -74,6 +75,7 @@ class App extends StatelessComponent<IProps> {
                 <Alert />
                 <ContextMenu />
                 <ContextInfo />
+                <Notifications />
             </ContextTrigger>
         )
     }

@@ -1,14 +1,11 @@
 import { Schema } from 'mongoose'
+import { DatabaseModels } from '../../Constants'
 
 const NotificationSchema = new Schema({
 
-    text: {
-        type: String,
+    subject: {
+        type: Number,
         required: true
-    },
-
-    target: {
-        type: String
     },
 
     operation: {
@@ -16,15 +13,30 @@ const NotificationSchema = new Schema({
         required: true
     },
 
-    subject: {
-        type: Number,
-        required: true
+    name: {
+        type: String
     },
 
-    date: {
-        type: String,
-        required: true,
-        default: () => new Date().toISOString()
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.USER
+    },
+
+    targetUserId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.USER
+    },
+
+    link: {
+        type: String
+    },
+
+    createdAt: {
+        type: Number
+    },
+
+    updatedAt: {
+        type: Number
     },
 
     __v: {
@@ -32,6 +44,6 @@ const NotificationSchema = new Schema({
         select: false
     }
 
-})
+}, { timestamps: true })
 
 export default NotificationSchema

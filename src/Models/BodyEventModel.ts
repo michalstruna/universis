@@ -1,11 +1,11 @@
-import { DatabaseModels, NotificationSubjects } from '../Constants'
+import { DatabaseModels, NotificationSubject } from '../Constants'
 import ItemModel from './ItemModel'
 
 export default new ItemModel<Universis.Event, Universis.Event, Universis.Event.New>({
     dbModel: DatabaseModels.BODY_EVENT,
     notifications: {
         textAccessor: notification => notification.title,
-        subjectAccessor: () => NotificationSubjects.BODY_EVENT
+        subjectAccessor: () => NotificationSubject.BODY_EVENT
     },
     add: {
         approval: true,

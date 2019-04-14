@@ -141,6 +141,8 @@ class Redux {
                 }
             } else if (change && change.$set) {
                 source = change.$set
+            } else if (change && change.$inc) {
+                source += change.$inc
             } else if (change && typeof change[Object.keys(change)[0]] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
                 for (const i in change) {
                     if (!(i.startsWith('$'))) {

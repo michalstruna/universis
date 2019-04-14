@@ -55,7 +55,6 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         mesh.add(child)
 
         if (body.type.emissiveColor && body.type.emissiveColor !== '#000000') {
-            console.log(body.name)
             mesh.add(new THREE.PointLight(body.type.emissiveColor, 1, body.diameter.x * 1e4))
         }
 
@@ -88,7 +87,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         const texture = TextureStore.get(body.texture || body.type.texture)
         let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial
 
-        if (typeof body.type.emissiveColor === 'number') {
+        if (body.type.emissiveColor) {
             material = new THREE.MeshBasicMaterial({
                 map: texture
                 //side: THREE.DoubleSide // TODO: Universe background?

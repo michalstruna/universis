@@ -3,17 +3,12 @@ declare namespace Universis {
     /**
      * Interface for full notification.
      */
-    export interface Notification extends Notification.New {
+    export interface Notification extends Notification.New, UserEntity, TimeEntity, UniqueEntity {
 
         /**
-         * ID of notification. (optional)
+         * Notification is expired and invisible.
          */
-        _id: string
-
-        /**
-         * Date of notification. (optional)
-         */
-        date: string
+        isExpired?: boolean
 
     }
 
@@ -27,11 +22,6 @@ declare namespace Universis.Notification {
     export interface New {
 
         /**
-         * Text of notification.
-         */
-        text: string
-
-        /**
          * Subject (index of BODY, USER, DISCUSSION, ...).
          */
         subject: number
@@ -42,9 +32,14 @@ declare namespace Universis.Notification {
         operation: number
 
         /**
-         * URI of link. (optional)
+         * Additional text (name of subject, etc.)
          */
-        target?: string
+        name?: string
+
+        /**
+         * URL of link. (optional)
+         */
+        link?: string
 
     }
 

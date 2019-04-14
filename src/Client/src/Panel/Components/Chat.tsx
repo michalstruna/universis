@@ -2,18 +2,19 @@ import * as React from 'react'
 import { InjectedFormProps } from 'redux-form'
 
 import { getMessages, UserInfo, addMessage, toggleStickyChat } from '../../User'
-import { AsyncEntity, RelativeTime, StatelessComponent } from '../../Utils'
+import { AsyncEntity, FadeLayout, RelativeTime, StatelessComponent } from '../../Utils'
 import Config from '../Constants/Config'
 import { Form, Field } from '../../Forms'
 
 interface IProps {
-    messages: Universis.Redux.AsyncEntity<Universis.Message[]>
+    messages: Universis.Redux.AsyncEntity<Universis.Notification[]>
     getMessages: Universis.Consumer<number>
     identity: Universis.User.Identity
     addMessage: Universis.Consumer<Universis.Message.New>
     newMessage: Universis.Redux.AsyncEntity<Universis.Message.New>
     isSticky: boolean
     toggleStickyChat: Universis.Consumer<boolean>
+    unreadMessages: boolean
 }
 
 interface IValues {
@@ -32,6 +33,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     public componentDidMount(): void {
         const { getMessages, messages } = this.props
         AsyncEntity.request(messages, () => getMessages(Config.OVERVIEW_SIZE))
+        this.scrollDown()
     }
 
     public componentDidUpdate(prevProps: IProps): void {
@@ -39,9 +41,21 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
         if (isSticky) {
             if (messages.payload && (!prevProps.messages.payload || messages.payload.length !== prevProps.messages.payload.length)) {
-                this.chat.scrollTop = this.chat.scrollHeight
+                this.scrollDown()
             }
         }
+    }
+
+    private scrollDown(): void {
+        let i = 0
+
+        const scroll = setInterval(() => {
+            this.chat.scrollTop = this.chat.scrollHeight
+
+            if (i++ > 30) {
+                clearInterval(scroll)
+            }
+        }, 10)
     }
 
     /**
@@ -54,7 +68,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         return messages.payload.map((message, key) => {
             return (
                 <section
-                    className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '')}
+                    className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '') + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
                     key={key}>
                     <UserInfo user={message.user} type={UserInfo.TYPES.SMALL} />
                     <section className='panel__chat__message--inner'>
@@ -66,7 +80,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                                  <RelativeTime date={message.createdAt} />
                         </span>
                         </section>
-                        {message.content}
+                        {message.name}
                     </section>
                 </section>
             )
@@ -139,11 +153,25 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         }
     }
 
+    private renderUnread() {
+        const { unreadMessages } = this.props
+
+        return (
+            <FadeLayout
+                mounted={unreadMessages && this.chat.offsetHeight !== this.chat.scrollHeight}
+                onClick={() => document.querySelector('.panel__chat__message:last-of-type').scrollIntoView({ behavior: 'smooth' })}
+                className='panel__chat__unread'>
+                &#x25BC; {unreadMessages} nepřečtených zpráv
+            </FadeLayout>
+        )
+    }
+
     public render(): React.ReactNode {
         const { messages, handleSubmit, invalid, submitting } = this.props
 
         return (
             <section className='panel__chat'>
+                {this.renderUnread()}
                 <section
                     className='panel__window__body--scroll'
                     ref={ref => this.chat = ref}
@@ -175,7 +203,8 @@ export default Chat.connect(
         identity: user.identity,
         messages: user.messages,
         newMessage: user.newMessage,
-        isSticky: user.isChatSticky
+        isSticky: user.isChatSticky,
+        unreadMessages: user.unreadMessages
     }),
     { getMessages, addMessage, toggleStickyChat },
     {

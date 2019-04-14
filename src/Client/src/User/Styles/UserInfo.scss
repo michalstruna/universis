@@ -40,6 +40,15 @@ $user-info-height: 5rem;
         float: left;
     }
 
+    &--name {
+        @include size(auto);
+        background-color: transparent;
+        display: inline-block;
+        font-size: inherit;
+        margin: 0;
+        overflow: visible;
+    }
+
     &--large {
         .user-info__avatar {
             @include size($user-info-height !important);

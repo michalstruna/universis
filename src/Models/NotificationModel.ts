@@ -1,4 +1,5 @@
-import { DatabaseModels } from '../Constants'
+import { DatabaseModels, SocketMessageType } from '../Constants'
+import SocketModel from './SocketModel'
 import Model from './Model'
 
 class NotificationModel extends Model implements Universis.Item.Model<Universis.Notification, Universis.Notification, Universis.Notification.New> {
@@ -12,8 +13,10 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
         return this.dbModel.add<Universis.Notification>(items)
     }
 
-    public addOne(item: Universis.Notification.New): Promise<Universis.Notification> {
-        return this.dbModel.addOne<Universis.Notification>(item)
+    public async addOne(item: Universis.Notification.New): Promise<Universis.Notification> {
+        const addedItem = await this.dbModel.addOne<Universis.Notification>(item)
+        SocketModel.broadcast(SocketMessageType.NEW_NOTIFICATION, addedItem)
+        return addedItem
     }
 
     public approve(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<number> {

@@ -1,3 +1,15 @@
+@keyframes FadeInHeightMessage {
+    from {
+        padding: 0 0.5rem;
+        max-height: 0;
+    }
+
+    to {
+        padding: 0.5rem;
+        max-height: 7rem;
+    }
+}
+
 .panel__chat {
     @include size(31.7rem, 100%);
 
@@ -10,7 +22,13 @@
     }
 
     &__message {
-        margin: 1rem 0.5rem;
+        box-sizing: border-box;
+        padding: 0.5rem;
+        overflow: hidden;
+
+        &--new {
+            animation: FadeInHeightMessage $medium-animation-duration ease-in-out 1;
+        }
 
         &:first-of-type {
             margin-top: 0;
@@ -113,6 +131,20 @@
 
     .user-info--small {
         float: left;
+    }
+
+    &__unread {
+        @include size(15rem, 2.5rem, true);
+        background-color: $darkest-color;
+        bottom: 5rem;
+        box-shadow: 0 0 0.5rem $light-color;
+        color: $lightest-color;
+        cursor: pointer;
+        font-size: 100%;
+        font-weight: bold;
+        left: calc(40% - 7.5rem);
+        position: absolute;
+        text-align: center;
     }
 
 }

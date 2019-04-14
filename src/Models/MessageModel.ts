@@ -1,13 +1,16 @@
-import { DatabaseModels, SocketMessageTypes } from '../Constants'
+import { DatabaseModels, NotificationSubject } from '../Constants'
 import ItemModel from './ItemModel'
-import SocketModel from './SocketModel'
 
 export default new ItemModel<Universis.Message, Universis.Message, Universis.Message.New>({
     dbModel: DatabaseModels.MESSAGE,
+    notifications: {
+        subjectAccessor: () => NotificationSubject.MESSAGE,
+        textAccessor: messages => messages.content
+    },
     get: {
         joinAll: ['userId', 'targetUserId']
     },
     add: {
-        onAfter: message => SocketModel.broadcast(SocketMessageTypes.NEW_MESSAGE, message)
+        notification: true
     }
 })

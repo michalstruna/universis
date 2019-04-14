@@ -28,7 +28,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
                 operation: Operations.ADD,
                 subject: notifications.subjectAccessor(item, this),
                 text: notifications.textAccessor(item, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
+                link: notifications.targetAccessor ? notifications.targetAccessor(item, this) : undefined
             })))
         }
 
@@ -52,8 +52,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await NotificationModel.addOne({
                 operation: Operations.ADD,
                 subject: notifications.subjectAccessor(addedItem, this),
-                text: notifications.textAccessor(addedItem, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(addedItem, this) : null
+                name: notifications.textAccessor(addedItem, this),
+                link: notifications.targetAccessor ? notifications.targetAccessor(addedItem, this) : undefined
             })
         }
 
@@ -89,8 +89,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await NotificationModel.add(items.map(item => ({
                 operation: Operations.GET,
                 subject: notifications.subjectAccessor(item, this),
-                text: notifications.textAccessor(item, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
+                name: notifications.textAccessor(item, this),
+                link: notifications.targetAccessor ? notifications.targetAccessor(item, this) : undefined
             })))
         }
 
@@ -117,8 +117,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await NotificationModel.addOne({
                 operation: Operations.GET,
                 subject: notifications.subjectAccessor(item, this),
-                text: notifications.textAccessor(item, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
+                name: notifications.textAccessor(item, this),
+                link: notifications.targetAccessor ? notifications.targetAccessor(item, this) : undefined
             })
         }
 
@@ -142,8 +142,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await NotificationModel.add(items.map(item => ({
                 operation: Operations.REMOVE,
                 subject: notifications.subjectAccessor(item, this),
-                text: notifications.textAccessor(item, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
+                name: notifications.textAccessor(item, this),
+                link: notifications.targetAccessor ? notifications.targetAccessor(item, this) : undefined
             })))
         }
 
@@ -167,8 +167,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await NotificationModel.addOne({
                 operation: Operations.REMOVE,
                 subject: notifications.subjectAccessor(item, this),
-                text: notifications.textAccessor(item, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
+                name: notifications.textAccessor(item, this),
+                link: notifications.targetAccessor ? notifications.targetAccessor(item, this) : undefined
             })
         }
 
@@ -193,8 +193,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await NotificationModel.add(items.map(item => ({
                 operation: Operations.UPDATE,
                 subject: notifications.subjectAccessor(item, this),
-                text: notifications.textAccessor(item, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
+                name: notifications.textAccessor(item, this),
+                link: notifications.targetAccessor ? notifications.targetAccessor(item, this) : undefined
             })))
         }
 
@@ -218,8 +218,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await NotificationModel.addOne({
                 operation: Operations.UPDATE,
                 subject: notifications.subjectAccessor(item, this),
-                text: notifications.textAccessor(item, this),
-                target: notifications.targetAccessor ? notifications.targetAccessor(item, this) : null
+                name: notifications.textAccessor(item, this),
+                link: notifications.targetAccessor ? notifications.targetAccessor(item, this) : undefined
             })
         }
 

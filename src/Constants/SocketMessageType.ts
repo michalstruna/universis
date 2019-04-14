@@ -6,5 +6,5 @@ export default {
 
     LOGIN: 'Login',
     LOGOUT: 'Logout',
-    NEW_MESSAGE: 'NewMessage'
+    NEW_NOTIFICATION: 'NewNotification'
 }

@@ -1,6 +1,6 @@
 import * as SocketIo from 'socket.io'
 
-import { SocketMessageTypes } from '../Constants'
+import { SocketMessageType } from '../Constants'
 
 /**
  * Socket model.
@@ -21,19 +21,19 @@ class SocketModel implements Universis.Socket.Model {
         this.io = SocketIo(server)
         this.clients = {}
 
-        this.io.on(SocketMessageTypes.CONNECT, socket => {
-            socket.emit(SocketMessageTypes.CONNECT, Object.values(this.clients).map(client => client.user))
+        this.io.on(SocketMessageType.CONNECT, socket => {
+            socket.emit(SocketMessageType.CONNECT, Object.values(this.clients).map(client => client.user))
 
-            socket.on(SocketMessageTypes.CONNECT, user => {
+            socket.on(SocketMessageType.CONNECT, user => {
                 this.clients[socket.id] = { socket, user }
-                this.broadcast(SocketMessageTypes.NEW_CLIENT, user)
+                this.broadcast(SocketMessageType.NEW_CLIENT, user)
             })
 
-            socket.on(SocketMessageTypes.DISCONNECT, () => {
+            socket.on(SocketMessageType.DISCONNECT, () => {
                 const io = this.clients[socket.id]
 
                 if (io) {
-                    this.broadcast(SocketMessageTypes.DISCONNECT, this.clients[socket.id].user)
+                    this.broadcast(SocketMessageType.DISCONNECT, this.clients[socket.id].user)
                     delete this.clients[socket.id]
                 }
             })

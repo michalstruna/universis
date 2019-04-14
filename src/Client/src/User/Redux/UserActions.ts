@@ -69,7 +69,7 @@ export const signUp = (email: string, password: string) => (
 export const getMessages = (limit: number) => (
     Redux.asyncAction(
         ActionTypes.GET_MESSAGES,
-        { messages: Request.get(`messages`, { limit }) }
+        { messages: Request.get(`notifications`, { limit, sort: 'date', order: 'desc' }) }
     )
 )
 
@@ -88,10 +88,10 @@ export const addMessage = (message: Universis.Message.New) => (
  * Receive message.
  * @param message
  */
-export const receiveMessage = (message: Universis.Message) => (
+export const receiveMessage = (message: Universis.Notification) => (
     Redux.setAction(
         ActionTypes.RECEIVE_MESSAGE,
-        { messages: { payload: { $add: message } } }
+        { messages: { payload: { $add: message } }, unreadMessages: { $inc: 1 } }
     )
 )
 
@@ -135,6 +135,6 @@ export const receiveDisconnection = (user: Universis.User.Simple) => (
 export const toggleStickyChat = (isChatSticky: boolean) => (
     Redux.toggleAction(
         ActionTypes.TOGGLE_STICKY_CHAT,
-        { isChatSticky }
+        { isChatSticky, unreadMessages: 0 }
     )
 )

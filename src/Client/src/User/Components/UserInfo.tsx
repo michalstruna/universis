@@ -14,7 +14,8 @@ interface IProps {
 enum UserInfoTypes {
     LARGE = 'large',
     MEDIUM = 'medium',
-    SMALL = 'small'
+    SMALL = 'small',
+    NAME = 'name'
 }
 
 /**
@@ -59,6 +60,8 @@ class UserInfo extends StatelessComponent<IProps> {
                 return this.renderMedium()
             case UserInfoTypes.LARGE:
                 return this.renderLarge()
+            case UserInfoTypes.NAME:
+                return this.renderName()
         }
     }
 
@@ -161,6 +164,11 @@ class UserInfo extends StatelessComponent<IProps> {
                 </section>
             </React.Fragment>
         )
+    }
+
+    private renderName(): React.ReactNode {
+        const user = this.getUser()
+        return user ? user.name : 'Nepřihlášený'
     }
 
     public render(): React.ReactNode {

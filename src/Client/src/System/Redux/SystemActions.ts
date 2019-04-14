@@ -1,7 +1,10 @@
 import { request, exit } from 'screenfull'
 
 import ActionTypes from './ActionTypes'
+import { Config } from '../../Utils'
 import { Redux } from '../../Utils'
+import { receiveMessage } from '../../User/Redux/UserActions'
+import { NotificationSubject } from '../../../../Constants'
 
 /**
  * Toggle full screen.
@@ -48,4 +51,32 @@ export const toggleAlert = (isVisible: boolean, title?: string, content?: string
  */
 export const toggleUI = (isUIVisible: boolean) => (
     Redux.toggleAction(ActionTypes.TOGGLE_UI, { isUIVisible })
+)
+
+/**
+ * Receive notification.
+ * @param notification
+ */
+export const receiveNotification = (notification: Universis.Notification) => (
+    dispatch => {
+        if (notification.subject === NotificationSubject.MESSAGE) {
+            dispatch(receiveMessage(notification))
+        }
+
+        dispatch(
+            Redux.setAction(
+                ActionTypes.RECEIVE_NOTIFICATION,
+                { notifications: { $add: notification } }
+            )
+        )
+
+        setTimeout(() => {
+            dispatch(
+                Redux.setAction(
+                    ActionTypes.REMOVE_NOTIFICATION,
+                    { notifications: { $find: item => item._id === notification._id, isExpired: true } }
+                )
+            )
+        }, Config.NOTIFICATIONS_DURATION)
+    }
 )

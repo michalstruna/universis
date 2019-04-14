@@ -10,6 +10,7 @@ export default Redux.createReducer(
         newMessage: Redux.EMPTY_ASYNC_ENTITY,
         deletedMessage: Redux.EMPTY_ASYNC_ENTITY,
         onlineUsers: [],
-        isChatSticky: true
+        isChatSticky: true,
+        unreadMessages: 0
     }
 )
