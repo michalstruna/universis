@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  6 APR 2019 20:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  13 APR 2019 17:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1129,8 +1129,8 @@ File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 
 ]
 Overfull \hbox (4.61359pt too wide) in paragraph at lines 238--239
-\T1/lmr/m/n/12 umoï¿½-ï¿½ujï¿½ vy-kres-lo-vat rï¿½znï¿½ ele-men-tï¿½rnï¿½ ob-jekty, tzv. gra-
-fickï¿½ pri-mi-tiva. V pï¿½ï¿½-padï¿½ OpenGL
+\T1/lmr/m/n/12 umoº-¬ují vy-kres-lo-vat r·zné ele-men-tární ob-jekty, tzv. gra-
+fická pri-mi-tiva. V p°í-pad¥ OpenGL
  []
 
 [15] [16]
@@ -1178,8 +1178,8 @@ Package pdftex.def Info: Images/Redux.png  used on input line 463.
 (./SourceCodes/ReduxAction.js) (./SourceCodes/ReduxReducer.js [27])
 (./SourceCodes/Scene.js)
 Overfull \hbox (8.79913pt too wide) in paragraph at lines 514--515
-\T1/lmr/m/n/12 Samotnï¿½ tï¿½-leso je re-pre-zen-to-vï¿½no koulï¿½, tedy ob-jek-tem s g
-e-o-me-t-riï¿½ \T1/lmr/m/it/12 THREE.SphereGeometry\T1/lmr/m/n/12 .
+\T1/lmr/m/n/12 Samotné t¥-leso je re-pre-zen-to-váno koulí, tedy ob-jek-tem s g
+e-o-me-t-rií \T1/lmr/m/it/12 THREE.SphereGeometry\T1/lmr/m/n/12 .
  []
 
 [28]
@@ -1219,7 +1219,7 @@ Package pdftex.def Info: Images/Initial.png  used on input line 645.
 (./SourceCodes/Schema.js) (./SourceCodes/Hash.js [40])
 (./SourceCodes/Database.js [41])
 Overfull \hbox (1.40443pt too wide) in paragraph at lines 838--839
-\T1/lmtt/m/n/12 /src/Constants/Config.ts \T1/lmr/m/n/12 vy-pl-nit po-loï¿½ky \T1/
+\T1/lmtt/m/n/12 /src/Constants/Config.ts \T1/lmr/m/n/12 vy-pl-nit po-loºky \T1/
 lmtt/m/n/12 database.username \T1/lmr/m/n/12 a \T1/lmtt/m/n/12 database.passwor
 d\T1/lmr/m/n/12 .
  []
@@ -1262,17 +1262,17 @@ File: Images/Overview.png Graphic file (type png)
 Package pdftex.def Info: Images/Overview.png  used on input line 983.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
  [48 <./Images/Simulator.png>] [49 <./Images/Overview.png>]
-<Images/Database.png, id=1123, 640.3925pt x 441.65pt>
-File: Images/Database.png Graphic file (type png)
-<use Images/Database.png>
-Package pdftex.def Info: Images/Database.png  used on input line 1011.
+<Images/Bodies.png, id=1123, 640.3925pt x 441.65pt>
+File: Images/Bodies.png Graphic file (type png)
+<use Images/Bodies.png>
+Package pdftex.def Info: Images/Bodies.png  used on input line 1011.
 (pdftex.def)             Requested size: 350.0pt x 241.38522pt.
 <Images/Body.png, id=1124, 624.3325pt x 556.0775pt>
 File: Images/Body.png Graphic file (type png)
 <use Images/Body.png>
 Package pdftex.def Info: Images/Body.png  used on input line 1027.
 (pdftex.def)             Requested size: 350.0pt x 311.74068pt.
- [50 <./Images/Database.png>]
+ [50 <./Images/Bodies.png>]
 <Images/Timeline.png, id=1130, 626.34pt x 483.8075pt>
 File: Images/Timeline.png Graphic file (type png)
 <use Images/Timeline.png>
@@ -1299,7 +1299,7 @@ Package pdftex.def Info: Images/Webpack.png  used on input line 1072.
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 1185--1188
-\T1/lmr/m/n/12 Do-stupnï¿½ z: []$\T1/lmtt/m/n/12 https : / / hacks . mozilla . or
+\T1/lmr/m/n/12 Do-stupné z: []$\T1/lmtt/m/n/12 https : / / hacks . mozilla . or
 g / 2012 / 12 / fantastic -[] front -[] end -[]
  []
 
@@ -1337,13 +1337,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 1215--1218
 <Images/DB.png, id=1265, 758.835pt x 1107.13625pt>
 File: Images/DB.png Graphic file (type png)
 <use Images/DB.png>
-Package pdftex.def Info: Images/DB.png  used on input line 1281.
-(pdftex.def)             Requested size: 460.0pt x 671.14565pt.
- [63
+Package pdftex.def Info: Images/DB.png  used on input line 1280.
+(pdftex.def)             Requested size: 500.0pt x 729.51274pt.
+
+Overfull \hbox (18.91425pt too wide) in paragraph at lines 1279--1281
+  [] 
+ []
+
+[63
 
 
 ]
-Overfull \vbox (18.01666pt too high) has occurred while \output is active []
+Overfull \vbox (58.38376pt too high) has occurred while \output is active []
 
 
 [64 <./Images/DB.png>] (./SourceCodes/Aggregation.js [65
@@ -1353,12 +1358,12 @@ Overfull \vbox (18.01666pt too high) has occurred while \output is active []
 
 
 ] [68]
-Overfull \hbox (1.60646pt too wide) in paragraph at lines 1348--1348
-|\T1/lmr/bx/n/17.28 Pï¿½ï¿½LOHA D -- SE-ZNAM SOU-BORï¿½ ZDRO-JO-Vï¿½CH
+Overfull \hbox (1.60646pt too wide) in paragraph at lines 1346--1346
+|\T1/lmr/bx/n/17.28 PÍLOHA D -- SE-ZNAM SOU-BOR— ZDRO-JO-VÝCH
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1350--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
 
  []
 
@@ -1366,27 +1371,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 1350--1351
 
 
 ] [70] [71] [72] [73] [74] [75]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1357.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1355.
  [76]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1357.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1355.
  (./Bc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1357.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1357.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1355.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1355.
 
 Package rerunfilecheck Info: File `Bc.out' has not changed.
-(rerunfilecheck)             Checksum: D833EC110C743A8B13B6BEDEA5892912;16136.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1357.
+(rerunfilecheck)             Checksum: 2E5739585AC1AC0052651E02997FF2B7;16113.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1355.
  ) 
 Here is how much of TeX's memory you used:
  15955 strings out of 494848
- 224905 string characters out of 6178430
+ 224899 string characters out of 6178430
  467720 words of memory out of 5000000
  18393 multiletter control sequences out of 15000+600000
  67647 words of font info for 57 fonts, out of 8000000 for 9000
  46 hyphenation exceptions out of 8191
- 43i,9n,42p,11285b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exi
+ 43i,9n,42p,11291b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{section*.35} has been referenced but does not exi
 st, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
+, replaced by a fixed one
 
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
 , replaced by a fixed one
@@ -1405,7 +1417,7 @@ xmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri
 s/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/typ
 e1/public/lm/lmtt12.pfb>
-Output written on Bc.pdf (77 pages, 7730096 bytes).
+Output written on Bc.pdf (77 pages, 7736995 bytes).
 PDF statistics:
  1558 PDF objects out of 1728 (max. 8388607)
  1402 compressed objects within 15 object streams

@@ -7,7 +7,8 @@ enum DatabaseModels {
     USER = 'User',
     TOKEN = 'Token',
     NOTIFICATION = 'Notification',
-    POST_VOTE = 'PostVote'
+    POST_VOTE = 'PostVote',
+    MESSAGE = 'Message'
 
 }
 

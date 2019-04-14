@@ -5,6 +5,10 @@
     padding: 0 0.1rem;
     padding-top: 0.4rem;
 
+    .panel__window__body--scroll {
+        height: calc(100% - 5rem);
+    }
+
     .user-info {
         margin: 0.3rem;
     }
@@ -41,7 +45,8 @@
     }
 
     .users-list {
-        @include size(28rem, calc(100vh - 9rem));
+        @include size(14rem, calc(100vh - 9rem));
+        overflow-x: hidden;
         overflow-y: scroll;
 
         .user-info--medium {
@@ -56,7 +61,7 @@
 
         &__item {
             &:first-of-type {
-                width: calc(100% - 28rem);
+                width: calc(100% - 14rem);
 
                 &.toggle-layout__item--active {
                     width: 80%;
@@ -67,7 +72,7 @@
                 width: 20%;
 
                 &.toggle-layout__item--active {
-                    width: 28rem;
+                    width: 14rem;
                 }
             }
 

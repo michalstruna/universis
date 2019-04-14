@@ -158,8 +158,8 @@
         cursor: wait;
         pointer-events: none;
 
-        & > label, & > section, & > button, & > legend, & > a {
-            opacity: 0.1;
+        & > label, & > section:not(.loader), & > button, & > legend, & > a {
+            opacity: 0.1 !important;
         }
 
         .loader {

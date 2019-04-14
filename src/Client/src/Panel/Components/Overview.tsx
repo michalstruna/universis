@@ -1,9 +1,10 @@
 import * as React from 'react'
 
-import { StatelessComponent, Link, ToggleLayout } from '../../Utils'
-import { UserInfo } from '../../User'
+import { StatelessComponent, Link, ToggleLayout, AsyncEntity } from '../../Utils'
+import { UserInfo, getMessages } from '../../User'
 import UsersList from '../../User/Components/UsersList'
 import Chat from './Chat'
+import Config from '../Constants/Config'
 
 interface IProps {
     identity: Universis.Redux.AsyncEntity<Universis.User.Identity>

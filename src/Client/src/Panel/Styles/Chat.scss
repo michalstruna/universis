@@ -22,7 +22,7 @@
 
         &__metadata {
             font-size: 80%;
-            line-height: 1.5em;
+            line-height: 1.3em;
         }
 
         &__author, &__date {
@@ -40,7 +40,8 @@
             box-sizing: border-box;
             display: inline-block;
             line-height: 1.5em;
-            padding: 0.5rem;
+            padding: 0.3rem 0.5rem;
+            padding-bottom: 0.2rem;
             max-width: calc(100% - 4.5rem);
         }
 
@@ -70,27 +71,40 @@
         }
     }
 
-    &__new-message {
-        @include size(100%, 3rem);
-    }
+    .form {
+        @include size(100%, 5rem);
+        margin-top: 1rem;
+        padding: 1rem;
 
-    &__input {
-        @include size(calc(100% - 5rem), 3rem, true);
-        background: transparent;
-        box-sizing: border-box;
-        color: $lightest-color;
-        font-size: 110%;
-        margin: 0.5rem;
-        padding: 0 1rem;
-    }
+        &__block {
+            @include size(calc(100% - 5rem), 2rem, true);
+            float: left;
+            padding: 0;
+        }
 
-    &__send {
-        @include opacity-hover;
-        @include size(2.5rem);
-        @include svg("Panel/Chat/Send", 90% auto);
-        float: right;
-        margin: 0.8rem 0;
-        margin-right: 1rem;
+        &__field {
+            background: transparent;
+            border-bottom: none;
+            box-sizing: border-box;
+            color: $lightest-color;
+            font-size: 110%;
+        }
+
+        &__button {
+            @include opacity-hover;
+            @include size(2.5rem);
+            @include svg("Panel/Chat/Send", 90% auto);
+            float: right;
+            margin-top: -0.4rem;
+
+            &__icon {
+                display: none;
+            }
+        }
+
+        .loader {
+            background-size: auto 100%;
+        }
     }
 
     .user-info--large {

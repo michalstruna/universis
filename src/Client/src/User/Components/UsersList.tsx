@@ -4,7 +4,7 @@ import UserInfo from './UserInfo'
 import { StatelessComponent } from '../../Utils'
 
 interface IProps {
-
+    users: Universis.User.Simple[]
 }
 
 /**
@@ -17,17 +17,14 @@ class UsersList extends StatelessComponent<IProps> {
      * @returns Users.
      */
     private renderUsers(): React.ReactNode[] {
-        const users = []
+        const { users } = this.props
 
-        for (let i = 0; i < 50; i++) {
-            users.push(
-                <UserInfo
-                    type={UserInfo.TYPES.MEDIUM}
-                    key={i} />
-            )
-        }
-
-        return users
+        return users.map((user, key) => (
+            <UserInfo
+                type={UserInfo.TYPES.MEDIUM}
+                user={user}
+                key={key} />
+        ))
     }
 
     public render(): React.ReactNode {
@@ -40,4 +37,8 @@ class UsersList extends StatelessComponent<IProps> {
 
 }
 
-export default UsersList
+export default UsersList.connect(
+    ({ user }: Universis.Redux.StoreState) => ({
+        users: user.onlineUsers
+    })
+)

@@ -1,16 +1,3 @@
-declare namespace Universis {
-
-    /**
-     * Base item.
-     */
-    export interface Item {
-
-        _id?: string
-
-    }
-
-}
-
 /**
  * Namespace for item model.
  */
@@ -19,7 +6,7 @@ declare namespace Universis.Item {
     /**
      * Interface for item model.
      */
-    export interface Model<Full extends Universis.Item, Simple extends Universis.Item, New> {
+    export interface Model<Full, Simple, New> {
 
         /**
          * Create new items.

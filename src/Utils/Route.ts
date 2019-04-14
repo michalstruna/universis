@@ -105,6 +105,15 @@ class Route {
     }
 
     /**
+     * Run route handler in admin cases.
+     * @param action Request action.
+     * @param resultMap Convert model result to response data.
+     */
+    public static onlyAdmin(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
+        return Route.process(action, resultMap, user => false) // TODO
+    }
+
+    /**
      * Run route handler only if author of request has this ID.
      * @param userId Required user's ID.
      * @param action Request action.

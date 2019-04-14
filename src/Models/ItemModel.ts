@@ -4,7 +4,7 @@ import { Operations } from '../Constants'
 import Model from './Model'
 import NotificationModel from './NotificationModel'
 
-class ItemModel<Full extends Universis.Item, Simple extends Universis.Item, New> extends Model implements Universis.Item.Model<Full, Simple, New> {
+class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model<Full, Simple, New> {
 
     private options: Universis.Model.Options<Full, Simple, New>
 
