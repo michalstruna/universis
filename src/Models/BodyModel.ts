@@ -3,10 +3,10 @@ import ItemModel from './ItemModel'
 
 export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Simple, Universis.Universe.Body.New>({
     dbModel: DatabaseModels.BODY,
-    notifications: {
+    /*notifications: {
         textAccessor: body => body.name,
         subjectAccessor: () => NotificationSubject.BODY
-    },
+    },*/
     add: {
         approval: true,
         notification: true

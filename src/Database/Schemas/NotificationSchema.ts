@@ -13,10 +13,6 @@ const NotificationSchema = new Schema({
         required: true
     },
 
-    name: {
-        type: String
-    },
-
     userId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.USER
@@ -27,7 +23,17 @@ const NotificationSchema = new Schema({
         ref: DatabaseModels.USER
     },
 
-    link: {
+    bodyId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.BODY
+    },
+
+    discussionId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.BODY_POST
+    },
+
+    text: {
         type: String
     },
 

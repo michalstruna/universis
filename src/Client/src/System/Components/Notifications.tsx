@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { StatelessComponent, UILayout, FadeLayout } from '../../Utils'
 import { UserInfo } from '../../User'
+import { NotificationSubject } from '../../../../Constants'
 
 interface IProps {
     notifications: Universis.Notification[]
@@ -11,6 +12,37 @@ interface IProps {
  * Render animated background.
  */
 class Notifications extends StatelessComponent<IProps> {
+
+    private getNotificationContent(notification: Universis.Notification): React.ReactNode {
+        switch (notification.subject) {
+            case NotificationSubject.DISCUSSION:
+                return (
+                    <>
+                        <strong><UserInfo
+                            type={UserInfo.TYPES.NAME} /> okomentoval {notification.body.name}:</strong> {notification.text}
+                    </>
+                )
+
+            case NotificationSubject.COMMENT:
+                return (
+                    <>
+                        <strong><UserInfo
+                            type={UserInfo.TYPES.NAME} /> okomentoval {notification.discussion.title}:</strong> {notification.text}
+                    </>
+                )
+
+            case NotificationSubject.MESSAGE:
+                return (
+                    <>
+                        <strong><UserInfo
+                            type={UserInfo.TYPES.NAME} /> napsal:</strong> {notification.text}
+                    </>
+                )
+
+        }
+
+        return null
+    }
 
     private renderNotifications(): React.ReactNode {
         const { notifications } = this.props
@@ -22,7 +54,7 @@ class Notifications extends StatelessComponent<IProps> {
                     className='notifications__notification'
                     key={key}
                     type={FadeLayout.HEIGHT}>
-                    <strong><UserInfo type={UserInfo.TYPES.NAME} /> napsal zprávu:</strong> {notification.name}
+                    {this.getNotificationContent(notification)}
                 </FadeLayout>
             )
         })

@@ -10,6 +10,14 @@ declare namespace Universis {
          */
         isExpired?: boolean
 
+        user?: Universis.User.Simple
+
+        targetUser?: Universis.User.Simple
+
+        body?: Universis.Universe.Body.Simple
+
+        discussion?: Universis.Discussion
+
     }
 
 }
@@ -31,15 +39,15 @@ declare namespace Universis.Notification {
          */
         operation: number
 
-        /**
-         * Additional text (name of subject, etc.)
-         */
-        name?: string
+        userId?: string
 
-        /**
-         * URL of link. (optional)
-         */
-        link?: string
+        targetUserId?: string
+
+        bodyId?: string
+
+        discussionId?: string
+
+        text?: string
 
     }
 

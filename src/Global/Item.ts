@@ -132,17 +132,32 @@ declare namespace Universis.Model {
             /**
              * Get type of subject.
              */
-            subjectAccessor: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, number>
+            subjectAccessor: Universis.Function2<any, Item.Model<Full, Simple, New>, number>
 
             /**
-             * Get notification text from object.
+             * Get author of notification.
              */
-            textAccessor: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, string>
+            userIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
 
             /**
-             * Get notification target. (optional)
+             * Get target user of notification.
              */
-            targetAccessor?: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, string> // TODO: Refactor, remove Simple (because of get())
+            targetUserIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
+
+            /**
+             * Get body of notification.
+             */
+            bodyIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
+
+            /**
+             * Get discussion of notification.
+             */
+            discussionIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
+
+            /**
+             * Get text of notification.
+             */
+            textAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
 
         }
 

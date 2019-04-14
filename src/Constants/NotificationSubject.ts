@@ -7,8 +7,8 @@ enum NotificationSubject {
     USER,
     BODY,
     BODY_EVENT,
-    BODY_DISCUSSION,
-    BODY_COMMENT
+    DISCUSSION,
+    COMMENT
 
 }
 

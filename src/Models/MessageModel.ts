@@ -5,7 +5,8 @@ export default new ItemModel<Universis.Message, Universis.Message, Universis.Mes
     dbModel: DatabaseModels.MESSAGE,
     notifications: {
         subjectAccessor: () => NotificationSubject.MESSAGE,
-        textAccessor: messages => messages.content
+        textAccessor: message => message.content,
+        userIdAccessor: message => message.userId
     },
     get: {
         joinAll: ['userId', 'targetUserId']

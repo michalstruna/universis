@@ -80,7 +80,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                                  <RelativeTime date={message.createdAt} />
                         </span>
                         </section>
-                        {message.name}
+                        {message.text}
                     </section>
                 </section>
             )
@@ -158,10 +158,10 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
         return (
             <FadeLayout
-                mounted={unreadMessages && this.chat.offsetHeight !== this.chat.scrollHeight}
+                mounted={unreadMessages && this.chat && this.chat.offsetHeight !== this.chat.scrollHeight}
                 onClick={() => document.querySelector('.panel__chat__message:last-of-type').scrollIntoView({ behavior: 'smooth' })}
                 className='panel__chat__unread'>
-                &#x25BC; {unreadMessages} nepřečtených zpráv
+                &#x25BC; Nepřečtené zprávy ({unreadMessages})
             </FadeLayout>
         )
     }

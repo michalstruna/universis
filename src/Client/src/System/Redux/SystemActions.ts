@@ -59,9 +59,7 @@ export const toggleUI = (isUIVisible: boolean) => (
  */
 export const receiveNotification = (notification: Universis.Notification) => (
     dispatch => {
-        if (notification.subject === NotificationSubject.MESSAGE) {
-            dispatch(receiveMessage(notification))
-        }
+        dispatch(receiveMessage(notification))
 
         dispatch(
             Redux.setAction(
