@@ -125,7 +125,7 @@ class Route {
 
     private static getFilterFromQuery(query: any): any {
         const filter = {}
-        const reservedQueries = ['sort', 'order', 'limit', 'offset']
+        const reservedQueries = ['sort', 'reverse', 'limit', 'offset']
 
         for (let name in query) {
             if (!reservedQueries.includes(name)) {
@@ -373,13 +373,13 @@ class Route {
                     },
                     {
                         'in': 'query',
-                        'name': 'order',
+                        'name': 'reverse',
                         'schema': {
                             'type': 'string',
                             'example': 'desc',
-                            'enum': ['asc', 'desc']
+                            'enum': ['true']
                         },
-                        'description': 'Order of items. Default is asc. Desc is reverse order.'
+                        'description': 'Reverse order of items.'
                     },
                     {
                         'in': 'query',

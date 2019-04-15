@@ -20,7 +20,12 @@ export const getBodies = () => (
 export const getBodyById = (bodyId: string) => (
     Redux.asyncAction(
         ActionTypes.GET_BODY_BY_ID,
-        { body: Request.get<Universis.Universe.Body.Simple>(`bodies/${bodyId}`) }
+        {
+            body: Request.get<Universis.Universe.Body>(`bodies/${bodyId}`).then(body => ({
+                ...body,
+                discussions: body.discussions.slice(0).reverse()
+            }))
+        }
     )
 )
 
@@ -308,7 +313,9 @@ export const changeFollow = () => (
 export const getBodyTypes = () => (
     Redux.asyncAction(
         ActionTypes.GET_BODY_TYPES,
-        { bodyTypes: Request.get(`bodyTypes`) }
+        {
+            bodyTypes: Request.get<Universis.Universe.Body>(`bodyTypes`)
+        }
     )
 )
 

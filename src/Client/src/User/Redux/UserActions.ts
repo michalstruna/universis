@@ -69,7 +69,7 @@ export const signUp = (email: string, password: string) => (
 export const getMessages = (limit: number) => (
     Redux.asyncAction(
         ActionTypes.GET_MESSAGES,
-        { messages: Request.get(`notifications`, { limit, sort: 'date', order: 'desc' }) }
+        { messages: Request.get(`notifications`, { limit, sort: 'date', reverse: true }) }
     )
 )
 
