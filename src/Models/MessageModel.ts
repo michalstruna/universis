@@ -4,7 +4,7 @@ import ItemModel from './ItemModel'
 export default new ItemModel<Universis.Message, Universis.Message, Universis.Message.New>({
     dbModel: DatabaseModels.MESSAGE,
     notifications: {
-        subjectAccessor: () => NotificationSubject.MESSAGE,
+        subjectTypeAccessor: () => NotificationSubject.MESSAGE,
         textAccessor: message => message.content,
         userIdAccessor: message => message.userId
     },

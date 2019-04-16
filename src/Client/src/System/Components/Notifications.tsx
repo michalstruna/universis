@@ -14,20 +14,12 @@ interface IProps {
 class Notifications extends StatelessComponent<IProps> {
 
     private getNotificationContent(notification: Universis.Notification): React.ReactNode {
-        switch (notification.subject) {
-            case NotificationSubject.DISCUSSION:
+        switch (notification.subjectType) {
+            case NotificationSubject.POST:
                 return (
                     <>
                         <strong><UserInfo
-                            type={UserInfo.TYPES.NAME} /> okomentoval {notification.body.name}:</strong> {notification.text}
-                    </>
-                )
-
-            case NotificationSubject.COMMENT:
-                return (
-                    <>
-                        <strong><UserInfo
-                            type={UserInfo.TYPES.NAME} /> okomentoval {notification.discussion.title}:</strong> {notification.text}
+                            type={UserInfo.TYPES.NAME} /> okomentoval {notification.subjectName}:</strong> {notification.text}
                     </>
                 )
 

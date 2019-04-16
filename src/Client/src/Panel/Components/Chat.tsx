@@ -67,7 +67,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         const { messages, identity } = this.props
 
         return messages.payload.map((message, key) => {
-            switch (message.subject) {
+            switch (message.subjectType) {
                 case NotificationSubject.MESSAGE:
                     return (
                         <section
@@ -90,9 +90,11 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                 default:
                     return (
                         <section
-                            className={'panel__chat__message--outer' + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}>
+                            className={'panel__chat__message--outer' + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
+                            key={key}>
                             <section className='panel__chat__message__title'>
-                                Nepřihlášený okomentoval těleso Země.
+                                <UserInfo type={UserInfo.TYPES.NAME} user={message.user} /> okomentoval
+                                těleso {message.subjectName}.
                             </section>
                             <section
                                 className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '')}

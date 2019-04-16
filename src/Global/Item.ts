@@ -132,32 +132,32 @@ declare namespace Universis.Model {
             /**
              * Get type of subject.
              */
-            subjectAccessor: Universis.Function2<any, Item.Model<Full, Simple, New>, number>
+            subjectTypeAccessor: Universis.Function2<any, Item.Model<Full, Simple, New>, number | Promise<number>>
+
+            /**
+             * Get subject name.
+             */
+            subjectNameAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
 
             /**
              * Get author of notification.
              */
-            userIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
+            userIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
 
             /**
              * Get target user of notification.
              */
-            targetUserIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
+            targetUserIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
 
             /**
-             * Get body of notification.
+             * Get link of notification.
              */
-            bodyIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
-
-            /**
-             * Get discussion of notification.
-             */
-            discussionIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
+            linkAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
 
             /**
              * Get text of notification.
              */
-            textAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string>
+            textAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
 
         }
 

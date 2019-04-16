@@ -24,7 +24,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         const addedItems = await this.dbModel.add<Full>(items)
 
         if (notifications && add.notification) {
-            await NotificationModel.add(addedItems.map(item => this.getNotificationData(item, Operations.ADD)))
+        //    await NotificationModel.add(addedItems.map(async item => await this.getNotificationData(item, Operations.ADD)))
         }
 
         if (add.onAfter) {
@@ -48,7 +48,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && add.notification) {
-            await NotificationModel.addOne(this.getNotificationData(item, Operations.ADD))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operations.ADD))
         }
 
         return addedItem
@@ -73,14 +73,14 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             await get.onBefore(filter, options, this)
         }
 
-        const items = await this.dbModel.get<Simple>(filter, { ...options, join: get.joinAll, select: get.selectAll })
+        const items = await this.dbModel.get<Simple>(filter, { join: get.joinAll, select: get.selectAll, ...options })
 
         if (get.onAfter) {
             await Promise.all(items.map((item, i) => get.onAfter(items[i], filter, options, this)))
         }
 
         if (notifications && get.notification) {
-            await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.GET)))
+        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.GET)))
         }
 
         return items
@@ -95,14 +95,14 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
 
         const item = get.custom ?
             (await this.dbModel.aggregate<Full>(get.custom(this.applyObjectIds(filter), options)))[0] :
-            await this.dbModel.getOne<Full>(filter, { ...options, join: get.join, select: get.select })
+            await this.dbModel.getOne<Full>(filter, { join: get.join, select: get.select, ...options })
 
         if (get.onAfter) {
             await get.onAfter(item, filter, options, this)
         }
 
         if (notifications && get.notification) {
-            await NotificationModel.addOne(this.getNotificationData(item, Operations.GET))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operations.GET))
         }
 
         return item
@@ -122,7 +122,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && remove.notification) {
-            await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.REMOVE)))
+        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.REMOVE)))
         }
 
         return null
@@ -138,7 +138,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         const item = await this.dbModel.removeOne<Full>(filter, options)
 
         if (notifications && remove.notification) {
-            await NotificationModel.addOne(this.getNotificationData(item, Operations.REMOVE))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operations.REMOVE))
         }
 
 
@@ -163,7 +163,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && update.notification) {
-            await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.UPDATE)))
+        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.UPDATE)))
         }
 
         return null
@@ -183,7 +183,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && update.notification) {
-            await NotificationModel.addOne(this.getNotificationData(item, Operations.UPDATE))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operations.UPDATE))
         }
 
         return null
@@ -196,8 +196,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
      */
     private applyObjectIds(filter: Universis.Database.Query.Filter): Universis.Database.Query.Filter {
         for (const i in filter) {
-            if (Mongoose.Types.ObjectId.isValid(filter[i]) && !filter[i].includes(' ')) {
-                filter[i] = Mongoose.Types.ObjectId(filter[i])
+            if (Mongoose.Types.ObjectId.isValid(filter[i]) && !filter[i].toString().includes(' ')) {
+                filter[i] = Mongoose.Types.ObjectId(filter[i].toString())
             }
         }
 
@@ -209,17 +209,17 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
      * @param item
      * @param operation
      */
-    private getNotificationData(item: New | Simple | Full, operation: number): Universis.Notification.New {
-        const { userIdAccessor, subjectAccessor, bodyIdAccessor, targetUserIdAccessor, discussionIdAccessor, textAccessor } = this.options.notifications
+    private async getNotificationData(item: New | Simple | Full, operation: number): Promise<Universis.Notification.New> {
+        const { userIdAccessor, subjectTypeAccessor, subjectNameAccessor, targetUserIdAccessor, linkAccessor, textAccessor } = this.options.notifications
 
         return {
             operation,
-            subject: subjectAccessor(item, this),
-            userId: userIdAccessor ? userIdAccessor(item, this) : undefined,
-            targetUserId: targetUserIdAccessor ? targetUserIdAccessor(item, this) : undefined,
-            bodyId: bodyIdAccessor ? bodyIdAccessor(item, this) : undefined,
-            discussionId: discussionIdAccessor ? discussionIdAccessor(item, this) : undefined,
-            text: textAccessor ? textAccessor(item, this) : undefined
+            subjectType: await subjectTypeAccessor(item, this),
+            subjectName: subjectNameAccessor ? await subjectNameAccessor(item, this) : undefined,
+            userId: userIdAccessor ? await userIdAccessor(item, this) : undefined,
+            targetUserId: targetUserIdAccessor ? await targetUserIdAccessor(item, this) : undefined,
+            text: textAccessor ? await textAccessor(item, this) : undefined,
+            link: linkAccessor ? await linkAccessor(item, this) : undefined
         }
     }
 

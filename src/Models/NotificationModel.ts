@@ -3,7 +3,7 @@ import SocketModel from './SocketModel'
 import Model from './Model'
 
 const queryOptions = {
-    join: ['userId', 'targetUserId', 'bodyId', 'discussionId']
+    join: ['userId']
 }
 
 class NotificationModel extends Model implements Universis.Item.Model<Universis.Notification, Universis.Notification, Universis.Notification.New> {
@@ -14,7 +14,7 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
     }
 
     public add(items: Universis.Notification.New[]): Promise<Universis.Notification[]> {
-        return this.dbModel.add<Universis.Notification>(items)
+        return undefined
     }
 
     public async addOne(item: Universis.Notification.New): Promise<Universis.Notification> {

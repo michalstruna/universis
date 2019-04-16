@@ -215,7 +215,7 @@ export const addDiscussion = (discussion: Universis.Discussion.New) => (
     async dispatch => {
         const { bodyId, ...discussionToServer } = discussion
 
-        dispatch(toggleNewDiscussion(false))
+        //dispatch(toggleNewDiscussion(false))
 
         return dispatch(
             Redux.asyncAction(
@@ -224,7 +224,7 @@ export const addDiscussion = (discussion: Universis.Discussion.New) => (
                 discussion => dispatch(
                     Redux.setAction(ActionTypes.LOCAL_ADD_DISCUSSION, {
                         body: { payload: { discussions: { $addFirst: { ...discussion, answers: [] } } } }
-                    })
+                    }) // TODO: Socket.
                 )
             )
         )

@@ -10,13 +10,15 @@ declare namespace Universis {
          */
         isExpired?: boolean
 
+        /**
+         * User's object.
+         */
         user?: Universis.User.Simple
 
-        targetUser?: Universis.User.Simple
-
-        body?: Universis.Universe.Body.Simple
-
-        discussion?: Universis.Discussion
+        /**
+         * There is no user id, but user object, which is its ID.
+         */
+        userId?: never
 
     }
 
@@ -32,22 +34,37 @@ declare namespace Universis.Notification {
         /**
          * Subject (index of BODY, USER, DISCUSSION, ...).
          */
-        subject: number
+        subjectType: number
+
+        /**
+         * Name of subject (Země, ...).
+         */
+        subjectName: string
 
         /**
          * Operation (index of ADD, EDIT, DELETE, ...).
          */
         operation: number
 
+        /**
+         * Id of author of event.
+         */
         userId?: string
 
+        /**
+         * Notification will be only for this user.
+         */
         targetUserId?: string
 
-        bodyId?: string
-
-        discussionId?: string
-
+        /**
+         * Custom text of notification.
+         */
         text?: string
+
+        /**
+         * Link.
+         */
+        link?: string
 
     }
 

@@ -3,9 +3,13 @@ import { DatabaseModels } from '../../Constants'
 
 const NotificationSchema = new Schema({
 
-    subject: {
+    subjectType: {
         type: Number,
         required: true
+    },
+
+    subjectName: {
+        type: String
     },
 
     operation: {
@@ -21,16 +25,6 @@ const NotificationSchema = new Schema({
     targetUserId: {
         type: Schema.Types.ObjectId,
         ref: DatabaseModels.USER
-    },
-
-    bodyId: {
-        type: Schema.Types.ObjectId,
-        ref: DatabaseModels.BODY
-    },
-
-    discussionId: {
-        type: Schema.Types.ObjectId,
-        ref: DatabaseModels.BODY_POST
     },
 
     text: {
