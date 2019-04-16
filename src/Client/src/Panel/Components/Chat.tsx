@@ -5,6 +5,7 @@ import { getMessages, UserInfo, addMessage, toggleStickyChat } from '../../User'
 import { AsyncEntity, FadeLayout, RelativeTime, StatelessComponent } from '../../Utils'
 import Config from '../Constants/Config'
 import { Form, Field } from '../../Forms'
+import { NotificationSubject } from '../../../../Constants'
 
 interface IProps {
     messages: Universis.Redux.AsyncEntity<Universis.Notification[]>
@@ -66,67 +67,53 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         const { messages, identity } = this.props
 
         return messages.payload.map((message, key) => {
-            return (
-                <section
-                    className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '') + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
-                    key={key}>
-                    <UserInfo user={message.user} type={UserInfo.TYPES.SMALL} />
-                    <section className='panel__chat__message--inner'>
-                        <section className='panel__chat__message__metadata'>
+            switch (message.subject) {
+                case NotificationSubject.MESSAGE:
+                    return (
+                        <section
+                            className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '') + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
+                            key={key}>
+                            <UserInfo user={message.user} type={UserInfo.TYPES.SMALL} />
+                            <section className='panel__chat__message--inner'>
+                                <section className='panel__chat__message__metadata'>
                             <span className='panel__chat__message__author'>
                                 {message.user ? message.user.name : 'Nepřihlášený'}
                         </span>
-                            <span className='panel__chat__message__date'>
+                                    <span className='panel__chat__message__date'>
                                  <RelativeTime date={message.createdAt} />
                         </span>
+                                </section>
+                                {message.text}
+                            </section>
                         </section>
-                        {message.text}
-                    </section>
-                </section>
-            )
-        })
-        /*
-                for (let i = 0; i < 50; i++) {
-                    if (Math.random() < 0.3) {
-                        messages.push(
-                            <section
-                                className={'panel__chat__message panel__chat__message--event'}
-                                key={i}>
-                                <section className='panel__chat__message--inner'>
-                                    <section className='panel__chat__message__metadata'>
-                                <span className='panel__chat__message__date'>
-                                    2 d
-                                </span>
-                                    </section>
-                                    Michal okomentoval těleso Jupiter.
-                                </section>
+                    )
+                default:
+                    return (
+                        <section
+                            className={'panel__chat__message--outer' + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}>
+                            <section className='panel__chat__message__title'>
+                                Nepřihlášený okomentoval těleso Země.
                             </section>
-                        )
-                    } else {
-                        messages.push(
                             <section
-                                className={'panel__chat__message' + (Math.random() < 0.5 ? ' panel__chat__message--own' : '')}
-                                key={i}>
-                                <UserInfo type={UserInfo.TYPES.SMALL} />
+                                className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '')}
+                                key={key}>
+                                <UserInfo user={message.user} type={UserInfo.TYPES.SMALL} />
                                 <section className='panel__chat__message--inner'>
                                     <section className='panel__chat__message__metadata'>
-                                    <span className='panel__chat__message__author'>
-                                    Michal
-                                </span>
+                            <span className='panel__chat__message__author'>
+                                {message.user ? message.user.name : 'Nepřihlášený'}
+                        </span>
                                         <span className='panel__chat__message__date'>
-                                    2 d
-                                </span>
+                                 <RelativeTime date={message.createdAt} />
+                        </span>
                                     </section>
-                                    Ahoj! Toto je druhá zpráva.
-                                    je druhá
-                                    zpráva.
+                                    {message.text}
                                 </section>
                             </section>
-                        )
-                    }
-                }
-
-                return messages*/
+                        </section>
+                    )
+            }
+        })
     }
 
     /**
@@ -159,7 +146,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         return (
             <FadeLayout
                 mounted={unreadMessages && this.chat && this.chat.offsetHeight !== this.chat.scrollHeight}
-                onClick={() => document.querySelector('.panel__chat__message:last-of-type').scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.querySelector('.panel__window__body--inner > section:last-of-type').scrollIntoView({ behavior: 'smooth' })}
                 className='panel__chat__unread'>
                 &#x25BC; Nepřečtené zprávy ({unreadMessages})
             </FadeLayout>
