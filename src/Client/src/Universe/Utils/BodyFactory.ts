@@ -43,8 +43,9 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             }
 
             mesh = new THREE.Points(geometry, new THREE.PointsMaterial({
-                color: 0xaaaaaa,
-                size: body.particles.size
+                color: 0xbbbbbb,
+                size: 1,
+                sizeAttenuation: false
             }))
         } else {
             const geometry = this.createGeometry(body, 32) // TODO: LOD
