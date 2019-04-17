@@ -8,6 +8,7 @@ import Config from '../Constants/Config'
 
 interface IProps {
     identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
+    users: Universis.User.Simple[]
 }
 
 /**
@@ -16,7 +17,8 @@ interface IProps {
 class Overview extends StatelessComponent<IProps> {
 
     public render(): React.ReactNode {
-        const { identity } = this.props
+        const { identity, users } = this.props
+        const hosts = users.filter(user => !user)
 
         return (
             <section className='panel__overview panel__window'>
@@ -27,9 +29,17 @@ class Overview extends StatelessComponent<IProps> {
                         Přihlášení
                     </Link>
                     <UserInfo user={identity.payload} type={UserInfo.TYPES.LARGE} />
-                    <button className='panel__overview__button panel__overview__button--clean'>
-                        Vyčistit
-                    </button>
+                    <section className='panel__overview__stats'>
+                        <div className='panel__overview__stat'>
+                            Online
+                        </div>
+                        <div className='panel__overview__stat'>
+                            Přihlášených: {users.length - hosts.length}
+                        </div>
+                        <div className='panel__overview__stat'>
+                            Nepřihlášených: {hosts.length}
+                        </div>
+                    </section>
                 </section>
                 <ToggleLayout>
                     <Chat />
@@ -43,6 +53,7 @@ class Overview extends StatelessComponent<IProps> {
 
 export default Overview.connect(
     ({ user }: Universis.Redux.StoreState) => ({
-        identity: user.identity
+        identity: user.identity,
+        users: user.onlineUsers
     })
 )

@@ -18,7 +18,7 @@
     }
 
     &__button {
-        @include size(9.3rem, 5rem);
+        @include size(6.3rem, 5rem);
         background-color: $dark-color;
         background-position: center 30% !important;
         background-size: auto 40% !important;
@@ -35,12 +35,19 @@
             background-color: #444;
         }
 
-        &--clean {
-            @include svg("Panel/Overview/Clean");
-        }
-
         &--login {
             @include svg("Controls/Login");
+        }
+    }
+
+    &__stats {
+        padding: 1rem;
+    }
+
+    &__stat {
+        &:first-of-type {
+            font-weight: bold;
+            text-align: center;
         }
     }
 
