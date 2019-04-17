@@ -4,7 +4,7 @@ import ActionTypes from './ActionTypes'
 import { Config } from '../../Utils'
 import { Redux } from '../../Utils'
 import { receiveMessage } from '../../User/Redux/UserActions'
-import { NotificationSubject } from '../../../../Constants'
+import { SubjectType } from '../../../../Constants'
 
 /**
  * Toggle full screen.

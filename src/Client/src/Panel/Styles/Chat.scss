@@ -38,12 +38,22 @@
             box-sizing: border-box;
             margin: 0.5rem 0.25rem;
             padding: 0.5rem;
+            position: relative;
             width: calc(100% - 0.75rem);
 
             .panel__chat__message {
                 overflow: hidden;
                 padding-left: 0;
             }
+        }
+
+        &__link {
+            @include opacity-hover;
+            @include size(2rem, 3rem);
+            @include svg("Panel/Chat/Link");
+            bottom: 1rem;
+            position: absolute;
+            right: 1rem;
         }
 
         &__title {

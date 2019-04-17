@@ -1,7 +1,7 @@
 /**
  * Relation for notification subject.
  */
-enum Operations {
+enum Operation {
 
     ADD,
     GET,
@@ -10,4 +10,4 @@ enum Operations {
 
 }
 
-export default Operations
+export default Operation

@@ -1,6 +1,6 @@
 export { default as Config } from './Config'
 export { default as DatabaseModels } from './DatabaseModels'
 export { default as Errors } from './Errors'
-export { default as Operations } from './Operations'
-export { default as NotificationSubject } from './NotificationSubject'
+export { default as Operation } from './Operation'
+export { default as SubjectType } from './NotificationSubject'
 export { default as SocketMessageType } from './SocketMessageType'

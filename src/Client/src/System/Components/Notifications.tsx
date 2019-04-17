@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { StatelessComponent, UILayout, FadeLayout } from '../../Utils'
 import { UserInfo } from '../../User'
-import { NotificationSubject } from '../../../../Constants'
+import { SubjectType } from '../../../../Constants'
 
 interface IProps {
     notifications: Universis.Notification[]
@@ -15,7 +15,7 @@ class Notifications extends StatelessComponent<IProps> {
 
     private getNotificationContent(notification: Universis.Notification): React.ReactNode {
         switch (notification.subjectType) {
-            case NotificationSubject.POST:
+            case SubjectType.POST:
                 return (
                     <>
                         <strong><UserInfo
@@ -23,7 +23,7 @@ class Notifications extends StatelessComponent<IProps> {
                     </>
                 )
 
-            case NotificationSubject.MESSAGE:
+            case SubjectType.MESSAGE:
                 return (
                     <>
                         <strong><UserInfo

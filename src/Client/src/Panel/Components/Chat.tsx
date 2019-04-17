@@ -2,10 +2,11 @@ import * as React from 'react'
 import { InjectedFormProps } from 'redux-form'
 
 import { getMessages, UserInfo, addMessage, toggleStickyChat } from '../../User'
-import { AsyncEntity, FadeLayout, RelativeTime, StatelessComponent } from '../../Utils'
+import { AsyncEntity, FadeLayout, Link, RelativeTime, StatelessComponent } from '../../Utils'
 import Config from '../Constants/Config'
 import { Form, Field } from '../../Forms'
-import { NotificationSubject } from '../../../../Constants'
+import { SubjectType } from '../../../../Constants'
+import { Operation } from 'express-openapi'
 
 interface IProps {
     messages: Universis.Redux.AsyncEntity<Universis.Notification[]>
@@ -16,6 +17,7 @@ interface IProps {
     isSticky: boolean
     toggleStickyChat: Universis.Consumer<boolean>
     unreadMessages: boolean
+    notificationStrings: Universis.Strings
 }
 
 interface IValues {
@@ -59,6 +61,25 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         }, 10)
     }
 
+    private renderMessageRelation(message: Universis.Notification): string {
+        const { notificationStrings } = this.props
+        const subject = notificationStrings[message.subjectType]
+
+        if (subject) {
+            return subject[message.operation]
+        }
+    }
+
+    private renderLink(message: Universis.Notification): React.ReactNode {
+        if (!message.link) {
+            return null
+        }
+
+        return (
+            <Link className='panel__chat__message__link' target={message.link} />
+        )
+    }
+
     /**
      * Render messages.
      * @returns Messages.
@@ -68,7 +89,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
         return messages.payload.map((message, key) => {
             switch (message.subjectType) {
-                case NotificationSubject.MESSAGE:
+                case SubjectType.MESSAGE:
                     return (
                         <section
                             className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '') + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
@@ -93,8 +114,8 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                             className={'panel__chat__message--outer' + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
                             key={key}>
                             <section className='panel__chat__message__title'>
-                                <UserInfo type={UserInfo.TYPES.NAME} user={message.user} /> okomentoval
-                                těleso {message.subjectName}.
+                                <UserInfo type={UserInfo.TYPES.NAME}
+                                          user={message.user} /> {this.renderMessageRelation(message)} {message.subjectName}.
                             </section>
                             <section
                                 className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '')}
@@ -112,6 +133,7 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                                     {message.text}
                                 </section>
                             </section>
+                            {this.renderLink(message)}
                         </section>
                     )
             }
@@ -188,12 +210,13 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 }
 
 export default Chat.connect(
-    ({ user }: Universis.Redux.StoreState) => ({
+    ({ user, system }: Universis.Redux.StoreState) => ({
         identity: user.identity,
         messages: user.messages,
         newMessage: user.newMessage,
         isSticky: user.isChatSticky,
-        unreadMessages: user.unreadMessages
+        unreadMessages: user.unreadMessages,
+        notificationStrings: system.strings.notifications
     }),
     { getMessages, addMessage, toggleStickyChat },
     {

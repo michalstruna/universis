@@ -1,4 +1,5 @@
 import { Urls } from '../../Utils'
+import { SubjectType, Operation } from '../../../../Constants'
 
 export default {
 
@@ -256,6 +257,17 @@ export default {
             2: 'Událost',
             3: 'Diskuse',
             4: 'Uživatel'
+        },
+
+        [SubjectType.POST]: {
+            [Operation.ADD]: 'okomentoval těleso',
+            [Operation.UPDATE]: 'upravil komentář tělesa',
+            [Operation.REMOVE]: 'smazal komentář tělesa'
+        },
+        [SubjectType.EVENT]: {
+            [Operation.ADD]: 'přidat událost k tělesu',
+            [Operation.UPDATE]: 'upravil událost tělesa',
+            [Operation.REMOVE]: 'odstranil událost tělesa'
         }
 
     },
@@ -265,6 +277,6 @@ export default {
         update: '',
         delete: ''
 
-    }
+    },
 
 }

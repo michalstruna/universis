@@ -1,12 +1,18 @@
-import { DatabaseModels, NotificationSubject } from '../Constants'
+import { DatabaseModels, SubjectType } from '../Constants'
 import ItemModel from './ItemModel'
+import BodyModel from './BodyModel'
 
 export default new ItemModel<Universis.Event, Universis.Event, Universis.Event.New>({
     dbModel: DatabaseModels.BODY_EVENT,
-    /*notifications: {
-        textAccessor: notification => notification.title,
-        subjectAccessor: () => NotificationSubject.BODY_EVENT
-    },*/
+    notifications: {
+        subjectTypeAccessor: () => SubjectType.EVENT,
+        userIdAccessor: event => event.userId,
+        textAccessor: event => event.title,
+        linkAccessor: event => event.bodyId,
+        subjectNameAccessor: async event => {
+            return (await BodyModel.getOne({ _id: event.bodyId }, { select: ['name'] })).name
+        }
+    },
     add: {
         approval: true,
         notification: true

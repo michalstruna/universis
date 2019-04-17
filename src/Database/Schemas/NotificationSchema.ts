@@ -31,6 +31,10 @@ const NotificationSchema = new Schema({
         type: String
     },
 
+    link: {
+        type: String
+    },
+
     createdAt: {
         type: Number
     },

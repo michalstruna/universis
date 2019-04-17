@@ -6,7 +6,7 @@ enum NotificationSubject {
     MESSAGE,
     USER,
     BODY,
-    BODY_EVENT,
+    EVENT,
     POST
 
 }

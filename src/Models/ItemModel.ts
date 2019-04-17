@@ -1,6 +1,6 @@
 import * as Mongoose from 'mongoose'
 
-import { Operations } from '../Constants'
+import { Operation } from '../Constants'
 import Model from './Model'
 import NotificationModel from './NotificationModel'
 
@@ -24,7 +24,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         const addedItems = await this.dbModel.add<Full>(items)
 
         if (notifications && add.notification) {
-        //    await NotificationModel.add(addedItems.map(async item => await this.getNotificationData(item, Operations.ADD)))
+        //    await NotificationModel.add(addedItems.map(async item => await this.getNotificationData(item, Operation.ADD)))
         }
 
         if (add.onAfter) {
@@ -48,7 +48,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && add.notification) {
-            await NotificationModel.addOne(await this.getNotificationData(item, Operations.ADD))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operation.ADD))
         }
 
         return addedItem
@@ -80,7 +80,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && get.notification) {
-        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.GET)))
+        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operation.GET)))
         }
 
         return items
@@ -102,7 +102,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && get.notification) {
-            await NotificationModel.addOne(await this.getNotificationData(item, Operations.GET))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operation.GET))
         }
 
         return item
@@ -122,7 +122,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && remove.notification) {
-        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.REMOVE)))
+        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operation.REMOVE)))
         }
 
         return null
@@ -138,7 +138,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         const item = await this.dbModel.removeOne<Full>(filter, options)
 
         if (notifications && remove.notification) {
-            await NotificationModel.addOne(await this.getNotificationData(item, Operations.REMOVE))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operation.REMOVE))
         }
 
 
@@ -163,7 +163,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && update.notification) {
-        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operations.UPDATE)))
+        //    await NotificationModel.add(items.map(item => this.getNotificationData(item, Operation.UPDATE)))
         }
 
         return null
@@ -183,7 +183,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && update.notification) {
-            await NotificationModel.addOne(await this.getNotificationData(item, Operations.UPDATE))
+            await NotificationModel.addOne(await this.getNotificationData(item, Operation.UPDATE))
         }
 
         return null
