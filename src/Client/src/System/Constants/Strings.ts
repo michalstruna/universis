@@ -265,7 +265,7 @@ export default {
             [Operation.REMOVE]: 'smazal komentář tělesa'
         },
         [SubjectType.EVENT]: {
-            [Operation.ADD]: 'přidat událost k tělesu',
+            [Operation.ADD]: 'přidal událost k tělesu',
             [Operation.UPDATE]: 'upravil událost tělesa',
             [Operation.REMOVE]: 'odstranil událost tělesa'
         }
