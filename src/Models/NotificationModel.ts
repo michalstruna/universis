@@ -13,50 +13,30 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
         this.dbModel = this.db.getModel(DatabaseModels.NOTIFICATION)
     }
 
-    public add(items: Universis.Notification.New[]): Promise<Universis.Notification[]> {
-        return undefined
-    }
-
-    public async addOne(item: Universis.Notification.New): Promise<Universis.Notification> {
+    public async add(item: Universis.Notification.New): Promise<Universis.Notification> {
         const notification = await this.dbModel.addOne<Universis.Notification>(item)
-        const fullNotification = await this.getOne({ _id: notification._id })
+        const fullNotification = await this.get({ _id: notification._id })
         SocketModel.broadcast(SocketMessageType.NEW_NOTIFICATION, fullNotification)
         return fullNotification
-    }
-
-    public approve(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<number> {
-        return undefined
-    }
-
-    public approveOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void> {
-        return undefined
     }
 
     public count(filter: Universis.Database.Query.Filter): Promise<number> {
         return undefined
     }
 
-    public get(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Universis.Notification[]> {
+    public getAll(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Universis.Notification[]> {
         return this.dbModel.get<Universis.Notification>(filter, { ...options, ...queryOptions })
     }
 
-    public getOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Universis.Notification> {
+    public get(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Universis.Notification> {
         return this.dbModel.getOne<Universis.Notification>(filter, { ...options, ...queryOptions })
     }
 
-    public remove(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<number> {
+    public delete(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void> {
         return undefined
     }
 
-    public removeOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void> {
-        return undefined
-    }
-
-    public update(filter: Universis.Database.Query.Filter, changes: Universis.Notification.New, options?: Universis.Database.Query.Options): Promise<number> {
-        return undefined
-    }
-
-    public updateOne(filter: Universis.Database.Query.Filter, changes: Universis.Notification.New, options?: Universis.Database.Query.Options): Promise<void> {
+    public update(filter: Universis.Database.Query.Filter, changes: Universis.Notification.New, options?: Universis.Database.Query.Options): Promise<void> {
         return undefined
     }
 

@@ -10,7 +10,7 @@ export default new ItemModel<Universis.Event, Universis.Event, Universis.Event.N
         textAccessor: event => event.title,
         linkAccessor: event => event.bodyId,
         subjectNameAccessor: async event => {
-            return (await BodyModel.getOne({ _id: event.bodyId }, { select: ['name'] })).name
+            return (await BodyModel.get({ _id: event.bodyId }, { select: ['name'] })).name
         }
     },
     add: {

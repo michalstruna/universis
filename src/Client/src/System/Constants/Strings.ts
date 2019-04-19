@@ -262,12 +262,12 @@ export default {
         [SubjectType.POST]: {
             [Operation.ADD]: 'okomentoval těleso',
             [Operation.UPDATE]: 'upravil komentář tělesa',
-            [Operation.REMOVE]: 'smazal komentář tělesa'
+            [Operation.DELETE]: 'smazal komentář tělesa'
         },
         [SubjectType.EVENT]: {
             [Operation.ADD]: 'přidal událost k tělesu',
             [Operation.UPDATE]: 'upravil událost tělesa',
-            [Operation.REMOVE]: 'odstranil událost tělesa'
+            [Operation.DELETE]: 'odstranil událost tělesa'
         }
 
     },

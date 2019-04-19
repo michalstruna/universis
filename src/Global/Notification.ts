@@ -66,6 +66,11 @@ declare namespace Universis.Notification {
          */
         link?: string
 
+        /**
+         * Notification subject is approved.
+         */
+        isApproved: boolean
+
     }
 
 }

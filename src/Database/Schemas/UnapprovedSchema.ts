@@ -1,26 +1,25 @@
 import { Schema } from 'mongoose'
 
-export default new Schema({
+import { DatabaseModels } from '../../Constants'
 
-    modelName: {
-        type: String,
-        required: true
-    },
+/**
+ * DB schema for unapproved items.
+ */
+const UnapprovedSchema = new Schema({
 
-    type: {
+    subject: {
         type: Number,
         required: true
     },
 
-    data: {
-        type: Schema.Types.Mixed,
-        required: false
+    operation: {
+        type: Number,
+        required: true
     },
 
-    date: {
-        type: String,
-        required: true,
-        default: () => new Date().toISOString()
+    notificationId: {
+        type: Schema.Types.ObjectId,
+        ref: DatabaseModels.NOTIFICATION
     },
 
     __v: {
@@ -28,4 +27,6 @@ export default new Schema({
         select: false
     }
 
-})
+}, { timestamps: true })
+
+export default UnapprovedSchema

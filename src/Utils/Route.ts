@@ -55,7 +55,7 @@ class Route {
 
                 if (token) {
                     const tokenData = await SecurityModel.verify(token)
-                    user = await UserModel.getOne({ _id: tokenData.userId })
+                    user = await UserModel.get({ _id: tokenData.userId })
                     request.user = user
                 }
             } catch {
@@ -77,7 +77,6 @@ class Route {
                         }
                     })
                     .catch(error => {
-                        console.log(222, error)
                         response.status(error.code).send(error)
                     })
             } else {
@@ -152,7 +151,7 @@ class Route {
             const filter = 'filter' in access.get ? access.get.filter : () => []
 
             routeGroup.get = handler((request) => (
-                model.get(
+                model.getAll(
                     { ...Route.getFilterFromQuery(request.query), ...filter(request) },
                     {
                         sort: request.query.sort,
@@ -167,11 +166,11 @@ class Route {
             const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : request => request.body
             const mapAfter = 'mapAfter' in access.post ? access.post.mapAfter : item => item
             const handler = 'access' in access.post ? access.post.access : access.post
-            routeGroup.post = handler(request => model.addOne(mapBefore(request)), mapAfter)
+            routeGroup.post = handler(request => model.add(mapBefore(request)), mapAfter)
         }
 
         if (access.delete && typeof access.delete !== 'object') {
-            routeGroup.delete = access.delete(() => model.remove({}), count => ({ count }))
+            routeGroup.delete = access.delete(() => model.delete({}), count => ({ count }))
         }
 
         return routeGroup
@@ -187,15 +186,15 @@ class Route {
         const routeGroup: Universis.Map<IRequestHandler> = {}
 
         if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(({ params }) => model.getOne({ _id: params[Object.keys(params)[0]] }))
+            routeGroup.get = access.get(({ params }) => model.get({ _id: params[Object.keys(params)[0]] }))
         }
 
         if (access.put && typeof access.put !== 'object') {
-            routeGroup.put = access.put(({ params, body }) => model.updateOne({ _id: params[Object.keys(params)[0]] }, body), false)
+            routeGroup.put = access.put(({ params, body }) => model.update({ _id: params[Object.keys(params)[0]] }, body), false)
         }
 
         if (access.delete && typeof access.delete !== 'object') {
-            routeGroup.delete = access.delete(({ params }) => model.removeOne({ _id: params[Object.keys(params)[0]] }), false)
+            routeGroup.delete = access.delete(({ params }) => model.delete({ _id: params[Object.keys(params)[0]] }), false)
         }
 
         return routeGroup
@@ -492,7 +491,7 @@ class Route {
                         }
                     },
                     '404': {
-                        'description': 'There is no items to remove.'
+                        'description': 'There is no items to delete.'
                     }
                 }
             }

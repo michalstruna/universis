@@ -16,7 +16,7 @@ interface IValues {
 }
 
 /**
- * Form for get identity of unauth user.
+ * Form for getAll identity of unauth user.
  * There is only email input.
  */
 class IdentityForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {

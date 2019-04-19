@@ -6,7 +6,7 @@ enum Operation {
     ADD,
     GET,
     UPDATE,
-    REMOVE
+    DELETE
 
 }
 

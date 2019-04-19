@@ -6,7 +6,7 @@ declare namespace Universis {
     export interface SecurityModel {
 
         /**
-         * Authenticate user a get its identity.
+         * Authenticate user a getAll its identity.
          * @param email Email of user.
          * @param secret Security string like password.
          * @returns User's identity.
