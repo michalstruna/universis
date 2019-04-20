@@ -1,4 +1,4 @@
-import { DatabaseModels, SocketMessageType } from '../Constants'
+import { DatabaseModel, SocketMessageType } from '../Constants'
 import SocketModel from './SocketModel'
 import Model from './Model'
 
@@ -10,7 +10,7 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
 
     public constructor() {
         super()
-        this.dbModel = this.db.getModel(DatabaseModels.NOTIFICATION)
+        this.dbModel = this.db.getModel(DatabaseModel.NOTIFICATION)
     }
 
     public async add(item: Universis.Notification.New): Promise<Universis.Notification> {

@@ -1,8 +1,8 @@
-import { DatabaseModels, SubjectType } from '../Constants'
+import { DatabaseModel, SubjectType } from '../Constants'
 import ItemModel from './ItemModel'
 
 export default new ItemModel<Universis.Message, Universis.Message, Universis.Message.New>({
-    dbModel: DatabaseModels.MESSAGE,
+    dbModel: DatabaseModel.MESSAGE,
     notifications: {
         subjectTypeAccessor: () => SubjectType.MESSAGE,
         textAccessor: message => message.content,

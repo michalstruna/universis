@@ -28,4 +28,32 @@ declare namespace Universis.Approval {
 
     }
 
+    export interface Model {
+
+        /**
+         * Add new item to approval.
+         * @param approval
+         */
+        add(approval: Approval.New): Promise<Approval>
+
+        /**
+         * Approve item.
+         * @param approvalId
+         */
+        approve(approvalId: string): Promise<void>
+
+        /**
+         * Disapprove item.
+         * @param approvalId
+         */
+        disapprove(approvalId: string): Promise<void>
+
+        /**
+         * Get all approvals.
+         * @returns approvals.
+         */
+        getAll(): Promise<Approval[]>
+
+    }
+
 }

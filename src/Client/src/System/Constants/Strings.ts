@@ -1,5 +1,5 @@
 import { Urls } from '../../Utils'
-import { SubjectType, Operation } from '../../../../Constants'
+import { SubjectType, Operation, ApprovalState } from '../../../../Constants'
 
 export default {
 
@@ -259,15 +259,33 @@ export default {
             4: 'Uživatel'
         },
 
+        unapproved: 'čeká na schválení',
+        disapproved: 'neschváleno',
+
+
         [SubjectType.POST]: {
-            [Operation.ADD]: 'okomentoval těleso',
-            [Operation.UPDATE]: 'upravil komentář tělesa',
-            [Operation.DELETE]: 'smazal komentář tělesa'
+            [ApprovalState.APPROVED]: {
+                [Operation.ADD]: 'okomentoval těleso',
+                [Operation.UPDATE]: 'upravil komentář tělesa',
+                [Operation.DELETE]: 'smazal komentář tělesa'
+            }
         },
         [SubjectType.EVENT]: {
-            [Operation.ADD]: 'přidal událost k tělesu',
-            [Operation.UPDATE]: 'upravil událost tělesa',
-            [Operation.DELETE]: 'odstranil událost tělesa'
+            [ApprovalState.UNAPPROVED]: {
+                [Operation.ADD]: 'navrhl událost k tělesu',
+                [Operation.UPDATE]: 'navrhl úpravu události tělesa',
+                [Operation.DELETE]: 'navrhl odebrání událost tělesa'
+            },
+            [ApprovalState.APPROVED]: {
+                [Operation.ADD]: 'přidal událost k tělesu',
+                [Operation.UPDATE]: 'upravil událost tělesa',
+                [Operation.DELETE]: 'odstranil událost tělesa'
+            },
+            [ApprovalState.DISAPPROVED]: {
+                [Operation.ADD]: 'navrhl událost k tělesu',
+                [Operation.UPDATE]: 'navrhl úpravu události tělesa',
+                [Operation.DELETE]: 'navrhl odebrání událost tělesa'
+            },
         }
 
     },
@@ -277,6 +295,6 @@ export default {
         update: '',
         delete: ''
 
-    },
+    }
 
 }

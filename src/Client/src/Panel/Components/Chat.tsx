@@ -5,8 +5,7 @@ import { getMessages, UserInfo, addMessage, toggleStickyChat } from '../../User'
 import { AsyncEntity, FadeLayout, Link, RelativeTime, StatelessComponent } from '../../Utils'
 import Config from '../Constants/Config'
 import { Form, Field } from '../../Forms'
-import { SubjectType } from '../../../../Constants'
-import { Operation } from 'express-openapi'
+import { ApprovalState, SubjectType } from '../../../../Constants'
 
 interface IProps {
     messages: Universis.Redux.AsyncEntity<Universis.Notification[]>
@@ -66,17 +65,31 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         const subject = notificationStrings[message.subjectType]
 
         if (subject) {
-            return subject[message.operation]
+            return subject[message.approvalState][message.operation]
         }
     }
 
     private renderLink(message: Universis.Notification): React.ReactNode {
-        if (!message.link) {
+        if (message.approvalState !== ApprovalState.APPROVED || !message.link) {
             return null
         }
 
         return (
             <Link className='panel__chat__message__link' target={message.link} />
+        )
+    }
+
+    private renderApprovalState(message: Universis.Notification): React.ReactNode {
+        const { notificationStrings } = this.props
+
+        if (message.approvalState == ApprovalState.APPROVED) {
+            return null
+        }
+
+        return (
+            <section className='panel__chat__message__state panel__chat__message__state--0'>
+                {message.approvalState === ApprovalState.UNAPPROVED ? notificationStrings.unapproved : notificationStrings.disapproved}
+            </section>
         )
     }
 
@@ -114,9 +127,9 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                             className={'panel__chat__message--outer' + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
                             key={key}>
                             <section className='panel__chat__message__title'>
-                                <UserInfo type={UserInfo.TYPES.NAME}
-                                          user={message.user} /> {this.renderMessageRelation(message)} {message.subjectName}.
+                                <UserInfo type={UserInfo.TYPES.NAME} user={message.user} /> {this.renderMessageRelation(message)} {message.subjectName}.
                             </section>
+                            {this.renderApprovalState(message)}
                             <section
                                 className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '')}
                                 key={key}>

@@ -1,4 +1,4 @@
-this.db.getModel(DatabaseModels.BODY).aggregate([
+this.db.getModel(DatabaseModel.BODY).aggregate([
   { $match: { _id: ObjectId('507f1f77bcf86cd799439011') } },
   { $lookup: {
     from: 'bodytypes',

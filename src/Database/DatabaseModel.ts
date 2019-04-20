@@ -124,6 +124,10 @@ class DatabaseModel implements Universis.Database.Model {
      * @returns Query with options.
      */
     private processQuery(query: Query<any>, options?: Options): Query<any> {
+        if (query.lean) {
+            query = query.lean()
+        }
+
         if (options) {
             if (options.sort) {
                 query = query.sort([[options.sort, options.reverse ? -1 : 1]])

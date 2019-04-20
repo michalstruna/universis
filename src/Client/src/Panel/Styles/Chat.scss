@@ -42,8 +42,21 @@
             width: calc(100% - 0.75rem);
 
             .panel__chat__message {
+                margin-bottom: 0;
                 overflow: hidden;
                 padding-left: 0;
+            }
+        }
+
+        &__state {
+            font-size: 80%;
+
+            &--0 {
+                color: #FC0;
+            }
+
+            &--2 {
+                color: #F75;
             }
         }
 

@@ -6,11 +6,11 @@ Model.db = new Database({
     database: Config.database.name,
     onError: console.error,
     schemas: {
-        [DatabaseModels.BODY]: BodySchema,
-        [DatabaseModels.BODY_EVENT]: BodyEventSchema,
-        [DatabaseModels.BODY_TYPE]: BodyTypeSchema,
-        [DatabaseModels.TOKEN]: TokenSchema,
-        [DatabaseModels.USER]: UserSchema,
+        [DatabaseModel.BODY]: BodySchema,
+        [DatabaseModel.BODY_EVENT]: BodyEventSchema,
+        [DatabaseModel.BODY_TYPE]: BodyTypeSchema,
+        [DatabaseModel.TOKEN]: TokenSchema,
+        [DatabaseModel.USER]: UserSchema,
         ...
     }
 })

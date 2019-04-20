@@ -1,9 +1,9 @@
-import { DatabaseModels, SubjectType } from '../Constants'
+import { DatabaseModel, SubjectType } from '../Constants'
 import ItemModel from './ItemModel'
 import BodyModel from './BodyModel'
 
 export default new ItemModel<Universis.Event, Universis.Event, Universis.Event.New>({
-    dbModel: DatabaseModels.BODY_EVENT,
+    dbModel: DatabaseModel.BODY_EVENT,
     notifications: {
         subjectTypeAccessor: () => SubjectType.EVENT,
         userIdAccessor: event => event.userId,

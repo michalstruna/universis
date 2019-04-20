@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { DatabaseModels } from '../../Constants'
+import { ApprovalState, DatabaseModel } from '../../Constants'
 
 const NotificationSchema = new Schema({
 
@@ -19,12 +19,12 @@ const NotificationSchema = new Schema({
 
     userId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.USER
+        ref: DatabaseModel.USER
     },
 
     targetUserId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.USER
+        ref: DatabaseModel.USER
     },
 
     text: {
@@ -41,6 +41,12 @@ const NotificationSchema = new Schema({
 
     updatedAt: {
         type: Number
+    },
+
+    approvalState: {
+        type: Number,
+        required: true,
+        default: ApprovalState.APPROVED
     },
 
     __v: {
