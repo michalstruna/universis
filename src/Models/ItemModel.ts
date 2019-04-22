@@ -32,11 +32,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && add.notification) {
-            const notification = await NotificationModel.add(await this.getNotificationData(item, Operation.ADD, !add.approval))
-
-            if (add.approval) {
-                await ApprovalModel.add({ notificationId: notification._id, data: item })
-            }
+            await NotificationModel.add(await this.getNotificationData(item, Operation.ADD, !add.approval, { after: item }))
         }
 
         return addedItem
@@ -101,11 +97,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
                 item = await this.dbModel.getOne(filter, options)
             }
 
-            const notification = await NotificationModel.add(await this.getNotificationData(item, Operation.DELETE, !remove.approval))
-
-            if (remove.approval) {
-                await ApprovalModel.add({ notificationId: notification._id, data: item })
-            }
+            await NotificationModel.add(await this.getNotificationData(item, Operation.DELETE, !remove.approval, { before: item }))
         }
 
         return null
@@ -133,11 +125,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             }
 
             const newItem = { ...item, ...(changes as any) }
-            const notification = await NotificationModel.add(await this.getNotificationData(newItem, Operation.UPDATE, !update.approval))
-
-            if (update.approval) {
-                await ApprovalModel.add({ notificationId: notification._id, data: newItem })
-            }
+            await NotificationModel.add(await this.getNotificationData(newItem, Operation.UPDATE, !update.approval, { before: item, after: newItem }))
         }
 
         return null
@@ -163,8 +151,9 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
      * @param item
      * @param operation
      * @param isApproved
+     * @param payload
      */
-    private async getNotificationData(item: New | Simple | Full, operation: number, isApproved: boolean): Promise<Universis.Notification.New> {
+    private async getNotificationData(item: New | Simple | Full, operation: number, isApproved: boolean, payload?: any): Promise<Universis.Notification.New> {
         const { userIdAccessor, subjectTypeAccessor, subjectNameAccessor, targetUserIdAccessor, linkAccessor, textAccessor } = this.options.notifications
 
         return {
@@ -175,7 +164,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             targetUserId: targetUserIdAccessor ? await targetUserIdAccessor(item, this) : undefined,
             text: textAccessor ? await textAccessor(item, this) : undefined,
             link: linkAccessor ? await linkAccessor(item, this) : undefined,
-            approvalState: isApproved ? ApprovalState.APPROVED : ApprovalState.UNAPPROVED
+            approvalState: isApproved ? ApprovalState.APPROVED : ApprovalState.UNAPPROVED,
+            payload
         }
     }
 

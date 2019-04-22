@@ -31,6 +31,7 @@
 \contentsline {subsection}{\numberline {2.9}Verzovac\IeC {\'\i } syst\IeC {\'e}m Git}{23}{subsection.2.9}
 \contentsline {subsection}{\numberline {2.10}Bal\IeC {\'\i }\IeC {\v c}kovac\IeC {\'\i } syst\IeC {\'e}m NPM}{23}{subsection.2.10}
 \contentsline {subsection}{\numberline {2.11}Preprocesor SASS}{23}{subsection.2.11}
+\contentsline {subsection}{\numberline {2.12}Socket.io}{23}{subsection.2.12}
 \contentsline {section}{\numberline {3}N\IeC {\'a}vrh a~v\IeC {\'y}voj aplikace}{24}{section.3}
 \contentsline {subsection}{\numberline {3.1}Struktura projektu}{24}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}U\IeC {\v z}ivatelsk\IeC {\'e} rozhran\IeC {\'\i }}{25}{subsection.3.2}

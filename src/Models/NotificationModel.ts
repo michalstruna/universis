@@ -1,6 +1,7 @@
 import { DatabaseModel, SocketMessageType } from '../Constants'
 import SocketModel from './SocketModel'
 import Model from './Model'
+import ApprovalModel from './ApprovalModel'
 
 const queryOptions = {
     join: ['userId']
@@ -16,6 +17,15 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
     public async add(item: Universis.Notification.New): Promise<Universis.Notification> {
         const notification = await this.dbModel.addOne<Universis.Notification>(item)
         const fullNotification = await this.get({ _id: notification._id })
+
+        const addedApproval = await ApprovalModel.add({
+            notificationId: notification._id,
+            before: item.payload.before,
+            after: item.payload.after
+        })
+
+        fullNotification.payload = await ApprovalModel.get({ _id: addedApproval._id })
+
         SocketModel.broadcast(SocketMessageType.NEW_NOTIFICATION, fullNotification)
         return fullNotification
     }
@@ -36,8 +46,10 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
         return undefined
     }
 
-    public update(filter: Universis.Database.Query.Filter, changes: Universis.Notification.New, options?: Universis.Database.Query.Options): Promise<void> {
-        return undefined
+    public async update(filter: Universis.Database.Query.Filter, changes: Universis.Notification.New, options?: Universis.Database.Query.Options): Promise<void> {
+        const notification = await this.dbModel.updateOne<Universis.Notification>(filter, changes, options)
+        const fullNotification = await this.get({ _id: notification._id })
+        SocketModel.broadcast(SocketMessageType.UPDATE_NOTIFICATION, { ...fullNotification, payload: changes.payload })
     }
 
 }

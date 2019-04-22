@@ -2,6 +2,7 @@
  * Components.
  */
 export { default as Panel } from './Components/Panel'
+export { default as Message } from './Components/Message'
 
 /**
  * Redux.

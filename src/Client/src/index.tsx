@@ -9,6 +9,7 @@ export const history = createBrowserHistory()
 import { App, HomeView, Store, } from './System'
 import { IdentityView, LoginView, SignUpView } from './User'
 import { UniverseView } from './Universe'
+import { ApprovalsView } from './Approvals'
 import { Urls } from './Utils'
 
 import './index.scss'
@@ -23,6 +24,7 @@ render(
                     <Route path={Urls.LOGIN} component={LoginView} />
                     <Route path={Urls.SIGN_UP} component={SignUpView} />
                     <Route path={Urls.UNIVERSE} component={UniverseView} />
+                    <Route path={Urls.APPROVALS} component={ApprovalsView} />
                     <Redirect to={Urls.HOME} />
                 </Switch>
             </App>

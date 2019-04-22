@@ -20,7 +20,8 @@ export default {
         logout: 'Odhlásit se',
         hideUI: 'Skrýt ovládání',
         showUI: 'Zobrazit ovládání',
-        about: 'O Universis'
+        about: 'O Universis',
+        approvals: 'Schválení'
     },
 
     alert: {

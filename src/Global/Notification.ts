@@ -71,6 +71,13 @@ declare namespace Universis.Notification {
          */
         approvalState: number
 
+        /**
+         * Any custom payload.
+         * This property is for storing socket data.
+         * Without this, two socket messages should be emitted - notification and data.
+         */
+        payload?: any
+
     }
 
 }

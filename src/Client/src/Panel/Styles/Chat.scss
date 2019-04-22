@@ -20,18 +20,18 @@
         }
     }
 
-    .user-info--small {
-        float: left;
-        margin: 0 !important;
-        margin-right: 0.5rem !important;
-        overflow: hidden;
-        position: relative;
-    }
-
     &__message {
         box-sizing: border-box;
         margin: 0.5rem 0.25rem;
         overflow: hidden;
+
+        .user-info--small {
+            float: left;
+            margin: 0 !important;
+            margin-right: 0.5rem !important;
+            overflow: hidden;
+            position: relative;
+        }
 
         &--outer {
             background-color: $medium-dark-color;
@@ -39,12 +39,17 @@
             margin: 0.5rem 0.25rem;
             padding: 0.5rem;
             position: relative;
-            width: calc(100% - 0.75rem);
+            width: 30rem;
 
             .panel__chat__message {
                 margin-bottom: 0;
+                margin-left: 0;
                 overflow: hidden;
                 padding-left: 0;
+            }
+
+            .user-info--small {
+                float: left;
             }
         }
 
@@ -56,7 +61,7 @@
             }
 
             &--2 {
-                color: #F75;
+                color: $red-color;
             }
         }
 
@@ -175,10 +180,6 @@
         box-shadow: 0 0 0.5rem $darkest-color;
     }
 
-    .user-info--small {
-        float: left;
-    }
-
     &__unread {
         @include size(15rem, 2.5rem, true);
         background-color: $darkest-color;
@@ -191,6 +192,7 @@
         left: calc(40% - 7.5rem);
         position: absolute;
         text-align: center;
+        z-index: 3000000000;
     }
 
 }

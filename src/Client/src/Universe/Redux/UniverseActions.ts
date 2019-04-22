@@ -427,3 +427,36 @@ export const deleteBodyType = (bodyTypeId: string) => (
         { deletedBodyType: Request.delete(`bodyTypes/${bodyTypeId}`) }
     )
 )
+
+/**
+ * Add local event to body.
+ * @param event
+ */
+export const receiveEvent = (event: Universis.Event) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_EVENT,
+        { body: { payload: { events: { $add: event } } } }
+    )
+)
+
+/**
+ * Update local body event.
+ * @param event
+ */
+export const receiveUpdatedEvent = (event: Universis.Event) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_UPDATED_EVENT,
+        { body: { payload: { events: { $find: item => item._id === event._id, $set: event } } } }
+    )
+)
+
+/**
+ * Remove local body event.
+ * @param event
+ */
+export const receiveDeletedEvent = (event: Universis.Event) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_DELETED_EVENT,
+        { body: { payload: { events: { $remove: item => item._id === event._id } } } }
+    )
+)

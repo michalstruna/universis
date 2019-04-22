@@ -85,6 +85,17 @@ export const addMessage = (message: Universis.Message.New) => (
 )
 
 /**
+ * Remove message.
+ * @param messageId
+ */
+export const receiveRemoveMessage = (messageId: string) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_REMOVE_MESSAGE,
+        { messages: { payload: { $remove: message => message._id === messageId } } }
+    )
+)
+
+/**
  * Receive message.
  * @param message
  */

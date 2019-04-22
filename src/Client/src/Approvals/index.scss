@@ -1,0 +1,117 @@
+.approvals {
+    overflow-y: scroll;
+
+    &__title {
+        @include title(250%);
+        margin-top: 1rem;
+        font-family: MontserratExtraLight;
+    }
+
+    &__approval {
+        box-sizing: border-box;
+        margin: 1rem auto;
+        overflow: hidden;
+        padding: 1rem;
+        padding-bottom: 2rem;
+        width: 80rem;
+        max-width: calc(100% - 7rem);
+
+        &--inner {
+            margin-top: 0.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        &--left, &--right {
+            @include size(50%, 100%);
+            box-sizing: border-box;
+            float: left;
+            overflow: hidden;
+            padding: 0;
+            min-height: 1px;
+        }
+
+        &--left {
+            padding-right: 2.5rem;
+            text-align: right;
+        }
+
+        &--right {
+            padding-left: 2.5rem;
+            text-align: left;
+        }
+
+        &__tools {
+            text-align: center;
+        }
+
+        &--approve, &--disapprove {
+            @include opacity-hover;
+            @include size(2.5em);
+            margin: 0.5rem;
+            vertical-align: bottom;
+        }
+
+        &--approve {
+            @include svg("Panel/Body/ThumbUp", 70%);
+        }
+
+        &--disapprove {
+            @include svg("Panel/Body/ThumbDown", 80%);
+        }
+
+        &__relation {
+            @include size(5rem, 100%);
+            background-color: $yellow-color;
+            border-bottom: 0.2rem solid darken($yellow-color, 10);
+            border-top: 0.2rem solid darken($yellow-color, 10);
+            box-sizing: border-box;
+            opacity: 0.5;
+            position: absolute;
+            left: calc(50% - 2.5rem);
+
+            &--0 {
+                background-color: $green-color;
+                border-color: darken($green-color, 10);
+            }
+
+            &--3 {
+                background-color: $red-color;
+                border-color: darken($red-color, 10);
+            }
+        }
+    }
+
+    &__item {
+        display: inline-block;
+    }
+
+    &__value {
+
+        &--added {
+            color: $green-color;
+        }
+
+        &--changed {
+            color: $yellow-color;
+        }
+
+        &--deleted {
+            color: $red-color;
+        }
+
+    }
+
+    .panel__chat__message--outer {
+        margin: 0 auto;
+    }
+
+    .events-area__event__detail {
+        background-color: $dark-color;
+        display: block;
+        left: 0;
+        position: relative;
+        top: 0;
+    }
+
+}

@@ -12,7 +12,11 @@ const ApprovalSchema = new Schema({
         ref: DatabaseModel.NOTIFICATION
     },
 
-    data: {
+    before: {
+        type: Schema.Types.Mixed
+    },
+
+    after: {
         type: Schema.Types.Mixed
     },
 

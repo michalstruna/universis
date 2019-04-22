@@ -54,6 +54,10 @@ input, textarea, select, option {
     @include size;
     overflow: hidden;
     transition: padding-left $medium-animation-duration, width $medium-animation-duration;
+
+    &--small {
+        width: calc(100% - #{$controls-width});
+    }
 }
 
 #app, #app > div {
@@ -99,6 +103,10 @@ input, textarea, select, option {
         .view {
             padding-left: $panel-width;
             width: calc(100% - #{$panel-width});
+
+            &--small {
+                width: calc(100% - #{$panel-large-width} - #{$controls-width});
+            }
         }
     }
 
@@ -110,6 +118,10 @@ input, textarea, select, option {
         .view {
             padding-left: $panel-large-width;
             width: calc(100% - #{$panel-large-width});
+
+            &--small {
+                width: calc(100% - #{$panel-large-width} - #{$controls-width});
+            }
         }
     }
 }

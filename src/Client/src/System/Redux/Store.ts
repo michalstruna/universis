@@ -6,13 +6,15 @@ import SystemReducer from './SystemReducer'
 import { UserReducer } from '../../User'
 import { UniverseReducer } from '../../Universe'
 import { PanelReducer } from '../../Panel'
+import { ApprovalsReducer } from '../../Approvals'
 
 const rootReducer = combineReducers({
     form: FormReducer,
     system: SystemReducer,
     user: UserReducer,
     universe: UniverseReducer,
-    panel: PanelReducer
+    panel: PanelReducer,
+    approval: ApprovalsReducer
 })
 
 const middleware = applyMiddleware(Thunk)

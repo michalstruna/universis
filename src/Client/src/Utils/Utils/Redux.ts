@@ -130,14 +130,26 @@ class Redux {
                 delete change.$find
                 source[index] = applyNestedChange(source[index], change)
             } else if (change && change.$add !== undefined) {
+                if (!source) {
+                    return source
+                }
+
                 source = [...(source || []), change.$add]
             } else if (change && change.$addFirst !== undefined) {
+                if (!source) {
+                    return source
+                }
+
                 source = [change.$addFirst, ...(source || [])]
             } else if (change && change.$remove) {
-                const index = (source || []).findIndex(change.$remove)
+                if (!source) {
+                    return source
+                }
+
+                const index = source.findIndex(change.$remove)
 
                 if (index > -1) {
-                    (source || []).splice(index, 1)
+                    source.splice(index, 1)
                 }
             } else if (change && change.$set) {
                 source = change.$set

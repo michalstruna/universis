@@ -26,10 +26,12 @@ abstract class View<IProps> extends StatelessComponent<IProps> {
 
     /**
      * Concat class name of view.
+     * @param name
+     * @param small
      * @return CSS class of view.
      */
-    protected getClassName(name: string): string {
-        return 'view ' + name
+    protected getClassName(name: string, small?: boolean): string {
+        return 'view ' + name + (small ? ' view--small' : '')
     }
 
 }

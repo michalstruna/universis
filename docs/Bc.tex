@@ -203,10 +203,13 @@
 
 V~dnešní době zažívá odvětví astronomie velký rozmach. Lze nalézt mnoho portálů, které nově objevené informace ihned zveřejňují. Často se však jedná o~rozsáhlé monografie, které laikovi příliš neřeknou. Navíc ne vždy jsou dostupné v~české lokalizaci. Na druhé straně existují 3D~simulátory, které je ale nutno stahovat z~internetu a~poté instalovat. Tyto simulátory však obsahují pouze minimum informací a~spíše než informační prostředek a~komunitní portál slouží jako pouhá vizuální scéna.
 
-Cílem této bakalářské práce, je vytvořit aplikaci, která poskytne jednoduchý pohled na astronomii lidem, kteří by se o~tomto odvětví něco rádi  dozvěděli. Díky obsáhlé databázi dat však nabízí i~pohodlný a~dostupný zdroj informací pro pokročiĺejší uživatele. Spojuje tak textové zdroje a~grafické aplikace. Uživatel má možnost 
-si libovolnou vlastnost libovolného tělesa zobrazit graficky před sebou a~tuto vlastnost pak porovnat napříč všemi tělesy v~databázi. Vše je dostupné v~české lokalizaci a~zároveň je celá aplikace online.
+Cílem této bakalářské práce, je vytvořit aplikaci, která poskytne jednoduchý pohled na astronomii lidem, kteří by se o~tomto odvětví něco rádi dozvěděli. Díky obsáhlé databázi dat však nabízí i~pohodlný a~dostupný zdroj informací pro pokročiĺejší uživatele. Spojuje tak textové zdroje a~grafické aplikace. Uživatel má možnost si libovolnou vlastnost libovolného tělesa zobrazit graficky před sebou a~tuto vlastnost pak porovnat napříč všemi tělesy v~databázi. Vše je dostupné v~české lokalizaci a~zároveň je celá aplikace online.
 
-Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat svými znalostmi. Všechny takto přidané informace však prochází schvalovacím procesem, kterého se účastní administrátor.
+Kromě informačního portálu by se aplikace dala nazvat i~komunitním portálem. Uživatelé spolu mohou pomocí zpráv komunikovat nebo komentovat jednotlivá tělesa. Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat svými znalostmi. Všechny takto přidané informace však prochází schvalovacím procesem, kterého se účastní administrátor.
+
+Aplikace je postavena na komunikaci v~reálném čase. V~případě, že nastane nějaká změna (např. nová událost u~planety Země), všichni právě připojení uživatelé jsou na tuto skutečnost upozorněni skrze notifikaci. Pokud mají otevřenou stránku, jíž se změna týká (v~tomto případě časová osa planety Země), uživatelské rozhraní okamžitě změnu zobrazí bez nutnosti aktualizovat stránku.
+
+Pohyb v~aplikaci nevyžaduje žádnou autentifikaci a~nepřihlášený uživatel tak může přistupovat do všech částí aplikace. Ostatní uživatelé ale neznají identitu nepřihlášeného a~nemůže získat žádná ocenění za aktivity, které v~aplikaci uskutečnil. Po přihlášení získá uživatel nejen jím zvolené jméno, ale také možnost sbírat různá ocenění a~zvyšovat svou reputaci v~komunitě.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -379,7 +382,11 @@ Pro spravované soubory používá tři stavy. Při změně souboru se nastaví 
 \vspace*{-1.5cm}
 \subsection{Preprocesor SASS}
 
-Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování selektorů, proměnné, funkce, podmínky a~další vlastnosti zlepšující čitelnost kódu. Pro kompatibilitu s~prohlížeči je nutné ho transpilovat do \textit{CSS}.~\cite{sass}
+Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování selektorů, proměnné, funkce a~podmínky. Pro kompatibilitu s~prohlížeči je nutné ho transpilovat do \textit{CSS}.~\cite{sass}
+
+\subsection{Socket.io}
+
+Knihovna \textit{Socket.io} umožňuje obousměrnou komunikaci serveru a~klientů v~reálném čase. Knihovna je založena na možnosti vysílání (\code{emit}) a~naslouchání (\code{on}) událostem ze strany klienta i~serveru. Každá událost obsahuje svůj typ (název) a~libovolná další data a může být odeslána pomocí vysílání typu \textit{unicast}, \textit{multicast} nebo \textit{broadcast}. \textit{Socket.io} využívá \textit{TCP} protokolu \textit{WebSockets} a~sjednocuje práci s~ním napříč prohlížeči.~\cite{sockets}
 
 \section{Návrh a~vývoj aplikace}
 
@@ -1245,7 +1252,8 @@ Dostupné\newline z:~{\ttfamily \url{https://www.typescriptlang.org}}.
 \textit{git.} [online]. [cit.\,22.~2.~2019]. 
 Dostupné z: {\ttfamily \url{https://git-scm.com/book/cs/v1/%C3%9Avod-Z%C3%A1klady-syst%C3%A9mu-Git}}.
 
-
+\bibitem{sockets}
+What Socket.io is. \textit{socket.io}. [online]. [cit. 21.~4.~2019]. Dostupné\newline z:~{\ttfamily \url{https://socket.io/docs}}.
 
 \end{thebibliography}
 
@@ -1277,7 +1285,7 @@ Dostupné z: {\ttfamily \url{https://git-scm.com/book/cs/v1/%C3%9Avod-Z%C3%A1kla
 %\pdfbookmark[1]{Příloha~B -- Využití aggregation frameworku}{prilohaB}	% záložka do PDF
 
 \vspace{-0.5cm}\hspace{-1cm}
-\includegraphics[width=500pt]{Images/DB.png}
+\includegraphics[width=470pt]{Images/DB.png}
 
 \clearpage \phantomsection\label{prilohaB} 
 

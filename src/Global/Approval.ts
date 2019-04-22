@@ -5,6 +5,10 @@ declare namespace Universis {
      */
     export interface Approval extends Approval.New, Universis.UniqueEntity {
 
+        notificationId: never
+
+        notification: Universis.Notification
+
     }
 
 }
@@ -22,9 +26,14 @@ declare namespace Universis.Approval {
         notificationId: string
 
         /**
-         * Any custom data.
+         * Any custom data before change.
          */
-        data: any
+        before?: any
+
+        /**
+         * Any custom data after change.
+         */
+        after?: any
 
     }
 
@@ -47,6 +56,12 @@ declare namespace Universis.Approval {
          * @param approvalId
          */
         disapprove(approvalId: string): Promise<void>
+
+        /**
+         * Get approval by filter.
+         * @param filter
+         */
+        get(filter: Universis.Database.Query.Filter): Promise<Approval>
 
         /**
          * Get all approvals.
