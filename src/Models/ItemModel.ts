@@ -3,7 +3,6 @@ import * as Mongoose from 'mongoose'
 import { ApprovalState, Operation } from '../Constants'
 import Model from './Model'
 import NotificationModel from './NotificationModel'
-import ApprovalModel from './ApprovalModel'
 
 class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model<Full, Simple, New> {
 

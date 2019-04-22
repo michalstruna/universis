@@ -1,4 +1,4 @@
-import { DatabaseModel, SocketMessageType } from '../Constants'
+import { ApprovalState, DatabaseModel, SocketMessageType } from '../Constants'
 import SocketModel from './SocketModel'
 import Model from './Model'
 import ApprovalModel from './ApprovalModel'
@@ -18,13 +18,15 @@ class NotificationModel extends Model implements Universis.Item.Model<Universis.
         const notification = await this.dbModel.addOne<Universis.Notification>(item)
         const fullNotification = await this.get({ _id: notification._id })
 
-        const addedApproval = await ApprovalModel.add({
-            notificationId: notification._id,
-            before: item.payload.before,
-            after: item.payload.after
-        })
+        if (item.approvalState === ApprovalState.UNAPPROVED) {
+            const addedApproval = await ApprovalModel.add({
+                notificationId: notification._id,
+                before: item.payload.before,
+                after: item.payload.after
+            })
 
-        fullNotification.payload = await ApprovalModel.get({ _id: addedApproval._id })
+            fullNotification.payload = await ApprovalModel.get({ _id: addedApproval._id })
+        }
 
         SocketModel.broadcast(SocketMessageType.NEW_NOTIFICATION, fullNotification)
         return fullNotification

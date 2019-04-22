@@ -45,7 +45,7 @@ class Notifications extends StatelessComponent<IProps> {
                 <FadeLayout
                     mounted={!notification.isExpired}
                     className={'notifications__notification' + (notification.subjectType === SubjectType.MESSAGE ? ' notifications__notification--small' : (notification.approvalState === ApprovalState.APPROVED ? '' : ' notifications__notification--large'))}
-                    key={key}
+                    key={notification._id}
                     type={FadeLayout.HEIGHT}>
                     <Message data={notification} />
                 </FadeLayout>

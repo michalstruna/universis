@@ -69,7 +69,7 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
 
         if (notification.payload && notification.approvalState !== ApprovalState.APPROVED) {
             dispatch(receiveApproval(notification.payload))
-        } else {
+        } else if (notification.approvalState === ApprovalState.APPROVED) {
             switch (notification.subjectType) {
                 case SubjectType.EVENT:
                     const body = Store.getState().universe.body.payload
@@ -93,6 +93,7 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
 
         }
 
+
         dispatch(receiveMessage(notification))
 
         dispatch(
@@ -105,10 +106,19 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
         setTimeout(() => {
             dispatch(
                 Redux.setAction(
-                    ActionTypes.REMOVE_NOTIFICATION,
+                    ActionTypes.FADE_OUT_NOTIFICATION,
                     { notifications: { $find: item => item._id === notification._id, isExpired: true } }
                 )
             )
+
+            setTimeout(() => {
+                dispatch(
+                    Redux.setAction(
+                        ActionTypes.REMOVE_NOTIFICATION,
+                        { notifications: { $remove: item => item._id === notification._id } }
+                    )
+                )
+            }, 500)
         }, Config.NOTIFICATIONS_DURATION)
     }
 )
