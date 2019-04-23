@@ -5,7 +5,8 @@ import NotificationModel from './NotificationModel'
 class ApprovalModel extends Model implements Universis.Approval.Model {
 
     private mapSubjectTypeToModel = {
-        [SubjectType.EVENT]: DatabaseModel.BODY_EVENT
+        [SubjectType.EVENT]: DatabaseModel.BODY_EVENT,
+        [SubjectType.BODY_TYPE]: DatabaseModel.BODY_TYPE
     }
 
     public constructor() {

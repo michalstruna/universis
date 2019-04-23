@@ -1,7 +1,7 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
 
-import { AsyncEntity, Units, View } from '../../Utils'
+import { AsyncEntity, Units, View, DataTable } from '../../Utils'
 import { getApprovals, approve, disapprove } from '../Redux/ApprovalsActions'
 import { SubjectType } from '../../../../Constants'
 import { Message } from '../../Panel'
@@ -65,6 +65,40 @@ class ApprovalsView extends View<IProps> {
                                 {this.renderDiffValue(approval, ['description'], isAfter)}
                             </p>
                         </section>
+                    </section>
+                )
+
+            case SubjectType.BODY_TYPE:
+                const texture = data.texture ? (
+                    <>
+                        <img src={`/Images/Universe/Textures/${data.texture}`} />
+                        <section className='approvals__block--right'>
+                            {this.renderDiffValue(approval, ['texture'], isAfter)}
+                        </section>
+                    </>
+                ) : null
+
+                const info = {}
+
+                if (data.emissiveColor) {
+                    info['Světlo'] = this.renderDiffValue(approval, ['emissiveColor'], isAfter)
+                }
+
+                if (data.particlesGenerator) {
+                    info['Částice'] = () => (
+                        <code className='approvals__code'>
+                            {this.renderDiffValue(approval, ['particlesGenerator'], isAfter)}
+                        </code>
+                    )
+                }
+
+                return (
+                    <section className='approvals__block'>
+                        <h3>
+                            {this.renderDiffValue(approval, ['name'], isAfter)}
+                        </h3>
+                        {texture}
+                        <DataTable data={info} />
                     </section>
                 )
         }

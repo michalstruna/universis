@@ -15,11 +15,15 @@ const BodyTypeSchema = new Schema({
         type: String
     },
 
-    virtualFlag: {
+    isVirtual: {
         type: Number
     },
 
     texture: {
+        type: String
+    },
+
+    particlesGenerator: {
         type: String
     },
 

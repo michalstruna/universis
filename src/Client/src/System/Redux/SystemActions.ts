@@ -5,7 +5,14 @@ import { Config, Redux } from '../../Utils'
 import { receiveMessage, receiveRemoveMessage } from '../../User/Redux/UserActions'
 import { receiveRemoveApproval, receiveApproval } from '../../Approvals/Redux/ApprovalsActions'
 import { ApprovalState, Operation, SubjectType } from '../../../../Constants'
-import { receiveEvent, receiveUpdatedEvent, receiveDeletedEvent } from '../../Universe/Redux/UniverseActions'
+import {
+    receiveEvent,
+    receiveUpdatedEvent,
+    receiveDeletedEvent,
+    receiveBodyType,
+    receiveDeletedBodyType,
+    receiveUpdatedBodyType
+} from '../../Universe/Redux/UniverseActions'
 import { Store } from '../../System'
 
 /**
@@ -89,6 +96,23 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
                     }
 
                     break
+
+                case SubjectType.BODY_TYPE:
+                    const bodyTypes = Store.getState().universe.bodyTypes.payload
+
+                    if (bodyTypes) {
+                        switch (notification.operation) {
+                            case Operation.ADD:
+                                dispatch(receiveBodyType(notification.payload.after))
+                                break
+                            case Operation.UPDATE:
+                                dispatch(receiveUpdatedBodyType(notification.payload.after))
+                                break
+                            case Operation.DELETE:
+                                dispatch(receiveDeletedBodyType(notification.payload.before))
+                                break
+                        }
+                    }
             }
 
         }

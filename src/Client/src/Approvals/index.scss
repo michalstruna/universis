@@ -1,3 +1,5 @@
+$approval-gap-width: 2rem;
+
 .approvals {
     overflow-y: scroll;
 
@@ -14,7 +16,7 @@
         padding: 1rem;
         padding-bottom: 2rem;
         width: 80rem;
-        max-width: calc(100% - 7rem);
+        max-width: 100%;
 
         &--inner {
             margin-top: 0.5rem;
@@ -32,12 +34,12 @@
         }
 
         &--left {
-            padding-right: 2.5rem;
+            padding-right: #{$approval-gap-width / 2};
             text-align: right;
         }
 
         &--right {
-            padding-left: 2.5rem;
+            padding-left: #{$approval-gap-width / 2};
             text-align: left;
         }
 
@@ -61,14 +63,14 @@
         }
 
         &__relation {
-            @include size(5rem, 100%);
+            @include size(#{$approval-gap-width}, 100%);
             background-color: $yellow-color;
             border-bottom: 0.2rem solid darken($yellow-color, 10);
             border-top: 0.2rem solid darken($yellow-color, 10);
             box-sizing: border-box;
             opacity: 0.5;
             position: absolute;
-            left: calc(50% - 2.5rem);
+            left: calc(50% - #{$approval-gap-width / 2});
 
             &--0 {
                 background-color: $green-color;
@@ -87,6 +89,9 @@
     }
 
     &__value {
+        &--added, &--changed, &--deleted {
+            display: inline-block;
+        }
 
         &--added {
             color: $green-color;
@@ -112,6 +117,39 @@
         left: 0;
         position: relative;
         top: 0;
+    }
+
+    &__block {
+        background-color: $dark-color;
+        box-sizing: border-box;
+        display: inline-block;
+        padding: 0.5rem;
+        width: 20rem;
+
+        img {
+            display: block;
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+
+        &--right {
+            text-align: right;
+            padding: 0.5rem 0;
+        }
+    }
+
+    &__code {
+        box-sizing: border-box;
+        display: block;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0.5rem;
+        text-align: left;
+        width: 100%;
+    }
+
+    h3 {
+        text-align: center;
     }
 
 }
