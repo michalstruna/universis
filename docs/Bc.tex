@@ -130,6 +130,11 @@
 % ZAČÁTEK DOKUMENTU
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage{xpatch}
+\makeatletter
+\xpatchcmd\l@lstlisting{1.5em}{0em}{}{}
+\makeatother
+
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -940,10 +945,8 @@ Výsledkem celkového hodnocení uživatele je jeho reputace. Ta je součtem bod
 \item \textbf{Bronzové medaile} (1) -- obdržené hlasy a~první přihlášení dne.
 \end{itemize}
 
-\subsubsection{Editace uživatele}
+Na této stránce může také vlastník editovat svůj profil.
 
-Na této stránce může uživatel změnit některé z~informací o~něm. Konkrétně se jedná o~pohlaví, věk, bydliště, profilový text, veřejný email a~adresu webové stránky.
-	
 \subsection{Simulátor}
 
 Hlavní náplní aplikace je právě tato stránka. Na \textit{3D} scéně zobrazuje tělesa ve vesmíru v~reálném čase s realistickými poměry velikostí i~vzdáleností. Uživatel může myší nebo touchpadem libovolně otáčet kamerou kolem vycentrovaného tělesa.

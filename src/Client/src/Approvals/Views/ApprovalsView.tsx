@@ -38,11 +38,11 @@ class ApprovalsView extends View<IProps> {
                 const fromAfter = this.getValue(approval.after, ['from'])
                 const fromBefore = this.getValue(approval.before, ['from'])
 
-                if (toAfter == fromAfter) {
+                if (approval.after && toAfter == fromAfter) {
                     delete approval.after.to
                 }
 
-                if (toBefore == fromBefore) {
+                if (approval.before && toBefore == fromBefore) {
                     delete approval.before.to
                 }
 
