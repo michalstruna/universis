@@ -1,7 +1,7 @@
 import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import Follow from '../Constants/Follow'
-import { toggleBodyEventForm, toggleBodyForm, toggleBodyTypeForm } from '../../Panel'
+import { toggleBodyEventForm, toggleBodyForm, toggleBodyTypeForm } from '../../Panel/Redux/PanelActions'
 
 /**
  * Get all bodies.

@@ -33,13 +33,25 @@ class ApprovalsView extends View<IProps> {
         switch (approval.notification.subjectType) {
             case SubjectType.EVENT:
                 const formatter = value => value < 0 ? Units.toShort(value) : Units.toFull(value)
+                const toAfter = this.getValue(approval.after, ['to'])
+                const toBefore = this.getValue(approval.before, ['to'])
+                const fromAfter = this.getValue(approval.after, ['from'])
+                const fromBefore = this.getValue(approval.before, ['from'])
+
+                if (toAfter == fromAfter) {
+                    delete approval.after.to
+                }
+
+                if (toBefore == fromBefore) {
+                    delete approval.before.to
+                }
 
                 return (
                     <section className='approvals__item'>
                         <section className='events-area__event__detail'>
                             <div>
                                 {
-                                    data.from === data.to ?
+                                    !data.to || data.from === data.to ?
                                         this.renderDiffValue(approval, ['from'], isAfter, formatter) :
                                         <>
                                             {this.renderDiffValue(approval, ['from'], isAfter, formatter)} až {this.renderDiffValue(approval, ['to'], isAfter, formatter)}

@@ -3,9 +3,9 @@ import { request, exit } from 'screenfull'
 import ActionTypes from './ActionTypes'
 import { Config, Redux } from '../../Utils'
 import { receiveMessage, receiveRemoveMessage } from '../../User/Redux/UserActions'
-import { receiveRemoveApproval, receiveApproval } from '../../Approvals'
+import { receiveRemoveApproval, receiveApproval } from '../../Approvals/Redux/ApprovalsActions'
 import { ApprovalState, Operation, SubjectType } from '../../../../Constants'
-import { receiveEvent, receiveUpdatedEvent, receiveDeletedEvent } from '../../Universe'
+import { receiveEvent, receiveUpdatedEvent, receiveDeletedEvent } from '../../Universe/Redux/UniverseActions'
 import { Store } from '../../System'
 
 /**

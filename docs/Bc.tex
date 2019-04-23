@@ -386,7 +386,7 @@ Preprocesor \textit{SASS} přidává do \textit{CSS} možnost zanořování sele
 
 \subsection{Socket.io}
 
-Knihovna \textit{Socket.io} umožňuje obousměrnou komunikaci serveru a~klientů v~reálném čase. Knihovna je založena na možnosti vysílání (\code{emit}) a~naslouchání (\code{on}) událostem ze strany klienta i~serveru. Každá událost obsahuje svůj typ (název) a~libovolná další data a může být odeslána pomocí vysílání typu \textit{unicast}, \textit{multicast} nebo \textit{broadcast}. \textit{Socket.io} využívá \textit{TCP} protokolu \textit{WebSockets} a~sjednocuje práci s~ním napříč prohlížeči.~\cite{sockets}
+Knihovna \textit{Socket.io} umožňuje obousměrnou komunikaci serveru a~klientů v~reálném čase. Je založena na možnosti vysílání (\code{emit}) a~naslouchání (\code{on}) událostem ze strany klienta i~serveru. Každá událost obsahuje svůj typ (název) a~libovolná další data a může být odeslána pomocí vysílání typu \textit{unicast}, \textit{multicast} nebo \textit{broadcast}. \textit{Socket.io} využívá \textit{TCP} protokolu \textit{WebSockets} a~sjednocuje práci s~ním napříč prohlížeči.~\cite{sockets}
 
 \section{Návrh a~vývoj aplikace}
 
@@ -838,7 +838,7 @@ I přes skutečnost, \textit{že MongoDB} jakožto dokumentová databáze umož�
 
 \subsection{Instalace a~spuštění aplikace}
 
-Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}. První načtení může být pomalejší, protože využívání cloudové platformy \textit{heroku} zdarma způsobí odebrání aplikace z~paměti po 30 minutách nečinnosti. 
+Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}. Je optimalizovaná pro prohlížeče \textit{Chromium} a~\textit{Google Chrome}, ale lze ji spustit i~v~prohlížečích \textit{Firefox}, \textit{Safari} a~\textit{Opera}. První načtení může být pomalejší, protože využívání cloudové platformy \textit{heroku} zdarma způsobí uvolnění aplikace z~paměti po 30 minutách nečinnosti. 
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
@@ -856,7 +856,7 @@ Následně musí dojít ke~stažení externích balíčků \textit{NPM} pro serv
 
 \lstinputlisting[caption={Příkaz pro sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
 
-Po krátké chvíli bude aplikace dostupná na adrese \url{http://localhost:3000}, resp. \url{http://localhost:3000/api-docs}.
+Po krátké chvíli bude aplikace dostupná v internetovém prohlížeči na adrese \url{http://localhost:3000}, resp. \url{http://localhost:3000/api-docs}.
 
 \section{Rozvržení aplikace}
 
@@ -1051,6 +1051,18 @@ Třetí a~poslední záložka je určena pro diskuse. Každý zde může reagova
 \end{figure}
 
 \vspace*{-1cm}
+\subsection{Schválení}
+
+Stránka obsahující změny, které čekají na schválení, je dostupná pro všechny uživatele. U~každé změny je vykreslen blok zobrazující stav před a~po. Barevně jsou odlišeny ty části, které byly přidány (zeleně), upraveny (oranžově) a~odebrány (červeně). Administrátor může každou změnu schválit a~tím ji uplatnit, nebo zamítnout a~smazat ji.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=350pt]{Images/Approval.png}
+\caption{Neschválená změna}
+\end{center}
+\end{figure}
+
+
 \subsection{Podmínky užití}
 
 Tato stránka obsahuje právní ustanovení, která určují, jak mohou potenciální uživatelé zacházet s~aplikací. Píše se zde zejména o~tom, že se na aplikaci vztahují práva a~povinnosti uvedená v~prohlášení autora na začátku tohoto dokumentu. Zároveň jsou zde také uvedeny všechny ty části aplikace, které nevytvořil sám autor a~mohly by se na ně vztahovat další licenční podmínky.

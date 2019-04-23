@@ -1,20 +1,21 @@
 \babel@toc {czech}{}
 \babel@toc {czech}{}
-\contentsline {figure}{\numberline {1}{\ignorespaces Elementy orbity}}{18}{figure.caption.10}
-\contentsline {figure}{\numberline {2}{\ignorespaces \IeC {\v Z}ivotn\IeC {\'\i } cyklus architektury Redux}}{26}{figure.caption.11}
-\contentsline {figure}{\numberline {3}{\ignorespaces Jednozna\IeC {\v c}n\IeC {\'a} definice t\IeC {\v e}lesa}}{29}{figure.caption.12}
-\contentsline {figure}{\numberline {4}{\ignorespaces Jednozna\IeC {\v c}n\IeC {\'a} definice orbity t\IeC {\v e}lesa}}{30}{figure.caption.13}
-\contentsline {figure}{\numberline {5}{\ignorespaces Jednozna\IeC {\v c}n\IeC {\'a} definice prstence t\IeC {\v e}lesa}}{30}{figure.caption.14}
-\contentsline {figure}{\numberline {6}{\ignorespaces Hlavn\IeC {\'\i } p\IeC {\'a}s planetek vygenerovan\IeC {\'y} pomoc\IeC {\'\i } \IeC {\v c}\IeC {\'a}stic\relax }}{31}{figure.caption.15}
-\contentsline {figure}{\numberline {7}{\ignorespaces V\IeC {\'y}po\IeC {\v c}et v\IeC {\'y}choz\IeC {\'\i } pozice t\IeC {\v e}lesa}}{34}{figure.caption.16}
-\contentsline {figure}{\numberline {8}{\ignorespaces Hlavn\IeC {\'\i } str\IeC {\'a}nka\relax }}{44}{figure.caption.17}
-\contentsline {figure}{\numberline {9}{\ignorespaces Formul\IeC {\'a}\IeC {\v r} pro zji\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } identity u\IeC {\v z}ivatele\relax }}{45}{figure.caption.18}
-\contentsline {figure}{\numberline {10}{\ignorespaces Formul\IeC {\'a}\IeC {\v r} pro p\IeC {\v r}ihl\IeC {\'a}\IeC {\v s}en\IeC {\'\i } u\IeC {\v z}ivatele\relax }}{45}{figure.caption.19}
-\contentsline {figure}{\numberline {11}{\ignorespaces Formul\IeC {\'a}\IeC {\v r} pro registraci u\IeC {\v z}ivatele\relax }}{46}{figure.caption.20}
-\contentsline {figure}{\numberline {12}{\ignorespaces Simul\IeC {\'a}tor\relax }}{48}{figure.caption.21}
-\contentsline {figure}{\numberline {13}{\ignorespaces P\IeC {\v r}ehled\relax }}{49}{figure.caption.22}
-\contentsline {figure}{\numberline {14}{\ignorespaces Seznam t\IeC {\v e}les\relax }}{50}{figure.caption.23}
-\contentsline {figure}{\numberline {15}{\ignorespaces Detail t\IeC {\v e}lesa\relax }}{51}{figure.caption.24}
-\contentsline {figure}{\numberline {16}{\ignorespaces \IeC {\v C}asov\IeC {\'a} osa t\IeC {\v e}lesa\relax }}{51}{figure.caption.25}
-\contentsline {figure}{\numberline {17}{\ignorespaces Diskuse o t\IeC {\v e}lese\relax }}{52}{figure.caption.26}
-\contentsline {figure}{\numberline {18}{\ignorespaces Sestaven\IeC {\'\i } aplikace a~optimalizace}}{54}{figure.caption.27}
+\contentsline {figure}{\numberline {1}{\ignorespaces Elementy orbity}}{19}{figure.caption.10}
+\contentsline {figure}{\numberline {2}{\ignorespaces \IeC {\v Z}ivotn\IeC {\'\i } cyklus architektury Redux}}{27}{figure.caption.11}
+\contentsline {figure}{\numberline {3}{\ignorespaces Jednozna\IeC {\v c}n\IeC {\'a} definice t\IeC {\v e}lesa}}{30}{figure.caption.12}
+\contentsline {figure}{\numberline {4}{\ignorespaces Jednozna\IeC {\v c}n\IeC {\'a} definice orbity t\IeC {\v e}lesa}}{31}{figure.caption.13}
+\contentsline {figure}{\numberline {5}{\ignorespaces Jednozna\IeC {\v c}n\IeC {\'a} definice prstence t\IeC {\v e}lesa}}{31}{figure.caption.14}
+\contentsline {figure}{\numberline {6}{\ignorespaces Hlavn\IeC {\'\i } p\IeC {\'a}s planetek vygenerovan\IeC {\'y} pomoc\IeC {\'\i } \IeC {\v c}\IeC {\'a}stic\relax }}{32}{figure.caption.15}
+\contentsline {figure}{\numberline {7}{\ignorespaces V\IeC {\'y}po\IeC {\v c}et v\IeC {\'y}choz\IeC {\'\i } pozice t\IeC {\v e}lesa}}{35}{figure.caption.16}
+\contentsline {figure}{\numberline {8}{\ignorespaces Hlavn\IeC {\'\i } str\IeC {\'a}nka\relax }}{45}{figure.caption.17}
+\contentsline {figure}{\numberline {9}{\ignorespaces Formul\IeC {\'a}\IeC {\v r} pro zji\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } identity u\IeC {\v z}ivatele\relax }}{46}{figure.caption.18}
+\contentsline {figure}{\numberline {10}{\ignorespaces Formul\IeC {\'a}\IeC {\v r} pro p\IeC {\v r}ihl\IeC {\'a}\IeC {\v s}en\IeC {\'\i } u\IeC {\v z}ivatele\relax }}{46}{figure.caption.19}
+\contentsline {figure}{\numberline {11}{\ignorespaces Formul\IeC {\'a}\IeC {\v r} pro registraci u\IeC {\v z}ivatele\relax }}{47}{figure.caption.20}
+\contentsline {figure}{\numberline {12}{\ignorespaces Simul\IeC {\'a}tor\relax }}{49}{figure.caption.21}
+\contentsline {figure}{\numberline {13}{\ignorespaces P\IeC {\v r}ehled\relax }}{50}{figure.caption.22}
+\contentsline {figure}{\numberline {14}{\ignorespaces Seznam t\IeC {\v e}les\relax }}{51}{figure.caption.23}
+\contentsline {figure}{\numberline {15}{\ignorespaces Detail t\IeC {\v e}lesa\relax }}{52}{figure.caption.24}
+\contentsline {figure}{\numberline {16}{\ignorespaces \IeC {\v C}asov\IeC {\'a} osa t\IeC {\v e}lesa\relax }}{52}{figure.caption.25}
+\contentsline {figure}{\numberline {17}{\ignorespaces Diskuse o t\IeC {\v e}lese\relax }}{53}{figure.caption.26}
+\contentsline {figure}{\numberline {18}{\ignorespaces Neschv\IeC {\'a}len\IeC {\'a} zm\IeC {\v e}na\relax }}{53}{figure.caption.27}
+\contentsline {figure}{\numberline {19}{\ignorespaces Sestaven\IeC {\'\i } aplikace a~optimalizace}}{56}{figure.caption.28}

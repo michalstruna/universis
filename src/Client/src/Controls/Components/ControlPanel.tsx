@@ -22,8 +22,8 @@ class ControlPanel extends SimpleComponent {
                 <HelpControl />
                 <HomeControl />
                 <AuthenticationControl />
-                <ViewSizeControl />
                 <ApprovalsControl />
+                <ViewSizeControl />
             </UILayout>
         )
     }
