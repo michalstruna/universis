@@ -1178,6 +1178,12 @@ Překrývání jednotlivých události je ošetřeno tak, že se vykreslí do r�
 \clearpage \phantomsection \addcontentsline{toc}{section}{Závěr}
 \section*{Závěr}
 
+Dle stanovených cílů bakalářské práce byla vytvořena funkční webová aplikace umožňující zobrazit 3D~vizualizaci těles ve vesmíru v~reálném čase. Nad dokumenty všech databázových kolekcí lze provádět \textit{CRUD} operace z~uživatelského rozhraní nebo z~dokumentovaného \textit{REST~API}. Při každém vykonání některého z~přístupových bodů rozhraní je zjištěna identita uživatele z~tokenu nacházejícího se v~hlavičce požadavku \textit{HTTP}. Na základě identity je pak vyhodnoceno, zda bude uživateli umožněno provedení dané operace. Přístup do databáze přes rozhraní je tak zabezpečen a~příslušné činnosti mohou vykonávat pouze pověření uživatelé.
+
+V~aplikaci se nachází 3 role uživatelů: nepřihlášený, přihlášený a~administrátor.
+
+Při dalším potenciálním vývoji aplikace by bylo vhodné zdokonalit vykreslovací systém, který by v~současném stavu při vysokém počtu těles nebyl v~prohlížečích plynulý ani na výkonných počítačích. Také by bylo dobré implementovat responzivitu a~pro menší zařízení tak zobrazit odlehčenou verzi aplikace. Dalším možným rozšířením by mohla být funkce pro vytváření a~zobrazování článků nebo~galerie s~fotkami, které uživatelé vytvořili při svých astronomických pozorováních.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % POUŽITÁ LITERATURA
