@@ -73,7 +73,7 @@
 \contentsline {subsection}{\numberline {4.4}Simul\IeC {\'a}tor}{47}{subsection.4.4}
 \contentsline {subsection}{\numberline {4.5}U\IeC {\v z}ivatelsk\IeC {\'y} panel}{48}{subsection.4.5}
 \contentsline {subsubsection}{\numberline {4.5.1}P\IeC {\v r}ehled}{48}{subsubsection.4.5.1}
-\contentsline {subsubsection}{\numberline {4.5.2}Seznam t\IeC {\v e}les}{49}{subsubsection.4.5.2}
+\contentsline {subsubsection}{\numberline {4.5.2}Datab\IeC {\'a}ze}{49}{subsubsection.4.5.2}
 \contentsline {subsubsection}{\numberline {4.5.3}Detail t\IeC {\v e}lesa}{50}{subsubsection.4.5.3}
 \contentsline {subsection}{\numberline {4.6}Podm\IeC {\'\i }nky u\IeC {\v z}it\IeC {\'\i }}{52}{subsection.4.6}
 \contentsline {section}{\numberline {5}Probl\IeC {\'e}my \IeC {\v r}e\IeC {\v s}en\IeC {\'e} p\IeC {\v r}i implementaci}{53}{section.5}

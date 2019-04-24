@@ -11,6 +11,8 @@ import NotificationSchema from '../Database/Schemas/NotificationSchema'
 import BodyEventSchema from '../Database/Schemas/BodyEventSchema'
 import BodyPostSchema from '../Database/Schemas/BodyPostSchema'
 import PostVoteSchema from '../Database/Schemas/PostVoteSchema'
+import MessageSchema from '../Database/Schemas/MessageSchema'
+import UnapprovedSchema from '../Database/Schemas/UnapprovedSchema'
 
 /**
  * Base model. This is parent of each another model.
@@ -61,7 +63,9 @@ abstract class Model {
                 [DatabaseModels.NOTIFICATION]: NotificationSchema,
                 [DatabaseModels.BODY_EVENT]: BodyEventSchema,
                 [DatabaseModels.BODY_POST]: BodyPostSchema,
-                [DatabaseModels.POST_VOTE]: PostVoteSchema
+                [DatabaseModels.POST_VOTE]: PostVoteSchema,
+                [DatabaseModels.MESSAGE]: MessageSchema,
+                [DatabaseModels.UNAPPROVED]: UnapprovedSchema
             }
         })
     }

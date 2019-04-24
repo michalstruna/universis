@@ -31,10 +31,10 @@ class DiscussionForm extends StatelessComponent<IProps & InjectedFormProps<IValu
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { strings, identity, form, addDiscussion, reset, body } = this.props
+        const { addDiscussion, reset, body } = this.props
 
         try {
-            addDiscussion({ ...data, bodyId: body.payload._id })
+            await addDiscussion({ ...data, bodyId: body.payload._id })
             reset()
         } catch (error) {
         }
@@ -42,7 +42,6 @@ class DiscussionForm extends StatelessComponent<IProps & InjectedFormProps<IValu
 
     public render(): React.ReactNode {
         const { strings, handleSubmit, invalid, submitting, identity } = this.props
-
 
         return (
             <section className='panel__body__discussion__post'>

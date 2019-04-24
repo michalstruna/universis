@@ -10,7 +10,7 @@ interface IRequestBody {
 }
 
 interface IRequestQuery {
-    [name: string]: string | number
+    [name: string]: string | number | any
 }
 
 interface IRequestHeader {

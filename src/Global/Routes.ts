@@ -50,7 +50,7 @@ declare interface IRouteGroupAccess {
 declare interface IRouteGroupForAll {
 
     /**
-     * Route for get entities.
+     * Route for getAll entities.
      */
     get?: IRequestHandler
 
@@ -60,7 +60,7 @@ declare interface IRouteGroupForAll {
     post?: IRequestHandler
 
     /**
-     * Route for remove all entities.
+     * Route for delete all entities.
      */
     delete?: IRequestHandler
 
@@ -72,7 +72,7 @@ declare interface IRouteGroupForAll {
 declare interface IRouteGroupForOne {
 
     /**
-     * Route for get one entity.
+     * Route for getAll one entity.
      */
     get?: IRequestHandler
 
@@ -82,7 +82,7 @@ declare interface IRouteGroupForOne {
     put?: IRequestHandler
 
     /**
-     * Route for remove one entity.
+     * Route for delete one entity.
      */
     delete?: IRequestHandler
 
@@ -94,7 +94,7 @@ declare interface IRouteGroupForOne {
 declare interface IRouteGroupForCount {
 
     /**
-     * Route for get count of entities.
+     * Route for getAll count of entities.
      */
     get?: IRequestHandler
 

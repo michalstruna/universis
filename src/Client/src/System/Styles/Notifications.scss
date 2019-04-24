@@ -1,0 +1,18 @@
+.notifications {
+    background-color: $semitransparent-dark-color;
+    left: calc(50% - 15rem);
+    position: fixed;
+    top: 0;
+    width: 30rem;
+    z-index: 999999999;
+
+    &__notification {
+        @include size(100%, 2.5rem, true);
+        font-size: 90%;
+        overflow: hidden;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+}

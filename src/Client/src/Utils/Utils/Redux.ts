@@ -129,16 +129,20 @@ class Redux {
                 const index = source.findIndex(change.$find)
                 delete change.$find
                 source[index] = applyNestedChange(source[index], change)
-            } else if (change && change.$add) {
-                source = [...source, change.$add]
-            } else if (change && change.$addFirst) {
-                source = [change.$addFirst, ...source]
+            } else if (change && change.$add !== undefined) {
+                source = [...(source || []), change.$add]
+            } else if (change && change.$addFirst !== undefined) {
+                source = [change.$addFirst, ...(source || [])]
             } else if (change && change.$remove) {
-                const index = source.findIndex(change.$remove)
+                const index = (source || []).findIndex(change.$remove)
 
                 if (index > -1) {
-                    source.splice(index, 1)
+                    (source || []).splice(index, 1)
                 }
+            } else if (change && change.$set) {
+                source = change.$set
+            } else if (change && change.$inc) {
+                source += change.$inc
             } else if (change && typeof change[Object.keys(change)[0]] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
                 for (const i in change) {
                     if (!(i.startsWith('$'))) {

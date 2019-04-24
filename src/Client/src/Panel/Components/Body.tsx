@@ -39,9 +39,9 @@ class Body extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { bodies, location } = this.props
+        const { bodies, location, bodyTypes } = this.props
 
-        if (!prevProps.bodies.payload && bodies.payload) {
+        if ((!prevProps.bodies.payload || !prevProps.bodyTypes.payload) && (bodies.payload && bodyTypes.payload)) {
             this.getBody()
         }
 

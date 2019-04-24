@@ -37,6 +37,7 @@
     "redux-form": "^7.4.2",
     "redux-thunk": "2.2.0",
     "screenfull": "^3.3.3",
+    "socket.io-client": "^2.2.0",
     "three": "^0.94.0",
     "three-trackballcontrols": "0.0.7"
   },
@@ -47,6 +48,7 @@
     "@types/react-redux": "^5.0.21",
     "@types/react-router-dom": "^4.3.1",
     "@types/redux-form": "^7.4.8",
+    "@types/socket.io-client": "^1.4.32",
     "@types/three": "^0.92.24",
     "@types/webpack-dev-server": "^2.9.6",
     "css-loader": "^0.28.9",

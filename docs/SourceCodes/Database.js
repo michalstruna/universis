@@ -1,6 +1,6 @@
 const User = this.db.getModel(DatabaseModels.USER)
 
-// User's names, which starts with 'a' and doesn't contain any number.
+// User's names, which start with 'a' and don't contain any number.
 User.find({ name: /^a[^0-9]*$/ }}).select('name').skip(5).limit(10)
 
 // Create new user.

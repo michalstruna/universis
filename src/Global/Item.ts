@@ -1,16 +1,3 @@
-declare namespace Universis {
-
-    /**
-     * Base item.
-     */
-    export interface Item {
-
-        _id?: string
-
-    }
-
-}
-
 /**
  * Namespace for item model.
  */
@@ -19,16 +6,7 @@ declare namespace Universis.Item {
     /**
      * Interface for item model.
      */
-    export interface Model<Full extends Universis.Item, Simple extends Universis.Item, New> {
-
-        /**
-         * Create new items.
-         * @param items Items data.
-         * @returns Promise with IDs of created item.
-         * @returns Promise with error INVALID, if values are invalid.
-         * @returns Promise with error DUPLICATE, if there is duplicate unique value.
-         */
-        add(items: New[]): Promise<Full[]>
+    export interface Model<Full, Simple, New> {
 
         /**
          * Create new item.
@@ -37,24 +15,7 @@ declare namespace Universis.Item {
          * @returns Promise with error INVALID, if values are invalid.
          * @returns Promise with error DUPLICATE, if there is duplicate unique value.
          */
-        addOne(item: New): Promise<Full>
-
-        /**
-         * Approve all items with filter.
-         * @param filter Object, keys are properties, values are required values.
-         * @param options Query options. (optional)
-         * @returns Promise with count of approved items.
-         */
-        approve(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<number>
-
-        /**
-         * Approve one item with filter.
-         * @param filter Object, keys are properties, values are required values.
-         * @param options Query options. (optional)
-         * @returns Empty promise.
-         * @returns Promise with error NOT_FOUND, if there is no item.
-         */
-        approveOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void>
+        add(item: New): Promise<Full>
 
         /**
          * Get count of all items.
@@ -64,12 +25,13 @@ declare namespace Universis.Item {
         count(filter: Universis.Database.Query.Filter): Promise<number>
 
         /**
-         * Get all items.
+         * Delete one item.
          * @param filter Object, keys are properties, values are required values.
          * @param options Query options. (optional)
-         * @returns Promise with list of items.
+         * @returns Empty promise.
+         * @returns Promise with error NOT_FOUND, if item with this ID was not found.
          */
-        get(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Simple[]>
+        delete(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void>
 
         /**
          * Get one item.
@@ -78,25 +40,15 @@ declare namespace Universis.Item {
          * @returns Promise with item.
          * @returns Promise with error NOT_FOUND, if there is no item.
          */
-        getOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Full>
+        get(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Full>
 
         /**
-         * Remove all items.
+         * Get all items.
          * @param filter Object, keys are properties, values are required values.
          * @param options Query options. (optional)
-         * @returns Promise with count of removed items.
-         * @returns Promise with error NOT_FOUND, if there is no item to remove.
+         * @returns Promise with list of items.
          */
-        remove(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<number>
-
-        /**
-         * Remove one item.
-         * @param filter Object, keys are properties, values are required values.
-         * @param options Query options. (optional)
-         * @returns Empty promise.
-         * @returns Promise with error NOT_FOUND, if item with this ID was not found.
-         */
-        removeOne(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void>
+        getAll(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<Simple[]>
 
         /**
          * Update one item.
@@ -108,18 +60,7 @@ declare namespace Universis.Item {
          * @returns Promise with error NOT_FOUND, if item with this ID was not found.
          * @returns Promise with error DUPLICATE, if there is duplicate unique value.
          */
-        updateOne(filter: Universis.Database.Query.Filter, changes: New, options?: Universis.Database.Query.Options): Promise<void>
-
-        /**
-         * Update all items.
-         * @param filter Object, keys are properties, values are required values.
-         * @param changes New data.
-         * @param options Query options. (optional)
-         * @returns Promise with count of updated items.
-         * @returns Promise with error INVALID, if values are invalid.
-         * @returns Promise with error DUPLICATE, if there is duplicate unique value.
-         */
-        update(filter: Universis.Database.Query.Filter, changes: New, options?: Universis.Database.Query.Options): Promise<number>
+        update(filter: Universis.Database.Query.Filter, changes: New, options?: Universis.Database.Query.Options): Promise<void>
 
     }
 
@@ -145,17 +86,32 @@ declare namespace Universis.Model {
             /**
              * Get type of subject.
              */
-            subjectAccessor: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, number>
+            subjectTypeAccessor: Universis.Function2<any, Item.Model<Full, Simple, New>, number | Promise<number>>
 
             /**
-             * Get notification text from object.
+             * Get subject name.
              */
-            textAccessor: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, string>
+            subjectNameAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
 
             /**
-             * Get notification target. (optional)
+             * Get author of notification.
              */
-            targetAccessor?: Universis.Function2<Full | Simple, Item.Model<Full, Simple, New>, string> // TODO: Refactor, remove Simple (because of get())
+            userIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
+
+            /**
+             * Get target user of notification.
+             */
+            targetUserIdAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
+
+            /**
+             * Get link of notification.
+             */
+            linkAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
+
+            /**
+             * Get text of notification.
+             */
+            textAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
 
         }
 
@@ -170,39 +126,39 @@ declare namespace Universis.Model {
             notification?: boolean
 
             /**
-             * Callback of before get item. (optional)
+             * Callback of before getAll item. (optional)
              * THere are query filter and query options in parameters.
              */
             onBefore?: Universis.Consumer3<Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
             /**
-             * Callback of after get item. (optional)
+             * Callback of after getAll item. (optional)
              * There are item, query filter and query options in parameters.
              */
             onAfter?: Universis.Consumer4<any, Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
             /**
-             * List of selected fields in getOne. (optional, default all fields)
+             * List of selected fields in get. (optional, default all fields)
              */
             select?: string[]
 
             /**
-             * List of populated fields in getOne. (optional, default no fields)
+             * List of populated fields in get. (optional, default no fields)
              */
             join?: string[]
 
             /**
-             * List of selected fields in get. (optional, default all fields)
+             * List of selected fields in getAll. (optional, default all fields)
              */
             selectAll?: string[]
 
             /**
-             * List of populated fields in get. (optional, default no fields)
+             * List of populated fields in getAll. (optional, default no fields)
              */
             joinAll?: string[]
 
             /**
-             * Custom pipeline for get one item.
+             * Custom pipeline for getAll one item.
              */
             custom?: Universis.Function2<Universis.Database.Query.Filter, Universis.Database.Query.Options, Universis.Map<any>[]>
 
@@ -282,13 +238,13 @@ declare namespace Universis.Model {
             notification?: boolean
 
             /**
-             * Callback of before remove item.
+             * Callback of before delete item.
              * THere are query filter and query options in parameters.
              */
             onBefore?: Universis.Consumer3<Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>
 
             /**
-             * Callback of after remove item.
+             * Callback of after delete item.
              * There are removed item, query filter and query options in parameters.
              */
             onAfter?: Universis.Consumer4<Full, Universis.Database.Query.Filter, Universis.Database.Query.Options, Item.Model<Full, Simple, New>>

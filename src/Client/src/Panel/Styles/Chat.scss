@@ -1,5 +1,24 @@
+@keyframes FadeInHeightMessage {
+    from {
+        margin: 0 0.25rem;
+        max-height: 0;
+    }
+
+    to {
+        margin: 0 0.25rem;
+        margin-bottom: 0;
+        max-height: 7rem;
+    }
+}
+
 .panel__chat {
     @include size(31.7rem, 100%);
+
+    .panel__window__body--inner {
+        & > section:last-of-type {
+            margin-bottom: 0;
+        }
+    }
 
     .user-info--small {
         float: left;
@@ -10,19 +29,51 @@
     }
 
     &__message {
-        margin: 1rem 0.5rem;
+        box-sizing: border-box;
+        margin: 0.5rem 0.25rem;
+        overflow: hidden;
+
+        &--outer {
+            background-color: $medium-dark-color;
+            box-sizing: border-box;
+            margin: 0.5rem 0.25rem;
+            padding: 0.5rem;
+            position: relative;
+            width: calc(100% - 0.75rem);
+
+            .panel__chat__message {
+                overflow: hidden;
+                padding-left: 0;
+            }
+        }
+
+        &__link {
+            @include opacity-hover;
+            @include size(2rem, 3rem);
+            @include svg("Panel/Chat/Link");
+            bottom: 1rem;
+            position: absolute;
+            right: 1rem;
+        }
+
+        &__title {
+            font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        &--new {
+            animation: FadeInHeightMessage $medium-animation-duration ease-in-out 1;
+        }
 
         &:first-of-type {
             margin-top: 0;
         }
 
-        &:last-of-type {
-            margin-bottom: 0;
-        }
-
         &__metadata {
             font-size: 80%;
-            line-height: 1.5em;
+            line-height: 1.3em;
         }
 
         &__author, &__date {
@@ -40,7 +91,8 @@
             box-sizing: border-box;
             display: inline-block;
             line-height: 1.5em;
-            padding: 0.5rem;
+            padding: 0.3rem 0.5rem;
+            padding-bottom: 0.2rem;
             max-width: calc(100% - 4.5rem);
         }
 
@@ -70,27 +122,40 @@
         }
     }
 
-    &__new-message {
-        @include size(100%, 3rem);
-    }
+    .form {
+        @include size(100%, 5rem);
+        margin-top: 1rem;
+        padding: 1rem;
 
-    &__input {
-        @include size(calc(100% - 5rem), 3rem, true);
-        background: transparent;
-        box-sizing: border-box;
-        color: $lightest-color;
-        font-size: 110%;
-        margin: 0.5rem;
-        padding: 0 1rem;
-    }
+        &__block {
+            @include size(calc(100% - 5rem), 2rem, true);
+            float: left;
+            padding: 0;
+        }
 
-    &__send {
-        @include opacity-hover;
-        @include size(2.5rem);
-        @include svg("Panel/Chat/Send", 90% auto);
-        float: right;
-        margin: 0.8rem 0;
-        margin-right: 1rem;
+        &__field {
+            background: transparent;
+            border-bottom: none;
+            box-sizing: border-box;
+            color: $lightest-color;
+            font-size: 110%;
+        }
+
+        &__button {
+            @include opacity-hover;
+            @include size(2.5rem);
+            @include svg("Panel/Chat/Send", 90% auto);
+            float: right;
+            margin-top: -0.4rem;
+
+            &__icon {
+                display: none;
+            }
+        }
+
+        .loader {
+            background-size: auto 100%;
+        }
     }
 
     .user-info--large {
@@ -99,6 +164,20 @@
 
     .user-info--small {
         float: left;
+    }
+
+    &__unread {
+        @include size(15rem, 2.5rem, true);
+        background-color: $darkest-color;
+        bottom: 5rem;
+        box-shadow: 0 0 0.5rem $light-color;
+        color: $lightest-color;
+        cursor: pointer;
+        font-size: 100%;
+        font-weight: bold;
+        left: calc(40% - 7.5rem);
+        position: absolute;
+        text-align: center;
     }
 
 }

@@ -86,7 +86,10 @@ export default {
         },
         '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification'),
         '/notifications/{notificationId}': Route.getSwaggerRouteGroupForOne(['Notifications'], 'Notification', ['notificationId']),
-        '/notifications/count': Route.getSwaggerRouteGroupForCount(['Notifications'])
+        '/notifications/count': Route.getSwaggerRouteGroupForCount(['Notifications']),
+        '/messages': Route.getSwaggerRouteGroupForAll(['Messages'], 'Message', 'NewMessage'),
+        '/messages/{messageId}': Route.getSwaggerRouteGroupForOne(['Messages'], 'Message', ['messageId']),
+        '/messages/count': Route.getSwaggerRouteGroupForCount(['Messages'])
     },
     'components': {
         'schemas': {
@@ -773,6 +776,40 @@ export default {
                         '$ref': '#/components/schemas/NewDiscussion'
                     }
                 ]
+            },
+            'NewMessage': {
+                'type': 'object',
+                'properties': {
+                    'content': {
+                        'type': 'string'
+                    },
+                    'targetUserId': {
+                        '$ref': '#/components/schemas/Id'
+                    }
+                }
+            },
+            'Message': {
+                'type': 'object',
+                'properties': {
+                    '_id': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'content': {
+                        'type': 'string'
+                    },
+                    'createdAt': {
+                        'type': 'number'
+                    },
+                    'updatedAt': {
+                        'type': 'number'
+                    },
+                    'user': {
+                        '$ref': '#/components/schemas/SimpleUser'
+                    },
+                    'targetUser': {
+                        '$ref': '#/components/schemas/SimpleUser'
+                    }
+                }
             }
         }
     }

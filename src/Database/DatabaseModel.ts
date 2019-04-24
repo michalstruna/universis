@@ -3,7 +3,7 @@ import { Model, Document, Query } from 'mongoose'
 import { Errors } from '../Constants'
 
 // TODO: Remove func does not return list of items.
-// TODO: Join, select, limit, offset, ... options in update and remove.
+// TODO: Join, select, limit, offset, ... options in update and delete.
 
 type Item = Universis.Database.Query.Item
 type Filter = Universis.Database.Query.Filter

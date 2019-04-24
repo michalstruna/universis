@@ -61,3 +61,80 @@ export const signUp = (email: string, password: string) => (
         () => Url.push({ pathname: Urls.LOGIN })
     )
 )
+
+/**
+ * Get list of messages.
+ * @param limit Max. messages.
+ */
+export const getMessages = (limit: number) => (
+    Redux.asyncAction(
+        ActionTypes.GET_MESSAGES,
+        { messages: Request.get(`notifications`, { limit, sort: 'date', reverse: true }) }
+    )
+)
+
+/**
+ * Add message.
+ * @param message
+ */
+export const addMessage = (message: Universis.Message.New) => (
+    Redux.asyncAction(
+        ActionTypes.ADD_MESSAGE,
+        { newMessage: Request.post(`messages`, message) }
+    )
+)
+
+/**
+ * Receive message.
+ * @param message
+ */
+export const receiveMessage = (message: Universis.Notification) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_MESSAGE,
+        { messages: { payload: { $add: message } }, unreadMessages: { $inc: 1 } }
+    )
+)
+
+/**
+ * Receive online users.
+ * @param users
+ */
+export const receiveOnlineUsers = (users: Universis.User.Simple[]) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_ONLINE_USERS,
+        { onlineUsers: { $set: users } }
+    )
+)
+
+/**
+ * Receive that new user connects.
+ * @param user
+ */
+export const receiveConnection = (user: Universis.User.Simple) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_CONNECTION,
+        { onlineUsers: { $add: user } }
+    )
+)
+
+/**
+ * Receive that new user disconnects.
+ * @param user
+ */
+export const receiveDisconnection = (user: Universis.User.Simple) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_DISCONNECTION,
+        { onlineUsers: { $remove: onlineUser => onlineUser ? onlineUser._id === user : !user } }
+    )
+)
+
+/**
+ * Toggle sticky chat. If chat is sticky, on new message scroll bottom.
+ * @param isChatSticky
+ */
+export const toggleStickyChat = (isChatSticky: boolean) => (
+    Redux.toggleAction(
+        ActionTypes.TOGGLE_STICKY_CHAT,
+        { isChatSticky, unreadMessages: 0 }
+    )
+)

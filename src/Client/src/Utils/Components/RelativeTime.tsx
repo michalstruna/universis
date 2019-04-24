@@ -3,7 +3,7 @@ import * as React from 'react'
 import { StatelessComponent, Units } from '../../Utils'
 
 interface IProps {
-    date: string
+    date: string | number
 }
 
 class RelativeTime extends StatelessComponent<IProps> {

@@ -94,7 +94,7 @@ class BodyDiscussion extends StatelessComponent<IProps> {
 
     public render(): React.ReactNode {
         if (!this.props.body.payload) {
-            return null // TODO: Refactor.
+            return null
         }
 
         return (

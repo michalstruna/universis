@@ -3,10 +3,12 @@ import * as Compression from 'compression'
 import * as Express from 'express'
 import * as SwaggerUi from 'swagger-ui-express'
 import * as OpenApi from 'express-openapi'
-import * as Path from "path";
+import * as Path from 'path'
+import * as Http from 'http'
 
 import { Config } from './Constants'
-import SwaggerDocument from "./Swagger"
+import SwaggerDocument from './Swagger'
+import SocketModel from './Models/SocketModel'
 
 class Server implements Universis.Server {
 
@@ -30,8 +32,11 @@ class Server implements Universis.Server {
     }
 
     public run(port: number): void {
-        const runningServer = this.express.listen(process.env.PORT || port, () => {
+        const server = Http.createServer(this.express)
+
+        const runningServer = server.listen(process.env.PORT || port, () => {
             const info: any = runningServer.address()
+            SocketModel.initialize(server)
             console.log(`Server is running on ${info.address}:${info.port}.`)
         })
     }

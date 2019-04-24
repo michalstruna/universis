@@ -23,6 +23,7 @@ class FadeLayout extends Component<IProps, IState> {
 
     public static OPACITY = 'opacity'
     public static SCALE = 'transform'
+    public static HEIGHT = 'height'
 
     public static defaultProps = {
         duration: 300,
@@ -75,9 +76,16 @@ class FadeLayout extends Component<IProps, IState> {
 
         const { className, children, onClick, onContextMenu, type } = this.props
 
-        const styles = {
-            [type]: type === FadeLayout.OPACITY ? (this.state.isVisible ? 1 : 0) : `scale(${this.state.isVisible ? 1 : 0})`,
+        const styles: any = {
             transition: `${type} ${this.props.duration / 1000}s`
+        }
+
+        if (type === FadeLayout.OPACITY) {
+            styles.opacity = this.state.isVisible ? 1 : 0
+        } else if (type === FadeLayout.SCALE) {
+            styles.transform = `scale(${this.state.isVisible ? 1 : 0})`
+        } else if (type === FadeLayout.HEIGHT) {
+            styles.height = this.state.isVisible ? undefined : 0
         }
 
         return (

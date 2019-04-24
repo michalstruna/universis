@@ -20,7 +20,12 @@ export const getBodies = () => (
 export const getBodyById = (bodyId: string) => (
     Redux.asyncAction(
         ActionTypes.GET_BODY_BY_ID,
-        { body: Request.get<Universis.Universe.Body.Simple>(`bodies/${bodyId}`) }
+        {
+            body: Request.get<Universis.Universe.Body>(`bodies/${bodyId}`).then(body => ({
+                ...body,
+                discussions: body.discussions.slice(0).reverse()
+            }))
+        }
     )
 )
 
@@ -210,7 +215,7 @@ export const addDiscussion = (discussion: Universis.Discussion.New) => (
     async dispatch => {
         const { bodyId, ...discussionToServer } = discussion
 
-        dispatch(toggleNewDiscussion(false))
+        //dispatch(toggleNewDiscussion(false))
 
         return dispatch(
             Redux.asyncAction(
@@ -219,7 +224,7 @@ export const addDiscussion = (discussion: Universis.Discussion.New) => (
                 discussion => dispatch(
                     Redux.setAction(ActionTypes.LOCAL_ADD_DISCUSSION, {
                         body: { payload: { discussions: { $addFirst: { ...discussion, answers: [] } } } }
-                    })
+                    }) // TODO: Socket.
                 )
             )
         )
@@ -308,7 +313,9 @@ export const changeFollow = () => (
 export const getBodyTypes = () => (
     Redux.asyncAction(
         ActionTypes.GET_BODY_TYPES,
-        { bodyTypes: Request.get(`bodyTypes`) }
+        {
+            bodyTypes: Request.get<Universis.Universe.Body>(`bodyTypes`)
+        }
     )
 )
 

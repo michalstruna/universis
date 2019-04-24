@@ -5,6 +5,8 @@ import AnimatedBackground from './AnimatedBackground'
 import { Panel } from '../../Panel'
 import { BlurLayout, StatelessComponent, Url, Queries } from '../../Utils'
 import { Alert, ContextMenu, ContextTrigger, ControlPanel, ContextInfo } from '../../Controls'
+import Sockets from '../Utils/Sockets'
+import Notifications from './Notifications'
 
 interface IProps {
     isPanelVisible: boolean
@@ -14,6 +16,10 @@ interface IProps {
  * Root component of application.
  */
 class App extends StatelessComponent<IProps> {
+
+    public componentDidMount(): void {
+        Sockets.initialize()
+    }
 
     /**
      * Get className of root app container.
@@ -69,6 +75,7 @@ class App extends StatelessComponent<IProps> {
                 <Alert />
                 <ContextMenu />
                 <ContextInfo />
+                <Notifications />
             </ContextTrigger>
         )
     }

@@ -27,6 +27,7 @@ export { default as DetailEditor } from './Components/DetailEditor'
  */
 export { default as Urls } from './Constants/Urls'
 export { default as Queries } from './Constants/Queries'
+export { default as Config } from './Constants/Config'
 
 /**
  * Utils.

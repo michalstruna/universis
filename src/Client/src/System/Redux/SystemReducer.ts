@@ -18,6 +18,7 @@ export default Redux.createReducer(
         },
         isFullScreen: false,
         isUIVisible: true,
-        strings: Strings
+        strings: Strings,
+        notifications: []
     }
 )
