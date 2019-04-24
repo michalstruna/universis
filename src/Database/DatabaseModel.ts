@@ -54,14 +54,12 @@ class DatabaseModel implements Universis.Database.Model {
             .then(items => this.processResultForAll<T>(items, options))
     }
 
-    public getOne<T>(filter: Filter, options?: Options): Promise<T> {
+    public async getOne<T>(filter: Filter, options?: Options): Promise<T> {
         return this.processQuery(
             this.model.findOne(filter),
             options
         )
-            .then(items => {
-                return this.processResultForOne<T>(items, options)
-            })
+            .then(items => this.processResultForOne<T>(items, options))
     }
 
     public getField<T>(filter: Filter, fieldName: string): Promise<T> {
@@ -86,7 +84,7 @@ class DatabaseModel implements Universis.Database.Model {
                 this.model.findOneAndRemove(filter),
                 options
             )
-                .then(removed => resolve(removed))
+                .then(removed => resolve(this.processResultForOne<T>(removed, options)))
                 .catch(error => reject(this.getError(error)))
         ))
     }
@@ -144,7 +142,9 @@ class DatabaseModel implements Universis.Database.Model {
             if (options.select) {
                 query = query.select([...(options.join || []), ...options.select].join(' '))
             }
+        }
 
+        if (query.lean) {
             query = query.lean()
         }
 
@@ -192,7 +192,7 @@ class DatabaseModel implements Universis.Database.Model {
      * @returns Http status code.
      */
     private getError(error: { code: number }): Universis.Error {
-        console.log(error)
+        console.error(error)
         return Object.values(Errors).filter(error => error.mongo === error.code)[0] || Errors.INVALID
     }
 

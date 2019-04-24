@@ -1,7 +1,7 @@
 import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import Follow from '../Constants/Follow'
-import { toggleBodyEventForm, toggleBodyForm, toggleBodyTypeForm } from '../../Panel'
+import { toggleBodyEventForm, toggleBodyForm, toggleBodyTypeForm } from '../../Panel/Redux/PanelActions'
 
 /**
  * Get all bodies.
@@ -425,5 +425,71 @@ export const deleteBodyType = (bodyTypeId: string) => (
     Redux.asyncAction(
         ActionTypes.DELETE_BODY_TYPE,
         { deletedBodyType: Request.delete(`bodyTypes/${bodyTypeId}`) }
+    )
+)
+
+/**
+ * Add local event to body.
+ * @param event
+ */
+export const receiveEvent = (event: Universis.Event) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_EVENT,
+        { body: { payload: { events: { $add: event } } } }
+    )
+)
+
+/**
+ * Update local body event.
+ * @param event
+ */
+export const receiveUpdatedEvent = (event: Universis.Event) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_UPDATED_EVENT,
+        { body: { payload: { events: { $find: item => item._id === event._id, $set: event } } } }
+    )
+)
+
+/**
+ * Remove local body event.
+ * @param event
+ */
+export const receiveDeletedEvent = (event: Universis.Event) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_DELETED_EVENT,
+        { body: { payload: { events: { $remove: item => item._id === event._id } } } }
+    )
+)
+
+/**
+ * Add local body type.
+ * @param bodyType
+ */
+export const receiveBodyType = (bodyType: Universis.Universe.Body.Type) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_BODY_TYPE,
+        { bodyTypes: { payload: { $add: bodyType } } }
+    )
+)
+
+/**
+ * Update local body type.
+ * @param bodyType
+ */
+export const receiveUpdatedBodyType = (bodyType: Universis.Universe.Body.Type) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_UPDATED_EVENT,
+        { bodyTypes: { payload: { $find: item => item._id === bodyType._id, $set: bodyType } } }
+    )
+)
+
+/**
+ * Remove local body type.
+ * @param bodyType
+ */
+export const receiveDeletedBodyType = (bodyType: Universis.Universe.Body.Type) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_DELETED_EVENT,
+        { bodyTypes: { payload: { $remove: item => item._id === bodyType._id } } }
     )
 )

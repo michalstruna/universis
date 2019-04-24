@@ -39,7 +39,7 @@ class EventForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
         const { reset, addEvent, bodyId, selectedEvent, updateEvent } = this.props
 
         try {
-            selectedEvent ? updateEvent(selectedEvent._id, data) : addEvent(bodyId, data)
+            await (selectedEvent ? updateEvent(selectedEvent._id, data) : addEvent(bodyId, data))
             reset()
         } catch (error) {
             // TODO: Error dialog?

@@ -1,6 +1,6 @@
 import Config from '../Constants/Config'
 
-import { DatabaseModels } from '../Constants'
+import { DatabaseModel } from '../Constants'
 import Database from '../Database/Database'
 
 import BodySchema from '../Database/Schemas/BodySchema'
@@ -12,7 +12,7 @@ import BodyEventSchema from '../Database/Schemas/BodyEventSchema'
 import BodyPostSchema from '../Database/Schemas/BodyPostSchema'
 import PostVoteSchema from '../Database/Schemas/PostVoteSchema'
 import MessageSchema from '../Database/Schemas/MessageSchema'
-import UnapprovedSchema from '../Database/Schemas/UnapprovedSchema'
+import ApprovalSchema from '../Database/Schemas/ApprovalSchema'
 
 /**
  * Base model. This is parent of each another model.
@@ -56,16 +56,16 @@ abstract class Model {
             options: Config.database.options,
             onError: console.error,
             schemas: {
-                [DatabaseModels.BODY]: BodySchema,
-                [DatabaseModels.BODY_TYPE]: BodyTypeSchema,
-                [DatabaseModels.USER]: UserSchema,
-                [DatabaseModels.TOKEN]: TokenSchema,
-                [DatabaseModels.NOTIFICATION]: NotificationSchema,
-                [DatabaseModels.BODY_EVENT]: BodyEventSchema,
-                [DatabaseModels.BODY_POST]: BodyPostSchema,
-                [DatabaseModels.POST_VOTE]: PostVoteSchema,
-                [DatabaseModels.MESSAGE]: MessageSchema,
-                [DatabaseModels.UNAPPROVED]: UnapprovedSchema
+                [DatabaseModel.BODY]: BodySchema,
+                [DatabaseModel.BODY_TYPE]: BodyTypeSchema,
+                [DatabaseModel.USER]: UserSchema,
+                [DatabaseModel.TOKEN]: TokenSchema,
+                [DatabaseModel.NOTIFICATION]: NotificationSchema,
+                [DatabaseModel.BODY_EVENT]: BodyEventSchema,
+                [DatabaseModel.BODY_POST]: BodyPostSchema,
+                [DatabaseModel.POST_VOTE]: PostVoteSchema,
+                [DatabaseModel.MESSAGE]: MessageSchema,
+                [DatabaseModel.APPROVAL]: ApprovalSchema
             }
         })
     }

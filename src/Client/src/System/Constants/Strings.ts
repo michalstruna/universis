@@ -1,5 +1,5 @@
 import { Urls } from '../../Utils'
-import { SubjectType, Operation } from '../../../../Constants'
+import { SubjectType, Operation, ApprovalState } from '../../../../Constants'
 
 export default {
 
@@ -20,7 +20,8 @@ export default {
         logout: 'Odhlásit se',
         hideUI: 'Skrýt ovládání',
         showUI: 'Zobrazit ovládání',
-        about: 'O Universis'
+        about: 'O Universis',
+        approvals: 'Schválení'
     },
 
     alert: {
@@ -259,16 +260,51 @@ export default {
             4: 'Uživatel'
         },
 
+        unapproved: 'čeká na schválení',
+        disapproved: 'neschváleno',
+
+
         [SubjectType.POST]: {
-            [Operation.ADD]: 'okomentoval těleso',
-            [Operation.UPDATE]: 'upravil komentář tělesa',
-            [Operation.DELETE]: 'smazal komentář tělesa'
+            [ApprovalState.APPROVED]: {
+                [Operation.ADD]: 'okomentoval těleso',
+                [Operation.UPDATE]: 'upravil komentář tělesa',
+                [Operation.DELETE]: 'smazal komentář tělesa'
+            }
         },
         [SubjectType.EVENT]: {
-            [Operation.ADD]: 'přidal událost k tělesu',
-            [Operation.UPDATE]: 'upravil událost tělesa',
-            [Operation.DELETE]: 'odstranil událost tělesa'
-        }
+            [ApprovalState.UNAPPROVED]: {
+                [Operation.ADD]: 'navrhl událost k tělesu',
+                [Operation.UPDATE]: 'navrhl úpravu události tělesa',
+                [Operation.DELETE]: 'navrhl odebrání událost tělesa'
+            },
+            [ApprovalState.APPROVED]: {
+                [Operation.ADD]: 'přidal událost k tělesu',
+                [Operation.UPDATE]: 'upravil událost tělesa',
+                [Operation.DELETE]: 'odstranil událost tělesa'
+            },
+            [ApprovalState.DISAPPROVED]: {
+                [Operation.ADD]: 'navrhl událost k tělesu',
+                [Operation.UPDATE]: 'navrhl úpravu události tělesa',
+                [Operation.DELETE]: 'navrhl odebrání událost tělesa'
+            },
+        },
+        [SubjectType.BODY_TYPE]: {
+            [ApprovalState.UNAPPROVED]: {
+                [Operation.ADD]: 'navrhl typ tělesa',
+                [Operation.UPDATE]: 'navrhl úpravu typu tělesa',
+                [Operation.DELETE]: 'navrhl odebrání typu tělesa'
+            },
+            [ApprovalState.APPROVED]: {
+                [Operation.ADD]: 'přidal typ tělesa',
+                [Operation.UPDATE]: 'úpravil typ tělesa',
+                [Operation.DELETE]: 'odebral typ tělesa'
+            },
+            [ApprovalState.DISAPPROVED]: {
+                [Operation.ADD]: 'navrhl typ tělesa',
+                [Operation.UPDATE]: 'navrhl úpravu typu tělesa',
+                [Operation.DELETE]: 'navrhl odebrání typu tělesa'
+            }
+}
 
     },
 
@@ -277,6 +313,6 @@ export default {
         update: '',
         delete: ''
 
-    },
+    }
 
 }

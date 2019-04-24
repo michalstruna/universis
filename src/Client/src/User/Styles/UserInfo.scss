@@ -135,6 +135,10 @@ $user-info-height: 5rem;
                 @include size(3rem);
             }
         }
+
+        .context__info--inner {
+            z-index: 200000000;
+        }
     }
 
     &--medium {

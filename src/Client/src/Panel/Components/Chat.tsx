@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { InjectedFormProps } from 'redux-form'
 
-import { getMessages, UserInfo, addMessage, toggleStickyChat } from '../../User'
-import { AsyncEntity, FadeLayout, Link, RelativeTime, StatelessComponent } from '../../Utils'
+import { getMessages, addMessage, toggleStickyChat } from '../../User'
+import { AsyncEntity, FadeLayout, StatelessComponent } from '../../Utils'
 import Config from '../Constants/Config'
 import { Form, Field } from '../../Forms'
-import { SubjectType } from '../../../../Constants'
-import { Operation } from 'express-openapi'
+import Message from './Message'
 
 interface IProps {
     messages: Universis.Redux.AsyncEntity<Universis.Notification[]>
@@ -61,83 +60,16 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         }, 10)
     }
 
-    private renderMessageRelation(message: Universis.Notification): string {
-        const { notificationStrings } = this.props
-        const subject = notificationStrings[message.subjectType]
-
-        if (subject) {
-            return subject[message.operation]
-        }
-    }
-
-    private renderLink(message: Universis.Notification): React.ReactNode {
-        if (!message.link) {
-            return null
-        }
-
-        return (
-            <Link className='panel__chat__message__link' target={message.link} />
-        )
-    }
-
     /**
      * Render messages.
      * @returns Messages.
      */
-    private renderMessages(): React.ReactNode[] {
-        const { messages, identity } = this.props
+    private renderMessages(): React.ReactNode {
+        const { messages } = this.props
 
-        return messages.payload.map((message, key) => {
-            switch (message.subjectType) {
-                case SubjectType.MESSAGE:
-                    return (
-                        <section
-                            className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '') + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
-                            key={key}>
-                            <UserInfo user={message.user} type={UserInfo.TYPES.SMALL} />
-                            <section className='panel__chat__message--inner'>
-                                <section className='panel__chat__message__metadata'>
-                            <span className='panel__chat__message__author'>
-                                {message.user ? message.user.name : 'Nepřihlášený'}
-                        </span>
-                                    <span className='panel__chat__message__date'>
-                                 <RelativeTime date={message.createdAt} />
-                        </span>
-                                </section>
-                                {message.text}
-                            </section>
-                        </section>
-                    )
-                default:
-                    return (
-                        <section
-                            className={'panel__chat__message--outer' + (key === messages.payload.length - 1 ? ' panel__chat__message--new' : '')}
-                            key={key}>
-                            <section className='panel__chat__message__title'>
-                                <UserInfo type={UserInfo.TYPES.NAME}
-                                          user={message.user} /> {this.renderMessageRelation(message)} {message.subjectName}.
-                            </section>
-                            <section
-                                className={'panel__chat__message' + (message.user && identity && message.user._id === identity._id ? ' panel__chat__message--own' : '')}
-                                key={key}>
-                                <UserInfo user={message.user} type={UserInfo.TYPES.SMALL} />
-                                <section className='panel__chat__message--inner'>
-                                    <section className='panel__chat__message__metadata'>
-                            <span className='panel__chat__message__author'>
-                                {message.user ? message.user.name : 'Nepřihlášený'}
-                        </span>
-                                        <span className='panel__chat__message__date'>
-                                 <RelativeTime date={message.createdAt} />
-                        </span>
-                                    </section>
-                                    {message.text}
-                                </section>
-                            </section>
-                            {this.renderLink(message)}
-                        </section>
-                    )
-            }
-        })
+        return messages.payload.map((message, key) => (
+            <Message data={message} isLast={messages.payload.length - 1 === key} key={key} />
+        ))
     }
 
     /**
@@ -165,11 +97,11 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     }
 
     private renderUnread() {
-        const { unreadMessages } = this.props
+        const { unreadMessages, isSticky } = this.props
 
         return (
             <FadeLayout
-                mounted={unreadMessages && this.chat && this.chat.offsetHeight !== this.chat.scrollHeight}
+                mounted={unreadMessages && this.chat && this.chat.offsetHeight !== this.chat.scrollHeight && !isSticky}
                 onClick={() => document.querySelector('.panel__window__body--inner > section:last-of-type').scrollIntoView({ behavior: 'smooth' })}
                 className='panel__chat__unread'>
                 &#x25BC; Nepřečtené zprávy ({unreadMessages})

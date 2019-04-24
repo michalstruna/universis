@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import Control from './Control'
-import { toggleFullScreen } from '../../System'
+import { toggleFullScreen } from '../../System/Redux/SystemActions'
 import { StatelessComponent } from '../../Utils'
 
 export interface IProps {

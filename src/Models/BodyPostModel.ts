@@ -1,10 +1,10 @@
-import { DatabaseModels } from '../Constants'
+import { DatabaseModel } from '../Constants'
 import ItemModel from './ItemModel'
 import SubjectType from '../Constants/SubjectType'
 import BodyModel from './BodyModel'
 
 export default new ItemModel<Universis.Discussion | Universis.Answer, Universis.Discussion | Universis.Answer, Universis.Discussion.New | Universis.Answer.New>({
-    dbModel: DatabaseModels.BODY_POST,
+    dbModel: DatabaseModel.BODY_POST,
     notifications: {
         subjectTypeAccessor: () => SubjectType.POST,
         userIdAccessor: post => post.userId,
@@ -20,7 +20,6 @@ export default new ItemModel<Universis.Discussion | Universis.Answer, Universis.
         textAccessor: post => post.title || post.content
     },
     add: {
-        approval: true,
         notification: true,
         onAfter: post => {
             post.votes = []
@@ -31,11 +30,9 @@ export default new ItemModel<Universis.Discussion | Universis.Answer, Universis.
         selectAll: ['-bodyId -discussionId']
     },
     remove: {
-        approval: true,
         notification: true
     },
     update: {
-        approval: true,
         notification: true
     }
 })

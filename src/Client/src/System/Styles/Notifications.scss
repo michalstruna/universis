@@ -1,18 +1,58 @@
 .notifications {
-    background-color: $semitransparent-dark-color;
+    box-shadow: 0 0 0.5rem $darkest-color;
     left: calc(50% - 15rem);
     position: fixed;
+    overflow: hidden;
     top: 0;
-    width: 30rem;
     z-index: 999999999;
 
     &__notification {
-        @include size(100%, 2.5rem, true);
-        font-size: 90%;
+        @include size(auto, 5.7rem);
         overflow: hidden;
-        text-align: center;
         text-overflow: ellipsis;
+        text-align: center;
         white-space: nowrap;
+
+        &--small {
+            height: 3rem;
+        }
+
+        &--large {
+            height: 6.55rem;
+        }
+
+        & > section {
+            display: inline-block;
+            text-align: left;
+        }
+
+        & > .panel__chat__message {
+            margin: 0;
+        }
+    }
+
+    .panel__chat__message {
+        width: 30rem;
+
+        &__text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .panel__chat__message--outer {
+        margin: 0 auto;
+        overflow: hidden;
+
+        .panel__chat__message {
+            width: 29rem;
+        }
+    }
+
+    .panel__chat__message--inner {
+        width: calc(100% - 3.5rem);
+        max-width: none;
     }
 
 }

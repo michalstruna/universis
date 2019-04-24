@@ -2,7 +2,8 @@ import * as React from 'react'
 
 import { StatelessComponent, UILayout, FadeLayout } from '../../Utils'
 import { UserInfo } from '../../User'
-import { SubjectType } from '../../../../Constants'
+import { ApprovalState, SubjectType } from '../../../../Constants'
+import { Message } from '../../Panel'
 
 interface IProps {
     notifications: Universis.Notification[]
@@ -43,10 +44,10 @@ class Notifications extends StatelessComponent<IProps> {
             return (
                 <FadeLayout
                     mounted={!notification.isExpired}
-                    className='notifications__notification'
-                    key={key}
+                    className={'notifications__notification' + (notification.subjectType === SubjectType.MESSAGE ? ' notifications__notification--small' : (notification.approvalState === ApprovalState.APPROVED ? '' : ' notifications__notification--large'))}
+                    key={notification._id}
                     type={FadeLayout.HEIGHT}>
-                    {this.getNotificationContent(notification)}
+                    <Message data={notification} />
                 </FadeLayout>
             )
         })

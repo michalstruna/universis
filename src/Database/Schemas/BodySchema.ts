@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-import { DatabaseModels } from '../../Constants'
+import { DatabaseModel } from '../../Constants'
 import FillBodyPlugin from '../Plugins/FillBodyPlugin'
 
 /**
@@ -141,13 +141,13 @@ const BodySchema = new Schema({
 
         typeId: {
             type: Schema.Types.ObjectId,
-            ref: DatabaseModels.BODY_TYPE,
+            ref: DatabaseModel.BODY_TYPE,
             required: true
         },
 
         parentId: {
             type: Schema.Types.ObjectId,
-            ref: DatabaseModels.BODY,
+            ref: DatabaseModel.BODY,
             required: false
         },
 

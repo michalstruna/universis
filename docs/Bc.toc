@@ -31,6 +31,7 @@
 \contentsline {subsection}{\numberline {2.9}Verzovac\IeC {\'\i } syst\IeC {\'e}m Git}{23}{subsection.2.9}
 \contentsline {subsection}{\numberline {2.10}Bal\IeC {\'\i }\IeC {\v c}kovac\IeC {\'\i } syst\IeC {\'e}m NPM}{23}{subsection.2.10}
 \contentsline {subsection}{\numberline {2.11}Preprocesor SASS}{23}{subsection.2.11}
+\contentsline {subsection}{\numberline {2.12}Socket.io}{23}{subsection.2.12}
 \contentsline {section}{\numberline {3}N\IeC {\'a}vrh a~v\IeC {\'y}voj aplikace}{24}{section.3}
 \contentsline {subsection}{\numberline {3.1}Struktura projektu}{24}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}U\IeC {\v z}ivatelsk\IeC {\'e} rozhran\IeC {\'\i }}{25}{subsection.3.2}
@@ -69,23 +70,23 @@
 \contentsline {subsubsection}{\numberline {4.2.5}Reset hesla}{46}{subsubsection.4.2.5}
 \contentsline {subsection}{\numberline {4.3}U\IeC {\v z}ivatel}{46}{subsection.4.3}
 \contentsline {subsubsection}{\numberline {4.3.1}Detail u\IeC {\v z}ivatele}{46}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}Editace u\IeC {\v z}ivatele}{47}{subsubsection.4.3.2}
 \contentsline {subsection}{\numberline {4.4}Simul\IeC {\'a}tor}{47}{subsection.4.4}
 \contentsline {subsection}{\numberline {4.5}U\IeC {\v z}ivatelsk\IeC {\'y} panel}{48}{subsection.4.5}
 \contentsline {subsubsection}{\numberline {4.5.1}P\IeC {\v r}ehled}{48}{subsubsection.4.5.1}
 \contentsline {subsubsection}{\numberline {4.5.2}Datab\IeC {\'a}ze}{49}{subsubsection.4.5.2}
 \contentsline {subsubsection}{\numberline {4.5.3}Detail t\IeC {\v e}lesa}{50}{subsubsection.4.5.3}
-\contentsline {subsection}{\numberline {4.6}Podm\IeC {\'\i }nky u\IeC {\v z}it\IeC {\'\i }}{52}{subsection.4.6}
-\contentsline {section}{\numberline {5}Probl\IeC {\'e}my \IeC {\v r}e\IeC {\v s}en\IeC {\'e} p\IeC {\v r}i implementaci}{53}{section.5}
-\contentsline {subsection}{\numberline {5.1}Omezen\IeC {\'\i } viditelnosti t\IeC {\v e}les}{53}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Sestaven\IeC {\'\i } aplikace a~optimalizace}{54}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Transpilace a~slou\IeC {\v c}en\IeC {\'\i } JS a~CSS soubor\IeC {\r u}}{54}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}Minifikace a~komprese GZIP}{54}{subsubsection.5.2.2}
-\contentsline {subsection}{\numberline {5.3}Bezpe\IeC {\v c}nost a~ochrana dat}{55}{subsection.5.3}
-\contentsline {subsubsection}{\numberline {5.3.1}Autentizace pomoc\IeC {\'\i } tokenu}{55}{subsubsection.5.3.1}
-\contentsline {subsubsection}{\numberline {5.3.2}Hashov\IeC {\'a}n\IeC {\'\i } hesel}{55}{subsubsection.5.3.2}
-\contentsline {subsection}{\numberline {5.4}Zobrazov\IeC {\'a}n\IeC {\'\i } hodnot fyzik\IeC {\'a}ln\IeC {\'\i }ch veli\IeC {\v c}in}{56}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}Vykreslov\IeC {\'a}n\IeC {\'\i } \IeC {\v c}asov\IeC {\'e} osy}{57}{subsection.5.5}
-\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{59}{section*.28}
-\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{60}{section*.29}
-\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{62}{section*.30}
+\contentsline {subsection}{\numberline {4.6}Schv\IeC {\'a}len\IeC {\'\i }}{52}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}Podm\IeC {\'\i }nky u\IeC {\v z}it\IeC {\'\i }}{53}{subsection.4.7}
+\contentsline {section}{\numberline {5}Probl\IeC {\'e}my \IeC {\v r}e\IeC {\v s}en\IeC {\'e} p\IeC {\v r}i implementaci}{54}{section.5}
+\contentsline {subsection}{\numberline {5.1}Omezen\IeC {\'\i } viditelnosti t\IeC {\v e}les}{54}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Sestaven\IeC {\'\i } aplikace a~optimalizace}{55}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Transpilace a~slou\IeC {\v c}en\IeC {\'\i } JS a~CSS soubor\IeC {\r u}}{55}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Minifikace a~komprese GZIP}{55}{subsubsection.5.2.2}
+\contentsline {subsection}{\numberline {5.3}Bezpe\IeC {\v c}nost a~ochrana dat}{56}{subsection.5.3}
+\contentsline {subsubsection}{\numberline {5.3.1}Autentizace pomoc\IeC {\'\i } tokenu}{56}{subsubsection.5.3.1}
+\contentsline {subsubsection}{\numberline {5.3.2}Hashov\IeC {\'a}n\IeC {\'\i } hesel}{56}{subsubsection.5.3.2}
+\contentsline {subsection}{\numberline {5.4}Zobrazov\IeC {\'a}n\IeC {\'\i } hodnot fyzik\IeC {\'a}ln\IeC {\'\i }ch veli\IeC {\v c}in}{57}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Vykreslov\IeC {\'a}n\IeC {\'\i } \IeC {\v c}asov\IeC {\'e} osy}{58}{subsection.5.5}
+\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{60}{section*.29}
+\contentsline {section}{Pou\IeC {\v z}it\IeC {\'a} literatura}{61}{section*.30}
+\contentsline {section}{Seznam p\IeC {\v r}\IeC {\'\i }loh}{63}{section*.31}

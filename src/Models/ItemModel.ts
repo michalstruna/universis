@@ -1,6 +1,6 @@
 import * as Mongoose from 'mongoose'
 
-import { Operation } from '../Constants'
+import { ApprovalState, Operation } from '../Constants'
 import Model from './Model'
 import NotificationModel from './NotificationModel'
 
@@ -16,19 +16,22 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
 
     public async add(item: New): Promise<Full> {
         const { add, notifications } = this.options
+        let addedItem
 
-        if (add.onBefore) {
-            await add.onBefore(item, this)
-        }
+        if (!add.approval) {
+            if (add.onBefore) {
+                await add.onBefore(item, this)
+            }
 
-        const addedItem = await this.dbModel.addOne<Full>(item)
+            addedItem = await this.dbModel.addOne<Full>(item)
 
-        if (add.onAfter) {
-            await add.onAfter(addedItem, item, this)
+            if (add.onAfter) {
+                await add.onAfter(addedItem, item, this)
+            }
         }
 
         if (notifications && add.notification) {
-            await NotificationModel.add(await this.getNotificationData(item, Operation.ADD, add.approval))
+            await NotificationModel.add(await this.getNotificationData(item, Operation.ADD, !add.approval, { after: item }))
         }
 
         return addedItem
@@ -74,19 +77,26 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
 
     public async delete(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void> {
         const { remove, notifications } = this.options
+        let item
 
-        if (remove.onBefore) {
-            await remove.onBefore(filter, options, this)
-        }
+        if (!remove.approval) {
+            if (remove.onBefore) {
+                await remove.onBefore(filter, options, this)
+            }
 
-        const item = await this.dbModel.removeOne<Full>(filter, options)
+            item = await this.dbModel.removeOne<Full>(filter, options)
 
-        if (remove.onAfter) {
-            await remove.onAfter(item, filter, options, this)
+            if (remove.onAfter) {
+                await remove.onAfter(item, filter, options, this)
+            }
         }
 
         if (notifications && remove.notification) {
-            await NotificationModel.add(await this.getNotificationData(item, Operation.DELETE, remove.approval))
+            if (!item) {
+                item = await this.dbModel.getOne(filter, options)
+            }
+
+            await NotificationModel.add(await this.getNotificationData(item, Operation.DELETE, !remove.approval, { before: item }))
         }
 
         return null
@@ -94,19 +104,27 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
 
     public async update(filter: Universis.Database.Query.Filter, changes: New, options?: Universis.Database.Query.Options): Promise<void> {
         const { update, notifications } = this.options
+        let item
 
-        if (update.onBefore) {
-            await update.onBefore(changes, filter, options, this)
-        }
+        if (!update.approval) {
+            if (update.onBefore) {
+                await update.onBefore(changes, filter, options, this)
+            }
 
-        const item = await this.dbModel.updateOne<Full>(filter, changes, options)
+            item = await this.dbModel.updateOne<Full>(filter, changes, options)
 
-        if (update.onAfter) {
-            await update.onAfter(item, changes, filter, options, this)
+            if (update.onAfter) {
+                await update.onAfter(item, changes, filter, options, this)
+            }
         }
 
         if (notifications && update.notification) {
-            await NotificationModel.add(await this.getNotificationData(item, Operation.UPDATE, update.approval))
+            if (!item) {
+                item = await this.dbModel.getOne(filter, options)
+            }
+
+            const newItem = { ...item, ...(changes as any) }
+            await NotificationModel.add(await this.getNotificationData(newItem, Operation.UPDATE, !update.approval, { before: item, after: newItem }))
         }
 
         return null
@@ -132,8 +150,9 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
      * @param item
      * @param operation
      * @param isApproved
+     * @param payload
      */
-    private async getNotificationData(item: New | Simple | Full, operation: number, isApproved: boolean): Promise<Universis.Notification.New> {
+    private async getNotificationData(item: New | Simple | Full, operation: number, isApproved: boolean, payload?: any): Promise<Universis.Notification.New> {
         const { userIdAccessor, subjectTypeAccessor, subjectNameAccessor, targetUserIdAccessor, linkAccessor, textAccessor } = this.options.notifications
 
         return {
@@ -144,7 +163,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             targetUserId: targetUserIdAccessor ? await targetUserIdAccessor(item, this) : undefined,
             text: textAccessor ? await textAccessor(item, this) : undefined,
             link: linkAccessor ? await linkAccessor(item, this) : undefined,
-            isApproved
+            approvalState: isApproved ? ApprovalState.APPROVED : ApprovalState.UNAPPROVED,
+            payload
         }
     }
 

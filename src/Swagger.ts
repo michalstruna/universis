@@ -26,6 +26,55 @@ export default {
         }
     ],
     'paths': {
+        '/approvals': {
+            'get': {
+                'tags': ['Approvals'],
+                'summary': 'Get all items.',
+                'description': 'Get basic objects of all items.',
+                'responses': {
+                    '200': {
+                        'description': 'Get items is successful.',
+                        'content': {
+                            'application/json': {
+                                'schema': {
+                                    'type': 'array',
+                                    'items': {
+                                        '$ref': '#/components/schemas/Approval'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        '/approvals/{approvalId}/approve': {
+            'put': {
+                'tags': ['Approvals'],
+                'summary': 'Approve unapproved item.',
+                'description': 'Approve unapproved item.',
+                'responses': {
+                    '204': {
+                        'description': 'Successful approve.'
+                    }
+                }
+            }
+        },
+
+        '/approvals/{approvalId}/disapprove': {
+            'put': {
+                'tags': ['Approvals'],
+                'summary': 'Disapprove unapproved item.',
+                'description': 'Disapprove unapproved item.',
+                'responses': {
+                    '204': {
+                        'description': 'Successful disapprove.'
+                    }
+                }
+            }
+        },
+
         '/bodies': Route.getSwaggerRouteGroupForAll(['Bodies'], 'SimpleBody', 'NewBody'),
         '/bodies/{bodyId}': Route.getSwaggerRouteGroupForOne(['Bodies'], 'Body', ['bodyId']),
         '/bodies/count': Route.getSwaggerRouteGroupForCount(['Bodies']),
@@ -48,6 +97,7 @@ export default {
         '/users': Route.getSwaggerRouteGroupForAll(['Users'], 'SimpleUser', 'NewUser'),
         '/users/{userId}': Route.getSwaggerRouteGroupForOne(['Users'], 'User', ['userId']),
         '/users/count': Route.getSwaggerRouteGroupForCount(['Users']),
+
         '/login': {
             'post': {
                 'tags': ['Users'],
@@ -808,6 +858,52 @@ export default {
                     },
                     'targetUser': {
                         '$ref': '#/components/schemas/SimpleUser'
+                    }
+                }
+            },
+            'Approval': {
+                'type': 'object',
+                'properties': {
+                    '_id': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'notification': {
+                        'type': 'object',
+                        'properties': {
+                            '_id': {
+                                '$ref': '#/components/schemas/Id'
+                            },
+                            'subjectType': {
+                                'type': 'string'
+                            },
+                            'subjectName': {
+                                'type': 'string'
+                            },
+                            'operation': {
+                                'type': 'string'
+                            },
+                            'text': {
+                                'type': 'string'
+                            },
+                            'link': {
+                                'type': 'string'
+                            },
+                            'createdAt': {
+                                'type': 'number'
+                            },
+                            'updatedAt': {
+                                'type': 'number'
+                            },
+                            'user': {
+                                '$ref': '#/components/schemas/SimpleUser'
+                            },
+                            'targetUser': {
+                                '$ref': '#/components/schemas/SimpleUser'
+                            }
+                        }
+                    },
+                    'data': {
+                        'type': 'object'
                     }
                 }
             }

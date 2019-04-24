@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-import { DatabaseModels } from '../../Constants'
+import { DatabaseModel } from '../../Constants'
 
 const PostVoteSchema = new Schema({
 
@@ -17,13 +17,13 @@ const PostVoteSchema = new Schema({
 
     userId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.USER,
+        ref: DatabaseModel.USER,
         required: true
     },
 
     postId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.BODY_POST,
+        ref: DatabaseModel.BODY_POST,
         required: true
     },
 

@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-import { DatabaseModels } from '../../Constants'
+import { DatabaseModel } from '../../Constants'
 
 const MessageSchema = new Schema({
 
@@ -17,12 +17,12 @@ const MessageSchema = new Schema({
 
     userId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.USER
+        ref: DatabaseModel.USER
     },
 
     targetUserId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.USER
+        ref: DatabaseModel.USER
     },
 
     createdAt: {

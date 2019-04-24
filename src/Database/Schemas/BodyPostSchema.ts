@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-import { DatabaseModels } from '../../Constants'
+import { DatabaseModel } from '../../Constants'
 
 const BodyPostSchema = new Schema({
 
@@ -18,7 +18,7 @@ const BodyPostSchema = new Schema({
 
     userId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.USER,
+        ref: DatabaseModel.USER,
         required: false
     },
 
@@ -35,13 +35,13 @@ const BodyPostSchema = new Schema({
 
     bodyId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.BODY,
+        ref: DatabaseModel.BODY,
         required: false
     },
 
     discussionId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.BODY_POST,
+        ref: DatabaseModel.BODY_POST,
         required: false
     },
 

@@ -35,6 +35,10 @@ class Sockets {
         this.io.on(SocketMessageType.NEW_NOTIFICATION, notification => {
             Store.dispatch(receiveNotification(notification))
         })
+
+        this.io.on(SocketMessageType.UPDATE_NOTIFICATION, notification => {
+            Store.dispatch(receiveNotification(notification, true))
+        })
     }
 
 }

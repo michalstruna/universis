@@ -5,6 +5,7 @@ import FullScreenControl from './FullScreenControl'
 import HelpControl from './HelpControl'
 import HomeControl from './HomeControl'
 import ViewSizeControl from './ViewSizeControl'
+import ApprovalsControl from './ApprovalsControl'
 import { UILayout, SimpleComponent } from '../../Utils'
 
 /**
@@ -21,6 +22,7 @@ class ControlPanel extends SimpleComponent {
                 <HelpControl />
                 <HomeControl />
                 <AuthenticationControl />
+                <ApprovalsControl />
                 <ViewSizeControl />
             </UILayout>
         )

@@ -2,7 +2,7 @@ import * as JWT from 'jsonwebtoken'
 
 import Model from './Model'
 import { Config, Errors } from '../Constants'
-import DatabaseModels from '../Constants/DatabaseModels'
+import DatabaseModel from '../Constants/DatabaseModel'
 import UserModel from './UserModel'
 import Security from '../Utils/Security'
 
@@ -12,8 +12,8 @@ class SecurityModel extends Model implements Universis.SecurityModel {
 
     constructor() {
         super()
-        this.dbModel = this.db.getModel(DatabaseModels.TOKEN)
-        this.userDbModel = this.db.getModel(DatabaseModels.USER)
+        this.dbModel = this.db.getModel(DatabaseModel.TOKEN)
+        this.userDbModel = this.db.getModel(DatabaseModel.USER)
     }
 
     public authenticate(email: string, secret: string): Promise<Universis.User.Identity> {

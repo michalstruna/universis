@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { DatabaseModels } from '../../Constants'
+import { DatabaseModel } from '../../Constants'
 
 /**
  * DB schema for body event.
@@ -28,7 +28,7 @@ const BodyEventSchema = new Schema({
 
     bodyId: {
         type: Schema.Types.ObjectId,
-        ref: DatabaseModels.BODY,
+        ref: DatabaseModel.BODY,
         required: true
     },
 

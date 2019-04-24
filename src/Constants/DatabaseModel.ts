@@ -1,4 +1,4 @@
-enum DatabaseModels {
+enum DatabaseModel {
 
     BODY = 'Body',
     BODY_EVENT = 'BodyEvent',
@@ -9,8 +9,8 @@ enum DatabaseModels {
     NOTIFICATION = 'Notification',
     POST_VOTE = 'PostVote',
     MESSAGE = 'Message',
-    UNAPPROVED = 'Unapproved'
+    APPROVAL = 'Approval'
 
 }
 
-export default DatabaseModels
+export default DatabaseModel

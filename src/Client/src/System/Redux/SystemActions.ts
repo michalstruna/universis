@@ -1,10 +1,19 @@
 import { request, exit } from 'screenfull'
 
 import ActionTypes from './ActionTypes'
-import { Config } from '../../Utils'
-import { Redux } from '../../Utils'
-import { receiveMessage } from '../../User/Redux/UserActions'
-import { SubjectType } from '../../../../Constants'
+import { Config, Redux } from '../../Utils'
+import { receiveMessage, receiveRemoveMessage } from '../../User/Redux/UserActions'
+import { receiveRemoveApproval, receiveApproval } from '../../Approvals/Redux/ApprovalsActions'
+import { ApprovalState, Operation, SubjectType } from '../../../../Constants'
+import {
+    receiveEvent,
+    receiveUpdatedEvent,
+    receiveDeletedEvent,
+    receiveBodyType,
+    receiveDeletedBodyType,
+    receiveUpdatedBodyType
+} from '../../Universe/Redux/UniverseActions'
+import { Store } from '../../System'
 
 /**
  * Toggle full screen.
@@ -56,9 +65,59 @@ export const toggleUI = (isUIVisible: boolean) => (
 /**
  * Receive notification.
  * @param notification
+ * @param isUpdate Notification is updated, not new.
  */
-export const receiveNotification = (notification: Universis.Notification) => (
+export const receiveNotification = (notification: Universis.Notification, isUpdate?: boolean) => (
     dispatch => {
+        if (isUpdate) {
+            dispatch(receiveRemoveMessage(notification._id))
+            dispatch(receiveRemoveApproval(notification._id))
+        }
+
+        if (notification.payload && notification.approvalState !== ApprovalState.APPROVED) {
+            dispatch(receiveApproval(notification.payload))
+        } else if (notification.approvalState === ApprovalState.APPROVED) {
+            switch (notification.subjectType) {
+                case SubjectType.EVENT:
+                    const body = Store.getState().universe.body.payload
+
+                    if (body && body.name === notification.subjectName) {
+                        switch (notification.operation) {
+                            case Operation.ADD:
+                                dispatch(receiveEvent(notification.payload.after))
+                                break
+                            case Operation.UPDATE:
+                                dispatch(receiveUpdatedEvent(notification.payload.after))
+                                break
+                            case Operation.DELETE:
+                                dispatch(receiveDeletedEvent(notification.payload.before))
+                                break
+                        }
+                    }
+
+                    break
+
+                case SubjectType.BODY_TYPE:
+                    const bodyTypes = Store.getState().universe.bodyTypes.payload
+
+                    if (bodyTypes) {
+                        switch (notification.operation) {
+                            case Operation.ADD:
+                                dispatch(receiveBodyType(notification.payload.after))
+                                break
+                            case Operation.UPDATE:
+                                dispatch(receiveUpdatedBodyType(notification.payload.after))
+                                break
+                            case Operation.DELETE:
+                                dispatch(receiveDeletedBodyType(notification.payload.before))
+                                break
+                        }
+                    }
+            }
+
+        }
+
+
         dispatch(receiveMessage(notification))
 
         dispatch(
@@ -71,10 +130,19 @@ export const receiveNotification = (notification: Universis.Notification) => (
         setTimeout(() => {
             dispatch(
                 Redux.setAction(
-                    ActionTypes.REMOVE_NOTIFICATION,
+                    ActionTypes.FADE_OUT_NOTIFICATION,
                     { notifications: { $find: item => item._id === notification._id, isExpired: true } }
                 )
             )
+
+            setTimeout(() => {
+                dispatch(
+                    Redux.setAction(
+                        ActionTypes.REMOVE_NOTIFICATION,
+                        { notifications: { $remove: item => item._id === notification._id } }
+                    )
+                )
+            }, 500)
         }, Config.NOTIFICATIONS_DURATION)
     }
 )
