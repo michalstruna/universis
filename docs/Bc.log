@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  24 APR 2019 08:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  24 APR 2019 14:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1562,6 +1562,13 @@ Package pdftex.def Info: Images/Initial.png  used on input line 659.
 (./SourceCodes/Model.js [38]) (./SourceCodes/DatabaseConnection.js [39])
 (./SourceCodes/Schema.js) (./SourceCodes/Hash.js [40])
 (./SourceCodes/Database.js [41])
+Overfull \hbox (7.07191pt too wide) in paragraph at lines 848--849
+\T1/lmr/m/n/12 Aplikace je k dis-po-zici na ad-rese []$\T1/lmtt/m/n/12 https : 
+/ / universis . herokuapp . com$[]\T1/lmr/m/n/12 , do-ku-men-tace \T1/lmr/m/it/
+12 REST
+ []
+
+
 Overfull \hbox (1.40443pt too wide) in paragraph at lines 852--853
 \T1/lmtt/m/n/12 /src/Constants/Config.ts \T1/lmr/m/n/12 vy-pl-nit po-loºky \T1/
 lmtt/m/n/12 database.username \T1/lmr/m/n/12 a \T1/lmtt/m/n/12 database.passwor
@@ -1701,12 +1708,12 @@ Package pdftex.def Info: Images/DB.png  used on input line 1315.
 
 
 ] [68]
-Overfull \hbox (1.60646pt too wide) in paragraph at lines 1381--1381
+Overfull \hbox (1.60646pt too wide) in paragraph at lines 1377--1377
 |\T1/lmr/bx/n/17.28 PÍLOHA D -- SE-ZNAM SOU-BOR— ZDRO-JO-VÝCH
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1383--1384
+Underfull \hbox (badness 10000) in paragraph at lines 1379--1380
 
  []
 
@@ -1714,22 +1721,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 1383--1384
 
 
 ] [70] [71] [72] [73] [74] [75]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1390.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1386.
  [76]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1390.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1386.
  (./Bc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1390.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1390.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1386.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1386.
 
 Package rerunfilecheck Info: File `Bc.out' has not changed.
 (rerunfilecheck)             Checksum: 8E314E61298A0CBDC1E91F803BCF6396;16185.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1390.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1386.
  ) 
 Here is how much of TeX's memory you used:
- 24324 strings out of 494848
- 400115 string characters out of 6178430
- 612463 words of memory out of 5000000
- 26741 multiletter control sequences out of 15000+600000
+ 24323 strings out of 494848
+ 400108 string characters out of 6178430
+ 612785 words of memory out of 5000000
+ 26740 multiletter control sequences out of 15000+600000
  594279 words of font info for 65 fonts, out of 8000000 for 9000
  46 hyphenation exceptions out of 8191
  43i,9n,42p,11285b,1877s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1753,7 +1760,7 @@ xmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri
 s/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/typ
 e1/public/lm/lmtt12.pfb>
-Output written on Bc.pdf (77 pages, 7773692 bytes).
+Output written on Bc.pdf (77 pages, 2602332 bytes).
 PDF statistics:
  1567 PDF objects out of 1728 (max. 8388607)
  1409 compressed objects within 15 object streams

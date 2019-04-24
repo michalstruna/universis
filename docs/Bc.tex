@@ -79,8 +79,8 @@
 \usepackage{lipsum}		% \lipsum[číslo] vloží jeden odstavec Lorem ipsum…
 % \usepackage[none]{hyphenat}
 
-\long\def\textPodekovani{%
-	\lipsum[1]		% nahradit makro \lipsum skutečným textem
+\long\def\textPodekovani{
+Rád bych tímto poděkoval vedoucí této práce, paní doktorce Monice Borkovcové, za přínosné rady při vypracovávání a~snahu dovést tuto práci do úspěšného konce. Velký dík patří i~mé rodině, která mě už od dětství podporovala v~astronomii a~bez které bych se k~tomuto tématu nejspíš nedostal.
 }
 
 \long\def\anotace{
@@ -216,7 +216,7 @@ Aplikace by se dala nazvat i~komunitním portálem. Uživatelé spolu mohou pomo
 
 Aplikace je postavena na komunikaci v~reálném čase. V~případě, že nastane nějaká změna (např. nová událost u~planety Země), všichni právě připojení uživatelé jsou na tuto skutečnost upozorněni skrze notifikaci. Pokud mají otevřenou stránku, jíž se změna týká (v~tomto případě časová osa planety Země), uživatelské rozhraní okamžitě změnu zobrazí bez nutnosti aktualizovat stránku.
 
-Pohyb v~aplikaci nevyžaduje žádnou autentifikaci a~nepřihlášený uživatel tak může přistupovat do všech částí aplikace. Ostatní uživatelé ale neznají identitu nepřihlášeného a~nemůže získat žádná ocenění za aktivity, které v~aplikaci uskutečnil. Po přihlášení získá uživatel nejen jím zvolené jméno, ale také možnost sbírat různá ocenění a~zvyšovat svou reputaci v~komunitě.
+Pohyb v~aplikaci nevyžaduje žádnou autentifikaci a~nepřihlášený uživatel tak může přistupovat do většiny částí aplikace. Ostatní uživatelé ale neznají identitu nepřihlášeného, který tak nemůže získat ani žádná ocenění za aktivity, které v~aplikaci uskutečnil. Po přihlášení získá uživatel nejen jím zvolené jméno, ale také možnost sbírat různá ocenění a~zvyšovat svou reputaci v~komunitě.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -845,11 +845,11 @@ I přes skutečnost, \textit{že MongoDB} jakožto dokumentová databáze umož�
 
 \subsection{Instalace a~spuštění aplikace}
 
-Aplikace je k~dispozici online na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}. Je optimalizovaná pro prohlížeče \textit{Chromium} a~\textit{Google Chrome}, ale lze ji spustit i~v~prohlížečích \textit{Firefox}, \textit{Safari} a~\textit{Opera}. První načtení může být pomalejší, protože využívání cloudové platformy \textit{heroku} zdarma způsobí uvolnění aplikace z~paměti po 30 minutách nečinnosti. 
+Aplikace je k~dispozici na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}. Je optimalizovaná pro aktuální verze prohlížečů \textit{Chromium} a~\textit{Google Chrome}, ale lze ji spustit i~v~prohlížečích \textit{Firefox}, \textit{Safari} a~\textit{Opera}. První načtení může být pomalejší, protože využívání cloudové platformy \textit{heroku} zdarma způsobí uvolnění aplikace z~paměti po 30 minutách nečinnosti. 
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
-Pokud přísup do databáze vyžaduje autentifikaci, je třeba v~aplikaci v~souboru\break\code{/src/Constants/Config.ts} vyplnit položky \code{database.username} a~\code{database.password}. Následně může dojít ke zvolení umístění vytvořené databáze a~ke spuštění databázového démona z~terminálu. Cesta k~\code{mongod} se může lišit v~případě jiné verze databáze nebo zvolení jiného umístění při instalaci.
+Pokud přístup do databáze vyžaduje autentifikaci, je třeba v~aplikaci v~souboru\break\code{/src/Constants/Config.ts} vyplnit položky \code{database.username} a~\code{database.password}. Následně může dojít ke zvolení umístění vytvořené databáze a~ke spuštění databázového démona z~terminálu. Cesta k~\code{mongod} se může lišit v~případě jiné verze databáze nebo zvolení jiného umístění při instalaci.
 
 \lstinputlisting[caption={Příkaz pro spuštění databáze}, language={JavaScript}]{SourceCodes/StartDB.js}
 
@@ -1328,8 +1328,7 @@ What Socket.io is. \textit{socket.io}. [online]. [cit. 21.~4.~2019]. Dostupné\n
 
 \subsection*{Backend}
 
-\begin{code}
-bcrypt \textasciicircum2.0.1\newline
+crypt \textasciicircum2.0.1\newline
 body-parser \textasciicircum1.18.3\newline
 compression \textasciicircum1.7.2\newline
 express \textasciicircum4.16.3 (@types/express \textasciicircum4.16.1)\newline
@@ -1341,11 +1340,9 @@ path \textasciicircum0.12.7\newline
 swagger-ui-express \textasciicircum3.0.10\newline
 nodemon \textasciicircum1.17.15\newline
 npm-run-all \textasciicircum4.1.3
-\end{code}
 
 \subsection*{Frontend}
 
-\begin{code}
 axios \textasciicircum0.18.0\newline
 chart.js \textasciicircum2.7.3\newline
 chartjs-plugin-labels \textasciicircum1.1.0\newline
@@ -1373,7 +1370,6 @@ typescript \textasciicircum3.1.1\newline
 webpack \textasciicircum4.20.2\newline
 webpack-cli \textasciicircum3.1.2\newline
 webpack-dev-server \textasciicircum3.1.9 (@types/webpack-dev-server \textasciicircum2.9.6)
-\end{code}
 
 \clearpage \phantomsection\label{prilohaD} 
 
