@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  24 APR 2019 14:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.12)  26 APR 2019 17:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1562,13 +1562,6 @@ Package pdftex.def Info: Images/Initial.png  used on input line 659.
 (./SourceCodes/Model.js [38]) (./SourceCodes/DatabaseConnection.js [39])
 (./SourceCodes/Schema.js) (./SourceCodes/Hash.js [40])
 (./SourceCodes/Database.js [41])
-Overfull \hbox (7.07191pt too wide) in paragraph at lines 848--849
-\T1/lmr/m/n/12 Aplikace je k dis-po-zici na ad-rese []$\T1/lmtt/m/n/12 https : 
-/ / universis . herokuapp . com$[]\T1/lmr/m/n/12 , do-ku-men-tace \T1/lmr/m/it/
-12 REST
- []
-
-
 Overfull \hbox (1.40443pt too wide) in paragraph at lines 852--853
 \T1/lmtt/m/n/12 /src/Constants/Config.ts \T1/lmr/m/n/12 vy-pl-nit po-loºky \T1/
 lmtt/m/n/12 database.username \T1/lmr/m/n/12 a \T1/lmtt/m/n/12 database.passwor
@@ -1576,13 +1569,19 @@ d\T1/lmr/m/n/12 .
  []
 
 [42] (./SourceCodes/StartDB.js) (./SourceCodes/InsertScript.js)
-(./SourceCodes/Installation.js) [43]
-<Images/MainPage.png, id=1093, 1927.2pt x 1084.05pt>
+(./SourceCodes/Installation.js)
+Underfull \hbox (badness 1527) in paragraph at lines 866--867
+[]\T1/lmr/m/n/12 Po krátké chvíli bude apli-kace do-stupná v in-ter-ne-to-vém p
+ro-hlí-ºe£i na ad-rese
+ []
+
+[43]
+<Images/MainPage.png, id=1092, 1927.2pt x 1084.05pt>
 File: Images/MainPage.png Graphic file (type png)
 <use Images/MainPage.png>
 Package pdftex.def Info: Images/MainPage.png  used on input line 876.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
-<Images/Identity.png, id=1094, 401.5pt x 247.92625pt>
+<Images/Identity.png, id=1093, 401.5pt x 247.92625pt>
 File: Images/Identity.png Graphic file (type png)
 <use Images/Identity.png>
 Package pdftex.def Info: Images/Identity.png  used on input line 889.
@@ -1590,68 +1589,68 @@ Package pdftex.def Info: Images/Identity.png  used on input line 889.
  [44
 
  <./Images/MainPage.png>]
-<Images/SignIn.png, id=1100, 402.50375pt x 356.33125pt>
+<Images/SignIn.png, id=1099, 402.50375pt x 356.33125pt>
 File: Images/SignIn.png Graphic file (type png)
 <use Images/SignIn.png>
 Package pdftex.def Info: Images/SignIn.png  used on input line 902.
 (pdftex.def)             Requested size: 250.0pt x 221.31999pt.
-<Images/SignUp.png, id=1101, 401.5pt x 436.63126pt>
+<Images/SignUp.png, id=1100, 401.5pt x 436.63126pt>
 File: Images/SignUp.png Graphic file (type png)
 <use Images/SignUp.png>
 Package pdftex.def Info: Images/SignUp.png  used on input line 915.
 (pdftex.def)             Requested size: 250.0pt x 271.88116pt.
  [45 <./Images/Identity.png> <./Images/SignIn.png>] [46 <./Images/SignUp.png>] 
 [47]
-<Images/Simulator.png, id=1117, 1927.2pt x 1084.05pt>
+<Images/Simulator.png, id=1116, 1927.2pt x 1084.05pt>
 File: Images/Simulator.png Graphic file (type png)
 <use Images/Simulator.png>
 Package pdftex.def Info: Images/Simulator.png  used on input line 979.
 (pdftex.def)             Requested size: 450.0pt x 253.1142pt.
-<Images/Overview.png, id=1118, 640.3925pt x 434.62375pt>
+<Images/Overview.png, id=1117, 640.3925pt x 434.62375pt>
 File: Images/Overview.png Graphic file (type png)
 <use Images/Overview.png>
 Package pdftex.def Info: Images/Overview.png  used on input line 995.
 (pdftex.def)             Requested size: 350.0pt x 237.545pt.
  [48 <./Images/Simulator.png>]
-<Images/Bodies.png, id=1125, 640.3925pt x 441.65pt>
+<Images/Bodies.png, id=1124, 640.3925pt x 441.65pt>
 File: Images/Bodies.png Graphic file (type png)
 <use Images/Bodies.png>
 Package pdftex.def Info: Images/Bodies.png  used on input line 1023.
 (pdftex.def)             Requested size: 350.0pt x 241.38522pt.
  [49 <./Images/Overview.png>]
-<Images/Body.png, id=1131, 624.3325pt x 556.0775pt>
+<Images/Body.png, id=1130, 624.3325pt x 556.0775pt>
 File: Images/Body.png Graphic file (type png)
 <use Images/Body.png>
 Package pdftex.def Info: Images/Body.png  used on input line 1039.
 (pdftex.def)             Requested size: 350.0pt x 311.74068pt.
  [50 <./Images/Bodies.png>]
-<Images/Timeline.png, id=1137, 626.34pt x 483.8075pt>
+<Images/Timeline.png, id=1136, 626.34pt x 483.8075pt>
 File: Images/Timeline.png Graphic file (type png)
 <use Images/Timeline.png>
 Package pdftex.def Info: Images/Timeline.png  used on input line 1046.
 (pdftex.def)             Requested size: 350.0pt x 270.36191pt.
-<Images/Discussion.png, id=1138, 625.33624pt x 449.68pt>
+<Images/Discussion.png, id=1137, 625.33624pt x 449.68pt>
 File: Images/Discussion.png Graphic file (type png)
 <use Images/Discussion.png>
 Package pdftex.def Info: Images/Discussion.png  used on input line 1053.
 (pdftex.def)             Requested size: 350.0pt x 251.6887pt.
-
-[51 <./Images/Body.png> <./Images/Timeline.png>]
-<Images/Approval.png, id=1145, 510.90875pt x 331.2375pt>
+ [51 <./Images/Body.png> <./Images/Timeline.png>]
+<Images/Approval.png, id=1144, 510.90875pt x 331.2375pt>
 File: Images/Approval.png Graphic file (type png)
 <use Images/Approval.png>
 Package pdftex.def Info: Images/Approval.png  used on input line 1065.
 (pdftex.def)             Requested size: 350.0pt x 226.91147pt.
  [52 <./Images/Discussion.png> <./Images/Approval.png>] [53]
-<Images/Webpack.png, id=1158, 888.31876pt x 689.57625pt>
+<Images/Webpack.png, id=1157, 888.31876pt x 689.57625pt>
 File: Images/Webpack.png Graphic file (type png)
 <use Images/Webpack.png>
 Package pdftex.def Info: Images/Webpack.png  used on input line 1096.
 (pdftex.def)             Requested size: 280.0pt x 217.35445pt.
- [54
 
-] [55 <./Images/Webpack.png>] [56]
-(./SourceCodes/Hash.js) (./SourceCodes/Units.js [57]) (./SourceCodes/Round.js)
+[54
+
+] [55 <./Images/Webpack.png>] [56] (./SourceCodes/Hash.js)
+(./SourceCodes/Units.js [57]) (./SourceCodes/Round.js)
 (./SourceCodes/CreateUnits.js) [58] (./SourceCodes/EventsArea.js) [59] [60
 
 
@@ -1692,7 +1691,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1249--1252
 
 
 ]
-<Images/DB.png, id=1279, 768.8725pt x 1087.06125pt>
+<Images/DB.png, id=1278, 768.8725pt x 1087.06125pt>
 File: Images/DB.png Graphic file (type png)
 <use Images/DB.png>
 Package pdftex.def Info: Images/DB.png  used on input line 1315.
@@ -1760,10 +1759,10 @@ xmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri
 s/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/typ
 e1/public/lm/lmtt12.pfb>
-Output written on Bc.pdf (77 pages, 2602332 bytes).
+Output written on Bc.pdf (77 pages, 2602351 bytes).
 PDF statistics:
- 1567 PDF objects out of 1728 (max. 8388607)
- 1409 compressed objects within 15 object streams
+ 1566 PDF objects out of 1728 (max. 8388607)
+ 1408 compressed objects within 15 object streams
  526 named destinations out of 1000 (max. 500000)
  883 words of extra memory for PDF output out of 10000 (max. 10000000)
 

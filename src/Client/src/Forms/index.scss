@@ -107,9 +107,11 @@
         &--back {
             @include opacity-hover;
             @include size(2.5rem !important, 2rem);
-            @include svg(Forms/Back, 80%);
+            @include svg(Forms/Back, 2rem auto, left center);
+            clear: both;
             float: left;
             margin: 0 !important;
+            padding-left: 2.5rem;
         }
 
         &--close {

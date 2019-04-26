@@ -3,7 +3,7 @@ import { reduxForm, InjectedFormProps, SubmissionError, formValueSelector } from
 
 import { login } from '../Redux/UserActions'
 import UserInfo from './UserInfo'
-import { StatelessComponent, Link } from '../../Utils'
+import { StatelessComponent, Link, Urls } from '../../Utils'
 import { Form, Field } from '../../Forms'
 
 interface IProps {
@@ -39,6 +39,18 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
         }
     }
 
+    /**
+     * Handle forgot password send email.
+     * @param event
+     */
+    private handleForgotPassword = (event: React.MouseEvent) => {
+        event.preventDefault()
+
+        if (confirm('Odeslat email pro reset hesla?')) {
+            console.log('OK')
+        }
+    }
+
     public render(): React.ReactNode {
         const { strings, handleSubmit, invalid, submitting, unauthUser } = this.props
 
@@ -57,7 +69,10 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}
                     name='password' />
-                <Form.Back tot={Link.URLS.IDENTITY}>
+                <button className='form__note' onClick={this.handleForgotPassword}>
+                    {strings.forgotPassword}
+                </button>
+                <Form.Back to={Link.URLS.IDENTITY}>
                     {strings.back}
                 </Form.Back>
                 <Form.Submit>

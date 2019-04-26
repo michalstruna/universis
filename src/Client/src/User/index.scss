@@ -1,4 +1,5 @@
 @import "./Styles/UserInfo";
+@import "./Styles/Login";
 
 .identity, .login, .sign-up {
     @include flex-center;

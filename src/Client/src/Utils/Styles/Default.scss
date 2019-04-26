@@ -36,6 +36,7 @@ button {
     @include content-font;
     background: none;
     border: none;
+    color: inherit;
     cursor: pointer;
     outline: none;
     user-select: none;
