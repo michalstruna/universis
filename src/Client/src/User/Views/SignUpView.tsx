@@ -1,11 +1,11 @@
 import * as React from 'react'
 
 import SignUpForm from '../Components/SignUpForm'
-import { View, Url, Urls } from '../../Utils'
+import { View } from '../../Utils'
+import { clearUnauthUser } from '../Redux/UserActions'
 
 interface IProps {
-    unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
-    identity: Universis.User.Identity
+    clearUnauthUser: Universis.Runnable
 }
 
 /**
@@ -14,14 +14,8 @@ interface IProps {
  */
 class SignUpView extends View<IProps> {
 
-    componentWillMount() {
-        const { unauthUser, identity } = this.props
-
-        if (identity) {
-            Url.replace({ pathname: Urls.HOME })
-        } else if (!unauthUser.payload) {
-            Url.replace({ pathname: Urls.IDENTITY })
-        }
+    public componentWillUnmount(): void {
+        this.props.clearUnauthUser()
     }
 
     public render(): React.ReactNode {
@@ -38,5 +32,6 @@ export default SignUpView.connect(
     ({ user }: Universis.Redux.StoreState) => ({
         unauthUser: user.unauthUser,
         identity: user.identity.payload
-    })
+    }),
+    { clearUnauthUser }
 )

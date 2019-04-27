@@ -1,15 +1,17 @@
 import * as React from 'react'
 import { reduxForm, InjectedFormProps, SubmissionError, formValueSelector } from 'redux-form'
 
-import { login } from '../Redux/UserActions'
+import { login, sendResetPasswordEmail } from '../Redux/UserActions'
 import UserInfo from './UserInfo'
-import { StatelessComponent, Link } from '../../Utils'
+import { StatelessComponent, Link, Urls } from '../../Utils'
 import { Form, Field } from '../../Forms'
 
 interface IProps {
     strings: Universis.Strings
     login: Universis.Function2<string, string, Promise<Universis.Redux.AsyncEntity<Universis.User.Identity>>>
     unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
+    sendResetPasswordEmail: Universis.Consumer<string>
+    resetEmail: Universis.Redux.AsyncEntity<any>
 }
 
 interface IValues {
@@ -39,14 +41,27 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
         }
     }
 
+    /**
+     * Handle forgot password send email.
+     * @param event
+     */
+    private handleForgotPassword = (event: React.MouseEvent) => {
+        event.preventDefault()
+
+        if (confirm('Odeslat email pro reset hesla?')) {
+            const { unauthUser, sendResetPasswordEmail } = this.props
+            sendResetPasswordEmail(unauthUser.payload._id)
+        }
+    }
+
     public render(): React.ReactNode {
-        const { strings, handleSubmit, invalid, submitting, unauthUser } = this.props
+        const { strings, handleSubmit, invalid, submitting, unauthUser, resetEmail } = this.props
 
         return (
             <Form
                 onSubmit={handleSubmit(this.handleSubmit)}
                 invalid={invalid}
-                sending={submitting}>
+                sending={submitting || resetEmail.isSent}>
                 <Form.Title>
                     {strings.title}
                 </Form.Title>
@@ -57,7 +72,10 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}
                     name='password' />
-                <Form.Back tot={Link.URLS.IDENTITY}>
+                <button className='form__note' onClick={this.handleForgotPassword}>
+                    {strings.forgotPassword}
+                </button>
+                <Form.Back to={Link.URLS.IDENTITY}>
                     {strings.back}
                 </Form.Back>
                 <Form.Submit>
@@ -74,7 +92,8 @@ export default reduxForm({
 })(LoginForm.connect(
     ({ system, user }: Universis.Redux.StoreState) => ({
         strings: system.strings.login,
-        unauthUser: user.unauthUser
+        unauthUser: user.unauthUser,
+        resetEmail: user.resetEmail
     }),
-    { login }
+    { login, sendResetPasswordEmail }
 ))

@@ -34,3 +34,8 @@ export {
     LoginView,
     SignUpView
 }
+
+export { default as ResetPasswordView } from './Views/ResetPasswordView'
+
+
+export { default as ResetPasswordForm } from './Components/ResetPasswordForm'

@@ -21,7 +21,10 @@ enum Queries {
 
     CENTERED_BODY = 'target',
 
-    CHAT_TAB = 'chat-tab'
+    CHAT_TAB = 'chat-tab',
+
+    TOKEN = 'token'
+
 
 }
 

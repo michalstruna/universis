@@ -94,7 +94,7 @@ const UserSchema = new Schema({
         select: false
     }
 
-})
+}, { timestamps: true })
 
 UserSchema.plugin(HashPlugin, { field: 'password' })
 

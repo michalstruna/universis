@@ -4,13 +4,13 @@
 enum Urls {
 
     HOME = '/',
-    UNIVERSE = '/vesmir',
-    IDENTITY = '/identita',
-    LOGIN = '/prihlaseni',
-    SIGN_UP = '/registrace',
-    HELP = '/napoveda',
-    FORGOT_PASSWORD = '/zapomenute-heslo',
-    APPROVALS = '/schvaleni'
+    UNIVERSE = '/universe',
+    IDENTITY = '/identity',
+    LOGIN = '/login',
+    SIGN_UP = '/signup',
+    HELP = '/help',
+    APPROVALS = '/approvals',
+    RESET_PASSWORD = '/reset-password'
 
 }
 

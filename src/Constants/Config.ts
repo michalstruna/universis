@@ -6,6 +6,11 @@ export default {
     port: 3000,
 
     /**
+     * Production domain.
+     */
+    domain: 'https://universis.herokuapp.com',
+
+    /**
      * Database config.
      *
      * Plain connection string is
@@ -30,10 +35,13 @@ export default {
      */
     email: {
         service: 'Gmail', // One of https://nodemailer.com/smtp/well-known.
-        sender: 'michal.l.struna@gmail.com',
-        password: '...',
         senderName: 'Universis',
         subjectPrefix: 'Universis - ',
+        sender: 'universis.root@gmail.com',
+        clientId: '577962618556-no1hk301dub7a7u2rit6sivig5c2uprk.apps.googleusercontent.com',
+        clientSecret: '8juXplA6FyvzxvGgBpFG0bbR',
+        accessToken: 'ya29.Glv3BlSZSE1KXLDxUMZbbZlOjTbEJJOKi1C2Nc86xF8W7XQ4wvjTBITXnaUFd63qqfoE-xZVpNbX56ISUQBHoGh3_jR1_Ioje1zl6G5MrPQPZMOUsMn_CSomjPE7',
+        refreshToken: '1/mGgU15jXJpDkPB8f9lFuBBXVZWtyYeCGBbtSgvktD_5--Y5GeMqzXPacUaCffxbZ'
     },
 
     /**

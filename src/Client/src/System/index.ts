@@ -7,6 +7,14 @@ export { default as AnimatedBackground } from './Components/AnimatedBackground'
 export { default as App } from './Components/App'
 
 /**
+ * Routes.
+ */
+export { default as Route } from './Components/Routes/Route'
+export { default as AuthRoute } from './Components/Routes/AuthRoute'
+export { default as IdentityRoute } from './Components/Routes/IdentityRoute'
+export { default as UnauthRoute } from './Components/Routes/UnauthRoute'
+
+/**
  * Views.
  */
 export { default as HomeView } from './Views/HomeView'

@@ -845,7 +845,7 @@ I přes skutečnost, \textit{že MongoDB} jakožto dokumentová databáze umož�
 
 \subsection{Instalace a~spuštění aplikace}
 
-Aplikace je k~dispozici na adrese \url{https://universis.herokuapp.com}, dokumentace \textit{REST API} pak na \url{https://universis.herokuapp.com/api-docs}. Je optimalizovaná pro aktuální verze prohlížečů \textit{Chromium} a~\textit{Google Chrome}, ale lze ji spustit i~v~prohlížečích \textit{Firefox}, \textit{Safari} a~\textit{Opera}. První načtení může být pomalejší, protože využívání cloudové platformy \textit{heroku} zdarma způsobí uvolnění aplikace z~paměti po 30 minutách nečinnosti. 
+Aplikace je k~dispozici na adrese \url{https://universis.herokuapp.com}, dokumentace \break\textit{REST~API} pak na \url{https://universis.herokuapp.com/api-docs}. Je optimalizovaná pro aktuální verze prohlížečů \textit{Chromium} a~\textit{Google Chrome}, ale lze ji spustit i~v~prohlížečích \textit{Firefox}, \textit{Safari} a~\textit{Opera}. První načtení může být pomalejší, protože využívání cloudové platformy \textit{heroku} zdarma způsobí uvolnění aplikace z~paměti po 30 minutách nečinnosti. 
 
 V~případě instalace na lokální počítač bude třeba stáhnout a~nainstalovat server\textit{Node.js}, balíčkovací systém \textit{NPM} a~databázi \textit{MongoDB}. První dva lze společně stáhnout z~oficiálních stránek \url{https://nodejs.org}, databázi pak z~\url{https://docs.mongodb.com/manual/administration/install-community}.
 
@@ -857,13 +857,13 @@ Dále je třeba z~terminálu v~kořenovém adresáři tohoto projektu spustit~sk
 
 \lstinputlisting[caption={Příkaz pro vložení inicializačních dat do databáze}, language={JavaScript}]{SourceCodes/InsertScript.js}
 
-Pro zprovoznění odesílání emailů (např. uživatelům při registraci), je třeba ve stejném konfiguračním souboru nastavit položky \code{email.sender} a~\code{email.password}.
+V~konfiguračním souboru lze nalézt i~nastavení emailu. To není třeba měnit, protože je zde nastaven a~pomocí \textit{OAuth2} ověřen již funkční email vytvořený pro účely této aplikace.
 
 Následně musí dojít ke~stažení externích balíčků \textit{NPM} pro server i~pro klienta, transpilaci zdrojových kódů do nativního \textit{JavaScriptu} a~spuštění serveru. Pro všechny tyto kroky je v~aplikaci předpřipraven skript pro unixové systémy (testováno na \textit{Ubuntu~18}, \textit{Debian~9} a~\textit{macOS Mojave}) a~pro Windows 10.
 
 \lstinputlisting[caption={Příkaz pro sestavení a~spuštění aplikace}, language={JavaScript}]{SourceCodes/Installation.js}
 
-Po krátké chvíli bude aplikace dostupná v internetovém prohlížeči na adrese \url{http://localhost:3000}, resp. \url{http://localhost:3000/api-docs}.
+Po krátké chvíli bude aplikace dostupná v internetovém prohlížeči na adrese\break\url{http://localhost:3000}, resp. \url{http://localhost:3000/api-docs}.
 
 \section{Rozvržení aplikace}
 

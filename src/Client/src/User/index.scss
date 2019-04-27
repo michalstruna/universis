@@ -1,6 +1,7 @@
 @import "./Styles/UserInfo";
+@import "./Styles/Login";
 
-.identity, .login, .sign-up {
+.identity, .login, .sign-up, .reset-password {
     @include flex-center;
 
     .form {
