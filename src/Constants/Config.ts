@@ -6,6 +6,11 @@ export default {
     port: 3000,
 
     /**
+     * Production domain.
+     */
+    domain: 'https://universis.herokuapp.com',
+
+    /**
      * Database config.
      *
      * Plain connection string is

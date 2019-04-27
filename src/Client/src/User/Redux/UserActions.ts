@@ -21,6 +21,16 @@ export const getUnauthUser = (email: string) => (
 )
 
 /**
+ * Clear unauth user.
+ */
+export const clearUnauthUser = () => (
+    Redux.setAction(
+        ActionTypes.CLEAR_UNAUTH_USER,
+        { unauthUser: { $set: Redux.EMPTY_ASYNC_ENTITY } }
+    )
+)
+
+/**
  * Login user.
  * @param email Email of user.
  * @param password Password of user.
@@ -147,5 +157,39 @@ export const toggleStickyChat = (isChatSticky: boolean) => (
     Redux.toggleAction(
         ActionTypes.TOGGLE_STICKY_CHAT,
         { isChatSticky, unreadMessages: 0 }
+    )
+)
+
+/**
+ * Send reset password email by userId.
+ * @param userId
+ */
+export const sendResetPasswordEmail = (userId: string) => (
+    Redux.asyncAction(
+        ActionTypes.SEND_RESET_PASSWORD_EMAIL,
+        { resetEmail: Request.post(`users/${userId}/reset-password`) }
+    )
+)
+
+/**
+ * Get user by token.
+ * @param token Token.
+ */
+export const getUserByToken = (token: string) => (
+    Redux.asyncAction(
+        ActionTypes.GET_USER_BY_TOKEN,
+        { userByToken: Request.get(`users/tokens/${token}`) }
+    )
+)
+
+/**
+ * Edit user by token.
+ * @param token
+ * @param data
+ */
+export const editUserByToken = (token: string, data: Universis.Map<any>) => (
+    Redux.asyncAction(
+        ActionTypes.EDIT_USER_BY_TOKEN,
+        { editUser: Request.put(`users/tokens/${token}`, data) }
     )
 )

@@ -6,7 +6,7 @@ declare namespace Universis {
     export interface SecurityModel {
 
         /**
-         * Authenticate user a getAll its identity.
+         * Authenticate user.
          * @param email Email of user.
          * @param secret Security string like password.
          * @returns User's identity.
@@ -43,6 +43,20 @@ declare namespace Universis {
          * @returns Promise with error INVALID, if token is invalid.
          */
         verify(token: string): Promise<Universis.Map<any>>
+
+        /**
+         * Send reset password email.
+         * @param email Target user email.
+         * @returns Empty promise.
+         */
+        resetPassword(email: string): Promise<void>
+
+        /**
+         * Get user by its token.
+         * @param token
+         * @returns Promise with user.
+         */
+        getUserByToken(token: string): Promise<Universis.User>
 
     }
 

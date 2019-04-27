@@ -102,7 +102,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         return null
     }
 
-    public async update(filter: Universis.Database.Query.Filter, changes: New, options?: Universis.Database.Query.Options): Promise<void> {
+    public async update(filter: Universis.Database.Query.Filter, changes: any, options?: Universis.Database.Query.Options): Promise<void> {
         const { update, notifications } = this.options
         let item
 

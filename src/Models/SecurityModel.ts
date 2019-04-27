@@ -1,10 +1,11 @@
 import * as JWT from 'jsonwebtoken'
 
 import Model from './Model'
-import { Config, Errors } from '../Constants'
+import { Config, Errors, Email } from '../Constants'
 import DatabaseModel from '../Constants/DatabaseModel'
 import UserModel from './UserModel'
 import Security from '../Utils/Security'
+import EmailModel from './EmailModel'
 
 class SecurityModel extends Model implements Universis.SecurityModel {
 
@@ -60,6 +61,32 @@ class SecurityModel extends Model implements Universis.SecurityModel {
                 error ? reject(Errors.INVALID) : resolve(payload as Universis.Map<any>)
             })
         })
+    }
+
+    public async resetPassword(userId: string): Promise<void> {
+        const user = await UserModel.get({ _id: userId }, { select: ['email'] })
+
+        if (!user) {
+            return Promise.reject(Errors.NOT_FOUND)
+        }
+
+        const token = await this.sign({ userId })
+
+        await Promise.all([
+            this.dbModel.addOne({ token }),
+            EmailModel.sendText(user.email, Email.resetPassword.subject(), Email.resetPassword.content(token))
+        ])
+    }
+
+    public async getUserByToken(token: string): Promise<Universis.User> {
+        const dbToken = await this.dbModel.getOne({ token })
+
+        if (!dbToken) {
+            return Promise.reject(Errors.NOT_FOUND)
+        }
+
+        const data = await this.verify(token)
+        return await UserModel.get({ _id: data.userId })
     }
 
 }

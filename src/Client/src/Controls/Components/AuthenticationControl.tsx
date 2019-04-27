@@ -55,7 +55,7 @@ class AuthentificationControl extends StatelessComponent<IProps> {
                     isVisible={this.isVisible}
                     name={'login'}
                     label={strings.logIn}
-                    target={Urls.IDENTITY} />
+                    target={Urls.LOGIN} />
             )
         }
     }

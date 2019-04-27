@@ -50,6 +50,17 @@ export default {
         },
 
         '/approvals/{approvalId}/approve': {
+            'parameters': [
+                {
+                    'in': 'path',
+                    'name': 'approvalId',
+                    'required': true,
+                    'schema': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'description': 'Approval ID.'
+                }
+            ],
             'put': {
                 'tags': ['Approvals'],
                 'summary': 'Approve unapproved item.',
@@ -63,6 +74,17 @@ export default {
         },
 
         '/approvals/{approvalId}/disapprove': {
+            'parameters': [
+                {
+                    'in': 'path',
+                    'name': 'approvalId',
+                    'required': true,
+                    'schema': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'description': 'Approval ID.'
+                }
+            ],
             'put': {
                 'tags': ['Approvals'],
                 'summary': 'Disapprove unapproved item.',
@@ -134,6 +156,88 @@ export default {
                 }
             }
         },
+
+        '/users/{userId}/reset-password': {
+            'parameters': [
+                {
+                    'in': 'path',
+                    'name': 'userId',
+                    'schema': {
+                        '$ref': '#/components/schemas/Id'
+                    },
+                    'required': true,
+                    'description': 'User ID.'
+                },
+            ],
+            'post': {
+                'tags': ['Users'],
+                'summary': 'Send reset password email.',
+                'description': 'Send reset password email.',
+                'responses': {
+                    '204': {
+                        'description': 'Successful send email.'
+                    },
+                    '400': {
+                        'description': 'Invalid or expired token.'
+                    }
+                }
+            }
+        },
+
+        '/users/tokens/{token}': {
+            'parameters': [
+                {
+                    'in': 'path',
+                    'name': 'token',
+                    'schema': {
+                        'type': 'string'
+                    },
+                    'required': true,
+                    'description': 'User token.'
+                },
+            ],
+            'get': {
+                'tags': ['Users'],
+                'summary': 'Get user by token.',
+                'description': 'Get user by token.',
+                'responses': {
+                    '204': {
+                        'description': 'Successful get user.'
+                    },
+                    '400': {
+                        'description': 'Invalid or expired token.'
+                    }
+                }
+            },
+            'put': {
+                'tags': ['Users'],
+                'summary': 'Edit user by token.',
+                'description': 'Edit user by token.',
+                'requestBody': {
+                    'content': {
+                        'application/json': {
+                            'schema': {
+                                'type': 'object',
+                                'properties': {
+                                    'password': {
+                                        'type': 'string'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'responses': {
+                    '204': {
+                        'description': 'Successful edit user.'
+                    },
+                    '400': {
+                        'description': 'Invalid or expired token.'
+                    }
+                }
+            }
+        },
+
         '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification'),
         '/notifications/{notificationId}': Route.getSwaggerRouteGroupForOne(['Notifications'], 'Notification', ['notificationId']),
         '/notifications/count': Route.getSwaggerRouteGroupForCount(['Notifications']),

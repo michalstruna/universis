@@ -64,6 +64,18 @@ export default {
         submit: 'Registrovat se'
     },
 
+    resetPassword: {
+        title: 'Obnovení hesla.',
+        password: 'Nové heslo',
+        missingPassword: 'Zadejte nové heslo.',
+        invalidPassword: 'Heslo musí mít 6+ znaků.',
+        passwordAgain: 'Heslo znovu',
+        missingPasswordAgain: 'Zadejte heslo znovu.',
+        invalidPasswordAgain: 'Hesla se neshodují.',
+        submit: 'Nastavit heslo',
+        error: 'Odkaz již není platný. Zažádejte si o obnovení hesla znovu.'
+    },
+
     universe: {
         controls: {
             orbits: 'Orbity',

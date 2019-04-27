@@ -71,11 +71,10 @@ class UserInfo extends StatelessComponent<IProps> {
     private getUser(): Universis.User.Simple {
         const { user } = this.props
 
-        if (!user) {
-            return UserInfo.DEFAULT_USER
+        return {
+            ...UserInfo.DEFAULT_USER,
+            ...(user || {})
         }
-
-        return user
     }
 
     /**
