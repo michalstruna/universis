@@ -3,7 +3,7 @@ import { reduxForm, InjectedFormProps } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
 import { Field, Form, } from '../../Forms'
-import { addDiscussion } from '../../Universe'
+import { addDiscussion, toggleNewDiscussion } from '../../Universe'
 import { UserInfo } from '../../User'
 
 interface IProps {
@@ -11,6 +11,7 @@ interface IProps {
     identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
     addDiscussion: Universis.Consumer<Universis.Discussion.New>
     body: Universis.Redux.AsyncEntity<Universis.Universe.Body>
+    toggleNewDiscussion: Universis.Consumer<boolean>
 }
 
 interface IValues {
@@ -31,10 +32,11 @@ class DiscussionForm extends StatelessComponent<IProps & InjectedFormProps<IValu
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { addDiscussion, reset, body } = this.props
+        const { addDiscussion, reset, body, toggleNewDiscussion } = this.props
 
         try {
             await addDiscussion({ ...data, bodyId: body.payload._id })
+            toggleNewDiscussion(false)
             reset()
         } catch (error) {
         }
@@ -81,5 +83,5 @@ export default reduxForm({
         identity: user.identity,
         body: universe.body
     }),
-    { addDiscussion }
+    { addDiscussion, toggleNewDiscussion }
 ))

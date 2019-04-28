@@ -54,7 +54,7 @@ export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Si
                             }
                         },
                         { $lookup: { from: 'users', localField: 'userId', foreignField: '_id', as: 'user' } },
-                        { $unwind: '$user' },
+                        { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
                         {
                             $lookup: {
                                 from: 'postvotes',

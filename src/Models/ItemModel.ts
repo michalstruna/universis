@@ -31,7 +31,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         }
 
         if (notifications && add.notification) {
-            await NotificationModel.add(await this.getNotificationData(item, Operation.ADD, !add.approval, { after: item }))
+            await NotificationModel.add(await this.getNotificationData(item, Operation.ADD, !add.approval, { after: { ...(item as any), ...addedItem } }))
         }
 
         return addedItem
