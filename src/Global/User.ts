@@ -69,7 +69,7 @@ declare namespace Universis {
             publicEmail?: string
             website?: string
             facebook?: string
-            about: string
+            about?: string
 
         }
 
