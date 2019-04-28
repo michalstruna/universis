@@ -167,13 +167,15 @@ class Redux {
                 source += change.$inc
             }
 
-            if (!Object.keys(change)[0].startsWith('$') && change && typeof change[Object.keys(change)[0]] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
+            const key = Object.keys(change)[0]
+
+            if (key && !key.startsWith('$') && change && typeof change[key] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
                 for (const i in change) {
                     if (!(i.startsWith('$'))) {
                         source[i] = change[i] !== null ? applyNestedChange(source[i], change[i]) : null
                     }
                 }
-            } else if (!Object.keys(change)[0].startsWith('$')) {
+            } else if (key && !key.startsWith('$')) {
                 source = { ...source, ...change }
             }
 

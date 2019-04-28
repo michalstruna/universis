@@ -920,26 +920,17 @@ Stránka pro zadání a potvrzení hesla k nově vytvářenému účtu. V~příp
 
 \subsubsection{Zapomenuté heslo}
 
-Na této stránce se nachází formulář s~polem pro email. Po úspěšném vyplnění se odešle na zadaný email zpráva s~odkazem pro obnovení hesla.
+Na této stránce se nachází formulář s~polem pro email. Po úspěšném vyplnění se odešle na zadaný email zpráva s~odkazem pro obnovení hesla. Lze odstud možné také odeslat email pro obnovení hesla.
 
 \subsubsection{Reset hesla}
 
 Stránka obsahuje formulář pro nastavení a~potvrzení nového hesla. Pro úspěch je nutné, aby se v~URL adrese nacházel platný token. Ten se vytvoří v okamžiku vytvoření požadavku na obnovu hesla a~má platnost 30 minut.
 
-\subsection{Uživatel}
+\subsection{Detail uživatele}
 
-\subsubsection{Detail uživatele}
+Na stránce detailu uživatele jsou zobrazeny informace, které o sobě uživatel zveřejnil. Je zde možné tak vidět např. pohlaví, věk, bydliště, profilový text nebo adresu webové stránky. Mimo to se zde zobrazují i~uživatelské statistiky, jež obsahují informace o~uživatelově aktivitě (počet diskusí, obdržených a přijatých hlasů, ...) a informace, které o ~obě uživatel sám vyplnil (pohlaví, věk, profilový text, ...).
 
-Na stránce detailu uživatele jsou zobrazeny informace, které o sobě uživatel zveřejnil. Je zde možné tak vidět např. pohlaví, věk, bydliště, profilový text nebo adresu webové stránky. Mimo to se zde zobrazují i~uživatelské statistiky, jež obsahují následující informace:
-
-\begin{itemize}
-\item Kolik diskusí a~komentářů má u každého tělesa,
-\item Kolik kladných a~záporných hlasů rozdal,
-\item Kolik kladných a~záporných hlasů obdržel,
-\item Kolik celkem napsal zpráv.
-\end{itemize}
-
-Výsledkem celkového hodnocení uživatele je jeho reputace. Ta je součtem bodů za:
+Výsledkem hodnocení uživatele je jeho reputace. Ta je váženým průměrem bodů za:
 
 \begin{itemize}
 \item \textbf{Zlaté medaile} (20) -- editorská činnost,
@@ -948,6 +939,13 @@ Výsledkem celkového hodnocení uživatele je jeho reputace. Ta je součtem bod
 \end{itemize}
 
 Na této stránce může také vlastník editovat svůj profil.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=450pt]{Images/UserDetail.png}
+\caption{Detail uživatele}
+\end{center}
+\end{figure}
 
 \subsection{Simulátor}
 

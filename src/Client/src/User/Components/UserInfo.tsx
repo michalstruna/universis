@@ -29,6 +29,7 @@ class UserInfo extends StatelessComponent<IProps> {
         name: 'Nepřihlášený',
         avatar: '/Images/User/Avatar.svg',
         role: UserRole.UNAUTHANTICATED,
+        createdAt: null,
         score: {
             gold: 0,
             silver: 0,
@@ -83,7 +84,7 @@ class UserInfo extends StatelessComponent<IProps> {
      */
     private getReputation(): number {
         const user = this.getUser()
-        return Math.floor((user.score.gold + user.score.silver + user.score.bronze) / 3)
+        return Math.floor((user.score.gold * 20 + user.score.silver * 5 + user.score.bronze) / 3)
     }
 
     private renderSmall(): React.ReactNode {
@@ -95,10 +96,20 @@ class UserInfo extends StatelessComponent<IProps> {
                 content={<UserInfo type={UserInfo.TYPES.LARGE} user={user} />}>
                 <Link
                     className='user-info__avatar'
-                    target={Link.URLS.HOME}
+                    target={this.target}
                     style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
             </ContextInfo>
         )
+    }
+
+    private get target(): string {
+        const user = this.getUser()
+
+        if (!user) {
+            return Link.URLS.HOME
+        }
+
+        return Link.URLS.USER + '/' + user._id
     }
 
     private renderMedium(): React.ReactNode {
@@ -107,13 +118,13 @@ class UserInfo extends StatelessComponent<IProps> {
         return (
             <React.Fragment>
                 <Link
-                    className={'user-info__avatar' + (user._id ? '' : ' user-info__link--disabled')}
-                    target={Link.URLS.HOME}
+                    className={'user-info__avatar'}
+                    target={this.target}
                     style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
                 <section className='user-info--right'>
                     <Link
                         className={'user-info__name' + (user._id ? '' : ' user-info__link--disabled')}
-                        target={user._id ? Link.URLS.USER + '/' + user._id : null}
+                        target={this.target}
                         style={{ color: this.getColorFromKarma() }}>
                         {user.name}
                     </Link>
@@ -135,12 +146,12 @@ class UserInfo extends StatelessComponent<IProps> {
             <React.Fragment>
                 <Link
                     className='user-info__avatar'
-                    target={Link.URLS.HOME}
+                    target={this.target}
                     style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
                 <section className='user-info--right'>
                     <Link
                         className='user-info__name'
-                        target={Link.URLS.HOME}
+                        target={this.target}
                         style={{ color: this.getColorFromKarma() }}>
                         {user.name}
                     </Link>
@@ -172,8 +183,10 @@ class UserInfo extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
+        const user = this.getUser()
+
         return (
-            <section className={'user-info user-info--' + this.props.type}>
+            <section className={'user-info user-info--' + this.props.type + (user._id ? '' : ' user-info--default')}>
                 {this.renderType()}
             </section>
         )

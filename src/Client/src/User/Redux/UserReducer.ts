@@ -13,6 +13,7 @@ export default Redux.createReducer(
         isChatSticky: true,
         unreadMessages: 0,
         userByToken: Redux.EMPTY_ASYNC_ENTITY,
-        resetEmail: Redux.EMPTY_ASYNC_ENTITY
+        resetEmail: Redux.EMPTY_ASYNC_ENTITY,
+        user: Redux.EMPTY_ASYNC_ENTITY
     }
 )

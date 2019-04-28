@@ -18,10 +18,10 @@ class HomeView extends View<IProps> {
     private getLinks(): Universis.Map<string> {
         const { identity, strings } = this.props
 
-        const links = { [strings.menu.universe]: Urls.UNIVERSE }
+        const links: any = { [strings.menu.universe]: Urls.UNIVERSE }
 
         if (identity.payload) {
-            links[strings.menu.profile] = Urls.USER
+            links[strings.menu.profile] = Urls.USER + '/' + identity.payload._id
         } else {
             links[strings.menu.login] = Urls.IDENTITY
         }

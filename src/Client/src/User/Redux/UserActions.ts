@@ -217,3 +217,14 @@ export const receiveLogout = (user: Universis.User) => (
         { onlineUsers: { $remove: onlineUser => onlineUser && onlineUser._id === user._id, $add: null } }
     )
 )
+
+/**
+ * Get user by ID.
+ * @param userId
+ */
+export const getUser = (userId: Universis.User) => (
+    Redux.asyncAction(
+        ActionTypes.GET_USER,
+        { user: Request.get(`users/${userId}`) }
+    )
+)

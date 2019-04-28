@@ -43,18 +43,33 @@ declare namespace Universis {
             name: string
 
             /**
-             * User's image's url.
+             * User's image's url. (optional)
              */
-            avatar: string
+            avatar?: string
 
             /**
              * Roles of user.
              */
             role: number
+
             /**
              * Score of user.
              */
             score: Score
+
+            /**
+             * Data.
+             */
+            isFemale?: boolean
+            createdAt: number
+            born?: number
+            home?: string
+            lastOnline?: number
+            isOnline?: boolean
+            publicEmail?: string
+            website?: string
+            facebook?: string
+            about: string
 
         }
 

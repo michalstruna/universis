@@ -166,7 +166,7 @@ class Route {
             const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : request => request.body
             const mapAfter = 'mapAfter' in access.post ? access.post.mapAfter : item => item
             const handler = 'access' in access.post ? access.post.access : access.post
-            routeGroup.post = handler(request => model.add({ ...mapBefore(request), userId: request.userId }), mapAfter)
+            routeGroup.post = handler(request => model.add({ ...mapBefore(request), userId: request.user._id }), mapAfter)
         }
 
         if (access.delete && typeof access.delete !== 'object') {
