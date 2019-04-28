@@ -37,6 +37,11 @@ class SocketModel implements Universis.Socket.Model {
                     delete this.clients[socket.id]
                 }
             })
+
+            socket.on(SocketMessageType.LOGOUT, user => {
+                this.clients[socket.id].user = null
+                this.broadcast(SocketMessageType.LOGOUT, user)
+            })
         })
     }
 

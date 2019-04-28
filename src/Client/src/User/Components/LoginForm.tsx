@@ -72,7 +72,7 @@ class LoginForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> 
                     required={strings.missingPassword}
                     invalid={strings.invalidPassword}
                     name='password' />
-                <button className='form__note' onClick={this.handleForgotPassword}>
+                <button className='form__note' onClick={this.handleForgotPassword} type='button'>
                     {strings.forgotPassword}
                 </button>
                 <Form.Back to={Link.URLS.IDENTITY}>

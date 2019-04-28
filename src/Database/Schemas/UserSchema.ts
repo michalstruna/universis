@@ -2,6 +2,7 @@ import { Schema } from 'mongoose'
 
 import Strings from '../../Utils/Strings'
 import HashPlugin from '../Plugins/HashPlugin'
+import { UserRole } from '../../Constants'
 
 /**
  * DB schema for users.
@@ -81,12 +82,12 @@ const UserSchema = new Schema({
 
     role: {
         type: Number,
-        default: 0
+        default: UserRole.AUTHENTICATED
     },
 
     lastOnline: {
         type: String,
-        default: () => new Date().toISOString()
+        default: () => new Date().getTime()
     },
 
     __v: {

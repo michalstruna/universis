@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { StatelessComponent, Link, Units } from '../../Utils'
 import { ContextInfo } from '../../Controls'
+import { UserRole } from '../../../../Constants'
 
 interface IProps {
     type: UserInfoTypes
@@ -27,7 +28,7 @@ class UserInfo extends StatelessComponent<IProps> {
         email: null,
         name: 'Nepřihlášený',
         avatar: '/Images/User/Avatar.svg',
-        roles: [],
+        role: UserRole.UNAUTHANTICATED,
         score: {
             gold: 0,
             silver: 0,
@@ -106,13 +107,13 @@ class UserInfo extends StatelessComponent<IProps> {
         return (
             <React.Fragment>
                 <Link
-                    className='user-info__avatar'
+                    className={'user-info__avatar' + (user._id ? '' : ' user-info__link--disabled')}
                     target={Link.URLS.HOME}
                     style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
                 <section className='user-info--right'>
                     <Link
-                        className='user-info__name'
-                        target={Link.URLS.HOME}
+                        className={'user-info__name' + (user._id ? '' : ' user-info__link--disabled')}
+                        target={user._id ? Link.URLS.USER + '/' + user._id : null}
                         style={{ color: this.getColorFromKarma() }}>
                         {user.name}
                     </Link>

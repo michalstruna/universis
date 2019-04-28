@@ -17,8 +17,8 @@ abstract class ControlLink extends StatelessComponent<IProps> {
      * @param event
      */
     private handleClick = (event: React.MouseEvent<HTMLElement>): void => {
-        const { history, target, location } = this.props
-        history.push(target + location.search)
+        const { target } = this.props
+        Url.push({ pathname: target })
     }
 
     public render(): React.ReactNode {

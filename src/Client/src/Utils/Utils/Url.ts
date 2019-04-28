@@ -67,7 +67,7 @@ class Url {
             }
         }
 
-        return pathname + '?' + query.replace('^\?', '')
+        return pathname.replace(/\?/, '') + '?' + query.replace(/^\?/, '')
     }
 
     /**

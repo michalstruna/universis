@@ -50,11 +50,7 @@ declare namespace Universis {
             /**
              * Roles of user.
              */
-            roles: {
-                [index: number]: number,
-                includes: (number) => boolean
-            }
-
+            role: number
             /**
              * Score of user.
              */

@@ -4,12 +4,30 @@ import { Urls, View, Menu } from '../../Utils'
 
 interface IProps {
     strings: Universis.Strings
+    identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
 }
 
 /**
  * View for home page.
  */
 class HomeView extends View<IProps> {
+
+    /**
+     * Get menu links.
+     */
+    private getLinks(): Universis.Map<string> {
+        const { identity, strings } = this.props
+
+        const links = { [strings.menu.universe]: Urls.UNIVERSE }
+
+        if (identity.payload) {
+            links[strings.menu.profile] = Urls.USER
+        } else {
+            links[strings.menu.login] = Urls.IDENTITY
+        }
+
+        return links
+    }
 
     public render(): React.ReactNode {
         const { strings } = this.props
@@ -18,14 +36,11 @@ class HomeView extends View<IProps> {
             <section className={this.getClassName('home')}>
                 <section className='home__center'>
                     <h1 className='home__title'>
-                        {this.props.strings.title}
+                        {strings.title}
                     </h1>
                     <Menu
                         className='home__menu'
-                        links={{
-                            [strings.menu.universe]: Urls.UNIVERSE,
-                            [strings.menu.login]: Urls.IDENTITY
-                        }} />
+                        links={this.getLinks()} />
                 </section>
             </section>
         )
@@ -34,7 +49,8 @@ class HomeView extends View<IProps> {
 }
 
 export default HomeView.connect(
-    ({ system }: Universis.Redux.StoreState) => ({
-        strings: system.strings.home
+    ({ system, user }: Universis.Redux.StoreState) => ({
+        strings: system.strings.home,
+        identity: user.identity
     })
 )

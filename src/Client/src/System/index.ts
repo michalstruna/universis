@@ -30,3 +30,8 @@ export { default as SystemReducer } from './Redux/SystemReducer'
  */
 export { default as Strings } from './Constants/Strings'
 export { default as Urls } from '../Utils/Constants/Urls'
+
+/**
+ Utils.
+ */
+export { default as Sockets } from './Utils/Sockets'

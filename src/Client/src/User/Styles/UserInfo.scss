@@ -9,6 +9,11 @@ $user-info-height: 5rem;
     overflow: hidden;
     text-align: left;
 
+    &__link--disabled {
+        cursor: default;
+        pointer-events: none;
+    }
+
     &--left, &--right {
         box-sizing: border-box;
         float: left;

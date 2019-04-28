@@ -129,19 +129,25 @@ class Redux {
                 const index = source.findIndex(change.$find)
                 delete change.$find
                 source[index] = applyNestedChange(source[index], change)
-            } else if (change && change.$add !== undefined) {
+            }
+
+            if (change && change.$add !== undefined) {
                 if (!source) {
                     return source
                 }
 
                 source = [...(source || []), change.$add]
-            } else if (change && change.$addFirst !== undefined) {
+            }
+
+            if (change && change.$addFirst !== undefined) {
                 if (!source) {
                     return source
                 }
 
                 source = [change.$addFirst, ...(source || [])]
-            } else if (change && change.$remove) {
+            }
+
+            if (change && change.$remove) {
                 if (!source) {
                     return source
                 }
@@ -151,17 +157,23 @@ class Redux {
                 if (index > -1) {
                     source.splice(index, 1)
                 }
-            } else if (change && change.$set) {
+            }
+
+            if (change && change.$set) {
                 source = change.$set
-            } else if (change && change.$inc) {
+            }
+
+            if (change && change.$inc) {
                 source += change.$inc
-            } else if (change && typeof change[Object.keys(change)[0]] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
+            }
+
+            if (!Object.keys(change)[0].startsWith('$') && change && typeof change[Object.keys(change)[0]] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
                 for (const i in change) {
                     if (!(i.startsWith('$'))) {
                         source[i] = change[i] !== null ? applyNestedChange(source[i], change[i]) : null
                     }
                 }
-            } else {
+            } else if (!Object.keys(change)[0].startsWith('$')) {
                 source = { ...source, ...change }
             }
 

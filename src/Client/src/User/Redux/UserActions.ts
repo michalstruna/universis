@@ -1,5 +1,6 @@
 import { Redux, Request, Url, Urls, Cookies } from '../../Utils'
 import ActionTypes from './ActionTypes'
+import { Sockets } from '../../System'
 
 /**
  * Get unauth user.
@@ -50,12 +51,13 @@ export const login = (email: string, password: string) => (
  * Logout user.
  */
 export const logout = () => {
+    Sockets.logout()
     Cookies.remove(Cookies.KEYS.IDENTITY)
 
     return Redux.setAction(
         ActionTypes.LOGOUT,
         { identity: Redux.EMPTY_ASYNC_ENTITY },
-        () => Url.push({ pathname: Urls.LOGIN })
+        () => Url.replace({ pathname: Urls.HOME })
     )
 }
 
@@ -191,5 +193,27 @@ export const editUserByToken = (token: string, data: Universis.Map<any>) => (
     Redux.asyncAction(
         ActionTypes.EDIT_USER_BY_TOKEN,
         { editUser: Request.put(`users/tokens/${token}`, data) }
+    )
+)
+
+/**
+ * Receive user login.
+ * @param user
+ */
+export const receiveLogin = (user: Universis.User) => (
+    Redux.setAction(
+        ActionTypes.RECEIVED_LOGIN,
+        { onlineUsers: { $remove: onlineUser => !onlineUser, $add: user } }
+    )
+)
+
+/**
+ * Receive user logout.
+ * @param user
+ */
+export const receiveLogout = (user: Universis.User) => (
+    Redux.setAction(
+        ActionTypes.RECEIVED_LOGOUT,
+        { onlineUsers: { $remove: onlineUser => onlineUser && onlineUser._id === user._id, $add: null } }
     )
 )
