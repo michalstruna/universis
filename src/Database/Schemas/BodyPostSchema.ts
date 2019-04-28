@@ -30,7 +30,8 @@ const BodyPostSchema = new Schema({
 
     ip: {
         type: String,
-        required: true
+        required: true,
+        select: false
     },
 
     bodyId: {

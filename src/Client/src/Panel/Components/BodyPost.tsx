@@ -56,23 +56,6 @@ class BodyPost extends Component<IProps, IState> {
     }
 
     /**
-     * Check if currently logged user is between users in array.
-     * @param users List of users.
-     * @returns Logged user is between users.
-     */
-    private isBetween = (users: Universis.User.Simple[]): boolean => {
-        const { identity } = this.props
-
-        return !!users.find(user => user._id === 'myself')
-
-        /*if (!identity.payload) {
-            return false
-        }
-
-        return !users.find(user => user._id === identity.payload._id)*/
-    }
-
-    /**
      * Render title of discussion.
      * @returns Title.
      */
@@ -210,7 +193,7 @@ class BodyPost extends Component<IProps, IState> {
                     <section className='panel__body__discussion__metadata'>
                         {this.renderTitle()}
                         <span className='panel__body__discussion__author'>
-                            {post.user ? post.user.name : post.ip}
+                            <UserInfo type={UserInfo.TYPES.NAME} user={post.user} />
                         </span>
                         <span className='panel__body__discussion__date'>
                             <RelativeTime date={post.date} />

@@ -51,24 +51,25 @@ class Route {
         return async (request, response) => {
             let user
 
+            const requestData = {
+                ...request,
+                ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+            }
+
             try {
                 const token = request.headers['access-token']
 
                 if (token) {
                     const tokenData = await SecurityModel.verify(token)
                     user = await UserModel.get({ _id: tokenData.userId })
-                    request.user = user
+                    requestData.user = user
+                    requestData.userId = user._id
                 }
             } catch {
                 // Error is OK. Token is just invalid, but for unauthorized routes it doesn't matter.
             }
 
-            if (isAuthorized(request)) {
-                const requestData = {
-                    ...request,
-                    ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
-                }
-
+            if (isAuthorized(requestData)) {
                 return action(requestData)
                     .then(result => {
                         if (typeof resultMap === 'boolean') {
@@ -166,7 +167,13 @@ class Route {
             const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : request => request.body
             const mapAfter = 'mapAfter' in access.post ? access.post.mapAfter : item => item
             const handler = 'access' in access.post ? access.post.access : access.post
-            routeGroup.post = handler(request => model.add({ ...mapBefore(request), userId: request.user._id }), mapAfter)
+            routeGroup.post = handler(request => model.add({
+                    ...mapBefore(request),
+                    userId: request.userId,
+                    ip: request.ip
+                }),
+                mapAfter
+            )
         }
 
         if (access.delete && typeof access.delete !== 'object') {
