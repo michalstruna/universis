@@ -150,18 +150,22 @@ class BodyPost extends Component<IProps, IState> {
         )
     }
 
+    private handleUnloggedVote = () => {
+        alert('Pokud chcete hlasovat, musíte se přihlásit.')
+    }
+
     /**
      * Render post controls.
      */
     private renderControls(): React.ReactNode {
-        const { post, parentId, vote } = this.props
+        const { post, parentId, vote, identity } = this.props
 
-        const myVote = post.votes.find(vote => vote.userId === '5c682cc8f235006303459c60')
+        const myVote = post.votes.find(vote => identity.payload && vote.userId === identity.payload._id)
 
         return (
             <section className='panel__body__discussion__controls'>
                 <button
-                    onClick={() => vote(true, myVote && myVote.isPositive ? myVote._id : null, post._id, parentId)}
+                    onClick={() => identity.payload ? vote(true, myVote && myVote.isPositive ? myVote._id : null, post._id, parentId) : this.handleUnloggedVote()}
                     className={ClassNames(
                         'panel__body__discussion__up',
                         { 'panel__body__discussion__up--active': myVote && myVote.isPositive }
@@ -170,7 +174,7 @@ class BodyPost extends Component<IProps, IState> {
                             {post.votes.filter(vote => vote.isPositive).length || ''}
                         </span>
                 <button
-                    onClick={() => vote(false, myVote && !myVote.isPositive ? myVote._id : null, post._id, parentId)}
+                    onClick={() => identity.payload ? vote(false, myVote && !myVote.isPositive ? myVote._id : null, post._id, parentId) : this.handleUnloggedVote()}
                     className={ClassNames(
                         'panel__body__discussion__down',
                         { 'panel__body__discussion__down--active': myVote && !myVote.isPositive }

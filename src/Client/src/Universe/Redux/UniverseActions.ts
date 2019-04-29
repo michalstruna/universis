@@ -2,6 +2,7 @@ import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import Follow from '../Constants/Follow'
 import { toggleBodyEventForm, toggleBodyForm, toggleBodyTypeForm } from '../../Panel/Redux/PanelActions'
+import { Store } from '../../System'
 
 /**
  * Get all bodies.
@@ -190,7 +191,7 @@ export const vote = (isPositive: boolean, existingVoteId: string | null, postId:
                         dispatch(
                             Redux.setAction(
                                 ActionTypes.LOCAL_UNVOTE,
-                                { body: { payload: { discussions: getQuery({ $remove: vote => vote.userId === '5c682cc8f235006303459c60' && vote.postId === postId }) } } }
+                                { body: { payload: { discussions: getQuery({ $remove: vote => vote.userId === Store.getState().user.identity.payload._id && vote.postId === postId }) } } }
                             )
                         )
 
