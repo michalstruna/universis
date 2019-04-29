@@ -165,17 +165,17 @@ class Redux {
                 }
             }
 
-            if (change && change.$set) {
-                next = false
-                source = change.$set
-            }
-
             if (change && change.$inc) {
                 next = false
                 source += change.$inc
             }
 
             if (next) {
+                if (change && change.$set) {
+                    next = false
+                    source = change.$set
+                }
+
                 const key = Object.keys(change)[0]
 
                 if (key && !key.startsWith('$') && change && typeof change[key] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
