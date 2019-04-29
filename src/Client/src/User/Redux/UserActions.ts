@@ -81,7 +81,11 @@ export const signUp = (email: string, password: string) => (
 export const getMessages = (limit: number) => (
     Redux.asyncAction(
         ActionTypes.GET_MESSAGES,
-        { messages: Request.get(`notifications`, { limit, sort: 'date', reverse: true }) }
+        {
+            messages: Request
+                .get<Universis.Notification[]>(`notifications`, { limit, sort: 'createdAt', reverse: true })
+                .then(messages => messages.reverse())
+        }
     )
 )
 

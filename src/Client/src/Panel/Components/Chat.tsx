@@ -52,7 +52,9 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         let i = 0
 
         const scroll = setInterval(() => {
-            this.chat.scrollTop = this.chat.scrollHeight
+            if (this.chat) {
+                this.chat.scrollTop = this.chat.scrollHeight
+            }
 
             if (i++ > 30) {
                 clearInterval(scroll)
