@@ -10,6 +10,7 @@ import { App, HomeView, Store, Route, UnauthRoute, AuthRoute, IdentityRoute } fr
 import { IdentityView, LoginView, SignUpView, ResetPasswordView } from './User'
 import { UniverseView } from './Universe'
 import { ApprovalsView } from './Approvals'
+import { UserView } from './User'
 import { Urls } from './Utils'
 
 import './index.scss'
@@ -25,6 +26,7 @@ render(
                     <IdentityRoute path={Urls.SIGN_UP} component={SignUpView} />
                     <Route path={Urls.UNIVERSE} component={UniverseView} />
                     <Route path={Urls.APPROVALS} component={ApprovalsView} />
+                    <Route path={Urls.USER + '/:userId'} component={UserView} />
                     <UnauthRoute path={Urls.RESET_PASSWORD} component={ResetPasswordView} />
                     <Redirect to={Urls.HOME} />
                 </Switch>

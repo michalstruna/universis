@@ -1,11 +1,12 @@
 import * as JWT from 'jsonwebtoken'
 
 import Model from './Model'
-import { Config, Errors, Email } from '../Constants'
+import { Config, Errors, Email, SocketMessageType } from '../Constants'
 import DatabaseModel from '../Constants/DatabaseModel'
 import UserModel from './UserModel'
 import Security from '../Utils/Security'
 import EmailModel from './EmailModel'
+import SocketModel from './SocketModel'
 
 class SecurityModel extends Model implements Universis.SecurityModel {
 
@@ -33,6 +34,7 @@ class SecurityModel extends Model implements Universis.SecurityModel {
             const token = await this.sign({ userId: user._id })
 
             await this.dbModel.addOne({ token })
+            SocketModel.broadcast(SocketMessageType.LOGIN, user)
             return resolve({ ...user, token })
         })
     }
@@ -58,7 +60,7 @@ class SecurityModel extends Model implements Universis.SecurityModel {
             }
 
             JWT.verify(token, Config.security.token.secret, (error, payload) => {
-                error ? reject(Errors.INVALID) : resolve(payload as Universis.Map<any>)
+                error ? reject(Errors.UNAUTHORIZED) : resolve(payload as Universis.Map<any>)
             })
         })
     }
@@ -67,7 +69,7 @@ class SecurityModel extends Model implements Universis.SecurityModel {
         const user = await UserModel.get({ _id: userId }, { select: ['email'] })
 
         if (!user) {
-            return Promise.reject(Errors.NOT_FOUND)
+            return Promise.reject(Errors.UNAUTHORIZED)
         }
 
         const token = await this.sign({ userId })
@@ -82,7 +84,7 @@ class SecurityModel extends Model implements Universis.SecurityModel {
         const dbToken = await this.dbModel.getOne({ token })
 
         if (!dbToken) {
-            return Promise.reject(Errors.NOT_FOUND)
+            return Promise.reject(Errors.UNAUTHORIZED)
         }
 
         const data = await this.verify(token)

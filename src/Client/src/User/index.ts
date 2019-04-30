@@ -35,6 +35,7 @@ export {
     SignUpView
 }
 
+export { default as UserView } from './Views/UserView'
 export { default as ResetPasswordView } from './Views/ResetPasswordView'
 
 

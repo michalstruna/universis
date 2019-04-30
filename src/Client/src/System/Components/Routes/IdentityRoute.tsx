@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
 import Store from '../../Redux/Store'
-import { Urls } from '../../../Utils'
+import { Urls, Url } from '../../../Utils'
 
 const IdentityRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => {
@@ -10,9 +10,9 @@ const IdentityRoute = ({ component: Component, ...rest }) => (
         const unauthUser = Store.getState().user.unauthUser
 
         if (identity.payload) {
-            return <Redirect to={Urls.HOME} />
+            return <Redirect to={Url.link({ pathname: Urls.HOME })} />
         } else if (!unauthUser.payload) {
-            return <Redirect to={Urls.IDENTITY} />
+            return <Redirect to={Url.link({ pathname: Urls.IDENTITY })} />
         } else {
             return <Component {...props} />
         }

@@ -7,7 +7,8 @@ export default {
         title: 'Universis',
         menu: {
             universe: 'Do vesmíru',
-            login: 'Přihlášení'
+            login: 'Přihlášení',
+            profile: 'Můj profil'
         }
     },
 
@@ -298,7 +299,7 @@ export default {
                 [Operation.ADD]: 'navrhl událost k tělesu',
                 [Operation.UPDATE]: 'navrhl úpravu události tělesa',
                 [Operation.DELETE]: 'navrhl odebrání událost tělesa'
-            },
+            }
         },
         [SubjectType.BODY_TYPE]: {
             [ApprovalState.UNAPPROVED]: {
@@ -316,7 +317,7 @@ export default {
                 [Operation.UPDATE]: 'navrhl úpravu typu tělesa',
                 [Operation.DELETE]: 'navrhl odebrání typu tělesa'
             }
-}
+        }
 
     },
 
@@ -324,6 +325,27 @@ export default {
         add: '＋',
         update: '',
         delete: ''
+
+    },
+
+    user: {
+        reputation: 'Reputace',
+        female: 'Žena',
+        male: 'Muž',
+        from: 'Registrace',
+        lastOnline: 'Naposled',
+        now: 'Právě aktivní',
+        admin: 'Administrátor',
+        authenticated: 'Registrovaný uživatel',
+
+        votes: {
+            in: 'Rozdané hlasy',
+            out: 'Přijaté hlasy',
+            positive: 'Kladné',
+            negative: 'Záporné'
+        },
+
+        posts: 'Příspěvky'
 
     }
 

@@ -109,6 +109,7 @@ class Universe implements Universis.Universe {
         this.toggleVelocity(options.isVelocityVisible)
         this.toggleLight(options.isLightVisible)
         this.toggleOrbits(options.areOrbitsVisible)
+        this.resize()
     }
 
     public resize = (): void => {

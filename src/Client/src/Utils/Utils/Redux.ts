@@ -125,23 +125,35 @@ class Redux {
      */
     private static applySetAction(state: Universis.Redux.StoreState, action: Universis.Redux.SetAction): Universis.Redux.StoreState {
         const applyNestedChange = (source: any, change: any) => {
+            let next = true
+
             if (change && change.$find) {
+                next = false
                 const index = source.findIndex(change.$find)
                 delete change.$find
                 source[index] = applyNestedChange(source[index], change)
-            } else if (change && change.$add !== undefined) {
+            }
+
+            if (change && change.$add !== undefined) {
+                next = false
                 if (!source) {
                     return source
                 }
 
                 source = [...(source || []), change.$add]
-            } else if (change && change.$addFirst !== undefined) {
+            }
+
+            if (change && change.$addFirst !== undefined) {
+                next = false
                 if (!source) {
                     return source
                 }
 
                 source = [change.$addFirst, ...(source || [])]
-            } else if (change && change.$remove) {
+            }
+
+            if (change && change.$remove) {
+                next = false
                 if (!source) {
                     return source
                 }
@@ -151,18 +163,30 @@ class Redux {
                 if (index > -1) {
                     source.splice(index, 1)
                 }
-            } else if (change && change.$set) {
-                source = change.$set
-            } else if (change && change.$inc) {
+            }
+
+            if (change && change.$inc) {
+                next = false
                 source += change.$inc
-            } else if (change && typeof change[Object.keys(change)[0]] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
-                for (const i in change) {
-                    if (!(i.startsWith('$'))) {
-                        source[i] = change[i] !== null ? applyNestedChange(source[i], change[i]) : null
-                    }
+            }
+
+            if (next) {
+                if (change && change.$set) {
+                    next = false
+                    source = change.$set
                 }
-            } else {
-                source = { ...source, ...change }
+
+                const key = Object.keys(change)[0]
+
+                if (key && !key.startsWith('$') && change && typeof change[key] === 'object' && Object.keys(change).filter(key => (Redux.EMPTY_ASYNC_ENTITY_KEYS.includes(key))).length < 3) {
+                    for (const i in change) {
+                        if (!(i.startsWith('$'))) {
+                            source[i] = change[i] !== null ? applyNestedChange(source[i], change[i]) : null
+                        }
+                    }
+                } else if (key && !key.startsWith('$')) {
+                    source = Array.isArray(source) ? [...source, ...change] : { ...source, ...change }
+                }
             }
 
             return source

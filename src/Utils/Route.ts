@@ -2,6 +2,7 @@ import { OK, NO_CONTENT, UNAUTHORIZED } from 'http-status-codes'
 
 import SecurityModel from '../Models/SecurityModel'
 import UserModel from '../Models/UserModel'
+import { UserRole } from '../Constants'
 
 const defaultResultMap = result => result
 const defaultIsAuthorized = user => true
@@ -21,7 +22,7 @@ class Route {
     private static DEFAULT_ROUTE_GROUP_ACCESS_FOR_ALL = {
         get: Route.all,
         post: Route.all,
-        delete: Route.all
+        delete: Route.onlyAdmin
     }
 
     /**
@@ -44,11 +45,16 @@ class Route {
      * Process request and check authorization.
      * @param action
      * @param resultMap
-     * @param isAuthorited
+     * @param isAuthorized
      */
-    private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorited: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
+    private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorized: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
         return async (request, response) => {
             let user
+
+            const requestData = {
+                ...request,
+                ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+            }
 
             try {
                 const token = request.headers['access-token']
@@ -56,18 +62,14 @@ class Route {
                 if (token) {
                     const tokenData = await SecurityModel.verify(token)
                     user = await UserModel.get({ _id: tokenData.userId })
-                    request.user = user
+                    requestData.user = user
+                    requestData.userId = user._id
                 }
             } catch {
                 // Error is OK. Token is just invalid, but for unauthorized routes it doesn't matter.
             }
 
-            if (isAuthorited(user)) {
-                const requestData = {
-                    ...request,
-                    ip: request.headers['x-forwarded-for'] || request.connection.remoteAddress
-                }
-
+            if (isAuthorized(requestData)) {
                 return action(requestData)
                     .then(result => {
                         if (typeof resultMap === 'boolean') {
@@ -101,7 +103,7 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static onlyAuthenticated(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return Route.process(action, resultMap, user => !!user)
+        return Route.process(action, resultMap, ({ user }) => !!user)
     }
 
     /**
@@ -110,17 +112,15 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static onlyAdmin(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return Route.process(action, resultMap, user => false) // TODO
+        return Route.process(action, resultMap, ({ user }) => user.role === UserRole.ADMIN)
     }
 
     /**
-     * Run route handler only if author of request has this ID.
-     * @param userId Required user's ID.
-     * @param action Request action.
-     * @param resultMap Convert model result to response data.
+     * Run route handler by custom rule.
+     * @param rule Custom function, that accept request in parameter and returns if user is authorized for the request.
      */
-    public static onlyWithId(userId: string, action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return Route.process(action, resultMap)
+    public static custom(rule: Universis.Function<IExpressRequest, boolean>): IDefaultRouteAccess {
+        return (action: IRouteAction, resultMap?: IResultMap) => Route.process(action, resultMap, rule)
     }
 
     private static getFilterFromQuery(query: any): any {
@@ -167,7 +167,13 @@ class Route {
             const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : request => request.body
             const mapAfter = 'mapAfter' in access.post ? access.post.mapAfter : item => item
             const handler = 'access' in access.post ? access.post.access : access.post
-            routeGroup.post = handler(request => model.add({ ...mapBefore(request), userId: request.userId }), mapAfter)
+            routeGroup.post = handler(request => model.add({
+                    ...mapBefore(request),
+                    userId: request.userId,
+                    ip: request.ip
+                }),
+                mapAfter
+            )
         }
 
         if (access.delete && typeof access.delete !== 'object') {
@@ -211,7 +217,7 @@ class Route {
         return routeGroup
     }
 
-    public static getSwaggerRouteGroupForOne(tags: string[], schema: string, pathParameters: string[] = [], routes: string[] = ['get', 'put', 'delete']) {
+    public static getSwaggerRouteGroupForOne(tags: string[], schema: string, pathParameters: string[] = [], routes: string[] = ['get', 'put', 'delete'], security: string[] = []) {
         const result = { parameters: [], get: undefined, put: undefined, delete: undefined }
 
         result.parameters = pathParameters.map(parameter => ({
@@ -227,6 +233,7 @@ class Route {
         if (routes.includes('get')) {
             result.get = {
                 'tags': tags,
+                'security': security.includes('get') ? [{ 'bearerAuth': [] }] : undefined,
                 'summary': 'Get item by ID.',
                 'description': 'Get item by ID.',
                 'responses': {
@@ -240,6 +247,9 @@ class Route {
                             }
                         }
                     },
+                    '401': {
+                        'description': 'Unauthorized request.'
+                    },
                     '404': {
                         'description': 'Item with ID was not found.'
                     }
@@ -250,6 +260,7 @@ class Route {
         if (routes.includes('put')) {
             result.put = {
                 'tags': tags,
+                'security': security.includes('put') ? [{ 'bearerAuth': [] }] : undefined,
                 'summary': 'Update already existing item.',
                 'description': 'Create new item and return ID of created item.',
                 'requestBody': {
@@ -263,10 +274,13 @@ class Route {
                 },
                 'responses': {
                     '204': {
-                        'description': 'Item was successful updated.'
+                        'description': 'Item was successfully updated.'
                     },
                     '400': {
                         'description': 'Invalid values.'
+                    },
+                    '401': {
+                        'description': 'Unauthorized request.'
                     },
                     '404': {
                         'description': 'Item with ID was not found.'
@@ -281,6 +295,7 @@ class Route {
         if (routes.includes('delete')) {
             result.delete = {
                 'tags': tags,
+                'security': security.includes('delete') ? [{ 'bearerAuth': [] }] : undefined,
                 'summary': 'Delete item by ID.',
                 'description': 'Delete item by ID.',
                 'parameters': [],
@@ -290,6 +305,9 @@ class Route {
                     },
                     '400': {
                         'description': 'Item cannot be deleted, because of existing dependencies.'
+                    },
+                    '401': {
+                        'description': 'Unauthorized request.'
                     },
                     '404': {
                         'description': 'Item with ID was not found.'
@@ -301,7 +319,7 @@ class Route {
         return result
     }
 
-    public static getSwaggerRouteGroupForCount(tags: string[]) {
+    public static getSwaggerRouteGroupForCount(tags: string[], security: boolean = false) {
         return {
             'parameters': [
                 {
@@ -318,6 +336,7 @@ class Route {
             ],
             'get': {
                 'tags': tags,
+                'security': security ? [{ 'bearerAuth': [] }] : undefined,
                 'summary': 'Get count of all items.',
                 'description': 'Get count of all items.',
                 'responses': {
@@ -330,6 +349,9 @@ class Route {
                                 }
                             }
                         }
+                    },
+                    '401': {
+                        'description': 'Unauthorized request.'
                     }
                 }
             }
@@ -342,8 +364,9 @@ class Route {
      * @param simpleSchema
      * @param newSchema
      * @param routes
+     * @param security
      */
-    public static getSwaggerRouteGroupForAll(tags: string[], simpleSchema: string, newSchema: string, pathParameters: string[] = [], routes: string[] = ['get', 'post', 'delete']) {
+    public static getSwaggerRouteGroupForAll(tags: string[], simpleSchema: string, newSchema: string, pathParameters: string[] = [], routes: string[] = ['get', 'post', 'delete'], security: string[] = []) {
         const result = { parameters: [], get: undefined, post: undefined, delete: undefined }
 
         result.parameters = pathParameters.map(parameter => ({
@@ -359,6 +382,7 @@ class Route {
         if (routes.includes('get')) {
             result.get = {
                 'tags': tags,
+                'security': security.includes('get') ? [{ 'bearerAuth': [] }] : undefined,
                 'summary': 'Get all items.',
                 'description': 'Get basic objects of all items.',
                 'parameters': [
@@ -424,6 +448,9 @@ class Route {
                                 }
                             }
                         }
+                    },
+                    '401': {
+                        'description': 'Unauthorized request.'
                     }
                 }
             }
@@ -432,6 +459,7 @@ class Route {
         if (routes.includes('post')) {
             result.post = {
                 'tags': tags,
+                'security': security.includes('post') ? [{ 'bearerAuth': [] }] : undefined,
                 'summary': 'Create new item.',
                 'description': 'Create new item and return ID of created item.',
                 'requestBody': {
@@ -462,6 +490,9 @@ class Route {
                     '400': {
                         'description': 'Invalid values.'
                     },
+                    '401': {
+                        'description': 'Unauthorized request.'
+                    },
                     '409': {
                         'description': 'Duplicate values.'
                     }
@@ -472,6 +503,7 @@ class Route {
         if (routes.includes('delete')) {
             result.delete = {
                 'tags': tags,
+                'security': security.includes('delete') ? [{ 'bearerAuth': [] }] : undefined,
                 'summary': 'Delete all items.',
                 'description': 'Delete all items and return count of deleted items.',
                 'responses': {
@@ -490,6 +522,9 @@ class Route {
                                 }
                             }
                         }
+                    },
+                    '401': {
+                        'description': 'Unauthorized request.'
                     },
                     '404': {
                         'description': 'There is no items to delete.'

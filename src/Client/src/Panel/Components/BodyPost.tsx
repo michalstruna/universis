@@ -56,23 +56,6 @@ class BodyPost extends Component<IProps, IState> {
     }
 
     /**
-     * Check if currently logged user is between users in array.
-     * @param users List of users.
-     * @returns Logged user is between users.
-     */
-    private isBetween = (users: Universis.User.Simple[]): boolean => {
-        const { identity } = this.props
-
-        return !!users.find(user => user._id === 'myself')
-
-        /*if (!identity.payload) {
-            return false
-        }
-
-        return !users.find(user => user._id === identity.payload._id)*/
-    }
-
-    /**
      * Render title of discussion.
      * @returns Title.
      */
@@ -167,18 +150,22 @@ class BodyPost extends Component<IProps, IState> {
         )
     }
 
+    private handleUnloggedVote = () => {
+        alert('Pokud chcete hlasovat, musíte se přihlásit.')
+    }
+
     /**
      * Render post controls.
      */
     private renderControls(): React.ReactNode {
-        const { post, parentId, vote } = this.props
+        const { post, parentId, vote, identity } = this.props
 
-        const myVote = post.votes.find(vote => vote.userId === '5c682cc8f235006303459c60')
+        const myVote = post.votes.find(vote => identity.payload && vote.userId === identity.payload._id)
 
         return (
             <section className='panel__body__discussion__controls'>
                 <button
-                    onClick={() => vote(true, myVote && myVote.isPositive ? myVote._id : null, post._id, parentId)}
+                    onClick={() => identity.payload ? vote(true, myVote && myVote.isPositive ? myVote._id : null, post._id, parentId) : this.handleUnloggedVote()}
                     className={ClassNames(
                         'panel__body__discussion__up',
                         { 'panel__body__discussion__up--active': myVote && myVote.isPositive }
@@ -187,7 +174,7 @@ class BodyPost extends Component<IProps, IState> {
                             {post.votes.filter(vote => vote.isPositive).length || ''}
                         </span>
                 <button
-                    onClick={() => vote(false, myVote && !myVote.isPositive ? myVote._id : null, post._id, parentId)}
+                    onClick={() => identity.payload ? vote(false, myVote && !myVote.isPositive ? myVote._id : null, post._id, parentId) : this.handleUnloggedVote()}
                     className={ClassNames(
                         'panel__body__discussion__down',
                         { 'panel__body__discussion__down--active': myVote && !myVote.isPositive }
@@ -210,7 +197,7 @@ class BodyPost extends Component<IProps, IState> {
                     <section className='panel__body__discussion__metadata'>
                         {this.renderTitle()}
                         <span className='panel__body__discussion__author'>
-                            {post.user ? post.user.name : post.ip}
+                            <UserInfo type={UserInfo.TYPES.NAME} user={post.user} />
                         </span>
                         <span className='panel__body__discussion__date'>
                             <RelativeTime date={post.date} />

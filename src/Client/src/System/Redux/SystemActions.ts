@@ -11,7 +11,8 @@ import {
     receiveDeletedEvent,
     receiveBodyType,
     receiveDeletedBodyType,
-    receiveUpdatedBodyType
+    receiveUpdatedBodyType,
+    receivePost
 } from '../../Universe/Redux/UniverseActions'
 import { Store } from '../../System'
 
@@ -77,10 +78,10 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
         if (notification.payload && notification.approvalState !== ApprovalState.APPROVED) {
             dispatch(receiveApproval(notification.payload))
         } else if (notification.approvalState === ApprovalState.APPROVED) {
+            const body = Store.getState().universe.body.payload
+
             switch (notification.subjectType) {
                 case SubjectType.EVENT:
-                    const body = Store.getState().universe.body.payload
-
                     if (body && body.name === notification.subjectName) {
                         switch (notification.operation) {
                             case Operation.ADD:
@@ -113,6 +114,21 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
                                 break
                         }
                     }
+
+                    break
+
+                case SubjectType.POST:
+                    notification.payload.after.user = notification.user
+
+                    if (body && body.name === notification.subjectName) {
+                        switch (notification.operation) {
+                            case Operation.ADD:
+                                dispatch(receivePost(notification.payload.after))
+                                break
+                        }
+                    }
+
+                    break
             }
 
         }

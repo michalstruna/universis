@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import LoginForm from '../Components/LoginForm'
-import { Url, Urls, View } from '../../Utils'
+import { View } from '../../Utils'
 
 interface IProps {
     unauthUser: Universis.Redux.AsyncEntity<Universis.User.Simple>
@@ -13,16 +13,6 @@ interface IProps {
  * There is login form.
  */
 class LoginView extends View<IProps> {
-
-    componentWillMount() {
-        const { unauthUser, identity } = this.props
-
-        if (identity) {
-        //    Url.replace({ pathname: Urls.HOME })
-        } else if (!unauthUser.payload) {
-         //   Url.replace({ pathname: Urls.IDENTITY })
-        }
-    }
 
     public render(): React.ReactNode {
         return (

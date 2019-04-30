@@ -2,6 +2,7 @@ import { Request, Redux, Queries, Url } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import Follow from '../Constants/Follow'
 import { toggleBodyEventForm, toggleBodyForm, toggleBodyTypeForm } from '../../Panel/Redux/PanelActions'
+import { Store } from '../../System'
 
 /**
  * Get all bodies.
@@ -190,7 +191,7 @@ export const vote = (isPositive: boolean, existingVoteId: string | null, postId:
                         dispatch(
                             Redux.setAction(
                                 ActionTypes.LOCAL_UNVOTE,
-                                { body: { payload: { discussions: getQuery({ $remove: vote => vote.userId === '5c682cc8f235006303459c60' && vote.postId === postId }) } } }
+                                { body: { payload: { discussions: getQuery({ $remove: vote => vote.userId === Store.getState().user.identity.payload._id && vote.postId === postId }) } } }
                             )
                         )
 
@@ -215,20 +216,30 @@ export const addDiscussion = (discussion: Universis.Discussion.New) => (
     async dispatch => {
         const { bodyId, ...discussionToServer } = discussion
 
-        //dispatch(toggleNewDiscussion(false))
-
         return dispatch(
             Redux.asyncAction(
                 ActionTypes.ADD_DISCUSSION,
-                { newDiscussion: Request.post(`bodies/${bodyId}/posts`, discussionToServer) },
-                discussion => dispatch(
-                    Redux.setAction(ActionTypes.LOCAL_ADD_DISCUSSION, {
-                        body: { payload: { discussions: { $addFirst: { ...discussion, answers: [] } } } }
-                    }) // TODO: Socket.
-                )
+                { newDiscussion: Request.post(`bodies/${bodyId}/posts`, discussionToServer) }
             )
         )
     }
+)
+
+/**
+ * Receive new post.
+ * @param post
+ */
+export const receivePost = (post: Universis.Discussion & Universis.Answer) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_POST,
+        post.bodyId ? { body: { payload: { discussions: { $addFirst: { ...post, answers: [] } } } } } : {
+            body: {
+                payload: {
+                    discussions: { $find: discussion => discussion._id === post.discussionId, answers: { $add: post } }
+                }
+            }
+        }
+    )
 )
 
 /**
@@ -242,21 +253,7 @@ export const addAnswer = (answer: Universis.Answer.New) => (
         return dispatch(
             Redux.asyncAction(
                 ActionTypes.ADD_ANSWER,
-                { newAnswer: Request.post(`posts/${discussionId}/posts`, answerToServer) },
-                answer => dispatch(
-                    Redux.setAction(
-                        ActionTypes.LOCAL_ADD_ANSWER,
-                        {
-                            body: {
-                                payload: {
-                                    discussions: {
-                                        $find: discussion => discussion._id === discussionId, answers: { $add: answer }
-                                    }
-                                }
-                            }
-                        }
-                    )
-                )
+                { newAnswer: Request.post(`posts/${discussionId}/posts`, answerToServer) }
             )
         )
     }

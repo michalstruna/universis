@@ -30,7 +30,7 @@ export const setBodyFilter = (bodyFilter: Universis.Map<any>) => (
 export const getNotifications = (limit: number) => (
     Redux.asyncAction(
         ActionTypes.GET_NOTIFICATIONS,
-        { notifications: Request.get(`notifications`, { sort: 'date', order: 'desc', limit }) }
+        { notifications: Request.get(`notifications`, { sort: 'createdAt', reverse: true, limit }) }
     )
 )
 

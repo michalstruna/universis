@@ -2,7 +2,27 @@ declare namespace Universis {
 
     export interface User extends User.Simple {
 
+        /**
+         * Count of posts by body.
+         */
+        posts: [{
+            body: string,
+            count: number
+        }],
 
+        /**
+         * Count of in and out post votes.
+         */
+        votes: {
+            in: {
+                positive: number
+                negative: number
+            },
+            out: {
+                positive: number
+                negative: number
+            }
+        }
 
     }
 
@@ -43,22 +63,33 @@ declare namespace Universis {
             name: string
 
             /**
-             * User's image's url.
+             * User's image's url. (optional)
              */
-            avatar: string
+            avatar?: string
 
             /**
              * Roles of user.
              */
-            roles: {
-                [index: number]: number,
-                includes: (number) => boolean
-            }
+            role: number
 
             /**
              * Score of user.
              */
             score: Score
+
+            /**
+             * Data.
+             */
+            isFemale?: boolean
+            createdAt: number
+            born?: number
+            home?: string
+            lastOnline?: number
+            isOnline?: boolean
+            publicEmail?: string
+            website?: string
+            facebook?: string
+            about?: string
 
         }
 

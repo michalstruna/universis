@@ -39,11 +39,22 @@ export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Si
                                             pipeline: [{ $match: { $expr: { $eq: ['$postId', '$$postId'] } } }],
                                             as: 'votes'
                                         }
-                                    }
+                                    },
+                                    {
+                                        $lookup: {
+                                            from: 'users',
+                                            localField: 'userId',
+                                            foreignField: '_id',
+                                            as: 'user'
+                                        }
+                                    },
+                                    { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } }
                                 ],
                                 as: 'answers'
                             }
                         },
+                        { $lookup: { from: 'users', localField: 'userId', foreignField: '_id', as: 'user' } },
+                        { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
                         {
                             $lookup: {
                                 from: 'postvotes',

@@ -6,9 +6,16 @@ import StatelessComponent from '../../Utils/Components/StatelessComponent'
 
 interface IProps {
     data: Universis.Map<number>
+    colors?: string[]
+    height?: number
+    width?: number
 }
 
 class DonutChart extends StatelessComponent<IProps> {
+
+    public static defaultProps = {
+        colors: ['#06b', '#272', '#722', '#980', '#585', '#a60', '#808', '#088', '#664', '#477', '#747', '#467']
+    }
 
     /**
      * Transform data for donut chart.
@@ -28,17 +35,19 @@ class DonutChart extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { data } = this.props
+        const { colors, data, height, width } = this.props
 
         return (
             <Doughnut
+                height={height}
+                width={width}
                 legend={{
                     display: false
                 }}
                 data={{
                     labels: Object.keys(data),
                     datasets: [{
-                        backgroundColor: ['#06b', '#272', '#722', '#980', '#585', '#a60', '#808', '#088', '#664', '#477', '#747', '#467'],
+                        backgroundColor: colors,
                         borderWidth: 0,
                         data: Object.values(data)
                     }]

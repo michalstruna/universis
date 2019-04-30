@@ -53,11 +53,11 @@ class Url {
 
     /**
      * Change current location.
-     * @param location Current location.
      * @param target Object with optional pathname and query parameters.
+     * @param location Current location.
      * @returns New location.
      */
-    public static link(location: Universis.Redux.Location, target: Universis.Redux.LocationTarget): string {
+    public static link(target: Universis.Redux.LocationTarget, location: Universis.Redux.Location = history.location): string {
         const pathname = target.pathname || location.pathname
         let query = location.search || ''
 
@@ -67,7 +67,7 @@ class Url {
             }
         }
 
-        return pathname + '?' + query.replace('^\?', '')
+        return pathname.replace(/\?/, '') + '?' + query.replace(/^\?/, '')
     }
 
     /**
@@ -75,7 +75,7 @@ class Url {
      * @param target New location.
      */
     public static push(target: Universis.Redux.LocationTarget): void {
-        history.push(Url.link(history.location, target))
+        history.push(Url.link(target))
     }
 
 
@@ -84,7 +84,7 @@ class Url {
      * @param target New location.
      */
     public static replace(target: Universis.Redux.LocationTarget): void {
-        history.replace(Url.link(history.location, target))
+        history.replace(Url.link(target))
     }
 
 

@@ -63,6 +63,7 @@ export default {
             ],
             'put': {
                 'tags': ['Approvals'],
+                'security': [{ 'bearerAuth': [] }],
                 'summary': 'Approve unapproved item.',
                 'description': 'Approve unapproved item.',
                 'responses': {
@@ -87,6 +88,7 @@ export default {
             ],
             'put': {
                 'tags': ['Approvals'],
+                'security': [{ 'bearerAuth': [] }],
                 'summary': 'Disapprove unapproved item.',
                 'description': 'Disapprove unapproved item.',
                 'responses': {
@@ -97,27 +99,29 @@ export default {
             }
         },
 
-        '/bodies': Route.getSwaggerRouteGroupForAll(['Bodies'], 'SimpleBody', 'NewBody'),
+        '/bodies': Route.getSwaggerRouteGroupForAll(['Bodies'], 'SimpleBody', 'NewBody', undefined, undefined, ['delete']),
         '/bodies/{bodyId}': Route.getSwaggerRouteGroupForOne(['Bodies'], 'Body', ['bodyId']),
         '/bodies/count': Route.getSwaggerRouteGroupForCount(['Bodies']),
-        '/bodyTypes': Route.getSwaggerRouteGroupForAll(['Body types'], 'BodyType', 'NewBodyType'),
+
+        '/bodyTypes': Route.getSwaggerRouteGroupForAll(['Body types'], 'BodyType', 'NewBodyType', undefined, undefined, ['delete']),
         '/bodyTypes/{bodyTypeId}': Route.getSwaggerRouteGroupForOne(['Body types'], 'BodyType', ['bodyTypeId']),
         '/bodyTypes/count': Route.getSwaggerRouteGroupForCount(['Body types']),
 
-        '/bodies/{bodyId}/posts': Route.getSwaggerRouteGroupForAll(['Discussions'], 'Discussion', 'NewDiscussion', ['bodyId']),
-        '/posts/{postId}': Route.getSwaggerRouteGroupForOne(['Discussions', 'Answers'], 'Answer', ['answerId']),
+        '/bodies/{bodyId}/posts': Route.getSwaggerRouteGroupForAll(['Discussions'], 'Discussion', 'NewDiscussion', ['bodyId'], undefined, ['delete']),
+        '/posts/{postId}': Route.getSwaggerRouteGroupForOne(['Discussions', 'Answers'], 'Answer', ['answerId'], undefined, ['delete', 'put']),
         '/bodies/{bodyId}/posts/count': Route.getSwaggerRouteGroupForCount(['Discussions']),
-        '/posts/{postId}/posts': Route.getSwaggerRouteGroupForAll(['Answers'], 'Answer', 'NewAnswer', ['postId']),
+        '/posts/{postId}/posts': Route.getSwaggerRouteGroupForAll(['Answers'], 'Answer', 'NewAnswer', ['postId'], undefined, ['delete']),
         '/posts/{postId}/posts/count': Route.getSwaggerRouteGroupForCount(['Answers']),
-        '/posts/{postId}/votes': Route.getSwaggerRouteGroupForAll(['Discussions', 'Answers'], 'Discussion', 'NewPost', ['postId']),
-        '/posts/votes/{voteId}': Route.getSwaggerRouteGroupForOne(['Discussions', 'Answers'], 'Discussion', ['voteId']),
+        '/posts/{postId}/votes': Route.getSwaggerRouteGroupForAll(['Discussions', 'Answers'], 'Discussion', 'NewPost', ['postId'], undefined, ['post', 'delete']),
+        '/posts/votes/{voteId}': Route.getSwaggerRouteGroupForOne(['Discussions', 'Answers'], 'Discussion', ['voteId'], undefined, ['put', 'delete']),
         '/posts/{postId}/votes/count': Route.getSwaggerRouteGroupForCount(['Discussions', 'Answers']),
 
-        '/bodies/{bodyId}/events': Route.getSwaggerRouteGroupForAll(['Events'], 'BodyEvent', 'NewBodyEvent', ['bodyId']),
+        '/bodies/{bodyId}/events': Route.getSwaggerRouteGroupForAll(['Events'], 'BodyEvent', 'NewBodyEvent', ['bodyId'], undefined, ['delete']),
         '/bodies/events/{eventId}': Route.getSwaggerRouteGroupForOne(['Events'], 'Body', ['eventId']),
         '/bodies/{bodyId}/events/count': Route.getSwaggerRouteGroupForCount(['Events']),
-        '/users': Route.getSwaggerRouteGroupForAll(['Users'], 'SimpleUser', 'NewUser'),
-        '/users/{userId}': Route.getSwaggerRouteGroupForOne(['Users'], 'User', ['userId']),
+
+        '/users': Route.getSwaggerRouteGroupForAll(['Users'], 'SimpleUser', 'NewUser', undefined, undefined, ['delete']),
+        '/users/{userId}': Route.getSwaggerRouteGroupForOne(['Users'], 'User', ['userId'], undefined, ['put', 'delete']),
         '/users/count': Route.getSwaggerRouteGroupForCount(['Users']),
 
         '/login': {
@@ -167,7 +171,7 @@ export default {
                     },
                     'required': true,
                     'description': 'User ID.'
-                },
+                }
             ],
             'post': {
                 'tags': ['Users'],
@@ -194,7 +198,7 @@ export default {
                     },
                     'required': true,
                     'description': 'User token.'
-                },
+                }
             ],
             'get': {
                 'tags': ['Users'],
@@ -246,6 +250,13 @@ export default {
         '/messages/count': Route.getSwaggerRouteGroupForCount(['Messages'])
     },
     'components': {
+        'securitySchemes': {
+            'bearerAuth': {
+                'type': 'http',
+                'scheme': 'bearer',
+                'bearerFormat': 'JWT'
+            }
+        },
         'schemas': {
             'NewBody': {
                 'type': 'object',
@@ -782,6 +793,47 @@ export default {
                     'name': {
                         'type': 'string',
                         'example': 'Universis'
+                    },
+                    'posts': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'body': {
+                                    'type': 'string'
+                                },
+                                'count': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    },
+                    'votes': {
+                        'type': 'object',
+                        'properties': {
+                            'in': {
+                                'type': 'object',
+                                'properties': {
+                                    'positive': {
+                                        'type': 'number'
+                                    },
+                                    'negative': {
+                                        'type': 'number'
+                                    }
+                                }
+                            },
+                            'out': {
+                                'type': 'object',
+                                'properties': {
+                                    'positive': {
+                                        'type': 'number'
+                                    },
+                                    'negative': {
+                                        'type': 'number'
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },

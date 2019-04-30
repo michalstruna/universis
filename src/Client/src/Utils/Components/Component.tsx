@@ -8,7 +8,8 @@ interface IComponentProps {
         push: Universis.Consumer<string | { pathname?: string, search?: string }>,
         replace: Universis.Consumer<string | { pathname?: string, search?: string }>
     }
-    location?: Location
+    location?: Location,
+    match?: any
 }
 
 /**
