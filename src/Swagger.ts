@@ -793,6 +793,47 @@ export default {
                     'name': {
                         'type': 'string',
                         'example': 'Universis'
+                    },
+                    'posts': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'body': {
+                                    'type': 'string'
+                                },
+                                'count': {
+                                    'type': 'number'
+                                }
+                            }
+                        }
+                    },
+                    'votes': {
+                        'type': 'object',
+                        'properties': {
+                            'in': {
+                                'type': 'object',
+                                'properties': {
+                                    'positive': {
+                                        'type': 'number'
+                                    },
+                                    'negative': {
+                                        'type': 'number'
+                                    }
+                                }
+                            },
+                            'out': {
+                                'type': 'object',
+                                'properties': {
+                                    'positive': {
+                                        'type': 'number'
+                                    },
+                                    'negative': {
+                                        'type': 'number'
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },

@@ -125,23 +125,29 @@ class UserDetail extends StatelessComponent<IProps> {
                     </p>
                 </section>
 
-                <section className='user-detail__block'>
+                <section className='user-detail__block user-detail__votes'>
                     <section className='user-detail__block--left'>
                         <h3 className='user-detail__section-title'>
-                            {strings.votes.in} ({47})
+                            {strings.votes.in} ({user.votes.in.positive + user.votes.in.negative})
                         </h3>
                         <DonutChart
-                            data={{ [strings.votes.positive]: 34, [strings.votes.negative]: 13 }}
+                            data={{
+                                [strings.votes.positive]: user.votes.in.positive,
+                                [strings.votes.negative]: user.votes.in.negative
+                            }}
                             colors={['green', 'darkred']}
                             height={100}
                             width={100} />
                     </section>
                     <section className='user-detail__block--right'>
                         <h3 className='user-detail__section-title'>
-                            {strings.votes.out} ({100})
+                            {strings.votes.out} ({user.votes.out.positive + user.votes.out.negative})
                         </h3>
                         <DonutChart
-                            data={{ [strings.votes.positive]: 99, [strings.votes.negative]: 1 }}
+                            data={{
+                                [strings.votes.positive]: user.votes.out.positive,
+                                [strings.votes.negative]: user.votes.out.negative
+                            }}
                             colors={['green', 'darkred']}
                             height={100}
                             width={100} />
@@ -150,9 +156,11 @@ class UserDetail extends StatelessComponent<IProps> {
 
                 <section className='user-detail__block'>
                     <h3 className='user-detail__section-title'>
-                        {strings.posts} ({47})
+                        {strings.posts} ({user.posts.reduce((accumulator, post) => accumulator + post.count, 0)})
                     </h3>
-                    <HorizontalBarChar data={{ 'Jupiter': 23, 'Země': 13, 'Slunce': 7 }} height={3 * 30} />
+                    <HorizontalBarChar
+                        data={user.posts.map(post => ({ value: post.count, name: post.body }))}
+                        height={10 + user.posts.length * 30} />
                 </section>
             </section>
         )

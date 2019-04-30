@@ -4,7 +4,7 @@ import { HorizontalBar } from 'react-chartjs-2'
 import StatelessComponent from '../../Utils/Components/StatelessComponent'
 
 interface IProps {
-    data: Universis.Map<number>
+    data: Array<{ value: number, name: string }>
     lineColor: string
     fontColor: string
     gridColor: string
@@ -31,11 +31,11 @@ class HorizontalBarChart extends StatelessComponent<IProps> {
                     display: false
                 }}
                 data={{
-                    labels: Object.keys(data),
+                    labels: data.map(item => item.name),
                     datasets: [{
                         backgroundColor: 'rgb(0, 150, 200)',
                         borderWidth: 0,
-                        data: Object.values(data)
+                        data: data.map(item => item.value)
                     }]
                 }}
                 options={{

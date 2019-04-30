@@ -9,6 +9,7 @@
         margin-top: 1rem;
         overflow: hidden;
         padding: 1rem;
+        position: relative;
 
         &--left, &--right {
             width: 50%;
@@ -91,6 +92,10 @@
                 background-color: #cd7f32;
             }
         }
+    }
+
+    &__votes {
+        height: 14rem;
     }
 
     &__row {
