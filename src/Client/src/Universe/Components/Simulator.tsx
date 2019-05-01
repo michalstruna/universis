@@ -45,9 +45,9 @@ class Simulator extends StatelessComponent<IProps> {
     private universe: Universis.Universe
 
     public componentDidMount(): void {
-        this.initializeUniverse()
         Listener.viewSizeElement = document.querySelector('.universe__view--inner')
         Listener.viewSizeSlider = ViewSizeControl.instance
+        this.initializeUniverse()
     }
 
     public componentDidUpdate(prevProps: IProps): void {
@@ -136,6 +136,7 @@ class Simulator extends StatelessComponent<IProps> {
 
             this.setOnResize(this.universe.resize)
             Listener.updateSimulatorViewSize = this.universe.setViewSize
+
         }
     }
 
