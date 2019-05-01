@@ -172,7 +172,6 @@ class Redux {
 
             if (next) {
                 if (change && change.$set) {
-                    next = false
                     source = change.$set
                 }
 

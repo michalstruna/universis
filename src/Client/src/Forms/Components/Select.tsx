@@ -1,3 +1,4 @@
+import * as ClassNames from 'classnames'
 import * as React from 'react'
 import { Field } from 'redux-form'
 
@@ -8,6 +9,8 @@ interface IProps {
     options: IOption[]
     withEmpty?: string
     disabled?: boolean
+    required?: boolean
+    label?: string
 }
 
 /**
@@ -40,15 +43,21 @@ class Select extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { name, disabled } = this.props
+        const { name, disabled, label, required } = this.props
+        const blockClassName = ClassNames('form__block', 'form__block--select', { 'form__block--required': !!required })
 
         return (
-            <Field
-                disabled={disabled}
-                component='select'
-                name={name}>
-                {this.renderOptions()}
-            </Field>
+            <label className={blockClassName}>
+                <Field
+                    disabled={disabled}
+                    component='select'
+                    name={name}>
+                    {this.renderOptions()}
+                </Field>
+                <p className='form__label'>
+                    {label}
+                </p>
+            </label>
         )
     }
 

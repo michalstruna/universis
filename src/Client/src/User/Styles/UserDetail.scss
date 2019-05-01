@@ -1,6 +1,7 @@
 .user-detail {
     margin: 1rem auto;
     overflow: hidden;
+    position: relative;
     width: 50rem;
 
     &__block {
@@ -143,6 +144,66 @@
     .editor {
         float: right;
         margin-top: -2.5rem;
+    }
+
+    &__form {
+        font-size: 80%;
+        position: absolute;
+        right: 1.2rem;
+        top: 2rem;
+        transform-origin: top right;
+        transition: transform $medium-animation-duration;
+        width: 25rem;
+        z-index: 10000000;
+
+        .form {
+            background-color: $medium-dark-color;
+            box-shadow: #000 0 0.2rem 0.5rem;
+            position: relative;
+            overflow: hidden;
+
+            &__button--close {
+                margin: 0 !important;
+            }
+
+            &__flex-row:first-of-type {
+                margin-top: 1rem;
+            }
+
+            &__flex-row {
+                & > section {
+                    &:first-of-type {
+                        margin-left: 0
+                    }
+
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+
+                    .form__block:last-of-type {
+                        padding-bottom: 0;
+                    }
+                }
+
+                .form__block {
+                    &:first-of-type {
+                        margin-left: 0;
+                    }
+
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+                }
+
+                &:nth-last-of-type(2) {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .editor__control--delete {
+        display: none;
     }
 
 }

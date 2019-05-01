@@ -192,12 +192,20 @@ class Route {
     public static getRouteGroupForOne(model: Universis.Model.Unspecified, access: IRouteGroupAccess = Route.DEFAULT_ROUTE_GROUP_ACCESS_FOR_ONE): IRouteGroupForOne {
         const routeGroup: Universis.Map<IRequestHandler> = {}
 
-        if (access.get && typeof access.get !== 'object') {
-            routeGroup.get = access.get(({ params }) => model.get({ _id: params[Object.keys(params)[0]] }))
+        if (access.get) {
+            const handler = 'access' in access.get ? access.get.access : access.get
+            routeGroup.get = handler(({ params }) => model.get({ _id: params[Object.keys(params)[0]] }))
         }
 
-        if (access.put && typeof access.put !== 'object') {
-            routeGroup.put = access.put(({ params, body }) => model.update({ _id: params[Object.keys(params)[0]] }, body), false)
+        if (access.put) {
+            const mapBefore = 'mapBefore' in access.put ? access.put.mapBefore : request => request.body
+            const mapAfter = 'mapAfter' in access.put ? access.put.mapAfter : false
+            const handler = 'access' in access.put ? access.put.access : access.put
+            routeGroup.put = handler(request => model.update({ _id: request.params[Object.keys(request.params)[0]] }, {
+                ...mapBefore(request),
+                userId: request.userId,
+                ip: request.ip
+            }), mapAfter)
         }
 
         if (access.delete && typeof access.delete !== 'object') {

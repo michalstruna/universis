@@ -33,6 +33,10 @@ const UserSchema = new Schema({
         }
     },
 
+    home: {
+        type: String
+    },
+
     score: {
         gold: {
             type: Number,
@@ -60,7 +64,7 @@ const UserSchema = new Schema({
         type: String
     },
 
-    birth: {
+    born: {
         type: String
     },
 
@@ -68,11 +72,15 @@ const UserSchema = new Schema({
         type: Boolean
     },
 
-    profileText: {
+    about: {
         type: String
     },
 
     publicEmail: {
+        type: String
+    },
+
+    facebook: {
         type: String
     },
 

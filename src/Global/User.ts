@@ -43,6 +43,17 @@ declare namespace Universis {
              */
             password?: string
 
+            /**
+             * Data.
+             */
+            isFemale?: boolean
+            born?: number
+            home?: string
+            publicEmail?: string
+            website?: string
+            facebook?: string
+            about?: string
+
         }
 
         export interface Simple extends New {
@@ -80,16 +91,9 @@ declare namespace Universis {
             /**
              * Data.
              */
-            isFemale?: boolean
             createdAt: number
-            born?: number
-            home?: string
             lastOnline?: number
             isOnline?: boolean
-            publicEmail?: string
-            website?: string
-            facebook?: string
-            about?: string
 
         }
 

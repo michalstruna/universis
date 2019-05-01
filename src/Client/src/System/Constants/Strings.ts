@@ -337,6 +337,7 @@ export default {
         now: 'Právě aktivní',
         admin: 'Administrátor',
         authenticated: 'Registrovaný uživatel',
+        human: 'Člověk',
 
         votes: {
             in: 'Rozdané hlasy',
@@ -345,7 +346,19 @@ export default {
             negative: 'Záporné'
         },
 
-        posts: 'Příspěvky'
+        posts: 'Příspěvky',
+
+        name: 'Jméno',
+        born: 'Narození',
+        sex: 'Pohlaví',
+        publicEmail: 'Veřejný email',
+        website: 'Webové stránky',
+        facebook: 'Facebook',
+        about: 'O mně',
+        role: 'Role',
+        password: 'Nové heslo',
+        home: 'Domov',
+        invalidPassword: 'Heslo musí mít 6+ znaků.'
 
     }
 

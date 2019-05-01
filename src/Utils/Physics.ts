@@ -54,7 +54,6 @@ class Physics {
     /**
      * Calculate gravitational parameter mi.
      * @param body
-     * @param parent
      * @returns Standard gravitational parameter.
      */
     public static getGravitationalParameter(body: Universis.Universe.Body.Simple): number {

@@ -138,7 +138,7 @@
             }
         }
 
-        &:not(.form__block--empty) {
+        &--date, &:not(.form__block--empty) {
             .form__label {
                 transform: translateY(-1.5em) scale(0.8) translateZ(0);
             }
@@ -148,6 +148,12 @@
             select, p {
                 color: #ddd;
                 font-weight: bold !important;
+            }
+        }
+
+        &--select {
+            .form__label {
+                opacity: 1 !important;
             }
         }
     }

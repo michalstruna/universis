@@ -1,20 +1,29 @@
 import * as React from 'react'
 
-import { StatelessComponent, Units, RelativeTime, DetailEditor } from '../../Utils'
+import { StatelessComponent, Units, RelativeTime, DetailEditor, FadeLayout } from '../../Utils'
 import { UserRole } from '../../../../Constants'
 import { DonutChart, HorizontalBarChar } from '../../Charts'
+import { toggleUserForm } from '../Redux/UserActions'
+import UserForm from './UserForm'
 
 interface IProps {
     user: Universis.User
     strings: Universis.Strings
     identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
+    toggleUserForm: Universis.Consumer<boolean>
+    isFormVisible: boolean
 }
 
 class UserDetail extends StatelessComponent<IProps> {
 
-    private static Row = ({ image, children }: { image: string, children }) => {
+    public componentDidMount(): void {
+        this.props.toggleUserForm(false)
+    }
+
+    private static Row = ({ image, children }: { image?: string, children: React.ReactNode }) => {
         return (
-            <p className='user-detail__row' style={{ backgroundImage: `url(/Images/User/Detail/${image}.svg)` }}>
+            <p className='user-detail__row'
+               style={{ backgroundImage: image ? `url(/Images/User/Detail/${image}.svg)` : undefined }}>
                 {children}
             </p>
         )
@@ -26,6 +35,18 @@ class UserDetail extends StatelessComponent<IProps> {
     private get reputation(): number {
         const { user } = this.props
         return Math.floor((user.score.gold * 20 + user.score.silver * 5 + user.score.bronze) / 3)
+    }
+
+    private renderSexAgeLine(): React.ReactNode {
+        const { user, strings } = this.props
+        const born = user.born ? <>(<RelativeTime date={user.born} />)</> : null
+
+        return (
+            <UserDetail.Row
+                image={user.isFemale === true ? 'Female' : (user.isFemale === false ? 'Male' : 'Human')}>
+                {user.isFemale === true ? strings.female : (user.isFemale === false ? strings.male : strings.human)} {born}
+            </UserDetail.Row>
+        )
     }
 
     /**
@@ -57,9 +78,7 @@ class UserDetail extends StatelessComponent<IProps> {
                 </section>
 
                 <section className='user-detail__block'>
-                    <UserDetail.Row image={user.isFemale === true ? 'Female' : (user.isFemale === false ? 'Male' : '')}>
-                        {user.isFemale ? strings.female : strings.male} (<RelativeTime date={user.born} />)
-                    </UserDetail.Row>
+                    {this.renderSexAgeLine()}
                     <UserDetail.Row image={'Home'}>
                         {user.home}
                     </UserDetail.Row>
@@ -94,7 +113,7 @@ class UserDetail extends StatelessComponent<IProps> {
     }
 
     private renderEditor(): React.ReactNode {
-        const { identity, user } = this.props
+        const { identity, user, toggleUserForm } = this.props
 
         if (!identity.payload || (identity.payload._id !== user._id && identity.payload.role !== UserRole.ADMIN)) {
             return null
@@ -103,12 +122,12 @@ class UserDetail extends StatelessComponent<IProps> {
         return (
             <DetailEditor
                 onDelete={() => alert('Pro smazání účtu kontaktujte administrátora.')}
-                onEdit={() => console.log(111)} />
+                onEdit={() => toggleUserForm(true)} />
         )
     }
 
     private renderStats(): React.ReactNode {
-        const { user, strings } = this.props
+        const { user, strings, isFormVisible } = this.props
 
         return (
             <section className='user-detail__stats'>
@@ -167,8 +186,16 @@ class UserDetail extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
+        const { isFormVisible } = this.props
+
         return (
             <section className='user-detail'>
+                <FadeLayout
+                    type={FadeLayout.SCALE}
+                    mounted={isFormVisible}
+                    className='user-detail__form'>
+                    <UserForm />
+                </FadeLayout>
                 {this.renderInfo()}
                 {this.renderStats()}
             </section>
@@ -180,6 +207,8 @@ class UserDetail extends StatelessComponent<IProps> {
 export default UserDetail.connect(
     ({ system, user }: Universis.Redux.StoreState) => ({
         strings: system.strings.user,
-        identity: user.identity
-    })
+        identity: user.identity,
+        isFormVisible: user.isUserFormVisible
+    }),
+    { toggleUserForm }
 )
