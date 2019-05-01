@@ -292,6 +292,7 @@ class Scene implements Universis.Scene {
     private createControls(): void {
         this.controls = new TrackballControls(this.camera)
         this.controls.maxDistance = this.options.maxDistance
+        this.controls.noPan = true
     }
 
     /**
