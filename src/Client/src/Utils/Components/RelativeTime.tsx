@@ -14,6 +14,11 @@ class RelativeTime extends StatelessComponent<IProps> {
 
     public render(): React.ReactNode {
         const { date } = this.props
+
+        if (!date) {
+            return null
+        }
+
         const diff = Math.abs(new Date().getTime() - new Date(date).getTime()) / 1000
 
         if (diff < Units.convert(Units.TIME.M, Units.TIME.S)) {

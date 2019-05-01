@@ -6,6 +6,7 @@ export default new ItemModel<Universis.User, Universis.User.Simple, Universis.Us
     get: {
         custom: filter => ([
             { $match: filter },
+            { $project: { password: false } },
             {
                 $lookup: {
                     from: 'postvotes',

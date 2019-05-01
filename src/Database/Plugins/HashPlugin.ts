@@ -8,15 +8,21 @@ import Security from '../../Utils/Security'
 const HashPlugin = (schema, options) => {
 
     schema.pre('save', async function () {
-        this[options.field] = await Security.hash(this[options.field])
+        if (this[options.field]) {
+            this[options.field] = await Security.hash(this[options.field])
+        }
     })
 
     schema.pre('findOneAndUpdate', async function () {
-        this._update[options.field] = await Security.hash(this._update[options.field])
+        if (this._update[options.field]) {
+            this._update[options.field] = await Security.hash(this._update[options.field])
+        }
     })
 
     schema.pre('update', async function () {
-        this._update[options.field] = await Security.hash(this._update[options.field])
+        if (this._update[options.field]) {
+            this._update[options.field] = await Security.hash(this._update[options.field])
+        }
     })
 
 }

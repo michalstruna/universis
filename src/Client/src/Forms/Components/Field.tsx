@@ -64,6 +64,14 @@ class Field extends StatelessComponent<IProps> {
         validator: value => /^[0-9]*$/.test(value)
     }
 
+    /**
+     * Date input.
+     */
+    public static DATE = {
+        name: 'date',
+        validator: value => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value)
+    }
+
     public static defaultProps = {
         type: Field.TEXT,
         label: ''
@@ -94,8 +102,8 @@ class Field extends StatelessComponent<IProps> {
      */
     private renderComponent = (data): React.ReactNode => {
         const { label, type, required } = this.props
-        const { touched, error, value } = data.meta
-        const blockClassName = ClassNames('form__block', { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value && data.input.value !== 0 }, { 'form__block--required': !!required })
+        const { touched, error } = data.meta
+        const blockClassName = ClassNames('form__block', `form__block--${type.name}`, { 'form__block--error': touched && !!error }, { 'form__block--empty': !data.input.value && data.input.value !== 0 }, { 'form__block--required': !!required })
         const inputProps = { ...data.input, autoComplete: 'off', className: 'form__field form__field--' + type.name }
 
         if (type === Field.TEXT_AREA) {

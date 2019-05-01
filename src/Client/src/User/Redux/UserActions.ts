@@ -232,3 +232,41 @@ export const getUser = (userId: Universis.User) => (
         { user: Request.get(`users/${userId}`) }
     )
 )
+
+/**
+ * Toggle user form visibility.
+ * @param isVisible
+ */
+export const toggleUserForm = (isVisible: boolean) => (
+    Redux.toggleAction(
+        ActionTypes.TOGGLE_USER_FORM,
+        { isUserFormVisible: isVisible }
+    )
+)
+
+/**
+ * Edit user by ID.
+ * @param userId
+ * @param user
+ */
+export const updateUser = (userId: string, user: Universis.User.New) => (
+    Redux.asyncAction(
+        ActionTypes.UPDATE_USER,
+        { editedUser: Request.put(`users/${userId}`, user) },
+        (result, dispatch) => {
+            dispatch(toggleUserForm(false))
+            dispatch(localUpdateUser(user))
+        }
+    )
+)
+
+/**
+ * Local update user.
+ * @param user
+ */
+export const localUpdateUser = (user: Universis.User.New) => (
+    Redux.setAction(
+        ActionTypes.LOCAL_UPDATE_USER,
+        { user: { payload: { ...user } } }
+    )
+)
