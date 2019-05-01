@@ -37,7 +37,7 @@ class Bodies extends StatelessComponent<IProps> {
                 title: strings.emissiveColor
             },
             {
-                accessor: bodyType => bodyType.virtual ? 'Virtuální' : (bodyType.particlesGenerator ? 'Částice' : 'Klasický'),
+                accessor: bodyType => !bodyType.visible ? 'Virtuální' : (bodyType.particlesGenerator ? 'Částice' : 'Klasický'),
                 title: strings.type
             },
             {

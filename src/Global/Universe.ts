@@ -429,7 +429,7 @@ declare namespace Universis {
                     /**
                      * Body is invisible.
                      */
-                    virtual?: boolean
+                    visible?: boolean
 
                 }
 

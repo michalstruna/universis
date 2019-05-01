@@ -188,7 +188,12 @@ class Universe implements Universis.Universe {
         const isVisible = this.scene.isInFov(body.mesh)
         const target = this.scene.getCameraTarget()
         const visibility = this.getVisibility(body)
-        const isFullyRenderable = body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id)))
+
+        const isFullyRenderable = body.data.type.visible !== false && (body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id))))
+
+        if (body.data.name === 'Mléčná dráha') {
+            console.log((body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id))
+        }
 
         const orbit = body.orbit.children[0].children[0] as any
         orbit.material.opacity = visibility
@@ -237,7 +242,7 @@ class Universe implements Universis.Universe {
         const vector = this.scene.projectCamera(tempVector)
         vector.x = (vector.x + 1) / 2 * window.innerWidth
         vector.y = -(vector.y - 1) / 2 * window.innerHeight
-        body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
+        body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + (vector.y + (body.data.type.particlesGenerator ? 30 : (body.data.particles && body.data.particles.thickness ? -30 : 0))) + 'px)'
 
         const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
         const fromCamera = this.scene.getDistance(body.mesh)
@@ -291,21 +296,31 @@ class Universe implements Universis.Universe {
     private getVisibility(body: Universis.Universe.Body.Container): Visibility {
         const viewSize = this.scene.getDistance(this.scene.getCameraTarget())
         const distance = this.scene.getDistance(body.mesh)
-        const isTooLargeOrSmall = distance < body.data.diameter.x / 2 || distance > body.data.diameter.x * Config.INVISIBILITY_EDGE
 
         if (!body.data.orbit) {
+            const isTooLargeOrSmall = distance < body.data.diameter.x / 2 || distance > body.data.diameter.x * Config.INVISIBILITY_EDGE * (body.data.particles ? 1 : 1e6)
             return isTooLargeOrSmall ? Visibility.INVISIBLE : Visibility.VISIBLE
         }
 
         const min = viewSize / body.data.orbit.apsis
         const max = viewSize / distance
 
-        if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
-            return Visibility.INVISIBLE
-        } else if (min > Config.SEMI_VISIBILITY_EDGE || Math.min(max, min) < (1 / Config.SEMI_VISIBILITY_EDGE)) {
-            return Visibility.SEMI_VISIBLE
+        if (body.data.type.emissiveColor) {
+            if (min > Config.INVISIBILITY_EDGE) {
+                return Visibility.INVISIBLE
+            } else if (min > Config.SEMI_VISIBILITY_EDGE) {
+                return Visibility.SEMI_VISIBLE
+            } else {
+                return Visibility.VISIBLE
+            }
         } else {
-            return Visibility.VISIBLE
+            if (min > Config.INVISIBILITY_EDGE || Math.min(max, min) < (1 / Config.INVISIBILITY_EDGE)) {
+                return Visibility.INVISIBLE
+            } else if (min > Config.SEMI_VISIBILITY_EDGE || Math.min(max, min) < (1 / Config.SEMI_VISIBILITY_EDGE)) {
+                return Visibility.SEMI_VISIBLE
+            } else {
+                return Visibility.VISIBLE
+            }
         }
     }
 
