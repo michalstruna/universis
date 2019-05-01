@@ -191,10 +191,6 @@ class Universe implements Universis.Universe {
 
         const isFullyRenderable = body.data.type.visible !== false && (body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id))))
 
-        if (body.data.name === 'Mléčná dráha') {
-            console.log((body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id))
-        }
-
         const orbit = body.orbit.children[0].children[0] as any
         orbit.material.opacity = visibility
 
@@ -242,7 +238,7 @@ class Universe implements Universis.Universe {
         const vector = this.scene.projectCamera(tempVector)
         vector.x = (vector.x + 1) / 2 * window.innerWidth
         vector.y = -(vector.y - 1) / 2 * window.innerHeight
-        body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + (vector.y + (body.data.type.particlesGenerator ? 30 : (body.data.particles && body.data.particles.thickness ? -30 : 0))) + 'px)'
+        body.label.style.transform = 'translateX(' + vector.x + 'px) translateY(' + vector.y + 'px)'
 
         const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
         const fromCamera = this.scene.getDistance(body.mesh)
