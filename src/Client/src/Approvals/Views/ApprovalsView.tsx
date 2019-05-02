@@ -1,16 +1,19 @@
 import * as ClassNames from 'classnames'
 import * as React from 'react'
+import Masonry from 'react-masonry-component'
 
-import { AsyncEntity, Units, View, DataTable } from '../../Utils'
+import { AsyncEntity, Units, View, DataTable, DetailEditor } from '../../Utils'
 import { getApprovals, approve, disapprove } from '../Redux/ApprovalsActions'
 import { SubjectType } from '../../../../Constants'
 import { Message } from '../../Panel'
+import { DonutChart } from '../../Charts'
 
 interface IProps {
     approvals: Universis.Redux.AsyncEntity<Universis.Approval[]>
     getApprovals: Universis.Runnable
     approve: Universis.Consumer<string>
     disapprove: Universis.Consumer<string>
+    bodyStrings: Universis.Strings
 }
 
 /**
@@ -25,10 +28,20 @@ class ApprovalsView extends View<IProps> {
 
     private renderItem(approval: Universis.Approval, isAfter: boolean): React.ReactNode {
         const data = isAfter ? approval.after : approval.before
+        const { bodyStrings } = this.props
 
         if (!data) {
             return null
         }
+
+        const texture = data.texture ? (
+            <>
+                <img src={`/Images/Universe/Textures/${data.texture}`} />
+                <section className='approvals__block--right'>
+                    {this.renderDiffValue(approval, ['texture'], isAfter)}
+                </section>
+            </>
+        ) : null
 
         switch (approval.notification.subjectType) {
             case SubjectType.EVENT:
@@ -69,15 +82,6 @@ class ApprovalsView extends View<IProps> {
                 )
 
             case SubjectType.BODY_TYPE:
-                const texture = data.texture ? (
-                    <>
-                        <img src={`/Images/Universe/Textures/${data.texture}`} />
-                        <section className='approvals__block--right'>
-                            {this.renderDiffValue(approval, ['texture'], isAfter)}
-                        </section>
-                    </>
-                ) : null
-
                 const info = {}
 
                 if (data.emissiveColor) {
@@ -99,6 +103,114 @@ class ApprovalsView extends View<IProps> {
                         </h3>
                         {texture}
                         <DataTable data={info} />
+                    </section>
+                )
+
+            case SubjectType.BODY:
+                return (
+                    <section className='panel__body__data'>
+                        <section className='panel__body__data__preview'>
+                            <section className='panel__body__data__preview--left'>
+                                <h2 className='panel__body__data__subtitle'>
+                                    {this.renderDiffValue(approval, ['type', 'name'], isAfter)}
+                                </h2>
+                                <h1 className='panel__body__data__title'>
+                                    {this.renderDiffValue(approval, ['name'], isAfter)}
+                                </h1>
+                                <p className='panel__body__data__description'>
+                                    {this.renderDiffValue(approval, ['description'], isAfter)}
+                                </p>
+                            </section>
+                            <section className='panel__body__data__preview--right'>
+                                {texture}
+                            </section>
+                        </section>
+                        <Masonry
+                            className={'panel__body__data__masonry'}
+                            elementType='section'
+                            options={{}}>
+                            <DataTable
+                                title={bodyStrings.size}
+                                data={{
+                                    [bodyStrings.diameterX]: this.renderDiffValue(approval, ['diameter', 'x'], isAfter, value => Units.toFull(value, Units.SIZE.KM, Units.SIZE)),
+                                    [bodyStrings.diameterY]: this.renderDiffValue(approval, ['diameter', 'y'], isAfter, value => Units.toFull(value, Units.SIZE.KM, Units.SIZE)),
+                                    [bodyStrings.flattening]: this.renderDiffValue(approval, ['flattening'], isAfter, Units.toFull),
+                                    [bodyStrings.circumference]: this.renderDiffValue(approval, ['circuit'], isAfter, value => Units.toFull(value, Units.SIZE.KM, Units.SIZE)),
+                                    [bodyStrings.surface]: this.renderDiffValue(approval, ['surface'], isAfter, value => Units.toFull(value, Units.SURFACE.KM2, Units.SURFACE)),
+                                    [bodyStrings.volume]: this.renderDiffValue(approval, ['volume'], isAfter, value => Units.toFull(value, Units.VOLUME.KM3, Units.VOLUME))
+                                }} />
+                            <DataTable
+                                title={bodyStrings.matter}
+                                data={{
+                                    [bodyStrings.mass]: this.renderDiffValue(approval, ['mass'], isAfter, value => Units.toFull(value, Units.MASS.KG)),
+                                    [bodyStrings.density]: this.renderDiffValue(approval, ['density'], isAfter, value => Units.toFull(value, Units.DENSITY.KG_M3)),
+                                    [bodyStrings.composition]: () => (
+                                        <section className='panel__body__data__chart'>
+                                            <DonutChart
+                                                data={DonutChart.buildData(data.composition, item => item.element, item => item.percentage)} />
+                                        </section>
+                                    ),
+                                    [bodyStrings.escapeVelocity]: this.renderDiffValue(approval, ['escapeVelocity'], isAfter, value => Units.toFull(value, Units.VELOCITY.KM_S, Units.VELOCITY)),
+                                    [bodyStrings.gravitationalAcceleration]: this.renderDiffValue(approval, ['gravitationalAcceleration'], isAfter, value => Units.toFull(value, Units.ACCELERATION.M_S2, Units.ACCELERATION)),
+                                    [bodyStrings.gravitationalParameter]: this.renderDiffValue(approval, ['gravitationalParameter'], isAfter, value => Units.toFull(value, Units.GRAVITATIONAL_PARAMETER.KM3_S2))
+                                }} />
+                            <DataTable
+                                title={bodyStrings.orbit}
+                                data={{
+                                    [bodyStrings.semiMajorAxis]: this.renderDiffValue(approval, ['orbit', 'semiMajorAxis'], isAfter, value => Units.toFull(value, Units.SIZE.KM)),
+                                    [bodyStrings.apsis]: this.renderDiffValue(approval, ['orbit', 'apsis'], isAfter, value => Units.toFull(value, Units.SIZE.KM)),
+                                    [bodyStrings.periapsis]: this.renderDiffValue(approval, ['orbit', 'periapsis'], isAfter, value => Units.toFull(value, Units.SIZE.KM)),
+                                    [bodyStrings.eccentricity]: this.renderDiffValue(approval, ['orbit', 'eccentricity'], isAfter, Units.toFull),
+                                    [bodyStrings.orbitPeriod]: this.renderDiffValue(approval, ['orbit', 'period'], isAfter, value => Units.toFull(value, Units.TIME.Y, Units.TIME)),
+                                    [bodyStrings.inclination]: this.renderDiffValue(approval, ['orbit', 'inclination'], isAfter, value => Units.toFull(value, Units.ANGLE.DEGREE)),
+                                    [bodyStrings.orbitVelocity]: data.orbit ? () => (
+                                        <DataTable.FlexRow>
+                                            {this.renderDiffValue(approval, ['orbit', 'velocity', 'min'], isAfter, value => Units.toFull(value, Units.VELOCITY.KM_S, Units.VELOCITY))}
+                                            {this.renderDiffValue(approval, ['orbit', 'velocity', 'avg'], isAfter, value => Units.toFull(value, Units.VELOCITY.KM_S, Units.VELOCITY))}
+                                            {this.renderDiffValue(approval, ['orbit', 'velocity', 'max'], isAfter, value => Units.toFull(value, Units.VELOCITY.KM_S, Units.VELOCITY))}
+                                        </DataTable.FlexRow>
+                                    ) : null,
+                                    [bodyStrings.circuit]: this.renderDiffValue(approval, ['orbit', 'circuit'], isAfter, value => Units.toFull(value, Units.SIZE.KM, Units.SIZE))
+                                }} />
+                            <DataTable
+                                title={bodyStrings.axis}
+                                data={{
+                                    [bodyStrings.axisTilt]: this.renderDiffValue(approval, ['axis', 'tilt'], isAfter, value => Units.toFull(value, Units.ANGLE.DEGREE)),
+                                    [bodyStrings.axisPeriod]: this.renderDiffValue(approval, ['axis', 'period'], isAfter, value => Units.toFull(value, Units.TIME.D)),
+                                    [bodyStrings.axisVelocity]: this.renderDiffValue(approval, ['axis', 'velocity'], isAfter, value => Units.toFull(value, Units.VELOCITY.M_S))
+                                }} />
+                            <DataTable
+                                title={bodyStrings.atmosphere}
+                                data={{
+                                    [bodyStrings.atmospherePressure]: this.renderDiffValue(approval, ['atmosphere', 'pressure'], isAfter, value => Units.toFull(value, Units.PRESSURE.PA, Units.PRESSURE)),
+                                    [bodyStrings.atmosphereComposition]: () => (
+                                        <section className='panel__body__data__chart'>
+                                            <DonutChart
+                                                data={DonutChart.buildData(data.atmosphere.composition, item => item.element, item => item.percentage)} />
+                                        </section>
+                                    )
+                                }} />
+                            <DataTable
+                                title={bodyStrings.visibility}
+                                data={{
+                                    [bodyStrings.albedo]: this.renderDiffValue(approval, ['albedo'], isAfter, Units.toFull),
+                                    [bodyStrings.magnitude]: this.renderDiffValue(approval, ['magnitude', 'relative'], isAfter, Units.toFull),
+                                    [bodyStrings.absoluteMagnitude]: this.renderDiffValue(approval, ['magnitude', 'absolute'], isAfter, Units.toFull)
+                                }} />
+                            <DataTable
+                                title={bodyStrings.energy}
+                                data={{
+                                    [bodyStrings.innerTemperature]: this.renderDiffValue(approval, ['temperature', 'inner'], isAfter, value => Units.toFull(value, Units.TEMPERATURE.K)),
+                                    [bodyStrings.outerTemperature]: this.renderDiffValue(approval, ['temperature', 'outer'], isAfter, value => Units.toFull(value, Units.TEMPERATURE.K)),
+                                    [bodyStrings.luminosity]: this.renderDiffValue(approval, ['luminosity'], isAfter, value => Units.toFull(value, Units.LUMINOSITY.W))
+                                }} />
+                            <DataTable
+                                title={bodyStrings.discover}
+                                data={{
+                                    [bodyStrings.discoverer]: this.renderDiffValue(approval, ['discover', 'author'], isAfter),
+                                    [bodyStrings.discoverDate]: this.renderDiffValue(approval, ['discover', 'date'], isAfter)
+                                }} />
+                        </Masonry>
                     </section>
                 )
         }
@@ -205,8 +317,9 @@ class ApprovalsView extends View<IProps> {
 }
 
 export default ApprovalsView.connect(
-    ({ approval }: Universis.Redux.StoreState) => ({
-        approvals: approval.approvals
+    ({ approval, system }: Universis.Redux.StoreState) => ({
+        approvals: approval.approvals,
+        bodyStrings: system.strings.bodyData
     }),
     { getApprovals, approve, disapprove }
 )

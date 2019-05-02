@@ -152,4 +152,17 @@ $approval-gap-width: 2rem;
         text-align: center;
     }
 
+    img {
+        max-width: 100%;
+    }
+
+    .panel__body__data {
+        background-color: $dark-color;
+    }
+
+    .panel__body__data__preview--right {
+        box-sizing: border-box;
+        padding: 0.5rem;
+    }
+
 }

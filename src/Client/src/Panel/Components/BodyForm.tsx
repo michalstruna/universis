@@ -44,6 +44,12 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
             if (result.atmosphere && result.atmosphere.composition) {
                 result.atmosphere.composition = this.parseComposition(result.atmosphere.composition)
+            } else {
+                if (!result.atmosphere) {
+                    result.atmosphere = {}
+                }
+
+                result.atmosphere.composition = []
             }
 
             await selectedBody ? updateBody(selectedBody._id, result) : addBody(result)
@@ -54,7 +60,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     }
 
     private parseComposition = (composition: string) => (
-        composition.split(';').map(item => ({
+        composition.split(';').filter(item => !!item).map(item => ({
             element: item.split('=')[0],
             percentage: parseFloat(item.split('=')[1])
         }))
