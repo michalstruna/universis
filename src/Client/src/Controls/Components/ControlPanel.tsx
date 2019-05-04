@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import AuthenticationControl from './AuthenticationControl'
 import FullScreenControl from './FullScreenControl'
-import HelpControl from './HelpControl'
+import AboutControl from './AboutControl'
 import HomeControl from './HomeControl'
 import ViewSizeControl from './ViewSizeControl'
 import ApprovalsControl from './ApprovalsControl'
@@ -19,7 +19,7 @@ class ControlPanel extends SimpleComponent {
                 onClick={event => event.stopPropagation()}
                 className='control-panel'>
                 <FullScreenControl />
-                <HelpControl />
+                <AboutControl />
                 <HomeControl />
                 <AuthenticationControl />
                 <ApprovalsControl />

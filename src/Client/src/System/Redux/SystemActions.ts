@@ -55,7 +55,7 @@ export const toggleContextMenu = (isVisible: boolean, x?: number, y?: number) =>
 export const toggleAlert = (isVisible: boolean, title?: string, content?: string, buttons?: ILinkButton[]) => (
     Redux.toggleAction(
         ActionTypes.TOGGLE_ALERT,
-        { alert: { isVisible, title, content, buttons } }
+        { alert: isVisible ? { isVisible, title, content, buttons: buttons } : { isVisible } }
     )
 )
 

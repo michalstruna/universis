@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { StatelessComponent, FadeLayout, Link } from '../../Utils'
+import { StatelessComponent, FadeLayout } from '../../Utils'
 import { toggleAlert } from '../../System'
 
 interface IProps {
@@ -31,13 +31,12 @@ class Alert extends StatelessComponent<IProps> {
         const { buttons } = this.props
 
         return buttons.map((button, key) => (
-            <Link
+            <button
                 className='alert__button'
                 key={key}
-                onClick={() => this.handleClickButton(button.target)}
-                target={button.target}>
+                onClick={() => this.handleClickButton(button.target)}>
                 {button.label}
-            </Link>
+            </button>
         ))
     }
 
@@ -75,7 +74,7 @@ export default Alert.connect(
     ({ system }: Universis.Redux.StoreState) => ({
         buttons: system.alert.buttons,
         content: system.alert.content,
-        isVisible: system.isAlertVisible,
+        isVisible: system.alert.isVisible,
         title: system.alert.title
     }),
     { toggleAlert }

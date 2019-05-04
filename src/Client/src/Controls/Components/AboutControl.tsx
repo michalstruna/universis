@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import Control from './Control'
+import ControlLink from './ControlLink'
 import { toggleAlert } from '../../System'
-import { StatelessComponent } from '../../Utils'
+import { StatelessComponent, Urls } from '../../Utils'
 
 export interface IProps {
     alert: {
@@ -11,9 +11,7 @@ export interface IProps {
         buttons: ILinkButton[]
     }
     toggleAlert: Universis.Consumer4<boolean, string, string, ILinkButton[]>
-    strings: {
-        about: string
-    }
+    strings: Universis.Strings
 }
 
 /**
@@ -21,21 +19,12 @@ export interface IProps {
  */
 class AboutControl extends StatelessComponent<IProps> {
 
-    /**
-     * After click, show alert.
-     */
-    private handleClick = (event: React.MouseEvent<HTMLElement>): void => {
-        const { alert, toggleAlert } = this.props
-        toggleAlert(true, alert.title, alert.content, alert.buttons)
-    }
-
     public render(): React.ReactNode {
         return (
-            <Control
-                isVisible={true}
-                onClick={this.handleClick}
-                name='help'
-                label={this.props.strings.about} />
+            <ControlLink
+                name={'help'}
+                label={this.props.strings.about}
+                target={Urls.ABOUT} />
         )
     }
 }

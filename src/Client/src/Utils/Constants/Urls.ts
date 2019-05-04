@@ -8,7 +8,7 @@ enum Urls {
     IDENTITY = '/identity',
     LOGIN = '/login',
     SIGN_UP = '/signup',
-    HELP = '/help',
+    ABOUT = '/about',
     APPROVALS = '/approvals',
     RESET_PASSWORD = '/reset-password',
     USER = '/user'

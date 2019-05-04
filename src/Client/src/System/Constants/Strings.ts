@@ -21,17 +21,17 @@ export default {
         logout: 'Odhlásit se',
         hideUI: 'Skrýt ovládání',
         showUI: 'Zobrazit ovládání',
-        about: 'O Universis',
+        about: 'O projektu',
         approvals: 'Schválení'
     },
 
     alert: {
         about: {
             title: 'O Universis',
-            content: 'Universis je 3D simulátor vesmíru. Autorem je Michal Struna. Další informace naleznete v nápovědě.',
+            content: 'Universis je webová aplikace umožňující 3D vizualizaci tělesa ve vesmíru. Projekt vznikl jako bakalářská práce roku 2019 na fakultě FEI pardubické univerzity. Autorem je Michal Struna.',
             buttons: [
                 { label: 'Do vesmíru', target: Urls.UNIVERSE },
-                { label: 'Nápověda', target: Urls.HELP }
+                { label: 'O projektu', target: Urls.ABOUT }
             ]
         }
     },
@@ -377,6 +377,51 @@ export default {
         home: 'Domov',
         invalidPassword: 'Heslo musí mít 6+ znaků.'
 
+    },
+
+    about: {
+        title: 'Universis',
+        articles: [
+            {
+                title: 'O projektu',
+                text: 'Účelem této webové aplikace je 3D vizualizace těles ve vesmíru v reálném čase. Projekt vznikl jako bakalářská práce roku 2019 na fakultě FEI pardubické univerzity. Autorem je Michal Struna.',
+                image: 'Simulator.png'
+            },
+            {
+                title: 'Nastavení',
+                text: 'Emulátor, v němž se tělesa zobrazují, je možné ovlivnit mnohými nastaveními. Patří mezi ně např. zrychlování či obracení běhu času, zobrazení orbit těles a v neposlední řadě také popisky těles. Ty mimo názvu samotného tělesa mohou obsahovat užitečné informace jako aktuální vzdálenost od Země nebo okamžitá rychlost pohybu.',
+                image: 'Body.png'
+            },
+            {
+                title: 'Databáze',
+                text: 'Aplikace obsahuje bohatou databázi těles, ve které je možné libovolně vyhledávat. Jednotlivé položky lze filtrovat podle názvu nebo jakéhokoliv jiného údaje. Výsledky je možno zobrazit absolutně (např. průměr Slunce je 1 392 684 km) nebo relativně ku jakémukoliv jinému tělesu (např. průměr Slunce je roven 109 průměrům Země).',
+                image: 'Database.png'
+            },
+            {
+                title: 'Časová osa',
+                text: 'U každého tělesa se nachází časová osa zobrazující události daného tělesa z minulosti. Po najetí kurzorem myši nad událost se zobrazí i podrobnější informace.',
+                image: 'Timeline.png'
+            },
+            {
+                title: 'Diskuse',
+                text: 'Uživatelé spolu mohou komunikovat prostřednictvím diskusí, které lze zakládat v rámci jednotlivých těles. Přihlášení členové navíc mohou příspěvky ostatních i hodnotit.',
+                image: 'Discussion.png'
+            },
+            {
+                title: 'Úprava obsahu',
+                text: 'Každý uživatel má možnost podílet se na obsahu aplikace. Pokud tedy budete chtít přidat nebo opravit některé informace v aplikaci, můžete je skrze editační formulář odeslat. Administrátor vámi navrhnuté změny posoudí a pokud je schválí, uvidí je všichni uživatelé.',
+                image: 'Approval.png'
+            },
+            {
+                title: 'Použité technologie',
+                text: 'Frontend je vytvořen v TypeScriptu za využití knihovny React. Stylování je řešeno v CSS preprocesoru SASS. Veškerá 3D grafika je vytvoření s pomocí knihovny THREE.js. Serverová část je vytvořena taktéž v TypeScriptu, tentokrát ovšem za využití frameworku Node.js. Data jsou ukládána do databáze MongoDB, se kterou se pracuje pomocí knihovny Mongoose. Komunikaci uživatelů v reálném čase zprostředkovává knihovna Socket.io.',
+                image: 'User.png'
+            },
+            {
+                title: 'Ikony',
+                text: 'Ikony použité v aplikace nevytvořil autor, ale jsou převzaté z webu <a href="https://www.flaticon.com" target="_blank">flation.com</a>, který umožňuje ve verzi zdarma používat obrázky pod licencí <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC 3.0 BY</a>. Konkrétními autory grafických souborů jsou <a href="https://www.freepik.com">Freepik</a> (5), <a href="https://www.flaticon.com/authors/google" target="_blank">Google</a> (2), <a href="https://www.flaticon.com/authors/stephen-hutchings" target="_blank">Stephen Hutchings</a>, <a href="https://www.flaticon.com/authors/smashicons" target="_blank">Smashicons</a>, <a href="https://www.flaticon.com/authors/yannick" target="_blank">Yannick</a>, <a href="https://www.flaticon.com/authors/dave-gandy" target="_blank">Dave Gandy</a>, <a href="https://www.flaticon.com/authors/bqlqn" title="bqlqn">bqlqn</a>,  <a href="https://www.flaticon.com/authors/robin-kylander" target="_blank">Robin Kylander</a>, <a href="https://www.flaticon.com/authors/cursor-creative" target="_blank">Cursor Creative</a> a <a href="https://www.flaticon.com/authors/kiranshastry" target="_blank">Kiranshastry</a>.'
+            }
+        ]
     }
 
 }
