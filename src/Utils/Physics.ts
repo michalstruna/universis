@@ -262,7 +262,11 @@ class Physics {
      * @returns Luminosity of body.
      */
     public static getLuminosity(body: Universis.Universe.Body.Simple): number {
-        if (!body.temperature.outer && (!body.type || !body.type.emissiveColor)) {
+
+        const typeIdColor = (body as any).typeId ? (body as any).typeId.emissiveColor : null
+        const typeColor = body.type ? body.type.emissiveColor : null
+
+        if (!body.temperature || !body.temperature.outer || (!typeIdColor && !typeColor)) {
             return null
         }
 

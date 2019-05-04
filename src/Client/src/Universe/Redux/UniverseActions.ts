@@ -475,7 +475,7 @@ export const receiveBodyType = (bodyType: Universis.Universe.Body.Type) => (
  */
 export const receiveUpdatedBodyType = (bodyType: Universis.Universe.Body.Type) => (
     Redux.setAction(
-        ActionTypes.RECEIVE_UPDATED_EVENT,
+        ActionTypes.RECEIVE_UPDATED_BODY_TYPE,
         { bodyTypes: { payload: { $find: item => item._id === bodyType._id, $set: bodyType } } }
     )
 )
@@ -486,7 +486,54 @@ export const receiveUpdatedBodyType = (bodyType: Universis.Universe.Body.Type) =
  */
 export const receiveDeletedBodyType = (bodyType: Universis.Universe.Body.Type) => (
     Redux.setAction(
-        ActionTypes.RECEIVE_DELETED_EVENT,
+        ActionTypes.RECEIVE_DELETED_BODY_TYPE,
         { bodyTypes: { payload: { $remove: item => item._id === bodyType._id } } }
+    )
+)
+
+/**
+ * Add local body.
+ * @param body
+ */
+export const receiveBody = (body: Universis.Universe.Body) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_BODY,
+        { bodies: { payload: { $add: body } } }
+    )
+)
+
+/**
+ * Update local body.
+ * @param body
+ * @param withDetail Detailed body will be also updated.
+ */
+export const receiveUpdatedBody = (body: Universis.Universe.Body, withDetail: boolean) => (
+    dispatch => {
+        dispatch(
+            Redux.setAction(
+                ActionTypes.RECEIVE_UPDATED_BODY,
+                { bodies: { payload: { $find: item => item._id === body._id, $set: body } } }
+            )
+        )
+
+        if (withDetail) {
+            dispatch(
+                Redux.setAction(
+                    ActionTypes.RECEIVE_UPDATED_BODY,
+                    { body: { payload: { ...body } } }
+                )
+            )
+        }
+    }
+)
+
+/**
+ * Remove local body.
+ * @param body
+ */
+export const receiveDeletedBody = (body: Universis.Universe.Body) => (
+    Redux.setAction(
+        ActionTypes.RECEIVE_DELETED_BODY,
+        { bodies: { payload: { $remove: item => item._id === body._id } } }
     )
 )

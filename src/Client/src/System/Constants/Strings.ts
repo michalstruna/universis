@@ -317,6 +317,23 @@ export default {
                 [Operation.UPDATE]: 'navrhl úpravu typu tělesa',
                 [Operation.DELETE]: 'navrhl odebrání typu tělesa'
             }
+        },
+        [SubjectType.BODY]: {
+            [ApprovalState.UNAPPROVED]: {
+                [Operation.ADD]: 'navrhl těleso',
+                [Operation.UPDATE]: 'navrhl úpravu tělesa',
+                [Operation.DELETE]: 'navrhl odebrání tělesa'
+            },
+            [ApprovalState.APPROVED]: {
+                [Operation.ADD]: 'přidal těleso',
+                [Operation.UPDATE]: 'úpravil těleso',
+                [Operation.DELETE]: 'odebral těleso'
+            },
+            [ApprovalState.DISAPPROVED]: {
+                [Operation.ADD]: 'navrhl typ tělesa',
+                [Operation.UPDATE]: 'navrhl úpravu typu tělesa',
+                [Operation.DELETE]: 'navrhl odebrání typu tělesa'
+            }
         }
 
     },
