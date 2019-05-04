@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { StatelessComponent, UILayout, Link, Url, Queries, BlurLayout } from '../../Utils'
+import { StatelessComponent, UILayout, Link, Url, Queries } from '../../Utils'
 import Overview from './Overview'
 import { setTab } from '../Redux/PanelActions'
 import Database from './Database'
@@ -90,15 +90,13 @@ class Panel extends StatelessComponent<IProps> {
 
     public render(): React.ReactNode {
         return (
-            <BlurLayout
-                className='panel'
-                visibleAlert>
+            <section className='panel'>
                 <section className='panel--inner'>
                     {this.renderMenu()}
                     {this.renderContent()}
                 </section>
                 {this.renderToggle()}
-            </BlurLayout>
+            </section>
         )
     }
 

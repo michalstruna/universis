@@ -25,17 +25,6 @@ export default {
         approvals: 'Schválení'
     },
 
-    alert: {
-        about: {
-            title: 'O Universis',
-            content: 'Universis je webová aplikace umožňující 3D vizualizaci tělesa ve vesmíru. Projekt vznikl jako bakalářská práce roku 2019 na fakultě FEI pardubické univerzity. Autorem je Michal Struna.',
-            buttons: [
-                { label: 'Do vesmíru', target: Urls.UNIVERSE },
-                { label: 'O projektu', target: Urls.ABOUT }
-            ]
-        }
-    },
-
     identity: {
         title: 'Přihlašte se.',
         email: 'Zadejte email',

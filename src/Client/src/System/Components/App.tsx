@@ -4,7 +4,7 @@ import * as React from 'react'
 import AnimatedBackground from './AnimatedBackground'
 import { Panel } from '../../Panel'
 import { BlurLayout, StatelessComponent, Url, Queries } from '../../Utils'
-import { Alert, ContextMenu, ContextTrigger, ControlPanel, ContextInfo } from '../../Controls'
+import { ContextMenu, ContextTrigger, ControlPanel, ContextInfo } from '../../Controls'
 import Sockets from '../Utils/Sockets'
 import Notifications from './Notifications'
 
@@ -66,13 +66,11 @@ class App extends StatelessComponent<IProps> {
         return (
             <ContextTrigger className={this.getClassName()}>
                 <Panel />
-                <BlurLayout
-                    className='app__body app__body--small'
-                    visibleAlert>
+                <section
+                    className='app__body app__body--small'>
                     {this.renderBackground()}
                     {this.renderForeground()}
-                </BlurLayout>
-                <Alert />
+                </section>
                 <ContextMenu />
                 <ContextInfo />
                 <Notifications />
