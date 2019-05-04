@@ -29,6 +29,7 @@ class ApprovalModel extends Model implements Universis.Approval.Model {
             switch (notification.operation) {
                 case Operation.ADD:
                     approval.after = await model.addOne(after)
+                    approval.after = await model.getOne({ _id: approval.after._id }, { join: ['typeId'] })
                     break
                 case Operation.DELETE:
                     approval.after = await model.removeOne({ _id: before._id })

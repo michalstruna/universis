@@ -266,7 +266,7 @@ class Physics {
         const typeIdColor = (body as any).typeId ? (body as any).typeId.emissiveColor : null
         const typeColor = body.type ? body.type.emissiveColor : null
 
-        if (!body.temperature.outer || (!typeIdColor && !typeColor)) {
+        if (!body.temperature || !body.temperature.outer || (!typeIdColor && !typeColor)) {
             return null
         }
 
