@@ -403,7 +403,7 @@ export default {
             },
             {
                 title: 'Použité technologie',
-                text: 'Frontend je vytvořen v TypeScriptu za využití knihovny React. Stylování je řešeno v CSS preprocesoru SASS. Veškerá 3D grafika je vytvoření s pomocí knihovny THREE.js. Serverová část je vytvořena taktéž v TypeScriptu, tentokrát ovšem za využití frameworku Node.js. Data jsou ukládána do databáze MongoDB, se kterou se pracuje pomocí knihovny Mongoose. Komunikaci uživatelů v reálném čase zprostředkovává knihovna Socket.io.',
+                text: 'Frontend je vytvořen v TypeScriptu za využití knihovny React. Stylování je řešeno v CSS preprocesoru SASS. Veškerá 3D grafika je vytvořena s pomocí knihovny THREE.js. Serverová část je vytvořena taktéž v TypeScriptu, tentokrát ovšem za využití frameworku Node.js. Data jsou ukládána do databáze MongoDB, se kterou se pracuje pomocí knihovny Mongoose. Komunikaci uživatelů v reálném čase zprostředkovává knihovna Socket.io.',
                 image: 'User.png'
             },
             {
