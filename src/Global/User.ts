@@ -24,6 +24,8 @@ declare namespace Universis {
             }
         }
 
+        createdAt: number
+
     }
 
     export namespace User {
@@ -91,7 +93,6 @@ declare namespace Universis {
             /**
              * Data.
              */
-            createdAt: number
             lastOnline?: number
             isOnline?: boolean
 

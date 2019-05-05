@@ -29,7 +29,6 @@ class UserInfo extends StatelessComponent<IProps> {
         name: 'Nepřihlášený',
         avatar: '/Images/User/Avatar.svg',
         role: UserRole.UNAUTHANTICATED,
-        createdAt: null,
         score: {
             gold: 0,
             silver: 0,
@@ -72,11 +71,7 @@ class UserInfo extends StatelessComponent<IProps> {
      */
     private getUser(): Universis.User.Simple {
         const { user } = this.props
-
-        return {
-            ...UserInfo.DEFAULT_USER,
-            ...(user || {})
-        }
+        return { ...UserInfo.DEFAULT_USER, ...(user || {}) }
     }
 
     /**

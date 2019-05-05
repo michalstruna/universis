@@ -121,8 +121,6 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
                     break
 
                 case SubjectType.BODY:
-                    console.log(notification)
-
                     if (bodies) {
                         switch (notification.operation) {
                             case Operation.ADD:

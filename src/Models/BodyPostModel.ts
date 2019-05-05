@@ -1,7 +1,8 @@
-import { DatabaseModel } from '../Constants'
+import { DatabaseModel, UserScore } from '../Constants'
 import ItemModel from './ItemModel'
 import SubjectType from '../Constants/SubjectType'
 import BodyModel from './BodyModel'
+import UserModel from './UserModel'
 
 export default new ItemModel<Universis.Discussion | Universis.Answer, Universis.Discussion | Universis.Answer, Universis.Discussion.New | Universis.Answer.New>({
     dbModel: DatabaseModel.BODY_POST,
@@ -23,6 +24,8 @@ export default new ItemModel<Universis.Discussion | Universis.Answer, Universis.
         notification: true,
         onAfter: post => {
             post.votes = []
+            const score = UserScore[SubjectType.POST]
+            UserModel.update({ _id: (post as any).userId }, { $inc: { [`score.${score.type}`]: score.count } })
         }
     },
     get: {
