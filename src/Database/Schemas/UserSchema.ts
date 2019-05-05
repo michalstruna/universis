@@ -93,8 +93,13 @@ const UserSchema = new Schema({
         default: UserRole.AUTHENTICATED
     },
 
+    isOnline: {
+        type: Boolean,
+        default: false
+    },
+
     lastOnline: {
-        type: String,
+        type: Number,
         default: () => new Date().getTime()
     },
 

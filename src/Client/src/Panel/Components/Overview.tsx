@@ -1,10 +1,9 @@
 import * as React from 'react'
 
-import { StatelessComponent, Link, ToggleLayout, AsyncEntity } from '../../Utils'
-import { UserInfo, getMessages } from '../../User'
+import { StatelessComponent, Link, ToggleLayout } from '../../Utils'
+import { UserInfo } from '../../User'
 import UsersList from '../../User/Components/UsersList'
 import Chat from './Chat'
-import Config from '../Constants/Config'
 
 interface IProps {
     identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
@@ -18,6 +17,7 @@ class Overview extends StatelessComponent<IProps> {
 
     public render(): React.ReactNode {
         const { identity, users } = this.props
+        const all = users.filter((user, index) => !user || users.findIndex(innerUser => innerUser && innerUser._id === user._id) === index)
         const hosts = users.filter(user => !user)
 
         return (
@@ -34,7 +34,7 @@ class Overview extends StatelessComponent<IProps> {
                             Online
                         </div>
                         <div className='panel__overview__stat'>
-                            Přihlášených: {users.length - hosts.length}
+                            Přihlášených: {all.length - hosts.length}
                         </div>
                         <div className='panel__overview__stat'>
                             Nepřihlášených: {hosts.length}
