@@ -85,7 +85,7 @@ class UserDetail extends StatelessComponent<IProps> {
                     <UserDetail.Row image={'Date'}>
                         {strings.from} <RelativeTime date={user.createdAt} />
                     </UserDetail.Row>
-                    <UserDetail.Row image={'Online'}>
+                    <UserDetail.Row image={user.isOnline ? 'Online' : 'Offline'}>
                         {user.isOnline ? strings.now : <>{strings.lastOnline} <RelativeTime
                             date={user.lastOnline} /></>}
                     </UserDetail.Row>

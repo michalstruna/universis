@@ -19,12 +19,13 @@ class UsersList extends StatelessComponent<IProps> {
     private renderUsers(): React.ReactNode[] {
         const { users } = this.props
 
-        return users.map((user, key) => (
-            <UserInfo
-                type={UserInfo.TYPES.MEDIUM}
-                user={user}
-                key={key} />
-        ))
+        return users.filter((user, index) => !user || users.findIndex(innerUser => innerUser && innerUser._id === user._id) === index).map((user, key) => (
+                <UserInfo
+                    type={UserInfo.TYPES.MEDIUM}
+                    user={user}
+                    key={key} />
+            )
+        )
     }
 
     public render(): React.ReactNode {

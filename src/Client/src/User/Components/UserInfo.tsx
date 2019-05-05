@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { StatelessComponent, Link, Units } from '../../Utils'
+import { StatelessComponent, Link, Units, RelativeTime } from '../../Utils'
 import { ContextInfo } from '../../Controls'
 import { UserRole } from '../../../../Constants'
 
@@ -112,6 +112,22 @@ class UserInfo extends StatelessComponent<IProps> {
         return Link.URLS.USER + '/' + user._id
     }
 
+    private renderLastOnline(): React.ReactNode {
+        const user = this.getUser()
+
+        if (!user.lastOnline) {
+            return null
+        }
+
+        if (user.isOnline) {
+            return 'aktivní'
+        }
+
+        return (
+            <RelativeTime date={user.lastOnline} />
+        )
+    }
+
     private renderMedium(): React.ReactNode {
         const user = this.getUser()
 
@@ -132,7 +148,7 @@ class UserInfo extends StatelessComponent<IProps> {
                         {Units.toShort(this.getReputation())}
                     </section>
                     <section className='user-info__last-online'>
-                        11 měs.
+                        {this.renderLastOnline()}
                     </section>
                 </section>
             </React.Fragment>
@@ -170,7 +186,7 @@ class UserInfo extends StatelessComponent<IProps> {
                         </section>
                     </section>
                     <section className='user-info__last-online'>
-                        11 měs.
+                        {this.renderLastOnline()}
                     </section>
                 </section>
             </React.Fragment>

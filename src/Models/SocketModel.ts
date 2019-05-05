@@ -1,11 +1,12 @@
 import * as SocketIo from 'socket.io'
 
-import { SocketMessageType } from '../Constants'
+import Model from './Model'
+import { SocketMessageType, DatabaseModel } from '../Constants'
 
 /**
  * Socket model.
  */
-class SocketModel implements Universis.Socket.Model {
+class SocketModel extends Model implements Universis.Socket.Model {
 
     /**
      * Instance of socket server.
@@ -17,6 +18,13 @@ class SocketModel implements Universis.Socket.Model {
      */
     private clients: Universis.Map<{ socket: any, user: Universis.User.Simple }>
 
+    private userDbModel: Universis.Database.Model
+
+    public constructor() {
+        super()
+        this.userDbModel = this.db.getModel(DatabaseModel.USER)
+    }
+
     public initialize(server: any): void {
         this.io = SocketIo(server)
         this.clients = {}
@@ -25,6 +33,14 @@ class SocketModel implements Universis.Socket.Model {
             socket.emit(SocketMessageType.CONNECT, Object.values(this.clients).map(client => client.user))
 
             socket.on(SocketMessageType.CONNECT, user => {
+                if (user) {
+                    const userConnectionsCount = Object.values(this.clients).filter(client => client.user && client.user._id === user._id).length
+
+                    if (userConnectionsCount === 0) {
+                        this.userDbModel.updateOne({ _id: user._id }, { isOnline: true })
+                    }
+                }
+
                 this.clients[socket.id] = { socket, user }
                 this.broadcast(SocketMessageType.NEW_CLIENT, user)
             })
@@ -33,12 +49,29 @@ class SocketModel implements Universis.Socket.Model {
                 const io = this.clients[socket.id]
 
                 if (io) {
-                    this.broadcast(SocketMessageType.DISCONNECT, this.clients[socket.id].user)
+                    const user = this.clients[socket.id].user
+                    this.broadcast(SocketMessageType.DISCONNECT, user ? user._id : null)
                     delete this.clients[socket.id]
+
+                    if (user) {
+                        const userConnectionsCount = Object.values(this.clients).filter(client => client.user && client.user._id === user._id).length
+
+                        if (userConnectionsCount === 1) {
+                            this.userDbModel.updateOne({ _id: user._id }, {
+                                isOnline: false,
+                                lastOnline: new Date().getTime()
+                            })
+                        }
+                    }
                 }
             })
 
             socket.on(SocketMessageType.LOGOUT, user => {
+                this.userDbModel.updateOne({ _id: user._id }, {
+                    isOnline: false,
+                    lastOnline: new Date().getTime()
+                })
+
                 this.clients[socket.id].user = null
                 this.broadcast(SocketMessageType.LOGOUT, user)
             })

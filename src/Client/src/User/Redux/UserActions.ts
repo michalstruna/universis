@@ -1,6 +1,6 @@
 import { Redux, Request, Url, Urls, Cookies } from '../../Utils'
 import ActionTypes from './ActionTypes'
-import { Sockets } from '../../System'
+import { Sockets, Store } from '../../System'
 
 /**
  * Get unauth user.
@@ -151,7 +151,9 @@ export const receiveConnection = (user: Universis.User.Simple) => (
 export const receiveDisconnection = (user: Universis.User.Simple) => (
     Redux.setAction(
         ActionTypes.RECEIVE_DISCONNECTION,
-        { onlineUsers: { $remove: onlineUser => onlineUser ? onlineUser._id === user : !user } }
+        {
+            onlineUsers: { $remove: onlineUser => onlineUser ? onlineUser._id === user : !user }
+        }
     )
 )
 
@@ -205,10 +207,19 @@ export const editUserByToken = (token: string, data: Universis.Map<any>) => (
  * @param user
  */
 export const receiveLogin = (user: Universis.User) => (
-    Redux.setAction(
-        ActionTypes.RECEIVED_LOGIN,
-        { onlineUsers: { $remove: onlineUser => !onlineUser, $add: user } }
-    )
+    dispatch => {
+        const changes: any = {
+            onlineUsers: { $remove: onlineUser => !onlineUser, $add: user }
+        }
+
+        const userDetail = Store.getState().user.user.payload
+
+        if (userDetail && userDetail._id === user._id) {
+            changes.user = { payload: { isOnline: true } }
+        }
+
+        dispatch(Redux.setAction(ActionTypes.RECEIVED_LOGIN, changes))
+    }
 )
 
 /**
@@ -216,10 +227,25 @@ export const receiveLogin = (user: Universis.User) => (
  * @param user
  */
 export const receiveLogout = (user: Universis.User) => (
-    Redux.setAction(
-        ActionTypes.RECEIVED_LOGOUT,
-        { onlineUsers: { $remove: onlineUser => onlineUser && onlineUser._id === user._id, $add: null } }
-    )
+    dispatch => {
+        const changes: any = {
+            onlineUsers: { $remove: onlineUser => onlineUser && onlineUser._id === user._id, $add: null }
+        }
+
+        const userDetail = Store.getState().user.user.payload
+
+        if (userDetail && userDetail._id === user._id) {
+            changes.user = { payload: { isOnline: false, lastOnline: new Date().getTime() } }
+        }
+
+        const identity = Store.getState().user.identity.payload
+
+        if (identity && identity._id === user._id) {
+            dispatch(logout())
+        }
+
+        dispatch(Redux.setAction(ActionTypes.RECEIVED_LOGOUT, changes))
+    }
 )
 
 /**

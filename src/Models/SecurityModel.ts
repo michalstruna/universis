@@ -30,12 +30,13 @@ class SecurityModel extends Model implements Universis.SecurityModel {
                 return reject(Errors.INVALID) // Invalid password.
             }
 
+            await UserModel.update({ email }, { isOnline: true })
             const user = await UserModel.get({ email })
             const token = await this.sign({ userId: user._id })
 
             await this.dbModel.addOne({ token })
             SocketModel.broadcast(SocketMessageType.LOGIN, user)
-            return resolve({ ...user, token })
+            return resolve({ ...user, token } as Universis.User.Identity)
         })
     }
 
