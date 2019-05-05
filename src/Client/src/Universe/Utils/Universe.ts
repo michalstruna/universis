@@ -328,8 +328,6 @@ class Universe implements Universis.Universe {
         this.bodies = []
         this.rootBodies = []
 
-        console.log(bodies)
-
         for (const data of bodies) {
             this.setScale(data)
 

@@ -370,7 +370,11 @@ class Scene implements Universis.Scene {
             return geometry.parameters.radius * 2
         }
 
-        return 1
+        if (geometry && geometry.boundingSphere && geometry.boundingSphere.radius) {
+            return geometry.boundingSphere.radius
+        }
+
+        return 1e7
     }
 
     /**
