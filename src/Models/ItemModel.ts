@@ -130,7 +130,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             }))
         }
 
-        return item
+        return null
     }
 
     /**
