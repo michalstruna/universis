@@ -151,9 +151,7 @@ export const receiveConnection = (user: Universis.User.Simple) => (
 export const receiveDisconnection = (user: Universis.User.Simple) => (
     Redux.setAction(
         ActionTypes.RECEIVE_DISCONNECTION,
-        {
-            onlineUsers: { $remove: onlineUser => onlineUser ? onlineUser._id === user : !user }
-        }
+        { onlineUsers: { $remove: onlineUser => onlineUser ? onlineUser._id === user : !user } }
     )
 )
 
