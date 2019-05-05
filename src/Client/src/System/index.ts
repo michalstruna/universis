@@ -18,6 +18,7 @@ export { default as UnauthRoute } from './Components/Routes/UnauthRoute'
  * Views.
  */
 export { default as HomeView } from './Views/HomeView'
+export { default as AboutView } from './Views/AboutView'
 
 /**
  * Redux.

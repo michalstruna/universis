@@ -46,20 +46,6 @@ export const toggleContextMenu = (isVisible: boolean, x?: number, y?: number) =>
 )
 
 /**
- * Toggle alert window.
- * @param isVisible
- * @param title Title of alert.
- * @param content Message of alert.
- * @param buttons List of all buttons.
- */
-export const toggleAlert = (isVisible: boolean, title?: string, content?: string, buttons?: ILinkButton[]) => (
-    Redux.toggleAction(
-        ActionTypes.TOGGLE_ALERT,
-        { alert: { isVisible, title, content, buttons } }
-    )
-)
-
-/**
  * Toggle UI.
  */
 export const toggleUI = (isUIVisible: boolean) => (

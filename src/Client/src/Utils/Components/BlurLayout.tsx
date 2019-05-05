@@ -6,9 +6,7 @@ import StatelessComponent from './StatelessComponent'
 
 interface IProps {
     className?: string
-    isAlertVisible: boolean
     noHomePage?: boolean
-    visibleAlert?: boolean
 }
 
 /**
@@ -21,15 +19,11 @@ class BlurLayout extends StatelessComponent<IProps> {
      * @return Layout is blurred.
      */
     private get isBlurred(): boolean {
-        const { isAlertVisible, noHomePage, visibleAlert, location } = this.props
+        const { noHomePage, location } = this.props
 
         let isBlurred = false
 
         if (noHomePage && !Url.equalsPage(Url.getPage(location.pathname), Urls.HOME)) {
-            isBlurred = true
-        }
-
-        if (visibleAlert && isAlertVisible) {
             isBlurred = true
         }
 
@@ -52,8 +46,4 @@ class BlurLayout extends StatelessComponent<IProps> {
 
 }
 
-export default BlurLayout.connect(
-    ({ system }: Universis.Redux.StoreState) => ({
-        isAlertVisible: system.alert.isVisible
-    })
-)
+export default BlurLayout.connect()

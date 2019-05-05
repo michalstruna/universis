@@ -5,12 +5,6 @@ import ActionTypes from './ActionTypes'
 export default Redux.createReducer(
     Object.values(ActionTypes),
     {
-        alert: {
-            isVisible: false,
-            buttons: [] as ILinkButton[],
-            title: '',
-            content: ''
-        },
         contextMenu: {
             isVisible: false,
             x: 0,

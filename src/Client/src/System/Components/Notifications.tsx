@@ -14,29 +14,6 @@ interface IProps {
  */
 class Notifications extends StatelessComponent<IProps> {
 
-    private getNotificationContent(notification: Universis.Notification): React.ReactNode {
-        switch (notification.subjectType) {
-            case SubjectType.POST:
-                return (
-                    <>
-                        <strong><UserInfo
-                            type={UserInfo.TYPES.NAME} /> okomentoval {notification.subjectName}:</strong> {notification.text}
-                    </>
-                )
-
-            case SubjectType.MESSAGE:
-                return (
-                    <>
-                        <strong><UserInfo
-                            type={UserInfo.TYPES.NAME} /> napsal:</strong> {notification.text}
-                    </>
-                )
-
-        }
-
-        return null
-    }
-
     private renderNotifications(): React.ReactNode {
         const { notifications } = this.props
 
