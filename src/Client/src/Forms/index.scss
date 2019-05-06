@@ -67,6 +67,11 @@
             height: 5rem;
             resize: none;
         }
+
+        &--file {
+            @include size;
+            border-bottom: none;
+        }
     }
 
     &__button {
@@ -138,7 +143,7 @@
             }
         }
 
-        &--date, &:not(.form__block--empty) {
+        &--date, &--file, &:not(.form__block--empty) {
             .form__label {
                 transform: translateY(-1.5em) scale(0.8) translateZ(0);
             }
@@ -154,6 +159,16 @@
         &--select {
             .form__label {
                 opacity: 1 !important;
+            }
+        }
+
+        &--file {
+            border: 1px dashed $light-color;
+            background: no-repeat center center;
+            background-size: cover;
+
+            input {
+                opacity: 0;
             }
         }
     }

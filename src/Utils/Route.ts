@@ -3,6 +3,7 @@ import { OK, NO_CONTENT, UNAUTHORIZED } from 'http-status-codes'
 import SecurityModel from '../Models/SecurityModel'
 import UserModel from '../Models/UserModel'
 import { UserRole } from '../Constants'
+import { request } from 'https'
 
 const defaultResultMap = result => result
 const defaultIsAuthorized = user => true
@@ -170,8 +171,8 @@ class Route {
             const mapBefore = 'mapBefore' in access.post ? access.post.mapBefore : request => request.body
             const mapAfter = 'mapAfter' in access.post ? access.post.mapAfter : item => item
             const handler = 'access' in access.post ? access.post.access : access.post
-            routeGroup.post = handler(request => model.add({
-                    ...mapBefore(request),
+            routeGroup.post = handler(async request => model.add({
+                    ...(await mapBefore(request)),
                     userId: request.userId,
                     ip: request.ip
                 }),
@@ -204,8 +205,8 @@ class Route {
             const mapBefore = 'mapBefore' in access.put ? access.put.mapBefore : request => request.body
             const mapAfter = 'mapAfter' in access.put ? access.put.mapAfter : false
             const handler = 'access' in access.put ? access.put.access : access.put
-            routeGroup.put = handler(request => model.update({ _id: request.params[Object.keys(request.params)[0]] }, {
-                ...mapBefore(request),
+            routeGroup.put = handler(async request => model.update({ _id: request.params[Object.keys(request.params)[0]] }, {
+                ...(await mapBefore(request)),
                 userId: request.userId,
                 ip: request.ip
             }), mapAfter)

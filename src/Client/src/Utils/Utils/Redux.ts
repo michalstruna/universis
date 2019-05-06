@@ -282,6 +282,17 @@ class Redux {
         return typeof changes === 'function' ? changes(Store.getState()) : changes
     }
 
+    public static parseFormData(formData: any, exclude: string[] = []): any {
+        const result = {}
+        formData.forEach((item, index) => {
+            if (!exclude.includes(index)) {
+                result[index] = item === 'true' ? true : (item === 'false' ? false : item)
+            }
+        })
+
+        return result
+    }
+
 }
 
 export default Redux

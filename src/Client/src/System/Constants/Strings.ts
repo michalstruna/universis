@@ -364,7 +364,8 @@ export default {
         role: 'Role',
         password: 'Nové heslo',
         home: 'Domov',
-        invalidPassword: 'Heslo musí mít 6+ znaků.'
+        invalidPassword: 'Heslo musí mít 6+ znaků.',
+        avatar: 'Avatar'
 
     },
 

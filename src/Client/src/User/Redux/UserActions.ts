@@ -279,7 +279,7 @@ export const updateUser = (userId: string, user: Universis.User.New) => (
         { editedUser: Request.put(`users/${userId}`, user) },
         (result, dispatch) => {
             dispatch(toggleUserForm(false))
-            dispatch(localUpdateUser(user))
+            dispatch(localUpdateUser({ ...Redux.parseFormData(user, ['avatar']), _id: userId }))
         }
     )
 )
@@ -288,11 +288,23 @@ export const updateUser = (userId: string, user: Universis.User.New) => (
  * Local update user.
  * @param user
  */
-export const localUpdateUser = (user: Universis.User.New) => (
-    Redux.setAction(
-        ActionTypes.LOCAL_UPDATE_USER,
-        { user: { payload: { ...user } } }
-    )
+export const localUpdateUser = (user: Universis.User) => (
+    dispatch => {
+        const userDetail = Store.getState().user.user.payload
+        const identity = Store.getState().user.identity.payload
+        const update: any = {}
+
+        if (userDetail && userDetail._id === (user as Universis.User)._id) {
+            update.user = { payload: { ...user } }
+        }
+
+        if (identity && identity._id === (user as Universis.User)._id) {
+            update.identity = { payload: { ...user } }
+            Cookies.set(Cookies.KEYS.IDENTITY, { ...Cookies.getJson(Cookies.KEYS.IDENTITY), ...user }, Cookies.EXPIRATIONS.IDENTITY)
+        }
+
+        dispatch(Redux.setAction(ActionTypes.LOCAL_UPDATE_USER, update))
+    }
 )
 
 /**

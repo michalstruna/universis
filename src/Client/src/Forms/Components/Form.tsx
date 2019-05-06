@@ -113,6 +113,16 @@ class Form extends StatelessComponent<IProps> {
         </button>
     )
 
+    public static getFormData = data => {
+        const formData = new FormData()
+
+        for (const i in data) {
+            formData.append(i, data[i] instanceof FileList ? data[i][0] : data[i])
+        }
+
+        return formData
+    }
+
     public render(): React.ReactNode {
         const { children, onSubmit, invalid, sending } = this.props
 

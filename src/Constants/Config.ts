@@ -63,6 +63,10 @@ export default {
         hash: {
             rounds: 10
         }
+    },
+
+    file: {
+        maxSize: 1048576 // Uploaded file (user avatar, body texture, ...) can have max. 1 MiB.
     }
 
 }

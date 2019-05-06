@@ -2,7 +2,7 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 import { Field as ReduxField } from 'redux-form'
 
-import { StatelessComponent } from '../../Utils'
+import { Component } from '../../Utils'
 import Strings from '../../../../Utils/Strings'
 
 interface IType {
@@ -17,12 +17,17 @@ interface IProps {
     validator?: Universis.Function<string | number | boolean, string | undefined>
     required?: string
     invalid?: string
+    preview?: string
+}
+
+interface IState {
+    preview: any
 }
 
 /**
  * Form field for any input (text, number, email, password, ...).
  */
-class Field extends StatelessComponent<IProps> {
+class Field extends Component<IProps, IState> {
 
     /**
      * Plain text type.
@@ -72,9 +77,24 @@ class Field extends StatelessComponent<IProps> {
         validator: value => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value)
     }
 
+    public static IMAGE = {
+        name: 'file',
+        validator: value => true
+    }
+
     public static defaultProps = {
         type: Field.TEXT,
         label: ''
+    }
+
+    private file: HTMLInputElement
+
+    public constructor(props) {
+        super(props)
+
+        this.state = {
+            preview: this.props.preview
+        }
     }
 
     /**
@@ -96,6 +116,45 @@ class Field extends StatelessComponent<IProps> {
         return undefined
     }
 
+
+    private handleChangeImage = () => {
+        const reader = new FileReader()
+
+        reader.onload = event => {
+            this.setState({ preview: (event.target as any).result })
+        }
+
+        if (this.file.files[0]) {
+            reader.readAsDataURL(this.file.files[0])
+        } else {
+            this.setState({ preview: this.props.preview })
+        }
+    }
+
+    private renderImage(data): React.ReactNode {
+        const { input: { value: trueValue, ...iProps }, meta: trueMeta, ...props } = data
+
+        const { label, type, required, preview } = this.props
+        const { touched, error } = data.meta
+        const blockClassName = ClassNames('form__block', `form__block--${type.name}`, { 'form__block--error': touched && !!error }, { 'form__block--empty': !trueValue }, { 'form__block--required': !!required })
+        const inputProps = { ...iProps, autoComplete: 'off', className: 'form__field form__field--' + type.name }
+
+
+        return (
+            <label className={blockClassName} style={{ backgroundImage: preview ? `url(${this.state.preview})` : null }}>
+                <input
+                    {...inputProps}
+                    {...props}
+                    onChange={this.handleChangeImage}
+                    type='file'
+                    ref={ref => this.file = ref} />
+                <p className='form__label'>
+                    {touched && error ? error : label}
+                </p>
+            </label>
+        )
+    }
+
     /**
      * Render component.
      * @param data
@@ -115,6 +174,10 @@ class Field extends StatelessComponent<IProps> {
                     </p>
                 </label>
             )
+        }
+
+        if (type === Field.IMAGE) {
+            return this.renderImage(data)
         }
 
         return (

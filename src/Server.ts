@@ -19,7 +19,9 @@ class Server implements Universis.Server {
 
     constructor() {
         this.express = Express()
-        this.express.use(Compression())
+        this.express.use(Compression({
+            keepExtension: true
+        }))
 
         this.express.all('*', (request, response, next) => {
             for (const i in Config.headers) {
@@ -29,7 +31,11 @@ class Server implements Universis.Server {
             next()
         })
 
-        this.express.use(ExpressFormidable())
+        this.express.use(ExpressFormidable({
+            keepExtensions: true,
+            maxFileSize: 1048576,
+            uploadDir: Path.join(__dirname, 'Public/Images/Uploaded').replace('/dist/', '/src/')
+        }))
     }
 
     public run(port: number): void {
