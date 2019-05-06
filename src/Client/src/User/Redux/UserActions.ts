@@ -294,3 +294,43 @@ export const localUpdateUser = (user: Universis.User.New) => (
         { user: { payload: { ...user } } }
     )
 )
+
+/**
+ * Change user score.
+ * @param userId
+ * @param score
+ */
+export const receiveUserScoreChange = (userId: string, score: any) => (
+    dispatch => {
+        const userDetail = Store.getState().user.user.payload
+        const identity = Store.getState().user.identity.payload
+        const incScore = { score: { [score.type]: { $inc: score.count } } }
+
+        if (userDetail && userDetail._id === userId) {
+            dispatch(
+                Redux.setAction(
+                    ActionTypes.RECEIVE_USER_SCORE_CHANGE,
+                    { user: { payload: incScore } }
+                )
+            )
+        }
+
+        if (identity && identity._id === userId) {
+            dispatch(
+                Redux.setAction(
+                    ActionTypes.RECEIVE_USER_SCORE_CHANGE,
+                    { identity: { payload: incScore } }
+                )
+            )
+
+            Cookies.set(Cookies.KEYS.IDENTITY, Store.getState().user.identity.payload, Cookies.EXPIRATIONS.IDENTITY)
+        }
+
+        dispatch(
+            Redux.setAction(
+                ActionTypes.RECEIVE_USER_SCORE_CHANGE,
+                { onlineUsers: { $find: onlineUser => onlineUser && onlineUser._id === userId, score: incScore.score } }
+            )
+        )
+    }
+)
