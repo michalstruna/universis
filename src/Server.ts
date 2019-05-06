@@ -1,10 +1,10 @@
-import * as BodyParser from 'body-parser'
 import * as Compression from 'compression'
 import * as Express from 'express'
 import * as SwaggerUi from 'swagger-ui-express'
 import * as OpenApi from 'express-openapi'
 import * as Path from 'path'
 import * as Http from 'http'
+import * as ExpressFormidable from 'express-formidable'
 
 import { Config } from './Constants'
 import SwaggerDocument from './Swagger'
@@ -19,7 +19,6 @@ class Server implements Universis.Server {
 
     constructor() {
         this.express = Express()
-        this.express.use(BodyParser.json())
         this.express.use(Compression())
 
         this.express.all('*', (request, response, next) => {
@@ -29,6 +28,8 @@ class Server implements Universis.Server {
 
             next()
         })
+
+        this.express.use(ExpressFormidable())
     }
 
     public run(port: number): void {

@@ -49,6 +49,9 @@ class Route {
      */
     private static process(action: IRouteAction, resultMap: IResultMap = defaultResultMap, isAuthorized: IIsAuthorized = defaultIsAuthorized): IRequestHandler {
         return async (request, response) => {
+            // TODO: Because of replace BodyParser by Formidable. Refactor?
+            request.body = request.fields
+
             let user
 
             const requestData = {
