@@ -2,9 +2,9 @@ import { request, exit } from 'screenfull'
 
 import ActionTypes from './ActionTypes'
 import { Config, Redux } from '../../Utils'
-import { receiveMessage, receiveRemoveMessage } from '../../User/Redux/UserActions'
+import { receiveMessage, receiveRemoveMessage, receiveUserScoreChange } from '../../User/Redux/UserActions'
 import { receiveRemoveApproval, receiveApproval } from '../../Approvals/Redux/ApprovalsActions'
-import { ApprovalState, Operation, SubjectType } from '../../../../Constants'
+import { ApprovalState, Operation, SubjectType, UserScore } from '../../../../Constants'
 import {
     receiveEvent,
     receiveUpdatedEvent,
@@ -69,6 +69,9 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
         } else if (notification.approvalState === ApprovalState.APPROVED) {
             const body = Store.getState().universe.body.payload
             const bodies = Store.getState().universe.bodies.payload
+            const user = Store.getState().user.user.payload
+            const identity = Store.getState().user.identity.payload
+            const score = UserScore[notification.subjectType]
 
             switch (notification.subjectType) {
                 case SubjectType.EVENT:
@@ -121,8 +124,6 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
                     break
 
                 case SubjectType.BODY:
-                    console.log(notification)
-
                     if (bodies) {
                         switch (notification.operation) {
                             case Operation.ADD:
@@ -138,8 +139,12 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
                     }
             }
 
+            if (score) {
+                if (notification.subjectType !== SubjectType.POST_VOTE && notification.user) {
+                    dispatch(receiveUserScoreChange(user._id, score))
+                }
+            }
         }
-
 
         dispatch(receiveMessage(notification))
 

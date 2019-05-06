@@ -1,5 +1,5 @@
 import Model from './Model'
-import { ApprovalState, DatabaseModel, Operation, SubjectType } from '../Constants'
+import { ApprovalState, DatabaseModel, Operation, SubjectType, UserScore } from '../Constants'
 import NotificationModel from './NotificationModel'
 
 class ApprovalModel extends Model implements Universis.Approval.Model {
@@ -10,9 +10,12 @@ class ApprovalModel extends Model implements Universis.Approval.Model {
         [SubjectType.BODY]: DatabaseModel.BODY
     }
 
+    private userDbModel: Universis.Database.Model
+
     public constructor() {
         super()
         this.dbModel = this.db.getModel(DatabaseModel.APPROVAL)
+        this.userDbModel = this.db.getModel(DatabaseModel.USER)
     }
 
     public async add(approval: Universis.Approval.New): Promise<Universis.Approval> {
@@ -38,9 +41,18 @@ class ApprovalModel extends Model implements Universis.Approval.Model {
                     approval.after = await model.updateOne({ _id: before._id }, after)
                     break
             }
+
+            const score = UserScore[notification.subjectType]
+
+            if (notification.userId && score) {
+                this.userDbModel.updateOne({ _id: notification.userId }, { $inc: { [`score.${score.type}`]: score.count } })
+            }
         }
 
-        NotificationModel.update({ _id: approval.notification._id }, { approvalState: ApprovalState.APPROVED, payload: approval } as any)
+        NotificationModel.update({ _id: approval.notification._id }, {
+            approvalState: ApprovalState.APPROVED,
+            payload: approval
+        } as any)
     }
 
     public async disapprove(approvalId: string): Promise<void> {

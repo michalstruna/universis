@@ -1,5 +1,6 @@
-import { DatabaseModel, SubjectType } from '../Constants'
+import { DatabaseModel, SubjectType, UserScore } from '../Constants'
 import ItemModel from './ItemModel'
+import UserModel from './UserModel'
 
 export default new ItemModel<Universis.Message, Universis.Message, Universis.Message.New>({
     dbModel: DatabaseModel.MESSAGE,
@@ -12,6 +13,10 @@ export default new ItemModel<Universis.Message, Universis.Message, Universis.Mes
         joinAll: ['userId', 'targetUserId']
     },
     add: {
-        notification: true
+        notification: true,
+        onAfter: item => {
+            const score = UserScore[SubjectType.MESSAGE]
+            UserModel.update({ _id: (item as any).userId }, { $inc: { [`score.${score.type}`]: score.count } })
+        }
     }
 })

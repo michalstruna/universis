@@ -86,7 +86,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
 
             item = await this.dbModel.removeOne<Full>(filter, options)
 
-            if (remove.onAfter) {
+            if (item && remove.onAfter) {
                 await remove.onAfter(item, filter, options, this)
             }
         }

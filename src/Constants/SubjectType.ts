@@ -8,7 +8,8 @@ enum SubjectType {
     BODY,
     EVENT,
     POST,
-    BODY_TYPE
+    BODY_TYPE,
+    POST_VOTE
 
 }
 
