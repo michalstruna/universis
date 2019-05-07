@@ -64,7 +64,7 @@ class BodyTypeForm extends StatelessComponent<IProps & InjectedFormProps<IValues
                             label={strings.texture}
                             required={strings.texture}
                             type={Field.IMAGE}
-                            preview={selectedBodyType ? `/Images/Uploaded/${selectedBodyType.texture}` : null}
+                            preview={selectedBodyType ? `/${selectedBodyType.texture}` : null}
                             name='texture' />
                     </section>
                 </Form.FlexRow>

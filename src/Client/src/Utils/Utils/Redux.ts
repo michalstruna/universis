@@ -283,14 +283,14 @@ class Redux {
     }
 
     public static parseFormData(formData: any, exclude: string[] = []): any {
-        const result = {}
+        const result: any = {}
         formData.forEach((item, index) => {
             if (!exclude.includes(index)) {
-                result[index] = item === 'true' ? true : (item === 'false' ? false : item)
+                result[index] = JSON.parse(item)
             }
         })
 
-        return result
+        return result.__stringData ? result.__stringData : result
     }
 
 }

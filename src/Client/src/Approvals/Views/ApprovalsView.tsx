@@ -37,7 +37,7 @@ class ApprovalsView extends View<IProps> {
 
         const texture = data.texture ? (
             <>
-                <img src={`/Images/Uploaded/${data.texture}`} />
+                <img src={`/${data.texture}`} />
                 <section className='approvals__block--right'>
                     {this.renderDiffValue(approval, ['texture'], isAfter)}
                 </section>

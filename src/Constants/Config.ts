@@ -1,3 +1,5 @@
+import * as Path from 'path'
+
 export default {
 
     /**
@@ -66,7 +68,9 @@ export default {
     },
 
     file: {
-        maxSize: 1048576 // Uploaded file (user avatar, body texture, ...) can have max. 1 MiB.
+        maxSize: 2 * 1048576, // Uploaded file (user avatar, body texture, ...) can have max. 2 MiB.
+        dynamicPath: Path.join(__dirname, '../../files'),
+        staticPath: Path.join(__dirname, '../Public')
     }
 
 }

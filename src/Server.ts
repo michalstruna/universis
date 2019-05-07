@@ -30,12 +30,6 @@ class Server implements Universis.Server {
 
             next()
         })
-
-        this.express.use(ExpressFormidable({
-            keepExtensions: true,
-            maxFileSize: 1048576,
-            uploadDir: Path.join(__dirname, 'Public/Images/Uploaded').replace('/dist/', '/src/')
-        }))
     }
 
     public run(port: number): void {
@@ -48,8 +42,18 @@ class Server implements Universis.Server {
         })
     }
 
-    public setStatic(path: string): void {
+    public setStaticPath(path: string): void {
         this.express.use(Express.static(path))
+    }
+
+    public setDynamicPath(path: string, maxSize: number): void {
+        this.express.use(ExpressFormidable({
+            keepExtensions: true,
+            maxFileSize: maxSize,
+            uploadDir: path
+        }))
+
+        this.setStaticPath(path)
     }
 
     public setRoutes(document: Universis.Map<any>, controllersPath: string, docPath: string): void {
