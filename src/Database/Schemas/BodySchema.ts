@@ -55,7 +55,7 @@ const BodySchema = new Schema({
         axis: {
             period: {
                 type: Number,
-                required: true,
+                required: false,
                 min: 0
             },
 

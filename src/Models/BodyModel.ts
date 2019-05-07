@@ -1,4 +1,4 @@
-import { DatabaseModel, Operation, SubjectType } from '../Constants'
+import { DatabaseModel, Errors, Operation, SubjectType } from '../Constants'
 import ItemModel from './ItemModel'
 
 export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Simple, Universis.Universe.Body.New>({
@@ -75,7 +75,14 @@ export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Si
     },
     remove: {
         approval: true,
-        notification: true
+        notification: true,
+        onBefore: async (filter, options, model) => {
+            const childrenCount = await model.count({ parentId: filter._id })
+
+            if (childrenCount > 0) {
+                return Promise.reject(Errors.INTEGRITY_BREAK)
+            }
+        }
     },
     update: {
         approval: true,

@@ -79,11 +79,11 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
         const { remove, notifications } = this.options
         let item
 
-        if (!remove.approval) {
-            if (remove.onBefore) {
-                await remove.onBefore(filter, options, this)
-            }
+        if (remove.onBefore) {
+            await remove.onBefore(filter, options, this)
+        }
 
+        if (!remove.approval) {
             item = await this.dbModel.removeOne<Full>(filter, options)
 
             if (item && remove.onAfter) {

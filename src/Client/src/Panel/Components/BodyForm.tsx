@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { InjectedFormProps } from 'redux-form'
+import { InjectedFormProps, getFormValues } from 'redux-form'
 
 import { StatelessComponent } from '../../Utils'
 import { Field, Form, Select } from '../../Forms'
@@ -14,10 +14,12 @@ interface IProps {
     updateBody: Universis.Consumer2<string, Universis.Universe.Body.New>
     bodyTypes: Universis.Redux.AsyncEntity<Universis.Universe.Body.Type[]>
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
+    currentValues: IValues
 }
 
 interface IValues extends Universis.Universe.Body.New {
     composition: any
+    move: string
 }
 
 /**
@@ -63,6 +65,100 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         }
     }
 
+    private renderTexture(): React.ReactNode {
+        const { strings, selectedBody, currentValues, bodyTypes } = this.props
+
+        const bodyType = bodyTypes.payload.find(bodyType => bodyType._id === currentValues.typeId)
+
+        if (bodyType.particlesGenerator) {
+            return (
+                <>
+                    <Field
+                        label={strings.particlesCount}
+                        name='particles.count'
+                        type={Field.NUMBER} />
+                    <Field
+                        label={strings.particlesSize}
+                        name='particles.size'
+                        type={Field.NUMBER} />
+                    <Field
+                        label={strings.particlesThickness}
+                        name='particles.thickness'
+                        type={Field.NUMBER} />
+                </>
+            )
+        } else {
+            return (
+                <Field
+                    label={strings.texture}
+                    type={Field.IMAGE}
+                    preview={selectedBody ? `/Images/Uploaded/${selectedBody.texture}` : null}
+                    name='texture' />
+            )
+        }
+
+    }
+
+    private renderMove(): React.ReactNode {
+        const { strings, currentValues } = this.props
+
+        if (currentValues.move === '1') {
+            return (
+                <>
+                    <Form.FlexRow>
+                        <Field
+                            label={strings.apsis}
+                            required={strings.apsis}
+                            name='orbit.apsis'
+                            type={Field.NUMBER} />
+                        <Field
+                            label={strings.periapsis}
+                            required={strings.periapsis}
+                            name='orbit.periapsis'
+                            type={Field.NUMBER} />
+                        <Field
+                            label={strings.eccentricity}
+                            name='orbit.eccentricity'
+                            type={Field.NUMBER} />
+                    </Form.FlexRow>
+                    <Form.FlexRow>
+                        <Field
+                            label={strings.inclination}
+                            name='orbit.inclination'
+                            type={Field.NUMBER} />
+                        <Field
+                            label={strings.rotation}
+                            name='orbit.rotation'
+                            type={Field.NUMBER} />
+                        <Field
+                            label={strings.orbitInitialDate}
+                            name='orbit.initialDate' />
+                    </Form.FlexRow>
+                </>
+            )
+        } else {
+            return (
+                <Form.FlexRow>
+                    <Field
+                        label={strings.alpha}
+                        name='position.alpha'
+                        required={strings.alpha}
+                        type={Field.NUMBER} />
+                    <Field
+                        label={strings.beta}
+                        required={strings.beta}
+                        name='position.beta'
+                        type={Field.NUMBER} />
+                    <Field
+                        label={strings.distance}
+                        required={strings.distance}
+                        type={Field.NUMBER}
+                        name='position.distance' />
+                </Form.FlexRow>
+            )
+        }
+    }
+
     private parseComposition = (composition: string) => (
         composition.split(';').filter(item => !!item).map(item => ({
             element: item.split('=')[0],
@@ -71,7 +167,11 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     )
 
     private renderInnerForm(): React.ReactNode {
-        const { strings, toggleBodyForm, bodyTypes, bodies, selectedBody } = this.props
+        const { strings, toggleBodyForm, bodyTypes, bodies, selectedBody, currentValues } = this.props
+
+        if (!currentValues) {
+            return null
+        }
 
         return (
             <>
@@ -84,15 +184,17 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                         <label className='form__block'>
                             <Select
                                 name='parentId'
+                                label={strings.parent}
                                 options={bodies.payload.map(body => ({
                                     text: body.name,
                                     value: body._id
-                                }))}
-                                withEmpty={strings.centerBody} />
+                                }))} />
                         </label>
                         <label className='form__block'>
                             <Select
                                 name='typeId'
+                                label={strings.type}
+                                required={strings.type}
                                 options={bodyTypes.payload.map(bodyType => ({
                                     text: bodyType.name,
                                     value: bodyType._id
@@ -104,13 +206,17 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                             type={Field.TEXT_AREA}
                             label={strings.description}
                             name='description' />
+                        <Select
+                            name='move'
+                            label={strings.move}
+                            required={strings.move}
+                            options={[
+                                { text: 'Periodický', value: 1 },
+                                { text: 'Statický', value: 0 }
+                            ]} />
                     </section>
                     <section>
-                        <Field
-                            label={strings.texture}
-                            type={Field.IMAGE}
-                            preview={selectedBody ? `/Images/Uploaded/${selectedBody.texture}` : null}
-                            name='texture' />
+                        {this.renderTexture()}
                     </section>
                 </Form.FlexRow>
                 <Form.FlexRow>
@@ -143,10 +249,10 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                         name='temperature.outer'
                         type={Field.NUMBER} />
                 </Form.FlexRow>
+                {this.renderMove()}
                 <Form.FlexRow>
                     <Field
                         label={strings.axisPeriod}
-                        required={strings.axisPeriod}
                         name='axis.period'
                         type={Field.NUMBER} />
                     <Field
@@ -156,35 +262,6 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                     <Field
                         label={strings.axisInitialDate}
                         name='axis.initialDate' />
-                </Form.FlexRow>
-                <Form.FlexRow>
-                    <Field
-                        label={strings.apsis}
-                        required={strings.apsis}
-                        name='orbit.apsis'
-                        type={Field.NUMBER} />
-                    <Field
-                        label={strings.periapsis}
-                        required={strings.periapsis}
-                        name='orbit.periapsis'
-                        type={Field.NUMBER} />
-                    <Field
-                        label={strings.eccentricity}
-                        name='orbit.eccentricity'
-                        type={Field.NUMBER} />
-                </Form.FlexRow>
-                <Form.FlexRow>
-                    <Field
-                        label={strings.inclination}
-                        name='orbit.inclination'
-                        type={Field.NUMBER} />
-                    <Field
-                        label={strings.rotation}
-                        name='orbit.rotation'
-                        type={Field.NUMBER} />
-                    <Field
-                        label={strings.orbitInitialDate}
-                        name='orbit.initialDate' />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
@@ -207,7 +284,6 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                     <Field
                         label={strings.discover}
                         name='discover.date' />
-                    <section />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
@@ -262,7 +338,7 @@ const parseComposition = (composition: any[]): string => (
 )
 
 export default BodyForm.connect(
-    ({ system, universe, panel: { selectedBody } }: Universis.Redux.StoreState) => ({
+    ({ system, universe, panel: { selectedBody }, form }: Universis.Redux.StoreState) => ({
         strings: system.strings.body,
         bodyTypes: universe.bodyTypes,
         bodies: universe.bodies,
@@ -273,9 +349,14 @@ export default BodyForm.connect(
             atmosphere: selectedBody.atmosphere ? {
                 ...selectedBody.atmosphere,
                 composition: selectedBody.atmosphere.composition ? parseComposition(selectedBody.atmosphere.composition) : null
-            } : null
-        } : null,
-        selectedBody
+            } : null,
+            move: selectedBody.orbit ? '1' : '0'
+        } : {
+            typeId: universe.bodyTypes.payload && universe.bodyTypes.payload[0] ? universe.bodyTypes.payload[0]._id : null,
+            move: '1'
+        },
+        selectedBody,
+        currentValues: getFormValues(BodyForm.NAME)({ form })
     }),
     { toggleBodyForm, addBody, updateBody },
     {

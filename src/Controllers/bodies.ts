@@ -8,7 +8,7 @@ export default Route.getRouteGroupForAll(BodyModel, {
         mapBefore: ({ body, files }) => {
             const result = { ...body }
 
-            if (result.texture) {
+            if (files.texture) {
                 result.texture = files.texture.path.split('/').pop()
             }
 
