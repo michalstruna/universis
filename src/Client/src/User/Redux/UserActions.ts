@@ -278,8 +278,6 @@ export const updateUser = (userId: string, user: Universis.User.New) => (
         ActionTypes.UPDATE_USER,
         { editedUser: Request.put(`users/${userId}`, user) },
         (result, dispatch) => {
-
-
             dispatch(toggleUserForm(false))
             dispatch(localUpdateUser({ ...Redux.parseFormData(user, ['avatar']), _id: userId }))
         }
