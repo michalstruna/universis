@@ -63,16 +63,48 @@ class BodyDiscussion extends StatelessComponent<IProps> {
         const { body, strings } = this.props
 
         const users = []
+        const topUsers = {}
 
         for (const discussion of body.payload.discussions) {
             if ((discussion.user && !users.includes(discussion.user._id)) || !users.includes(discussion.ip)) {
                 users.push(discussion.user ? discussion.user._id : discussion.ip)
+
+                if (discussion.user) {
+                    if (!topUsers[discussion.user.name]) {
+                        topUsers[discussion.user.name] = { name: discussion.user.name, favorite: 0, active: 0 }
+                    }
+
+                    topUsers[discussion.user.name].favorite += discussion.votes.reduce((accumulator, value) => accumulator + (value.isPositive ? 1 : -1), 0)
+                    topUsers[discussion.user.name].active++
+                }
             }
 
             for (const answer of discussion.answers) {
                 if ((answer.user && !users.includes(answer.user._id)) || !users.includes(answer.ip)) {
                     users.push(answer.user ? answer.user._id : answer.ip)
+
+                    if (answer.user) {
+                        if (!topUsers[answer.user.name]) {
+                            topUsers[answer.user.name] = { name: answer.user.name, favorite: 0, active: 0 }
+                        }
+
+                        topUsers[answer.user.name].favorite += answer.votes.reduce((accumulator, value) => accumulator + (value.isPositive ? 1 : -1), 0)
+                        topUsers[answer.user.name].active++
+                    }
                 }
+            }
+        }
+
+        let favoriteUser
+        let activeUser
+
+        for (const user in topUsers) {
+            if (!favoriteUser || topUsers[user].favorite > favoriteUser.favorite) {
+                favoriteUser = topUsers[user]
+            }
+
+            if (!activeUser || topUsers[user].active > activeUser.active) {
+                activeUser = topUsers[user]
             }
         }
 
@@ -84,8 +116,8 @@ class BodyDiscussion extends StatelessComponent<IProps> {
                     [strings.usersCount]: users.length
                 }} />
                 <DataTable data={{
-                    [strings.mostFavorite]: 'Václav',
-                    [strings.mostActive]: 'Michal',
+                    [strings.mostFavorite]: favoriteUser ? favoriteUser.name : null,
+                    [strings.mostActive]: activeUser ? activeUser.name : null,
                     '': this.renderToggleNewDiscussion
                 }} />
             </header>
