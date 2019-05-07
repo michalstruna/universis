@@ -37,11 +37,7 @@ class TextureStore {
      * @return THREE texture.
      */
     private static load(name: string): Texture {
-        const texture = TextureStore.loader.load(Config.TEXTURES_PATH + name)
-        //texture.wrapS = texture.wrapT = RepeatWrapping
-        //texture.repeat.set(2, 1)
-        //texture.offset.set(texture.repeat.x * 2, texture.repeat.y)
-        return texture
+        return TextureStore.loader.load(Config.TEXTURES_PATH + name)
     }
 
 }

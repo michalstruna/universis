@@ -92,7 +92,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                 <Field
                     label={strings.texture}
                     type={Field.IMAGE}
-                    preview={selectedBody ? `/Images/Uploaded/${selectedBody.texture}` : null}
+                    preview={selectedBody ? `/${selectedBody.texture}` : null}
                     name='texture' />
             )
         }

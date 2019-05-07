@@ -9,7 +9,14 @@ declare namespace Universis {
          * Set path for static files.
          * @param path Path of static files.
          */
-        setStatic(path: string): void
+        setStaticPath(path: string): void
+
+        /**
+         * Set path for dynamic files.
+         * @param path Path of dynamic files.
+         * @param maxSize Max file size [B].
+         */
+        setDynamicPath(path: string, maxSize: number): void
 
         /**
          * Set API documentation with swagger.

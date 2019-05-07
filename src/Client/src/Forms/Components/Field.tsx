@@ -131,11 +131,11 @@ class Field extends Component<IProps, IState> {
     }
 
     private renderImage(data): React.ReactNode {
-        const { input: { value: trueValue, ...iProps }, meta: trueMeta, ...props } = data
+        const { input: { value, ...iProps }, meta: trueMeta, ...props } = data
 
-        const { label, type, required, preview } = this.props
+        const { label, type, required } = this.props
         const { touched, error } = data.meta
-        const blockClassName = ClassNames('form__block', `form__block--${type.name}`, { 'form__block--error': touched && !!error }, { 'form__block--empty': !trueValue }, { 'form__block--required': !!required })
+        const blockClassName = ClassNames('form__block', `form__block--${type.name}`, { 'form__block--error': touched && !!error }, { 'form__block--empty': !value }, { 'form__block--required': !!required })
         const inputProps = { ...iProps, autoComplete: 'off', className: 'form__field form__field--' + type.name }
 
         return (
@@ -145,7 +145,6 @@ class Field extends Component<IProps, IState> {
                     {...props}
                     onChange={this.handleChangeImage}
                     type='file'
-                    value={''}
                     ref={ref => this.file = ref} />
                 <p className='form__label'>
                     {touched && error ? error : label}

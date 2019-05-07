@@ -21,7 +21,7 @@ export default {
     LIGHT_COLOR: 0x888888,
 
     /**
-     * Count of segments for distance from camera levers.
+     * Count of segments for distance from camera levels.
      * Each item is array [distance (in body diameters), segments count].
      */
     BODY_SEGMENTS: [[2, 1], [5, 3], [10, 5]],
@@ -44,7 +44,7 @@ export default {
     /**
      * Path of all textures.
      */
-    TEXTURES_PATH: '/Images/Uploaded/',
+    TEXTURES_PATH: '/',
 
     /**
      * Lets SEMI_VISIBILITY_EDGE = 20.

@@ -189,7 +189,7 @@ class Universe implements Universis.Universe {
         const target = this.scene.getCameraTarget()
         const visibility = this.getVisibility(body)
 
-        const isFullyRenderable = body.data.type.visible !== false && (body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id))))
+        const isFullyRenderable = body.data.type.visible !== false && (body.mesh === target || (isVisible && (visibility === Visibility.VISIBLE || (body.data.parentId && target.userData.parent && target.userData.parent.data._id === body.data._id && (!target.userData.parent.data.position || target.userData.parent.data.position.distance > 0)))))
 
         const orbit = body.orbit.children[0].children[0] as any
         orbit.material.opacity = visibility

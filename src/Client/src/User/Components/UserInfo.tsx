@@ -75,7 +75,7 @@ class UserInfo extends StatelessComponent<IProps> {
     }
 
     public static getAvatarPath(name?: string): string {
-        return name && name.replace ? '/Images/Uploaded/' + name.replace(/\//gi, '') : '/Images/User/Avatar.svg'
+        return name && name.replace ? '/' + name.replace(/\//gi, '') : '/Images/User/Avatar.svg'
     }
 
     /**

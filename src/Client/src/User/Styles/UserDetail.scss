@@ -195,7 +195,7 @@
                     }
 
                     &--file {
-                        width: 29%;
+                        @include size(29%, auto);
                     }
                 }
 

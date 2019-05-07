@@ -5,6 +5,7 @@ import { Config } from './Constants'
 import SwaggerDocument from './Swagger'
 
 const server = new Server()
-server.setStatic(Path.join(__dirname, './Public'))
+server.setStaticPath(Config.file.staticPath)
+server.setDynamicPath(Config.file.dynamicPath, Config.file.maxSize)
 server.setRoutes(SwaggerDocument, Path.join(__dirname, './Controllers'), '/api-docs')
 server.run(Config.port)
