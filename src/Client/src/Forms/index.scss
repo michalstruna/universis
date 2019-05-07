@@ -163,6 +163,7 @@
         }
 
         &--file {
+            @include size;
             border: 1px dashed $light-color;
             background: no-repeat center center;
             background-size: cover;

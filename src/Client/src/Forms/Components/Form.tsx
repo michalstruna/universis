@@ -114,11 +114,19 @@ class Form extends StatelessComponent<IProps> {
     )
 
     public static getFormData = data => {
+        const stringData = {}
+
         const formData = new FormData()
 
         for (const i in data) {
-            formData.append(i, data[i] instanceof FileList ? data[i][0] : data[i])
+            if (data[i] instanceof FileList) {
+                formData.append(i, data[i][0])
+            } else {
+                stringData[i] = data[i]
+            }
         }
+
+        formData.append('__stringData', JSON.stringify(stringData))
 
         return formData
     }

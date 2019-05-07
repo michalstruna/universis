@@ -119,7 +119,6 @@ class Field extends Component<IProps, IState> {
 
     private handleChangeImage = () => {
         const reader = new FileReader()
-
         reader.onload = event => {
             this.setState({ preview: (event.target as any).result })
         }
@@ -139,9 +138,8 @@ class Field extends Component<IProps, IState> {
         const blockClassName = ClassNames('form__block', `form__block--${type.name}`, { 'form__block--error': touched && !!error }, { 'form__block--empty': !trueValue }, { 'form__block--required': !!required })
         const inputProps = { ...iProps, autoComplete: 'off', className: 'form__field form__field--' + type.name }
 
-
         return (
-            <label className={blockClassName} style={{ backgroundImage: preview ? `url(${this.state.preview})` : null }}>
+            <label className={blockClassName} style={{ backgroundImage: this.state.preview ? `url(${this.state.preview})` : null }}>
                 <input
                     {...inputProps}
                     {...props}

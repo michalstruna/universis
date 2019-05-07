@@ -136,6 +136,10 @@ $approval-gap-width: 2rem;
             text-align: right;
             padding: 0.5rem 0;
         }
+
+        &--left, &--right {
+            overflow: hidden;
+        }
     }
 
     &__code {

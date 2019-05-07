@@ -44,7 +44,7 @@ export default {
     /**
      * Path of all textures.
      */
-    TEXTURES_PATH: '/Images/Universe/Textures/',
+    TEXTURES_PATH: '/Images/Uploaded/',
 
     /**
      * Lets SEMI_VISIBILITY_EDGE = 20.

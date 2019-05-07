@@ -36,10 +36,12 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         const { reset, addBody, selectedBody, updateBody } = this.props
 
         try {
-            const result = { ...data } as any
+            let result = { ...data } as any
 
             if (result.composition) {
                 result.composition = this.parseComposition(result.composition)
+            } else {
+                result.composition = []
             }
 
             if (result.atmosphere && result.atmosphere.composition) {
@@ -51,6 +53,8 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
                 result.atmosphere.composition = []
             }
+
+            result = Form.getFormData(result)
 
             await selectedBody ? updateBody(selectedBody._id, result) : addBody(result)
             reset()
@@ -67,7 +71,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     )
 
     private renderInnerForm(): React.ReactNode {
-        const { strings, toggleBodyForm, bodyTypes, bodies } = this.props
+        const { strings, toggleBodyForm, bodyTypes, bodies, selectedBody } = this.props
 
         return (
             <>
@@ -86,14 +90,6 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                                 }))}
                                 withEmpty={strings.centerBody} />
                         </label>
-                    </section>
-                    <section>
-                        <Field
-                            type={Field.TEXT_AREA}
-                            label={strings.description}
-                            name='description' />
-                    </section>
-                    <section>
                         <label className='form__block'>
                             <Select
                                 name='typeId'
@@ -102,8 +98,18 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                                     value: bodyType._id
                                 }))} />
                         </label>
+                    </section>
+                    <section>
+                        <Field
+                            type={Field.TEXT_AREA}
+                            label={strings.description}
+                            name='description' />
+                    </section>
+                    <section>
                         <Field
                             label={strings.texture}
+                            type={Field.IMAGE}
+                            preview={selectedBody ? `/Images/Uploaded/${selectedBody.texture}` : null}
                             name='texture' />
                     </section>
                 </Form.FlexRow>

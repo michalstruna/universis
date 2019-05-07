@@ -27,7 +27,7 @@ class UserInfo extends StatelessComponent<IProps> {
     public static readonly DEFAULT_USER = {
         email: null,
         name: 'Nepřihlášený',
-        avatar: '/Images/User/Avatar.svg',
+        avatar: '',
         role: UserRole.UNAUTHANTICATED,
         score: {
             gold: 0,

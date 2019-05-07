@@ -53,6 +53,11 @@ class Route {
             // TODO: Because of replace BodyParser by Formidable. Refactor?
             request.body = request.fields
 
+            if (request.body.__stringData) {
+                request.body = { ...request.body, ...JSON.parse(request.body.__stringData) }
+                delete request.body.__stringData
+            }
+
             let user
 
             const requestData = {

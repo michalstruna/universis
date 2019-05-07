@@ -112,8 +112,6 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     private renderRole(): React.ReactNode {
         const { strings, identity, user } = this.props
 
-        console.log(this.props.initialValues)
-
         if (identity.payload && identity.payload.role === UserRole.ADMIN && identity.payload._id !== user.payload._id) {
             return (
                 <Select
