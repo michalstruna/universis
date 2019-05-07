@@ -106,7 +106,7 @@ declare namespace Universis.Model {
             /**
              * Get link of notification.
              */
-            linkAccessor?: Universis.Function2<any, Item.Model<Full, Simple, New>, string | Promise<string>>
+            linkAccessor?: Universis.Function3<any, Item.Model<Full, Simple, New>, number, string | Promise<string>>
 
             /**
              * Get text of notification.

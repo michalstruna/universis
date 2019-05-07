@@ -6,8 +6,9 @@ export default new EntityModel<Universis.Universe.Body.Type, Universis.Universe.
     notifications: {
         subjectNameAccessor: bodyType => bodyType.name,
         subjectTypeAccessor: () => SubjectType.BODY_TYPE,
-        //userIdAccessor: bodyType => bodyType.userId,
-        textAccessor: bodyType => bodyType.name
+        userIdAccessor: bodyType => bodyType.userId,
+        textAccessor: bodyType => bodyType.name,
+        linkAccessor: () => `?panel=db&db-tab=types`,
     },
     add: {
         notification: true,

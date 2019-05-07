@@ -26,6 +26,12 @@ class Message extends StatelessComponent<IProps> {
             return null
         }
 
+        if (message.link.startsWith('?')) {
+            return (
+                <Link className='panel__chat__message__link' query={message.link} />
+            )
+        }
+
         return (
             <Link className='panel__chat__message__link' target={message.link} />
         )

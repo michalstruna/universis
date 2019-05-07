@@ -165,7 +165,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             userId: userIdAccessor ? await userIdAccessor(item, this) : undefined,
             targetUserId: targetUserIdAccessor ? await targetUserIdAccessor(item, this) : undefined,
             text: textAccessor ? await textAccessor(item, this) : undefined,
-            link: linkAccessor ? await linkAccessor(item, this) : undefined,
+            link: linkAccessor ? await linkAccessor(item, this, operation) : undefined,
             approvalState: isApproved ? ApprovalState.APPROVED : ApprovalState.UNAPPROVED,
             payload
         }

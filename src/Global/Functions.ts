@@ -45,4 +45,10 @@ declare namespace Universis {
      */
     export type Function2<P1, P2, T> = (parameter1: P1, parameter2: P2) => T
 
+    /**
+     * Function3 has three parameters and return value.
+     */
+    export type Function3<P1, P2, P3, T> = (parameter1: P1, parameter2: P2, parameter3: P3) => T
+
+
 }
