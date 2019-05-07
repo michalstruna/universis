@@ -7,7 +7,6 @@ import { UserRole } from '../../Constants'
 /**
  * DB schema for users.
  * There should be { select: false } in option for password field.
- * Name by user is by default part of email before '@' char. // TODO: Duplicate names?
  */
 const UserSchema = new Schema({
 
@@ -29,7 +28,7 @@ const UserSchema = new Schema({
         unique: true,
         required: true,
         default: function () {
-            return Strings.capitalize(Strings.getPrefix(this.email, '@'))
+            return Strings.capitalize(this.email.replace('@', ''))
         }
     },
 
@@ -49,11 +48,6 @@ const UserSchema = new Schema({
             default: 0
         },
         bronze: {
-            type: Number,
-            required: true,
-            default: 0
-        },
-        karma: {
             type: Number,
             required: true,
             default: 0
