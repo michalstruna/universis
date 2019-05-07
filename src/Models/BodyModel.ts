@@ -22,7 +22,7 @@ export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Si
             { $unwind: '$type' },
             { $lookup: { from: 'bodyevents', localField: '_id', foreignField: 'bodyId', as: 'events' } },
             { $lookup: { from: 'bodies', localField: 'parentId', foreignField: '_id', as: 'parent' } },
-            { $unwind: '$parent' },
+            { $unwind: { path: '$parent', preserveNullAndEmptyArrays: true } },
             {
                 $lookup: {
                     from: 'bodyposts',
