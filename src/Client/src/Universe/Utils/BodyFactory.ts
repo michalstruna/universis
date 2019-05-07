@@ -44,7 +44,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
 
             mesh = new THREE.Points(geometry, new THREE.PointsMaterial({
                 color: 0xbbbbbb,
-                size: 1,
+                size: body.particles.size || 1,
                 sizeAttenuation: false
             }))
         } else {

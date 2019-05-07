@@ -145,6 +145,7 @@ class Field extends Component<IProps, IState> {
                     {...props}
                     onChange={this.handleChangeImage}
                     type='file'
+                    value={''}
                     ref={ref => this.file = ref} />
                 <p className='form__label'>
                     {touched && error ? error : label}

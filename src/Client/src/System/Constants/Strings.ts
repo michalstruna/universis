@@ -166,7 +166,17 @@ export default {
         ringMaxDIameter: 'Max. prům. prst. [km]',
         ringTexture: 'Textura prstence',
 
-        centerBody: '--- Centrální těleso ---'
+        centerBody: '--- Centrální těleso ---',
+
+        particlesCount: 'Počet částic',
+        particlesThickness: 'Vnitřní poloměr částic',
+        particlesSize: 'Velikost částic',
+        parent: 'Nadřazené těleso',
+        move: 'Pohyb',
+        alpha: 'Úhel X',
+        beta: 'Úhel Y',
+        distance: 'Vzdálenost',
+        nearest: 'Nejblíže k Zemi'
     },
 
     bodyData: {

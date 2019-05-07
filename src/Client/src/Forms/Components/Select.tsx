@@ -43,7 +43,7 @@ class Select extends StatelessComponent<IProps> {
     }
 
     public render(): React.ReactNode {
-        const { name, disabled, label, required } = this.props
+        const { name, disabled, label, required, options } = this.props
         const blockClassName = ClassNames('form__block', 'form__block--select', { 'form__block--required': !!required })
 
         return (
@@ -52,7 +52,7 @@ class Select extends StatelessComponent<IProps> {
                     disabled={disabled}
                     component='select'
                     name={name}
-                    value={null}>
+                    value={options && options[0] && options[0].value ? options[0].value : ''}>
                     {this.renderOptions()}
                 </Field>
                 <p className='form__label'>

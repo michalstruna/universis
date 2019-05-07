@@ -385,6 +385,8 @@ declare namespace Universis {
 
                 parentId: string
 
+                typeId: string
+
             }
 
             /**
