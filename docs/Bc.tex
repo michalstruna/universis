@@ -869,7 +869,7 @@ Po krátké chvíli bude aplikace dostupná v internetovém prohlížeči na adr
 
 \subsection{Hlavní stránka}
 
-Hlavní stránka aplikace obsahuje pouze nezbytné odkazy do dalších částí aplikace. Nepřihlášený vidí odkazy do simulátoru a~přihlašovací stránku. Přihlášený uživatel vidí taktéž odkaz do simulátoru, ale druhé tlačítko slouží pro odhlášení.
+Hlavní stránka aplikace obsahuje pouze nezbytné odkazy do dalších částí aplikace. Nepřihlášený vidí odkazy do simulátoru a~přihlašovací stránku. Přihlášený uživatel vidí taktéž odkaz do simulátoru, ale druhé tlačítko slouží pro přesměrování na jeho profil.
 
 \begin{figure}[H]
 \begin{center}
@@ -880,7 +880,7 @@ Hlavní stránka aplikace obsahuje pouze nezbytné odkazy do dalších částí 
 
 \subsection{Autentifikace uživatele}
 
-\subsubsection{Identita}
+\subsubsection{Identita uživatele}
 
 Každý uživatel, jenž se chce přihlásit nebo se zaregistrovat, se dostane na stránku, kde musí prokázat svou identitu zadáním emailu. V~závislosti na tom, zda zadaný email již v~databázi existuje bude odkázán na stránku pro přihlášení nebo pro registraci.
 
@@ -918,17 +918,13 @@ Stránka pro zadání a potvrzení hesla k nově vytvářenému účtu. V~příp
 \end{center}
 \end{figure}
 
-\subsubsection{Zapomenuté heslo}
-
-Na této stránce se nachází formulář s~polem pro email. Po úspěšném vyplnění se odešle na zadaný email zpráva s~odkazem pro obnovení hesla. Lze odstud možné také odeslat email pro obnovení hesla.
-
 \subsubsection{Reset hesla}
 
 Stránka obsahuje formulář pro nastavení a~potvrzení nového hesla. Pro úspěch je nutné, aby se v~URL adrese nacházel platný token. Ten se vytvoří v okamžiku vytvoření požadavku na obnovu hesla a~má platnost 30 minut.
 
 \subsection{Detail uživatele}
 
-Na stránce detailu uživatele jsou zobrazeny informace, které o sobě uživatel zveřejnil. Je zde možné tak vidět např. pohlaví, věk, bydliště, profilový text nebo adresu webové stránky. Mimo to se zde zobrazují i~uživatelské statistiky, jež obsahují informace o~uživatelově aktivitě (počet diskusí, obdržených a přijatých hlasů, ...) a informace, které o ~obě uživatel sám vyplnil (pohlaví, věk, profilový text, ...).
+Na stránce detailu uživatele jsou zobrazeny informace, které o sobě uživatel zveřejnil. Je zde možné tak vidět např. pohlaví, věk, bydliště, profilový text nebo adresu webové stránky. Mimo to se zde zobrazují i~uživatelské statistiky, jež obsahují informace o~uživatelově aktivitě (počet diskusí, obdržených a přijatých hlasů, ...).
 
 Výsledkem hodnocení uživatele je jeho reputace. Ta je váženým průměrem bodů za:
 
@@ -986,12 +982,12 @@ Uživatelský panel je sekundární okno, ve kterém si uživatel může zobrazo
 
 \subsubsection{Přehled}
 
-Výchozí položka v~uživatelském panelu je rozdělena na 2 části. Nalevo se zobrazuje posledních 50 událostí a~zpráv uživatelů. Nachází se zde i~formulář pro napsání nové zprávy. V~případě, že zpráva začíná zavináčem ve tvaru „@uživatel“, bude se jednat o~soukromou zprávu pro dále specifikovaného uživatele. Na pravé straně je pak seznam všech uživatelů, které lze řadit buď podle poslední aktivity nebo podle reputace. Přihlášený uživatel zde také vidí stručné informace o~svém účtu.
+Výchozí položka v~uživatelském panelu je rozdělena na 2 části. Nalevo se zobrazuje posledních 30 událostí a~zpráv uživatelů. Nachází se zde i~formulář pro napsání nové zprávy. Na pravé straně je seznam všech právě aktivních uživatelů. Přihlášený uživatel zde také vidí stručné informace o~svém účtu.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=350pt]{Images/Overview.png}
-\caption{Přehled}
+\includegraphics[width=400pt]{Images/Overview.png}
+\caption{Zprávy a nejnovější události}
 \end{center}
 \end{figure}
 
@@ -1026,7 +1022,7 @@ Tělesa lze řadit vzestupně i~sestupně podle libovolného kritéria a~takté�
 \vspace*{-1cm}
 \subsubsection{Detail tělesa}
 
-Detail tělesa se skládá ze tří záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká slovní charakteristika tělesa a~jeho 3D vizualizace.
+Detail tělesa se skládá ze tří záložek. Výchozí z nich zobrazuje výčet všech známých údajů v~tabulce o~daném tělese. Součástí je i~krátká slovní charakteristika tělesa a~3D vizualizace.
 
 Na druhé záložce se nachází časová osa, na které jsou vyneseny historické události spojené s~tělesem. Každá událost obsahuje rok, ve kterém nastala, název a~po najetí kurzorem  i~krátký popis. Je zde i stručný graf zobrazující počet výskytů události v~jednotlivých časových obdobích.
 

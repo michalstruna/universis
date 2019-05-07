@@ -133,8 +133,8 @@ class Chat extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                     sending={submitting}>
                     <Field
                         name='content'
-                        label='Vaše zpráva, @uživatel...'
-                        required='Vaše zpráva, @uživatel...' />
+                        label='Vaše zpráva...'
+                        required='Vaše zpráva...' />
                     <Form.Submit />
                 </Form>
             </section>

@@ -28,5 +28,3 @@ const HashPlugin = (schema, options) => {
 }
 
 export default HashPlugin
-
-// TODO: Refactor Plugins utils.
