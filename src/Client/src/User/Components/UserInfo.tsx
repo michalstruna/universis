@@ -27,7 +27,7 @@ class UserInfo extends StatelessComponent<IProps> {
     public static readonly DEFAULT_USER = {
         email: null,
         name: 'Nepřihlášený',
-        avatar: '/Images/User/Avatar.svg',
+        avatar: '',
         role: UserRole.UNAUTHANTICATED,
         score: {
             gold: 0,
@@ -74,6 +74,10 @@ class UserInfo extends StatelessComponent<IProps> {
         return { ...UserInfo.DEFAULT_USER, ...(user || {}) }
     }
 
+    public static getAvatarPath(name?: string): string {
+        return name && name.replace ? '/Images/Uploaded/' + name.replace(/\//gi, '') : '/Images/User/Avatar.svg'
+    }
+
     /**
      * Get user reputation.
      */
@@ -92,7 +96,7 @@ class UserInfo extends StatelessComponent<IProps> {
                 <Link
                     className='user-info__avatar'
                     target={this.target}
-                    style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
+                    style={{ backgroundImage: `url(${UserInfo.getAvatarPath(user.avatar)})` }} />
             </ContextInfo>
         )
     }
@@ -131,7 +135,7 @@ class UserInfo extends StatelessComponent<IProps> {
                 <Link
                     className={'user-info__avatar'}
                     target={this.target}
-                    style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
+                    style={{ backgroundImage: `url(${UserInfo.getAvatarPath(user.avatar)})` }} />
                 <section className='user-info--right'>
                     <Link
                         className={'user-info__name' + (user._id ? '' : ' user-info__link--disabled')}
@@ -158,7 +162,7 @@ class UserInfo extends StatelessComponent<IProps> {
                 <Link
                     className='user-info__avatar'
                     target={this.target}
-                    style={{ backgroundImage: `url(${user.avatar || UserInfo.DEFAULT_USER.avatar})` }} />
+                    style={{ backgroundImage: `url(${UserInfo.getAvatarPath(user.avatar)})` }} />
                 <section className='user-info--right'>
                     <Link
                         className='user-info__name'

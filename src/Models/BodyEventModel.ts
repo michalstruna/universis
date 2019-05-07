@@ -8,7 +8,9 @@ export default new ItemModel<Universis.Event, Universis.Event, Universis.Event.N
         subjectTypeAccessor: () => SubjectType.EVENT,
         userIdAccessor: event => event.userId,
         textAccessor: event => event.title,
-        linkAccessor: event => event.bodyId,
+        linkAccessor: async event => {
+            return `?panel=body&body-tab=timeline&body=${(await BodyModel.get({ _id: event.bodyId }, { select: ['name'] })).name}`
+        },
         subjectNameAccessor: async event => {
             return (await BodyModel.get({ _id: event.bodyId }, { select: ['name'] })).name
         }

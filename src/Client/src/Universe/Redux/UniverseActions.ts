@@ -374,7 +374,7 @@ export const updateBody = (bodyId: string, body: Universis.Universe.Body.New) =>
     Redux.asyncAction(
         ActionTypes.UPDATE_BODY,
         { updatedBody: Request.put(`bodies/${bodyId}`, body) },
-        (event, dispatch) => dispatch(toggleBodyForm(false))
+        (body, dispatch) => dispatch(toggleBodyForm(false))
     )
 )
 

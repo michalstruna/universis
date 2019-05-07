@@ -193,6 +193,10 @@
                     &:last-of-type {
                         margin-right: 0;
                     }
+
+                    &--file {
+                        width: 29%;
+                    }
                 }
 
                 &:nth-last-of-type(2) {

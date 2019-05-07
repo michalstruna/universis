@@ -5,6 +5,7 @@ import { UserRole } from '../../../../Constants'
 import { DonutChart, HorizontalBarChar } from '../../Charts'
 import { toggleUserForm } from '../Redux/UserActions'
 import UserForm from './UserForm'
+import { UserInfo } from '../index'
 
 interface IProps {
     user: Universis.User
@@ -60,7 +61,7 @@ class UserDetail extends StatelessComponent<IProps> {
                 <section className='user-detail__block user-detail__block--avatar'>
                     <section
                         className='user-detail__avatar'
-                        style={{ backgroundImage: `url(/Images/User/Avatar.svg)` }} />
+                        style={{ backgroundImage: `url(${UserInfo.getAvatarPath(user.avatar)})` }} />
                     <section className='user-detail__reputation'>
                         <span className='user-detail__reputation--inner'>{this.reputation}</span> {strings.reputation}
                     </section>

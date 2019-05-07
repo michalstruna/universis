@@ -51,7 +51,8 @@ class Select extends StatelessComponent<IProps> {
                 <Field
                     disabled={disabled}
                     component='select'
-                    name={name}>
+                    name={name}
+                    value={null}>
                     {this.renderOptions()}
                 </Field>
                 <p className='form__label'>

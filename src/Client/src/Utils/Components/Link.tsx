@@ -8,7 +8,7 @@ import Queries from '../Constants/Queries'
 
 interface IProps {
     target?: string
-    query?: { [name: string]: string }
+    query?: string | { [name: string]: string }
     className?: string
     onClick: Universis.Runnable
     style: { [property: string]: string | number }
@@ -36,17 +36,34 @@ class Link extends StatelessComponent<IProps> {
         if (!query) {
             return location.search
         } else {
-            let newQuery = location.search
+            if (typeof query === 'string') {
+                const queryPairs = query.replace('?', '').split('&')
+                let newQuery = location.search
 
-            for (const queryParam in query) {
-                if(query[queryParam]) {
-                    newQuery = Url.setQuery(queryParam, query[queryParam], newQuery)
-                } else {
-                    newQuery = Url.removeQuery(queryParam, newQuery)
+                for (const queryParam of queryPairs) {
+                    const queryPair = queryParam.split('=')
+
+                    if (queryPair[0]) {
+                        newQuery = Url.setQuery(queryPair[0], queryPair[1], newQuery)
+                    } else {
+                        newQuery = Url.removeQuery(queryPair[0], newQuery)
+                    }
                 }
-            }
 
-            return newQuery
+                return newQuery
+            } else {
+                let newQuery = location.search
+
+                for (const queryParam in query) {
+                    if (query[queryParam]) {
+                        newQuery = Url.setQuery(queryParam, query[queryParam], newQuery)
+                    } else {
+                        newQuery = Url.removeQuery(queryParam, newQuery)
+                    }
+                }
+
+                return newQuery
+            }
         }
     }
 

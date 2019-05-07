@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { StatelessComponent, UILayout, FadeLayout } from '../../Utils'
-import { UserInfo } from '../../User'
 import { ApprovalState, SubjectType } from '../../../../Constants'
 import { Message } from '../../Panel'
 

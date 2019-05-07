@@ -4,7 +4,7 @@ import Masonry from 'react-masonry-component'
 
 import { AsyncEntity, Units, View, DataTable, DetailEditor } from '../../Utils'
 import { getApprovals, approve, disapprove } from '../Redux/ApprovalsActions'
-import { SubjectType } from '../../../../Constants'
+import { SubjectType, UserRole } from '../../../../Constants'
 import { Message } from '../../Panel'
 import { DonutChart } from '../../Charts'
 
@@ -14,6 +14,7 @@ interface IProps {
     approve: Universis.Consumer<string>
     disapprove: Universis.Consumer<string>
     bodyStrings: Universis.Strings
+    identity: Universis.Redux.AsyncEntity<Universis.User.Identity>
 }
 
 /**
@@ -36,7 +37,7 @@ class ApprovalsView extends View<IProps> {
 
         const texture = data.texture ? (
             <>
-                <img src={`/Images/Universe/Textures/${data.texture}`} />
+                <img src={`/Images/Uploaded/${data.texture}`} />
                 <section className='approvals__block--right'>
                     {this.renderDiffValue(approval, ['texture'], isAfter)}
                 </section>
@@ -259,8 +260,35 @@ class ApprovalsView extends View<IProps> {
         }
     }
 
+    private renderTools(approvalId): React.ReactNode {
+        const { approve, disapprove, identity } = this.props
+
+        if (!identity.payload || identity.payload.role !== UserRole.ADMIN) {
+            return null
+        }
+
+        return (
+            <p className='approvals__approval__tools'>
+                <button
+                    className='approvals__approval--approve'
+                    onClick={() => {
+                        if (confirm('Opravdu schválit?')) {
+                            approve(approvalId)
+                        }
+                    }} />
+                <button
+                    className='approvals__approval--disapprove'
+                    onClick={() => {
+                        if (confirm('Opravdu zamítnout?')) {
+                            disapprove(approvalId)
+                        }
+                    }} />
+            </p>
+        )
+    }
+
     private renderApprovals(): React.ReactNode {
-        const { approvals, approve, disapprove } = this.props
+        const { approvals } = this.props
 
         return approvals.payload.map((approval, key) => {
             return (
@@ -276,22 +304,7 @@ class ApprovalsView extends View<IProps> {
                             {this.renderItem(approval, true)}
                         </section>
                     </section>
-                    <p className='approvals__approval__tools'>
-                        <button
-                            className='approvals__approval--approve'
-                            onClick={() => {
-                                if (confirm('Opravdu schválit?')) {
-                                    approve(approval._id)
-                                }
-                            }} />
-                        <button
-                            className='approvals__approval--disapprove'
-                            onClick={() => {
-                                if (confirm('Opravdu zamítnout?')) {
-                                    disapprove(approval._id)
-                                }
-                            }} />
-                    </p>
+                    {this.renderTools(approval._id)}
                 </section>
             )
         })
@@ -317,9 +330,10 @@ class ApprovalsView extends View<IProps> {
 }
 
 export default ApprovalsView.connect(
-    ({ approval, system }: Universis.Redux.StoreState) => ({
+    ({ approval, system, user }: Universis.Redux.StoreState) => ({
         approvals: approval.approvals,
-        bodyStrings: system.strings.bodyData
+        bodyStrings: system.strings.bodyData,
+        identity: user.identity
     }),
     { getApprovals, approve, disapprove }
 )

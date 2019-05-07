@@ -1,4 +1,4 @@
-import { DatabaseModel, SubjectType } from '../Constants'
+import { DatabaseModel, Operation, SubjectType } from '../Constants'
 import ItemModel from './ItemModel'
 
 export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Simple, Universis.Universe.Body.New>({
@@ -7,7 +7,7 @@ export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Si
         subjectTypeAccessor: () => SubjectType.BODY,
         userIdAccessor: body => body.userId,
         textAccessor: body => body.name,
-        linkAccessor: body => body.bodyId,
+        linkAccessor: (body, model, operation) => operation === Operation.DELETE ? null : `?panel=body&body-tab=data&body=${body.name}`,
         subjectNameAccessor: body => body.name
     },
     add: {
@@ -22,7 +22,7 @@ export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Si
             { $unwind: '$type' },
             { $lookup: { from: 'bodyevents', localField: '_id', foreignField: 'bodyId', as: 'events' } },
             { $lookup: { from: 'bodies', localField: 'parentId', foreignField: '_id', as: 'parent' } },
-            { $unwind: '$parent' },
+            { $unwind: { path: '$parent', preserveNullAndEmptyArrays: true } },
             {
                 $lookup: {
                     from: 'bodyposts',

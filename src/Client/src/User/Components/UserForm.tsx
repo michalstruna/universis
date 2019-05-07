@@ -5,6 +5,7 @@ import { StatelessComponent } from '../../Utils'
 import { Field, Form, Select } from '../../Forms'
 import { toggleUserForm, updateUser } from '../Redux/UserActions'
 import { UserRole } from '../../../../Constants'
+import { UserInfo } from '../index'
 
 interface IProps {
     strings: Universis.Strings
@@ -32,9 +33,6 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
         try {
             const isFemale: any = data.isFemale
-
-            console.log(isFemale)
-
             data.isFemale = ((isFemale === 'true' || isFemale === true) ? true : ((isFemale === 'false' || isFemale === false) ? false : null))
 
             await updateUser(user.payload._id, data)
@@ -45,7 +43,7 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     }
 
     private renderInnerForm(): React.ReactNode {
-        const { strings, toggleUserForm } = this.props
+        const { strings, toggleUserForm, user } = this.props
 
         return (
             <>
@@ -81,10 +79,17 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                         label={strings.facebook}
                         name='facebook' />
                 </Form.FlexRow>
-                <Field
-                    label={strings.about}
-                    name='about'
-                    type={Field.TEXT_AREA} />
+                <Form.FlexRow>
+                    <Field
+                        label={strings.avatar}
+                        name='avatar'
+                        preview={UserInfo.getAvatarPath(user.payload.avatar)}
+                        type={Field.IMAGE} />
+                    <Field
+                        label={strings.about}
+                        name='about'
+                        type={Field.TEXT_AREA} />
+                </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
                         label={strings.password}
@@ -124,11 +129,9 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
     public render(): React.ReactNode {
         const { handleSubmit, invalid, submitting } = this.props
 
-        console.log(this.props.initialValues)
-
         return (
             <Form
-                onSubmit={handleSubmit(this.handleSubmit)}
+                onSubmit={handleSubmit(data => this.handleSubmit(Form.getFormData(data)))}
                 invalid={invalid}
                 sending={submitting}>
                 {this.renderInnerForm()}

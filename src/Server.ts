@@ -1,10 +1,10 @@
-import * as BodyParser from 'body-parser'
 import * as Compression from 'compression'
 import * as Express from 'express'
 import * as SwaggerUi from 'swagger-ui-express'
 import * as OpenApi from 'express-openapi'
 import * as Path from 'path'
 import * as Http from 'http'
+import * as ExpressFormidable from 'express-formidable'
 
 import { Config } from './Constants'
 import SwaggerDocument from './Swagger'
@@ -19,8 +19,9 @@ class Server implements Universis.Server {
 
     constructor() {
         this.express = Express()
-        this.express.use(BodyParser.json())
-        this.express.use(Compression())
+        this.express.use(Compression({
+            keepExtension: true
+        }))
 
         this.express.all('*', (request, response, next) => {
             for (const i in Config.headers) {
@@ -29,6 +30,12 @@ class Server implements Universis.Server {
 
             next()
         })
+
+        this.express.use(ExpressFormidable({
+            keepExtensions: true,
+            maxFileSize: 1048576,
+            uploadDir: Path.join(__dirname, 'Public/Images/Uploaded').replace('/dist/', '/src/')
+        }))
     }
 
     public run(port: number): void {

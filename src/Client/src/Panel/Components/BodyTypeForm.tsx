@@ -5,13 +5,15 @@ import { StatelessComponent } from '../../Utils'
 import { Field, Form } from '../../Forms'
 import { toggleBodyTypeForm } from '../Redux/PanelActions'
 import { addBodyType, updateBodyType } from '../../Universe'
+import { UserInfo } from '../../User'
+import bodyTypes from '../../../../Controllers/bodyTypes'
 
 interface IProps {
     strings: Universis.Strings
     toggleBodyTypeForm: Universis.Consumer<boolean>
     addBodyType: Universis.Consumer<Universis.Universe.Body.Type.New>
     updateBodyType: Universis.Consumer2<string, Universis.Universe.Body.Type.New>
-    selectedBodyType: Universis.Event
+    selectedBodyType: Universis.Universe.Body.Type
 }
 
 interface IValues {
@@ -43,7 +45,7 @@ class BodyTypeForm extends StatelessComponent<IProps & InjectedFormProps<IValues
     }
 
     private renderInnerForm(): React.ReactNode {
-        const { strings, toggleBodyTypeForm } = this.props
+        const { strings, toggleBodyTypeForm, selectedBodyType } = this.props
 
         return (
             <>
@@ -60,6 +62,9 @@ class BodyTypeForm extends StatelessComponent<IProps & InjectedFormProps<IValues
                     <section>
                         <Field
                             label={strings.texture}
+                            required={strings.texture}
+                            type={Field.IMAGE}
+                            preview={selectedBodyType ? `/Images/Uploaded/${selectedBodyType.texture}` : null}
                             name='texture' />
                     </section>
                 </Form.FlexRow>
@@ -81,7 +86,7 @@ class BodyTypeForm extends StatelessComponent<IProps & InjectedFormProps<IValues
 
         return (
             <Form
-                onSubmit={handleSubmit(this.handleSubmit)}
+                onSubmit={handleSubmit(data => this.handleSubmit(Form.getFormData(data)))}
                 invalid={invalid}
                 sending={submitting}>
                 {this.renderInnerForm()}

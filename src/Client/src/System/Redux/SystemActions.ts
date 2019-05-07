@@ -140,7 +140,7 @@ export const receiveNotification = (notification: Universis.Notification, isUpda
             }
 
             if (score) {
-                if (notification.subjectType !== SubjectType.POST_VOTE && notification.user) {
+                if (user && notification.subjectType !== SubjectType.POST_VOTE && notification.user) {
                     dispatch(receiveUserScoreChange(user._id, score))
                 }
             }
