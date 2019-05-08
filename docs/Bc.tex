@@ -75,7 +75,7 @@
 % cesty k obrázkům zadání, je-li zadání naskenováno
 \def\prefixZadani{Images/zadani}	% cesta a začátek jména, bude doplněno číslo strany
 \def\suffixZadani{.jpg}		% doplní se ke každému jménu souboru zadání
-\def\datumOdevzdaniPrace{1.\,5.\,2019}
+\def\datumOdevzdaniPrace{9.\,5.\,2019}
 
 \usepackage{lipsum}		% \lipsum[číslo] vloží jeden odstavec Lorem ipsum…
 % \usepackage[none]{hyphenat}
@@ -240,7 +240,7 @@ I~přesto, že se pixely stále zmenšují a~jejich hustota na palec (\textit{DP
 
 \subsubsection{Barevné modely}
 
-V~dnešní době existuje několik způsobů, jak vytvořit barvu pomocí jejího složení z~několika složek. Jedním z~nich je model \textit{RGB}, jehož složky jsou tvořeny červenou, zelenou a~modrou barvou. Funguje na principu sčítání barev. Pokud jsou všechny složky nulové, je výsledná barva černá. Přidáváním jednotlivých složek se výsledná barva postupně zesvětluje a~pokud jsou všechny 3~složky na maximu, tvoří bílou barvu.~\cite{graphic}
+Existuje několik způsobů, jak vytvořit barvu pomocí jejího složení z~několika složek. Jedním z~nich je model \textit{RGB}, jehož složky jsou tvořeny červenou, zelenou a~modrou barvou. Funguje na principu sčítání barev. Pokud jsou všechny složky nulové, je výsledná barva černá. Přidáváním jednotlivých složek se výsledná barva postupně zesvětluje a~pokud jsou všechny 3~složky na maximu, tvoří bílou barvu.~\cite{graphic}
 
 Zcela jiná situace je u tiskáren. Využívat všechny 3 složky na celý papír jen proto, aby měl bílou barvu, by bylo nevýhodné. Proto se zde využívá model \textit{CMYK}, jehož složky tvoří purpurová, azurová a~žlutá barva. Model funguje na principu odčítání barev. Původní bílá barva se při přidávání jednotlivých složek ztmavuje a~pokud jsou využity všechny složky, vznikne barva podobná černé. Protože ale nikdy nevznikne dokonalá černá a~navíc by bylo drahé využívat 3 složky pro vykreslení černé, je dodatečnou složkou tohoto modelu i~černá barva.~\cite{graphic}
 
@@ -405,6 +405,7 @@ React nepřichází s~žádnou doporučenou strukturou projektu.~\cite{filestruc
 \begin{itemize}
 \item \textbf{dist}: Produkční sestavení aplikace. Veškerý obsah adresáře se generuje automaticky.
 \item \textbf{node\_modules}: Externí knihovny pro serverovou část.
+\item \textbf{files}: Dynamicky nahrané soubory z~aplikace.
 \item \textbf{src}: Zdrojové soubory aplikace.
 
 \begin{itemize}
