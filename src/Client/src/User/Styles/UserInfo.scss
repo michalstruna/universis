@@ -62,14 +62,22 @@ $user-info-height: 5rem;
         .user-info__avatar {
             @include size($user-info-height !important);
         }
+
+        .user-info__name {
+            padding-right: 3rem;
+        }
     }
 
     &__name {
+        box-sizing: border-box;
         display: inline-block;
         margin-bottom: 0.5rem;
         margin-top: 0.3rem;
         text-align: center;
         font-weight: bold !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
     }
 
     &__karma {
