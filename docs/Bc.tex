@@ -8,6 +8,7 @@
 
 \usepackage{vskpupa}	% globální nastavení pro text VŠKP UPa
 \usepackage{listings}
+\usepackage{setspace}
 \usepackage{geometry}
 \def\code#1{\texttt{#1}}
 \setlist{itemsep=0pt,topsep=2pt}
@@ -958,12 +959,12 @@ V~pravém dolním rohu se nachází ovládací panel, jenž umožňuje měnit n�
 \item \textbf{Rychlost} (R): Zobrazí nebo skryje okamžité rychlosti těles.
 \item \textbf{Názvy} (N): Zobrazí nebo skryje názvy těles.
 \item \textbf{Orbity} (O): Zobrazí nebo skryje orbity těles.
+\item \textbf{Částice} (C): Zobrazí nebo skryje částice.
+\item \textbf{Světlo} (J): Zapne nebo vypne umělé světlo.
 \item \textbf{Zrychlit} (W): Pokud je čas kladný, zrychlí ho 10krát. Jinak ho 10krát zpomalí.
-\item \textbf{Vrátit rychlost} (V): Nastaví rychlost běhu simulátoru na 1.
+\item \textbf{Rychlost 1} (Q): Nastaví rychlost běhu simulátoru na 1.
 \item \textbf{Zpomalit} (S): Pokud je čas kladný, zpomalí ho 10krát. Jinak ho 10krát zrychlí.
 \item \textbf{Vrátit čas} (T): Nastaví čas simulátoru na aktuální čas.
-\item \textbf{Pohyb} (M): Spustí nebo ukončí rotaci kamery kolem vycentrovaného tělesa.
-\item \textbf{Světlo} (L): Zapne nebo vypne světlo.
 \end{itemize}
 
 Na dolním okraji obrazovky je lišta zobrazující aktuální nastavení a~čas simulátoru. Napravo je možné vidět posuvník s aktuální velikostí pohledu.
@@ -1403,6 +1404,9 @@ Provedení HTTP požadavku lze uskutečnit vybráním a~rozkliknutím správné 
 
 %\addcontentsline{toc}{section}{Příloha~D -- Seznam souborů zdrojových kódů na přiloženém nosiči}
 \section*{Příloha~E --  Seznam souborů zdrojových kódů na přiloženém nosiči}
+
+\begin{spacing}{1.1}
+
 .gitignore\newline
 package-lock.json\newline
 package.json\newline
@@ -1699,6 +1703,8 @@ src/Utils/Security.ts\newline
 src/Utils/Strings.ts\newline
 src/index.ts\newline
 tsconfig.json\newline
+
+\end{spacing}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % KONEC DOKUMENTU

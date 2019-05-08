@@ -24,6 +24,7 @@ export default Redux.createReducer(
         deletedEvent: Redux.EMPTY_ASYNC_ENTITY,
         bodyTypes: Redux.EMPTY_ASYNC_ENTITY,
         timeSpeed: 1,
-        follow: Follow.MOVE
+        follow: Follow.MOVE,
+        now: new Date().getTime()
     }
 )

@@ -155,6 +155,8 @@ declare namespace Universis {
                      */
                     velocity: number
 
+                    initialDate: number
+
                 }
 
                 /**
@@ -247,7 +249,7 @@ declare namespace Universis {
                     /**
                      * Timestamp of periapsis.
                      */
-                    periapsisTime: number
+                    initialDate: number
 
                 }
 

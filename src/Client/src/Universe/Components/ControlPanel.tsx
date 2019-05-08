@@ -13,7 +13,8 @@ import {
     toggleLight,
     toggleOrbits,
     toggleParticles,
-    toggleVelocity
+    toggleVelocity,
+    setNow
 } from '../Redux/UniverseActions'
 import Follow from '../Constants/Follow'
 
@@ -42,6 +43,7 @@ interface IProps {
     bodies: Universis.Redux.AsyncEntity<Universis.Universe.Body.Simple[]>
     changeFollow: Universis.Runnable
     follow: Follow
+    setNow: Universis.Runnable
 }
 
 /**
@@ -63,7 +65,8 @@ class ControlPanel extends StatelessComponent<IProps> {
             [Keys.ORBITS]: () => this.props.toggleOrbits(!this.props.areOrbitsVisible),
             [Keys.PARTICLES]: () => this.props.toggleParticles(!this.props.areParticlesVisible),
             [Keys.PANEL]: () => this.togglePanel(),
-            [Keys.FOLLOW]: () => this.props.changeFollow()
+            [Keys.FOLLOW]: () => this.props.changeFollow(),
+            [Keys.NOW]: () => this.props.setNow()
         })
     }
 
@@ -118,7 +121,7 @@ class ControlPanel extends StatelessComponent<IProps> {
         const {
             isNameVisible, toggleLabels, isLightVisible, toggleLight, areOrbitsVisible, toggleOrbits, isVelocityVisible,
             toggleVelocity, isFromCenterVisible, toggleFromCenter, isFromCameraVisible, toggleFromEarth, isFromEarthVisible,
-            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible, changeFollow, follow
+            toggleFromCamera, timeSpeed, changeTimeSpeed, toggleParticles, areParticlesVisible, changeFollow, follow, setNow
         } = this.props
 
         return (
@@ -145,12 +148,11 @@ class ControlPanel extends StatelessComponent<IProps> {
                 </section>
                 <section className='universe__controls__row'>
                     {this.renderButton('slower', () => changeTimeSpeed(timeSpeed, false))}
-                    {this.renderButton('speed', () => changeTimeSpeed(1))}
                     {this.renderButton('faster', () => changeTimeSpeed(timeSpeed, true))}
                 </section>
                 <section className='universe__controls__row'>
-                    {this.renderButton('now')}
-                    {this.renderButton('move')}
+                    {this.renderButton('speed', () => changeTimeSpeed(1))}
+                    {this.renderButton('now', () => setNow())}
                 </section>
             </section>
         )
@@ -184,6 +186,7 @@ export default ControlPanel.connect(
         toggleFromEarth,
         changeTimeSpeed,
         toggleParticles,
-        changeFollow
+        changeFollow,
+        setNow
     }
 )

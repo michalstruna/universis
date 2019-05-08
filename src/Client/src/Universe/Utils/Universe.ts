@@ -138,6 +138,10 @@ class Universe implements Universis.Universe {
         this.timeSpeed = timeSpeed
     }
 
+    public setTime(time: number): void {
+        this.simulationTime.setTime(time)
+    }
+
     public toggleFromCamera(isFromCameraVisible: boolean): void {
         this.isFromCameraVisible = isFromCameraVisible
     }
@@ -247,7 +251,7 @@ class Universe implements Universis.Universe {
 
         const rows = []
         if (this.isNameVisible) rows.push(body.data.name)
-        if (this.isFromEarthVisible) rows.push(Units.toFull(fromEarth, Units.SIZE.KM, Units.SIZE))
+        if (this.isFromEarthVisible) rows.push(fromEarth ? Units.toFull(fromEarth, Units.SIZE.KM, Units.SIZE) : 0)
         if (this.isFromCameraVisible) rows.push(Units.toFull(fromCamera, Units.SIZE.KM, Units.SIZE))
 
         if (fromCenter) {
