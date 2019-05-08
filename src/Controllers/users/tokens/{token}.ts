@@ -9,10 +9,19 @@ export default {
 
     put: Route.all(async ({ params, body }) => {
         const data = await SecurityModel.verify(params.token)
+        const updatedUser: any = {}
+
+        if (body.password) {
+            updatedUser.password = body.password
+        }
+
+        if (data.role) {
+            updatedUser.role = data.role
+        }
 
         await Promise.all([
             TokenModel.delete({ token: params.token }),
-            UserModel.update({ _id: data.userId }, { password: body.password })
+            UserModel.update({ _id: data.userId }, updatedUser)
         ])
     }, false)
 

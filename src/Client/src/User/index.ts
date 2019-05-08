@@ -37,6 +37,5 @@ export {
 
 export { default as UserView } from './Views/UserView'
 export { default as ResetPasswordView } from './Views/ResetPasswordView'
-
-
 export { default as ResetPasswordForm } from './Components/ResetPasswordForm'
+export { default as ActivateEmailView } from './Views/ActivateEmailView'

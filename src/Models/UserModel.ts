@@ -1,5 +1,8 @@
-import { DatabaseModel } from '../Constants'
+import { DatabaseModel, Email, UserRole } from '../Constants'
 import ItemModel from './ItemModel'
+import TokenModel from './TokenModel'
+import EmailModel from './EmailModel'
+import SecurityModel from './SecurityModel'
 
 export default new ItemModel<Universis.User, Universis.User.Simple, Universis.User.New>({
     dbModel: DatabaseModel.USER,
@@ -100,5 +103,15 @@ export default new ItemModel<Universis.User, Universis.User.Simple, Universis.Us
                 }
             }
         ])
+    },
+    add: {
+        onAfter: async user => {
+            const token = await SecurityModel.sign({ userId: user._id, role: UserRole.AUTHENTICATED })
+
+            await Promise.all([
+                TokenModel.add({ token }),
+                EmailModel.sendText(user.email, Email.signUp.subject(), Email.signUp.content(token))
+            ])
+        }
     }
 })

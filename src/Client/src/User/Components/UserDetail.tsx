@@ -100,7 +100,7 @@ class UserDetail extends StatelessComponent<IProps> {
                     </UserDetail.Row>
                     <UserDetail.Row image={'Website'}>
                         <a href={user.website} target='_blank'>
-                            {user.website.replace(/^(https?:\/\/)?(www\.)?/, '')}
+                            {user.website ? user.website.replace(/^(https?:\/\/)?(www\.)?/, '') : ''}
                         </a>
                     </UserDetail.Row>
                     <UserDetail.Row image={'Facebook'}>

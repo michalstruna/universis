@@ -118,6 +118,8 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             }
         }
 
+        console.log(filter, 222, changes, 333, item)
+
         if (notifications && update.notification) {
             if (!item) {
                 item = await this.get(filter)

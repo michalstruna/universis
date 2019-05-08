@@ -15,6 +15,7 @@ export default Redux.createReducer(
         userByToken: Redux.EMPTY_ASYNC_ENTITY,
         resetEmail: Redux.EMPTY_ASYNC_ENTITY,
         user: Redux.EMPTY_ASYNC_ENTITY,
-        isUserFormVisible: false
+        isUserFormVisible: false,
+        editedUser: Redux.EMPTY_ASYNC_ENTITY
     }
 )

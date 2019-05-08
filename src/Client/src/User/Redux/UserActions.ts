@@ -1,6 +1,7 @@
 import { Redux, Request, Url, Urls, Cookies } from '../../Utils'
 import ActionTypes from './ActionTypes'
 import { Sockets, Store } from '../../System'
+import { UserRole } from '../../../../Constants'
 
 /**
  * Get unauth user.
@@ -196,7 +197,7 @@ export const getUserByToken = (token: string) => (
 export const editUserByToken = (token: string, data: Universis.Map<any>) => (
     Redux.asyncAction(
         ActionTypes.EDIT_USER_BY_TOKEN,
-        { editUser: Request.put(`users/tokens/${token}`, data) }
+        { editedUser: Request.put(`users/tokens/${token}`, data) }
     )
 )
 

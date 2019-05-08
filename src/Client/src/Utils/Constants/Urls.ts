@@ -11,6 +11,7 @@ enum Urls {
     ABOUT = '/about',
     APPROVALS = '/approval',
     RESET_PASSWORD = '/reset-password',
+    ACTIVATE_EMAIL = '/activate-email',
     USER = '/user'
 
 }

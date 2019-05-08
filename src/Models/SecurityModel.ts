@@ -1,7 +1,7 @@
 import * as JWT from 'jsonwebtoken'
 
 import Model from './Model'
-import { Config, Errors, Email, SocketMessageType, UserScore } from '../Constants'
+import { Config, Errors, Email, SocketMessageType, UserScore, UserRole } from '../Constants'
 import DatabaseModel from '../Constants/DatabaseModel'
 import UserModel from './UserModel'
 import Security from '../Utils/Security'
@@ -22,6 +22,10 @@ class SecurityModel extends Model implements Universis.SecurityModel {
     public authenticate(email: string, secret: string): Promise<Universis.User.Identity> {
         return new Promise(async (resolve, reject) => {
             let user = await this.userDbModel.getOne<any>({ email }, { select: ['_id', 'name', 'email', 'password', 'role', 'score', 'avatar', 'lastOnline', 'isOnline', 'createdAt'] })
+
+            if (user.role === UserRole.INACTIVE) {
+                return reject(Errors.INACTIVE) // User is inactive.
+            }
 
             if (!user) {
                 return reject(Errors.NOT_FOUND) // User not found.

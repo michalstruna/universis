@@ -5,7 +5,8 @@ enum UserRole {
 
     UNAUTHANTICATED,
     AUTHENTICATED,
-    ADMIN
+    ADMIN,
+    INACTIVE
 
 }
 

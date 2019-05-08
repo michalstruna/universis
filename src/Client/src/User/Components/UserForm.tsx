@@ -119,7 +119,8 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                     required={strings.role}
                     options={[
                         { value: UserRole.AUTHENTICATED, text: strings.authenticated },
-                        { value: UserRole.ADMIN, text: strings.admin }
+                        { value: UserRole.ADMIN, text: strings.admin },
+                        { value: UserRole.INACTIVE, text: strings.inactive }
                     ]}
                     label={strings.role} />
             )

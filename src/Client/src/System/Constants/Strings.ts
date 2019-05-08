@@ -66,6 +66,10 @@ export default {
         error: 'Odkaz již není platný. Zažádejte si o obnovení hesla znovu.'
     },
 
+    activateEmail: {
+        error: 'Odkaz již není platný.'
+    },
+
     universe: {
         controls: {
             orbits: 'Orbity',
@@ -377,7 +381,8 @@ export default {
         password: 'Nové heslo',
         home: 'Domov',
         invalidPassword: 'Heslo musí mít 6+ znaků.',
-        avatar: 'Avatar'
+        avatar: 'Avatar',
+        inactive: 'Deaktivovaný'
 
     },
 

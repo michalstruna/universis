@@ -28,7 +28,7 @@ const UserSchema = new Schema({
         unique: true,
         required: true,
         default: function () {
-            return Strings.capitalize(this.email.replace('@', ''))
+            return Strings.capitalize(this.email.split('@')[0] + new Date().getTime())
         }
     },
 
@@ -84,7 +84,7 @@ const UserSchema = new Schema({
 
     role: {
         type: Number,
-        default: UserRole.AUTHENTICATED
+        default: UserRole.INACTIVE
     },
 
     isOnline: {

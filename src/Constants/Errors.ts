@@ -6,7 +6,8 @@ export default {
     DUPLICATE: { name: 'DUPLICATE', code: Codes.BAD_REQUEST, mongo: 11000 },
     NOT_FOUND: { name: 'NOT_FOUND', code: Codes.NOT_FOUND },
     UNAUTHORIZED: { name: 'UNAUTHORIZED', code: Codes.UNAUTHORIZED },
-    INTEGRITY_BREAK: { name: 'INTEGRITY_BREAK', code: Codes.BAD_REQUEST }
+    INTEGRITY_BREAK: { name: 'INTEGRITY_BREAK', code: Codes.BAD_REQUEST },
+    INACTIVE: { name: 'INACTIVE', code: Codes.BAD_REQUEST }
 
 }
 

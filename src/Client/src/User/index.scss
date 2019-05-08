@@ -2,7 +2,7 @@
 @import "./Styles/Login";
 @import "./Styles/UserDetail";
 
-.identity, .login, .sign-up, .reset-password {
+.identity, .login, .sign-up, .reset-password, .activate-email {
     @include flex-center;
 
     .form {
