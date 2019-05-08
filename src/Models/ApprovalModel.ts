@@ -33,7 +33,12 @@ class ApprovalModel extends Model implements Universis.Approval.Model {
             switch (notification.operation) {
                 case Operation.ADD:
                     approval.after = await model.addOne(after)
-                    approval.after = await model.getOne({ _id: approval.after._id }, { join: ['typeId'] })
+
+                    if (approval.notification.subjectType === SubjectType.BODY) { // TODO: Refactor.
+                        approval.after = (await model.aggregate(BodyAggregation({ _id: approval.after._id })))[0]
+                    } else {
+                        approval.after = await model.getOne({ _id: approval.after._id })
+                    }
                     break
                 case Operation.DELETE:
                     approval.after = await model.removeOne({ _id: before._id })
