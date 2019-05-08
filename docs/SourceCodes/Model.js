@@ -1,9 +1,8 @@
 // BodyModel.ts
-export default new ItemModel<Universis.Universe.Body, Universis.Universe.Body.Simple, Universis.Universe.Body.New>(
+export default new ItemModel<Body, Body.Simple, Body.New>(
     dbModel: DatabaseModel.BODY,
     get: {
         selectAll: ['name', 'orbit'],
-        joinOne: ['typeId'],
         joinAll: ['typeId']
     },
     add: { approval: true, notification: true }
