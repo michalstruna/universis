@@ -8,9 +8,6 @@ Model.db = new Database({
     schemas: {
         [DatabaseModel.BODY]: BodySchema,
         [DatabaseModel.BODY_EVENT]: BodyEventSchema,
-        [DatabaseModel.BODY_TYPE]: BodyTypeSchema,
-        [DatabaseModel.TOKEN]: TokenSchema,
-        [DatabaseModel.USER]: UserSchema,
-        ...
+        [DatabaseModel.BODY_TYPE]: BodyTypeSchema
     }
 })

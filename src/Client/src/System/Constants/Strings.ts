@@ -73,13 +73,15 @@ export default {
             panel: 'Panel',
             light: 'Světlo',
             now: 'Teď',
-            move: 'Pohyb',
             velocity: 'Rychlost',
             earth: 'Od Země',
             camera: 'Od kamery',
             center: 'Od těžiště',
             particles: 'Částice',
-            follow: 'Sledovat'
+            follow: 'Sledovat',
+            faster: 'Zrychlit',
+            slower: 'Zpomalit',
+            speed: 'Rychlost 1'
         }
     },
 

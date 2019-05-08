@@ -25,8 +25,9 @@ interface IProps {
     isFromCenterVisible: boolean
     timeSpeed: number,
     areParticlesVisible: boolean
-    follow: Follow,
+    follow: Follow
     location: any
+    now: number
 }
 
 /**
@@ -51,7 +52,7 @@ class Simulator extends StatelessComponent<IProps> {
     }
 
     public componentDidUpdate(prevProps: IProps): void {
-        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible, follow, location } = this.props
+        const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible, follow, location, now } = this.props
 
         if (!prevProps.bodies.payload) {
             this.initializeUniverse()
@@ -99,6 +100,10 @@ class Simulator extends StatelessComponent<IProps> {
 
         if (prevProps.areParticlesVisible !== areParticlesVisible) {
             this.universe.toggleParticles(areParticlesVisible)
+        }
+
+        if(prevProps.now !== now) {
+            this.universe.setTime(now)
         }
 
         if (Url.getQuery(Queries.CENTERED_BODY, prevProps.location.search) !== Url.getQuery(Queries.CENTERED_BODY, location.search)) {
@@ -181,7 +186,8 @@ export default Simulator.connect(
         isFromCenterVisible: universe.isFromCenterVisible,
         timeSpeed: universe.timeSpeed,
         areParticlesVisible: universe.areParticlesVisible,
-        follow: universe.follow
+        follow: universe.follow,
+        now: universe.now
     }),
     { selectBody }
 )

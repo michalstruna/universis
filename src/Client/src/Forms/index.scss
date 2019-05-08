@@ -71,6 +71,7 @@
         &--file {
             @include size;
             border-bottom: none;
+            cursor: pointer;
         }
     }
 

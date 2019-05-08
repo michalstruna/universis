@@ -15,7 +15,7 @@
 \contentsline {lstlisting}{\numberline {15}Vytvo\IeC {\v r}en\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho sch\IeC {\'e}matu}{40}{lstlisting.15}
 \contentsline {lstlisting}{\numberline {16}Vytvo\IeC {\v r}en\IeC {\'\i } a~pou\IeC {\v z}it\IeC {\'\i } datab\IeC {\'a}zov\IeC {\'e}ho pluginu}{40}{lstlisting.16}
 \contentsline {lstlisting}{\numberline {17}CRUD operace nad kolekc\IeC {\'\i } u\IeC {\v z}ivatel\IeC {\r u}}{41}{lstlisting.17}
-\contentsline {lstlisting}{\numberline {18}P\IeC {\v r}\IeC {\'\i }kaz pro spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } datab\IeC {\'a}ze}{43}{lstlisting.18}
+\contentsline {lstlisting}{\numberline {18}P\IeC {\v r}\IeC {\'\i }kaz pro spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } datab\IeC {\'a}ze}{42}{lstlisting.18}
 \contentsline {lstlisting}{\numberline {19}P\IeC {\v r}\IeC {\'\i }kaz pro vlo\IeC {\v z}en\IeC {\'\i } inicializa\IeC {\v c}n\IeC {\'\i }ch dat do datab\IeC {\'a}ze}{43}{lstlisting.19}
 \contentsline {lstlisting}{\numberline {20}P\IeC {\v r}\IeC {\'\i }kaz pro sestaven\IeC {\'\i } a~spu\IeC {\v s}t\IeC {\v e}n\IeC {\'\i } aplikace}{43}{lstlisting.20}
 \contentsline {lstlisting}{\numberline {21}Hashov\IeC {\'a}n\IeC {\'\i } hesel v Mongoose sch\IeC {\'e}matu}{57}{lstlisting.21}

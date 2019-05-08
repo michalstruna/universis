@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm i && cd src/Client && npm i && node_modules/webpack/bin/webpack.js -p --optimize-minimize && cd ../.. && node_modules/typescript/bin/tsc && rm -rf dist/Client && cp -r src/Public dist/Public",
-    "build-windows": "npm i && cd src\\Client && npm i && node_modules\\webpack\\bin\\webpack.js -p --optimize-minimize && cd ..\\.. && node_modules\\.bin\\tsc && rm -rf dist\\Client && cp -r src\\Public dist\\Public",
+    "build": "rm -rf dist && npm i && cd src/Client && npm i && node_modules/webpack/bin/webpack.js -p --optimize-minimize && cd ../.. && node_modules/typescript/bin/tsc && rm -rf dist/Client && cp -r src/Public dist/Public",
+    "build-windows": "rm -rf dist && npm i && cd src\\Client && npm i && node_modules\\webpack\\bin\\webpack.js -p --optimize-minimize && cd ..\\.. && node_modules\\.bin\\tsc && rm -rf dist\\Client && cp -r src\\Public dist\\Public",
     "run": "node dist/index.js",
     "start": "node dist/index.js",
     "build-and-run": "npm run-script build && npm run-script run",

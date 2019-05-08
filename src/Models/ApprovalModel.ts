@@ -1,6 +1,7 @@
 import Model from './Model'
 import { ApprovalState, DatabaseModel, Operation, SubjectType, UserScore } from '../Constants'
 import NotificationModel from './NotificationModel'
+import BodyAggregation from '../Database/Aggregations/Body'
 
 class ApprovalModel extends Model implements Universis.Approval.Model {
 
@@ -32,13 +33,22 @@ class ApprovalModel extends Model implements Universis.Approval.Model {
             switch (notification.operation) {
                 case Operation.ADD:
                     approval.after = await model.addOne(after)
-                    approval.after = await model.getOne({ _id: approval.after._id }, { join: ['typeId'] })
+
+                    if (approval.notification.subjectType === SubjectType.BODY) { // TODO: Refactor.
+                        approval.after = (await model.aggregate(BodyAggregation({ _id: approval.after._id })))[0]
+                    } else {
+                        approval.after = await model.getOne({ _id: approval.after._id })
+                    }
                     break
                 case Operation.DELETE:
                     approval.after = await model.removeOne({ _id: before._id })
                     break
                 case Operation.UPDATE:
                     approval.after = await model.updateOne({ _id: before._id }, after)
+
+                    if (approval.notification.subjectType === SubjectType.BODY) { // TODO: Refactor.
+                        approval.after = (await model.aggregate(BodyAggregation({ _id: approval.after._id })))[0]
+                    }
                     break
             }
 

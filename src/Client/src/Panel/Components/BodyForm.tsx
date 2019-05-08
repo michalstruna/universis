@@ -35,7 +35,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { reset, addBody, selectedBody, updateBody } = this.props
+        const { reset, addBody, selectedBody, updateBody, bodyTypes } = this.props
 
         try {
             let result = { ...data } as any
@@ -132,6 +132,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                             type={Field.NUMBER} />
                         <Field
                             label={strings.orbitInitialDate}
+                            type={Field.NUMBER}
                             name='orbit.initialDate' />
                     </Form.FlexRow>
                 </>
@@ -261,6 +262,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                         type={Field.NUMBER} />
                     <Field
                         label={strings.axisInitialDate}
+                        type={Field.NUMBER}
                         name='axis.initialDate' />
                 </Form.FlexRow>
                 <Form.FlexRow>
@@ -279,11 +281,11 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
-                        label={strings.discoverer}
-                        name='discover.author' />
+                        label={strings.atmosphereComposition}
+                        name='atmosphere.composition' />
                     <Field
-                        label={strings.discover}
-                        name='discover.date' />
+                        label={strings.composition}
+                        name='composition' />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
@@ -291,11 +293,11 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                         name='atmosphere.pressure'
                         type={Field.NUMBER} />
                     <Field
-                        label={strings.atmosphereComposition}
-                        name='atmosphere.composition' />
+                        label={strings.discoverer}
+                        name='discover.author' />
                     <Field
-                        label={strings.composition}
-                        name='composition' />
+                        label={strings.discover}
+                        name='discover.date' />
                 </Form.FlexRow>
                 <Form.FlexRow>
                     <Field
@@ -353,6 +355,7 @@ export default BodyForm.connect(
             move: selectedBody.orbit ? '1' : '0'
         } : {
             typeId: universe.bodyTypes.payload && universe.bodyTypes.payload[0] ? universe.bodyTypes.payload[0]._id : null,
+            parentId: universe.bodies.payload && universe.bodies.payload[0] ? universe.bodies.payload[0]._id : null,
             move: '1'
         },
         selectedBody,

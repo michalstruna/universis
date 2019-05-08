@@ -84,6 +84,16 @@ export const toggleVelocity = (isVelocityVisible: boolean) => (
 )
 
 /**
+ * Set simulator time to now.
+ */
+export const setNow = () => (
+    Redux.setAction(
+        ActionTypes.SET_NOW,
+        { now: new Date().getTime() }
+    )
+)
+
+/**
  * Toggle visibility of from Earth.
  * @param isFromEarthVisible From Earth is visible.
  */

@@ -74,7 +74,7 @@ class BodyData extends StatelessComponent<IProps> {
                         data={{
                             [strings.diameterX]: Units.toFull(body.diameter.x, Units.SIZE.KM, Units.SIZE),
                             [strings.diameterY]: Units.toFull(body.diameter.y, Units.SIZE.KM, Units.SIZE),
-                            [strings.flattening]: Units.toFull(body.flattening),
+                            [strings.flattening]: body.flattening !== 0 ? Units.toFull(body.flattening) : 0,
                             [strings.circumference]: Units.toFull(body.circuit, Units.SIZE.KM, Units.SIZE),
                             [strings.surface]: Units.toShort(body.surface, Units.SURFACE.KM2, Units.SURFACE),
                             [strings.volume]: Units.toShort(body.volume, Units.VOLUME.KM3, Units.VOLUME)
@@ -105,9 +105,9 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
                             [strings.orbitVelocity]: body.orbit ? () => (
                                 <DataTable.FlexRow>
-                                    {Units.toFull(body.orbit.velocity.min, Units.VELOCITY.KM_S, Units.VELOCITY)}
-                                    {Units.toFull(body.orbit.velocity.avg, Units.VELOCITY.KM_S, Units.VELOCITY)}
-                                    {Units.toFull(body.orbit.velocity.max, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toShort(body.orbit.velocity.min, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toShort(body.orbit.velocity.avg, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toShort(body.orbit.velocity.max, Units.VELOCITY.KM_S, Units.VELOCITY)}
                                 </DataTable.FlexRow>
                             ) : null,
                             [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null

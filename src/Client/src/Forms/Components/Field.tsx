@@ -2,7 +2,7 @@ import * as ClassNames from 'classnames'
 import * as React from 'react'
 import { Field as ReduxField } from 'redux-form'
 
-import { Component } from '../../Utils'
+import { Component, Dates } from '../../Utils'
 import Strings from '../../../../Utils/Strings'
 
 interface IType {
@@ -139,7 +139,8 @@ class Field extends Component<IProps, IState> {
         const inputProps = { ...iProps, autoComplete: 'off', className: 'form__field form__field--' + type.name }
 
         return (
-            <label className={blockClassName} style={{ backgroundImage: this.state.preview ? `url(${this.state.preview})` : null }}>
+            <label className={blockClassName}
+                   style={{ backgroundImage: this.state.preview ? `url(${this.state.preview})` : null }}>
                 <input
                     {...inputProps}
                     {...props}

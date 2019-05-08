@@ -8,6 +8,7 @@
 
 \usepackage{vskpupa}	% globální nastavení pro text VŠKP UPa
 \usepackage{listings}
+\usepackage{setspace}
 \usepackage{geometry}
 \def\code#1{\texttt{#1}}
 \setlist{itemsep=0pt,topsep=2pt}
@@ -613,8 +614,10 @@ $$O \approx \pi * \sqrt{2 * (a^2 + b^2)}~~~~~~~~~~S = \pi * a * b~~~~~~~~~~T = 2
 
 Výpočet \textbf{rovníkového obvodu}, \textbf{objemu} a~odhadovaného \textbf{povrchu tělesa}:
 
-\vspace*{-0.5cm}
+\vspace*{-1cm}
 $$O \approx \pi * \sqrt{2 * (r_{x}^2 + r_{z}^2)}~~~~~~~~~~V \doteq \frac{4}{3} * \pi * r_{x} * r_{y} * r_{z}~~~~~~~~~~S \doteq 4 * \pi * r_{x} * r_{y}$$
+
+\vspace*{-0.5cm}
 \begin{center}
 \textit{V -- objem tělesa, r -- poloměr tělesa, O -- rovníkový obvod tělesa, S -- povrch tělesa}~\cite{kleczek}
 \end{center}
@@ -656,7 +659,7 @@ $$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * ((t - t\textsubscript{0})~mod~T)$
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=350pt]{Images/Initial.png}
+\includegraphics[width=320pt]{Images/Initial.png}
 \caption[Výpočet výchozí pozice tělesa]{Výpočet výchozí pozice tělesa (poměry velikostí nejsou realistické) \footnotemark[1]}
 \end{center}
 \end{figure}
@@ -664,7 +667,7 @@ $$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * ((t - t\textsubscript{0})~mod~T)$
 \footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
 \vspace*{-0.5cm}
-Vyjádření excentrické anomálie E~z~Keplerovy rovnice není možné. Pro přibližný výpočet byla proto zvolena Newtonova iterační metoda, pomocí níž se výsledek jednotlivými kroky stále zpřesňuje, až dokud přesnost nedosáhne požadované hranice, což je v tomto případě miliontina radiánu.
+Vyjádření excentrické anomálie E~z~Keplerovy rovnice není možné. Pro přibližný výpočet byla zvolena Newtonova iterační metoda, pomocí níž se výsledek jednotlivými kroky stále zpřesňuje, až dokud přesnost nedosáhne požadované hranice. Aplikace proto dokáže vykreslovat pouze tělesa s~excentricitou dráhy menší, než 0,99.
 
 \vspace*{-0.5cm}
 $$E\textsubscript{n} = \frac{2 * \pi}{T} + \epsilon * sin(E\textsubscript{n - 1})$$
@@ -797,14 +800,14 @@ Modelové třídy většiny entit není nutné psát individuálně. Všechny ma
 
 \lstinputlisting[caption={Automatizovaná tvorba modelových tříd}, language={JavaScript}]{SourceCodes/Model.js}
 
-\vspace*{-0.5cm}
+\vspace*{-1cm}
 \subsection{Databáze}
 
 Data v~aplikaci se ukládají do databáze \textit{MongoDB} za využití knihovny \textit{Mongoose}. Serverová část se řídí architekturou \textit{MVC} a~k~databázi mají přístup pouze modelové třídy. Struktura databáze je zobrazena v~příloze A na konci tohoto dokumentu.
 
 \subsubsection{Připojení do databáze}
 
-Připojení do databáze je jednoznačně inicializováno textovým řetězcem obsahujícím adresu serveru, název databáze a~v~případě autentifikovaného přístupu i~jméno a~heslo uživatele, adresu serveru, port a~název databáze. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
+Připojení do databáze je inicializováno textovým řetězcem obsahujícím adresu serveru, název databáze a~v~případě autentifikovaného přístupu i~jméno a~heslo uživatele. Dále je třeba zaregistrovat všechna schémata, která budou v~aplikaci využita. Pokud kolekce s nově zaregistrovaným schématem neexistuje, dojde k jejímu automatickmu vytvoření. Je také možné reagovat na úspěšné připojení nebo na chybu.~\cite{nodebook}
 
 Veškerou tuto funkcionalitu obstarává třída \textit{Database}, která byla vytvořena v~rámci projektu. Instance této třídy je staticky (pouze jednou, při spuštění serveru~\cite{nodebook}) vytvořena ve třídě \textit{Model}, který je předkem všech ostatních modelových tříd. Třída \textit{Model} pak tuto instanci databáze poskytuje jako instanční proměnnou s~modifikátorem přístupu \code{protected} všem svým potomkům.
 
@@ -958,12 +961,12 @@ V~pravém dolním rohu se nachází ovládací panel, jenž umožňuje měnit n�
 \item \textbf{Rychlost} (R): Zobrazí nebo skryje okamžité rychlosti těles.
 \item \textbf{Názvy} (N): Zobrazí nebo skryje názvy těles.
 \item \textbf{Orbity} (O): Zobrazí nebo skryje orbity těles.
+\item \textbf{Částice} (C): Zobrazí nebo skryje částice.
+\item \textbf{Světlo} (J): Zapne nebo vypne umělé světlo.
 \item \textbf{Zrychlit} (W): Pokud je čas kladný, zrychlí ho 10krát. Jinak ho 10krát zpomalí.
-\item \textbf{Vrátit rychlost} (V): Nastaví rychlost běhu simulátoru na 1.
+\item \textbf{Rychlost 1} (Q): Nastaví rychlost běhu simulátoru na 1.
 \item \textbf{Zpomalit} (S): Pokud je čas kladný, zpomalí ho 10krát. Jinak ho 10krát zrychlí.
 \item \textbf{Vrátit čas} (T): Nastaví čas simulátoru na aktuální čas.
-\item \textbf{Pohyb} (M): Spustí nebo ukončí rotaci kamery kolem vycentrovaného tělesa.
-\item \textbf{Světlo} (L): Zapne nebo vypne světlo.
 \end{itemize}
 
 Na dolním okraji obrazovky je lišta zobrazující aktuální nastavení a~čas simulátoru. Napravo je možné vidět posuvník s aktuální velikostí pohledu.
@@ -1403,6 +1406,9 @@ Provedení HTTP požadavku lze uskutečnit vybráním a~rozkliknutím správné 
 
 %\addcontentsline{toc}{section}{Příloha~D -- Seznam souborů zdrojových kódů na přiloženém nosiči}
 \section*{Příloha~E --  Seznam souborů zdrojových kódů na přiloženém nosiči}
+
+\begin{spacing}{1.1}
+
 .gitignore\newline
 package-lock.json\newline
 package.json\newline
@@ -1699,6 +1705,8 @@ src/Utils/Security.ts\newline
 src/Utils/Strings.ts\newline
 src/index.ts\newline
 tsconfig.json\newline
+
+\end{spacing}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % KONEC DOKUMENTU

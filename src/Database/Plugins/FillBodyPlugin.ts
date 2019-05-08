@@ -25,7 +25,7 @@ const FillBodyPlugin = (schema) => {
 }
 
 const fillBody = (body: Universis.Universe.Body.Simple, bodies?: Universis.Universe.Body.Simple[]) => {
-    const parent = bodies ? bodies.find(item => (body.parentId && item._id.toString() === body.parentId.toString())) : body.parent
+    let parent = bodies ? bodies.find(item => (body.parentId && item._id.toString() === body.parentId.toString())) : (body.parent)
     body.diameter.y = Physics.getDiameterY(body)
     body.diameter.z = Physics.getDiameterZ(body)
     body.circuit = Physics.getBodyCircuit(body)

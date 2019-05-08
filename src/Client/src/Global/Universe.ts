@@ -47,6 +47,12 @@ declare namespace Universis {
         setTimeSpeed(timeSpeed: number): void
 
         /**
+         * Set time.
+         * @param time
+         */
+        setTime(time: number): void
+
+        /**
          * Toggle visibility of body orbit velocity.
          * @param isVelocityVisible
          */
