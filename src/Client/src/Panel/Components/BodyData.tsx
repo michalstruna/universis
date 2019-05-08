@@ -105,9 +105,9 @@ class BodyData extends StatelessComponent<IProps> {
                             [strings.inclination]: body.orbit ? Units.toFull(body.orbit.inclination, Units.ANGLE.DEGREE) : null,
                             [strings.orbitVelocity]: body.orbit ? () => (
                                 <DataTable.FlexRow>
-                                    {Units.toFull(body.orbit.velocity.min, Units.VELOCITY.KM_S, Units.VELOCITY)}
-                                    {Units.toFull(body.orbit.velocity.avg, Units.VELOCITY.KM_S, Units.VELOCITY)}
-                                    {Units.toFull(body.orbit.velocity.max, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toShort(body.orbit.velocity.min, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toShort(body.orbit.velocity.avg, Units.VELOCITY.KM_S, Units.VELOCITY)}
+                                    {Units.toShort(body.orbit.velocity.max, Units.VELOCITY.KM_S, Units.VELOCITY)}
                                 </DataTable.FlexRow>
                             ) : null,
                             [strings.circuit]: body.orbit ? Units.toFull(body.orbit.circuit, Units.SIZE.KM, Units.SIZE) : null

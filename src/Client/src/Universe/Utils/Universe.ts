@@ -246,7 +246,7 @@ class Universe implements Universis.Universe {
 
         const fromEarth = this.scene.getDistance(body.mesh, this.earth.mesh)
         const fromCamera = this.scene.getDistance(body.mesh)
-        const fromCenter = this.scene.getDistance(body.mesh, body.parent.mesh)
+        const fromCenter = body.parent ? this.scene.getDistance(body.mesh, body.parent.mesh) : null
         const velocity = fromCenter ? Physics.getOrbitVelocity(body.data, body.parent.data, fromCenter) : null
 
         const rows = []

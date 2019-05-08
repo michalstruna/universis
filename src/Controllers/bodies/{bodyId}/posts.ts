@@ -7,5 +7,5 @@ export default Route.getRouteGroupForAll(BodyPostModel, {
         access: Route.all,
         mapBefore: ({ body, params }) => ({ ...body, bodyId: params.bodyId })
     },
-    delete: Route.all
+    delete: Route.onlyAdmin
 })

@@ -35,7 +35,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
      * @param data
      */
     private handleSubmit = async (data: IValues) => {
-        const { reset, addBody, selectedBody, updateBody } = this.props
+        const { reset, addBody, selectedBody, updateBody, bodyTypes } = this.props
 
         try {
             let result = { ...data } as any
@@ -355,6 +355,7 @@ export default BodyForm.connect(
             move: selectedBody.orbit ? '1' : '0'
         } : {
             typeId: universe.bodyTypes.payload && universe.bodyTypes.payload[0] ? universe.bodyTypes.payload[0]._id : null,
+            parentId: universe.bodies.payload && universe.bodies.payload[0] ? universe.bodies.payload[0]._id : null,
             move: '1'
         },
         selectedBody,
