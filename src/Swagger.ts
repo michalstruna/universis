@@ -109,16 +109,12 @@ export default {
 
         '/bodies/{bodyId}/posts': Route.getSwaggerRouteGroupForAll(['Discussions'], 'Discussion', 'NewDiscussion', ['bodyId'], undefined, ['delete']),
         '/posts/{postId}': Route.getSwaggerRouteGroupForOne(['Discussions', 'Answers'], 'Answer', ['answerId'], undefined, ['delete', 'put']),
-        '/bodies/{bodyId}/posts/count': Route.getSwaggerRouteGroupForCount(['Discussions']),
-        '/posts/{postId}/posts': Route.getSwaggerRouteGroupForAll(['Answers'], 'Answer', 'NewAnswer', ['postId'], undefined, ['delete']),
-        '/posts/{postId}/posts/count': Route.getSwaggerRouteGroupForCount(['Answers']),
-        '/posts/{postId}/votes': Route.getSwaggerRouteGroupForAll(['Discussions', 'Answers'], 'Discussion', 'NewPost', ['postId'], undefined, ['post', 'delete']),
+        '/posts/{postId}/posts': Route.getSwaggerRouteGroupForAll(['Answers'], 'Answer', 'NewAnswer', ['postId'], ['get'], ['delete']),
+        '/posts/{postId}/votes': Route.getSwaggerRouteGroupForAll(['Discussions', 'Answers'], 'Discussion', 'NewPost', ['postId'], ['get'], ['post', 'delete']),
         '/posts/votes/{voteId}': Route.getSwaggerRouteGroupForOne(['Discussions', 'Answers'], 'Discussion', ['voteId'], undefined, ['put', 'delete']),
-        '/posts/{postId}/votes/count': Route.getSwaggerRouteGroupForCount(['Discussions', 'Answers']),
 
         '/bodies/{bodyId}/events': Route.getSwaggerRouteGroupForAll(['Events'], 'BodyEvent', 'NewBodyEvent', ['bodyId'], undefined, ['delete']),
         '/bodies/events/{eventId}': Route.getSwaggerRouteGroupForOne(['Events'], 'Body', ['eventId']),
-        '/bodies/{bodyId}/events/count': Route.getSwaggerRouteGroupForCount(['Events']),
 
         '/users': Route.getSwaggerRouteGroupForAll(['Users'], 'SimpleUser', 'NewUser', undefined, undefined, ['delete']),
         '/users/{userId}': Route.getSwaggerRouteGroupForOne(['Users'], 'User', ['userId'], undefined, ['put', 'delete']),
@@ -242,9 +238,7 @@ export default {
             }
         },
 
-        '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification'),
-        '/notifications/{notificationId}': Route.getSwaggerRouteGroupForOne(['Notifications'], 'Notification', ['notificationId']),
-        '/notifications/count': Route.getSwaggerRouteGroupForCount(['Notifications']),
+        '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification', undefined, undefined, ['delete']),
         '/messages': Route.getSwaggerRouteGroupForAll(['Messages'], 'Message', 'NewMessage'),
         '/messages/{messageId}': Route.getSwaggerRouteGroupForOne(['Messages'], 'Message', ['messageId']),
         '/messages/count': Route.getSwaggerRouteGroupForCount(['Messages'])

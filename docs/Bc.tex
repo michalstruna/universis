@@ -81,7 +81,7 @@
 % \usepackage[none]{hyphenat}
 
 \long\def\textPodekovani{
-Rád bych tímto poděkoval vedoucí této práce, paní doktorce Monice Borkovcové, za přínosné rady při vypracovávání a~snahu dovést tuto práci do úspěšného konce. Velký dík patří i~mé rodině, která mě už od dětství podporovala v~astronomii a~bez které bych se k~tomuto tématu nejspíš nedostal.
+Rád bych tímto poděkoval vedoucí této práce, Ing. Monice Borkovcové Ph.D., za přínosné rady při vypracovávání a~snahu dovést tuto práci do úspěšného konce. Velký dík patří i~mé rodině, která mě už od dětství podporovala v~astronomii a~bez které bych se k~tomuto tématu nejspíš nedostal.
 }
 
 \long\def\anotace{
@@ -142,7 +142,7 @@ Rád bych tímto poděkoval vedoucí této práce, paní doktorce Monice Borkovc
 % ÚVODNÍ STRANY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\desky
+%\desky
 \titulniStrana			% titul
 
 % ZADÁNÍ
@@ -213,7 +213,7 @@ Cílem této bakalářské práce je vytvořit webovou aplikaci, která poskytne
 
 Díky obsáhlé databázi dat však nabízí i~pohodlný a~dostupný zdroj informací pro pokročiĺejší uživatele. Spojuje tak textové zdroje a~grafické aplikace. Uživatel má možnost si libovolnou vlastnost libovolného tělesa zobrazit graficky před sebou a~tuto vlastnost pak porovnat napříč všemi tělesy v~databázi. Vše je dostupné v~české lokalizaci a~zároveň je celá aplikace online.
 
-Aplikace by se dala nazvat i~komunitním portálem. Uživatelé spolu mohou pomocí zpráv komunikovat nebo komentovat jednotlivá tělesa. Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat svými znalostmi. Všechny takto přidané informace však prochází schvalovacím procesem, kterého se účastní administrátor.
+Aplikace by se dala nazvat i~komunitním portálem. Uživatelé spolu mohou pomocí zpráv komunikovat nebo se účastnit diskusí u~jednotlivých těles. Obsah webové aplikace je plně dynamický a~kdokoliv do něj může přispívat svými znalostmi. Všechny takto přidané informace však prochází schvalovacím procesem, kterého se účastní administrátor.
 
 Aplikace je postavena na komunikaci v~reálném čase. V~případě, že nastane nějaká změna (např. nová událost u~planety Země), všichni právě připojení uživatelé jsou na tuto skutečnost upozorněni skrze notifikaci. Pokud mají otevřenou stránku, jíž se změna týká (v~tomto případě časová osa planety Země), uživatelské rozhraní okamžitě změnu zobrazí bez nutnosti aktualizovat stránku.
 
@@ -477,7 +477,7 @@ Stav aplikace lze změnit zavoláním funkce \textit{dispatch}, jejímž argumen
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=350pt]{Images/Redux.png}
-\caption[Životní cyklus architektury Redux]{Životní cyklus architektury Redux \footnotemark}
+\caption[Životní cyklus architektury Redux]{Životní cyklus architektury Redux \footnotemark[1]}
 \end{center}
 \end{figure}
 
@@ -519,7 +519,7 @@ Reducer je běžně funkce, která obsahuje \textit{switch} s~výčtem všech ak
 
 Před vykreslováním těles ve vesmíru je nutné ze serveru nejdříve získat data k~těmto tělesům. Následovně je použita třída \textit{BodyFactory}, která z~datových objektů těles vytvoří kontejnery obsahující kromě samotných dat z~databáze také objekty pro vykreslení popsané v~podkapitolách této kapitoly.
 
-Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. \cite{kleczek}  Počítat absolutní pozici tělesa by proto bylo více než náročné.
+Celý vesmír je neustále v~pohybu. Měsíc obíhá planetu Zemi, která se pohybuje kolem Slunce. Slunce i~s~celou soustavou obíhá střed naší galaxie. Mléčná dráha se pak volně pohybuje v~rámci místní kupy galaxií a~ta zas v~rámci místní nadkupy galaxií. \cite{kleczek}  Počítat absolutní pozici tělesa by bylo více než náročné.
 
 Je proto důležité, aby každé těleso bylo umístěno mezi potomky tělesa, kolem kterého zdánlivě obíhá. Tím je dosaženo dědičnosti a~souřadnice není nutné uvádět absolutně vzhledem k~vesmíru, ale pouze vzhledem k~rodičovskému tělesu. Pro práci s~3D grafikou byla v~rámci projektu vytvořena vlastní třída \textit{Scene}. Ta v~každém průběhu vykreslovací smyčky vypočítá pozice a~rotace těles a~aktualizuje je.
 
@@ -540,7 +540,7 @@ Samotné těleso je reprezentováno koulí, tedy objektem s~geometrií \textit{T
 
 \subsubsection{Orbita}
 
-Orbita je objekt s geometrií \textit{THREE.Geometry}, jejíž eliptický tvar je vypočten na základě nejmenší (periapsida) a~největší (apoapsida) vzdálenosti tělesa od těžiště  a~výstřednosti dráhy (excentricita).~\cite{kleczek} Jako materiál je použit \textit{THREE.LineMaterial}.
+Orbita je objekt s geometrií \textit{THREE.Geometry}, jejíž eliptický tvar je vypočten na základě nejmenší (periapsida) a~největší (apoapsida) vzdálenosti tělesa od ohniska a~výstřednosti dráhy (excentricita).~\cite{kleczek} Jako materiál je použit \textit{THREE.LineMaterial}.
 
 \lstinputlisting[caption={Výpočet geometrie orbity tělesa}, language={JavaScript}]{SourceCodes/Orbit.js}
 
@@ -628,7 +628,7 @@ Výpočet \textbf{hustoty}, \textbf{zploštění} a~\textbf{maximální} nebo \t
 \vspace*{-0.5cm}
 $$\varrho = \frac{M}{V}~~~~~~~~~~f = 1 - \frac{r_{y}}{r_{x}}~~~~~~~~~~v_{max} = \sqrt{\mu * \frac{2}{d_{min}} - \frac{1}{a}}$$
 \begin{center}
-\textit{$\varrho$ -- hustota, M -- hmotnost tělesa, V -- objem tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- max. rychlost, $\mu$ -- gravitační parametr, $d_{min}$, periapsida}~\cite{kleczek}
+\textit{$\varrho$ -- hustota, M -- hmotnost tělesa, V -- objem tělesa, f~--~zploštění tělesa, r -- poloměr tělesa, $v_{max}$ -- max. rychlost, $\mu$ -- gravitační parametr, $d_{min}$ --~vzdálenost periapsidy}~\cite{kleczek}
 \end{center}
 
 Výpočet \textbf{gravitačního zrychlení}, \textbf{únikové rychlosti} a~popř. i~\textbf{svítivosti}:
@@ -668,7 +668,7 @@ $$E -  \epsilon * sin(E) = \frac{2 * \pi}{T} * ((t - t\textsubscript{0})~mod~T)$
 \footnotetext[1]{Vytvořeno autorem v \url{https://www.draw.io}.}
 
 \vspace*{-0.5cm}
-Vyjádření excentrické anomálie E~z~Keplerovy rovnice není možné. Pro přibližný výpočet byla zvolena Newtonova iterační metoda, pomocí níž se výsledek jednotlivými kroky stále zpřesňuje, až dokud přesnost nedosáhne požadované hranice. Aplikace proto dokáže vykreslovat pouze tělesa s~excentricitou dráhy menší, než 0,99.
+Vyjádření excentrické anomálie E~z~Keplerovy rovnice není možné. Pro přibližný výpočet byla zvolena Newtonova iterační metoda, pomocí níž se výsledek jednotlivými kroky stále zpřesňuje, až dokud přesnost nedosáhne požadované hranice. Aplikace proto dokáže spolehlivě vykreslovat pouze tělesa s~excentricitou dráhy menší, než 0,99.
 
 \vspace*{-0.5cm}
 $$E\textsubscript{n} = \frac{2 * \pi}{T} + \epsilon * sin(E\textsubscript{n - 1})$$
@@ -716,7 +716,7 @@ $\Delta t = t - t_{0}~~~~~~~~~~t_{s} = t_{s} + \Delta t * k$
 \textit{$\Delta t$ -- čas od posledního vykreslení, t -- aktuální čas, t\textsubscript{0} -- čas posledního vykreslení, $t_{s}$~--~čas simulátoru, k~--~rychlost běhu času}
 \end{center}
 
-Nová \textbf{pozice tělesa} je určena opětovným vyřešením Keplerovy rovnice. Počet iterací pro dosažení požadované přesnosti roste společně s~excentricitou orbity. Avšak i~u~dlouhoperiodických komet, jejichž excentricita dosahuje často i~0,999 lze najít dostatečně přesnou excentrickou anomálii do 5 iterací. Je tak dosaženo dobré přesnosti za cenu malého snížení výkonu. Pokud by nová pozice byla vypočítána ze staré pozice, ke které by se pouze přičetla uražená dráha, jednotlivé nepřesnosti by se postupně sčítaly a~bylo by nutné je kompenzovat. 
+Nová \textbf{pozice tělesa} je určena opětovným vyřešením Keplerovy rovnice. Počet iterací je nastaven na 3, ale přesnost se při zvyšující se extentricitě snižuje. Jednotlivé nepřesnosti se však nesčítají. Je tak dosaženo dobré přesnosti za cenu malého snížení výkonu. Pokud by nová pozice byla vypočítána ze staré pozice, ke které by se pouze přičetla uražená dráha, nepřesnosti by se postupně sčítaly a~bylo by nutné je kompenzovat. 
 
 Jiná situace nastává u~aktualizace \textbf{rotace tělesa} kolem osy, jejíž rychlost se v~čase nemění. Ta je uskutečněna jednoduchým přičtením úhlu, o~nějž se těleso otočí za dobu, která uplynula od posledního vykreslení, k~aktuálnímu úhlu.
 
@@ -754,7 +754,7 @@ Aplikace zanedbává některé z~aspektů, které v~realitě existují. Důvodem
 
 \subsubsection{Zachycení HTTP požadavku}
 
-Server vystavuje \textit{REST~API}~\cite{nodebook}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~obsah zas dostupné metody.
+Server vystavuje \textit{REST~API}~\cite{nodebook}, ze kterého si mohou klientské aplikace (v~tomto případě pouze webová aplikace) stahovat data. Rozhraní má jasně danou strukturu a~jeho implementace a~dokumentace je provedena pomocí nástroje \textit{Swagger}. Ten umožňuje sestavit rozhraní z~fyzických souborů. Cesta k~souboru značí adresu \textit{URI} a~jeho obsah dostupné metody.
 
 \lstinputlisting[caption={Definice cesty v REST~API}, language={JavaScript}]{SourceCodes/Route.js}
 
@@ -793,7 +793,7 @@ V~aplikaci byla vyvinuta vlastní knihovna, která všechny ze zmíněných proc
 
 \end{itemize}
 
-Samotná definice přístupových bodů pak může vypadat následovně. U~každé přístupové metody je možné určit, jaká oprávnění musí mít uživatel, aby tuto metodu nad daným zdrojem mohl vykonat.
+Samotná definice přístupových bodů pak může vypadat následovně. U~každé přístupové metody je možné určit potřebná oprávnění pro vykonání.
 
 \lstinputlisting[caption={Zpracování HTTP požadavku}, language={JavaScript}]{SourceCodes/RouteUtils.js}
 
@@ -1302,7 +1302,7 @@ What Socket.io is. \textit{socket.io}. [online]. [cit. 21.~4.~2019]. Dostupné\n
 
 \noindent Příloha~C~~~~Externí balíčky NPM použité v aplikaci \dotfill \pageref{prilohaC}
 
-\noindent Příloha~D~~~~Externí balíčky NPM použité v aplikaci \dotfill \pageref{prilohaD}
+\noindent Příloha~D~~~~Ukázka práce s~rozhraním \dotfill \pageref{prilohaD}
 
 \noindent Příloha~E~~~~Seznam souborů zdrojových kódů na přiloženém nosiči \dotfill \pageref{prilohaE}
 
