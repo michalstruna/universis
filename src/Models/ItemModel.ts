@@ -77,6 +77,9 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
 
     public async delete(filter: Universis.Database.Query.Filter, options?: Universis.Database.Query.Options): Promise<void> {
         const { remove, notifications } = this.options
+        const userId = filter.userId
+        delete filter.userId
+
         let item
 
         if (remove.onBefore) {
@@ -96,7 +99,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
                 item = await this.dbModel.getOne(filter, options)
             }
 
-            await NotificationModel.add(await this.getNotificationData(item, Operation.DELETE, !remove.approval, { before: item }))
+            await NotificationModel.add(await this.getNotificationData({ ...item, userId }, Operation.DELETE, !remove.approval, { before: item }))
         }
 
         return null

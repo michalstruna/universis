@@ -218,7 +218,7 @@ class Route {
         }
 
         if (access.delete && typeof access.delete !== 'object') {
-            routeGroup.delete = access.delete(({ params }) => model.delete({ _id: params[Object.keys(params)[0]] }), false)
+            routeGroup.delete = access.delete(({ params, userId }) => model.delete({ _id: params[Object.keys(params)[0]], userId }), false)
         }
 
         return routeGroup
