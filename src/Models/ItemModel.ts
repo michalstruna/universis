@@ -127,7 +127,7 @@ class ItemModel<Full, Simple, New> extends Model implements Universis.Item.Model
             }
 
             const newItem = { ...item, ...(changes as any) }
-            await NotificationModel.add(await this.getNotificationData(newItem, Operation.UPDATE, !update.approval, {
+            await NotificationModel.add(await this.getNotificationData({ ...newItem, userId: changes.userId }, Operation.UPDATE, !update.approval, {
                 before: item,
                 after: newItem
             }))
