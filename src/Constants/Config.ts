@@ -52,7 +52,7 @@ export default {
     headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Access-Token'
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
         // TODO: Cache.
         //response.header('Cache-Control', 'public, max-age=3600')
     },

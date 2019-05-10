@@ -66,10 +66,10 @@ class Route {
             }
 
             try {
-                const token = request.headers['access-token']
+                const token = request.headers['authorization']
 
                 if (token) {
-                    const tokenData = await SecurityModel.verify(token)
+                    const tokenData = await SecurityModel.verify(token.replace('Bearer ', ''))
                     user = await UserModel.get({ _id: tokenData.userId })
                     requestData.user = user
                     requestData.userId = user._id
@@ -121,7 +121,7 @@ class Route {
      * @param resultMap Convert model result to response data.
      */
     public static onlyAdmin(action: IRouteAction, resultMap?: IResultMap): IRequestHandler {
-        return Route.process(action, resultMap, ({ user }) => user.role === UserRole.ADMIN)
+        return Route.process(action, resultMap, ({ user }) => user && user.role === UserRole.ADMIN)
     }
 
     /**

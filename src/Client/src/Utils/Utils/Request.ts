@@ -129,7 +129,7 @@ class Request {
 
         return {
             params: query,
-            headers: { 'Access-Token': identity ? identity.token : null }
+            headers: { 'authorization': identity ? identity.token : null }
         }
     }
 
