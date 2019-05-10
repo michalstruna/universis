@@ -88,6 +88,11 @@ declare namespace Universis {
          */
         toggleParticles(areParticlesVisible: boolean): void
 
+        /**
+         * Dispose scene.
+         */
+        destroy(): void
+
     }
 
 }

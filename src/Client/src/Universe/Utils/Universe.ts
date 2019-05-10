@@ -169,6 +169,10 @@ class Universe implements Universis.Universe {
         this.scene.setFollow(follow)
     }
 
+    public destroy(): void {
+        this.scene.destroy()
+    }
+
     /**
      * Update simmulation time.
      * @param {number} timeDiff

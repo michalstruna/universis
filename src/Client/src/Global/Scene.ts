@@ -74,6 +74,11 @@ declare namespace Universis {
          */
         setFollow(follow: number): void
 
+        /**
+         * Unbind all events and loop.
+         */
+        destroy(): void
+
     }
 
     export namespace Scene {

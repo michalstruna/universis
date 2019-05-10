@@ -51,6 +51,10 @@ class Simulator extends StatelessComponent<IProps> {
         this.initializeUniverse()
     }
 
+    public componentWillUnmount(): void {
+        this.universe.destroy()
+    }
+
     public componentDidUpdate(prevProps: IProps): void {
         const { viewSize, selectedBody, isNameVisible, isLightVisible, areOrbitsVisible, timeSpeed, isVelocityVisible, isFromEarthVisible, isFromCenterVisible, isFromCameraVisible, areParticlesVisible, follow, location, now } = this.props
 
@@ -102,7 +106,7 @@ class Simulator extends StatelessComponent<IProps> {
             this.universe.toggleParticles(areParticlesVisible)
         }
 
-        if(prevProps.now !== now) {
+        if (prevProps.now !== now) {
             this.universe.setTime(now)
         }
 

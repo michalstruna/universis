@@ -53,6 +53,11 @@ class Scene implements Universis.Scene {
     private lastOnRenderTime: number
 
     /**
+     * Scene is disposed.
+     */
+    private requestAnimationFrame: number
+
+    /**
      * THREE.js entities.
      */
     private scene: THREE.Scene
@@ -315,7 +320,7 @@ class Scene implements Universis.Scene {
      */
     private render = (): void => {
         const { controllable, onRender, onZoom } = this.options
-        requestAnimationFrame(this.render)
+        this.requestAnimationFrame = requestAnimationFrame(this.render)
         this.renderer.render(this.scene, this.camera)
         this.updateCamera()
         const now = new Date().getTime()
@@ -385,15 +390,21 @@ class Scene implements Universis.Scene {
 
         element.addEventListener('mousedown', this.handleMouseDown)
         element.addEventListener('mouseup', this.handleMouseUp)
+        document.body.addEventListener('mousemove', this.handleMouseMove)
+    }
 
-        document.body.addEventListener('mousemove', event => {
-            this.controls.enabled = (
-                !Html.hasParent(
-                    event.target as HTMLElement,
-                    element => Html.hasClass(element, 'panel') || Html.hasClass(element, 'control')
-                )
+    private handleMouseMove = event => {
+        this.controls.enabled = (
+            !Html.hasParent(
+                event.target as HTMLElement,
+                element => Html.hasClass(element, 'panel') || Html.hasClass(element, 'control')
             )
-        })
+        )
+    }
+
+    public destroy(): void {
+        document.body.removeEventListener('mousemove', this.handleMouseMove)
+        cancelAnimationFrame(this.requestAnimationFrame)
     }
 
     /**
