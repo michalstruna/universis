@@ -47,11 +47,6 @@ class Universe implements Universis.Universe {
     private bodies: Universis.Universe.Body.Container[]
     private rootBodies: THREE.Object3D[]
 
-    /**
-     * Scale of scene.
-     */
-    private scale: number = 0.000000001
-
     private element: HTMLElement
     private timeElement: HTMLElement
 
@@ -263,32 +258,6 @@ class Universe implements Universis.Universe {
     }
 
     /**
-     * Convert size of bodies.
-     * @param body Body data.
-     */
-    private setScale(body: Universis.Universe.Body.Simple): void {
-        const convert = (value: number) => (
-            value * Config.SIZE_RATIO
-        )
-
-        body.diameter.x = convert(body.diameter.x)
-        body.diameter.y = convert(body.diameter.y)
-        body.diameter.z = convert(body.diameter.z)
-
-        if (body.orbit) {
-            body.orbit.apsis = convert(body.orbit.apsis)
-            body.orbit.periapsis = convert(body.orbit.periapsis)
-        } else if (body.position) {
-            body.position.distance = convert(body.position.distance)
-        }
-
-        for (const ring of body.rings) {
-            ring.diameter.max = convert(ring.diameter.max)
-            ring.diameter.min = convert(ring.diameter.min)
-        }
-    }
-
-    /**
      * Check if body is visible.
      * @param body Body.
      * @returns Body visibility.
@@ -329,18 +298,20 @@ class Universe implements Universis.Universe {
      * @param bodies List of all bodies.
      */
     private createBodies(bodies: Universis.Universe.Body.Simple[]): void {
+        const bodiesMap = {}
         this.bodies = []
         this.rootBodies = []
 
         for (const data of bodies) {
-            this.setScale(data)
-
             const body = this.bodyFactory.create(data)
             this.bodies.push(body)
+            bodiesMap[body.data._id] = body
             this.element.appendChild(body.label)
+        }
 
-            if (data.parentId) {
-                body.parent = this.bodies.find(body => body.data._id === data.parentId)
+        for (const body of this.bodies) {
+            if (body.data.parentId) {
+                body.parent = bodiesMap[body.data.parentId]
                 body.mesh.userData.parent = body.parent
                 body.parent.mesh.children[0].add(body.orbit)
             } else {

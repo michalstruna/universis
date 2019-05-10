@@ -327,7 +327,7 @@ class Scene implements Universis.Scene {
 
         if (controllable) {
             const fromCenter = this.getDistance(this.target, this.camera)
-            const isDifferent = !this.lastDistanceFromTarget || Units.isDifferent(fromCenter, this.lastDistanceFromTarget)
+            const isDifferent = !this.lastDistanceFromTarget || Units.isDifferent(fromCenter, this.lastDistanceFromTarget, 1.001)
 
             if (onZoom && isDifferent) {
                 this.lastDistanceFromTarget = fromCenter
