@@ -32,14 +32,17 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
         const { reset, user, updateUser } = this.props
 
         try {
-            const isFemale: any = data.isFemale
-            data.isFemale = ((isFemale === 'true' || isFemale === true) ? true : ((isFemale === 'false' || isFemale === false) ? false : null))
-
             await updateUser(user.payload._id, data)
             reset()
         } catch {
 
         }
+    }
+
+    private parseData = (data: IValues) => {
+        const isFemale: any = data.isFemale
+        data.isFemale = ((isFemale === 'true' || isFemale === true) ? true : ((isFemale === 'false' || isFemale === false) ? false : null))
+        return data
     }
 
     private renderInnerForm(): React.ReactNode {
@@ -132,7 +135,7 @@ class UserForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
         return (
             <Form
-                onSubmit={handleSubmit(data => this.handleSubmit(Form.getFormData(data)))}
+                onSubmit={handleSubmit(data => this.handleSubmit(Form.getFormData(this.parseData(data))))}
                 invalid={invalid}
                 sending={submitting}>
                 {this.renderInnerForm()}

@@ -314,7 +314,7 @@ export default {
             },
             [ApprovalState.APPROVED]: {
                 [Operation.ADD]: 'přidal typ tělesa',
-                [Operation.UPDATE]: 'úpravil typ tělesa',
+                [Operation.UPDATE]: 'upravil typ tělesa',
                 [Operation.DELETE]: 'odebral typ tělesa'
             },
             [ApprovalState.DISAPPROVED]: {
@@ -331,7 +331,7 @@ export default {
             },
             [ApprovalState.APPROVED]: {
                 [Operation.ADD]: 'přidal těleso',
-                [Operation.UPDATE]: 'úpravil těleso',
+                [Operation.UPDATE]: 'upravil těleso',
                 [Operation.DELETE]: 'odebral těleso'
             },
             [ApprovalState.DISAPPROVED]: {
