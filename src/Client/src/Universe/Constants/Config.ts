@@ -53,6 +53,8 @@ export default {
      * and smaller than 20× of screen.
      */
     SEMI_VISIBILITY_EDGE: 40,
-    INVISIBILITY_EDGE: 1000
+    INVISIBILITY_EDGE: 1000,
+
+    DEFAULT_RING_TEXTURE: 'SaturnRings.jpg'
 
 }

@@ -210,7 +210,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
             }
         }
 
-        const texture = TextureStore.get(ring.texture)
+        const texture = TextureStore.get(ring.texture || Config.DEFAULT_RING_TEXTURE)
         const material = new THREE.MeshPhongMaterial({
             map: texture,
             side: THREE.DoubleSide,
