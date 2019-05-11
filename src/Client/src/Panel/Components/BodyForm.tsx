@@ -305,7 +305,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
                         name='rings[0].diameter.min'
                         type={Field.NUMBER} />
                     <Field
-                        label={strings.ringMinDiameter}
+                        label={strings.ringMaxDiameter}
                         name='rings[0].diameter.max'
                         type={Field.NUMBER} />
                     <Field
