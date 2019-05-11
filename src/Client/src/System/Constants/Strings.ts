@@ -169,7 +169,7 @@ export default {
         composition: 'Složení [O=15;K=13]',
 
         ringMinDiameter: 'Min. prům. prst. [km]',
-        ringMaxDIameter: 'Max. prům. prst. [km]',
+        ringMaxDiameter: 'Max. prům. prst. [km]',
         ringTexture: 'Textura prstence',
 
         centerBody: '--- Centrální těleso ---',
