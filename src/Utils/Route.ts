@@ -66,7 +66,7 @@ class Route {
             }
 
             try {
-                const token = request.headers['authorization']
+                const token = request.headers['authorization'] || request.headers['access-token']
 
                 if (token) {
                     const tokenData = await SecurityModel.verify(token.replace('Bearer ', ''))
