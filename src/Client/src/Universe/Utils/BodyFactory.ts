@@ -89,10 +89,7 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
         let material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial
 
         if (body.type.emissiveColor) {
-            material = new THREE.MeshBasicMaterial({
-                map: texture
-                //side: THREE.DoubleSide // TODO: Universe background?
-            })
+            material = new THREE.MeshBasicMaterial({ map: texture })
         } else {
             material = new THREE.MeshPhongMaterial({
                 map: texture,
@@ -209,6 +206,8 @@ class BodyFactory implements Universis.Factory<Universis.Universe.Body.Simple, U
                 uvs[c++] = j / phiSegments
             }
         }
+
+        console.log(ring.texture || Config.DEFAULT_RING_TEXTURE)
 
         const texture = TextureStore.get(ring.texture || Config.DEFAULT_RING_TEXTURE)
         const material = new THREE.MeshPhongMaterial({
