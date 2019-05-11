@@ -58,7 +58,7 @@ class BodyForm extends StatelessComponent<IProps & InjectedFormProps<IValues>> {
 
             result = Form.getFormData(result)
 
-            await selectedBody ? updateBody(selectedBody._id, result) : addBody(result)
+            await (selectedBody ? updateBody(selectedBody._id, result) : addBody(result))
             reset()
         } catch (error) {
             // TODO: Error dialog?

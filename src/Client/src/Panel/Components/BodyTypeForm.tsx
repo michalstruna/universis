@@ -37,7 +37,7 @@ class BodyTypeForm extends StatelessComponent<IProps & InjectedFormProps<IValues
         const { reset, addBodyType, selectedBodyType, updateBodyType } = this.props
 
         try {
-            selectedBodyType ? updateBodyType(selectedBodyType._id, data) : addBodyType(data)
+            await (selectedBodyType ? updateBodyType(selectedBodyType._id, data) : addBodyType(data))
             reset()
         } catch (error) {
             // TODO: Error dialog?
