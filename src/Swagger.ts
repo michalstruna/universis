@@ -239,8 +239,8 @@ export default {
         },
 
         '/notifications': Route.getSwaggerRouteGroupForAll(['Notifications'], 'Notification', 'NewNotification', undefined, undefined, ['delete']),
-        '/messages': Route.getSwaggerRouteGroupForAll(['Messages'], 'Message', 'NewMessage'),
-        '/messages/{messageId}': Route.getSwaggerRouteGroupForOne(['Messages'], 'Message', ['messageId']),
+        '/messages': Route.getSwaggerRouteGroupForAll(['Messages'], 'Message', 'NewMessage', undefined, undefined, ['delete']),
+        '/messages/{messageId}': Route.getSwaggerRouteGroupForOne(['Messages'], 'Message', ['messageId'], undefined, ['delete', 'put']),
         '/messages/count': Route.getSwaggerRouteGroupForCount(['Messages'])
     },
     'components': {
